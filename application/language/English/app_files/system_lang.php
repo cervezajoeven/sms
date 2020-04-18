@@ -1339,4 +1339,30 @@ $lang['edit_app_logo'] = "Edit App Logo";
 $lang['deposit_amount_can_not_be_less_than_zero'] = "Deposit amount can not be less than zero";
 $lang['deposit_amount_can_not_be_greater_than_remaining'] = "Deposit amount can not be greater than remaining";
 $lang['recipient'] = "Recipient";
+
+//Campus Cloud Integrated
+$lang['faculty_management'] = 'Faculty Management';
+$lang['student_management'] = 'Student Management';
+$lang['fees_management'] = 'Fees Management';
+$lang['campus_lms'] = 'Campus LMS';
+$lang['lesson'] = 'Lesson';
+$lang['assessment'] = 'Asssessment';
+$lang['student_information'] = 'Student Information';
+$lang['lms_schedule'] = 'Schedule';
+$lang['lms_usage_report'] = 'Usage Reports';
+$lang['add_notice'] = 'Add School Announcement';
+$lang['edit_notice'] = 'Edit School Announcement';
+$lang['latest_news'] = 'Latest School Announcement';
+$lang['notice'] = 'School Announcement';
+$lang['notice_list'] = 'School Announcement List';
+$lang['attendance_by_date'] = 'Attendance Status';
+$lang['lms_excuse_letter'] = 'Excuse Letter';
+$lang['lms_campus_meetup'] = 'Campus MeetUp';
+$lang['lms_available_soon'] = 'Available Soon';
+
+$lang['lms_campus_elibrary'] = 'Campus eLibrary';
+$lang['lms_survey'] = 'Surveys';
+$lang['lms_paymongo_key_id'] = 'PayMongo Key';
+$lang['lms_paymongo_key_secret'] = 'PayMongo Secret Key';
+$lang['lms_statement_of_account'] = 'Statement of Account';
 ?>

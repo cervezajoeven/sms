@@ -10,9 +10,14 @@
             <div class="col-md-9">
                 <div class="nav-tabs-custom box box-primary theme-shadow">
                     <ul class="nav nav-tabs pull-right">
-                        <li><a href="#tab_7" data-toggle="tab">PayMongo</a></li>
+                        <li ><a href="#tab_7" data-toggle="tab">Razorpay</a></li>
+                        <li ><a href="#tab_6" data-toggle="tab">Paystack</a></li>
+                        <li><a href="#tab_5" data-toggle="tab">InstaMojo</a></li>
                         
-                        <li class="active"><a href="#tab_1" data-toggle="tab">Paypal</a></li>
+                        <li><a href="#tab_4" data-toggle="tab">CCAvenue</a></li>
+                        <li><a href="#tab_3" data-toggle="tab">PayU</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Stripe</a></li>
+                        <li class="active" ><a href="#tab_1" data-toggle="tab">Paypal</a></li>
                         
                         <li class="pull-left header"><i class="fa fa-mobile"></i> <?php echo $this->lang->line('payment_methods'); ?></li>
                     </ul> 
@@ -304,7 +309,7 @@
                                                
                                                 <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-12 col-xs-12" for="exampleInputEmail1">
-                                                       <?php echo $this->lang->line('lms_paymongo_key_id'); ?><small class="req"> *</small>
+                                                       <?php echo $this->lang->line('razorpay_key_id'); ?><small class="req"> *</small>
                                                     </label>
                                                     <div class="col-md-7 col-sm-7 col-xs-12">
                                                         <input  name="razorpay_keyid" placeholder="" type="text" class="form-control col-md-7 col-xs-12"  value="<?php echo isset($razorpay_result->api_publishable_key) ? $razorpay_result->api_publishable_key : ""; ?>" />
@@ -312,7 +317,7 @@
                                                     </div>  </div>
                                                     <div class="form-group">
                                                     <label class="control-label col-md-5 col-sm-12 col-xs-12" for="exampleInputEmail1">
-                                                       <?php echo $this->lang->line('lms_paymongo_key_secret'); ?><small class="req"> *</small>
+                                                       <?php echo $this->lang->line('razorpay_key_secret'); ?><small class="req"> *</small>
                                                     </label>
                                                     <div class="col-md-7 col-sm-7 col-xs-12">
                                                         <input  name="razorpay_secretkey" placeholder="" type="text" class="form-control col-md-7 col-xs-12"  value="<?php echo isset($razorpay_result->api_secret_key) ? $razorpay_result->api_secret_key : ""; ?>" />
@@ -323,7 +328,7 @@
 
                                             </div>
                                             <div class="col-md-5 text text-center disblock">
-                                                <a href="https://razorpay.com/" target="_blank"><img src="https://paymongo.com/static/paymongo-logo-green-afd0b2fd04f786f781a1a6a461bbc78d.png" width="200"><p>https://paymongo.com/</p></a>
+                                                <a href="https://razorpay.com/" target="_blank"><img src="<?php echo base_url();?>/backend/images/razorpay.jpg" width="200"><p>https://razorpay.com/</p></a>
                                             </div>
                                         </div>
                                     </div>
