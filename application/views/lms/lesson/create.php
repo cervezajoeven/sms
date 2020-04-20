@@ -119,7 +119,7 @@
 
                     <div class="actions_container">
                         <div class="actions">
-                            <a href="<?php echo site_url('lms/blackboard/index'); ?>">
+                            <a href="<?php echo site_url('lms/lesson/index'); ?>">
                                 <button class="action_button close_action"><i class="fas fa-times-circle"></i>Close</button>
                             </a>
                         </div>
