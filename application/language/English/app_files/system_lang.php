@@ -1405,5 +1405,14 @@ $lang['fees_subtotal'] = 'Payment Subtotal';
 $lang['fees_type'] = 'Payment Type';
 $lang['fees_type_list'] = 'Payment Type List';
 $lang['fees_carry_forward'] = 'Remaining Balance';
+$lang['roll_no'] = 'ID Number';
+$lang['roll_no_'] = 'ID No.';
 
+$lang['add_session'] = 'Add School-Year';
+$lang['current_session'] = 'Current School-Year';
+$lang['edit_session'] = 'Edit School-Year';
+$lang['session_changed_successfully'] = "School-Year changed successfully";
+$lang['some_students_are_already_added_in_other_session'] = "Some Students are already added in other School-Year";
+$lang['previous_session_balance_fees'] = 'Previous School-Year Balance Fees';
+$lang['rte'] = 'RTE (Govt.)';
 ?>

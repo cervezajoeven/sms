@@ -152,13 +152,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             </div>
                                         </div>
 										<?php } if ($sch_setting->cast) {  ?>
-                                        <div class="col-md-2">
+                                        <!-- <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('cast'); ?></label>
                                                 <input id="cast" name="cast" placeholder="" type="text" class="form-control"  value="<?php echo set_value('cast', $student['cast']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('cast'); ?></span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <?php } if ($sch_setting->mobile_no) {  ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
