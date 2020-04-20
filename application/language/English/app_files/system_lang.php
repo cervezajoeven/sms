@@ -1359,10 +1359,13 @@ $lang['attendance_by_date'] = 'Attendance Status';
 $lang['lms_excuse_letter'] = 'Excuse Letter';
 $lang['lms_campus_meetup'] = 'Campus MeetUp';
 $lang['lms_available_soon'] = 'Available Soon';
-
 $lang['lms_campus_elibrary'] = 'Campus eLibrary';
 $lang['lms_survey'] = 'Surveys';
 $lang['lms_paymongo_key_id'] = 'PayMongo Key';
 $lang['lms_paymongo_key_secret'] = 'PayMongo Secret Key';
 $lang['lms_statement_of_account'] = 'Statement of Account';
+$lang['lms_feedback'] = 'Concerns/Feedback';
+$lang['complain'] = 'Concerns/Feedback';
+$lang['complain_by'] = 'Concerns/Feedback By';
+$lang['complain_type'] = 'Concerns/Feedback Type';
 ?>

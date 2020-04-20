@@ -40,4 +40,54 @@ class MY_Model extends CI_Model
 
         $this->db->insert('logs', $insert);
     }
+    /* campuscloud development */
+    public function lms_get($table="",$value="",$where="",$select="*") {
+        if($table){
+            $this->db->select($select);
+            if($value){
+                if($where){
+                    $this->db->where($where,$value);
+                }else{
+                    die("Where is not defined!");
+                }
+            }
+            $query = $this->db->get("lms_lesson");
+            $return = $query->result_array();
+            return $return;
+        }else{
+            die("Table name was not defined.");
+        }
+        
+    }
+    public function lms_create($table="",$data=array()){
+
+        if($table&&is_string($table)){
+
+            if(!empty($data)){
+                $id = $table."_".$this->mode."_".microtime(true)*10000;
+                $id = $id.rand(1000,9999);
+                $data['id'] = $id;
+                
+                $escaped_data = array();
+                foreach ($data as $data_key => $data_value) {
+                    $escaped_data[$data_key] = html_escape($data_value);
+                }
+                
+                $escaped_data['date_created'] = date("Y-m-d H:i:s");
+                if($this->db->insert($table, $escaped_data)){
+                    return $id;
+                }else{ 
+                    print_r($this->db->error());
+                    return false; 
+                }
+            }else{
+                exit("Data is empty");
+            }
+            
+            
+        }else{
+            echo "Table name was not declared.";
+            return false;
+        }
+    }
 }
