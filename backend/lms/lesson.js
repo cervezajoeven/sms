@@ -328,7 +328,7 @@ $(document).ready(function(){
     function change_detected(){
         var title = $(".title").val();
         var update_url = $("#site_url").val();
-        var id = $("#blackboard_id").val();
+        var id = $("#lesson_id").val();
         lesson_data = {
             id:id,
             title:title,
@@ -336,7 +336,7 @@ $(document).ready(function(){
             content_pool:content_pool,
             folder_names:"Engage,Explore,Explain,Extend,LAS",
         };
-
+        console.log
 
         $.ajax({
             url: update_url,
@@ -349,14 +349,14 @@ $(document).ready(function(){
     }
 
     function deploy_stored_data(){
-        var id = $("#blackboard_id").val();
+        var id = $("#lesson_id").val();
         var get_url = $("#url").val()+"get/"+id;
         $.ajax({
             url: get_url,
             method:"POST",
         }).done(function(data) {
-            var parsed_data = JSON.parse(data);
 
+            var parsed_data = JSON.parse(data);
             content_order = JSON.parse(parsed_data.content_order);
 
             if(JSON.parse(parsed_data.content_pool)){
@@ -366,6 +366,7 @@ $(document).ready(function(){
             }
             
             folder_names = parsed_data.folder_names;
+
             populate_content(content_pool);
         });
 
@@ -474,7 +475,7 @@ $(document).ready(function(){
             $(populous).attr("result_id",item.result_id);
             $(populous).find(".content_header").find("span").text(item.title);
             $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.image));
-            $(populous).find(".content_footer").find("span").text(item.description);
+            $(populous).find(".content_footer").find("textarea").text(item.description);
             $(".search_content").last().after($(populous));
             
         });
@@ -483,6 +484,7 @@ $(document).ready(function(){
     function populate_content(data){
         var populous = $(".content_hidden").clone();
         var sorted_data = [];
+
         if(content_order){
             content_order.forEach(function(content_id, index_order, arr_order){
 
@@ -523,7 +525,7 @@ $(document).ready(function(){
                 $(populous).find(".content_header").find("span").text(item.content.title);
 
                 $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.content.image));
-                $(populous).find(".content_footer").find("span").text(item.content.description);
+                $(populous).find(".content_footer").find("textarea").text(item.content.description);
                 $(populous).removeClass('content_result');
                 $(populous).addClass('content_already');
 
@@ -747,9 +749,9 @@ $(document).ready(function(){
     }
     $(document).ready(function(){
         deploy_stored_data();
-        setInterval(function(){check_thumbnails();}, 3000);
+        // setInterval(function(){check_thumbnails();}, 3000);
 
-        setInterval(function(){check_offline_files();}, 3000);
+        // setInterval(function(){check_offline_files();}, 3000);
         
     });
     
