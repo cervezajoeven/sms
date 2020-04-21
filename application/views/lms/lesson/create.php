@@ -101,12 +101,9 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
+                    <h2>LMS Learning Plan</h2>
                     <div class="slider_container">
                         <div id="learing_plan_text">
-                          <h2>LMS Learning Plan</h2>
-                          <h3>5 E’S OF ELEARNING:</h3>
-                          <br/>
-                          <br/>
                           <p><strong>Engage</strong></p>
                           <p>How will you capture the student's interest? What questions should students ask themselves?</p>
                           <ul>
@@ -173,18 +170,23 @@
                     <div class="slider_container">
                         <h2>Assign to Students</h2>
                         <h3>Lesson Type</h3>
-                        <select>
-                            <option>Frontal</option>
+                        <select class="form-control">
+                            <option>Classroom Use</option>
                             <option>Assignment</option>
                             <option>Reviewer</option>
-                            <option>Virtual</option>
+                            <option>Virtual Class</option>
                         </select>
                         <div id="jstree_demo_div">
                             <ul>
-                              <li>San Pablo
+                              <li>Grade 1
                                 <ul>
-                                  <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_1">Joeven Cerveza</li>
-                                  <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_2">Resty Morancil</li>
+                                  <li>San Pablo
+                                    <ul>
+                                        <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_1">Joeven Cerveza</li>
+                                        <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_2">Resty Morancil</li>
+                                    </ul>
+                                  </li>
+                                  
                                 </ul>
                               </li>
                             </ul>

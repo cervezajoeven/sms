@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5, h6{font-family:"Montserrat", sans-serif}
 .spacet60{padding-top: 60px;}
 
 .fullwidth{ width: 100vw;position: relative; left: 50%;margin-left: -50vw;}
-.toparea{background: #f48000;/* padding-top:5px; */padding-bottom: 8px;}
+.toparea{background: #00703c;/* padding-top:5px; */padding-bottom: 8px;}
 .loginbtn{border-radius: 6px;
     border: 1px solid #fff;
     padding: 6px 20px !important;
@@ -136,7 +136,7 @@ h1, h2, h3, h4, h5, h6{font-family:"Montserrat", sans-serif}
     display: block;
     background: #2b2a29;
     position: relative;
-    border-bottom: 3px solid #fbbe07;
+    border-bottom: 3px solid #018560;
     padding-bottom: 0px;
     
 }
@@ -240,18 +240,18 @@ header{
     }
 
     
-/*.nav .open>a,.nav .open>a:focus,.nav .open>a:hover{background-color:#f48000;border-color:#337ab7}*/
+/*.nav .open>a,.nav .open>a:focus,.nav .open>a:hover{background-color:#00703c;border-color:#337ab7}*/
   
  .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {
     color: #ffffff;
-    background-color: #f48000;
+    background-color: #00703c;
 } 
 .mt10{margin-top: 10px;}
 .spacet50{padding-top: 50px;}
 .spaceb50{padding-bottom: 50px;}
 .more-btn:hover{ background: #2b2a29; color: #fff; text-decoration: none;}
 .more-btn {
-    background: #fbbe07;
+    background: #018560;
    border-radius: 30px; padding: 10px 30px;
     text-align: center;display: inline-block;
     border: 1px solid transparent;
@@ -905,7 +905,7 @@ width: 100%;
 .newscontent ul li a {text-decoration:none;color: #000;}
 
  .newscontent ul li a.date, 
-.newscontent ul li a:hover{color: #f48000; text-decoration: none;}
+.newscontent ul li a:hover{color: #00703c; text-decoration: none;}
 
 .newspagebox{background: #fff;box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.30);min-height: 200px;
     border-radius: 4px;margin-top: 30px;padding: 28px;position: relative; overflow: hidden;}
@@ -1242,7 +1242,7 @@ textarea#message{resize: none;padding: 10px;border-radius:0;}
     content: "\f01b";    /* adjust as needed, taken from bootstrap.css */
 }
 .accrodion2{display: block;}
-.accrodion2 .panel-default>.panel-heading{background-color: #f48000;color: #fff;padding: 15px 15px;
+.accrodion2 .panel-default>.panel-heading{background-color: #00703c;color: #fff;padding: 15px 15px;
  -webkit-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;}
 .accrodion2 .panel-title {
@@ -1368,7 +1368,7 @@ textarea#message{resize: none;padding: 10px;border-radius:0;}
      /*-webkit-filter: grayscale(100%);
     filter: grayscale(100%);*/
 }
-.courses-box:hover .course-inner{background: #f48000;color: #fff;}
+.courses-box:hover .course-inner{background: #00703c;color: #fff;}
 .course-inner{padding: 25px 20px;transition: 0.4s;}
 .course-inner h4 {
     font-size: 18px;
@@ -1378,9 +1378,9 @@ textarea#message{resize: none;padding: 10px;border-radius:0;}
 .course-subject{color: #000}
 
 .btn-read {
-    background: #f48000;
+    background: #00703c;
     text-align: center;
-    border: 1px solid #f48000;
+    border: 1px solid #00703c;
     outline: 0;
     color: #fff;
     font-weight: 700;
@@ -1529,7 +1529,7 @@ textarea#message{resize: none;padding: 10px;border-radius:0;}
     line-height: 42px;
     text-align: center;
     border: 1px solid #2b2a29;
-    background-color: #f48000;
+    background-color: #00703c;
     color: #fff;
     transform: translateY(-50%);
     font-size: 22px;
@@ -1551,7 +1551,7 @@ textarea#message{resize: none;padding: 10px;border-radius:0;}
     background-color: #ddd;
 }
 
-.owl-carousel .owl-dot.active {background-color: #f48000;}
+.owl-carousel .owl-dot.active {background-color: #00703c;}
 
 @media only screen and (max-width: 480px){}
 
@@ -1694,7 +1694,7 @@ textarea#message{resize: none;padding: 10px;border-radius:0;}
   color: #fff;
   background-color: #2b2a29;
   box-shadow: 0px 0 10px rgba(0, 0, 0, 0.3);
-  border-bottom: 4px solid #f48000;
+  border-bottom: 4px solid #00703c;
   width: 32.5% !important
 }
 .service-box:first-child {
@@ -2021,7 +2021,7 @@ a.copy:hover{color: #d56e00;text-decoration:underline;}
      border:0;
     display: inline-block;
     font-size: 14px;
-    background: #f48000;
+    background: #00703c;
     text-decoration: none !important;
     color: #fff !important;
     text-align: center;
@@ -2073,7 +2073,7 @@ a.copy:hover{color: #d56e00;text-decoration:underline;}
 }
 .contact-item p{line-height: 20px; margin-bottom: 0;}
 .courses-head{margin:0px 0 5px;}
-.courses-head span{color: #fbbe07;}
+.courses-head span{color: #018560;}
 
 
 .contact-item:hover {background-color: #fff;border:1px solid rgba(51, 51, 51, 0.36); box-shadow: 0 0 15px rgba(0, 0, 0, 0.15)}
