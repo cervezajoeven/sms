@@ -72,12 +72,28 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
+
+$REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
+$HTTP_HOST = $_SERVER['HTTP_HOST'];
+$database_name = explode('.', $HTTP_HOST)[0];
+
+if($HTTP_HOST=="localhost"){
+  	$username = 'root';
+  	$password = '';
+  	$database = 'campus_sms';
+}else{
+
+  	$username = 'joeven';
+  	$password = 'joeven241';
+  	$database = 'campus_'.$database_name;
+}
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'joeven',
-	'password' => 'joeven241',
-	'database' => 'campus_sms',
+	'username' => $username,
+	'password' => $password,
+	'database' => $database,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
