@@ -1411,10 +1411,12 @@ $lang['roll_no'] = 'ID Number';
 $lang['roll_no_'] = 'ID No.';
 
 $lang['add_session'] = 'Add School-Year';
-$lang['current_session'] = 'Current School-Year';
+$lang['current_session'] = 'School-Year';
 $lang['edit_session'] = 'Edit School-Year';
 $lang['session_changed_successfully'] = "School-Year changed successfully";
 $lang['some_students_are_already_added_in_other_session'] = "Some Students are already added in other School-Year";
 $lang['previous_session_balance_fees'] = 'Previous School-Year Balance Fees';
 $lang['rte'] = 'RTE (Govt.)';
+$lang['admin_login'] = 'Admin Login';
+$lang['user_login'] = 'User Login';
 ?>
