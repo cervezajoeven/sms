@@ -88,7 +88,14 @@ if(empty($notice)){
                                         </div>
                                         <button type="submit" class="btn"><?php echo $this->lang->line('sign_in'); ?></button>
                                     </form>
-                                    <a href="<?php echo site_url('site/forgotpassword') ?>" class="forgot"><i class="fa fa-key"></i> <?php echo $this->lang->line('forgot_password'); ?>?</a>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <a href="<?php echo site_url('site/forgotpassword') ?>" class="forgot"><i class="fa fa-key"></i> <?php echo $this->lang->line('forgot_password'); ?>?</a>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <a href="<?php echo site_url('site/userlogin') ?>" class="forgot"><i class="fa fa-user"></i> <?php echo $this->lang->line('user_login'); ?></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

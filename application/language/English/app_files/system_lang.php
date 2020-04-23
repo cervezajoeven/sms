@@ -1368,6 +1368,8 @@ $lang['lms_feedback'] = 'Concerns/Feedback';
 $lang['complain'] = 'Concerns/Feedback';
 $lang['complain_by'] = 'Concerns/Feedback By';
 $lang['complain_type'] = 'Concerns/Feedback Type';
+$lang['enrollment_type'] = 'Enrollment Type';
+$lang['mode_of_payment'] = 'Mode of Payment';
 $lang['add_fees'] = 'Add Payment';
 $lang['add_fees_discount'] = 'Add Payment Discount';
 $lang['add_fees_group'] = 'Add Payment Group';
@@ -1409,10 +1411,12 @@ $lang['roll_no'] = 'ID Number';
 $lang['roll_no_'] = 'ID No.';
 
 $lang['add_session'] = 'Add School-Year';
-$lang['current_session'] = 'Current School-Year';
+$lang['current_session'] = 'School-Year';
 $lang['edit_session'] = 'Edit School-Year';
 $lang['session_changed_successfully'] = "School-Year changed successfully";
 $lang['some_students_are_already_added_in_other_session'] = "Some Students are already added in other School-Year";
 $lang['previous_session_balance_fees'] = 'Previous School-Year Balance Fees';
 $lang['rte'] = 'RTE (Govt.)';
+$lang['admin_login'] = 'Admin Login';
+$lang['user_login'] = 'User Login';
 ?>

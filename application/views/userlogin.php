@@ -112,7 +112,14 @@ if(empty($notice)){
                                         <?php echo $this->lang->line('sign_in'); ?></button>
                                 </form>
                                 
-                                <p><a href="<?php echo site_url('site/ufpassword') ?>" class="forgot"> <i class="fa fa-key"></i> <?php echo $this->lang->line('forgot_password'); ?></a> </p> 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><a href="<?php echo site_url('site/ufpassword') ?>" class="forgot"> <i class="fa fa-key"></i> <?php echo $this->lang->line('forgot_password'); ?></a> </p> 
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="<?php echo site_url('site/login') ?>" class="forgot"><i class="fa fa-user"></i> <?php echo $this->lang->line('admin_login'); ?></a>
+                                    </div>
+                                </div>
                             </div>
                           </div>  
                         </div>

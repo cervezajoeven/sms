@@ -358,6 +358,8 @@ class Student extends Admin_Controller
                 'hostel_room_id'      => $hostel_room_id,
                 'note'                => $this->input->post('note'),
                 'is_active'           => 'yes',
+                'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                'enrollment_type'     => $this->input->post('enrollment_type'),
             );
             $house            = $this->input->post('house');
             $blood_group      = $this->input->post('blood_group');
@@ -1255,6 +1257,8 @@ public function handle_uploadcreate_doc()
                 'hostel_room_id'      => $hostel_room_id,
                 'note'                => $this->input->post('note'),
                 'is_active'           => 'yes',
+                'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                'enrollment_type'     => $this->input->post('enrollment_type'),
             );
 
             $house             = $this->input->post('house');

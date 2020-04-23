@@ -102,6 +102,8 @@ class Onlinestudent extends Admin_Controller
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('layout/header', $data);
@@ -168,12 +170,13 @@ class Onlinestudent extends Admin_Controller
                 'weight'              => $this->input->post('weight'),
                 'note'                => $this->input->post('note'),
                 'class_section_id'    => $section_id,
+                'enrollment_type'     => $this->input->post('enrollment_type'),
+                'mode_of_payment'     => $this->input->post('mode_of_payment'),
             );
             
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
           
             if ($response) {
-
                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
                 redirect('admin/onlinestudent');
             } else {
