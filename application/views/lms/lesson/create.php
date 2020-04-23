@@ -13,6 +13,22 @@
 
         <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
         <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+        <style type="text/css">
+            .ql-snow{
+                background-color: white;
+            }
+            #learing_plan_text{
+                color: black;
+            }
+            #objective_text{
+                color: black;
+            }
+            .jstree-themeicon-custom{
+                background-size: 100%!important;
+            }
+        </style>
     </head>
     <body>
         
@@ -85,22 +101,96 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
+                    <h2>LMS Learning Plan</h2>
                     <div class="slider_container">
-                        <h2>Learning Plan</h2>
-                        <p>Upload Learning Plan Here</p>
-                        <input type="file" name="" />
+                        <div id="learing_plan_text">
+                          <p><strong>Engage</strong></p>
+                          <p>How will you capture the student's interest? What questions should students ask themselves?</p>
+                          <ul>
+                            <li></li>
+                          </ul>
+
+                          <br/>
+                          <br/>
+                          <p><strong>Explore</strong></p>
+                          <p>Describe what kinds of hands-on/minds-on activities students will be doing.</p>
+                          <ul>
+                            <li></li>
+                          </ul>
+
+                          <br/>
+                          <br/>
+                          <p><strong>Explain</strong></p>
+                          <p>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</p>
+                          <ul>
+                            <li></li>
+                          </ul>
+
+                          <br/>
+                          <br/>
+                          <p><strong>Extend</strong></p>
+                          <p>Describe how students will develop a more sophisticated understanding of the concept</p>
+                          <ul>
+                            <li></li>
+                          </ul>
+
+                          <br/>
+                          <br/>
+                          <p><strong>Evaluate</strong></p>
+                          <p>How will students demonstrate that they have achieved the lesson objective?</p>
+                          <ul>
+                            <li></li>
+                          </ul>
+
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <br/>
+                        </div>
                     </div>
                 </div>
                 <div id="" class="slider close objective_slider">
                     <div class="slider_container">
                         <h2>Objective</h2>
-                        <p>Write your objective here.</p>
-                        <textarea></textarea>
+                        <div id="objective_text">
+                          
+                          
+                        </div>
                     </div>
                 </div>
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
                         <h2>Assign to Students</h2>
+                        <h3>Lesson Type</h3>
+                        <select class="form-control">
+                            <option>Classroom Use</option>
+                            <option>Assignment</option>
+                            <option>Reviewer</option>
+                            <option>Virtual Class</option>
+                        </select>
+                        <div id="jstree_demo_div">
+                            <ul>
+                              <li>Grade 1
+                                <ul>
+                                  <li>San Pablo
+                                    <ul>
+                                        <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_1">Joeven Cerveza</li>
+                                        <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_2">Resty Morancil</li>
+                                    </ul>
+                                  </li>
+                                  
+                                </ul>
+                              </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div id="" class="slider close discussion_slider">
@@ -119,7 +209,7 @@
 
                     <div class="actions_container">
                         <div class="actions">
-                            <a href="<?php echo site_url('lms/blackboard/index'); ?>">
+                            <a href="<?php echo site_url('lms/lesson/index'); ?>">
                                 <button class="action_button close_action"><i class="fas fa-times-circle"></i>Close</button>
                             </a>
                         </div>
@@ -167,14 +257,14 @@
                         </div>
                         <div class="content_body">
                             <div class="download_status_container">
-                                <span>Checking...</span>
+                                <span>Ready</span>
                             </div>
                             <img src="<?php echo $resources.'images/website.png' ?>">
                             
                         </div>
                         
                         <div class="content_footer theme">
-                            <span>Default Description</span>
+                            <textarea>Default Description</textarea>
                         </div>
                         
                     </li>
@@ -264,6 +354,18 @@
         <script src="<?php echo $resources.'jquery.mousewheel.min.js'?>"></script>
         <script src="<?php echo $resources.'lesson.js'?>"></script>
         <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
-
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+        <script type="text/javascript">
+            $(function () { 
+                $('#jstree_demo_div').jstree(); 
+            });
+            var learing_plan = new Quill('#learing_plan_text', {
+                theme: 'snow',
+            });
+            var objective = new Quill('#objective_text', {
+                theme: 'snow',
+            });
+        </script>
     </body>
 </html>

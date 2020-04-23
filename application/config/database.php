@@ -72,34 +72,28 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
-// $db['default'] = array(
-// 	'dsn'	=> '',
-// 	'hostname' => 'localhost',
-// 	'username' => 'joeven',
-// 	'password' => 'joeven241',
-// 	'database' => 'campus_sms',
-// 	'dbdriver' => 'mysqli',
-// 	'dbprefix' => '',
-// 	'pconnect' => FALSE,
-// 	'db_debug' => (ENVIRONMENT !== 'development'),
-// 	'cache_on' => FALSE,
-// 	'cachedir' => '',
-// 	'char_set' => 'utf8',
-// 	'dbcollat' => 'utf8_general_ci',
-// 	'swap_pre' => '',
-// 	'encrypt' => FALSE,
-// 	'compress' => FALSE,
-// 	'stricton' => FALSE,
-// 	'failover' => array(),
-// 	'save_queries' => TRUE
-// );
+
+$REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
+$HTTP_HOST = $_SERVER['HTTP_HOST'];
+$database_name = explode('.', $HTTP_HOST)[0];
+
+if($HTTP_HOST=="localhost"){
+  	$username = 'root';
+  	$password = '';
+  	$database = 'sms';
+}else{
+
+  	$username = 'joeven';
+  	$password = 'joeven241';
+  	$database = 'campus_'.$database_name;
+}
 
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'sms',
+	'username' => $username,
+	'password' => $password,
+	'database' => $database,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

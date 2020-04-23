@@ -14,28 +14,12 @@ class Lesson extends Admin_Controller {
 
     function index() {
         
-
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
-        $user_role = $this->customlib->getStaffRole();
 
-        $data['title'] = 'Upload Content';
-        $data['title_list'] = 'Upload Content List';
-        $data['content_available'] = $this->customlib->contentAvailabelFor();
-        $ght = $this->customlib->getcontenttype();
-        $role = json_decode($user_role);
-        $list = $this->lesson_model->lms_get("lms_lesson");
-        $new_data = $this->lesson_model->lms_get("lms_lesson");
-        
-        $class = $this->class_model->get();
-      
-        $data['list'] = $list;
-        $data['classlist'] = $class;
-        $userdata = $this->customlib->getUserData();
-        $carray = array();
-        
-        $data['ght'] = $ght;
-        
+        $data['title'] = 'Lesson';
+        $data['list'] = $this->lesson_model->lms_get("lms_lesson");
+
         $this->load->view('layout/header');
         $this->load->view('lms/lesson/index', $data);
         $this->load->view('layout/footer');
@@ -62,6 +46,8 @@ class Lesson extends Admin_Controller {
         $data['id'] = $id;
         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
         $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
+        $data['students'] = $this->lesson_model->get_students();
+
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
             mkdir(FCPATH."uploads/lms_lesson/".$id);
@@ -79,84 +65,90 @@ class Lesson extends Admin_Controller {
         $data['content_order'] = json_encode($_REQUEST['content_order']);
         $data['content_pool'] = json_encode($_REQUEST['content_pool']);
         $data['folder_names'] = $_REQUEST['folder_names'];
-        $this->lesson_model->update("lms_lesson",$data);
+        print_r($data);
+        $this->lesson_model->lms_update("lms_lesson",$data);
+        
 
         //thumbnails
-        $this->db->select("content_id");
-        $this->db->where("table_id","thumbnail_".$data['id']);
-        $query = $this->db->get("resources_queue");
-        $thumbnails_result = $query->result_array();
-        $thumbnails = [];
-        foreach ($thumbnails_result as $key => $value) {
-            array_push($thumbnails, $value['content_id']);
-        }
+        // $this->db->select("content_id");
+        // $this->db->where("table_id","thumbnail_".$data['id']);
+        // $query = $this->db->get("resources_queue");
+        // $thumbnails_result = $query->result_array();
+        // $thumbnails = [];
+        // foreach ($thumbnails_result as $key => $value) {
+        //     array_push($thumbnails, $value['content_id']);
+        // }
 
-        foreach ($_REQUEST['content_pool'] as $key => $value) {
-            if(!in_array($value['content']['result_id'], $thumbnails)){
-                $download_data['table_id'] = "thumbnail_".$data['id'];
-                $download_data['file_type'] = "image";
-                $download_data['content_id'] = $value['content']['result_id'];
-                $download_data['url'] = urldecode($value['content']['image']);
-                $download_data['output_path'] = "C:\\xampp\htdocs\campus\\resources\uploads\blackboard\\".$data['id']."\\thumbnails\\";
-                $type = $this->check_url_type($value['content']['image']);
-                $download_data['filename'] = $value['content']['result_id'];
-                $download_data['completed'] = 0;
-                $download_data['status'] = "download";
+        // foreach ($_REQUEST['content_pool'] as $key => $value) {
+        //     if(!in_array($value['content']['result_id'], $thumbnails)){
+        //         $download_data['table_id'] = "thumbnail_".$data['id'];
+        //         $download_data['file_type'] = "image";
+        //         $download_data['content_id'] = $value['content']['result_id'];
+        //         $download_data['url'] = urldecode($value['content']['image']);
+        //         $download_data['output_path'] = "C:\\xampp\htdocs\campus\\resources\uploads\blackboard\\".$data['id']."\\thumbnails\\";
+        //         $type = $this->check_url_type($value['content']['image']);
+        //         $download_data['filename'] = $value['content']['result_id'];
+        //         $download_data['completed'] = 0;
+        //         $download_data['status'] = "download";
 
-                $this->blackboard_model->create_new("resources_queue",$download_data);
-            }
+        //         $this->lesson_model->lms_create("resources_queue",$download_data);
+        //     }
             
 
-        }
+        // }
         //thumbnails
 
         //contents
-        $this->db->select("content_id");
-        $this->db->where("table_id",$data['id']);
-        $query = $this->db->get("resources_queue");
-        $content_result = $query->result_array();
-        $contents = [];
-        foreach ($content_result as $key => $value) {
-            array_push($contents, $value['content_id']);
-        }
-        foreach ($_REQUEST['content_pool'] as $key => $value) {
+        // $this->db->select("content_id");
+        // $this->db->where("table_id",$data['id']);
+        // $query = $this->db->get("resources_queue");
+        // $content_result = $query->result_array();
+        // $contents = [];
+        // foreach ($content_result as $key => $value) {
+        //     array_push($contents, $value['content_id']);
+        // }
+        // foreach ($_REQUEST['content_pool'] as $key => $value) {
             
 
-            if(!in_array($value['content']['result_id'], $contents)){
+        //     if(!in_array($value['content']['result_id'], $contents)){
 
-                $download_data['output_path'] = "C:\\xampp\htdocs\campus\\resources\uploads\blackboard\\".$data['id']."\\contents\\";
-                $download_data['filename'] = $value['content']['result_id'];
-                $download_data['table_id'] = $data['id'];
-                $download_data['content_id'] = $value['content']['result_id'];
-                $download_data['completed'] = 0;
+        //         $download_data['output_path'] = "C:\\xampp\htdocs\campus\\resources\uploads\blackboard\\".$data['id']."\\contents\\";
+        //         $download_data['filename'] = $value['content']['result_id'];
+        //         $download_data['table_id'] = $data['id'];
+        //         $download_data['content_id'] = $value['content']['result_id'];
+        //         $download_data['completed'] = 0;
 
-                if($value['content']['type'] == "youtube"){
-                    $download_data['file_type'] = "video";
-                    $download_data['url'] = $this->youtube($value['content']['source']);
-                }else{
-                    $download_data['file_type'] = urldecode($value['content']['type']);
-                    $download_data['url'] = urldecode($value['content']['source']);
-                }
+        //         if($value['content']['type'] == "youtube"){
+        //             $download_data['file_type'] = "video";
+        //             $download_data['url'] = $this->youtube($value['content']['source']);
+        //         }else{
+        //             $download_data['file_type'] = urldecode($value['content']['type']);
+        //             $download_data['url'] = urldecode($value['content']['source']);
+        //         }
                 
-                if($value['content']['type'] == "website"){
-                    $download_data['status'] = "convert";
+        //         if($value['content']['type'] == "website"){
+        //             $download_data['status'] = "convert";
 
-                }else{
-                    $download_data['status'] = "download";
-                }
+        //         }else{
+        //             $download_data['status'] = "download";
+        //         }
                 
 
-                if($download_data['url']!=""){
-                    $this->blackboard_model->create_new("resources_queue",$download_data);
-                }
+        //         if($download_data['url']!=""){
+        //             $this->blackboard_model->create_new("resources_queue",$download_data);
+        //         }
                 
-            }
+        //     }
             
 
-        }
+        // }
         //contents
+    }
 
-    
+    public function get($id){
+
+        echo json_encode($this->lesson_model->lms_get("lms_lesson",$id,"id")[0]);
+
     }
     
 

@@ -101,8 +101,12 @@
                                                 
                                             </td>
                                             <td class="mailbox-date pull-right">
-                                                <button>Edit</button>
-                                                <button>Delete</button>
+                                                <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
+                                                        <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a data-placement="left" href=""class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
+                                                        <i class="fa fa-remove"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
