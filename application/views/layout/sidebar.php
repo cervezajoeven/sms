@@ -66,7 +66,7 @@
                             if ($this->rbac->hasPrivilege('complaint', 'can_view')) {
                                 ?>
 
-                                <li class="<?php echo set_Submenu('admin/complaint'); ?>"><a href="<?php echo base_url(); ?>admin/complaint"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('complain'); ?></a></li>
+                                <li class="<?php echo set_Submenu('admin/complaint'); ?>"><a href="<?php echo base_url(); ?>admin/complaint"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_feedback'); ?></a></li>
 
                                 <?php
                             }
@@ -94,14 +94,14 @@
 
                     <li class="treeview <?php echo set_Topmenu('Student Information'); ?>">
                         <a href="#">
-                            <i class="fa fa-user-plus ftlayer"></i> <span><?php echo $this->lang->line('student_information'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-user-plus ftlayer"></i> <span><?php echo $this->lang->line('student_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <?php
                             if ($this->rbac->hasPrivilege('student', 'can_view')) {
                                 ?>
 
-                                <li class="<?php echo set_Submenu('student/search'); ?>"><a href="<?php echo base_url(); ?>student/search"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_details'); ?></a></li>
+                                <li class="<?php echo set_Submenu('student/search'); ?>"><a href="<?php echo base_url(); ?>student/search"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_information'); ?></a></li>
 
                                 <?php
                             }
@@ -180,7 +180,7 @@
                     ?>
                     <li class="treeview <?php echo set_Topmenu('Fees Collection'); ?>">
                         <a href="#">
-                            <i class="fa fa-money ftlayer"></i> <span> <?php echo $this->lang->line('fees_collection'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-money ftlayer"></i> <span> <?php echo $this->lang->line('fees_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <?php if ($this->rbac->hasPrivilege('collect_fees', 'can_view')) { ?>
@@ -336,7 +336,7 @@
                             ?>
 
 
-                            <li class="<?php echo set_Submenu('Attendance/approve_leave'); ?>"><a href="<?php echo base_url(); ?>admin/approve_leave"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('approve') . " " . $this->lang->line('leave'); ?></a></li>
+                            <li class="<?php echo set_Submenu('Attendance/approve_leave'); ?>"><a href="<?php echo base_url(); ?>admin/approve_leave"><i class="fa fa-angle-double-right"></i> <?php echo  $this->lang->line('lms_excuse_letter'); ?></a></li>
                         <?php } ?>
                         </ul>
                     </li>
@@ -445,7 +445,7 @@
                     ?>
                     <li class="treeview <?php echo set_Topmenu('Academics'); ?>">
                         <a href="#">
-                            <i class="fa fa-mortar-board ftlayer"></i> <span><?php echo $this->lang->line('academics'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-mortar-board ftlayer"></i> <span><?php echo $this->lang->line('faculty_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
 
@@ -627,11 +627,34 @@
             if ($this->module_lib->hasActive('download_center')) {
                 if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
                     ?>
-                    <li class="treeview <?php echo set_Topmenu('Download Center'); ?>">
+                    <li class="treeview <?php echo set_Topmenu('Campus Meetup'); ?>">
                         <a href="#">
-                            <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('download_center'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('lms_campus_meetup'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
+                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_available_soon'); ?></a></li>
+                           
+                            
+                        </ul>
+                    </li>
+                    <?php
+                }
+            }
+            if ($this->module_lib->hasActive('download_center')) {
+                if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
+                    ?>
+                    <li class="treeview <?php echo set_Topmenu('Download Center'); ?>">
+                        <a href="#">
+                            <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
+                            <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
+                             <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
+                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
+                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_usage_report'); ?></a></li>
+                           
+
                             <?php if ($this->rbac->hasPrivilege('upload_content', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('admin/content'); ?>"><a href="<?php echo base_url(); ?>admin/content"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('upload_content'); ?></a></li>
                             <?php } ?>
@@ -671,7 +694,7 @@
                     ?>
                     <li class="treeview <?php echo set_Topmenu('Library'); ?>">
                         <a href="#">
-                            <i class="fa fa-book ftlayer"></i> <span><?php echo $this->lang->line('library'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-book ftlayer"></i> <span><?php echo $this->lang->line('lms_campus_elibrary'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
 

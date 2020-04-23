@@ -71,7 +71,7 @@ class Auth
             return false;
         } else {
 
-            $this->app_routine();
+            //$this->app_routine();
 
             if ($default_redirect) {
 

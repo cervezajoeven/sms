@@ -15,6 +15,7 @@
                 <div class="nav-tabs-custom box box-primary theme-shadow">
                     
                     <ul class="nav nav-tabs pull-right">
+                        <li ><a href="#tab_5" data-toggle="tab"><?php echo $this->lang->line('lms_statement_of_account')?></a></li>
                         <li ><a href="#tab_4" data-toggle="tab"><?php echo $this->lang->line('payslip')?></a></li>
                         <li class="active"><a href="#tab_3" data-toggle="tab"><?php echo $this->lang->line('fees_receipt'); ?></a></li>
                        
@@ -88,6 +89,35 @@
                             </form>
                         </div>
                         <!-- /.tab-pane -->
+
+                        <div class="tab-pane" id="tab_5">
+                            <form role="form" action="<?php echo site_url('admin/print_headerfooter') ?>" class="" enctype="multipart/form-data" method="post">
+                                <div class="row">
+                                  <div class="col-md-12">     
+                                     <div class="form-group">
+                                    <label><?php echo $this->lang->line('header')." ".$this->lang->line('image'). " (2230px X 300px)"; ?></label>
+                                    <input id="documents" data-default-file="<?php echo base_url()?>./uploads/print_headerfooter/staff_payslip/<?php echo $result[0]['header_image']?>" placeholder="" type="file" class="filestyle form-control" data-height="180"  name="header_image">
+                                     <input  placeholder="" type="hidden" class="form-control" value="staff_payslip" name="type">
+                                      <span class="text-danger"><?php echo form_error('header_image'); ?></span>
+                                </div>
+                                    <div class="form-group"><label><?php echo $this->lang->line('footer')." ".$this->lang->line('content'); ?><small class="req"> *</small></label>
+                                        <textarea id="staff_textarea2" name="message" class="form-control" style="height: 250px">
+                                            <?php //echo set_value('message',$result[0]['footer_content']); ?>
+                                            This Statement of account is computer generated hence no signature is required.
+                                        </textarea>
+                                        <span class="text-danger"><?php echo form_error('message'); ?></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="pull-right">
+                                        <button type="submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> <?php echo $this->lang->line('save'); ?>"><?php echo $this->lang->line('save'); ?></button>
+                                    </div>
+                                 </div>   
+                              </div>  
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
                     </div>
                     <!-- /.tab-content -->
                 </div>
@@ -104,6 +134,7 @@
     $(function () {
         $("#staff_textarea").wysihtml5();
         $("#student_textarea").wysihtml5();
+        $("#staff_textarea2").wysihtml5();
         
     });
 </script>

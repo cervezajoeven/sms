@@ -7,6 +7,7 @@ class MY_Controller extends CI_Controller
 {
 
     protected $langs = array();
+    public $mode;
 
     public function __construct()
     {
@@ -21,6 +22,16 @@ class MY_Controller extends CI_Controller
         $this->load->library('jsonlib');
         $this->load->helper(array('directory', 'customfield', 'custom'));
         $this->load->model(array('setting_model', 'customfield_model', 'onlinestudent_model', 'houselist_model', 'onlineexam_model', 'onlineexamquestion_model', 'onlineexamresult_model', 'examstudent_model', 'admitcard_model', 'marksheet_model', 'chatuser_model', 'examgroupstudent_model', 'examgroup_model', 'batchsubject_model'));
+
+        $url = $_SERVER['SERVER_NAME'];
+
+        if (strpos($url,'localhost') !== false) {
+            $this->mode = "offline";
+        }elseif(strpos($url,'192.') !== false||strpos($url,'172.') !== false) {
+            $this->mode = "offline";
+        }else{
+            $this->mode = "online";
+        }
 
         if ($this->session->has_userdata('admin')) {
 
@@ -54,7 +65,7 @@ class Admin_Controller extends MY_Controller
     {
         parent::__construct();
         $this->auth->is_logged_in();
-        $this->check_license();
+        //$this->check_license();
         $this->load->library('rbac');
         $this->config->load('app-config');
         $this->load->model(array('batchsubject_model', 'examgroup_model', 'examsubject_model', 'examgroupstudent_model', 'feereminder_model'));

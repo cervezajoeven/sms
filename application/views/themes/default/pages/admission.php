@@ -105,7 +105,35 @@ if ($this->session->flashdata('msg')) {
         </div>
     </div>
 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="" class="control-label">Mode of Payment</label>
+            <small class='req'> *</small>
+            <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                <option value="">Select</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Semestral">Semestral</option>
+                <option value="Whole Year">Whole Year</option>
+            </select>
+            <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
+        </div>
+    </div>
 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="" class="control-label">Enrollment Type</label>
+            <small class='req'> *</small>
+            <select id="enrollment_type" name="enrollment_type" class="form-control">
+                <option value="">Select</option>
+                <option value="new">New</option>
+                <option value="old">Old</option>
+                <option value="returnee">Returnee</option>
+                <option value="transferee">Transferee</option>
+            </select>
+            <span class="text-danger"><?php echo form_error('enrollment_type'); ?></span>
+        </div>
+    </div>
 
 
 </div><!--./row--> 

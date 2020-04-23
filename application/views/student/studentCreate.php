@@ -283,6 +283,36 @@ if ($sch_setting->is_student_house) {
                                             </div>
                                         </div>
 
+                                        <?php
+                                            // echo display_custom_fields('online_admissions', $student["id"]);
+                                            $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
+                                            $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
+                                        ?>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Mode of Payment</label>
+                                                <small class='req'> *</small>
+                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                                                    <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
+                                                        <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
+                                                    <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Enrollment Type</label>
+                                                <small class='req'> *</small>
+                                                <select id="enrollment_type" name="enrollment_type" class="form-control">
+                                                    <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
+                                                        <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
+                                                    <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-3 pt25">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -295,11 +325,11 @@ if ($sch_setting->is_student_house) {
                                         </div>
 
                                     </div>
-                                 <div class="row">
-                                    <?php
-echo display_custom_fields('students');
-?>
-                                 </div>
+                                    <div class="row">
+                                        <?php
+                                            echo display_custom_fields('students');
+                                        ?>
+                                    </div>
 
                             </div>
                             </div>

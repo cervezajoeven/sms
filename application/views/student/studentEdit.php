@@ -152,13 +152,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             </div>
                                         </div>
 										<?php } if ($sch_setting->cast) {  ?>
-                                        <div class="col-md-2">
+                                        <!-- <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('cast'); ?></label>
                                                 <input id="cast" name="cast" placeholder="" type="text" class="form-control"  value="<?php echo set_value('cast', $student['cast']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('cast'); ?></span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <?php } if ($sch_setting->mobile_no) {  ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -276,12 +276,37 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="row">
-                                     
-                                    <?php 
-                                      echo display_custom_fields('students',$student['id']);
-                                     ?>
-                                 </div>
+                                    <div class="row">                                     
+                                        <?php 
+                                            // echo display_custom_fields('online_admissions', $student["id"]);
+                                            $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
+                                            $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
+                                        ?>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Mode of Payment</label>
+                                                <small class='req'> *</small>
+                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                                                    <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
+                                                        <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
+                                                    <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Enrollment Type</label>
+                                                <small class='req'> *</small>
+                                                <select id="enrollment_type" name="enrollment_type" class="form-control">
+                                                    <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
+                                                        <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
+                                                    <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>  
                             </div>   
 

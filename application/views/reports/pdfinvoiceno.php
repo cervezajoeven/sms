@@ -455,9 +455,10 @@ if (isset($student_due_fee)) {
                                 font-size: 1.2em;
                                 white-space: nowrap;
                                 border-top: 1px solid #AAAAAA; "><b><?php echo number_format((($fee['amount'] + $fee['amount_fine']) - $fee['amount_discount']), 2, '.', ','); ?></b></td>
-                    </tr>
-                </tbody>
-            </table>
-        </main>
-    </body>
-</html>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+        </body>
+    </html>
+<?php }?>

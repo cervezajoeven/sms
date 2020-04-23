@@ -243,6 +243,36 @@ if ($bgvalue == $student["blood_group"]) {
                                                 <span class="text-danger"><?php echo form_error('measure_date'); ?></span>
                                             </div>
                                         </div>
+                                        <!-- Show custom fields -->
+                                        <?php
+                                            // echo display_custom_fields('online_admissions', $student["id"]);
+                                            $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
+                                            $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
+                                        ?>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Mode of Payment</label>
+                                                <small class='req'> *</small>
+                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                                                    <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
+                                                        <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
+                                                    <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Enrollment Type</label>
+                                                <small class='req'> *</small>
+                                                <select id="enrollment_type" name="enrollment_type" class="form-control">
+                                                    <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
+                                                        <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
+                                                    <?php }?>
+                                                </select>
+                                            </div>
+                                        </div>
 
                                     </div>
 
