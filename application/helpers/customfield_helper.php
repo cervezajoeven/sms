@@ -17,7 +17,6 @@ if (!function_exists('display_custom_fields')) {
         $fields_html = '';
        
         foreach ($result as $result_key => $field) {
-
             $type = $field['type'];
 
             $label = ucfirst($field['name']);
@@ -25,6 +24,7 @@ if (!function_exists('display_custom_fields')) {
             if ($field['bs_column'] == '' || $field['bs_column'] == 0) {
                 $field['bs_column'] = 12;
             }
+            
             $input_class = "";
             $value = "";
             if ($rel_id !== false) {
@@ -35,7 +35,6 @@ if (!function_exists('display_custom_fields')) {
                 }
             }
 
-
             $fields_html .= '<div class="col-md-' . $field['bs_column'] . '">';
             if ($field['type'] == 'input' || $field['type'] == 'number') {
                 $type = $field['type'] == 'input' ? 'text' : 'number';
@@ -43,10 +42,7 @@ if (!function_exists('display_custom_fields')) {
             } elseif ($field['type'] == 'textarea') {
                 $fields_html .= render_textarea_field($field_name, $label, $value, $type, $input_class,$field['belong_to'],$field['id'],$field['validation']);
             } elseif ($field['type'] == 'select') {
-
                 $options = optionSplit($field['field_values']);
-
-
                 $fields_html .= render_select_field($field_name, $options, $label, $value, $type, $input_class,$field['belong_to'],$field['id'],$field['validation']);
             } elseif ($field['type'] == 'multiselect') {
                 $options = optionSplit($field['field_values']);

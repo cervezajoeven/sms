@@ -11,7 +11,8 @@ class Welcome extends Front_Controller
         $this->load->config('form-builder');
         $this->load->config('app-config');
         $this->load->library(array('mailer', 'form_builder'));
-        $this->load->model(array('frontcms_setting_model', 'complaint_Model', 'Visitors_model', 'onlinestudent_model'));
+        $this->load->helper(array('directory', 'customfield', 'custom'));
+        $this->load->model(array('frontcms_setting_model', 'complaint_Model', 'Visitors_model', 'onlinestudent_model', 'customfield_model'));
         $this->blood_group = $this->config->item('bloodgroup');
         $this->load->library('Ajax_pagination');
         $this->load->library('module_lib');
@@ -203,127 +204,145 @@ class Welcome extends Front_Controller
 
     public function admission()
     {
+        if($this->module_lib->hasActive('online_admission')) {
+            $this->data['active_menu'] = 'home';
+            $page                      = array('title' => 'Online Admission Form', 'meta_title' => 'online admission form', 'meta_keyword' => 'online admission form', 'meta_description' => 'online admission form');
 
-        if($this->module_lib->hasActive('online_admission')){
-        $this->data['active_menu'] = 'home';
-        $page                      = array('title' => 'Online Admission Form', 'meta_title' => 'online admission form', 'meta_keyword' => 'online admission form', 'meta_description' => 'online admission form');
+            $this->data['page_side_bar']  = false;
+            $this->data['featured_image'] = false;
+            $this->data['page']           = $page;
+            ///============
+            $this->data['form_admission'] = $this->setting_model->getOnlineAdmissionStatus();
 
-        $this->data['page_side_bar']  = false;
-        $this->data['featured_image'] = false;
-        $this->data['page']           = $page;
-        ///============
-        $this->data['form_admission'] = $this->setting_model->getOnlineAdmissionStatus();
+            ///////===
+            $genderList               = $this->customlib->getGender();
+            $this->data['genderList'] = $genderList;
+            $this->data['title']      = 'Add Student';
+            $this->data['title_list'] = 'Recently Added Student';
 
-        ///////===
-        $genderList               = $this->customlib->getGender();
-        $this->data['genderList'] = $genderList;
-        $this->data['title']      = 'Add Student';
-        $this->data['title_list'] = 'Recently Added Student';
-
-        $data["student_categorize"] = 'class';
-        $session                    = $this->setting_model->getCurrentSession();
-       
-        $class                   = $this->class_model->getAll();
-        $this->data['classlist'] = $class;
-        $userdata                = $this->customlib->getUserData();
-
-        $category                   = $this->category_model->get();
-        $this->data['categorylist'] = $category;
+            $data["student_categorize"] = 'class';
+            $session                    = $this->setting_model->getCurrentSession();
         
+            $class                   = $this->class_model->getAll();
+            $this->data['classlist'] = $class;
+            $userdata                = $this->customlib->getUserData();
 
-        $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+            $category                   = $this->category_model->get();
+            $this->data['categorylist'] = $category;            
 
-        if ($this->form_validation->run() == false) {
+            $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
 
-            $this->load_theme('pages/admission');
-        } else {
-            //==============
-            $document_validate = true;
-            $image_validate    = $this->config->item('file_validate');
+            if ($this->form_validation->run() == false) {
+                $this->load_theme('pages/admission');
+            } else {
+                //==============
+                $document_validate = true;
+                $image_validate    = $this->config->item('file_validate');
 
-            if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-
-                $file_type         = $_FILES["document"]['type'];
-                $file_size         = $_FILES["document"]["size"];
-                $file_name         = $_FILES["document"]["name"];
-                $allowed_extension = $image_validate['allowed_extension'];
-                $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
-                $allowed_mime_type = $image_validate['allowed_mime_type'];
-                if ($files = filesize($_FILES['document']['tmp_name'])) {
-                  
-                    if (!in_array($file_type, $allowed_mime_type)) {
-                        $this->data['error_message'] = 'File Type Not Allowed';
-                        $document_validate           = false;
-                    }
-
-                    if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
-                        $this->data['error_message'] = 'Extension Not Allowed';
-                        $document_validate           = false;
-                    }
-                    if ($file_size > $image_validate['upload_size']) {
-                        $this->data['error_message'] = 'File should be less than' . number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
-                        $document_validate           = false;
-                    }
-                }
-            }
-            //=====================
-            if ($document_validate) {
-
-                $class_id   = $this->input->post('class_id');
-                $section_id = $this->input->post('section_id');
-
-                $data = array(
-                    'roll_no'             => $this->input->post('roll_no'),                   
-                    'firstname'           => $this->input->post('firstname'),
-                    'lastname'            => $this->input->post('lastname'),
-                    'mobileno'            => $this->input->post('mobileno'),
-                    'class_section_id'    => $this->input->post('section_id'),
-                    'guardian_is'         => $this->input->post('guardian_is'),
-                    'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
-                    'current_address'     => $this->input->post('current_address'),
-                    'permanent_address'   => $this->input->post('permanent_address'),
-                    'father_name'         => $this->input->post('father_name'),
-                    'father_phone'        => $this->input->post('father_phone'),
-                    'father_occupation'   => $this->input->post('father_occupation'),
-                    'mother_name'         => $this->input->post('mother_name'),
-                    'mother_phone'        => $this->input->post('mother_phone'),
-                    'mother_occupation'   => $this->input->post('mother_occupation'),
-                    'guardian_occupation' => $this->input->post('guardian_occupation'),
-                    'guardian_email'      => $this->input->post('guardian_email'),
-                    'gender'              => $this->input->post('gender'),
-                    'guardian_name'       => $this->input->post('guardian_name'),
-                    'guardian_relation'   => $this->input->post('guardian_relation'),
-                    'guardian_phone'      => $this->input->post('guardian_phone'),
-                    'guardian_address'    => $this->input->post('guardian_address'),
-                    'admission_date'=>date('Y/m/d'),
-                    'measurement_date'=>date('Y/m/d'),
-                );
                 if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                    $time     = md5($_FILES["document"]['name'] . microtime());
-                    $fileInfo = pathinfo($_FILES["document"]["name"]);
-                    $doc_name = $time . '.' . $fileInfo['extension'];
-                    move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+                    $file_type         = $_FILES["document"]['type'];
+                    $file_size         = $_FILES["document"]["size"];
+                    $file_name         = $_FILES["document"]["name"];
+                    $allowed_extension = $image_validate['allowed_extension'];
+                    $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+                    $allowed_mime_type = $image_validate['allowed_mime_type'];
+                    if ($files = filesize($_FILES['document']['tmp_name'])) {
+                    
+                        if (!in_array($file_type, $allowed_mime_type)) {
+                            $this->data['error_message'] = 'File Type Not Allowed';
+                            $document_validate           = false;
+                        }
 
-                    $data['document'] = $doc_name;
+                        if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
+                            $this->data['error_message'] = 'Extension Not Allowed';
+                            $document_validate           = false;
+                        }
+                        if ($file_size > $image_validate['upload_size']) {
+                            $this->data['error_message'] = 'File should be less than' . number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
+                            $document_validate           = false;
+                        }
+                    }
+                }
+                //=====================
+                if ($document_validate) {
+
+                    $class_id   = $this->input->post('class_id');
+                    $section_id = $this->input->post('section_id');
+
+                    $custom_field_post  = $this->input->post("custom_fields[online_admissions]");
+                    $custom_value_array = array();
+                    if (!empty($custom_field_post)) {
+
+                        foreach ($custom_field_post as $key => $value) {
+                            $check_field_type = $this->input->post("custom_fields[online_admissions][" . $key . "]");
+                            $field_value      = is_array($check_field_type) ? implode(",", $check_field_type) : $check_field_type;
+                            $array_custom     = array(
+                                'belong_table_id' => 0,
+                                'custom_field_id' => $key,
+                                'field_value'     => $field_value,
+                            );
+                            $custom_value_array[] = $array_custom;
+                        }
+                    }
+
+                    $data = array(
+                        'roll_no'             => $this->input->post('roll_no'),                   
+                        'firstname'           => $this->input->post('firstname'),
+                        'lastname'            => $this->input->post('lastname'),
+                        'mobileno'            => $this->input->post('mobileno'),
+                        'class_section_id'    => $this->input->post('section_id'),
+                        'guardian_is'         => $this->input->post('guardian_is'),
+                        'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
+                        'current_address'     => $this->input->post('current_address'),
+                        'permanent_address'   => $this->input->post('permanent_address'),
+                        'father_name'         => $this->input->post('father_name'),
+                        'father_phone'        => $this->input->post('father_phone'),
+                        'father_occupation'   => $this->input->post('father_occupation'),
+                        'mother_name'         => $this->input->post('mother_name'),
+                        'mother_phone'        => $this->input->post('mother_phone'),
+                        'mother_occupation'   => $this->input->post('mother_occupation'),
+                        'guardian_occupation' => $this->input->post('guardian_occupation'),
+                        'guardian_email'      => $this->input->post('guardian_email'),
+                        'gender'              => $this->input->post('gender'),
+                        'guardian_name'       => $this->input->post('guardian_name'),
+                        'guardian_relation'   => $this->input->post('guardian_relation'),
+                        'guardian_phone'      => $this->input->post('guardian_phone'),
+                        'guardian_address'    => $this->input->post('guardian_address'),
+                        'admission_date'      =>date('Y/m/d'),
+                        'measurement_date'    =>date('Y/m/d'),
+                        'enrollment_type'     => $this->input->post('enrollment_type'),
+                    );
+                    if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
+                        $time     = md5($_FILES["document"]['name'] . microtime());
+                        $fileInfo = pathinfo($_FILES["document"]["name"]);
+                        $doc_name = $time . '.' . $fileInfo['extension'];
+                        move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+
+                        $data['document'] = $doc_name;
+                    }
+
+                    $insert_id = $this->onlinestudent_model->add($data);
+
+                    // //--Insert custom field value
+                    // if (!empty($custom_value_array)) {
+                    //     $this->customfield_model->insertRecord($custom_value_array, $insert_id);
+                    // }
+
+                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+
+                    redirect($_SERVER['HTTP_REFERER'], 'refresh');
                 }
 
-                $insert_id = $this->onlinestudent_model->add($data);
-
-                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
-
-                redirect($_SERVER['HTTP_REFERER'], 'refresh');
+                $this->load_theme('pages/admission');
             }
-
-            $this->load_theme('pages/admission');
-        }
-
         }
     }
 

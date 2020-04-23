@@ -31,7 +31,8 @@
                                             <th><?php echo $this->lang->line('category'); ?></th>
                                             <th><?php echo $this->lang->line('mobile_no'); ?></th>
                                             <th><?php echo $this->lang->line('enrolled'); ?></th>
-                                           
+                                            <th><?php echo $this->lang->line('mode_of_payment'); ?></th>
+                                            <th><?php echo $this->lang->line('enrollment_type'); ?></th>
 
                                             <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                         </tr>
@@ -65,7 +66,8 @@
                                                     <td><?php echo $student['category']; ?></td>
                                                     <td><?php echo $student['mobileno']; ?></td>
                                                     <td><?php echo ($student['is_enroll'])? "<i class='fa fa-check'></i><span style='display:none'>Yes</span>":"<i class='fa fa-minus-circle'></i><span style='display:none'>No</span>"; ?></td>
-
+                                                    <td><?php echo strtoupper($student['mode_of_payment']); ?></td>
+                                                    <td><?php echo strtoupper($student['enrollment_type']); ?></td>
 
                                                 <td class="mailbox-date pull-right">
                                                     <?php 

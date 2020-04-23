@@ -1368,4 +1368,6 @@ $lang['lms_feedback'] = 'Concerns/Feedback';
 $lang['complain'] = 'Concerns/Feedback';
 $lang['complain_by'] = 'Concerns/Feedback By';
 $lang['complain_type'] = 'Concerns/Feedback Type';
+$lang['enrollment_type'] = 'Enrollment Type';
+$lang['mode_of_payment'] = 'Mode of Payment';
 ?>

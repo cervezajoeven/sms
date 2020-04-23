@@ -133,6 +133,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 }
                                             }
                                             ?>
+                                            <th><?php echo $this->lang->line('mode_of_payment'); ?></th>
+                                            <th><?php echo $this->lang->line('enrollment_type'); ?></th>
 
                                             <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                         </tr>
@@ -187,6 +189,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                         }
                                                     }
                                                     ?>
+                                                    <td><?php echo strtoupper($student['mode_of_payment']); ?></td>
+                                                    <td><?php echo strtoupper($student['enrollment_type']); ?></td>
 
                                                     <td class="pull-right">
                                                         <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('show'); ?>" >
