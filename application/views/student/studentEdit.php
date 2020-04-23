@@ -299,7 +299,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <div class="form-group">
                                                 <label for="" class="control-label">Enrollment Type</label>
                                                 <small class='req'> *</small>
-                                                <select id="enroll_type" name="enroll_type" class="form-control">
+                                                <select id="enrollment_type" name="enrollment_type" class="form-control">
                                                     <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
                                                         <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
                                                     <?php }?>
