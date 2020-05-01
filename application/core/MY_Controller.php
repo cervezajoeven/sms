@@ -133,6 +133,24 @@ class Student_Controller extends MY_Controller
 
 }
 
+class General_Controller extends MY_Controller
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        //$this->check_license();
+        $this->load->library('rbac');
+        $this->load->library('studentmodule_lib');
+        $this->config->load('app-config');
+        $this->load->model(array('batchsubject_model', 'examgroup_model', 'examsubject_model', 'examgroupstudent_model', 'feereminder_model'));
+
+        $this->config->load('ci-blog');
+        $this->config->load('custom_filed-config');
+    }
+
+}
+
 class Public_Controller extends MY_Controller
 {
 

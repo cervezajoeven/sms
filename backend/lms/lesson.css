@@ -537,3 +537,37 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+.instructions{
+    padding: 10px;
+    color: white;
+}
+.mycms_instructions{
+    padding: 10px;
+    color: white;
+}
+.cms_instructions{
+    padding: 10px;
+    color: white;
+}
+.result_actions{
+    position: absolute;
+}
+.result_actions{
+    position: fixed;
+    bottom: 0;
+    left: 65%;
+    width: 30%;
+    z-index: 10;
+    background-color: rgb(118, 113, 113);
+}
+.result_actions .actions{
+    width: 100%;
+}
+.upload_color{
+    background-color: rgb(46, 117, 182);
+}
+.col-lg-6{
+    width: 50%;
+    float: left;
+
+}

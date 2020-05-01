@@ -15,6 +15,8 @@
         <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+
         <style type="text/css">
             .ql-snow{
                 background-color: white;
@@ -28,6 +30,54 @@
             .jstree-themeicon-custom{
                 background-size: 100%!important;
             }
+
+            .select-box {
+              cursor: pointer;
+              position : relative;
+              max-width:  20em;
+              width: 100%;
+            }
+
+            .select,
+            .label {
+              color: #414141;
+              display: block;
+              font: 400 17px/2em 'Source Sans Pro', sans-serif;
+            }
+
+            .select {
+              width: 100%;
+              position: absolute;
+              top: 0;
+              padding: 5px 0;
+              height: 40px;
+              opacity: 0;
+              -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+              background: none transparent;
+              border: 0 none;
+            }
+            .select-box1 {
+              background: #ececec;
+            }
+
+            .label {
+              position: relative;
+              padding: 5px 10px;
+              cursor: pointer;
+            }
+            .open .label::after {
+               content: "▲";
+            }
+            .label::after {
+              content: "▼";
+              font-size: 12px;
+              position: absolute;
+              right: 0;
+              top: 0;
+              padding: 5px 15px;
+              border-left: 5px solid #fff;
+            }
+
         </style>
     </head>
     <body>
@@ -168,29 +218,71 @@
                 </div>
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
-                        <h2>Assign to Students</h2>
-                        <h3>Lesson Type</h3>
-                        <select class="form-control">
-                            <option>Classroom Use</option>
-                            <option>Assignment</option>
-                            <option>Reviewer</option>
-                            <option>Virtual Class</option>
-                        </select>
-                        <div id="jstree_demo_div">
-                            <ul>
-                              <li>Grade 1
+                        <div class="col-lg-6">
+                            <h2>Assign to Students</h2>
+                            <div id="jstree_demo_div">
                                 <ul>
-                                  <li>San Pablo
-                                    <ul>
-                                        <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_1">Joeven Cerveza</li>
-                                        <li data-jstree='{"icon":"https://findicons.com/files/icons/2770/ios_7_icons/512/student2.png"}' id="child_node_2">Resty Morancil</li>
+                                    <li class="jstree-open" data-jstree='{
+                                        "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
+                                    }'>All
+                                        <ul>
+                                            <?php foreach($classes as $classes_key => $classes_value): ?>
+                                                <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
+                                                    <ul>
+                                                        <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
+                                                            <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
+                                                                <li data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
+                                                                    <ul>
+                                                                        <?php foreach($students as $students_key => $students_value): ?>
+                                                                            <?php if($students_value['section_id']==$class_sections_value['section_id']): ?>
+                                                                                <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' id="child_node_<?php echo $students_key ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+                                                                            <?php endif; ?>
+                                                                        <?php endforeach; ?>
+                                                                    </ul>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                        <?php endforeach;?>
+                                                    </ul>
+                                                </li>
+                                            <?php endforeach;?>
+                                        </ul>
                                     </ul>
-                                  </li>
-                                  
-                                </ul>
-                              </li>
-                            </ul>
+                                </li>    
+                            </div>
                         </div>
+                        <div class="col-lg-6">
+                            <h3>Lesson Type</h3>
+
+                            <div class="select-box">
+    
+                                <label for="select-box1" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
+                                <select id="select-box1" class="select">
+                                    <option>Classroom Use</option>
+                                    <option>Assignment</option>
+                                    <option>Reviewer</option>
+                                    <option>Virtual Class</option>
+                                </select>
+                                
+                              </div>
+                            <h3>Notification</h3>
+                            
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" />
+                                <div class="state p-primary">
+                                    <label>SMS Notification</label>
+                                </div>
+                            </div>
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" />
+                                <div class="state p-primary">
+                                    <label>Email Notification</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+
+                        
                     </div>
                 </div>
                 <div id="" class="slider close discussion_slider">
@@ -234,6 +326,13 @@
                     </div>
                     
                 </div>
+                <div class="result_actions">
+                    <div class="upload_actions actions_container">
+                        <div class="actions">
+                            <button class="action_button upload_color"><i class="fas fa-upload"></i>Upload</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="part right">
                 <div class="navigation">
@@ -268,7 +367,27 @@
                         </div>
                         
                     </li>
-                   
+                    
+
+                    <div class="instruction instructions">
+                        <h2>Quick Tip</h2>
+                        <h3>1. Start Typing in the Content Search above.</h3>    
+                        <h3>2. Pick Content.</h3>    
+                        <h3>3. Click and drag content from here to the left side.</h3>    
+                    </div>
+                    <div class="instruction mycms_instructions">
+                        <h2>My Resources</h2>
+                        <h3>1. You can upload your resources here.</h3>    
+                        <h3>2. All of the resources you uploaded will be listed here.</h3>    
+                        <h3>3. Pick resource</h3>    
+                        <h3>4. Click and drag content from here to the left side.</h3>    
+                    </div>
+                   <div class="instruction cms_instructions">
+                        <h2>CMS Resources</h2>
+                        <h3>1. Search resources from CMS System.</h3>     
+                        <h3>2. Pick resource</h3>    
+                        <h3>3. Click and drag content from here to the left side.</h3>    
+                    </div>
                 </ul>
                 
 
@@ -357,8 +476,40 @@
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript">
+
+            $("select").on("click" , function() {
+  
+              $(this).parent(".select-box").toggleClass("open");
+              
+            });
+
+            $(document).mouseup(function (e)
+            {
+                var container = $(".select-box");
+
+                if (container.has(e.target).length === 0)
+                {
+                    container.removeClass("open");
+                }
+            });
+
+
+            $("select").on("change" , function() {
+              
+              var selection = $(this).find("option:selected").text(),
+                  labelFor = $(this).attr("id"),
+                  label = $("[for='" + labelFor + "']");
+                
+              label.find(".label-desc").html(selection);
+                
+            });
             $(function () { 
-                $('#jstree_demo_div').jstree(); 
+                $('#jstree_demo_div').jstree({
+                    "checkbox" : {
+                      "keep_selected_style" : false
+                    },
+                    "plugins" : [ "checkbox" ]
+                }); 
             });
             var learing_plan = new Quill('#learing_plan_text', {
                 theme: 'snow',

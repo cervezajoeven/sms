@@ -615,7 +615,7 @@ return false;
 
     public function add($data, $data_setting = array())
     {
-       
+
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
             $this->db->update('students', $data);

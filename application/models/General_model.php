@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Lesson_model extends MY_Model {
+class General_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
@@ -17,7 +17,7 @@ class Lesson_model extends MY_Model {
      * @return mixed
      */
 
-    public function get_students(){
+    public function get_role(){
         $current_session = $this->setting_model->getCurrentSession();
         $this->db->select("*");
         $this->db->join("students","students.id = student_session.student_id");

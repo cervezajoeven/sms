@@ -24,6 +24,9 @@ $(document).ready(function(){
     // deploy_stored_data(stored_lesson_data);
     adjust_iframe();
 
+    $(".instruction").hide();
+    $(".instructions").show();
+    $(".upload_actions").hide();
     // window.addEventListener("resize", adjust_iframe());
     function youtube_search(query,maxResults = 10){
         var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key=AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00";
@@ -67,6 +70,17 @@ $(document).ready(function(){
 
     function portal_change(portal_name){
         active_portal = portal_name;
+        $(".instruction").hide();
+        $(".upload_actions").hide();
+        if(active_portal=="mycms"){
+            $(".mycms_instructions").show();
+            $(".upload_actions").show();
+        }else if(active_portal=="cms"){
+            $(".cms_instructions").show();
+
+        }else{
+            $(".instructions").show();
+        }
     }
 
     function reset_population(){

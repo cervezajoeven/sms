@@ -3,9 +3,10 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Lesson extends Admin_Controller {
+class Lesson extends General_Controller {
 
     function __construct() {
+        
         parent::__construct();
         $this->load->model('lesson_model');
         $this->session->set_userdata('top_menu', 'Download Center');
@@ -19,7 +20,9 @@ class Lesson extends Admin_Controller {
 
         $data['title'] = 'Lesson';
         $data['list'] = $this->lesson_model->lms_get("lms_lesson");
-
+        // echo "<pre>";
+        // print_r($this->session->userdata());
+        // exit;
         $this->load->view('layout/header');
         $this->load->view('lms/lesson/index', $data);
         $this->load->view('layout/footer');
@@ -46,8 +49,14 @@ class Lesson extends Admin_Controller {
         $data['id'] = $id;
         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
         $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
-        $data['students'] = $this->lesson_model->get_students();
-
+        $current_session = $this->setting_model->getCurrentSession();
+        $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
+        $data['classes'] = $this->class_model->getAll();
+        $data['class_sections'] = $this->lesson_model->get_class_sections();
+        
+        // echo "<pre>";
+        // print_r($data['students']);
+        // exit();
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
             mkdir(FCPATH."uploads/lms_lesson/".$id);
