@@ -499,7 +499,7 @@ class Customlib
     {
         $student_session = $this->CI->session->all_userdata();
         $session_Array   = $this->CI->session->userdata('student');
-        $Parentid        = $session_Array['student_id'];
+        $Parentid        = $session_Array['parent_id'];
         return $Parentid;
     }
 
@@ -589,7 +589,6 @@ class Customlib
 
     public function getUserRole()
     {
-
         $user = $this->CI->session->userdata('student');
         return $user['role'];
     }

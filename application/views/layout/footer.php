@@ -27,10 +27,10 @@ $language = $this->customlib->getLanguage();
   $language_name = $language["short_code"];
 
  ?>
-<link href="<?php echo base_url(); ?>backend/toast-alert/toastr.css" rel="stylesheet"/>
+<link rel="stylesheet"  href="<?php echo base_url(); ?>backend/toast-alert/toastr.css"/>
+<link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/select2/select2.min.css">
 <script src="<?php echo base_url(); ?>backend/toast-alert/toastr.js"></script>
 <script src="<?php echo base_url(); ?>backend/bootstrap/js/bootstrap.min.js"></script>
- <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/select2/select2.min.css">
 <script src="<?php echo base_url(); ?>backend/plugins/select2/select2.full.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -521,7 +521,7 @@ if (isset($title)) {
 
 
 
-          $(document).ready(function () {
+    $(document).ready(function () {
             
         $("body").delegate(".date", "focusin", function () {
         var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
@@ -538,13 +538,11 @@ if (isset($title)) {
         $("body").delegate(".datetime", "focusin", function () {
             $(this).datetimepicker({
                 format: datetime_format,
-                locale:
-                        '<?php echo $language_name ?>',
-
+                locale:'<?php echo $language_name ?>',
             });
         });
            // loadDate();
-          });
+    });
 
         function loadDate(){
 

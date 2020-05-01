@@ -56,6 +56,26 @@
 </html>
 
 <script type="text/javascript">
+    $(document).ready(function () {            
+        $("body").delegate(".date", "focusin", function () {
+            var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
+    
+            $(this).datepicker({
+                format: date_format,
+                autoclose: true,
+                language: '<?php echo $language_name ?>'
+            });
+        });
+    
+        var datetime_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(true, true), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY', 'H' => 'hh', 'i' => 'mm',]) ?>';
+        $("body").delegate(".datetime", "focusin", function () {
+            $(this).datetimepicker({
+                format: datetime_format,
+                locale:'<?php echo $language_name ?>',    
+            });
+        });
+        // loadDate();
+    });
 
 
     function complete_event(id, status) {

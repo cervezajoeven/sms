@@ -6,7 +6,6 @@ if (!defined('BASEPATH')) {
 
 class Parents extends Parent_Controller
 {
-
     public $payment_method;
 
     public function __construct()
@@ -304,6 +303,7 @@ class Parents extends Parent_Controller
         $data['student'] = $student;
 
         $this->load->view('layout/parent/header', $data);
+
         if ($setting_result['attendence_type']) {
             $this->load->view('parent/student/attendenceSubject', $data);
 
@@ -596,4 +596,96 @@ class Parents extends Parent_Controller
 
     }
 
+    public function excuse_letter()
+    {
+        $this->auth->validate_child($id);
+        $this->session->set_userdata('top_menu', 'Attendance');
+        $this->session->set_userdata('sub_menu', 'parent/parents/excuse_letter');
+
+        $ch = $this->session->userdata('parent_childs');
+        foreach ($ch as $key_ch => $value_ch) {
+            $array_childs[] = $this->student_model->get($value_ch['student_id']);
+        }        
+        $data['student_list'] = $array_childs;
+
+        $class = $this->class_model->get();
+        $data['classlist'] = $class;
+        $data['results'] = array();
+
+        //$sessionData = $this->session->userdata('loggedIn');
+        $parentid = $this->customlib->getUsersID();
+
+        $listaudit = $this->apply_leave_model->get_children($parentid);
+        $data['results'] = $listaudit;
+
+        $this->load->view('layout/parent/header', $data);
+        $this->load->view('parent/student/excuseletter', $data);
+        $this->load->view('layout/parent/footer', $data);
+    }
+
+    public function excuse_letter_add() {        
+		$student_id = '';
+         
+        $this->form_validation->set_rules('apply_date', $this->lang->line('apply')." ".$this->lang->line('date'), 'trim|required|xss_clean');
+		$this->form_validation->set_rules('from_date', $this->lang->line('from')." ".$this->lang->line('date'), 'trim|required|xss_clean');
+		$this->form_validation->set_rules('to_date', $this->lang->line('to')." ".$this->lang->line('date'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('student', $this->lang->line('student'),'trim|required|xss_clean');
+
+        if ($this->form_validation->run() == FALSE) {
+            $msg = array(
+                'apply_date' => form_error('apply_date'),
+                'from_date' => form_error('from_date'),
+                'to_date' => form_error('to_date'),
+                'student' => form_error('student'),
+            );
+
+            $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+        }
+        else {
+            // //$student_session_id = $this->apply_leave_model->get_studentsessionId($_POST['class'], $_POST['section'], $_POST['student']);
+            $student_session_id = $this->apply_leave_model->get_studentsessionId2($_POST['student']);
+
+        	$data = array(
+        		'apply_date' => date('Y-m-d',strtotime($this->input->post('apply_date'))),
+        		'from_date' => date('Y-m-d',strtotime($this->input->post('from_date'))),
+        		'to_date' => date('Y-m-d',strtotime($this->input->post('to_date'))),
+                'student_session_id' => $student_session_id['id'],
+                'reason' => $this->input->post('message'),
+                'request_type' => '1'                
+        	);
+            
+            if ($this->input->post('leave_id') == '') {
+                 $leave_id = $this->apply_leave_model->add($data);
+            } 
+            else {
+                $data['id'] = $this->input->post('leave_id');               
+                $this->apply_leave_model->add($data);
+            }
+			
+            if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
+                $fileInfo = pathinfo($_FILES["userfile"]["name"]);
+                $img_name = $leave_id . '.' . $fileInfo['extension'];
+                move_uploaded_file($_FILES["userfile"]["tmp_name"], "./uploads/student_leavedocuments/" . $img_name);
+                $data = array('id' => $leave_id, 'docs' => $img_name);
+                $this->apply_leave_model->add($data);
+            }
+           
+            $array = array('status' => 'success', 'error' => '', 'message' => $this->lang->line('success_message'));
+        }
+
+        echo json_encode($array);
+    }
+    
+    public function get_details($id){
+        $data=$this->apply_leave_model->get($id,null,null);
+        $data['from_date']=date($this->customlib->getSchoolDateFormat(),strtotime($data['from_date']));
+        $data['to_date']=date($this->customlib->getSchoolDateFormat(),strtotime($data['to_date']));
+        $data['apply_date']=date($this->customlib->getSchoolDateFormat(),strtotime($data['apply_date']));
+        echo json_encode($data);
+    }
+
+    public function remove_leave($id) {    
+        $this->apply_leave_model->remove_leave($id);
+        redirect('parent/student/excuseletter');
+    }
 }

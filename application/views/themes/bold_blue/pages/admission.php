@@ -2,6 +2,14 @@
     .req{
         color:red;
     }
+
+    .modal-dialog{
+        overflow-y: initial !important
+    }
+    .modal-body{
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
 </style>
 <?php
 
@@ -26,6 +34,62 @@ if ($this->session->flashdata('msg')) {
 }
 ?>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="privacyPolicy">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4><b>Privacy Policy</b></h4>
+      </div>
+
+      <form role="form" action="<?php echo base_url('users/remove') ?>" method="post" id="removeForm">
+        <div class="modal-body">
+            <p>In bound for this Admission system, the [School name] is committed to respect and protect the collected the confidentiality and privacy of these data and information, including personal information, from various subject using the system as required under the Data Privacy Act of 2012 (Republic Act No. 10173). 
+            </p>
+            <p>This privacy determines on how the system will manage the personal information/s collected by it, who uses and how the information used, shared and how long is the information will be retained.</p>
+            <p>By visiting our system you are doing so on the basis of the general practices described in this Data Protection and Privacy Policy. Where we require your consent to process your personal data in accordance with these practices, we will seek this consent at the point at which you provide us with this data. Where we wish to process your personal data for a purpose other than that for which the personal data were collected, we will notify you of that intention and obtain any further necessary consents.
+            </p>
+            <p><b>Information you provide to us</b></p>
+            <p>As part of the admission process, you will be asked to provide your specific consent for us to process your personal data, including sensitive information, disability status and/or religion (if provided), during and after admission.
+            </p>
+            <ol>
+            <li>Personal information refers to any information whether recorded in a material form or not, from which the identity of an individual is apparent or can be reasonably and directly ascertained by the entity holding the information, or when put together with other information would directly and certainly identify an individual.</li>
+            <li>Sensitive personal information refers to personal information:</li>
+                <ul>
+                    <li>About a marital status, age, and religious, philosophical or political affiliations;</li>
+                    <li>About an individual’s health, education, genetic or sexual life of a person, or to any proceeding for any offense committed or alleged to have been committed by such person, the disposal of such proceedings, or the sentence of any court in such proceedings;</li>
+                </ul>
+            </ol>
+            <p><b>How we use information about you</b></p>
+            <p>The purposes for which the School uses personal information of students and parents include (but are not limited to):</p>
+            <ul>
+                    <li>evaluating applications for admission to the School and processing confirmation of incoming students and transfer students;</li>
+                    <li>recording, storing and evaluating student work, e. g. homework, seatwork, tests, research papers, essays and presentations;</li>
+                    <li>recording, generating and maintaining records, whether manually, electronically or other means, of class attendance and participation in curricular, co-curricular and extra-curricular activities;</li>
+                    <li>sharing of grades between and among faculty members, and others with legitimate official need, for academic deliberations;</li>
+                    <li>processing scholarship applications, grants and other forms of assistance;</li>
+                    <li>investigating incidents relating to student behavior and implementing disciplinary measures;</li>
+                    <li>maintaining directories and alumni records;</li>
+                    <li>compiling and generating reports for statistical and research purposes;</li>
+                    <li>providing health, counseling, information technology, library, sports/recreation, transportation, parking, campus mobility, safety and security services;</li>
+                    <li>communicating official school announcements;</li>
+                    <li>sharing marketing and promotional materials regarding school-related functions, events, projects and activities;</li>
+                    <li>keeping parents informed about matters related to the student’s schooling, through correspondence, newsletters and magazines;</li>
+                    <li>satisfying the School’s legal obligations and allowing the School to discharge its duty of care. In cases where the School requests personal information about a Student or parent, if the information requested is not provided, the School may not be able to enroll or continue the enrollment of the student or permit the student to take part in a particular activity.</li>
+            </ul>
+            
+            <p><b>Retention of your personal information</b></p>
+            <p>Your personal data will be destroyed or erased from our systems when it is no longer required for the relevant specified purpose that it was collected for, provided that we may retain personal data in order to comply with applicable laws, regulations and rules. </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="onlineformbtn" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <form id="form1" class="spaceb60 spacet60 onlineform" action="<?php echo current_url() ?>"  id="employeeform" name="employeeform" method="post" accept-charset="utf-8" enctype="multipart/form-data">
     
     <?php
@@ -34,14 +98,11 @@ if ($this->session->flashdata('msg')) {
     }
     ?>
 
-    <!-- <div class="row">
-        <?php
-            //echo display_custom_fields('students');
-        ?>
-    </div> -->
+<div class="row">
+    <button type="button" class="onlineformbtn pull-right">Privacy Policy</button>
+</div>
 
-    <div class="row">                                
-        
+    <div class="row">        
         <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label><small style="color:red;"> *</small> 
@@ -373,6 +434,10 @@ if ($this->session->flashdata('msg')) {
                 }
             }
         });
+
+    function ShowPrivacyPolicy() {
+        $('#privacyPolicy').modal("show");
+    }
 
 </script>
 

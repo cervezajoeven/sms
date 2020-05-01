@@ -25,9 +25,11 @@ class Homework extends Admin_Controller
             access_denied();
         }
 
-        $this->session->set_userdata('top_menu', 'Homework');
+        // $this->session->set_userdata('top_menu', 'Homework');
+        // $this->session->set_userdata('sub_menu', 'homework');
+        $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'homework');
-        $data["title"] = "Create Homework";
+        $data["title"] = "Create Homework/Project";
 
         $class                    = $this->class_model->get();
         $data['classlist']        = $class;
