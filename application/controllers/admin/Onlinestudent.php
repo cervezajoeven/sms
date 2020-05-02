@@ -33,10 +33,10 @@ class Onlinestudent extends Admin_Controller
         $class             = $this->class_model->get();
         $data['classlist'] = $class;
         
-        if(!empty($data['classlist'])){
-        foreach ($data['classlist'] as $key => $value) {
-           $carray[]=$value['id']; 
-        }
+        if(!empty($data['classlist'])) {
+            foreach ($data['classlist'] as $key => $value) {
+            $carray[]=$value['id']; 
+            }
         }
 
         $student_result = $this->onlinestudent_model->get(null,$carray);
@@ -94,6 +94,7 @@ class Onlinestudent extends Admin_Controller
         $data['houses']             = $houses;
 
         $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -172,6 +173,7 @@ class Onlinestudent extends Admin_Controller
                 'class_section_id'    => $section_id,
                 'enrollment_type'     => $this->input->post('enrollment_type'),
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                'middlename'          => $this->input->post('middlename'),
             );
             
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));

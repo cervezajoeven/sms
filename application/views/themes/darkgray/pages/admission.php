@@ -38,7 +38,7 @@ if ($this->session->flashdata('msg')) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4><b>Privacy Policy</b></h4>
+        <h4><b>Data Privacy Policy</b></h4>
       </div>
 
       <form role="form" action="<?php echo base_url('users/remove') ?>" method="post" id="removeForm">
@@ -98,7 +98,7 @@ if ($this->session->flashdata('msg')) {
                                 ?>
 
 <div class="row">
-    <button type="button" class="onlineformbtn pull-right">Privacy Policy</button>
+    <button type="button" class="onlineformbtn pull-right">Data Privacy Policy</button>
 </div>
 
  <div class="row">                               
@@ -139,7 +139,13 @@ if ($this->session->flashdata('msg')) {
         </div>
     </div>
 
-
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="middlename"><?php echo $this->lang->line('middle_name'); ?></label>
+            <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename'); ?>" />
+            <span class="text-danger"><?php echo form_error('middlename'); ?></span>
+        </div>
+    </div>
 
     <div class="col-md-3">
         <div class="form-group">
@@ -340,7 +346,8 @@ if ($this->session->flashdata('msg')) {
            
             <div class="col-md-12"> 
               <div class="form-group pull-right">   
-                <button type="submit" class="onlineformbtn"><?php echo $this->lang->line('save'); ?></button>
+                <label><input type="checkbox" value="" id="iagree"> I agree with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a></label>
+                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn"><?php echo $this->lang->line('save'); ?></button>
                </div> 
             </div>    
         </div><!--./row-->    
@@ -444,6 +451,13 @@ if ($this->session->flashdata('msg')) {
                 }
             });
 
+    $("#iagree").change(function() {
+        if (this.checked) {
+            $('#save_admission').prop('disabled', false);
+        } else {
+            $('#save_admission').prop('disabled', true);
+        }
+    });
 
     function ShowPrivacyPolicy() {
         $('#privacyPolicy').modal("show");

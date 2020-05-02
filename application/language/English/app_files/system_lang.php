@@ -1421,4 +1421,6 @@ $lang['admin_login'] = 'Admin Login';
 $lang['user_login'] = 'User Login';
 $lang['lms_homework'] = 'Homework/Project';
 $lang['attendance_from'] = 'Attendance From';
+
+$lang['middle_name'] = 'Middle Name';
 ?>
