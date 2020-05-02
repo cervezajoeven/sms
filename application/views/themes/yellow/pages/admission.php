@@ -421,19 +421,19 @@ if ($this->session->flashdata('msg')) {
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <div class="form-group pull-right">
-                    <label><input type="checkbox" value="" id="iagree"> By checking this box you are giving your consent and agree with our data privacy policy. See our <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a> for more details.</label>
-                </div>
-            </div>  
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
             </div>  
         </div>
         <div class="col-md-4">
             <div class="form-group">
             </div>  
         </div>        
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="form-group pull-right">
+                    <label><input type="checkbox" value="" id="iagree"> I understand that by checking this box, I authorize the Sophia School to use the information I provided but within the bounds of data privacy act. See our <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a> for more details.</label>
+                </div>
+            </div>  
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
