@@ -228,7 +228,8 @@ class Welcome extends Front_Controller
             $userdata                = $this->customlib->getUserData();
 
             $category                   = $this->category_model->get();
-            $this->data['categorylist'] = $category;            
+            $this->data['categorylist'] = $category;        
+            $this->data['schoolname'] = $this->setting_model->getCurrentSchoolName();
 
             $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');

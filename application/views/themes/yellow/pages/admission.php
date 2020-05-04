@@ -41,7 +41,7 @@ if ($this->session->flashdata('msg')) {
 
       <form role="form" action="<?php echo base_url('users/remove') ?>" method="post" id="removeForm">
         <div class="modal-body">
-            <p>In bound for this Admission system, the St. Therese Private School is committed to respect and protect the collected the confidentiality and privacy of these data and information, including personal information, from various subject using the system as required under the Data Privacy Act of 2012 (Republic Act No. 10173). 
+            <p>In bound for this Admission system, the <?php echo $schoolname; ?> is committed to respect and protect the collected the confidentiality and privacy of these data and information, including personal information, from various subject using the system as required under the Data Privacy Act of 2012 (Republic Act No. 10173). 
             </p>
             <p>This privacy determines on how the system will manage the personal information/s collected by it, who uses and how the information used, shared and how long is the information will be retained.</p>
             <p>By visiting our system you are doing so on the basis of the general practices described in this Data Protection and Privacy Policy. Where we require your consent to process your personal data in accordance with these practices, we will seek this consent at the point at which you provide us with this data. Where we wish to process your personal data for a purpose other than that for which the personal data were collected, we will notify you of that intention and obtain any further necessary consents.
@@ -110,7 +110,7 @@ if ($this->session->flashdata('msg')) {
                     </h3>
                     <strong>For new Students</strong><br>
                     <ol>
-                        <li>Any incoming freshman, whether he/she is a graduate of St. Therese Private Catholic School or not, has to undergo an entrance examination and panel interview on top of submitting the necessary credentials.</li>
+                        <li>Any incoming freshman, whether he/she is a graduate of Sophia School or not, has to undergo an entrance examination and panel interview on top of submitting the necessary credentials.</li>
                         <li>Only an applicant who is able to pass the above said requirements can be admitted to the High School Department.</li>
                         <li>A student whose overall screening is a little bit below the acceptable standard is placed on probation for one school year. He/She will be regarded as a regular student in the following school year if he does not fail any of his subject and has a general average of 80%. In addition, he/she should not have any disciplinary problems throughout his first year in our school.</li>
                         <li>His/ Her parent(s) or guardian has/have to be interviewed also.</li>
@@ -427,7 +427,7 @@ if ($this->session->flashdata('msg')) {
         <div class="col-md-4">
             <div class="form-group">
                 <div class="form-group pull-right">
-                    <label><input type="checkbox" value="" id="iagree"> I understand that by checking this box, I authorize the San Isidro Catholic School to use the information I provided but within the bounds of data privacy act. See our <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a> for more details.</label>
+                    <label><input type="checkbox" value="" id="iagree"> I understand that by checking this box, I authorize the <?php echo $schoolname; ?> to use the information I provided but within the bounds of data privacy act. See our <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a> for more details.</label>
                 </div>
             </div>  
         </div>
