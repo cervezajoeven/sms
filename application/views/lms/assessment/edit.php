@@ -70,11 +70,11 @@
 		        		<li class="option-container option-container-clonable">
 		        			<div class="numbering_option"></div>
 		        				<div class="copy_last" style="display: inline;">
-		        					<button class="btn btn-success">Copy To Last</button>
+		        					<button class="btn btn-success">Duplicate</button>
 		        				</div>
-		        				<div class="copy_bottom" style="display: inline;">
-		        					<button class="btn btn-warning">Copy To Bottom</button>
-		        				</div>
+		        				<!-- <div class="copy_bottom" style="display: inline;">
+		        					<button class="btn btn-warning">Duplicate To No. 2</button>
+		        				</div> -->
 		        			
 		        			<div class="remove_option float-right">X</div>
 		        			<div class="option">

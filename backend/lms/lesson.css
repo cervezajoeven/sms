@@ -537,15 +537,20 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
 .instructions{
+    padding: 30px;
+    color: white;
+}
+.instructions h2,h3{
+    background-color: #486d46;
+    padding: 10px;
+}
+.my_resources_instructions{
     padding: 10px;
     color: white;
 }
-.mycms_instructions{
-    padding: 10px;
-    color: white;
-}
-.cms_instructions{
+.cms_resources_instructions{
     padding: 10px;
     color: white;
 }
@@ -570,4 +575,13 @@ html, body {
     width: 50%;
     float: left;
 
+}
+.result_actions .actions{
+    width: 50%;
+}
+.text_color{
+    background-color: #d0790e;
+}
+.hidden{
+    display: none;
 }

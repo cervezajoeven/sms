@@ -85,7 +85,6 @@
         <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
         <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
         <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
-        <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
 
         <div class="edit_area">
 
@@ -258,38 +257,27 @@
     
                                 <label for="select-box1" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
                                 <select id="select-box1" class="select">
-                                    <option value="classroom">Classroom Use</option>
-                                    <option value="reviewer">Reviewer</option>
-                                    <option value="assignment">Assignment</option>
-                                    <option value="virtual">Virtual Class</option>
+                                    <option>Classroom Use</option>
+                                    <option>Assignment</option>
+                                    <option>Reviewer</option>
+                                    <option>Virtual Class</option>
                                 </select>
                                 
                               </div>
-
-                            <div class="notification_control">
-                              <h3>Notification</h3>
+                            <h3>Notification</h3>
                             
-                              <div class="pretty p-switch p-fill">
-                                  <input type="checkbox" />
-                                  <div class="state p-primary">
-                                      <label>SMS Notification</label>
-                                  </div>
-                              </div>
-                            
-                            
-                              <div class="pretty p-switch p-fill">
-                                  <input type="checkbox" />
-                                  <div class="state p-primary">
-                                      <label>Email Notification</label>
-                                  </div>
-                              </div>
-
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" />
+                                <div class="state p-primary">
+                                    <label>SMS Notification</label>
+                                </div>
                             </div>
-
-                            <h3>Assign Date</h3>
-                            
-                            <input type="date" name="">
-
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" />
+                                <div class="state p-primary">
+                                    <label>Email Notification</label>
+                                </div>
+                            </div>
                         </div>
                         
 
@@ -339,18 +327,9 @@
                     
                 </div>
                 <div class="result_actions">
-                    <form class="upload_form" method="post" enctype="multipart/form-data">
-                      <input type="file" class="upload_input hidden" name="upload_file[]" multiple="">
-                    </form>
-                    <div class="upload_actions actions_container">
-                        
-                        <div class="actions">
-                            <button class="action_button my_upload_button upload_color"><i class="fas fa-upload"></i>Upload</button>
-                        </div>
-                    </div>
                     <div class="upload_actions actions_container">
                         <div class="actions">
-                            <button class="action_button text_color"><i class="fas fa-file-alt"></i>Add Text</button>
+                            <button class="action_button upload_color"><i class="fas fa-upload"></i>Upload</button>
                         </div>
                     </div>
                 </div>
@@ -391,21 +370,23 @@
                     
 
                     <div class="instruction instructions">
-                        <h2>How It Works: </h2>
-                        <h3>1. Find Resources.</h3>    
-                        <h3>2. Open Results.</h3>    
-                        <h3>3. Drag and Drop.</h3>    
+                        <h2>Quick Tip</h2>
+                        <h3>1. Start Typing in the Content Search above.</h3>    
+                        <h3>2. Pick Content.</h3>    
+                        <h3>3. Click and drag content from here to the left side.</h3>    
                     </div>
-                    <div class="instruction my_resources_instructions">
+                    <div class="instruction mycms_instructions">
                         <h2>My Resources</h2>
-                        <h3>1. Find/Upload Resources.</h3>
-                        <h3>2. Drag and Drop. </h3>
+                        <h3>1. You can upload your resources here.</h3>    
+                        <h3>2. All of the resources you uploaded will be listed here.</h3>    
+                        <h3>3. Pick resource</h3>    
+                        <h3>4. Click and drag content from here to the left side.</h3>    
                     </div>
-                   <div class="instruction cms_resources_instructions">
-                        <h2>How It Works: </h2>
-                        <h3>1. Find Resources.</h3>    
-                        <h3>2. Open Results.</h3>    
-                        <h3>3. Drag and Drop.</h3>     
+                   <div class="instruction cms_instructions">
+                        <h2>CMS Resources</h2>
+                        <h3>1. Search resources from CMS System.</h3>     
+                        <h3>2. Pick resource</h3>    
+                        <h3>3. Click and drag content from here to the left side.</h3>    
                     </div>
                 </ul>
                 
@@ -437,12 +418,12 @@
                     </center>
                 </div>
 
-                <div class="extremeright_icon" portal="my_resources">
+                <div class="extremeright_icon" portal="mycms">
                     <center>
                         <img src="<?php echo $resources.'images/mycms.png' ?>">
                     </center>
                 </div>
-                <div class="extremeright_icon" portal="cms_resources">
+                <div class="extremeright_icon" portal="cms">
                     <center>
                         <img src="<?php echo $resources.'images/cms.png' ?>">
                     </center>
@@ -479,8 +460,9 @@
             <div class="student_view_right">
                 
                 <div class="student_view_navigation">
-                    <div class="student_view_buttons close_action close_student_view"><i class="fas fa-times-circle"></i> Close Slideshow</div>
-                    
+                  <a href="<?php echo site_url('lms/lesson/index'); ?>">
+                    <div class="student_view_buttons close_action close_student_view"><i class="fas fa-times-circle"></i> Close</div>
+                  </a>  
                 
                 </div>
             </div>
@@ -490,7 +472,7 @@
         <script src="<?php echo $resources.'jquery.magnify.js'?>"></script>
         <script src="<?php echo $resources.'jquery-ui.js'?>"></script>
         <script src="<?php echo $resources.'jquery.mousewheel.min.js'?>"></script>
-        <script src="<?php echo $resources.'lesson.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_view.js'?>"></script>
         <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>

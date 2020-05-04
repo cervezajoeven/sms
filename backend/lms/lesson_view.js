@@ -11,8 +11,6 @@ $(document).ready(function(){
     var active_portal = "youtube";
     var url = $("#url").val();
     var blackboard_id = $("#blackboard_id").val();
-    var lesson_id = $("#lesson_id").val();
-    var main_url = $("#main_url").val();
     //suddenshutdown
     //AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc
     //017301866149964088276:l0dgsrgie8b
@@ -65,18 +63,6 @@ $(document).ready(function(){
             populate_search_content(processed_data);
         });
     }
-    function my_resources_search(query){
-        var api = url+"my_resources/"+query;
-
-        $.ajax({
-            url: api,
-            context: document.body
-        }).done(function(data) {
-            var processed_data = process_data(data,"my_resources");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-        });
-    }
 
     function reset_result_pool(){
         result_pool = {};
@@ -86,11 +72,11 @@ $(document).ready(function(){
         active_portal = portal_name;
         $(".instruction").hide();
         $(".upload_actions").hide();
-        if(active_portal=="my_resources"){
-            $(".my_resources_instructions").show();
+        if(active_portal=="mycms"){
+            $(".mycms_instructions").show();
             $(".upload_actions").show();
-        }else if(active_portal=="cms_resources"){
-            $(".cms_resources_instructions").show();
+        }else if(active_portal=="cms"){
+            $(".cms_instructions").show();
 
         }else{
             $(".instructions").show();
@@ -175,57 +161,6 @@ $(document).ready(function(){
                 });
                 return data_population;
             break;
-            case "my_resources":
-                
-                data = JSON.parse(data);
-                if(data){
-                    $(".instruction").hide();
-                    data.forEach(function(item, index, arr){
-                        
-                        data_population[index] = {
-                            result_id:generate_id()+"_"+index,
-                            title:item.name,
-                            description:item.description,
-                            
-                            type:item.type,
-                            source:encodeURIComponent(main_url+'uploads/lms_my_resources/'+item.link),
-                        };
-                        if(item.type=="csv"||item.type=="xlsx"||item.type=="xls"){
-                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/excel.png');
-                        }else if(item.type=="pptx"||item.type=="ppt"){
-                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/powerpoint.png');
-                        }else if(item.type=="docx"||item.type=="doc"){
-                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/word.svg');
-                        }else if(item.type=="image"){
-                            data_population[index].image = encodeURIComponent(main_url+'uploads/lms_my_resources/'+item.link);
-                        }else if(item.type=="video"){
-                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
-                        }
-                        
-
-                        
-
-                    });
-                }else{
-                    $(".instruction").show();
-                }
-                return data_population;
-            break;
-            case "cms_resources":
-                data.items.forEach(function(item, index, arr){
-
-                    data_population[index] = {
-                        result_id:generate_id()+"_"+index,
-                        title:item.title,
-                        description:item.snippet,
-                        image:encodeURIComponent(item.link),
-                        type:"image",
-                        source:encodeURIComponent(item.link),
-                    };
-
-                });
-                return data_population;
-            break;
             default:
                 return null;
         }
@@ -259,7 +194,6 @@ $(document).ready(function(){
         
         $(".content_type").hide();
         $(".video_content").attr("src","");
-        console.log(active_content_data);
         if(active_content_data){
             $(".student_view_title").text(active_content_data.content.title);
             switch (active_content_data.content.type){
@@ -291,12 +225,6 @@ $(document).ready(function(){
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
                     $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
-                break;
-                default:
-                    $(".student_view_content_iframe").show();
-                    $(".student_view_content_iframe").css("height",screen.height-180);
-                    $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
-                
                 break;
             }
             $(".student_view_title").text(active_content_data.content.title);
@@ -556,19 +484,6 @@ $(document).ready(function(){
                 case "image":
                     $(populous).find(".theme").css("background-color","rgb(56, 177, 55)");
                 break;
-                case "csv"||"xls"||"xlsx":
-                    $(populous).find(".theme").css("background-color","rgb(33, 115, 70)");
-                break;
-                case "docx":
-                    $(populous).find(".theme").css("background-color","rgb(42, 86, 153)");
-                break;
-                case "epub":
-                    $(populous).find(".theme").css("background-color","rgb(56, 177, 55)");
-                break;
-                case "pptx":
-                    $(populous).find(".theme").css("background-color","rgb(56, 177, 55)");
-                break;
-
             }
             
             $(populous).attr("result_id",item.result_id);
@@ -657,12 +572,6 @@ $(document).ready(function(){
             case "google_image":
                google_image_search(search);
             break;
-            case "my_resources":
-               my_resources_search(search);
-            break;
-            case "cms_resources":
-               cms_resources_search(search);
-            break;
             default:
                 return null;
         }
@@ -671,7 +580,6 @@ $(document).ready(function(){
     });
     
     $(".slideshow_action").click(function(){
-        
         $(".edit_area").toggleClass("close_edit");
         $(".student_view").toggleClass("student_view_close");
         active_content_data = get_content_data(content_order[0]);
@@ -680,6 +588,11 @@ $(document).ready(function(){
         render_student_view();
         populate_slides();
     });
+    $(".edit_area").hide();
+    setTimeout(function(){
+        $(".slideshow_action").click();
+    },1500);
+    
     $(".close_student_view").click(function(){
         $(".video_content").attr("src","");
         $(".edit_area").toggleClass("close_edit");
@@ -863,44 +776,6 @@ $(document).ready(function(){
     $(".title").change(function(){
         change_detected();
     });
-    $(".notification_control").hide();
-    $("#select-box1").change(function(){
 
-        var the_val = $(this).val();
-        if(the_val=="classroom"){
-            $(".notification_control").hide();
-        }else{
-            $(".notification_control").show();
-
-        }
-
-    });
-    $(".my_upload_button").click(function(){
-        $(".upload_input").click();
-    });
-    $(".upload_input").change(function(){
-        $(".upload_form").submit();
-    });
-    $(".upload_form").on("submit",function(e){
-        e.preventDefault();
-        var upload_url = url+"upload/my_resources/"+lesson_id;
-        $.ajax({
-            url: upload_url,
-            type: "POST",
-            data:  new FormData(this),
-            contentType: false,
-            cache: false,
-            processData:false,
-       
-            success: function(data)
-            {
-               console.log(data);
-               $("div[portal='my_resources']").click();
-            },
-            error: function(e){
-                alert("error");
-            }
-        });
-    });
 
 });
