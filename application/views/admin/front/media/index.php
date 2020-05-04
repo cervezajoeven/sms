@@ -360,12 +360,12 @@
 //                $('#fileupload')[0].reset(); //reset form
             },
             beforeSend: function () {
-
             },
             complete: function () {
-
-
-            }
+            },
+            error: function (xhr) { // if error occured
+               
+            },
         });
     }
     $(document).on('click', '.btn_delete', function () {

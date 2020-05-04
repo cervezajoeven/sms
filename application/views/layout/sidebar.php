@@ -332,10 +332,7 @@
 
                                 <?php
                             } }
-                            if($this->rbac->hasPrivilege('approve_leave','can_view')){
-                            ?>
-
-
+                            if($this->rbac->hasPrivilege('approve_leave','can_view')) {?>
                             <li class="<?php echo set_Submenu('Attendance/approve_leave'); ?>"><a href="<?php echo base_url(); ?>admin/approve_leave"><i class="fa fa-angle-double-right"></i> <?php echo  $this->lang->line('lms_excuse_letter'); ?></a></li>
                         <?php } ?>
                         </ul>
@@ -650,9 +647,9 @@
                         <ul class="treeview-menu">
                             <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
-                             <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_usage_report'); ?></a></li>
+                             <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
+                            <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
+                            <!-- <li class="<?php //echo set_Submenu('content/assignment'); ?>"><a href="<?php //echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('lms_usage_report'); ?></a></li> -->
                            
 
                             <?php if ($this->rbac->hasPrivilege('upload_content', 'can_view')) { ?>
@@ -662,6 +659,7 @@
                             <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>admin/content/studymaterial"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('study_material'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/syllabus'); ?>"><a href="<?php echo base_url(); ?>admin/content/syllabus"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('syllabus'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>admin/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li>
+                            <li class="<?php echo set_Submenu('homework'); ?>"><a href="<?php echo base_url(); ?>homework"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_homework'); ?></a></li>
                         </ul>
                     </li>
                     <?php
@@ -684,6 +682,7 @@
                     <?php
                 }
             }
+
             if ($this->module_lib->hasActive('library')) {
                 if (($this->rbac->hasPrivilege('books', 'can_view') ||
                        
@@ -1070,9 +1069,9 @@
                                 <li class="<?php echo set_Submenu('audit/index'); ?>"><a href="<?php echo base_url(); ?>admin/audit"><i class="fa fa-angle-double-right"></i>
                                         <?php echo $this->lang->line('audit') . " " . $this->lang->line('trail') . " " . $this->lang->line('report'); ?></a></li>
                                 <?php
-                            }
-                            
+                            }                            
                             ?>
+                            <li class="<?php echo set_Submenu('Reports/lmsreport'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_usage_report'); ?></a></li>
 
 
                         </ul>

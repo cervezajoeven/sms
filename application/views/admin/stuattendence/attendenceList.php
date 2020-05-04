@@ -148,6 +148,7 @@
                                         <span class="text-danger"><?php echo form_error('date'); ?></span>
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-12">    
                                     <div class="form-group">
                                         <button type="submit" name="search" value="search" class="btn btn-primary btn-sm pull-right checkbox-toggle"><i class="fa fa-search"></i> <?php echo $this->lang->line('search'); ?></button>
@@ -227,6 +228,9 @@
                                                         <th><?php echo $this->lang->line('roll_no'); ?></th>
                                                         <th><?php echo $this->lang->line('name'); ?></th>
                                                         <th class=""><?php echo $this->lang->line('attendance'); ?></th>
+                                                        <!-- EMN2 - 4/30/2020 -->
+                                                        <th class=""><?php echo $this->lang->line('attendance_from'); ?></th>
+                                                        <!-- EMN2 - 4/30/2020 -->
                                                         <th><?php echo $this->lang->line('note'); ?></th>
                                                     </tr>
                                                 </thead>
@@ -245,19 +249,15 @@
                                                                 <?php echo $value['admission_no']; ?>
                                                             </td>
                                                             <?php
-                                                            if ($sch_setting->biometric) {
-                                                                ?>
+                                                                if ($sch_setting->biometric) { ?>
                                                                 <td>
                                                                     <?php
                                                                     if ($value['biometric_attendence']) {
-
                                                                         echo $value['attendence_dt'];
                                                                     }
                                                                     ?>
                                                                 </td>
-                                                                <?php
-                                                            }
-                                                            ?>
+                                                                <?php }?>
                                                             <td>
                                                                 <?php echo $value['roll_no']; ?>
                                                             </td>
@@ -272,8 +272,8 @@
                                                                 foreach ($attendencetypeslist as $key => $type) {
                                                                     if ($type['key_value'] != "H") {
                                                                         $att_type = str_replace(" ", "_", strtolower($type['type']));
-                                                                        if ($value['date'] != "xxx") {
-                                                                            ?>
+
+                                                                        if ($value['date'] != "xxx") { ?>
                                                                             <div class="radio radio-info radio-inline">
                                                                                 <input <?php if ($value['attendence_type_id'] == $type['id']) echo "checked"; ?> type="radio" id="attendencetype<?php echo $value['student_session_id'] . "-" . $count; ?>" value="<?php echo $type['id'] ?>" name="attendencetype<?php echo $value['student_session_id']; ?>" >
                                                                                 <label for="attendencetype<?php echo $value['student_session_id'] . "-" . $count; ?>">
@@ -281,9 +281,7 @@
                                                                                 </label>
                                                                             </div>
                                                                             <?php
-                                                                        }else {
-                                                                            
-                                                                            ?>
+                                                                        } else { ?>
                                                                             <div class="radio radio-info radio-inline">
                                                                                 <?php
                                                                                 if ($sch_setting->biometric) {
@@ -296,8 +294,6 @@
                                                                                     <?php
                                                                                 }
                                                                                 ?>
-
-
                                                                                 <label for="attendencetype<?php echo $value['student_session_id'] . "-" . $count; ?>"> 
                                                                                     <?php echo $this->lang->line($att_type); ?> 
                                                                                 </label>
@@ -307,10 +303,26 @@
                                                                         $c++;
                                                                         $count++;
                                                                     }
-                                                                }
-                                                                ?>
-
+                                                                } ?>
                                                             </td>
+                                                            <!-- EMN1 - 4/30/2020 -->
+                                                            <td>
+                                                                <?php $attendancefrom =  $value['attendance_from'];?>
+                                                                <div class="radio radio-info radio-inline">
+                                                                    <input <?php if ($attendancefrom == 'Campus Meetup') echo "checked"; ?> type="radio" id="attendancefrom<?php echo $value['student_session_id']."-1"; ?>" value="Campus Meetup" name="attendancefrom<?php echo $value['student_session_id']; ?>" >                                                                    
+                                                                    <label for="attendancefrom<?php echo $value['student_session_id']."-1"; ?>"> 
+                                                                        Campus Meetup
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio radio-info radio-inline">
+                                                                    <input <?php if ($attendancefrom == 'Turnstile') echo "checked"; ?> type="radio" id="attendancefrom<?php echo $value['student_session_id'] . "-2"; ?>" value="Turnstile" name="attendancefrom<?php echo $value['student_session_id']; ?>" >                                                                    
+                                                                    <label for="attendancefrom<?php echo $value['student_session_id']."-2"; ?>"> 
+                                                                        Turnstile
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <!-- EMN1 - 4/30/2020 -->
+
                                                             <?php if ($date == 'xxx') { ?> 
                                                                 <td><input type="text" name="remark<?php echo $value["student_session_id"] ?>" ></td>
                                                             <?php } else { ?>
@@ -341,140 +353,141 @@
                 ?>
                 </section>
             </div>
-            <script type="text/javascript">
+<script type="text/javascript">
 
-                $(document).ready(function () {
-                    $.extend($.fn.dataTable.defaults, {
-                        searching: false,
-                        ordering: true,
-                        paging: false,
-                        retrieve: true,
-                        destroy: true,
-                        info: false
-                    }); 
-                    var table = $('.example').DataTable();
-                    table.buttons('.export').remove();
-                    var section_id_post = '<?php echo $section_id; ?>';
-                    var class_id_post = '<?php echo $class_id; ?>';
-                    populateSection(section_id_post, class_id_post);
-                    function populateSection(section_id_post, class_id_post) {
-                        $('#section_id').html("");
-                        var base_url = '<?php echo base_url() ?>';
-                        var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-                        $.ajax({
-                            type: "GET",
-                            url: base_url + "sections/getByClass",
-                            data: {'class_id': class_id_post},
-                            dataType: "json",
-                            success: function (data) {
-                                $.each(data, function (i, obj)
-                                {
-                                    var select = "";
-                                    if (section_id_post == obj.section_id) {
-                                        var select = "selected=selected";
-                                    }
-                                    div_data += "<option value=" + obj.section_id + " " + select + ">" + obj.section + "</option>";
-                                });
-                                $('#section_id').append(div_data);
-                            }
-                        });
-                    }
+    $(document).ready(function () {
+        $.extend($.fn.dataTable.defaults, {
+            searching: false,
+            ordering: true,
+            paging: false,
+            retrieve: true,
+            destroy: true,
+            info: false
+        }); 
 
-                    $(document).on('change', '#class_id', function (e) {
-                        $('#section_id').html("");
-                        var class_id = $(this).val();
-                        var base_url = '<?php echo base_url() ?>';
-                        var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-                        var url = "<?php
-                $userdata = $this->customlib->getUserData();
-                if (($userdata["role_id"] == 2)) {
-                    echo "getClassTeacherSection";
-                } else {
-                    echo "getByClass";
+        var table = $('.example').DataTable();
+        table.buttons('.export').remove();
+        var section_id_post = '<?php echo $section_id; ?>';
+        var class_id_post = '<?php echo $class_id; ?>';
+        populateSection(section_id_post, class_id_post);
+
+        function populateSection(section_id_post, class_id_post) {
+            $('#section_id').html("");
+            var base_url = '<?php echo base_url() ?>';
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+                type: "GET",
+                url: base_url + "sections/getByClass",
+                data: {'class_id': class_id_post},
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, obj)
+                    {
+                        var select = "";
+                        if (section_id_post == obj.section_id) {
+                            var select = "selected=selected";
+                        }
+                        div_data += "<option value=" + obj.section_id + " " + select + ">" + obj.section + "</option>";
+                    });
+                    $('#section_id').append(div_data);
                 }
-                ?>";
-                        $.ajax({
-                            type: "GET",
-                            url: base_url + "sections/getByClass",
-                            data: {'class_id': class_id,'day_wise':'yes'},
-                            dataType: "json",
-                            success: function (data) {
-                                $.each(data, function (i, obj)
-                                {
-                                    div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
-                                });
-                                $('#section_id').append(div_data);
-                            }
-                        });
+            });
+        }
+
+        $(document).on('change', '#class_id', function (e) {
+            $('#section_id').html("");
+            var class_id = $(this).val();
+            var base_url = '<?php echo base_url() ?>';
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            var url = "<?php $userdata = $this->customlib->getUserData();
+                        if (($userdata["role_id"] == 2)) {
+                            echo "getClassTeacherSection";
+                        } else {
+                            echo "getByClass";
+                        }?>";
+            $.ajax({
+                type: "GET",
+                url: base_url + "sections/getByClass",
+                data: {'class_id': class_id,'day_wise':'yes'},
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, obj)
+                    {
+                        div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
                     });
+                    $('#section_id').append(div_data);
+                }
+            });
+        });
 
-                });
-            </script>
-            <script type="text/javascript">
-                $(function () {
-                    $('.button-checkbox').each(function () {
-                        var $widget = $(this),
-                                $button = $widget.find('button'),
-                                $checkbox = $widget.find('input:checkbox'),
-                                color = $button.data('color'),
-                                settings = {
-                                    on: {
-                                        icon: 'glyphicon glyphicon-check'
-                                    },
-                                    off: {
-                                        icon: 'glyphicon glyphicon-unchecked'
-                                    }
-                                };
-                        $button.on('click', function () {
-                            $checkbox.prop('checked', !$checkbox.is(':checked'));
-                            $checkbox.triggerHandler('change');
-                            updateDisplay();
-                        });
-                        $checkbox.on('change', function () {
-                            updateDisplay();
-                        });
+    });
+</script>
 
-                        function updateDisplay() {
-                            var isChecked = $checkbox.is(':checked');
-                            $button.data('state', (isChecked) ? "on" : "off");
-                            $button.find('.state-icon')
-                                    .removeClass()
-                                    .addClass('state-icon ' + settings[$button.data('state')].icon);
-                            if (isChecked) {
-                                $button
-                                        .removeClass('btn-success')
-                                        .addClass('btn-' + color + ' active');
-                            } else {
-                                $button
-                                        .removeClass('btn-' + color + ' active')
-                                        .addClass('btn-primary');
-                            }
+<script type="text/javascript">
+    $(function () {
+        $('.button-checkbox').each(function () {
+            var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'glyphicon glyphicon-check'
+                        },
+                        off: {
+                            icon: 'glyphicon glyphicon-unchecked'
                         }
+                    };
+            $button.on('click', function () {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+                $checkbox.triggerHandler('change');
+                updateDisplay();
+            });
+            $checkbox.on('change', function () {
+                updateDisplay();
+            });
 
-                        function init() {
-                            updateDisplay();
-                            if ($button.find('.state-icon').length == 0) {
-                                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-                            }
-                        }
-                        init();
-                    });
-                });
+            function updateDisplay() {
+                var isChecked = $checkbox.is(':checked');
+                $button.data('state', (isChecked) ? "on" : "off");
+                $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+                if (isChecked) {
+                    $button
+                            .removeClass('btn-success')
+                            .addClass('btn-' + color + ' active');
+                } else {
+                    $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-primary');
+                }
+            }
 
-                $('#checkbox1').change(function () {
+            function init() {
+                updateDisplay();
+                if ($button.find('.state-icon').length == 0) {
+                    $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                }
+            }
+            init();
+        });
+    });
 
-                    if (this.checked) {
-                        var returnVal = confirm("Are you sure?");
-                        $(this).prop("checked", returnVal);
+    $('#checkbox1').change(function () {
 
-                        $("input[type=radio]").attr('disabled', true);
+        if (this.checked) {
+            var returnVal = confirm("Are you sure?");
+            $(this).prop("checked", returnVal);
+
+            $("input[type=radio]").attr('disabled', true);
 
 
-                    } else {
-                        $("input[type=radio]").attr('disabled', false);
-                        $("input[type=radio][value='1']").attr("checked", "checked");
+        } else {
+            $("input[type=radio]").attr('disabled', false);
+            $("input[type=radio][value='1']").attr("checked", "checked");
 
-                    }
+        }
 
-                });
-            </script>
+    });
+</script>

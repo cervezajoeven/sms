@@ -91,6 +91,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <span class="text-danger"><?php echo form_error('first_name'); ?></span>
                                             </div>
                                         </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="middlename"><?php echo $this->lang->line('middle_name'); ?></label>
+                                                <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename', $student['middlename']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('middlename'); ?></span>
+                                            </div>
+                                        </div>
 										<?php if ($sch_setting->lastname) {  ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -100,6 +107,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             </div>
                                         </div>
 										<?php } ?>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputFile"> <?php echo $this->lang->line('gender'); ?> </label><small class="req"> *</small>
@@ -126,7 +135,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>
                                     <div class="row">
 										<?php if ($sch_setting->category) {  ?>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('category'); ?></label>
                                                 <select  id="category_id" name="category_id" class="form-control" >
@@ -144,22 +153,24 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             </div>
                                         </div>
 										<?php } if ($sch_setting->religion) {  ?>
-										<div class="col-md-2">
+										<div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('religion'); ?></label>
                                                 <input id="religion" name="religion" placeholder="" type="text" class="form-control"  value="<?php echo set_value('religion', $student['religion']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('religion'); ?></span>
                                             </div>
                                         </div>
-										<?php } if ($sch_setting->cast) {  ?>
+                                        <?php } 
+                                        //if ($sch_setting->cast) {  ?>
                                         <!-- <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('cast'); ?></label>
-                                                <input id="cast" name="cast" placeholder="" type="text" class="form-control"  value="<?php echo set_value('cast', $student['cast']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('cast'); ?></span>
+                                                <label for="exampleInputEmail1"><?php //echo $this->lang->line('cast'); ?></label>
+                                                <input id="cast" name="cast" placeholder="" type="text" class="form-control"  value="<?php //echo set_value('cast', $student['cast']); ?>" />
+                                                <span class="text-danger"><?php //echo form_error('cast'); ?></span>
                                             </div>
                                         </div> -->
-                                        <?php } if ($sch_setting->mobile_no) {  ?>
+                                        <?php //} 
+                                        if ($sch_setting->mobile_no) {  ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('mobile_no'); ?></label>
@@ -263,19 +274,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             <span class="text-danger"><?php echo form_error('measure_date'); ?></span>
                                                         </div>
                                                     </div>
-													<?php } ?>
-                                        <div class="col-md-3 pt25">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <button type="button" class="btn btn-sm btn-primary mysiblings anchorbtn "><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
-                                                </div> 
-                                                <div class="col-md-6">
-                                                    <div class="pt6">
-                                                        <span id="sibling_name" class="label label-success "><?php echo set_value('sibling_name'); ?></span></div>
-                                                </div>
-                                            </div>
+													<?php } ?>                                        
                                         </div>
-                                    </div>
                                     <div class="row">                                     
                                         <?php 
                                             // echo display_custom_fields('online_admissions', $student["id"]);
@@ -304,6 +304,18 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                         <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
                                                     <?php }?>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 pt25">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button type="button" class="btn btn-sm btn-primary mysiblings anchorbtn "><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                                </div> 
+                                                <div class="col-md-6">
+                                                    <div class="pt6">
+                                                        <span id="sibling_name" class="label label-success "><?php echo set_value('sibling_name'); ?></span></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

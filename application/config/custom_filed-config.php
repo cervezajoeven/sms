@@ -18,6 +18,5 @@ $config['custom_fields'] = array(
 
 $config['custom_field_table'] = array(
     "students"=>"Student",
-    "staff"=>"Staff",
-    "online_admissions"=>"Online Admission"    
+    "staff"=>"Staff"
 );

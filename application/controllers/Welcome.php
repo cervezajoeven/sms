@@ -228,17 +228,20 @@ class Welcome extends Front_Controller
             $userdata                = $this->customlib->getUserData();
 
             $category                   = $this->category_model->get();
-            $this->data['categorylist'] = $category;            
+            $this->data['categorylist'] = $category;        
+            $this->data['schoolname'] = $this->setting_model->getCurrentSchoolName();
 
             $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+            //$this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+            //$this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
 
             if ($this->form_validation->run() == false) {
                 $this->load_theme('pages/admission');
@@ -318,7 +321,9 @@ class Welcome extends Front_Controller
                         'guardian_address'    => $this->input->post('guardian_address'),
                         'admission_date'      =>date('Y/m/d'),
                         'measurement_date'    =>date('Y/m/d'),
-                        'enrollment_type'     => $this->input->post('enrollment_type'),
+                        'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                        'enrollment_type'     => $this->input->post('enrollment_type'),                        
+                        'middlename'          => $this->input->post('middlename'),
                     );
                     if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
                         $time     = md5($_FILES["document"]['name'] . microtime());

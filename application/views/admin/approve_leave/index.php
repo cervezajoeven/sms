@@ -62,17 +62,24 @@
                
                    
                          <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-users"></i> <?php echo $this->lang->line('approve')." ".$this->lang->line('leave')." ".$this->lang->line('list'); ?></h3>
+                        <h3 class="box-title"><i class="fa fa-users"></i> <?php echo $this->lang->line('approve')." ".$this->lang->line('lms_excuse_letter'); ?></h3>
 
                             <div class="box-tools pull-right">
-                                <button type="button" onclick="add_leave()" class="btn btn-sm btn-primary " data-toggle="tooltip" data-placement="left" ><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?></button>
+                            <!-- EMN1 - 4/30/2020 -->
+                                <?php $result = $this->customlib->getUserData(); 
+                                    $role  = $result["user_type"];
+
+                                    if ($role !== 'Teacher') { ?>
+                                        <button type="button" onclick="add_leave()" class="btn btn-sm btn-primary " data-toggle="tooltip" data-placement="left" ><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?></button>
+                                    <?php } ?>
+                            <!-- EMN1 - 4/30/2020 -->
                             </div>
 
            </div>
                    
 
                     <div class="box-body table-responsive">
-                        <div class="download_label"> <?php echo $this->lang->line('approve')." ".$this->lang->line('leave')." ".$this->lang->line('list'); ?> </div>
+                        <div class="download_label"> <?php echo $this->lang->line('approve')." ".$this->lang->line('lms_excuse_letter'); ?> </div>
                         <div >
                             <table class="table table-hover table-striped table-bordered example">
                                 <thead>
@@ -80,7 +87,7 @@
                                         <th><?php echo $this->lang->line('student_name')?></th>
                                         <th><?php echo $this->lang->line('class'); ?></th>
                                         <th><?php echo $this->lang->line('section'); ?></th>
-                                         <th><?php echo $this->lang->line('apply')." ".$this->lang->line('date'); ?></th>
+                                        <!-- <th><?php //echo $this->lang->line('apply')." ".$this->lang->line('date'); ?></th> -->
                                         <th><?php echo $this->lang->line('from')." ".$this->lang->line('date'); ?></th>
                                         <th><?php echo $this->lang->line('to')." ".$this->lang->line('date'); ?></th>
                                        
@@ -97,7 +104,7 @@
                                             <td><?php echo $value['firstname']." ".$value['lastname'];  ?></td>
                                             <td><?php echo $value['class'];?></td>
                                             <td><?php echo $value['section'];?></td>
-                                            <td><?php echo date($this->customlib->getSchoolDateFormat(),strtotime($value['apply_date'])); ?></td>
+                                            <!-- <td><?php //echo date($this->customlib->getSchoolDateFormat(),strtotime($value['apply_date'])); ?></td> -->
                                             <td><?php echo date($this->customlib->getSchoolDateFormat(),strtotime($value['from_date'])); ?></td>
                                              <td><?php echo date($this->customlib->getSchoolDateFormat(),strtotime($value['to_date'])); ?></td>
                                               

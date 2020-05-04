@@ -6,7 +6,6 @@ if (!defined('BASEPATH')) {
 
 class Stuattendence_model extends MY_Model
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -32,7 +31,6 @@ class Stuattendence_model extends MY_Model
 
     public function onlineattendence($data)
     {
-
         $this->db->where('student_session_id', $data['student_session_id']);
         $this->db->where('date', $data['date']);
         $q = $this->db->get('student_attendences');
@@ -41,8 +39,8 @@ class Stuattendence_model extends MY_Model
             $this->db->insert('student_attendences', $data);
             return ($this->db->affected_rows() != 1) ? false : true;
         }
-        return false;
 
+        return false;
     }
 
     public function add($data)
@@ -85,8 +83,18 @@ class Stuattendence_model extends MY_Model
 
     public function searchAttendenceClassSection($class_id, $section_id, $date)
     {
-
-        $sql = "select student_sessions.attendence_id,student_sessions.attendence_dt,students.firstname,student_sessions.date,student_sessions.remark,student_sessions.biometric_attendence,students.roll_no,students.admission_no,students.lastname,student_sessions.attendence_type_id,student_sessions.id as student_session_id, attendence_type.type as `att_type`,attendence_type.key_value as `key` from students ,(SELECT student_session.id,student_session.student_id ,IFNULL(student_attendences.date, 'xxx') as date,IFNULL(student_attendences.created_at, 'xxx') as attendence_dt,student_attendences.remark,student_attendences.biometric_attendence, IFNULL(student_attendences.id, 0) as attendence_id,student_attendences.attendence_type_id FROM `student_session` LEFT JOIN student_attendences ON student_attendences.student_session_id=student_session.id  and student_attendences.date=" . $this->db->escape($date) . " where  student_session.session_id=" . $this->db->escape($this->current_session) . " and student_session.class_id=" . $this->db->escape($class_id) . " and student_session.section_id=" . $this->db->escape($section_id) . ") as student_sessions   LEFT JOIN attendence_type ON attendence_type.id=student_sessions.attendence_type_id where student_sessions.student_id = students.id and students.is_active = 'yes' ORDER BY students.id desc";
+        $sql = "select student_sessions.attendence_id,student_sessions.attendence_dt,students.firstname,student_sessions.date,student_sessions.remark,
+                student_sessions.biometric_attendence,students.roll_no,students.admission_no,students.lastname,student_sessions.attendence_type_id,student_sessions.id as student_session_id, 
+                attendence_type.type as `att_type`,attendence_type.key_value as `key`,student_sessions.attendance_from 
+                from students, 
+                (SELECT student_session.id,student_session.student_id,IFNULL(student_attendences.date, 'xxx') as date, IFNULL(student_attendences.created_at, 'xxx') as attendence_dt,student_attendences.remark,
+                student_attendences.biometric_attendence, IFNULL(student_attendences.id, 0) as attendence_id,student_attendences.attendence_type_id,student_attendences.attendance_from 
+                FROM `student_session` 
+                LEFT JOIN student_attendences ON student_attendences.student_session_id=student_session.id  and student_attendences.date=" . $this->db->escape($date) . " 
+                  where  student_session.session_id=" . $this->db->escape($this->current_session) . " and student_session.class_id=" . $this->db->escape($class_id) . " 
+                  and student_session.section_id=" . $this->db->escape($section_id) . ") as student_sessions   
+                LEFT JOIN attendence_type ON attendence_type.id=student_sessions.attendence_type_id where student_sessions.student_id = students.id and students.is_active = 'yes' 
+                ORDER BY students.id desc";
 
         $query = $this->db->query($sql);
         return $query->result_array();
@@ -103,7 +111,17 @@ class Stuattendence_model extends MY_Model
 
     public function searchAttendenceClassSectionPrepare($class_id, $section_id, $date)
     {
-        $query = $this->db->query("select student_sessions.attendence_id,student_sessions.remark,students.firstname,students.admission_no,student_sessions.date,students.roll_no,students.lastname,student_sessions.attendence_type_id,student_sessions.id as student_session_id from students ,(SELECT student_session.id,student_session.student_id ,IFNULL(student_attendences.date, 'xxx') as date,student_attendences.remark,IFNULL(student_attendences.id, 0) as attendence_id,student_attendences.attendence_type_id FROM `student_session` RIGHT JOIN student_attendences ON student_attendences.student_session_id=student_session.id  and student_attendences.date=" . $this->db->escape($date) . " where  student_session.session_id=" . $this->db->escape($this->current_session) . " and student_session.class_id=" . $this->db->escape($class_id) . " and student_session.section_id=" . $this->db->escape($section_id) . ") as student_sessions where student_sessions.student_id=students.id ");
+        $query = $this->db->query("select student_sessions.attendence_id,student_sessions.remark,students.firstname,students.admission_no,student_sessions.date,students.roll_no,
+                                   students.lastname,student_sessions.attendence_type_id,student_sessions.id as student_session_id,student_sessions.attendance_from 
+                                   from students ,
+                                   (SELECT student_session.id,student_session.student_id ,IFNULL(student_attendences.date, 'xxx') as date,student_attendences.remark,
+                                   IFNULL(student_attendences.id, 0) as attendence_id,student_attendences.attendence_type_id,student_attendences.attendance_from 
+                                   FROM `student_session` 
+                                   RIGHT JOIN student_attendences ON student_attendences.student_session_id=student_session.id  and student_attendences.date=" . $this->db->escape($date) . " 
+                                     where  student_session.session_id=" . $this->db->escape($this->current_session) . " 
+                                     and student_session.class_id=" . $this->db->escape($class_id) . " 
+                                     and student_session.section_id=" . $this->db->escape($section_id) . ") as student_sessions 
+                                   where student_sessions.student_id=students.id ");
         return $query->result_array();
     }
 

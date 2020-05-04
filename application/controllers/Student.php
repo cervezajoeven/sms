@@ -25,7 +25,6 @@ class Student extends Admin_Controller
 
     public function index()
     {
-
         $data['title']       = 'Student List';
         $student_result      = $this->student_model->get();
         $data['studentlist'] = $student_result;
@@ -271,6 +270,7 @@ class Student extends Admin_Controller
         }
  
         $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
@@ -331,6 +331,7 @@ class Student extends Admin_Controller
 
             $data_insert = array(
                 'firstname'           => $this->input->post('firstname'),
+                'lastname'           => $this->input->post('lastname'),
                 'rte'                 => $this->input->post('rte'),
                 'state'               => $this->input->post('state'),
                 'city'                => $this->input->post('city'),
@@ -360,6 +361,8 @@ class Student extends Admin_Controller
                 'is_active'           => 'yes',
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                 'enrollment_type'     => $this->input->post('enrollment_type'),
+                'middlename'          => $this->input->post('middlename'),
+
             );
             $house            = $this->input->post('house');
             $blood_group      = $this->input->post('blood_group');
@@ -398,13 +401,11 @@ class Student extends Admin_Controller
                 $data_insert['roll_no'] = $this->input->post('roll_no');
             }
 
-            if (isset($lastname)) {
-
-                $data_insert['lastname'] = $this->input->post('lastname');
-            }
+            // if (isset($lastname)) {
+            //     $data_insert['lastname'] = $this->input->post('lastname');
+            // }
 
             if (isset($category_id)) {
-
                 $data_insert['category_id'] = $this->input->post('category_id');
             }
 
@@ -1163,7 +1164,7 @@ public function handle_uploadcreate_doc()
         }
 
         $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
-
+        $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -1230,6 +1231,7 @@ public function handle_uploadcreate_doc()
             $data = array(
                 'id'                  => $id,
                 'firstname'           => $this->input->post('firstname'),
+                'lastname'           => $this->input->post('lastname'),
                 'rte'                 => $this->input->post('rte'),
                 'state'               => $this->input->post('state'),
                 'city'                => $this->input->post('city'),
@@ -1259,6 +1261,7 @@ public function handle_uploadcreate_doc()
                 'is_active'           => 'yes',
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                 'enrollment_type'     => $this->input->post('enrollment_type'),
+                'middlename'          => $this->input->post('middlename'),
             );
 
             $house             = $this->input->post('house');
@@ -1297,10 +1300,10 @@ public function handle_uploadcreate_doc()
                 $data['roll_no'] = $this->input->post('roll_no');
             }
 
-            if (isset($lastname)) {
+            // if (isset($lastname)) {
 
-                $data['lastname'] = $this->input->post('lastname');
-            }
+            //     $data['lastname'] = $this->input->post('lastname');
+            // }
 
             if (isset($category_id)) {
 

@@ -30,15 +30,16 @@
         }
         ?>
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/font-awesome.min.css">      
-        <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/ionicons.min.css">       
-
+        <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/ionicons.min.css"> 
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/iCheck/flat/blue.css">      
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/morris/morris.css">       
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/jvectormap/jquery-jvectormap-1.2.2.css">        
-        <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/datepicker/datepicker3.css">       
+        <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/datepicker/datepicker3.css">
+
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/daterangepicker/daterangepicker-bs3.css">      
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.css">
+
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/dist/css/custom_style.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/datepicker/css/bootstrap-datetimepicker.css">
         <!--file dropify-->
@@ -56,8 +57,10 @@
         <!--language css-->
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>backend/dist/css/bootstrap-select.min.css">
+
         <script src="<?php echo base_url(); ?>backend/custom/jquery.min.js"></script>
         <script src="<?php echo base_url(); ?>backend/dist/js/moment.min.js"></script>
+        <!-- <script src="<?php //echo base_url(); ?>backend/bootstrap/js/bootstrap.min.js"></script> -->
         <script src="<?php echo base_url(); ?>backend/datepicker/js/bootstrap-datetimepicker.js"></script>
         <script src="<?php echo base_url(); ?>backend/datepicker/date.js"></script>       
         <script src="<?php echo base_url(); ?>backend/dist/js/jquery-ui.min.js"></script>
@@ -174,8 +177,8 @@
                                     $parent_data = $this->customlib->getLoggedInUserData();
                                     $file = $parent_data["image"];
                                     $image = $parent_data["image"];
+                                    
                                     if (!empty($image)) {
-
                                         $file = $image;
                                     } else {
 
@@ -341,6 +344,7 @@
                                         <?php
                                     }
                                     ?>
+                                    <li class="<?php echo set_Submenu('parent/parents/excuse_letter'); ?>"><a href="<?php echo base_url(); ?>parent/parents/excuse_letter"><i class="fa fa-angle-double-right"></i> <?php echo  $this->lang->line('lms_excuse_letter'); ?></a></li>
                                 </ul>
                             </li>
                             <?php
