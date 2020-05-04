@@ -110,7 +110,7 @@ if ($this->session->flashdata('msg')) {
                     </h3>
                     <strong>For new Students</strong><br>
                     <ol>
-                        <li>Any incoming freshman, whether he/she is a graduate of Sophia School or not, has to undergo an entrance examination and panel interview on top of submitting the necessary credentials.</li>
+                        <li>Any incoming freshman, whether he/she is a graduate of <?php echo $schoolname; ?> or not, has to undergo an entrance examination and panel interview on top of submitting the necessary credentials.</li>
                         <li>Only an applicant who is able to pass the above said requirements can be admitted to the High School Department.</li>
                         <li>A student whose overall screening is a little bit below the acceptable standard is placed on probation for one school year. He/She will be regarded as a regular student in the following school year if he does not fail any of his subject and has a general average of 80%. In addition, he/she should not have any disciplinary problems throughout his first year in our school.</li>
                         <li>His/ Her parent(s) or guardian has/have to be interviewed also.</li>
