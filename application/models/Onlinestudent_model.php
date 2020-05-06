@@ -246,15 +246,10 @@ class Onlinestudent_model extends MY_Model {
         $this->db->select('firstname, lastname, dob, is_enroll');
         $this->db->from('online_admissions');
         $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate));
-        $query = $this->db->get();
-
-        return $query->result();
-
-        // if ($query->num_rows() > 0) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+        // $query = $this->db->get();
+        // return $query->result();
+        $result = $this->db->get()->row();
+        return $result;
     }
 
     public function GetStudentID($lrnNumber)

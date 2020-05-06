@@ -244,15 +244,6 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-
-                $old_student_data = ($this->student_model->GetStudentByRollNo($this->input->post('studentidnumber')));
-
-                // if ($old_student_data == NULL);
-                // {
-                //     redirect($_SERVER['HTTP_REFERER'], 'refresh');
-                //     $this->session->set_flashdata('msg', '<div class="alert alert-info">Unable to admit student. Please make sure that the info is valid.</div>');
-                //     $this->load_theme('pages/admission');
-                // }
             }                
             else 
             {
@@ -324,7 +315,7 @@ class Welcome extends Front_Controller
 
                     if ($enrollment_type == 'old')
                     {
-                        
+                        $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
 
                         $data = array(
