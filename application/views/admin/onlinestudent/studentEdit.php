@@ -25,8 +25,8 @@
                                         <?php if(!$adm_auto_insert) {?>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('admission_no'). ' (auto-generated)'; ?></label><!--<small class="req"> *</small>-->
-                                                    <input disabled autofocus="" id="admission_no" name="admission_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('admission_no'); ?>" />
+                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('admission_no'). ' (auto-generated)'; ?></label><small class="req"> *</small>
+                                                    <input autofocus="" id="admission_no" name="admission_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('admission_no'); ?>" />
                                                     <span class="text-danger"><?php echo form_error('admission_no'); ?></span>
                                                 </div>
                                             </div>
@@ -34,7 +34,7 @@
                                     
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label>
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('lrn_no'); ?></label>
                                                 <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('roll_no', $student['roll_no']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                             </div>

@@ -444,8 +444,6 @@ return false;
     {
         $userdata = $this->customlib->getUserData();
         $staff_id=$userdata['id'];
-
-
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students', 1);
         
@@ -497,7 +495,8 @@ return false;
         $this->db->group_end();
         $this->db->order_by('students.id');
         $query = $this->db->get();
-       // echo $this->db->last_query();die;
+       
+        //echo $this->db->last_query();die;
         return $query->result_array();
     }
 
@@ -1177,7 +1176,6 @@ return false;
 
     public function getdisableStudent()
     {
-
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
                            students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
@@ -1327,7 +1325,6 @@ return false;
 
     public function check_adm_exists($admission_no)
     {
-
         $this->db->where(array('admission_no' => $admission_no));
         $query = $this->db->get('students');
         if ($query->num_rows() > 0) {
@@ -1335,7 +1332,6 @@ return false;
         } else {
             return false;
         }
-
     }
 
     public function lastRecord()
@@ -1532,4 +1528,87 @@ return false;
 
     }
 
+    public function GetStudentByRollNo($roll_no) 
+    {
+        $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
+                           hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
+                           students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
+                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno, 
+                           students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
+                           students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
+                           students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
+                           students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
+                           students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
+                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
+                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename');
+        $this->db->from('students');
+        $this->db->join('student_session', 'student_session.student_id = students.id');
+        $this->db->join('classes', 'student_session.class_id = classes.id');
+        $this->db->join('sections', 'sections.id = student_session.section_id');
+        $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
+        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
+        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
+        $this->db->join('vehicle_routes', 'vehicle_routes.id = students.vehroute_id', 'left');
+        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
+        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
+        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
+        $this->db->join('users', 'users.user_id = students.id', 'left');
+        $this->db->where('students.roll_no', $roll_no);
+        //$this->db->where('students.is_active', 'yes');
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function GetStudentInfo($roll_no) 
+    {
+        $this->db->select('students.roll_no, students.firstname, students.lastname, students.dob, students.gender'); 
+        $this->db->from('students');
+        $this->db->where('students.roll_no', $roll_no);
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function check_roll_exists($roll_no)
+    {
+        $this->db->where(array('roll_no' => $roll_no));
+        $query = $this->db->get('students');
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function GetLRNList($lrn)
+    {
+        $this->db->select('DISTINCT(students.roll_no) AS roll_no');
+        $this->db->from('students');
+        if ($lrn != "")
+            $this->db->where("students.roll_no like '".strtolower(urldecode($lrn))."%'");
+        $this->db->order_by('students.roll_no', 'asc');
+        $query = $this->db->get();
+        $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+
+        return $result;
+
+        //echo $this->db->last_query(); die;
+        //var_dump($query->result()); die;
+    }
+
+    public function GetNameList($name)
+    {
+        $this->db->select("DISTINCT(roll_no), studentname");
+        $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname FROM students) tbl1");
+        if ($name != "")
+            $this->db->where("LOWER(studentname) like '".strtolower(urldecode($name))."%'");
+        $this->db->order_by('studentname', 'asc');
+        $query = $this->db->get();
+        $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+
+        return $result;
+    }
 }

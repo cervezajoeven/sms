@@ -1180,8 +1180,7 @@ public function handle_uploadcreate_doc()
             )
         );
 
-        if(!$this->sch_setting_detail->adm_auto_insert) {
-           
+        if(!$this->sch_setting_detail->adm_auto_insert) {           
             $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), array('required', array('check_admission_no_exists', array($this->student_model, 'valid_student_admission_no'))));
         }
 
@@ -1514,6 +1513,7 @@ public function handle_uploadcreate_doc()
             $section     = $this->input->post('section_id');
             $search      = $this->input->post('search');
             $search_text = $this->input->post('search_text');
+            
             if (isset($search)) {
                 if ($search == 'search_filter') {
                     $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -1891,4 +1891,50 @@ public function handle_uploadcreate_doc()
         echo json_encode($array);
     }
 
+    public function GetStudentDetails($idnumber)
+    {
+        $data = $this->student_model->GetStudentByRollNo($idnumber);
+        echo json_encode($data);
+    }
+
+    public function AutoCompleteLRN() {
+        $returnData = array();
+        $results = array('error' => false, 'data' => '');
+        $roll_no = $_POST['search'];        
+        $lrns = $this->student_model->GetLRNList($lrn);
+        //var_dump($lrns);die;
+
+        if(empty($lrns)) 
+            $results['error'] = true;
+        else {
+            if(!empty($lrns)){
+                foreach ($lrns as $row){
+                    $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['roll_no']);
+                }
+            }
+        }       
+        
+        // Return results as json encoded array
+        echo json_encode($returnData); die;
+    }
+
+    public function AutoCompleteStudentName() {
+        $returnData = array();
+        $results = array('error' => false, 'data' => '');
+        $name = $_POST['search'];        
+        $names = $this->student_model->GetNameList($name);
+
+        if(empty($names)) 
+            $results['error'] = true;
+        else {
+            if(!empty($names)){
+                foreach ($names as $row){
+                    $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['studentname']);
+                }
+            }
+        }       
+        
+        // Return results as json encoded array
+        echo json_encode($returnData); die;
+    }
 }

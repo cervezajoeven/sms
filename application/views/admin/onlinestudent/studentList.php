@@ -20,7 +20,7 @@
                                 <thead>
                                     <tr>                                          
                                         <th><?php echo $this->lang->line('student_name'); ?></th>
-                                        <th><?php echo $this->lang->line('class'); ?></th>
+                                        <!-- <th><?php //echo $this->lang->line('class'); ?></th> -->
                                         <th><?php echo $this->lang->line('father_name'); ?></th>
                                         <th><?php echo $this->lang->line('date_of_birth'); ?></th>
                                         <th><?php echo $this->lang->line('gender'); ?></th>
@@ -29,6 +29,7 @@
                                         <th><?php echo $this->lang->line('enrolled'); ?></th>
                                         <th><?php echo $this->lang->line('mode_of_payment'); ?></th>
                                         <th><?php echo $this->lang->line('enrollment_type'); ?></th>
+                                        <th><?php echo $this->lang->line('date').' Applied'; ?></th>
 
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
@@ -43,7 +44,7 @@
                                                 echo $student['firstname']." ".$student['lastname']; 
                                             } ?>  
                                         </td>
-                                        <td><?php echo $student['class'] . "(" . $student['section'] . ")" ?></td>
+                                        <!-- <td><?php //if ($student['class'] != '') { echo $student['class'] . "(" . $student['section'] . ")"; } ?></td> -->
                                         <td><?php echo $student['father_name']; ?></td>
                                         <td><?php
                                             if ($student["dob"] != null) {
@@ -56,6 +57,7 @@
                                         <td><?php echo ($student['is_enroll'])? "<i class='fa fa-check'></i><span style='display:none'>Yes</span>":"<i class='fa fa-minus-circle'></i><span style='display:none'>No</span>"; ?></td>
                                         <td><?php echo strtoupper($student['mode_of_payment']); ?></td>
                                         <td><?php echo strtoupper($student['enrollment_type']); ?></td>
+                                        <td><?php echo strtoupper($student['created_at']); ?></td>
                                         <td class="mailbox-date pull-right">
                                             <?php if($student['document'] != "") { ?>
                                                 <a data-placement="left" href="<?php echo base_url(); ?>admin/onlinestudent/download/<?php echo $student['document'] ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>">

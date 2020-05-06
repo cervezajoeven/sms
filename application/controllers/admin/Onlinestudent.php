@@ -35,11 +35,11 @@ class Onlinestudent extends Admin_Controller
         
         if(!empty($data['classlist'])) {
             foreach ($data['classlist'] as $key => $value) {
-            $carray[]=$value['id']; 
+                $carray[] = $value['id']; 
             }
         }
 
-        $student_result = $this->onlinestudent_model->get(null,$carray);
+        $student_result = $this->onlinestudent_model->get(null, $carray);
         $data['studentlist'] = $student_result;
 
         $this->load->view('layout/header', $data);
@@ -195,5 +195,4 @@ class Onlinestudent extends Admin_Controller
         $data     = $this->section_model->getClassBySection($class_id);
         $this->jsonlib->output(200, $data);
     }
-
 }
