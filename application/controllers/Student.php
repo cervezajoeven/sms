@@ -929,7 +929,8 @@ public function handle_uploadcreate_doc()
 
         $category = $this->category_model->get();
 
-        $fields = array('admission_no', 'roll_no', 'firstname', 'lastname', 'gender', 'dob', 'category_id', 'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
+        // $fields = array('admission_no', 'roll_no', 'firstname', 'lastname', 'gender', 'dob', 'category_id', 'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
+        $fields = array('admission_no','roll_no','firstname','lastname','middlename','gender','dob','guardian_is','guardian_name','guardian_relation','guardian_phone','enrollment_type','mobileno','email','category_id','religion','cast','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation','mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','bank_account_no','bank_name','ifsc_code','adhar_no','samagra_id','rte','previous_school','note');
 
         $data["fields"]       = $fields;
         $data['categorylist'] = $category;
@@ -974,6 +975,7 @@ public function handle_uploadcreate_doc()
                                 $student_data[$i]['is_active'] = 'yes';
                                 $n++;
                             }
+                            
 
                             $roll_no                           = $student_data[$i]["roll_no"];
                             $adm_no                            = $student_data[$i]["admission_no"];
