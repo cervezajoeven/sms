@@ -39,5 +39,16 @@ class Lesson_model extends MY_Model {
         
     }
     
+    public function search_my_resources($account_id="",$search=""){
+        $this->db->select("*");
+        if($search){
+            $this->db->like("name",$search);    
+        }
+        $this->db->where("account_id",$account_id);
+        $this->db->order_by("date_created","desc");
+        $query = $this->db->get("lms_my_resources");
+        $result = $query->result_array();
+        return $result;
+    }
 
 }

@@ -17,11 +17,11 @@
                     <!-- Horizontal Form -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><?php echo $this->lang->line('lesson'); ?></h3>
+                            <h3 class="box-title">Create <?php echo $this->lang->line('lesson'); ?></h3>
                         </div><!-- /.box-header -->
                         <!-- form start -->
 
-                        <form id="form1" action="<?php echo site_url('lms/lesson/save') ?>"  id="lesso" name="employeeform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
+                        <form id="form1" action="<?php echo site_url('lms/lesson/save') ?>"  id="lesson" name="employeeform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
                             <div class="box-body">
                                 <?php if ($this->session->flashdata('msg')) { ?>
                                     <?php echo $this->session->flashdata('msg') ?>
@@ -55,7 +55,7 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix">Lesson List</h3>
+                        <h3 class="box-title titlefix">View/Edit My Lesson</h3>
                         <div class="box-tools pull-right">
 
                         </div><!-- /.box-tools -->
@@ -101,9 +101,16 @@
                                                 
                                             </td>
                                             <td class="mailbox-date pull-right">
-                                                <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
-                                                        <i class="fa fa-edit"></i>
-                                                </a>
+                                                <?php if($role=="admin"): ?>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
+                                                            <i class="fa fa-edit"></i>
+                                                    </a>
+
+                                                <?php elseif($role=="student"): ?>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/view/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                            <i class="fa fa-eye"></i>
+                                                    </a>
+                                                <?php endif; ?>
                                                 <a data-placement="left" href=""class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
                                                         <i class="fa fa-remove"></i>
                                                 </a>

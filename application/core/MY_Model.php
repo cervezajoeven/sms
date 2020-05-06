@@ -140,4 +140,9 @@ class MY_Model extends CI_Model
         $id = $id.rand(1000,1999);
         return $id;
     }
+    public function filename_generator(){
+        $id = microtime(true)*10000;
+        $id = $id.rand(1000,1999);
+        return $id;
+    }
 }
