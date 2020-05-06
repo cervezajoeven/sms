@@ -206,7 +206,7 @@ if (!$form_admission) {
         <div class="col-md-3" id="id_number_input">
             <div class="form-group">
                 <label for="studentidnumber"><?php echo $this->lang->line('lrn_no').' (old students only)'; ?></label><small class="req"> *</small> 
-                <input id="studentidnumber" disabled="disabled" name="studentidnumber" placeholder="" type="text" class="form-control"  value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
+                <input id="studentidnumber" disabled="disabled" name="studentidnumber" placeholder="Type LRN then press enter" type="text" class="form-control"  value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
         </div>
@@ -473,11 +473,11 @@ if (!$form_admission) {
 
         if ($('#enrollment_type').val() == 'old') {
             $('#studentidnumber').prop('disabled', false);
-            $('#firstname').prop('disabled', true);
-            $('#middlename').prop('disabled', true);
-            $('#lastname').prop('disabled', true);
-            $('#gender').prop('disabled', true);
-            $('#dob').prop('disabled', true);
+            $('#firstname').prop('readonly', true);
+            $('#middlename').prop('readonly', true);
+            $('#lastname').prop('readonly', true);
+            $('#gender').prop('readonly', true);
+            $('#dob').prop('readonly', true);
             $('#id_number_input').fadeIn();
             $('#parentdetail').slideUp();
             $('#guardiandetail1').slideUp();
@@ -534,15 +534,15 @@ if (!$form_admission) {
 
     function DoOnChange(sel) {
         $('.text-danger').html('');
-        $('.alert').html('');
+        $('.alert').alert('close');
 
         if (sel.value == "old") {
             $('#studentidnumber').prop('disabled', false);
-            $('#firstname').prop('disabled', true);
-            $('#middlename').prop('disabled', true);
-            $('#lastname').prop('disabled', true);
-            $('#gender').prop('disabled', true);
-            $('#dob').prop('disabled', true);
+            $('#firstname').prop('readonly', true);
+            $('#middlename').prop('readonly', true);
+            $('#lastname').prop('readonly', true);
+            $('#gender').prop('readonly', true);
+            $('#dob').prop('readonly', true);
             $('#id_number_input').fadeIn();
             $('#parentdetail').slideUp();
             $('#guardiandetail1').slideUp();
@@ -557,11 +557,11 @@ if (!$form_admission) {
             $('#dob').val('');
 
             $('#studentidnumber').prop('disabled', true);
-            $('#firstname').prop('disabled', false);
-            $('#middlename').prop('disabled', false);
-            $('#lastname').prop('disabled', false);
-            $('#gender').prop('disabled', false);
-            $('#dob').prop('disabled', false);
+            $('#firstname').prop('readonly', false);
+            $('#middlename').prop('readonly', false);
+            $('#lastname').prop('readonly', false);
+            $('#gender').prop('readonly', false);
+            $('#dob').prop('readonly', false);
             $('#id_number_input').fadeOut();
             $('#parentdetail').slideDown();
             $('#guardiandetail1').slideDown();

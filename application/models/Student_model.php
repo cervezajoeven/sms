@@ -1479,8 +1479,7 @@ return false;
         }
     }
 
-
-       public function valid_student_admission_no()
+    public function valid_student_admission_no()
     {
 
         $admission_no    = $this->input->post('admission_no');
@@ -1557,8 +1556,11 @@ return false;
         //$this->db->where('students.is_active', 'yes');
         $this->db->limit(1);
 
-        $query = $this->db->get();
-        return $query->result();
+        // $query = $this->db->get();
+        // return $query->result();
+        $result = $this->db->get()->row();
+
+        return $result;
     }
 
     public function GetStudentInfo($roll_no) 
