@@ -28,7 +28,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <?php echo $this->session->flashdata('msg') ?>
                                     <?php } ?>
                                     <?php echo $this->customlib->getCSRF(); ?>
-                                    <input type="hidden" name="student_id" value="<?php echo set_value('id', $student['id']); ?>">
+                                    <input type="hidden" name="student_id" value="<?php echo set_value('id', $student['id']); ?>" id="student_id">
                                     <input type="hidden" name="sibling_name" value="<?php echo set_value('sibling_name', 0); ?>" id="sibling_name_next">
                                     <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
                                     <div class="row">

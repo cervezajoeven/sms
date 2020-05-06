@@ -44,6 +44,8 @@ class Onlinestudent_model extends MY_Model {
         $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
         $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
 
+        //echo $this->db->last_query(); die;
+
         if($carray!=null){
             //$this->db->where_in('classes.id', $carray);
         }
@@ -96,6 +98,8 @@ class Onlinestudent_model extends MY_Model {
                     $insert = false;
                     $record_update_status = false;
                 }
+
+                $enroll_type = $data['enrollment_type'];
  
 				//============================
                 if ($insert) {
@@ -105,8 +109,16 @@ class Onlinestudent_model extends MY_Model {
                     $classs_section_result = $query->row();
                     unset($data['class_section_id']);
                     unset($data['id']);
-                    $this->db->insert('students', $data);
-                    $student_id = $this->db->insert_id();
+
+                    if ($enroll_type == 'old') 
+                    {
+                        $student_id = $this->GetStudentID($data['roll_no']);
+                    } 
+                    else 
+                    {
+                        $this->db->insert('students', $data);
+                        $student_id = $this->db->insert_id();
+                    }                    
                    
                     $data_new = array(
                         'student_id' => $student_id,
@@ -115,49 +127,51 @@ class Onlinestudent_model extends MY_Model {
                         'session_id' => $this->current_session,
                     );
                     $this->db->insert('student_session', $data_new);
+                    
+                    if ($enroll_type != 'old') 
+                    {
+                        //===============Start Student ID===========
+                        $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
-                    //===============Start Student ID===========
-                    $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+                            $data_student_login = array(
+                            'username' => $this->student_login_prefix . $student_id,
+                            'password' => $user_password,
+                            'user_id' => $student_id,
+                            'role' => 'student',
+                        );
 
-                         $data_student_login = array(
-                        'username' => $this->student_login_prefix . $student_id,
-                        'password' => $user_password,
-                        'user_id' => $student_id,
-                        'role' => 'student',
-                    );
+                        $this->user_model->add($data_student_login);
+                        //===============End Student ID============
 
-                    $this->user_model->add($data_student_login);
-                    //===============End Student ID============
+                        //===============Start Parent ID===========
+                        $parent_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+                        $temp = $student_id;
+                        $data_parent_login = array(
+                            'username' => $this->parent_login_prefix . $student_id,
+                            'password' => $parent_password,
+                            'user_id' => 0,
+                            'role' => 'parent',
+                            'childs' => $temp,
+                        );
+                        $ins_parent_id = $this->user_model->add($data_parent_login);
+                        $update_student = array(
+                            'id' => $student_id,
+                            'parent_id' => $ins_parent_id,
+                        );
+                        $this->student_model->add($update_student);
+                        //===============End Parent ID===========
 
-                    //===============Start Parent ID===========
-                    $parent_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-                    $temp = $student_id;
-                    $data_parent_login = array(
-                        'username' => $this->parent_login_prefix . $student_id,
-                        'password' => $parent_password,
-                        'user_id' => 0,
-                        'role' => 'parent',
-                        'childs' => $temp,
-                    );
-                    $ins_parent_id = $this->user_model->add($data_parent_login);
-                    $update_student = array(
-                        'id' => $student_id,
-                        'parent_id' => $ins_parent_id,
-                    );
-                    $this->student_model->add($update_student);
-                    //===============End Parent ID===========
-
-                    //============== Update setting modal=================
-                    if ($sch_setting_detail->adm_auto_insert) {
-                        if ($sch_setting_detail->adm_update_status == 0) {
-                            $data_setting=array();
-                            $data_setting['id']=$sch_setting_detail->id;
-                            $data_setting['adm_update_status'] = 1;
-                            $this->setting_model->add($data_setting);
+                        //============== Update setting modal=================
+                        if ($sch_setting_detail->adm_auto_insert) {
+                            if ($sch_setting_detail->adm_update_status == 0) {
+                                $data_setting=array();
+                                $data_setting['id']=$sch_setting_detail->id;
+                                $data_setting['adm_update_status'] = 1;
+                                $this->setting_model->add($data_setting);
+                            }
                         }
-                    }
-                    //===================================================
-
+                        //===================================================
+                    }                    
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
