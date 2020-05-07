@@ -238,8 +238,12 @@ class Welcome extends Front_Controller
             {
                 $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');            
-                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');                
                 $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
             }                
             else 
             {
@@ -311,8 +315,7 @@ class Welcome extends Front_Controller
 
                     if ($enrollment_type == 'old')
                     {
-                        //$GetStudentByRollNo = ($this->student_model->GetStudentByRollNo($this->input->post('studentidnumber')))[0]; //-- LRN Number
-                        $old_student_data = ($this->student_model->GetStudentByRollNo($this->input->post('studentidnumber')))[0]; 
+                        $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
 
                         $data = array(
