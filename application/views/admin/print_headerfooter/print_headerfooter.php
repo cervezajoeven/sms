@@ -17,8 +17,7 @@
                     <ul class="nav nav-tabs pull-right">
                         <li ><a href="#tab_5" data-toggle="tab"><?php echo $this->lang->line('lms_statement_of_account')?></a></li>
                         <li ><a href="#tab_4" data-toggle="tab"><?php echo $this->lang->line('payslip')?></a></li>
-                        <li class="active"><a href="#tab_3" data-toggle="tab"><?php echo $this->lang->line('fees_receipt'); ?></a></li>
-                       
+                        <li class="active"><a href="#tab_3" data-toggle="tab"><?php echo $this->lang->line('fees_receipt'); ?></a></li>                       
                         <li class="pull-left header"> <?php echo $this->lang->line('print_headerfooter'); ?></li>
                     </ul>
                     <div class="tab-content">
@@ -96,8 +95,8 @@
                                   <div class="col-md-12">     
                                      <div class="form-group">
                                     <label><?php echo $this->lang->line('header')." ".$this->lang->line('image'). " (2230px X 300px)"; ?></label>
-                                    <input id="documents" data-default-file="<?php echo base_url()?>./uploads/print_headerfooter/staff_payslip/<?php echo $result[0]['header_image']?>" placeholder="" type="file" class="filestyle form-control" data-height="180"  name="header_image">
-                                     <input  placeholder="" type="hidden" class="form-control" value="staff_payslip" name="type">
+                                    <input id="documents" data-default-file="<?php echo base_url()?>./uploads/print_headerfooter/statement_of_account/<?php echo $result[0]['header_image']?>" placeholder="" type="file" class="filestyle form-control" data-height="180"  name="header_image">
+                                     <input  placeholder="" type="hidden" class="form-control" value="statement_of_account" name="type">
                                       <span class="text-danger"><?php echo form_error('header_image'); ?></span>
                                 </div>
                                     <div class="form-group"><label><?php echo $this->lang->line('footer')." ".$this->lang->line('content'); ?><small class="req"> *</small></label>

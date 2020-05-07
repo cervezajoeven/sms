@@ -35,11 +35,11 @@ class Onlinestudent extends Admin_Controller
         
         if(!empty($data['classlist'])) {
             foreach ($data['classlist'] as $key => $value) {
-            $carray[]=$value['id']; 
+                $carray[] = $value['id']; 
             }
         }
 
-        $student_result = $this->onlinestudent_model->get(null,$carray);
+        $student_result = $this->onlinestudent_model->get(null, $carray);
         $data['studentlist'] = $student_result;
 
         $this->load->view('layout/header', $data);
@@ -105,6 +105,7 @@ class Onlinestudent extends Admin_Controller
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('layout/header', $data);
@@ -117,6 +118,7 @@ class Onlinestudent extends Admin_Controller
             $hostel_room_id = $this->input->post('hostel_room_id');
             $fees_discount  = $this->input->post('fees_discount');
             $vehroute_id    = $this->input->post('vehroute_id');
+            
             if (empty($vehroute_id)) {
                 $vehroute_id = 0;
             }
@@ -126,7 +128,6 @@ class Onlinestudent extends Admin_Controller
             $data = array(
                 'id'                  => $student_id,
                 'admission_no'        => $this->input->post('admission_no'),
-                'roll_no'             => $this->input->post('roll_no'),
                 'firstname'           => $this->input->post('firstname'),
                 'lastname'            => $this->input->post('lastname'),
                 'rte'                 => $this->input->post('rte'),
@@ -137,10 +138,10 @@ class Onlinestudent extends Admin_Controller
                 'previous_school'     => $this->input->post('previous_school'),
                 'guardian_is'         => $this->input->post('guardian_is'),
                 'pincode'             => $this->input->post('pincode'),
-                'measurement_date'    =>  $this->customlib->dateFormatToYYYYMMDD($this->input->post('measure_date')),
+                'measurement_date'    => $this->customlib->dateFormatToYYYYMMDD($this->input->post('measure_date')),
                 'religion'            => $this->input->post('religion'),
-                'dob'                 =>  $this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
-                'admission_date'      =>  $this->customlib->dateFormatToYYYYMMDD($this->input->post('admission_date')),
+                'dob'                 => $this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
+                'admission_date'      => $this->customlib->dateFormatToYYYYMMDD($this->input->post('admission_date')),
                 'current_address'     => $this->input->post('current_address'),
                 'permanent_address'   => $this->input->post('permanent_address'),
                 'category_id'         => $this->input->post('category_id'),
@@ -174,8 +175,9 @@ class Onlinestudent extends Admin_Controller
                 'enrollment_type'     => $this->input->post('enrollment_type'),
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                 'middlename'          => $this->input->post('middlename'),
+                'lrn_no'              => $this->input->post('lrn_no'),
             );
-            
+
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
           
             if ($response) {
@@ -185,7 +187,6 @@ class Onlinestudent extends Admin_Controller
                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('please_check_student_admission_no').'</div>');
                 redirect($_SERVER['HTTP_REFERER']);
             }
-
         }
     }
 
@@ -195,5 +196,4 @@ class Onlinestudent extends Admin_Controller
         $data     = $this->section_model->getClassBySection($class_id);
         $this->jsonlib->output(200, $data);
     }
-
 }
