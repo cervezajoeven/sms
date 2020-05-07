@@ -49,10 +49,13 @@ class Class_model extends MY_Model
 
         if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
             if ($userdata["class_teacher"] == 'yes') {
+
                 $classlist = $this->teacher_model->get_teacherrestricted_mode($userdata["id"]);
+
             }
-        } 
-        else {
+
+        } else {
+
             $this->db->select()->from('classes');
             if ($id != null) {
                 $this->db->where('id', $id);

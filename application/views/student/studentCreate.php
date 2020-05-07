@@ -19,6 +19,7 @@
                     </div>
 
                     <form id="form1" action="<?php echo site_url('student/create') ?>"  id="employeeform" name="employeeform" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                        <?php //echo validation_errors(); ?>
                         <div class="">
                         <div class="bozero">
                             <h4 class="pagetitleh-whitebg"><?php echo $this->lang->line('student'); ?> <?php echo $this->lang->line('admission'); ?> </h4>
@@ -34,21 +35,6 @@
                                 <?php echo $this->customlib->getCSRF(); ?>
                                 <input type="hidden" name="sibling_name" value="<?php echo set_value('sibling_name'); ?>" id="sibling_name_next">
                                 <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
-                                
-                                <?php $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee"); ?>
-                                <div class="row">
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="" class="control-label">Enrollment Type</label>
-                                            <small class='req'> *</small>
-                                            <select id="enrollment_type" name="enrollment_type" class="form-control">
-                                                <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
-                                                    <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
-                                                <?php }?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="row">
                                     <?php if (!$adm_auto_insert) {  ?>
@@ -65,7 +51,7 @@
                                     <?php if ($sch_setting->roll_no) {  ?>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('lrn_no'); ?></label>
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label>
                                             <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('roll_no'); ?>" />
                                             <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                         </div>
@@ -119,12 +105,11 @@
                                     </div>
                                     <?php } ?>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputFile"> <?php echo $this->lang->line('gender'); ?></label><small class="req"> *</small>
-                                            <select class="form-control" name="gender" id="gender">
+                                            <select class="form-control" name="gender">
                                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                 <?php foreach ($genderList as $key => $value) { ?>
                                                     <option value="<?php echo $key; ?>" <?php if (set_value('gender') == $key) { echo "selected"; } ?>><?php echo $value; ?></option>                                                    
@@ -164,8 +149,7 @@
                                             <span class="text-danger"><?php echo form_error('religion'); ?></span>
                                         </div>
                                     </div>
-                                    <?php } 
-                                    //if ($sch_setting->cast) {  ?>
+                                    <?php } //if ($sch_setting->cast) {  ?>
                                     <!-- <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php //echo $this->lang->line('cast'); ?></label>
@@ -215,7 +199,7 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('blood_group'); ?></label>
-                                            <select class="form-control" rows="3" placeholder="" name="blood_group" id="blood_group">
+                                            <select class="form-control" rows="3" placeholder="" name="blood_group">
                                                 <option value=""><?php echo $this->lang->line('select') ?></option>
                                                 <?php foreach ($bloodgroup as $bgkey => $bgvalue) { ?>
                                                     <option value="<?php echo $bgvalue ?>"><?php echo $bgvalue ?></option>
@@ -230,7 +214,7 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('house') ?></label>
-                                            <select class="form-control" rows="3" placeholder="" name="house" id="house">
+                                            <select class="form-control" rows="3" placeholder="" name="house">
                                                 <option value=""><?php echo $this->lang->line('select') ?></option>
                                                 <?php foreach ($houses as $hkey => $hvalue) { ?>
                                                 <option value="<?php echo $hvalue["id"] ?>"><?php echo $hvalue["house_name"] ?></option>
@@ -244,7 +228,7 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('height'); ?></label>
-                                            <input type="text" name="height" id="height" class="form-control" value="<?php echo set_value('height'); ?>" >
+                                            <input type="text" name="height" class="form-control" value="<?php echo set_value('height'); ?>" >
                                             <span class="text-danger"><?php echo form_error('height'); ?></span>
                                         </div>
                                     </div>
@@ -253,7 +237,7 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('weight'); ?></label>
-                                            <input type="text" name="weight" id="weight" class="form-control" value="<?php echo set_value('weight'); ?>">
+                                            <input type="text" name="weight" class="form-control" value="<?php echo set_value('weight'); ?>">
                                                 <span class="text-danger"><?php echo form_error('weight'); ?></span>
                                             </div>
                                         </div>
@@ -267,10 +251,21 @@
                                         </div>
                                     </div>
                                     <?php } ?>
+                                    <div class="col-md-3" style="display:none;">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('fees_discount'); ?></label>
+                                            <input id="fees_discount" name="fees_discount" placeholder="" type="text" class="form-control"  value="<?php echo set_value('fees_discount', 0); ?>"  />
+                                            <span class="text-danger"><?php echo form_error('fees_discount'); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <?php
                                         // echo display_custom_fields('online_admissions', $student["id"]);
+                                        $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
                                         $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
                                     ?>
+
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="" class="control-label">Mode of Payment</label>
@@ -281,17 +276,20 @@
                                                 <?php }?>
                                             </select>
                                         </div>
-                                    </div>         
-                                    <!-- <div class="col-md-3" style="display:none;">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php //echo $this->lang->line('fees_discount'); ?></label>
-                                            <input id="fees_discount" name="fees_discount" placeholder="" type="text" class="form-control"  value="<?php echo set_value('fees_discount', 0); ?>"  />
-                                            <span class="text-danger"><?php //echo form_error('fees_discount'); ?></span>
-                                        </div>
-                                    </div> -->
-                                </div>
+                                    </div>
 
-                                <div class="row">
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">Enrollment Type</label>
+                                            <small class='req'> *</small>
+                                            <select id="enrollment_type" name="enrollment_type" class="form-control">
+                                                <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
+                                                    <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
+                                                <?php }?>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-3 pt25">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -342,9 +340,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputFile"><?php echo $this->lang->line('father'); ?> <?php echo $this->lang->line('photo'); ?></label>
-                                            <div><input class="filestyle form-control" type='file' name='father_pic' id="file" size='20' /></div>
-                                            <span class="text-danger"><?php echo form_error('file'); ?></span>
-                                        </div>
+                                            <div><input class="filestyle form-control" type='file' name='father_pic' id="file" size='20' />
+                                            </div>
+                                            <span class="text-danger"><?php echo form_error('file'); ?></span></div>
                                     </div>
                                     <?php } ?>
                                 </div>
@@ -378,9 +376,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputFile"><?php echo $this->lang->line('mother'); ?> <?php echo $this->lang->line('photo'); ?></label>
-                                            <div><input class="filestyle form-control" type='file' name='mother_pic' id="file" size='20' /></div>
-                                            <span class="text-danger"><?php echo form_error('file'); ?></span>
-                                        </div>
+                                            <div><input class="filestyle form-control" type='file' name='mother_pic' id="file" size='20' />
+                                            </div>
+                                            <span class="text-danger"><?php echo form_error('file'); ?></span></div>
                                     </div>
                                     <?php } ?>
                                 </div>
@@ -389,13 +387,13 @@
                                     <div class="form-group col-md-12">
                                         <label><?php echo $this->lang->line('if_guardian_is'); ?><small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
                                         <label class="radio-inline">
-                                            <input type="radio" id="guardian_is" name="guardian_is" <?php echo set_value('guardian_is') == "father" ? "checked" : "";?> value="father"> <?php echo $this->lang->line('father'); ?>
+                                            <input type="radio" name="guardian_is" <?php echo set_value('guardian_is') == "father" ? "checked" : "";?> value="father"> <?php echo $this->lang->line('father'); ?>
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" id="guardian_is" name="guardian_is" <?php echo set_value('guardian_is') == "mother" ? "checked" : "";?> value="mother"> <?php echo $this->lang->line('mother'); ?>
+                                            <input type="radio" name="guardian_is" <?php echo set_value('guardian_is') == "mother" ? "checked" : "";?> value="mother"> <?php echo $this->lang->line('mother'); ?>
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" id="guardian_is" name="guardian_is" <?php echo set_value('guardian_is') == "other" ? "checked" : "";?> value="other"> <?php echo $this->lang->line('other'); ?>
+                                            <input type="radio" name="guardian_is" <?php echo set_value('guardian_is') == "other" ? "checked" : "";?> value="other"> <?php echo $this->lang->line('other'); ?>
                                         </label>
                                         <span class="text-danger"><?php echo form_error('guardian_is'); ?></span>
                                     </div>
@@ -437,7 +435,7 @@
                                                     <span class="text-danger"><?php echo form_error('guardian_occupation'); ?></span>
                                                 </div>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <?php  if ($sch_setting->guardian_email) { ?>
                                     <div class="col-md-3">
@@ -451,7 +449,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputFile"><?php echo $this->lang->line('guardian'); ?> <?php echo $this->lang->line('photo'); ?></label>
-                                            <div><input class="filestyle form-control" type='file' name='guardian_pic' id="file" size='20' /></div>
+                                            <div><input class="filestyle form-control" type='file' name='guardian_pic' id="file" size='20' />
+                                            </div>
                                             <span class="text-danger"><?php echo form_error('file'); ?></span>
                                         </div>
                                     </div>
@@ -469,9 +468,9 @@
                         <div class="box-group collapsed-box">
                             <div class="panel box collapsed-box border0 mb0">
                                 <div class="addmoredetail-title">
-                                    <a data-widget="collapse" data-original-title="Collapse" class="collapsed btn boxplus">
-                                        <i class="fa fa-fw fa-plus"></i><?php echo $this->lang->line('add_more_details'); ?>
-                                    </a>
+                                        <a data-widget="collapse" data-original-title="Collapse" class="collapsed btn boxplus">
+                                            <i class="fa fa-fw fa-plus"></i><?php echo $this->lang->line('add_more_details'); ?>
+                                        </a>
                                 </div>
                                 <div class="box-body">
                                     <div class="mb25 bozero">
@@ -541,197 +540,211 @@
                                                 </div>
                                             </div>
                                         <?php }?>
-
-                                        <?php if ($this->module_lib->hasActive('hostel')) { ?>
-                                            <?php if ($sch_setting->hostel_id) { ?>
-                                            <div class="tshadow mb25 bozero">
-                                                <h4 class="pagetitleh2">
-                                                    <?php echo $this->lang->line('hostel'); ?></label> <?php echo $this->lang->line('details'); ?></label>
-                                                </h4>
-
-                                                <div class="row around10">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('hostel'); ?></label>
-                                                            <select class="form-control" id="hostel_id" name="hostel_id">
-                                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                                <?php foreach ($hostelList as $hostel_key => $hostel_value) { ?>
-                                                                    <option value="<?php echo $hostel_value['id'] ?>" <?php echo set_select('hostel_id', $hostel_value['id']); ?>><?php echo $hostel_value['hostel_name']; ?></option>
-                                                                <?php }?>
-                                                            </select>
-                                                            <span class="text-danger"><?php echo form_error('hostel_id'); ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('room_no'); ?></label>
-                                                            <select  id="hostel_room_id" name="hostel_room_id" class="form-control" >
-                                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                            </select>
-                                                            <span class="text-danger"><?php echo form_error('hostel_room_id'); ?></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <?php }?> 
-                                        <?php } 
-                                    }?>
-                                    <div class="tshadow mb25 bozero">
-                                        <h4 class="pagetitleh2"><?php echo $this->lang->line('miscellaneous_details'); ?></h4>
-                                        <?php if ($sch_setting->bank_account_no) { ?>
-                                            <div class="row around10">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('bank_account_no'); ?></label>
-                                                        <input id="bank_account_no" name="bank_account_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('bank_account_no'); ?>" />
-                                                        <span class="text-danger"><?php echo form_error('bank_account_no'); ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('bank_name'); ?></label>
-                                                        <input id="bank_name" name="bank_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('bank_name'); ?>" />
-                                                        <span class="text-danger"><?php echo form_error('bank_name'); ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('ifsc_code'); ?></label>
-                                                        <input id="ifsc_code" name="ifsc_code" placeholder="" type="text" class="form-control"  value="<?php echo set_value('ifsc_code'); ?>" />
-                                                        <span class="text-danger"><?php echo form_error('ifsc_code'); ?></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
-                                        <div class="row around10">
-                                            <?php if ($sch_setting->national_identification_no) { ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">
-                                                        <?php echo $this->lang->line('national_identification_no'); ?>
-                                                    </label>
-                                                    <input id="adhar_no" name="adhar_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('adhar_no'); ?>" />
-                                                    <span class="text-danger"><?php echo form_error('adhar_no'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } 
-                                            if ($sch_setting->local_identification_no) { ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">
-                                                        <?php echo $this->lang->line('local_identification_no'); ?>
-                                                    </label>
-                                                    <input id="samagra_id" name="samagra_id" placeholder="" type="text" class="form-control"  value="<?php echo set_value('samagra_id'); ?>" />
-                                                    <span class="text-danger"><?php echo form_error('samagra_id'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } 
-                                            if ($sch_setting->rte) { ?>
-                                            <div class="col-md-4">
-                                                <label><?php echo $this->lang->line('rte'); ?></label>
-                                                <div class="radio" style="margin-top: 2px;">
-                                                    <label><input class="radio-inline" id="rte" type="radio" name="rte" value="Yes" <?php echo set_value('rte') == "yes" ? "checked" : "";?>><?php echo $this->lang->line('yes'); ?></label>
-                                                    <label><input class="radio-inline" id="rte" checked="checked" type="radio" name="rte" value="No" <?php echo set_value('rte') == "no" ? "checked" : "";?>><?php echo $this->lang->line('no'); ?></label>                                                
-                                                </div>
-                                                <span class="text-danger"><?php echo form_error('rte'); ?></span>
-                                            </div>
-                                            <?php } 
-                                            if ($sch_setting->previous_school_details) { ?>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('previous_school_details'); ?></label>
-                                                    <textarea class="form-control" rows="3" placeholder="" name="previous_school" id="previous_school"></textarea>
-                                                    <span class="text-danger"><?php echo form_error('previous_school'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } if ($sch_setting->student_note) {  ?>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('note'); ?></label>
-                                                    <textarea class="form-control" rows="3" placeholder="" name="note" id="note"></textarea>
-                                                    <span class="text-danger"><?php echo form_error('note'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <div id='upload_documents_hide_show'>
-                                    <?php if ($sch_setting->upload_documents) {  ?>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="tshadow bozero">
-                                                    <h4 class="pagetitleh2"><?php echo $this->lang->line('upload_documents'); ?></h4>
+                                    <?php if ($this->module_lib->hasActive('hostel')) { ?>
+                                        <?php if ($sch_setting->hostel_id) { ?>
+                                                    <div class="tshadow mb25 bozero">
+                                                    <h4 class="pagetitleh2">
+                                                        <?php echo $this->lang->line('hostel'); ?></label> <?php echo $this->lang->line('details'); ?></label>
+                                                    </h4>
 
                                                     <div class="row around10">
                                                         <div class="col-md-6">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <th style="width: 10px">#</th>
-                                                                    <th><?php echo $this->lang->line('title'); ?></th>
-                                                                    <th><?php echo $this->lang->line('documents'); ?></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>1.</td>
-                                                                    <td><input type="text" name='first_title' id='first_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='first_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2.</td>
-                                                                    <td><input type="text" name='second_title' id='second_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='second_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>                                                                
-                                                                </tbody>
-                                                            </table>
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('hostel'); ?></label>
+
+                                                                <select class="form-control" id="hostel_id" name="hostel_id">
+
+                                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                                    <?php
+
+        foreach ($hostelList as $hostel_key => $hostel_value) {
+            ?>
+
+        <option value="<?php echo $hostel_value['id'] ?>" <?php echo set_select('hostel_id', $hostel_value['id']); ?>>
+            <?php
+
+            echo $hostel_value['hostel_name']; ?>
+                                                                                    </option>
+                                                                                    <?php
+    }
+        ?>
+                                                                </select>
+                                                                <span class="text-danger"><?php echo form_error('hostel_id'); ?></span>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <th style="width: 10px">#</th>
-                                                                    <th><?php echo $this->lang->line('title'); ?></th>
-                                                                    <th><?php echo $this->lang->line('documents'); ?></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3.</td>
-                                                                    <td><input type="text" name='fourth_title' id='fourth_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='fourth_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>4.</td>
-                                                                    <td><input type="text" name='fifth_title' id='fifth_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='fifth_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
+    <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('room_no'); ?></label>
+                                                                <select  id="hostel_room_id" name="hostel_room_id" class="form-control" >
+                                                        <option value=""   ><?php echo $this->lang->line('select'); ?></option>
+                                                            </select>
+                                                                <span class="text-danger"><?php echo form_error('hostel_room_id'); ?></span>
+                                                            </div>
                                                         </div>
+
+
                                                     </div>
                                                 </div>
+                                        <?php }?> <?php } }?>
+                                                <div class="tshadow mb25 bozero">
+                                                    <h4 class="pagetitleh2"><?php echo $this->lang->line('miscellaneous_details'); ?>
+                                                    </h4>
+                                                    <?php if ($sch_setting->bank_account_no) { ?>
+                                                    <div class="row around10">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('bank_account_no'); ?></label>
+                                                                <input id="bank_account_no" name="bank_account_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('bank_account_no'); ?>" />
+                                                                <span class="text-danger"><?php echo form_error('bank_account_no'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('bank_name'); ?></label>
+                                                                <input id="bank_name" name="bank_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('bank_name'); ?>" />
+                                                                <span class="text-danger"><?php echo form_error('bank_name'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('ifsc_code'); ?></label>
+                                                                <input id="ifsc_code" name="ifsc_code" placeholder="" type="text" class="form-control"  value="<?php echo set_value('ifsc_code'); ?>" />
+                                                                <span class="text-danger"><?php echo form_error('ifsc_code'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <div class="row around10">
+                                                        <?php if ($sch_setting->national_identification_no) { ?>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1">
+                                                                    <?php echo $this->lang->line('national_identification_no'); ?>
+                                                                </label>
+                                                                <input id="adhar_no" name="adhar_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('adhar_no'); ?>" />
+                                                                <span class="text-danger"><?php echo form_error('adhar_no'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <?php } if ($sch_setting->local_identification_no) { ?>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1">
+                                                                    <?php echo $this->lang->line('local_identification_no'); ?>
+                                                                </label>
+                                                                <input id="samagra_id" name="samagra_id" placeholder="" type="text" class="form-control"  value="<?php echo set_value('samagra_id'); ?>" />
+                                                                <span class="text-danger"><?php echo form_error('samagra_id'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <?php } if ($sch_setting->rte) { ?>
+                                                        <div class="col-md-4">
+                                                <label><?php echo $this->lang->line('rte'); ?></label>
+                                                <div class="radio" style="margin-top: 2px;">
+                                                    <label><input class="radio-inline" type="radio" name="rte" value="Yes"  <?php
+    echo set_value('rte') == "yes" ? "checked" : "";
+    ?>  ><?php echo $this->lang->line('yes'); ?></label>
+                                                    <label><input class="radio-inline" checked="checked" type="radio" name="rte" value="No" <?php
+    echo set_value('rte') == "no" ? "checked" : "";
+    ?>  ><?php echo $this->lang->line('no'); ?></label>
+                                                </div>
+                                                <span class="text-danger"><?php echo form_error('rte'); ?></span>
                                             </div>
-                                        </div>
-                                    <?php } ?>
+                                                        <?php } if ($sch_setting->previous_school_details) {  ?>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('previous_school_details'); ?></label>
+                                                                <textarea class="form-control" rows="3" placeholder="" name="previous_school"></textarea>
+                                                                <span class="text-danger"><?php echo form_error('previous_school'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <?php } if ($sch_setting->student_note) {  ?>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('note'); ?></label>
+                                                                <textarea class="form-control" rows="3" placeholder="" name="note"></textarea>
+                                                                <span class="text-danger"><?php echo form_error('note'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <?php } ?>
+
+
+                                                    </div>
+                                                </div>
+                                                <div id='upload_documents_hide_show'>
+                                                <?php 	if ($sch_setting->upload_documents) {  ?>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="tshadow bozero">
+                                                                <h4 class="pagetitleh2"><?php echo $this->lang->line('upload_documents'); ?></h4>
+
+                                                                <div class="row around10">
+                                                                    <div class="col-md-6">
+                                                                        <table class="table">
+                                                                            <tbody><tr>
+                                                                                    <th style="width: 10px">#</th>
+                                                                                    <th><?php echo $this->lang->line('title'); ?></th>
+                                                                                    <th><?php echo $this->lang->line('documents'); ?></th>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>1.</td>
+                                                                                    <td><input type="text" name='first_title' class="form-control" placeholder=""></td>
+                                                                                    <td>
+                                                                                        <input class="filestyle form-control" type='file' name='first_doc' id="doc1" >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>2.</td>
+                                                                                    <td><input type="text" name='second_title' class="form-control" placeholder=""></td>
+                                                                                    <td>
+                                                                                        <input class="filestyle form-control" type='file' name='second_doc' id="doc1" >
+                                                                                    </td>
+                                                                                </tr>
+                                                                            
+                                                                            </tbody></table>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <table class="table">
+                                                                            <tbody><tr>
+                                                                                    <th style="width: 10px">#</th>
+                                                                                    <th><?php echo $this->lang->line('title'); ?></th>
+                                                                                    <th><?php echo $this->lang->line('documents'); ?></th>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>3.</td>
+                                                                                    <td><input type="text" name='fourth_title' class="form-control" placeholder=""></td>
+                                                                                    <td>
+                                                                                        <input class="filestyle form-control" type='file' name='fourth_doc' id="doc1" >
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>4.</td>
+                                                                                    <td><input type="text" name='fifth_title' class="form-control" placeholder=""></td>
+                                                                                    <td>
+                                                                                        <input class="filestyle form-control" type='file' name='fifth_doc' id="doc1" >
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody></table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
+                                                </div>
+                                            </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
+                                </div>
+                        </form>
                     </div>
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
-                    </div>
-                    </form>
                 </div>
             </div>
-        </div>
-        </div> 
+    </div>
     </section>
 </div>
+
+
 
 <div class="modal fade" id="mySiblingModal" role="dialog">
     <div class="modal-dialog">
@@ -743,17 +756,26 @@
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="box-body">
-                        <div class="sibling_msg"></div>
+                        <div class="sibling_msg">
+
+                        </div>
                         <input  type="hidden" class="form-control" id="transport_student_session_id"  value="0" readonly="readonly"/>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label"><?php echo $this->lang->line('class'); ?></label>
                             <div class="col-sm-10">
                                 <select  id="sibiling_class_id" name="sibiling_class_id" class="form-control"  >
                                     <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                    <?php foreach ($classlist as $class) { ?>
-                                        <option value="<?php echo $class['id'] ?>"<?php if (set_value('sibiling_class_id') == $class['id']) { echo "selected=selected";}?>><?php echo $class['class'] ?></option>
-                                    <?php $count++;
-                                    } ?>
+                                    <?php
+foreach ($classlist as $class) {
+    ?>
+                                        <option value="<?php echo $class['id'] ?>"<?php if (set_value('sibiling_class_id') == $class['id']) {
+        echo "selected=selected";
+    }
+    ?>><?php echo $class['class'] ?></option>
+                                        <?php
+$count++;
+}
+?>
                                 </select>
                             </div>
                         </div>
@@ -780,18 +802,19 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">                
+            <div class="modal-footer">
+                
                 <button type="button" class="btn btn-primary add_sibling" id="load" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing"><i class="fa fa-user"></i> <?php echo $this->lang->line('add'); ?></button>
             </div>
         </div>
     </div>
 </div>
 
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 
 <script type="text/javascript">
+
+
     $(document).ready(function () {
         var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy']) ?>';
         var class_id = $('#class_id').val();
@@ -807,6 +830,8 @@
            getSectionByClass(class_id, 0);
         });
 
+
+
         $('.datetime').datetimepicker({
 
         });
@@ -816,119 +841,128 @@
             $("#form1")[0].reset();
         });
 
+
          $(document).on('change', '#hostel_id', function (e) {
             var hostel_id = $(this).val();
             getHostel(hostel_id, 0);
 
         });
 
-        function getSectionByClass(class_id, section_id) {
-            if (class_id != "" ) {
-                $('#section_id').html("");
-                var base_url = '<?php echo base_url() ?>';
-                var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-                var url = "<?php $userdata = $this->customlib->getUserData();
-            
-                if (($userdata["role_id"] == 2)) {echo "getClassTeacherSection";} else { echo "getByClass"; }?>";
+ function getSectionByClass(class_id, section_id) {
 
-                $.ajax({
-                    type: "GET",
-                    url: base_url + "sections/getByClass",
-                    data: {'class_id': class_id},
-                    dataType: "json",
-                    beforeSend: function(){
-                        $('#section_id').addClass('dropdownloading');
-                    },
-                    success: function (data) {
-                        $.each(data, function (i, obj)
-                        {
-                            var sel = "";
-                            if (section_id == obj.section_id) {
-                                sel = "selected";
-                            }
-                            div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
-                        });
-                        $('#section_id').append(div_data);
-                    },
-                    complete: function() {
-                        $('#section_id').removeClass('dropdownloading');
-                    }
-                });
-            }
+        if (class_id != "" ) {
+            $('#section_id').html("");
+            var base_url = '<?php echo base_url() ?>';
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+              var url = "<?php $userdata = $this->customlib->getUserData();
+if (($userdata["role_id"] == 2)) {echo "getClassTeacherSection";} else {echo "getByClass";}?>";
+
+            $.ajax({
+                type: "GET",
+                url: base_url + "sections/getByClass",
+                data: {'class_id': class_id},
+                dataType: "json",
+                  beforeSend: function(){
+                 $('#section_id').addClass('dropdownloading');
+                 },
+                success: function (data) {
+                    $.each(data, function (i, obj)
+                    {
+                        var sel = "";
+                        if (section_id == obj.section_id) {
+                            sel = "selected";
+                        }
+                        div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
+                    });
+                    $('#section_id').append(div_data);
+                },
+               complete: function(){
+              $('#section_id').removeClass('dropdownloading');
+               }
+            });
         }
+    }
 
-        function getHostel(hostel_id, hostel_room_id) {
-            if (hostel_room_id == "") {
-                hostel_room_id=0;
-            }
 
-            if (hostel_id != "") {
-                $('#hostel_room_id').html("");
-                var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+    function getHostel(hostel_id, hostel_room_id) {
+   if(hostel_room_id == ""){
+    hostel_room_id=0;
+   }
 
-                $.ajax({
-                    type: "GET",
-                    url: baseurl + "admin/hostelroom/getRoom",
-                    data: {'hostel_id': hostel_id},
-                    dataType: "json",
-                    beforeSend: function() {
-                        $('#hostel_room_id').addClass('dropdownloading');
-                    },
-                    success: function (data) {
-                        $.each(data, function (i, obj) {
-                            var sel = "";
-                            if (hostel_room_id == obj.id) {
-                                sel = "selected";
-                            }
-                            div_data += "<option value=" + obj.id + " " + sel + ">" + obj.room_no+" ("+obj.room_type+")" + "</option>";
-                        });
+ if (hostel_id != "") {
 
-                        $('#hostel_room_id').append(div_data);
-                    },
-                    complete: function() {
-                        $('#hostel_room_id').removeClass('dropdownloading');
-                    }
-                });
-            }
-        }
+          $('#hostel_room_id').html("");
+
+
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+                type: "GET",
+                url: baseurl + "admin/hostelroom/getRoom",
+                data: {'hostel_id': hostel_id},
+                dataType: "json",
+                 beforeSend: function(){
+                 $('#hostel_room_id').addClass('dropdownloading');
+                 },
+                success: function (data) {
+                    $.each(data, function (i, obj)
+                    {
+                        var sel = "";
+                        if (hostel_room_id == obj.id) {
+                            sel = "selected";
+                        }
+
+                         div_data += "<option value=" + obj.id + " " + sel + ">" + obj.room_no+" ("+obj.room_type+")" + "</option>";
+
+                    });
+                    $('#hostel_room_id').append(div_data);
+                },
+                complete: function(){
+              $('#hostel_room_id').removeClass('dropdownloading');
+   }
+            });
+ }
+  }
+
     });
-
     function auto_fill_guardian_address() {
         if ($("#autofill_current_address").is(':checked'))
         {
             $('#current_address').val($('#guardian_address').val());
         }
     }
-
     function auto_fill_address() {
         if ($("#autofill_address").is(':checked'))
         {
             $('#permanent_address').val($('#current_address').val());
         }
     }
+    $('input:radio[name="guardian_is"]').change(
+            function () {
+                if ($(this).is(':checked')) {
+                    var value = $(this).val();
+                    if (value == "father") {
+                        $('#guardian_name').val($('#father_name').val());
+                        $('#guardian_phone').val($('#father_phone').val());
+                        $('#guardian_occupation').val($('#father_occupation').val());
+                        $('#guardian_relation').val("Father")
+                    } else if (value == "mother") {
+                        $('#guardian_name').val($('#mother_name').val());
+                        $('#guardian_phone').val($('#mother_phone').val());
+                        $('#guardian_occupation').val($('#mother_occupation').val());
+                        $('#guardian_relation').val("Mother")
+                    } else {
+                        $('#guardian_name').val("");
+                        $('#guardian_phone').val("");
+                        $('#guardian_occupation').val("");
+                        $('#guardian_relation').val("")
+                    }
+                }
+            });
 
-    $('input:radio[name="guardian_is"]').change(function () {
-        if ($(this).is(':checked')) {
-            var value = $(this).val();
-            if (value == "father") {
-                $('#guardian_name').val($('#father_name').val());
-                $('#guardian_phone').val($('#father_phone').val());
-                $('#guardian_occupation').val($('#father_occupation').val());
-                $('#guardian_relation').val("Father")
-            } else if (value == "mother") {
-                $('#guardian_name').val($('#mother_name').val());
-                $('#guardian_phone').val($('#mother_phone').val());
-                $('#guardian_occupation').val($('#mother_occupation').val());
-                $('#guardian_relation').val("Mother")
-            } else {
-                $('#guardian_name').val("");
-                $('#guardian_phone').val("");
-                $('#guardian_occupation').val("");
-                $('#guardian_relation').val("")
-            }
-        }
-    });
 
+</script>
+
+<script type="text/javascript">
     $(".mysiblings").click(function () {
         $('.sibling_msg').html("");
         $('.modal_title').html('<b>' + "<?php echo $this->lang->line('sibling'); ?>" + '</b>');
@@ -937,8 +971,11 @@
             keyboard: false,
             show: true
         });
-    });   
-    
+    });
+</script>
+
+<script type="text/javascript">
+
     $(document).on('change', '#sibiling_class_id', function (e) {
         $('#sibiling_section_id').html("");
         var class_id = $(this).val();
@@ -1025,120 +1062,7 @@
         } else {
             $('.sibling_msg').html("<div class='alert alert-danger'>No Student Selected</div>");
         }
+
     });
-
-    function AutoFillDetails(data) {
-        $('#roll_no').val(data.roll_no);
-        //$('#class_id').val(data.class_id);
-        //$('#section_id').val(data.section_id);
-        $('#firstname').val(data.firstname);
-        $('#middlename').val(data.middlename);
-        $('#lastname').val(data.lastname);
-        $('#gender').val(data.gender);
-        $('#dob').val(data.dob);
-        $('#category_id').val(data.category_id);
-        $('#religion').val(data.religion);
-        $('#mobileno').val(data.mobileno);
-        $('#email').val(data.email);
-        $('#admission_date').val(data.admission_date);
-        $('#blood_group').val(data.blood_group);
-        $('#house').val(data.house);
-        $('#height').val(data.height);
-        $('#weight').val(data.weight);
-        $('#measure_date').val(data.measure_date);
-        $('#mode_of_payment').val(data.mode_of_payment);
-        $('#father_name').val(data.father_name);
-        $('#father_phone').val(data.father_phone);
-        $('#father_occupation').val(data.father_occupation);
-        $('#mother_name').val(data.mother_name);
-        $('#mother_phone').val(data.mother_phone);
-        $('#mother_occupation').val(data.mother_occupation);
-        $("input[name=guardian_is][value='" + data.guardian_is + "']").prop("checked", true);
-        $('#guardian_name').val(data.guardian_name);
-        $('#guardian_relation').val(data.guardian_relation);
-        $('#guardian_phone').val(data.guardian_phone);
-        $('#guardian_occupation').val(data.guardian_occupation);
-        $('#guardian_email').val(data.guardian_email);        
-        $('#guardian_address').val(data.guardian_address);
-        $('#current_address').val(data.current_address);
-        $('#permanent_address').val(data.permanent_address);
-        $('#bank_account_no').val(data.bank_account_no);
-        $('#bank_name').val(data.bank_name);
-        $('#ifsc_code').val(data.ifsc_code);
-        $('#adhar_no').val(data.adhar_no);
-        $('#samagra_id').val(data.samagra_id);
-        $('#rte').val(data.rte);
-        $('#previous_school').val(data.previous_school);
-        $('#note').val(data.note);
-    }
-
-    $("#roll_no").autocomplete({
-        autofocus: true,
-        source: function( request, response ) {
-            // Fetch data
-            $.ajax({
-                url: '<?php echo base_url()."student/AutoCompleteLRN"; ?>',
-                type: 'post',
-                dataType: "json",
-                data: {
-                    search: request.term
-                },
-                success: function(data) {
-                    response(data);
-                }
-            });
-        },
-        select: function (event, ui) {
-            // Set selection
-            if ($('#enrollment_type').val() == 'old' ) {
-                var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.label;
-                $.get(url)
-                .done(function(data) {
-                    AutoFillDetails(JSON.parse(data)[0]);
-                });
-            }
-            
-            return false;
-        }
-    }).keyup(function() {
-        //$('#form1')[0].reset();
-    });
-
-    $("#firstname").autocomplete({
-        autofocus: true,
-        source: function( request, response ) {
-            // Fetch data
-            $.ajax({
-                url: '<?php echo base_url()."student/AutoCompleteStudentName"; ?>',
-                type: 'post',
-                dataType: "json",
-                data: {
-                    search: request.term
-                },
-                success: function(data) {
-                    response(data);
-                }
-            });
-        },
-        select: function (event, ui) {
-            // Set selection
-            if ($('#enrollment_type').val() == 'old' ) {
-                var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.value;
-                $.get(url)
-                .done(function(data) {
-                    AutoFillDetails(JSON.parse(data)[0]);
-                });
-            }
-            
-            return false;
-        }
-    }).keyup(function() {
-        //$('#form1')[0].reset();
-    });
-
-    function SelectRadioButton(name, value) {
-        $("input[name='"+name+"'][value='"+value+"']").prop('checked', true);
-        return false; // Returning false would not submit the form
-    }
 </script>
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/js/savemode.js"></script>

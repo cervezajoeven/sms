@@ -35,7 +35,6 @@ class Welcome extends Front_Controller
         $home_page                   = $this->config->item('ci_front_home_page_slug');
         $result                      = $this->cms_program_model->getByCategory($this->banner_content);
         $this->data['page']          = $this->cms_page_model->getBySlug($home_page);
-
         if (!empty($result)) {
             $this->data['banner_images'] = $this->cms_program_model->front_cms_program_photos($result[0]['id']);
         }
@@ -209,57 +208,40 @@ class Welcome extends Front_Controller
             $this->data['active_menu'] = 'home';
             $page                      = array('title' => 'Online Admission Form', 'meta_title' => 'online admission form', 'meta_keyword' => 'online admission form', 'meta_description' => 'online admission form');
 
-            $this->data['page_side_bar'] = false;
+            $this->data['page_side_bar']  = false;
             $this->data['featured_image'] = false;
-            $this->data['page'] = $page;
+            $this->data['page']           = $page;
             ///============
             $this->data['form_admission'] = $this->setting_model->getOnlineAdmissionStatus();
 
             ///////===
-            $genderList = $this->customlib->getGender();
+            $genderList               = $this->customlib->getGender();
             $this->data['genderList'] = $genderList;
-            $this->data['title'] = 'Add Student';
+            $this->data['title']      = 'Add Student';
             $this->data['title_list'] = 'Recently Added Student';
 
             $data["student_categorize"] = 'class';
-            $session = $this->setting_model->getCurrentSession();
+            $session                    = $this->setting_model->getCurrentSession();
         
-            $class = $this->class_model->getAll();
+            $class                   = $this->class_model->getAll();
             $this->data['classlist'] = $class;
-            $userdata = $this->customlib->getUserData();
+            $userdata                = $this->customlib->getUserData();
 
-            $category = $this->category_model->get();
+            $category                   = $this->category_model->get();
             $this->data['categorylist'] = $category;        
             $this->data['schoolname'] = $this->setting_model->getCurrentSchoolName();
 
-            $enrollment_type = $this->input->post('enrollment_type');
-
-            if ($enrollment_type == 'old') 
-            {
-                $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');            
-                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');                
-                $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-            }                
-            else 
-            {
-                $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-                //$this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
-                //$this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|xss_clean');
-            }            
+            $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
+            //$this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+            //$this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
 
             if ($this->form_validation->run() == false) {
                 $this->load_theme('pages/admission');
@@ -294,130 +276,55 @@ class Welcome extends Front_Controller
                 }
                 //=====================
                 if ($document_validate) {
-                    // $class_id   = $this->input->post('class_id');
-                    // $section_id = $this->input->post('section_id');
 
-                    // $custom_field_post  = $this->input->post("custom_fields[online_admissions]");
-                    // $custom_value_array = array();
-                    // if (!empty($custom_field_post)) {
+                    $class_id   = $this->input->post('class_id');
+                    $section_id = $this->input->post('section_id');
 
-                    //     foreach ($custom_field_post as $key => $value) {
-                    //         $check_field_type = $this->input->post("custom_fields[online_admissions][" . $key . "]");
-                    //         $field_value      = is_array($check_field_type) ? implode(",", $check_field_type) : $check_field_type;
-                    //         $array_custom     = array(
-                    //             'belong_table_id' => 0,
-                    //             'custom_field_id' => $key,
-                    //             'field_value'     => $field_value,
-                    //         );
-                    //         $custom_value_array[] = $array_custom;
-                    //     }
-                    // }
+                    $custom_field_post  = $this->input->post("custom_fields[online_admissions]");
+                    $custom_value_array = array();
+                    if (!empty($custom_field_post)) {
 
-                    if ($enrollment_type == 'old')
-                    {
-                        $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
-                        $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
-
-                        $data = array(
-                            'roll_no'             => $old_student_data->roll_no,
-                            'firstname'           => $old_student_data->firstname,
-                            'lastname'            => $old_student_data->lastname,
-                            'mobileno'            => $old_student_data->mobileno,
-                            //'class_section_id'    => $old_student_data->section_id,
-                            'guardian_is'         => $old_student_data->guardian_is,
-                            'dob'                 => date('Y-m-d', strtotime($old_student_data->dob)),
-                            'current_address'     => $old_student_data->current_address,
-                            'permanent_address'   => $old_student_data->permanent_address,
-                            'father_name'         => $old_student_data->father_name,
-                            'father_phone'        => $old_student_data->father_phone,
-                            'father_occupation'   => $old_student_data->father_occupation,
-                            'mother_name'         => $old_student_data->mother_name,
-                            'mother_phone'        => $old_student_data->mother_phone,
-                            'mother_occupation'   => $old_student_data->mother_occupation,
-                            'guardian_occupation' => $old_student_data->guardian_occupation,
-                            'guardian_email'      => $old_student_data->guardian_email,
-                            'gender'              => $old_student_data->gender,
-                            'guardian_name'       => $old_student_data->guardian_name,
-                            'guardian_relation'   => $old_student_data->guardian_relation,
-                            'guardian_phone'      => $old_student_data->guardian_phone,
-                            'guardian_address'    => $old_student_data->guardian_address,
-                            'admission_date'      => date('Y/m/d'),
-                            'measurement_date'    => date('Y/m/d'),
-                            'mode_of_payment'     => $this->input->post('mode_of_payment'),
-                            'enrollment_type'     => $enrollment_type,                        
-                            'middlename'          => $old_student_data->middlename,
-                            'email'               => $this->input->post('email'),
-                        );
-
-                        $current_session = $this->setting_model->getCurrentSession();
-
-                        if (sizeOf($has_admission) <= 0 && ($old_student_data->session_id != $current_session))
-                        {
-                            $insert_id = $this->onlinestudent_model->add($data);
-                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
-                        }
-                        else 
-                        {
-                            if ($old_student_data->session_id == $current_session)
-                            {
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
-                            }
-                            else if ($has_admission->is_enroll == '0')
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
-                            else 
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');                        
-                        }                        
-                    }
-                    else 
-                    {
-                        $has_admission = ($this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob')))))[0];
-
-                        $data = array(
-                            'roll_no'             => $this->input->post('studentidnumber'),
-                            'firstname'           => $this->input->post('firstname'),
-                            'lastname'            => $this->input->post('lastname'),
-                            'mobileno'            => $this->input->post('mobileno'),
-                            //'class_section_id'    => $this->input->post('section_id'),
-                            'guardian_is'         => $this->input->post('guardian_is'),
-                            'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
-                            'current_address'     => $this->input->post('current_address'),
-                            'permanent_address'   => $this->input->post('permanent_address'),
-                            'father_name'         => $this->input->post('father_name'),
-                            'father_phone'        => $this->input->post('father_phone'),
-                            'father_occupation'   => $this->input->post('father_occupation'),
-                            'mother_name'         => $this->input->post('mother_name'),
-                            'mother_phone'        => $this->input->post('mother_phone'),
-                            'mother_occupation'   => $this->input->post('mother_occupation'),
-                            'guardian_occupation' => $this->input->post('guardian_occupation'),
-                            'guardian_email'      => $this->input->post('guardian_email'),
-                            'gender'              => $this->input->post('gender'),
-                            'guardian_name'       => $this->input->post('guardian_name'),
-                            'guardian_relation'   => $this->input->post('guardian_relation'),
-                            'guardian_phone'      => $this->input->post('guardian_phone'),
-                            'guardian_address'    => $this->input->post('guardian_address'),
-                            'admission_date'      => date('Y/m/d'),
-                            'measurement_date'    => date('Y/m/d'),
-                            'mode_of_payment'     => $this->input->post('mode_of_payment'),
-                            'enrollment_type'     => $enrollment_type,                        
-                            'middlename'          => $this->input->post('middlename'),
-                            'email'               => $this->input->post('email'),
-                        );
-
-                        if (sizeOf($has_admission) <= 0)
-                        {
-                            $insert_id = $this->onlinestudent_model->add($data);
-
-                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
-                        }
-                        else 
-                        {
-                            if ($has_admission->is_enroll == '0')
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
-                            else 
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                        foreach ($custom_field_post as $key => $value) {
+                            $check_field_type = $this->input->post("custom_fields[online_admissions][" . $key . "]");
+                            $field_value      = is_array($check_field_type) ? implode(",", $check_field_type) : $check_field_type;
+                            $array_custom     = array(
+                                'belong_table_id' => 0,
+                                'custom_field_id' => $key,
+                                'field_value'     => $field_value,
+                            );
+                            $custom_value_array[] = $array_custom;
                         }
                     }
-                    
+
+                    $data = array(
+                        'roll_no'             => $this->input->post('roll_no'),                   
+                        'firstname'           => $this->input->post('firstname'),
+                        'lastname'            => $this->input->post('lastname'),
+                        'mobileno'            => $this->input->post('mobileno'),
+                        'class_section_id'    => $this->input->post('section_id'),
+                        'guardian_is'         => $this->input->post('guardian_is'),
+                        'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
+                        'current_address'     => $this->input->post('current_address'),
+                        'permanent_address'   => $this->input->post('permanent_address'),
+                        'father_name'         => $this->input->post('father_name'),
+                        'father_phone'        => $this->input->post('father_phone'),
+                        'father_occupation'   => $this->input->post('father_occupation'),
+                        'mother_name'         => $this->input->post('mother_name'),
+                        'mother_phone'        => $this->input->post('mother_phone'),
+                        'mother_occupation'   => $this->input->post('mother_occupation'),
+                        'guardian_occupation' => $this->input->post('guardian_occupation'),
+                        'guardian_email'      => $this->input->post('guardian_email'),
+                        'gender'              => $this->input->post('gender'),
+                        'guardian_name'       => $this->input->post('guardian_name'),
+                        'guardian_relation'   => $this->input->post('guardian_relation'),
+                        'guardian_phone'      => $this->input->post('guardian_phone'),
+                        'guardian_address'    => $this->input->post('guardian_address'),
+                        'admission_date'      =>date('Y/m/d'),
+                        'measurement_date'    =>date('Y/m/d'),
+                        'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                        'enrollment_type'     => $this->input->post('enrollment_type'),                        
+                        'middlename'          => $this->input->post('middlename'),
+                    );
                     if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
                         $time     = md5($_FILES["document"]['name'] . microtime());
                         $fileInfo = pathinfo($_FILES["document"]["name"]);
@@ -427,6 +334,15 @@ class Welcome extends Front_Controller
                         $data['document'] = $doc_name;
                     }
 
+                    $insert_id = $this->onlinestudent_model->add($data);
+
+                    // //--Insert custom field value
+                    // if (!empty($custom_value_array)) {
+                    //     $this->customfield_model->insertRecord($custom_value_array, $insert_id);
+                    // }
+
+                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');
                 }
 
@@ -435,9 +351,4 @@ class Welcome extends Front_Controller
         }
     }
 
-    public function GetStudentDetails($idnumber)
-    {
-        $data = $this->student_model->GetStudentInfo($idnumber);
-        echo json_encode($data);
-    }
 }

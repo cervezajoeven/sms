@@ -1423,7 +1423,4 @@ $lang['lms_homework'] = 'Homework/Project';
 $lang['attendance_from'] = 'Attendance From';
 
 $lang['middle_name'] = 'Middle Name';
-$lang['lrn_no'] = 'LRN Number';
-$lang['has_pending_admission'] = 'already has pending admission';
-$lang['already_enrolled'] = 'is already enrolled.';
 ?>
