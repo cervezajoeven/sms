@@ -286,10 +286,13 @@
 
                             </div>
 
-                            <h3>Assign Date</h3>
+                            <h3>Assign Start Date</h3>
                             
-                            <input type="date" name="">
+                            <input type="datetime-local" class="start_date" name="">
 
+                            <h3>Assign End Date</h3>
+                            
+                            <input type="datetime-local" class="start_date" name="">
                         </div>
                         
 

@@ -28,6 +28,17 @@ class General_model extends MY_Model {
         return $role;
         
     }
+    public function get_account_id(){
+        $current_session = $this->setting_model->getCurrentSession();
+        $userdata = $this->session->userdata();
+        if(array_key_exists('student', $userdata)){
+            $account_id = $userdata['student']['id'];
+        }else{ 
+            $account_id = 1;
+        }
+        return $account_id;
+        
+    }
 
 
 }

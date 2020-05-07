@@ -665,6 +665,7 @@
                     <?php
                 }
             }
+            
 
             if ($this->module_lib->hasActive('homework')) {
                 if (($this->rbac->hasPrivilege('homework', 'can_view'))) {

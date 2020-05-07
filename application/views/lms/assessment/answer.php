@@ -49,19 +49,10 @@
 			        		<div class="info-tab info-title col-sm-3">Title :</div>
 			        		<div class="info-tab col-sm-9"><?php echo $assessment['assessment_name']?></div>
 		        		</div>
+		        		
 		        		<div class="info-row">
-			        		<div class="info-tab info-key col-sm-3" option_type="multiple_choice" title="True or False, Yes or No, Chronological Order, Matching Type">Multiple Choice</div>
-			        		<div class="tooltip">Hover over me
-							  	<span class="tooltiptext">Tooltip text</span>
-							</div>
-			        		<div class="info-tab info-key col-sm-3" title="Identification, Matching Type, Chronological Order, Fill in the Blanks" option_type="short_answer">Short Answer</div>
-
-			        		<div class="info-tab info-key col-sm-3" title="Essay" option_type="long_answer"><center>Long Answer</center></div>
-			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
-		        		</div>
-		        		<div class="info-row">
-			        		<div class="info-tab col-sm-12 save">
-			        			<center>Save</center>
+			        		<div class="info-tab col-sm-12 save submit">
+			        			<center>Submit</center>
 			        		</div>
 		        		</div>
 		        	</div>
@@ -76,7 +67,7 @@
 		        					<button class="btn btn-warning">Duplicate To No. 2</button>
 		        				</div> -->
 		        			
-		        			<div class="remove_option float-right">X</div>
+		        			<!-- <div class="remove_option float-right">X</div> -->
 		        			<div class="option">
 		        				<div class="option_type">
 		        					<input type="radio" name="" class="form-control">
@@ -86,7 +77,7 @@
 		        					<div class="option_label_input">
 		        						<input type="text" name="" value="A" class="form-control">
 		        					</div>
-		        					<div class="remove_choice"><button>X</button></div>
+		        					<!-- <div class="remove_choice"><button>X</button></div> -->
 		        				</div>		        				
 
 		        			</div>
@@ -99,7 +90,7 @@
 		        					
 		        					<div class="">
 		        						<center>
-		        							<input type="button" name="" class="form-control btn btn-success" style="margin-top: 10px;" value="Add Option">
+		        							<!-- <input type="button" name="" class="form-control btn btn-success" style="margin-top: 10px;" value="Add Option"> -->
 		        						</center>
 		        						
 		        					</div>
@@ -123,4 +114,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'answer.js'?>"></script>
