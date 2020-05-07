@@ -45,11 +45,18 @@
 			        		<div class="info-tab info-key col-sm-6" option_type="long_answer"><center>Comments/Suggestions</center></div>
 			        		<div class="info-tab info-key col-sm-3" option_type="multiple_answer">Multiple Answer</div>
 		        		</div>
-		        		<div class="info-row save">
-			        		<div class="info-tab col-sm-12">
+		        		<div class="info-row">
+			        		<div class="info-tab col-sm-6 save">
 			        			<center>Save</center>
 			        		</div>
+			        		<div class="info-tab col-sm-6 assign">
+			        			<center>Assign</center>
+			        		</div>
 		        		</div>
+		        		<div class="assign_panel">
+		        			Assign
+		        		</div>
+
 		        	</div>
 		        	<div class="clearfix"></div>
 		        	<ul class="sortable ui-sortable">

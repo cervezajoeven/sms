@@ -3,27 +3,27 @@
 	<head>
 		<title>Control</title>
 		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="<?php echo $general_class->ben_css('lms/lesson/slideshow/boostrap.min.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_css('lms/lesson/slideshow/bootstrap-theme.min.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_css('lms/lesson/slideshow/fileinput.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_css('lms/lesson/slideshow/fileinput.min.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_css('lms/lesson/slideshow/jquery-ui.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_resources('lms/font-awesome.min.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_css('lms/lesson/slideshow/font-awesome.min.css')?>">
-		<link rel="stylesheet" href="<?php echo $general_class->ben_resources('lms/survey.css')?>">
+		<link rel="stylesheet" href="<?php echo $resources.'boostrap.min.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'bootstrap-theme.min.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'fileinput.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'fileinput.min.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'jquery-ui.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'survey.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
 		        <div class = "col-sm-7 left">
-		        	
-	            	<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $general_class->ben_resources('pdfjs/web/viewer.html?file=').urlencode($general_class->ben_resources('uploads/survey/'.$general_class->data['survey_id'].'/'.$general_class->data['survey']['survey_file'])); ?>"></iframe>
-		            	
+		        	<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources.'pdfjs/web/viewer.html?file='.urlencode(site_url('uploads/lms_survey/'.$survey['id'].'/'.$survey['survey_file'])); ?>"></iframe>
+
+	            	
 		        </div>
 
 		        <div class="col-sm-5 right">
-		        	<div class="info col-sm-5">
+		        	
+		            <div class="info col-sm-5">
 		        		<!-- <div class="info-row">
 		        			<div class="info-tab info-title col-sm-2">Name :</div>
 		        			<div class="info-tab col-sm-4"><?php echo $data['account_profile']['first_name']; ?> <?php echo $data['account_profile']['last_name']; ?></div>
@@ -33,12 +33,12 @@
 
 		        		<div class="info-row">
 			        		<div class="info-tab info-title col-sm-3">Date :</div>
-			        		<div class="info-tab col-sm-9">February 21, 2020</div>
+			        		<div class="info-tab col-sm-9"><?php echo date("Y-m-d"); ?></div>
 		        		</div>
 
 		        		<div class="info-row">
 			        		<div class="info-tab info-title col-sm-3">Title :</div>
-			        		<div class="info-tab col-sm-9"><?php echo $general_class->data['survey']['survey_name']?></div>
+			        		<div class="info-tab col-sm-9"><?php echo $survey['survey_name'] ?></div>
 		        		</div>
 		        		
 		        		<div class="info-row save">
@@ -83,20 +83,21 @@
 		        		</li>
 		        		
 		        	</ul>
-		            
 		        </div>
 	      	</div>
 	    </div>
 	</body>
 </html>
-<script type="text/javascript" src="<?php echo $general_class->ben_resources('lms/jquery-1.12.4.js')?>"></script>
-<script type="text/javascript" src="<?php echo $general_class->ben_resources('lms/jquery-ui.js')?>"></script>
-<!-- <script type="text/javascript" src="<?php echo $general_class->ben_resources('lms/survey.js')?>"></script> -->
+<script type="text/javascript" src="<?php echo $resources.'jquery-1.12.4.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
+<script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
+<script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
+
 <script type="text/javascript">
 
-	var url = "<?php echo $general_class->ben_link('general/survey/update_survey_sheet'); ?>";
-	var stored_json = '<?php echo $general_class->data["survey"]["sheet"]; ?>';
-	var account_id = '<?php echo $general_class->session->userdata("id"); ?>';
+	var url = "<?php echo site_url('lms/survey/update_survey_sheet'); ?>";
+	var stored_json = '<?php echo $survey['sheet']; ?>';
+	var account_id = '<?php echo $account_id; ?>';
 	var final_json = {};
 	
 	// $(".sortable").sortable({
@@ -183,10 +184,12 @@
 		});
 	}
 	$(document).ready(function(){
+
 		if(stored_json){
 			$.each(JSON.parse(stored_json),function(key,value){
 				populate_key(value.type);
 				$.each(value.option_labels.split(","),function(split_key,split_value){
+
 					var last_option = $(".option-container-actual").eq(key).find(".option").length;
 					var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
 					$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
@@ -271,17 +274,17 @@
 			
 			
 		});
-		final_json = {survey_id:"<?php echo $general_class->data['survey_id'] ?>",respond:JSON.stringify(json),account_id:account_id};
 
+		final_json = {survey_id:"<?php echo $survey['id'] ?>",respond:JSON.stringify(json),account_id:account_id};
 		$.ajax({
 		    url: url,
 		    type: "POST",
 		    data: final_json,
 		    // contentType: "application/json",
 		    complete: function(response){
-		    	console.log(response);
+		    	console.log(response.responseText);
 		    	alert("Sucessfully Submitted!");
-		    	window.location.replace("<?php echo $general_class->ben_link('general/survey/assigned') ?>/");
+		    	window.location.replace("<?php echo site_url('lms/survey/index') ?>/");
 		    }
 		});
 	});

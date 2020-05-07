@@ -2,11 +2,11 @@ var url = $("#url").val();
 var stored_json = $("#stored_json").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
-$(".sortable").sortable({
-	stop:function(event,ui){
-		renumbering();
-	}
-});
+// $(".sortable").sortable({
+// 	stop:function(event,ui){
+// 		renumbering();
+// 	}
+// });
 $(".option-container-clonable").hide();
 
 function isEmpty(obj) {
@@ -54,7 +54,7 @@ function populate_key(option_type,data={}){
 			option_clone.attr("option_type","short_answer");
 
 			option_clone.find(".option_type").find("input").attr("type","text");
-			option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
+			// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
 			option_clone.find(".option_type").find("input").css("width","100%");
 			option_clone.find(".option_label_input").find("input").remove();
 			option_clone.find(".remove_choice").remove();
@@ -99,22 +99,7 @@ $(document).ready(function(){
 
 			});
 
-			$.each(value.correct.split(","),function(correct_key,correct_value){
 
-				if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-					// $( "#x" ).prop( "checked", true );
-					console.log(correct_value);
-					if(correct_value=='1'){
-						console.log("koko");
-						$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
-					}else{
-						// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
-					}
-
-				}
-				
-
-			});
 			var the_last = $(".option-container-actual").eq(key).find(".option").length;
 			$.each(value.option_labels.split(","),function(value_key,value_value){
 				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
@@ -126,6 +111,7 @@ $(document).ready(function(){
 			
 		});
 		renumbering();
+		$(document).find(".option_label_input").find("input").attr("readonly","readonly");
 	}
 	
 
@@ -147,63 +133,63 @@ $(document).on("click",".add_option",function(){
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
 
 });
-$(".save").click(function(){
-	var json = [];
-	var options = $(".option-container-actual");
-	$.each(options,function(key,value){
-		var the_option_type = $(value).attr("option_type");
+// $(".save").click(function(){
+// 	var json = [];
+// 	var options = $(".option-container-actual");
+// 	$.each(options,function(key,value){
+// 		var the_option_type = $(value).attr("option_type");
 		
-		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
-			var option_val = [];
-			var answer_val = [];
-			$.each($(value).find(".option"),function(option_key,option_value){
-				 option_val.push($(option_value).find(".option_label_input").find("input").val());
-				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
-				 	answer_val.push("1");
-				 }else{
-				 	answer_val.push("0");
-				 }
-			});
+// 		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
+// 			var option_val = [];
+// 			var answer_val = [];
+// 			$.each($(value).find(".option"),function(option_key,option_value){
+// 				 option_val.push($(option_value).find(".option_label_input").find("input").val());
+// 				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
+// 				 	answer_val.push("1");
+// 				 }else{
+// 				 	answer_val.push("0");
+// 				 }
+// 			});
 
-			option_json = {
-				"type":the_option_type,
-				"correct":answer_val.join(","),
-				"option_labels":option_val.join(","),
-			};
+// 			option_json = {
+// 				"type":the_option_type,
+// 				"correct":answer_val.join(","),
+// 				"option_labels":option_val.join(","),
+// 			};
 
-		}else if(the_option_type=="short_answer"){
+// 		}else if(the_option_type=="short_answer"){
 			
-			var short_answer_val = $(value).find(".option").find("input").eq(0).val().split(" or ");
+// 			var short_answer_val = $(value).find(".option").find("input").eq(0).val().split(" or ");
 
-			option_json = {
-				"type":the_option_type,
-				"correct": short_answer_val.join(","),
-				"option_labels":"",
-			};
-		}else{
-			option_json = {
-				"type":the_option_type,
-				"option_labels":"",
-			};
-		}
-		json.push(option_json);
+// 			option_json = {
+// 				"type":the_option_type,
+// 				"correct": short_answer_val.join(","),
+// 				"option_labels":"",
+// 			};
+// 		}else{
+// 			option_json = {
+// 				"type":the_option_type,
+// 				"option_labels":"",
+// 			};
+// 		}
+// 		json.push(option_json);
 
 		
 		
-	});
-	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json)};
+// 	});
+// 	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json)};
 
-	$.ajax({
-	    url: url,
-	    type: "POST",
-	    data: final_json,
-	    // contentType: "application/json",
-	    complete: function(response){
+// 	$.ajax({
+// 	    url: url,
+// 	    type: "POST",
+// 	    data: final_json,
+// 	    // contentType: "application/json",
+// 	    complete: function(response){
 
-	    	// alert("Sucessfully Saved!");
-	    }
-	});
-});
+// 	    	// alert("Sucessfully Saved!");
+// 	    }
+// 	});
+// });
 $('.file').hide();
 $(".upload").click(function(){
 	$('.file').click();
