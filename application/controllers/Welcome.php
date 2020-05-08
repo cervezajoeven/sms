@@ -360,7 +360,7 @@ class Welcome extends Front_Controller
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
 
                         $data = array(
-                            'lrn_no'              => $this->input->post('lrn_no'),
+                            'lrn_no'              => '0',
                             'firstname'           => $this->input->post('firstname'),
                             'lastname'            => $this->input->post('lastname'),
                             'mobileno'            => $this->input->post('mobileno'),
