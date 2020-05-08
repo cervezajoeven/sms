@@ -1277,6 +1277,7 @@ public function handle_uploadcreate_doc()
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                 'enrollment_type'     => $this->input->post('enrollment_type'),
                 'middlename'          => $this->input->post('middlename'),
+                'lrn_no'          => $this->input->post('lrn_no'),
             );
 
             $house             = $this->input->post('house');

@@ -17,7 +17,7 @@ class Onlinestudent_model extends MY_Model {
             return $this->db->insert_id();       
     }
 
-    public function get($id = null,$carray=null) {        
+    public function get($id = null,$carray=null) {
         $this->db->select('online_admissions.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,vehicles.driver_name,
                            vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,online_admissions.hostel_room_id,
                            class_sections.id as class_section_id,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,online_admissions.id,online_admissions.admission_no , 

@@ -234,8 +234,8 @@ class Welcome extends Front_Controller
             $enrollment_type = $this->input->post('enrollment_type');
 
             if ($enrollment_type == 'old') 
-            {
-                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');                                
+            {                
+                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');                
             }                
             else 
             {
@@ -245,13 +245,12 @@ class Welcome extends Front_Controller
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');                            
+            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');            
             $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-            
 
             if ($this->form_validation->run() == false) {
                 $this->load_theme('pages/admission');
@@ -262,8 +261,6 @@ class Welcome extends Front_Controller
                 $document_validate = true;
                 $image_validate    = $this->config->item('file_validate');
 
-                //var_dump($_FILES["document"]); die;
-
                 if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
                     $file_type         = $_FILES["document"]['type'];
                     $file_size         = $_FILES["document"]["size"];
@@ -271,14 +268,13 @@ class Welcome extends Front_Controller
                     $allowed_extension = $image_validate['allowed_extension'];
                     $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
                     $allowed_mime_type = $image_validate['allowed_mime_type'];
-
-                    if ($files = filesize($_FILES['document']['tmp_name'])) 
-                    {                    
-                        if (!in_array($file_type, $allowed_mime_type)) 
-                        {
+                    if ($files = filesize($_FILES['document']['tmp_name'])) {
+                    
+                        if (!in_array($file_type, $allowed_mime_type)) {
                             $this->data['error_message'] = 'File Type Not Allowed';
                             $document_validate           = false;
                         }
+
                         if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
                             $this->data['error_message'] = 'Extension Not Allowed';
                             $document_validate           = false;
@@ -301,6 +297,7 @@ class Welcome extends Front_Controller
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
 
                         $data = array(
+                            'roll_no'             => $old_student_data->roll_no,
                             'firstname'           => $old_student_data->firstname,
                             'lastname'            => $old_student_data->lastname,
                             'mobileno'            => $old_student_data->mobileno,
@@ -404,7 +401,6 @@ class Welcome extends Front_Controller
                         if (sizeOf($has_admission) <= 0)
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
-
                             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                         }
                         else 

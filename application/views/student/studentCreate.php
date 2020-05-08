@@ -37,7 +37,8 @@
                                 <input type="hidden" name="sibling_name" value="<?php echo set_value('sibling_name'); ?>" id="sibling_name_next">
                                 <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
                                 
-                                <?php $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee"); ?>
+                                <?php $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee"); 
+                                      $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year"); ?>
                                 <div class="row">
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
@@ -62,6 +63,17 @@
                                             <span class="text-danger"><?php echo form_error('enrollment_type'); ?></span>
                                         </div>
                                     </div>
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">Mode of Payment</label>
+                                            <small class='req'> *</small>
+                                            <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                                                <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
+                                                    <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
+                                                <?php }?>
+                                            </select>
+                                        </div>
+                                    </div>    
                                     <!-- <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="" class="control-label"></label>
@@ -82,23 +94,14 @@
                                         </div>
                                     </div>
                                     <?php } ?>
-
+                                    <?php if ($sch_setting->roll_no) {  ?>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label>
-                                            <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no'); ?>" />
-                                            <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label>
+                                            <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php //echo set_value('roll_no'); ?>" />
+                                            <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                         </div>
                                     </div>
-
-                                    <?php if ($sch_setting->roll_no) {  ?>
-                                    <!-- <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php //echo $this->lang->line('lrn_no'); ?></label>
-                                            <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php //echo set_value('roll_no'); ?>" />
-                                            <span class="text-danger"><?php //echo form_error('roll_no'); ?></span>
-                                        </div>
-                                    </div> -->
                                     <?php } ?>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -124,6 +127,13 @@
                                 </div>
 
                                 <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label>
+                                            <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no'); ?>" />
+                                            <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small>
@@ -296,21 +306,6 @@
                                         </div>
                                     </div>
                                     <?php } ?>
-                                    <?php
-                                        // echo display_custom_fields('online_admissions', $student["id"]);
-                                        $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
-                                    ?>
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="" class="control-label">Mode of Payment</label>
-                                            <small class='req'> *</small>
-                                            <select id="mode_of_payment" name="mode_of_payment" class="form-control">
-                                                <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
-                                                    <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
-                                                <?php }?>
-                                            </select>
-                                        </div>
-                                    </div>         
                                     <!-- <div class="col-md-3" style="display:none;">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php //echo $this->lang->line('fees_discount'); ?></label>
@@ -1074,7 +1069,7 @@
             $('#save').prop('disabled', true);
         }            
 
-        //$('#roll_no').val(data.roll_no);
+        $('#roll_no').val(data.roll_no);
         //$('#class_id').val(data.class_id);
         //$('#section_id').val(data.section_id);        
         $('#lrn_no').val(data.lrn_no);
@@ -1121,6 +1116,7 @@
 
     function ClearInputs() {
         $('#admission_no').val('');
+        $('#roll_no').val('');
         $('#lrn_no').val('');
         //$('#class_id').val('');
         //$('#section_id').val('');     
