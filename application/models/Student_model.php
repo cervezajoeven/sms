@@ -1587,10 +1587,13 @@ return false;
         $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
         $this->db->join('users', 'users.user_id = students.id', 'left');
         $this->db->where('students.lrn_no', $lrn_no);
+        $this->db->or_where('students.roll_no', $lrn_no);
+        $this->db->or_where('students.admission_no', $lrn_no);
         $this->db->order_by('student_session.session_id', 'DESC');
         //$this->db->where('students.is_active', 'yes');
         $this->db->limit(1);
         $result = $this->db->get()->row();
+        //var_dump($result);die;
 
         return $result;
     }    
@@ -1606,11 +1609,13 @@ return false;
         }
     }
 
-    public function GetStudentInfo($lrn_no) 
+    public function GetStudentInfo($id_no) 
     {
         $this->db->select('students.lrn_no, students.firstname, students.lastname, students.dob, students.gender'); 
         $this->db->from('students');
-        $this->db->where('students.lrn_no', $lrn_no);
+        $this->db->where('students.lrn_no', $id_no);
+        $this->db->or_where('students.roll_no', $id_no);
+        $this->db->or_where('students.admission_no', $id_no);
         $this->db->limit(1);
 
         // $query = $this->db->get();

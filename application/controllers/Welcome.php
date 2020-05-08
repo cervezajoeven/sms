@@ -251,6 +251,7 @@ class Welcome extends Front_Controller
             $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('class_id', $this->lang->line('class_id'), 'trim|required|xss_clean');
             
             if (empty($_FILES['document']['name']))
             {
@@ -293,12 +294,18 @@ class Welcome extends Front_Controller
 
                 //=====================
                 if ($document_validate) {
+                    $class_id   = $this->input->post('class_id');
+                    $section_id = 1; //-- No Section
+
+                    //--Get Class_Section_ID
+                    $class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
+
                     if ($enrollment_type == 'old')
                     {
                         // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
                         // var_dump($old_student_data);
                         $old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
-                        //var_dump($old_student_data);die;
+                        //var_dump($this->input->post('studentidnumber'));die;
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
 
                         $data = array(
@@ -330,6 +337,7 @@ class Welcome extends Front_Controller
                             'enrollment_type'     => $enrollment_type,                        
                             'middlename'          => $old_student_data->middlename,
                             'email'               => $this->input->post('email'),
+                            'class_section_id'    => $class_section_id,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
@@ -391,6 +399,7 @@ class Welcome extends Front_Controller
                             'enrollment_type'     => $enrollment_type,                        
                             'middlename'          => $this->input->post('middlename'),
                             'email'               => $this->input->post('email'),
+                            'class_section_id'    => $class_section_id,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {

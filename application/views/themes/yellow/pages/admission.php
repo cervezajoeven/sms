@@ -220,7 +220,7 @@ if (!$form_admission) {
     </div>
     
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="firstname"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small> 
                 <input id="firstname" name="firstname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('firstname'); ?>" />
@@ -228,7 +228,7 @@ if (!$form_admission) {
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="middlename"><?php echo $this->lang->line('middle_name'); ?></label>
                 <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename'); ?>" />
@@ -236,11 +236,28 @@ if (!$form_admission) {
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="lastname"><?php echo $this->lang->line('last_name'); ?></label><small class="req"> *</small> 
                 <input id="lastname" name="lastname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lastname'); ?>" />
                 <span class="text-danger"><?php echo form_error('lastname'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="class_id"><?php echo $this->lang->line('enrolling_for'); ?></label><small class="req"> *</small>
+                <select  id="class_id" name="class_id" class="form-control"  >
+                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                    <?php
+                    foreach ($classlist as $class) {
+                        ?>
+                        <option value="<?php echo $class['id'] ?>"<?php if (set_value('class_id') == $class['id']) echo "selected=selected" ?>><?php echo $class['class'] ?></option>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+                </select>
+                <span class="text-danger"><?php echo form_error('class_id'); ?></span>
             </div>
         </div>
     </div>

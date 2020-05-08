@@ -313,4 +313,10 @@ class Onlinestudent_model extends MY_Model {
         $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
+
+    public function GetClassSectionID($class_id, $section_id)
+    {
+        $result = $this->db->select('id')->from('class_sections')->where('class_id', $class_id)->where('section_id', $section_id)->limit(1)->get()->row();
+        return $result->id;
+    }
 }

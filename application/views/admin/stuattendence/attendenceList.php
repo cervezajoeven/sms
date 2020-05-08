@@ -309,17 +309,18 @@
                                                             <td>
                                                                 <?php $attendancefrom =  $value['attendance_from'];?>
                                                                 <div class="radio radio-info radio-inline">
-                                                                    <input <?php if ($attendancefrom == 'Campus Meetup') echo "checked"; ?> type="radio" id="attendancefrom<?php echo $value['student_session_id']."-1"; ?>" value="Campus Meetup" name="attendancefrom<?php echo $value['student_session_id']; ?>" >                                                                    
-                                                                    <label for="attendancefrom<?php echo $value['student_session_id']."-1"; ?>"> 
-                                                                        Campus Meetup
-                                                                    </label>
-                                                                </div>
-                                                                <div class="radio radio-info radio-inline">
-                                                                    <input <?php if ($attendancefrom == 'Turnstile') echo "checked"; ?> type="radio" id="attendancefrom<?php echo $value['student_session_id'] . "-2"; ?>" value="Turnstile" name="attendancefrom<?php echo $value['student_session_id']; ?>" >                                                                    
+                                                                    <!-- <input <?php //if ($attendancefrom == 'Turnstile') echo "checked"; ?> type="radio" id="attendancefrom<?php //echo $value['student_session_id'] . "-2"; ?>" value="Turnstile" name="attendancefrom<?php //echo $value['student_session_id']; ?>" >-->
+                                                                    <input checked type="radio" id="attendancefrom<?php echo $value['student_session_id'] . "-2"; ?>" value="Turnstile" name="attendancefrom<?php echo $value['student_session_id']; ?>" >
                                                                     <label for="attendancefrom<?php echo $value['student_session_id']."-2"; ?>"> 
                                                                         Turnstile
                                                                     </label>
                                                                 </div>
+                                                                <div class="radio radio-info radio-inline">
+                                                                    <input <?php if ($attendancefrom == 'Campus Meetup') echo "checked"; ?> type="radio" id="attendancefrom<?php echo $value['student_session_id']."-1"; ?>" value="Campus Meetup" name="attendancefrom<?php echo $value['student_session_id']; ?>" >                                                                    
+                                                                    <label for="attendancefrom<?php echo $value['student_session_id']."-1"; ?>"> 
+                                                                        Campus Meetup
+                                                                    </label>
+                                                                </div>                                                                
                                                             </td>
                                                             <!-- EMN1 - 4/30/2020 -->
 
