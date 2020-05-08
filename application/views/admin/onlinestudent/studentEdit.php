@@ -34,7 +34,7 @@
                                     
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label><small class="req"> *</small>
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?>
                                                 <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('roll_no', $student['roll_no']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                             </div>
@@ -67,7 +67,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label>
+                                                <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label></label><small class="req"> *</small>
                                                 <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
                                             </div>
