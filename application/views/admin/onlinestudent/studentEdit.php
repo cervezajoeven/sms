@@ -42,14 +42,6 @@
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label><small class="req"> *</small>
-                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
                                                 <select  id="class_id" name="class_id" class="form-control" >
                                                     <option value=""><?php echo $this->lang->line('select'); ?></option>
@@ -73,6 +65,13 @@
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label>
+                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
+                                            </div>
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small>
