@@ -296,15 +296,21 @@ class Onlinestudent_model extends MY_Model {
         return $result;
     }
 
-    public function GetStudentID($roll_no)
-    {
-        $result = $this->db->select('id')->from('students')->where('roll_no', $roll_no)->limit(1)->get()->row();
-        return $result->id;
-    }
+    // public function GetStudentID($roll_no)
+    // {
+    //     $result = $this->db->select('id')->from('students')->where('roll_no', $roll_no)->limit(1)->get()->row();
+    //     return $result->id;
+    // }
 
     public function GetStudentIDLRN($lrnNumber)
     {
         $result = $this->db->select('id')->from('students')->where('lrn_no', $lrnNumber)->limit(1)->get()->row();
+        return $result->id;
+    }
+
+    public function GetStudentID($idnumber)
+    {
+        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
 }

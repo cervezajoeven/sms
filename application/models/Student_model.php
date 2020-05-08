@@ -1653,15 +1653,15 @@ return false;
         return $result;
     }
 
-    public function DeleteStudent($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete('students');
-    }
+    // public function DeleteStudent($id)
+    // {
+    //     $this->db->where('id', $id);
+    //     $this->db->delete('students');
+    // }
 
-    public function GetStudentID($lrnNumber)
+    public function GetStudentID($idnumber)
     {
-        $result = $this->db->select('id')->from('students')->where('lrn_no', $lrnNumber)->limit(1)->get()->row();
+        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
 }

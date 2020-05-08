@@ -293,7 +293,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Mode of Payment</label>
-                                                <small class='req'> *</small>
                                                 <select id="mode_of_payment" name="mode_of_payment" class="form-control">
                                                     <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
                                                         <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
@@ -304,8 +303,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label">Enrollment Type</label>
-                                                <small class='req'> *</small>
+                                                <label for="" class="control-label">Enrollment Type</label><small class='req'> *</small>
                                                 <select id="enrollment_type" name="enrollment_type" class="form-control">
                                                     <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
                                                         <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
@@ -935,19 +933,19 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 if ($(this).is(':checked')) {
                     var value = $(this).val();
                     if (value == "father") {
-                        $('#guardian_name').val($('#father_name').val());
-                        $('#guardian_phone').val($('#father_phone').val());
-                        $('#guardian_occupation').val($('#father_occupation').val());
+                        // $('#guardian_name').val($('#father_name').val());
+                        // $('#guardian_phone').val($('#father_phone').val());
+                        // $('#guardian_occupation').val($('#father_occupation').val());
                         $('#guardian_relation').val("Father")
                     } else if (value == "mother") {
-                        $('#guardian_name').val($('#mother_name').val());
-                        $('#guardian_phone').val($('#mother_phone').val());
-                        $('#guardian_occupation').val($('#mother_occupation').val());
+                        // $('#guardian_name').val($('#mother_name').val());
+                        // $('#guardian_phone').val($('#mother_phone').val());
+                        // $('#guardian_occupation').val($('#mother_occupation').val());
                         $('#guardian_relation').val("Mother")
                     } else {
-                        $('#guardian_name').val("");
-                        $('#guardian_phone').val("");
-                        $('#guardian_occupation').val("");
+                        // $('#guardian_name').val("");
+                        // $('#guardian_phone').val("");
+                        // $('#guardian_occupation').val("");
                         $('#guardian_relation').val("")
                     }
                 }

@@ -298,6 +298,7 @@ class Welcome extends Front_Controller
 
                         $data = array(
                             'roll_no'             => $old_student_data->roll_no,
+                            'lrn_no'              => $old_student_data->lrn_no,
                             'firstname'           => $old_student_data->firstname,
                             'lastname'            => $old_student_data->lastname,
                             'mobileno'            => $old_student_data->mobileno,
@@ -324,7 +325,6 @@ class Welcome extends Front_Controller
                             'enrollment_type'     => $enrollment_type,                        
                             'middlename'          => $old_student_data->middlename,
                             'email'               => $this->input->post('email'),
-                            'lrn_no'              => $old_student_data->lrn_no,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
@@ -360,7 +360,6 @@ class Welcome extends Front_Controller
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
 
                         $data = array(
-                            'lrn_no'              => '0',
                             'firstname'           => $this->input->post('firstname'),
                             'lastname'            => $this->input->post('lastname'),
                             'mobileno'            => $this->input->post('mobileno'),

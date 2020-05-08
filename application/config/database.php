@@ -80,7 +80,7 @@ $database_name = explode('.', $HTTP_HOST)[0];
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = '';
-  	$database = 'campus_sms';
+  	$database = 'campus_sophia';
 }else{
 
   	$username = 'joeven';
