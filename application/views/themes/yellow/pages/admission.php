@@ -268,7 +268,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"> <?php echo $this->lang->line('upload')." ".$this->lang->line('documents');?></label><small class="req"> *</small> 
-                <input id="document" name="document"  type="file" multiple class="form-control"  value="<?php echo set_value('document'); ?>" />
+                <input id="document" name="document"  type="file" class="form-control"  value="<?php echo set_value('document'); ?>" />
                 <span class="text-danger"><?php echo form_error('document'); ?></span>
             </div>
         </div>

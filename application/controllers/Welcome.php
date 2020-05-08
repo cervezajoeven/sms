@@ -251,6 +251,11 @@ class Welcome extends Front_Controller
             $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
+            
+            if (empty($_FILES['document']['name']))
+            {
+                $this->form_validation->set_rules('document', $this->lang->line('document'), 'required');
+            }
 
             if ($this->form_validation->run() == false) {
                 $this->load_theme('pages/admission');
