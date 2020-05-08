@@ -41,13 +41,15 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             </div>
                                         </div>
                                         <?php } ?>
+                                        <?php if ($sch_setting->roll_no) {  ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('lrn_no'); ?></label>
-                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label>
+                                                <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('roll_no', $student['roll_no']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                             </div>
                                         </div>
+										<?php } ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
@@ -81,15 +83,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>
 
                                     <div class="row">
-                                        <?php if ($sch_setting->roll_no) {  ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label>
-                                                <input id="roll_no" name="roll_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('roll_no', $student['roll_no']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('lrn_no'); ?></label>
+                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
                                             </div>
                                         </div>
-										<?php } ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small>
