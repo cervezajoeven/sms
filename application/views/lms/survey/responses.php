@@ -11,10 +11,11 @@
 		<link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="<?php echo $resources.'w3.css'?>">
-		<link rel="stylesheet" href="<?php echo $resources.'jquery.min.js'?>">
-		<link rel="stylesheet" href="<?php echo $resources.'Chart.min.js'?>">
-		<link rel="stylesheet" href="<?php echo $resources.'utils.js'?>">
-		<link rel="stylesheet" href="<?php echo $resources.'chartjs-plugin-datalabels.min.js'?>">
+
+		<script src="<?php echo $resources.'jquery.min.js'?>"></script>
+		<script src="<?php echo $resources.'Chart.min.js'?>"></script>
+		<script src="<?php echo $resources.'utils.js'?>"></script>
+		<script src="<?php echo $resources.'chartjs-plugin-datalabels.min.js'?>"></script>
 
 		<style type="text/css">
 
