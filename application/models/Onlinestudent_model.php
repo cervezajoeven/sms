@@ -112,8 +112,8 @@ class Onlinestudent_model extends MY_Model {
 
                     if ($enroll_type == 'old') 
                     {
-                        //$student_id = $this->GetStudentID($data['roll_no']);
-                        $student_id = $this->GetStudentIDLRN($data['lrn_no']);
+                        $student_id = $this->GetStudentID1($data['lrn_no'], $data['roll_no']);
+                        //$student_id = $this->GetStudentIDLRN($data['lrn_no']);
                     } 
                     else 
                     {
@@ -296,11 +296,11 @@ class Onlinestudent_model extends MY_Model {
         return $result;
     }
 
-    // public function GetStudentID($roll_no)
-    // {
-    //     $result = $this->db->select('id')->from('students')->where('roll_no', $roll_no)->limit(1)->get()->row();
-    //     return $result->id;
-    // }
+    public function GetStudentID1($lrn_no, $roll_no)
+    {
+        $result = $this->db->select('id')->from('students')->where('roll_no', $roll_no)->or_where('lrn_no', $lrn_no)->limit(1)->get()->row();
+        return $result->id;
+    }
 
     public function GetStudentIDLRN($lrnNumber)
     {
@@ -310,7 +310,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function GetStudentID($idnumber)
     {
-        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->where('roll_no', $idnumber)->limit(1)->get()->row();
+        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->or_where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
 

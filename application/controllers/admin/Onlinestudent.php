@@ -176,6 +176,7 @@ class Onlinestudent extends Admin_Controller
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                 'middlename'          => $this->input->post('middlename'),
                 'lrn_no'              => $this->input->post('lrn_no'),
+                'roll_no'             => $this->input->post('roll_no'),
             );
 
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));

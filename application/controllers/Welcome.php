@@ -351,19 +351,18 @@ class Welcome extends Front_Controller
 
                         $current_session = $this->setting_model->getCurrentSession();
 
-                        if (sizeOf($has_admission) <= 0) // && ($old_student_data->session_id != $current_session))
+                        if (sizeOf($has_admission) <= 0 && ($old_student_data->session_id != $current_session))
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
                             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                         }
                         else 
                         {
-                            // if ($old_student_data->session_id == $current_session)
-                            // {
-                            //     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
-                            // }
-                            // else 
-                            if ($has_admission->is_enroll == '0')
+                            if ($old_student_data->session_id == $current_session)
+                            {
+                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                            }
+                            else if ($has_admission->is_enroll == '0')
                                 $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
                             else 
                                 $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');                        
