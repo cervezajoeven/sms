@@ -9,6 +9,13 @@ $(".sortable").sortable({
 });
 $(".option-container-clonable").hide();
 
+var jstree = $('#jstree_demo_div').jstree({
+    "checkbox" : {
+      "keep_selected_style" : false
+    },
+    "plugins" : [ "checkbox" ]
+}); 
+
 function isEmpty(obj) {
   for(var prop in obj) {
     if(obj.hasOwnProperty(prop)) {
@@ -191,6 +198,9 @@ $(".save").click(function(){
 		
 		
 	});
+	
+
+    console.log(checked_ids);
 	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json)};
 
 	$.ajax({
@@ -214,4 +224,9 @@ $(".file").change(function(){
 $(document).on("click",".remove_choice",function(){
 	$(this).parent().parent().remove();
 
+});
+$(".assign_panel").hide();
+$(".assign").click(function(){
+	$(".assign_panel").toggle();
+	$(".sortable").toggle();
 });

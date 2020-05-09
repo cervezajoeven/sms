@@ -8,6 +8,8 @@ class Assessment extends General_Controller {
         parent::__construct();
         $this->load->model('assessment_model');
         $this->load->model('general_model');
+        $this->load->model('class_model');
+        $this->load->model('lesson_model');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
     }
@@ -89,7 +91,10 @@ class Assessment extends General_Controller {
             $data['id'] = $id;
             $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
             $data['resources'] = site_url('backend/lms/');
-
+            $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
+            $data['classes'] = $this->class_model->getAll();
+            $data['class_sections'] = $this->lesson_model->get_class_sections();
+            
 
             $this->load->view('lms/assessment/edit', $data);
 

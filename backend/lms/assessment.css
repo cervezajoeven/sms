@@ -232,3 +232,15 @@ body{
 	padding: 10px;
 	font-size: 20px;
 }
+.assign{
+	background-color: #e7a51e;
+}
+.assign:hover{
+	background-color: #e7a51e;
+	color: white;
+}
+.assign_panel{
+	position: relative;
+    padding: 0;
+    top: 120px;
+}

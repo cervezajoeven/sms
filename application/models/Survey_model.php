@@ -38,5 +38,45 @@ class Survey_model extends MY_Model {
         $this->survey_model->update($table,$data);
         return true;
     }
+
+    public function survey($id) {
+
+        $this->db->select('sheet');
+        $this->db->from('lms_survey');
+        $this->db->where('lms_survey.id', $id);
+
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    public function survey_responses($id) {
+        $this->db->select('respond');
+        $this->db->from('lms_survey_sheets');
+        $this->db->where('survey_id', $id);
+        $this->db->where('respond !=', null);
+        $this->db->where('respond !=', '');
+
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    public function survey_sheets($id) {
+
+        $this->db->select('lms_survey_sheets.id, lms_survey_sheets.account_id, respond, lms_survey.id AS survey_id, lms_survey.survey_name AS survey_name, lms_survey.survey_file AS survey_pdf_file_name, lms_survey.date_created AS survey_date_created');
+        $this->db->from('lms_survey_sheets');
+        $this->db->join('lms_survey', 'lms_survey.id = lms_survey_sheets.survey_id', 'left');
+        $this->db->where('lms_survey_sheets.survey_id', $id);
+        $this->db->where('lms_survey_sheets.respond !=', null);
+        $this->db->where('lms_survey_sheets.respond !=', '');
+
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+        return $result;
+    }
 	
 }

@@ -151,4 +151,89 @@ class Survey extends General_Controller {
             $this->ben_redirect("general/survey/index");
         }
     }
+
+    public function get_responses($id) {
+        $survey = $this->survey_model->survey($id);
+
+        $survey_responses = $this->survey_model->survey_responses($id);
+        
+        $json_sheet = json_decode($survey[0]['sheet']);
+        $responses['data'] = array();
+        $array_pos = 0;
+
+        //var_dump($json_sheet[0]->type);
+        
+        foreach ($survey_responses as $row) {
+            $json_respond = json_decode($row['respond']);
+            //var_dump($json_respond);
+            $answers_count['data'] = array();
+            $resp_pos = 0;
+
+            if ($json_respond != null || $json_respond != '') {
+                foreach($json_respond as $respond) {
+                    // var_dump($respond);
+                    // echo($respond->type);
+                    
+                    if ($respond->type != "long_answer" && $respond->type != "short_answer") {
+                        if (strpos($respond->answer, '1') > -1) {
+                            if ($array_pos == 0) {
+                                $responses['data'][] = array (
+                                    'answer_choices' => explode(',', $json_sheet[$resp_pos]->option_labels),
+                                    'respondents' => 1,
+                                    'answers_count' =>  explode(',', $respond->answer)
+                                );
+                            } else {
+                                $responses['data'][$resp_pos]['respondents'] = $responses['data'][$resp_pos]['respondents'] + 1;
+        
+                                $answer = explode(',', $respond->answer);
+                                $answerIdx = 0;
+                                foreach($answer as $ans) {
+                                    $responses['data'][$resp_pos]['answers_count'][$answerIdx] = (string)((int)$responses['data'][$resp_pos]['answers_count'][$answerIdx] + (int)$ans);
+                                    $answerIdx++;
+                                }
+                            }
+                            
+                        } else {
+                            if ($array_pos == 0) {
+                                $responses['data'][] = array (
+                                    'answer_choices' => explode(',', $json_sheet[$resp_pos]->option_labels),
+                                    'respondents' => 0,
+                                    'answers_count' => explode(',', $respond->answer)
+                                );
+                            } else {
+                                //
+                            }
+                        }
+                    } else {
+                        $responses['data'][] = array (
+                            'answer_choices' => array(''),
+                            'respondents' => 0,
+                            'answers_count' =>  array('')
+                        );
+                    }                   
+    
+                    //var_dump($responses['data']);
+                    $resp_pos++;
+                }
+            }           
+
+            //var_dump($responses['data'][$array_pos]['respondents']);            
+            $array_pos++;
+        }
+
+        //var_dump($responses['data']);
+        echo json_encode($responses['data']);
+    }
+
+    public function responses($id){
+        $this->page_title = "Survey Result";
+        $survey_sheets = $this->survey_model->survey_sheets($id);
+        $data['data'] = $survey_sheets;
+
+        // $data['id'] = $id;
+        $data['resources'] = site_url('backend/lms/');
+
+        $this->load->view('lms/survey/responses', $data);
+    }
+
 }

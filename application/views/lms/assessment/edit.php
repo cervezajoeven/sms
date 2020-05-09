@@ -11,6 +11,12 @@
 		<link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css'?>">
 		<link rel="stylesheet" href="<?php echo $resources.'assessment.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+		<style type="text/css">
+			.jstree-themeicon-custom{
+                background-size: 100%!important;
+            }
+		</style>
 	</head>
 	<body>
 
@@ -60,12 +66,50 @@
 			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
 		        		</div>
 		        		<div class="info-row">
-			        		<div class="info-tab col-sm-12 save">
+			        		<div class="info-tab col-sm-6 save">
 			        			<center>Save</center>
 			        		</div>
+			        		<div class="info-tab col-sm-6 save assign">
+			        			<center>Assign</center>
+			        		</div>
 		        		</div>
+		        		
 		        	</div>
 		        	<div class="clearfix"></div>
+
+		        	<div class="assign_panel">
+	        			Assign Students
+	        			<div id="jstree_demo_div">
+                            <ul>
+                                <li class="jstree-open" data-jstree='{
+                                    "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
+                                }'>All
+                                    <ul>
+                                        <?php foreach($classes as $classes_key => $classes_value): ?>
+                                            <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
+                                                <ul>
+                                                    <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
+                                                        <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
+                                                            <li data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
+                                                                <ul>
+                                                                    <?php foreach($students as $students_key => $students_value): ?>
+                                                                        <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
+                                                                            
+                                                                            <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' id="child_node_<?php echo $students_key ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+                                                                        <?php endif; ?>
+                                                                    <?php endforeach; ?>
+                                                                </ul>
+                                                            </li>
+                                                        <?php endif; ?>
+                                                    <?php endforeach;?>
+                                                </ul>
+                                            </li>
+                                        <?php endforeach;?>
+                                    </ul>
+                                </ul>
+                            </li>    
+                        </div>
+	        		</div>
 		        	<ul class="sortable ui-sortable">
 		        		<li class="option-container option-container-clonable">
 		        			<div class="numbering_option"></div>
@@ -123,4 +167,8 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="<?php echo $resources.'assessment.js'?>"></script>
+<script type="text/javascript">
+
+</script>

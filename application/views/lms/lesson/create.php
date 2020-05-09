@@ -235,7 +235,8 @@
                                                                 <li data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
                                                                     <ul>
                                                                         <?php foreach($students as $students_key => $students_value): ?>
-                                                                            <?php if($students_value['section_id']==$class_sections_value['section_id']): ?>
+                                                                            <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
+                                                                                
                                                                                 <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' id="child_node_<?php echo $students_key ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
                                                                             <?php endif; ?>
                                                                         <?php endforeach; ?>
@@ -333,10 +334,10 @@
                             <button id="assign" class="trigger action_button assign_action"><i class="fas fa-chalkboard-teacher"></i>Assign</button>
                         </div>
                         <div class="actions">
-                            <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Discussion</button>
+                            <!-- <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Discussion</button> -->
                         </div>
                         <div class="actions">
-                            <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button>
+                            <!-- <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button> -->
                         </div>
                     </div>
                     

@@ -101,6 +101,9 @@
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/responses/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Responses" >
+                                                            <i class="fa fa-eye"></i>
+                                                    </a>
                                                     <a data-placement="left" href="<?php echo site_url('lms/survey/edit/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
                                                             <i class="fa fa-edit"></i>
                                                     </a>
