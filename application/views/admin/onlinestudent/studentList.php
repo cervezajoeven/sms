@@ -66,11 +66,18 @@
                                             <?php } 
                                                       
                                             if($this->rbac->hasprivilege('online_admission','can_edit')) {
-                                                if(!$student['is_enroll']) { ?>
-                                                    <a data-placement="left" href="<?php echo site_url('admin/onlinestudent/edit/'.$student['id']); ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                <?php } 
+                                                if(!$student['is_enroll']) { 
+                                                    if ($student['enrollment_type'] != 'old') {?>
+                                                        <a data-placement="left" href="<?php echo site_url('admin/onlinestudent/edit/'.$student['id']); ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                    <?php } 
+                                                    else { ?>
+                                                        <a data-placement="left" href="<?php echo site_url('student/edit/'.$student['id']); ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                    <?php }
+                                                }
                                             }
 
                                             if($this->rbac->hasprivilege('online_admission','can_delete')) { ?>                                                    
