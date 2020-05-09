@@ -213,7 +213,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('email'); ?></label><small class="req"> *</small>
-                <input id="email" name="email" placeholder="" type="text" class="form-control"  value="<?php echo set_value('email'); ?>" />
+                <input id="email" name="email" placeholder="" type="text" class="form-control"  value="<?php echo set_value('email'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('email'); ?></span>
             </div>
         </div>
@@ -223,7 +223,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="firstname"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small> 
-                <input id="firstname" name="firstname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('firstname'); ?>" />
+                <input id="firstname" name="firstname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('firstname'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('firstname'); ?></span>
             </div>
         </div>
@@ -231,7 +231,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="middlename"><?php echo $this->lang->line('middle_name'); ?></label>
-                <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename'); ?>" />
+                <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('middlename'); ?></span>
             </div>
         </div>
@@ -239,7 +239,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="lastname"><?php echo $this->lang->line('last_name'); ?></label><small class="req"> *</small> 
-                <input id="lastname" name="lastname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lastname'); ?>" />
+                <input id="lastname" name="lastname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lastname'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('lastname'); ?></span>
             </div>
         </div>
@@ -280,11 +280,11 @@ if (!$form_admission) {
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('date_of_birth'); ?></label><small class="req"> *</small> 
                 <input  type="text" class="form-control date2"  value="<?php echo set_value('dob'); ?>" id="dob" name="dob" readonly="readonly" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('dob'); ?></span>
-            </div>
+            </div>            
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1"> <?php echo $this->lang->line('upload')." ".$this->lang->line('documents');?></label><small class="req"> *</small> 
+                <label for="exampleInputEmail1"> <?php echo $this->lang->line('upload')." ".$this->lang->line('documents');?></label>
                 <input id="document" name="document"  type="file" class="form-control"  value="<?php echo set_value('document'); ?>" />
                 <span class="text-danger"><?php echo form_error('document'); ?></span>
             </div>
@@ -296,42 +296,42 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('father_name'); ?></label>
-                <input id="father_name" name="father_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_name'); ?>" />
+                <input id="father_name" name="father_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_name'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('father_name'); ?></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('father_phone'); ?></label>
-                <input id="father_phone" name="father_phone" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_phone'); ?>" />
+                <input id="father_phone" name="father_phone" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_phone'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('father_phone'); ?></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('father_occupation'); ?></label>
-                <input id="father_occupation" name="father_occupation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_occupation'); ?>" />
+                <input id="father_occupation" name="father_occupation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_occupation'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('father_occupation'); ?></span>
             </div>
         </div>    
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('mother_name'); ?></label>
-                <input id="mother_name" name="mother_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_name'); ?>" />
+                <input id="mother_name" name="mother_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_name'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('mother_name'); ?></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('mother_phone'); ?></label>
-                <input id="mother_phone" name="mother_phone" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_phone'); ?>" />
+                <input id="mother_phone" name="mother_phone" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_phone'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('mother_phone'); ?></span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('mother_occupation'); ?></label>
-                <input id="mother_occupation" name="mother_occupation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_occupation'); ?>" />
+                <input id="mother_occupation" name="mother_occupation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_occupation'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('mother_occupation'); ?></span>
             </div>
         </div>
@@ -363,7 +363,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_name'); ?></label><small class="req"> *</small>
-                <input id="guardian_name" name="guardian_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_name'); ?>" />
+                <input id="guardian_name" name="guardian_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_name'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_name'); ?></span>
             </div>
         
@@ -371,7 +371,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_relation'); ?></label>
-                <input id="guardian_relation" name="guardian_relation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_relation'); ?>" />
+                <input id="guardian_relation" name="guardian_relation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_relation'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_relation'); ?></span>
             </div>
         </div>
@@ -381,7 +381,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_phone'); ?></label><small class="req"> *</small>
-                <input id="guardian_phone" name="guardian_phone" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_phone'); ?>" />
+                <input id="guardian_phone" name="guardian_phone" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_phone'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_phone'); ?></span>
             </div>
         </div>
@@ -389,7 +389,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_occupation'); ?></label>
-                <input id="guardian_occupation" name="guardian_occupation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_occupation'); ?>" />
+                <input id="guardian_occupation" name="guardian_occupation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_occupation'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_occupation'); ?></span>
             </div>
         </div>
@@ -397,7 +397,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_email'); ?></label>
-                <input id="guardian_email" name="guardian_email" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_email'); ?>" />
+                <input id="guardian_email" name="guardian_email" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_email'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_email'); ?></span>
             </div>
         </div>
