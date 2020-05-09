@@ -86,6 +86,7 @@
         <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
         <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
+        <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
 
         <div class="edit_area">
 
@@ -222,35 +223,35 @@
                         <div class="col-lg-6">
                             <h2>Assign to Students</h2>
                             <div id="jstree_demo_div">
-                                <ul>
-                                    <li class="jstree-open" data-jstree='{
-                                        "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
-                                    }'>All
-                                        <ul>
-                                            <?php foreach($classes as $classes_key => $classes_value): ?>
-                                                <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
-                                                    <ul>
-                                                        <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
-                                                            <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
-                                                                <li data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
-                                                                    <ul>
-                                                                        <?php foreach($students as $students_key => $students_value): ?>
-                                                                            <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
-                                                                                
-                                                                                <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' id="child_node_<?php echo $students_key ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
-                                                                            <?php endif; ?>
-                                                                        <?php endforeach; ?>
-                                                                    </ul>
-                                                                </li>
-                                                            <?php endif; ?>
-                                                        <?php endforeach;?>
-                                                    </ul>
-                                                </li>
-                                            <?php endforeach;?>
-                                        </ul>
-                                    </ul>
-                                </li>    
-                            </div>
+                              <ul>
+                                  <li class="jstree-open" data-jstree='{
+                                      "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
+                                  }'>All
+                                      <ul>
+                                          <?php foreach($classes as $classes_key => $classes_value): ?>
+                                              <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
+                                                  <ul>
+                                                      <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
+                                                          <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
+                                                              <li id="section_<?php echo $class_sections_value['class_id']?>_<?php echo $class_sections_value['section_id']?>" data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
+                                                                  <ul>
+                                                                      <?php foreach($students as $students_key => $students_value): ?>
+                                                                          <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
+                                                                              
+                                                                              <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+                                                                          <?php endif; ?>
+                                                                      <?php endforeach; ?>
+                                                                  </ul>
+                                                              </li>
+                                                          <?php endif; ?>
+                                                      <?php endforeach;?>
+                                                  </ul>
+                                              </li>
+                                          <?php endforeach;?>
+                                      </ul>
+                                  </ul>
+                              </li>    
+                          </div>
                         </div>
                         <div class="col-lg-6">
                             <h3>Lesson Type</h3>
@@ -526,14 +527,7 @@
               label.find(".label-desc").html(selection);
                 
             });
-            $(function () { 
-                $('#jstree_demo_div').jstree({
-                    "checkbox" : {
-                      "keep_selected_style" : false
-                    },
-                    "plugins" : [ "checkbox" ]
-                }); 
-            });
+            
             var learing_plan = new Quill('#learing_plan_text', {
                 theme: 'snow',
             });

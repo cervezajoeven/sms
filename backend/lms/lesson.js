@@ -13,6 +13,14 @@ $(document).ready(function(){
     var blackboard_id = $("#blackboard_id").val();
     var lesson_id = $("#lesson_id").val();
     var main_url = $("#main_url").val();
+    var assigned = $("#assigned").val();
+    console.log(assigned);
+    var jstree = $('#jstree_demo_div').jstree({
+        "checkbox" : {
+          "keep_selected_style" : false
+        },
+        "plugins" : [ "checkbox" ]
+    });
     //suddenshutdown
     //AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc
     //017301866149964088276:l0dgsrgie8b
@@ -902,5 +910,7 @@ $(document).ready(function(){
             }
         });
     });
+
+
 
 });
