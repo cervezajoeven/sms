@@ -295,7 +295,7 @@ class Welcome extends Front_Controller
                 //=====================
                 if ($document_validate) {
                     $class_id   = $this->input->post('class_id');
-                    $section_id = 1; //-- No Section
+                    $section_id = $this->onlinestudent_model->GetSectionID('No Section'); //--Assign "No Section" for online admissions
 
                     //--Get Class_Section_ID
                     $class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);

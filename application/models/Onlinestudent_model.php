@@ -319,4 +319,10 @@ class Onlinestudent_model extends MY_Model {
         $result = $this->db->select('id')->from('class_sections')->where('class_id', $class_id)->where('section_id', $section_id)->limit(1)->get()->row();
         return $result->id;
     }
+
+    public function GetSectionID($section_name)
+    {
+        $result = $this->db->select('id')->from('sections')->where('section', $section_name)->limit(1)->get()->row();
+        return $result->id;
+    }
 }
