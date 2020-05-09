@@ -246,7 +246,7 @@ class Welcome extends Front_Controller
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');            
-            $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|valid_email');
             $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');

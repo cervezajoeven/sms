@@ -124,7 +124,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <?php
                                                     foreach ($genderList as $key => $value) {
                                                         ?>
-                                                        <option  value="<?php echo $key; ?>" <?php if ($student['gender'] == $key) echo "selected"; ?>><?php echo $value; ?></option>
+                                                        <option  value="<?php echo strtolower($key); ?>" <?php if (strtolower($student['gender']) == strtolower($key)) echo "selected"; ?>><?php echo $value; ?></option>
                                                         <?php
                                                     }
                                                     ?>
