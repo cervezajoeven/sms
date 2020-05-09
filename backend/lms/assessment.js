@@ -2,6 +2,7 @@ var url = $("#url").val();
 var stored_json = $("#stored_json").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
+var assigned = $("#assigned").val();
 $(".sortable").sortable({
 	stop:function(event,ui){
 		renumbering();
@@ -14,7 +15,7 @@ var jstree = $('#jstree_demo_div').jstree({
       "keep_selected_style" : false
     },
     "plugins" : [ "checkbox" ]
-}); 
+});
 
 function isEmpty(obj) {
   for(var prop in obj) {
@@ -61,7 +62,7 @@ function populate_key(option_type,data={}){
 			option_clone.attr("option_type","short_answer");
 
 			option_clone.find(".option_type").find("input").attr("type","text");
-			option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
+			// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
 			option_clone.find(".option_type").find("input").css("width","100%");
 			option_clone.find(".option_label_input").find("input").remove();
 			option_clone.find(".remove_choice").remove();
@@ -97,7 +98,22 @@ $(document).ready(function(){
 
 		$.each(JSON.parse(stored_json),function(key,value){
 			populate_key(value.type,value);
-			// console.log(value.correct);
+			
+			var checked_ids = [];
+			if(assigned){
+
+				$.each(assigned.split(","),function(key,value){
+					checked_ids.push("student_"+value);
+				});
+				$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
+			}
+			console.log(checked_ids);
+			if(value.type=="short_answer"){
+				$(".option-container-actual").eq(key).find(".option_type").find("input").val(value.correct.split(",").join(" or "));
+				// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
+				
+				// console.log(value);
+			}
 			$.each(value.option_labels.split(","),function(split_key,split_value){
 				
 				var last_option = $(".option-container-actual").eq(key).find(".option").length;
@@ -110,9 +126,8 @@ $(document).ready(function(){
 
 				if(value.type=="multiple_choice"||value.type=="multiple_answer"){
 					// $( "#x" ).prop( "checked", true );
-					console.log(correct_value);
 					if(correct_value=='1'){
-						console.log("koko");
+
 						$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
 					}else{
 						// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
@@ -154,7 +169,7 @@ $(document).on("click",".add_option",function(){
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
 
 });
-$(".save").click(function(){
+$(".true_save").click(function(){
 	var json = [];
 	var options = $(".option-container-actual");
 	$.each(options,function(key,value){
@@ -198,10 +213,18 @@ $(".save").click(function(){
 		
 		
 	});
-	
 
-    console.log(checked_ids);
-	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json)};
+	var student_ids = [];
+	$.each(jstree.jstree("get_checked",null,true),function(key,value){
+		
+		if(value.includes('student')){
+			student_id = value.replace('student_','');
+			
+			student_ids.push(student_id);
+		}
+	});
+
+	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json),assigned:student_ids.join(',')};
 
 	$.ajax({
 	    url: url,
@@ -209,8 +232,8 @@ $(".save").click(function(){
 	    data: final_json,
 	    // contentType: "application/json",
 	    complete: function(response){
-
-	    	// alert("Sucessfully Saved!");
+	    	// console.log(response.responseText);
+	    	alert("Sucessfully Saved!");
 	    }
 	});
 });

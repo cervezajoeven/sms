@@ -79,6 +79,7 @@ class Assessment extends General_Controller {
 
         $data['assessment_name'] = $_REQUEST['assessment_name'];
         $data['account_id'] = $this->customlib->getStaffID();
+        $data['assigned'] = $_REQUEST['assigned'];
 
         $assessment_id = $this->assessment_model->lms_create("lms_assessment",$data);
 
@@ -148,9 +149,10 @@ class Assessment extends General_Controller {
     public function update(){
         $data['id'] = $_REQUEST['id'];
         $data['sheet'] = $_REQUEST['sheet'];
-        
+        $data['assigned'] = $_REQUEST['assigned'];
+        print_r($this->assessment_model->lms_update("lms_assessment",$data));
 
-        $this->assessment_model->lms_update("lms_assessment",$data);
+        // $this->assessment_model->lms_update("lms_assessment",$data);
     }
 
     public function update_survey_sheet(){
