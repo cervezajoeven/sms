@@ -105,7 +105,8 @@ class Lesson extends General_Controller {
         $data['content_order'] = json_encode($_REQUEST['content_order']);
         $data['content_pool'] = json_encode($_REQUEST['content_pool']);
         $data['folder_names'] = $_REQUEST['folder_names'];
-        print_r($data);
+        $data['assigned'] = $_REQUEST['assigned'];
+
         $this->lesson_model->lms_update("lms_lesson",$data);
         
 
@@ -199,54 +200,66 @@ class Lesson extends General_Controller {
     }
 
     public function upload($upload_type="my_resources",$lesson_id=""){
+        if($upload_type=="my_resources"){
+            $file = $_FILES['upload_file'];
 
-        $file = $_FILES['upload_file'];
-
-        foreach ($file['name'] as $key => $value) {
+            foreach ($file['name'] as $key => $value) {
 
 
 
-            $data['name'] = $value;
+                $data['name'] = $value;
 
-            $path_parts = pathinfo($file["name"][$key]);
-            $extension = $path_parts['extension'];
-            $image_array = array("png","jpg","jpeg","svg","gif");
-            $video_array = array("mp4");
-            if(in_array($extension, $image_array)){
-                $data['type'] = "image";
-            }elseif(in_array($extension, $video_array)){
-                $data['type'] = "video";
-            }else{
-                $data['type'] = $extension;
-            }
-            
-
-            $data['description'] = "";
-            $data['text_value'] = "";
-            $data['lms_lesson_ids'] = $lesson_id;
-            $data['shared'] =  0;
-
-            if($upload_type=="my_resources"){
-                $data['account_id'] = $this->session->userdata('admin')['id'];
+                $path_parts = pathinfo($file["name"][$key]);
+                $extension = $path_parts['extension'];
+                $image_array = array("png","jpg","jpeg","svg","gif");
+                $video_array = array("mp4");
+                if(in_array($extension, $image_array)){
+                    $data['type'] = "image";
+                }elseif(in_array($extension, $video_array)){
+                    $data['type'] = "video";
+                }else{
+                    $data['type'] = $extension;
+                }
                 
-                if(!is_dir(FCPATH."uploads/lms_my_resources/".$data['account_id'])){
 
-                    if(mkdir(FCPATH."uploads/lms_my_resources/".$data['account_id'])){
+                $data['description'] = "";
+                $data['text_value'] = "";
+                $data['lms_lesson_ids'] = $lesson_id;
+                $data['shared'] =  0;
 
+                if($upload_type=="my_resources"){
+                    $data['account_id'] = $this->session->userdata('admin')['id'];
+                    
+                    if(!is_dir(FCPATH."uploads/lms_my_resources/".$data['account_id'])){
+
+                        if(mkdir(FCPATH."uploads/lms_my_resources/".$data['account_id'])){
+
+                            
+                        }
+                    }
+                    $filename = $this->lesson_model->filename_generator().".".$extension;
+                    if(move_uploaded_file($file['tmp_name'][$key], FCPATH."uploads/lms_my_resources/".$data['account_id']."/".$filename)){
+                        $data['filename'] = $filename;
+                        $data['link'] =  $data['account_id']."/".$filename;
                         
+                        $id = $this->lesson_model->lms_create("lms_my_resources",$data);
+                        print_r($id);
                     }
                 }
-                $filename = $this->lesson_model->filename_generator().".".$extension;
-                if(move_uploaded_file($file['tmp_name'][$key], FCPATH."uploads/lms_my_resources/".$data['account_id']."/".$filename)){
-                    $data['filename'] = $filename;
-                    $data['link'] =  $data['account_id']."/".$filename;
-                    
-                    $id = $this->lesson_model->lms_create("lms_my_resources",$data);
-                    print_r($id);
-                }
+                
             }
-            
+        }elseif($upload_type=="add_text"){
+            $data['name'] = "Text";
+            $data['type'] = "text";
+            $data['description'] = "";
+            $data['text_value'] = $_REQUEST['text_value'];
+            $data['account_id'] = $this->session->userdata('admin')['id'];
+            $data['lms_lesson_ids'] = $lesson_id;
+            $data['shared'] =  0;
+            $id = $this->lesson_model->lms_create("lms_my_resources",$data);
+            print_r($id);
         }
+        
 
          
     }

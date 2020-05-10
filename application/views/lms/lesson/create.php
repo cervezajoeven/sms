@@ -88,6 +88,23 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
 
+        <div id="myModal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+
+            <h3 style="color: white">Add Text</h3>
+            <div id="view_text">
+          
+            </div>
+            <div id="add_text">
+                
+            </div>
+            <button class="add_text_done add_text_close">Done</button>
+            <button class="add_text_close">Close</button>
+          </div>
+
+        </div>
         <div class="edit_area">
 
             <div class="part left">
@@ -120,7 +137,7 @@
                         </div>
                         <div class="folder">
                             <!-- <input type="text" placeholder="LAS" value="LAS" name=""> -->
-                            <span>LAS</span>
+                            <span>Modules</span>
                         </div>
                     </div>
                     
@@ -355,7 +372,7 @@
                     </div>
                     <div class="upload_actions actions_container">
                         <div class="actions">
-                            <button class="action_button text_color"><i class="fas fa-file-alt"></i>Add Text</button>
+                            <button class="action_button text_color" id="myBtn"><i class="fas fa-file-alt"></i>Add Text</button>
                         </div>
                     </div>
                 </div>
@@ -501,39 +518,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript">
 
-            $("select").on("click" , function() {
-  
-              $(this).parent(".select-box").toggleClass("open");
-              
-            });
-
-            $(document).mouseup(function (e)
-            {
-                var container = $(".select-box");
-
-                if (container.has(e.target).length === 0)
-                {
-                    container.removeClass("open");
-                }
-            });
-
-
-            $("select").on("change" , function() {
-              
-              var selection = $(this).find("option:selected").text(),
-                  labelFor = $(this).attr("id"),
-                  label = $("[for='" + labelFor + "']");
-                
-              label.find(".label-desc").html(selection);
-                
-            });
             
-            var learing_plan = new Quill('#learing_plan_text', {
-                theme: 'snow',
-            });
-            var objective = new Quill('#objective_text', {
-                theme: 'snow',
-            });
         </script>
     </body>
 </html>

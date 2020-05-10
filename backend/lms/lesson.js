@@ -21,6 +21,22 @@ $(document).ready(function(){
         },
         "plugins" : [ "checkbox" ]
     });
+
+    function unescapeHtml(safe) {
+        return safe.replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'");
+    }
+
+    var view_text = new Quill('#view_text', {
+        theme: 'snow',
+        "modules": {
+            "toolbar": false
+        }
+    });
+    $("#view_text").hide();
     //suddenshutdown
     //AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc
     //017301866149964088276:l0dgsrgie8b
@@ -194,7 +210,7 @@ $(document).ready(function(){
                             result_id:generate_id()+"_"+index,
                             title:item.name,
                             description:item.description,
-                            
+                            text_value:item.text_value,
                             type:item.type,
                             source:encodeURIComponent(main_url+'uploads/lms_my_resources/'+item.link),
                         };
@@ -423,14 +439,24 @@ $(document).ready(function(){
         var title = $(".title").val();
         var update_url = $("#site_url").val();
         var id = $("#lesson_id").val();
+        var student_ids = [];
+        $.each(jstree.jstree("get_checked",null,true),function(key,value){
+            
+            if(value.includes('student')){
+                student_id = value.replace('student_','');
+                
+                student_ids.push(student_id);
+            }
+        });
         lesson_data = {
             id:id,
             title:title,
             content_order:content_order,
             content_pool:content_pool,
+            assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
         };
-        console.log
+
 
         $.ajax({
             url: update_url,
@@ -445,6 +471,16 @@ $(document).ready(function(){
     function deploy_stored_data(){
         var id = $("#lesson_id").val();
         var get_url = $("#url").val()+"get/"+id;
+        //jstree
+        var checked_ids = [];
+        if(assigned){
+
+            $.each(assigned.split(","),function(key,value){
+                checked_ids.push("student_"+value);
+            });
+            $.jstree.reference('#jstree_demo_div').select_node(checked_ids);
+        }
+        //jstree
         $.ajax({
             url: get_url,
             method:"POST",
@@ -549,6 +585,7 @@ $(document).ready(function(){
 
     function populate_search_content(data){
         var populous = $(".content_hidden").clone();
+        
         data.forEach(function(item, index, arr){
             populous = $(".content_hidden").clone();
             $(populous).removeClass("content_hidden");
@@ -567,6 +604,9 @@ $(document).ready(function(){
                 case "csv"||"xls"||"xlsx":
                     $(populous).find(".theme").css("background-color","rgb(33, 115, 70)");
                 break;
+                case "text":
+                    $(populous).find(".theme").css("background-color","rgb(33, 115, 70)");
+                break;
                 case "docx":
                     $(populous).find(".theme").css("background-color","rgb(42, 86, 153)");
                 break;
@@ -578,12 +618,23 @@ $(document).ready(function(){
                 break;
 
             }
+            if(item.type!="text"){
+                $(populous).attr("result_id",item.result_id);
+                $(populous).find(".content_header").find("span").text(item.title);
+                $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.image));
+                $(populous).find(".content_footer").find("textarea").text(item.description);
+                $(".search_content").last().after($(populous));
+            }else{
+                $(populous).attr("result_id",item.result_id);
+                $(populous).find(".content_header").find("span").text(item.title);
+                $(populous).find(".content_body").find("img").after("<div id='"+item.result_id+"' class='text_content'></div>");
+                $(populous).find(".content_body").find("img").remove();
+                view_text.setContents(JSON.parse(unescapeHtml(item.text_value)));
+                $(populous).find(".content_body").find(".text_content").html(view_text.container.innerHTML);
+                $(populous).find(".content_footer").find("textarea").text(item.description);
+                $(".search_content").last().after($(populous));
+            }
             
-            $(populous).attr("result_id",item.result_id);
-            $(populous).find(".content_header").find("span").text(item.title);
-            $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.image));
-            $(populous).find(".content_footer").find("textarea").text(item.description);
-            $(".search_content").last().after($(populous));
             
         });
     }
@@ -626,16 +677,33 @@ $(document).ready(function(){
                     case "image":
                         $(populous).find('.theme').css("background-color","rgb(56, 177, 55)");
                     break;
+                    case "text":
+                        $(populous).find('.theme').css("background-color","rgb(56, 177, 55)");
+                    break;
                 }
-                
-                $(populous).attr("result_id",item.content.result_id);
-                $(populous).find(".content_header").find("span").text(item.content.title);
 
-                $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.content.image));
-                $(populous).find(".content_footer").find("textarea").text(item.content.description);
-                $(populous).removeClass('content_result');
-                $(populous).addClass('content_already');
 
+                if(item.content.type!="text"){
+                    $(populous).attr("result_id",item.content.result_id);
+                    $(populous).find(".content_header").find("span").text(item.content.title);
+
+                    $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.content.image));
+                    $(populous).find(".content_footer").find("textarea").text(item.content.description);
+                    $(populous).removeClass('content_result');
+                    $(populous).addClass('content_already');   
+                }else{
+                    console.log(item.content);
+                    $(populous).attr("result_id",item.content.result_id);
+                    $(populous).find(".content_header").find("span").text(item.content.title);
+                    $(populous).find(".content_body").find("img").after("<div id='"+item.content.result_id+"' class='text_content'></div>");
+                    $(populous).find(".content_body").find("img").remove();
+                    console.log(JSON.parse(unescapeHtml(item.content.text_value)));
+                    view_text.setContents(JSON.parse(unescapeHtml(item.content.text_value)));
+                    console.log(view_text.container.innerHTML);
+                    $(populous).find(".content_body").find(".text_content").html(view_text.container.innerHTML);
+                    $(populous).find(".content_footer").find("textarea").text(item.content.description);
+                    $(".search_content").last().after($(populous));
+                }
                 $("#"+item.folder_id).append($(populous));
 
                 
@@ -911,6 +979,91 @@ $(document).ready(function(){
         });
     });
 
+    // Get the modal
+    var modal = document.getElementById("myModal");
 
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("add_text_close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    $("select").on("click" , function() {
+  
+        $(this).parent(".select-box").toggleClass("open");
+      
+    });
+
+    $(document).mouseup(function (e)
+    {
+        var container = $(".select-box");
+
+        if (container.has(e.target).length === 0)
+        {
+            container.removeClass("open");
+        }
+    });
+
+
+    $("select").on("change" , function() {
+      
+        var selection = $(this).find("option:selected").text(),
+            labelFor = $(this).attr("id"),
+            label = $("[for='" + labelFor + "']");
+        
+        label.find(".label-desc").html(selection);
+        
+    });
+    
+    var learing_plan = new Quill('#learing_plan_text', {
+        theme: 'snow',
+    });
+    var objective = new Quill('#objective_text', {
+        theme: 'snow',
+    });
+    var add_text = new Quill('#add_text', {
+        theme: 'snow',
+    });
+
+
+    // add_text.setHtml('<div class="ql-editor" data-gramm="false" contenteditable="true"><p>asdfasdfasfd</p></div><div class="ql-clipboard" contenteditable="true" tabindex="-1"></div><div class="ql-tooltip ql-hidden"><a class="ql-preview" target="_blank" href="about:blank"></a><input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL"><a class="ql-action"></a><a class="ql-remove"></a></div>');
+
+    $(".add_text_done").click(function(){
+        var text_value = JSON.stringify(add_text.getContents());
+        var add_text_url = url+"upload/add_text/"+lesson_id;
+        console.log(text_value);
+        $.ajax({
+            url: add_text_url,
+            type: "POST",
+            data: {text_value:text_value},
+       
+            success: function(data)
+            {
+               console.log(data);
+               // $("div[portal='my_resources']").click();
+            },
+            error: function(e){
+                alert("error");
+            }
+        });
+
+    });
 
 });
