@@ -109,8 +109,11 @@
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/answer/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" >
+                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/review/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer" >
                                                             <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/answer/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" >
+                                                            <i class="fa fa-edit"></i>
                                                     </a>
                                                 <?php endif; ?>
                                                 

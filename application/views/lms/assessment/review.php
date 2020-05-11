@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Control</title>
+		<title>Assessment</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="<?php echo $resources.'boostrap.min.css'?>">
 		<link rel="stylesheet" href="<?php echo $resources.'bootstrap-theme.min.css'?>">
@@ -13,12 +13,11 @@
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
-
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
 		        <div class = "col-sm-7 left">
 		        	<form enctype="multipart/form-data" id="upload_form" method="POST" action="<?php echo site_url('lms/assessment/upload/'.$assessment['id']); ?>" style="top: 0;position: absolute; width: 100%;">
-		        		<input type="file" required="" class="form-control file" accept="application/pdf" name="assessment_form">
+		        		<!-- <input type="file" required="" class="form-control file" accept="application/pdf" name="assessment_form"> -->
 		        		<!-- <input type="button" value="Upload" class="form-control btn btn-success upload"> -->
 		        	</form>
 		        	<?php if($assessment['assessment_file']): ?>
@@ -50,11 +49,11 @@
 			        		<div class="info-tab col-sm-9"><?php echo $assessment['assessment_name']?></div>
 		        		</div>
 		        		
-		        		<div class="info-row">
+		        		<!-- <div class="info-row">
 			        		<div class="info-tab col-sm-12 save submit">
 			        			<center>Submit</center>
 			        		</div>
-		        		</div>
+		        		</div> -->
 		        	</div>
 		        	<div class="clearfix"></div>
 		        	<ul class="sortable ui-sortable">
@@ -110,6 +109,7 @@
 	    <input type="hidden" id="stored_json" value='<?php echo $assessment['sheet']; ?>' name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assessment_sheet_id" value="<?php echo $assessment_sheet['id'] ?>" name="" />
+	    <input type="hidden" id="answer" value='<?php echo $assessment_sheet["answer"] ?>' name="" />
 	    <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
 	</body>
 </html>
@@ -117,4 +117,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'answer.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_review.js'?>"></script>

@@ -1,5 +1,8 @@
 var url = $("#url").val();
+var site_url = $("#site_url").val();
 var stored_json = $("#stored_json").val();
+var account_id = $("#account_id").val();
+var assessment_sheet_id = $("#assessment_sheet_id").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
 // $(".sortable").sortable({
@@ -133,63 +136,60 @@ $(document).on("click",".add_option",function(){
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
 
 });
-// $(".save").click(function(){
-// 	var json = [];
-// 	var options = $(".option-container-actual");
-// 	$.each(options,function(key,value){
-// 		var the_option_type = $(value).attr("option_type");
+$(".submit").click(function(){
+	var json = [];
+	var options = $(".option-container-actual");
+	$.each(options,function(key,value){
+		var the_option_type = $(value).attr("option_type");
 		
-// 		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
-// 			var option_val = [];
-// 			var answer_val = [];
-// 			$.each($(value).find(".option"),function(option_key,option_value){
-// 				 option_val.push($(option_value).find(".option_label_input").find("input").val());
-// 				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
-// 				 	answer_val.push("1");
-// 				 }else{
-// 				 	answer_val.push("0");
-// 				 }
-// 			});
+		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
+			var answer_val = [];
+			$.each($(value).find(".option"),function(option_key,option_value){
 
-// 			option_json = {
-// 				"type":the_option_type,
-// 				"correct":answer_val.join(","),
-// 				"option_labels":option_val.join(","),
-// 			};
+				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
+				 	answer_val.push("1");
+				 }else{
+				 	answer_val.push("0");
+				 }
+			});
 
-// 		}else if(the_option_type=="short_answer"){
+			option_json = {
+				"type":the_option_type,
+				"answer":answer_val.join(","),
+			};
+
+		}else if(the_option_type=="short_answer"){
 			
-// 			var short_answer_val = $(value).find(".option").find("input").eq(0).val().split(" or ");
+			var short_answer_val = $(value).find(".option").find("input").eq(0).val();
 
-// 			option_json = {
-// 				"type":the_option_type,
-// 				"correct": short_answer_val.join(","),
-// 				"option_labels":"",
-// 			};
-// 		}else{
-// 			option_json = {
-// 				"type":the_option_type,
-// 				"option_labels":"",
-// 			};
-// 		}
-// 		json.push(option_json);
-
+			option_json = {
+				"type":the_option_type,
+				"answer": short_answer_val,
+			};
+		}else{
+			var answer_val = $(value).find(".option").find("textarea").eq(0).val();
+			option_json = {
+				"type":the_option_type,
+				"answer":answer_val,
+			};
+		}
+		json.push(option_json);
 		
 		
-// 	});
-// 	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json)};
+		
+	});
+	final_json = {id:assessment_sheet_id,answer:JSON.stringify(json)};
+	console.log(final_json);
 
-// 	$.ajax({
-// 	    url: url,
-// 	    type: "POST",
-// 	    data: final_json,
-// 	    // contentType: "application/json",
-// 	    complete: function(response){
-
-// 	    	// alert("Sucessfully Saved!");
-// 	    }
-// 	});
-// });
+	$.ajax({
+	    url: site_url+'/answer_submit',
+	    type: "POST",
+	    data: final_json,
+	    complete: function(response){
+	    	console.log(response.responseText);
+	    }
+	});
+});
 $('.file').hide();
 $(".upload").click(function(){
 	$('.file').click();
@@ -201,3 +201,5 @@ $(document).on("click",".remove_choice",function(){
 	$(this).parent().parent().remove();
 
 });
+
+

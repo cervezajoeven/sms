@@ -87,6 +87,7 @@
         <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
+        <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -494,6 +495,7 @@
 
                     <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0" ></iframe>
                     <img class="content_type image_content" src="" data-magnify="gallery" data-caption="Image Caption 1" data-src="1.jpg" />
+                    <div class="content_type html_content" src="" style="background-color: white;"></div>
                     <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
                 </div>
                 

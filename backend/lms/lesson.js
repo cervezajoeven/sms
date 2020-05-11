@@ -14,6 +14,7 @@ $(document).ready(function(){
     var lesson_id = $("#lesson_id").val();
     var main_url = $("#main_url").val();
     var assigned = $("#assigned").val();
+    var role = $("#role").val();
     console.log(assigned);
     var jstree = $('#jstree_demo_div').jstree({
         "checkbox" : {
@@ -283,7 +284,6 @@ $(document).ready(function(){
         
         $(".content_type").hide();
         $(".video_content").attr("src","");
-        console.log(active_content_data);
         if(active_content_data){
             $(".student_view_title").text(active_content_data.content.title);
             switch (active_content_data.content.type){
@@ -300,7 +300,6 @@ $(document).ready(function(){
                     $(document).find('[data-magnify=gallery]').magnify();
                 break;
                 case "video":
-
                     $(".video_content").show();
                     $(".video_content").css("height",screen.height-180);
                     $(".video_content").attr("src",decodeURIComponent(active_content_data.content.source));
@@ -315,6 +314,16 @@ $(document).ready(function(){
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
                     $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
+                break;
+                case "text":
+                    $(".html_content").show();
+                    $(".html_content").css("height",screen.height-180);
+                    view_text.setContents(JSON.parse(unescapeHtml(active_content_data.content.text_value)));
+                    var rendered_text = view_text.container.innerHTML;
+                    $(rendered_text).find("div[contenteditable*='true']").attr("contenteditable","false");
+                    // console.log(rendered_text);
+                    console.log($(rendered_text).html());
+                    $(".html_content").html($(rendered_text).html());
                 break;
                 default:
                     $(".student_view_content_iframe").show();
@@ -678,7 +687,7 @@ $(document).ready(function(){
                         $(populous).find('.theme').css("background-color","rgb(56, 177, 55)");
                     break;
                     case "text":
-                        $(populous).find('.theme').css("background-color","rgb(56, 177, 55)");
+                        $(populous).find('.theme').css("background-color","rgb(33, 115, 70)");
                     break;
                 }
 
@@ -690,16 +699,17 @@ $(document).ready(function(){
                     $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.content.image));
                     $(populous).find(".content_footer").find("textarea").text(item.content.description);
                     $(populous).removeClass('content_result');
-                    $(populous).addClass('content_already');   
+                    $(populous).addClass('content_already');
                 }else{
-                    console.log(item.content);
+
                     $(populous).attr("result_id",item.content.result_id);
                     $(populous).find(".content_header").find("span").text(item.content.title);
                     $(populous).find(".content_body").find("img").after("<div id='"+item.content.result_id+"' class='text_content'></div>");
                     $(populous).find(".content_body").find("img").remove();
-                    console.log(JSON.parse(unescapeHtml(item.content.text_value)));
+                    $(populous).addClass('content_already');
+
                     view_text.setContents(JSON.parse(unescapeHtml(item.content.text_value)));
-                    console.log(view_text.container.innerHTML);
+
                     $(populous).find(".content_body").find(".text_content").html(view_text.container.innerHTML);
                     $(populous).find(".content_footer").find("textarea").text(item.content.description);
                     $(".search_content").last().after($(populous));
@@ -756,12 +766,7 @@ $(document).ready(function(){
         render_student_view();
         populate_slides();
     });
-    $(".close_student_view").click(function(){
-        $(".video_content").attr("src","");
-        $(".edit_area").toggleClass("close_edit");
-        $(".student_view").toggleClass("student_view_close");
-        reset_student_view();
-    });
+    
     $(document).on("dblclick",".content_already",function(){
 
         var result_id = $(this).attr("result_id");
@@ -1066,4 +1071,21 @@ $(document).ready(function(){
 
     });
 
+    $(".close_student_view").click(function(){
+        $(".video_content").attr("src","");
+        $(".edit_area").toggleClass("close_edit");
+        $(".student_view").toggleClass("student_view_close");
+        reset_student_view();
+    });
+
+    if(role!="admin"){
+        $(".close_student_view").click(function(){
+            window.location.replace(url+"index");
+        });
+        setTimeout(function(){
+            $(".slideshow_action").click();
+        },1500);
+        $(".edit_area").hide();
+    }
+    
 });

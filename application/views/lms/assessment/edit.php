@@ -66,49 +66,73 @@
 			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
 		        		</div>
 		        		<div class="info-row">
+		        			<div class="info-tab col-sm-6 save assign">
+			        			<center>Assign</center>
+			        		</div>
 			        		<div class="info-tab col-sm-6 save true_save">
 			        			<center>Save</center>
 			        		</div>
-			        		<div class="info-tab col-sm-6 save assign">
-			        			<center>Assign</center>
-			        		</div>
+			        		
 		        		</div>
 		        		
 		        	</div>
 		        	<div class="clearfix"></div>
 
 		        	<div class="assign_panel">
-	        			Assign Students
-	        			<div id="jstree_demo_div">
-                            <ul>
-                                <li class="jstree-open" data-jstree='{
-                                    "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
-                                }'>All
-                                    <ul>
-                                        <?php foreach($classes as $classes_key => $classes_value): ?>
-                                            <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
-                                                <ul>
-                                                    <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
-                                                        <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
-                                                            <li id="section_<?php echo $class_sections_value['class_id']?>_<?php echo $class_sections_value['section_id']?>" data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
-                                                                <ul>
-                                                                    <?php foreach($students as $students_key => $students_value): ?>
-                                                                        <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
-                                                                            
-                                                                            <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
-                                                                        <?php endif; ?>
-                                                                    <?php endforeach; ?>
-                                                                </ul>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                    <?php endforeach;?>
-                                                </ul>
-                                            </li>
-                                        <?php endforeach;?>
-                                    </ul>
-                                </ul>
-                            </li>    
-                        </div>
+		        		<div class = "col-sm-4">
+		        			Duration (Minutes)
+		        			<input type="number" min="1" value="30" class="form-control" name="">
+		        		</div>
+		        		<div class = "col-sm-4">
+		        			Passing Percentage %
+		        			<input type="number" min="0" max="100" value="50" class="form-control" name="">
+		        		</div>
+		        		<div class = "col-sm-4">
+		        			Attempts
+		        			<input type="number" min="0" value="1" class="form-control" name="">
+		        		</div>
+
+		        		<div class = "col-sm-6">
+		        			Start Date
+		        			<input type="datetime-local" value="<?php echo date('Y-m-d\TH:i:sP'); ?>" class="form-control" name="">
+		        		</div>
+		        		<div class = "col-sm-6">
+		        			End Date
+		        			<input type="datetime-local" min="0" max="100" value="50" class="form-control" name="">
+		        		</div>
+		        		<div class = "col-sm-12">
+		        			Assign Students
+		        			<div id="jstree_demo_div">
+	                            <ul>
+	                                <li class="jstree-open" data-jstree='{
+	                                    "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
+	                                }'>All
+	                                    <ul>
+	                                        <?php foreach($classes as $classes_key => $classes_value): ?>
+	                                            <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
+	                                                <ul>
+	                                                    <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
+	                                                        <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
+	                                                            <li id="section_<?php echo $class_sections_value['class_id']?>_<?php echo $class_sections_value['section_id']?>" data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
+	                                                                <ul>
+	                                                                    <?php foreach($students as $students_key => $students_value): ?>
+	                                                                        <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
+	                                                                            
+	                                                                            <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+	                                                                        <?php endif; ?>
+	                                                                    <?php endforeach; ?>
+	                                                                </ul>
+	                                                            </li>
+	                                                        <?php endif; ?>
+	                                                    <?php endforeach;?>
+	                                                </ul>
+	                                            </li>
+	                                        <?php endforeach;?>
+	                                    </ul>
+	                                </ul>
+	                            </li>    
+	                        </div>
+	                    </div>
 	        		</div>
 		        	<ul class="sortable ui-sortable">
 		        		<li class="option-container option-container-clonable">
@@ -162,6 +186,7 @@
 	    <input type="hidden" id="stored_json" value='<?php echo $assessment['sheet']; ?>' name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assigned" value="<?php echo $assessment['assigned'] ?>" name="" />
+	    
 	</body>
 </html>
 <script type="text/javascript" src="<?php echo $resources.'jquery-1.12.4.js'?>"></script>

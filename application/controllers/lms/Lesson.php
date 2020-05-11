@@ -63,9 +63,9 @@ class Lesson extends General_Controller {
         $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
         $data['classes'] = $this->class_model->getAll();
         $data['class_sections'] = $this->lesson_model->get_class_sections();
-        
+        $data['role'] = $this->general_model->get_role();
         // echo "<pre>";
-        // print_r($data['students']);
+        // print_r($data['role']);
         // exit();
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
@@ -86,15 +86,18 @@ class Lesson extends General_Controller {
         $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
         $data['classes'] = $this->class_model->getAll();
         $data['class_sections'] = $this->lesson_model->get_class_sections();
+        $data['role'] = $this->general_model->get_role();
         
-        
+        // echo "<pre>";
+        // print_r($data['students']);
+        // exit();
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
             mkdir(FCPATH."uploads/lms_lesson/".$id);
             mkdir(FCPATH."uploads/lms_lesson/".$id."/thumbnails/");
             mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
         }
-        $this->load->view('lms/lesson/views', $data);
+        $this->load->view('lms/lesson/create', $data);
         
     }
 
