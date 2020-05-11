@@ -265,17 +265,22 @@ class Welcome extends Front_Controller
             {
                 //==============
                 $document_validate = true;
-                $image_validate    = $this->config->item('file_validate');
+                $file_validate    = $this->config->item('file_validate');
 
                 if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
                     $file_type         = $_FILES["document"]['type'];
                     $file_size         = $_FILES["document"]["size"];
                     $file_name         = $_FILES["document"]["name"];
-                    $allowed_extension = $image_validate['allowed_extension'];
+                    $allowed_extension = $file_validate['allowed_extension'];
                     $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
-                    $allowed_mime_type = $image_validate['allowed_mime_type'];
-                    if ($files = filesize($_FILES['document']['tmp_name'])) {
-                    
+                    $allowed_mime_type = $file_validate['allowed_mime_type'];
+                    // var_dump($file_type);
+                    // var_dump($file_size);
+                    // var_dump($file_name);
+                    // var_dump($allowed_extension);
+                    // var_dump($allowed_mime_type);die;
+
+                    if ($files = filesize($_FILES['document']['tmp_name'])) {                    
                         if (!in_array($file_type, $allowed_mime_type)) {
                             $this->data['error_message'] = 'File Type Not Allowed';
                             $document_validate           = false;
@@ -285,8 +290,8 @@ class Welcome extends Front_Controller
                             $this->data['error_message'] = 'Extension Not Allowed';
                             $document_validate           = false;
                         }
-                        if ($file_size > $image_validate['upload_size']) {
-                            $this->data['error_message'] = 'File should be less than' . number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
+                        if ($file_size > $file_validate['upload_size']) {
+                            $this->data['error_message'] = 'File should be less than' . number_format($file_validate['upload_size'] / 1048576, 2) . " MB";
                             $document_validate           = false;
                         }
                     }
@@ -426,6 +431,10 @@ class Welcome extends Front_Controller
                     }
                     
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');
+                }
+                else 
+                {
+                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$this->data['error_message'].'</div>');
                 }
 
                 $this->load_theme('pages/admission');

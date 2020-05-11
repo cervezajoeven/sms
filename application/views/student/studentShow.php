@@ -334,12 +334,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <td><?php echo $this->lang->line('mobile_no'); ?></td>
                                                 <td><?php echo $student['mobileno']; ?></td>
                                             </tr>
-                                            <?php } if ($sch_setting->cast) {  ?>
-                                            <tr>
-                                                <td><?php echo $this->lang->line('cast'); ?></td>
-                                                <td><?php echo $student['cast']; ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->religion) {  ?>
+                                            <?php }
+                                            // if ($sch_setting->cast) {  ?>
+                                            <!-- <tr>
+                                                <td><?php //echo $this->lang->line('cast'); ?></td>
+                                                <td><?php //echo $student['cast']; ?></td>
+                                            </tr> -->
+                                            <?php //} 
+                                            if ($sch_setting->religion) {  ?>
                                             <tr>
                                                 <td><?php echo $this->lang->line('religion'); ?></td>
                                                 <td><?php echo $student['religion']; ?></td>

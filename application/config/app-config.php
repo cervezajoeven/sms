@@ -21,10 +21,7 @@ $config['image_validate'] = array(
 );
 
 $config['csv_validate'] = array(
-    'allowed_mime_type' => array('application/vnd.ms-excel',
-                                'text/plain',
-                                'text/csv',
-                                'text/tsv'), //mime_type
+    'allowed_mime_type' => array('application/vnd.ms-excel','text/plain','text/csv','text/tsv'), //mime_type
     'allowed_extension' => array('csv'), // image extensions
     'upload_size'       => 1048576, // bytes
 );
@@ -36,10 +33,10 @@ $config['file_validate'] = array(
         'application/vnd.ms-excel',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/x-zip-compressed',
         'image/jpeg',
         'image/jpg',
-        'image/png'
-    ), //mime_type
-    'allowed_extension' => array('pdf', 'doc', 'xls', 'docx', 'xlsx','jpg', 'jpeg', 'png','gif','bmp','svg','PDF', 'DOC', 'XLS', 'DOCX', 'XLSX','JPG', 'JPEG', 'PNG','GIF','BMP','SVG','Pdf', 'Doc', 'Xls', 'Docx', 'Xlsx','Jpg', 'Jpeg', 'Png','Gif','Bmp','Svg'), // image extensions
-    'upload_size'       => 1048576, // bytes
+        'image/png'), //mime_type
+    'allowed_extension' => array('zip', 'pdf', 'doc', 'xls', 'docx', 'xlsx','jpg', 'jpeg', 'png','gif','bmp','svg', 'ZIP', 'PDF', 'DOC', 'XLS', 'DOCX', 'XLSX','JPG', 'JPEG', 'PNG','GIF','BMP','SVG','Pdf','Zip', 'Doc', 'Xls', 'Docx', 'Xlsx','Jpg', 'Jpeg', 'Png','Gif','Bmp','Svg'), // image extensions
+    'upload_size'       => 524285, //1048576, // bytes
 );
