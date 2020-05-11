@@ -1,8 +1,11 @@
 var url = $("#url").val();
 var stored_json = $("#stored_json").val();
+var answer = $("#answer").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
 var assigned = $("#assigned").val();
+
+
 $(".sortable").sortable({
 	stop:function(event,ui){
 		renumbering();
@@ -10,12 +13,6 @@ $(".sortable").sortable({
 });
 $(".option-container-clonable").hide();
 
-var jstree = $('#jstree_demo_div').jstree({
-    "checkbox" : {
-      "keep_selected_style" : false
-    },
-    "plugins" : [ "checkbox" ]
-});
 
 function isEmpty(obj) {
   for(var prop in obj) {
@@ -108,14 +105,8 @@ $(document).ready(function(){
 				$.each(assigned.split(","),function(key,value){
 					checked_ids.push("student_"+value);
 				});
-				$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
 			}
-			if(value.type=="short_answer"){
-				$(".option-container-actual").eq(key).find(".option_type").find("input").val(value.correct.split(",").join(" or "));
-				// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
-				
-				// console.log(value);
-			}
+			
 			$.each(value.option_labels.split(","),function(split_key,split_value){
 				
 				var last_option = $(".option-container-actual").eq(key).find(".option").length;
@@ -123,23 +114,6 @@ $(document).ready(function(){
 				$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
 
 			});
-			if(value.type!="long_answer"){
-				$.each(value.correct.split(","),function(correct_key,correct_value){
-
-					if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-						// $( "#x" ).prop( "checked", true );
-						if(correct_value=='1'){
-
-							$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
-						}else{
-							// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
-						}
-
-					}
-					
-
-				});
-			}
 			
 			var the_last = $(".option-container-actual").eq(key).find(".option").length;
 			$.each(value.option_labels.split(","),function(value_key,value_value){
@@ -219,14 +193,7 @@ $(".true_save").click(function(){
 	});
 
 	var student_ids = [];
-	$.each(jstree.jstree("get_checked",null,true),function(key,value){
-		
-		if(value.includes('student')){
-			student_id = value.replace('student_','');
-			
-			student_ids.push(student_id);
-		}
-	});
+	
 
 	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json),assigned:student_ids.join(',')};
 	

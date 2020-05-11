@@ -588,10 +588,8 @@ $(document).ready(function(){
         render_student_view();
         populate_slides();
     });
-    $(".edit_area").hide();
-    setTimeout(function(){
-        $(".slideshow_action").click();
-    },1500);
+    
+    
     
     $(".close_student_view").click(function(){
         $(".video_content").attr("src","");
@@ -776,6 +774,6 @@ $(document).ready(function(){
     $(".title").change(function(){
         change_detected();
     });
-
-
+    
+    
 });

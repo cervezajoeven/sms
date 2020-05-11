@@ -135,13 +135,54 @@ class Assessment extends General_Controller {
             if(empty($new_response)){
                 $assessment_data['assessment_id'] = $id;
                 $assessment_data['account_id'] = $data['account_id'];
-                $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
-                
+                $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
+                $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
+            }
+            $data['assessment_sheet'] = $new_response[0];
+            
+            $this->load->view('lms/assessment/answer', $data);
+        }
+        
+    }
+
+    public function review($id){
+        $data['id'] = $id;
+        $data['account_id'] = $this->general_model->get_account_id();
+
+        $this->db->select("*");
+        $this->db->where("account_id", $data['account_id']);
+        $this->db->where("assessment_id",$id);
+        $this->db->where("response_status",1);
+
+        $query = $this->db->get("lms_assessment_sheets");
+        $response = $query->result_array();
+        
+        $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+        $data['resources'] = site_url('backend/lms/');
+            
+        if(!empty($response)){
+            echo "<script>alert('Assesment has already been answered Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
+            
+            $this->load->view('lms/assessment/answer', $data);
+
+        }else{
+
+            $this->db->select("*");
+            $this->db->where("account_id",$data['account_id']);
+            $this->db->where("assessment_id",$id);
+            $new_query = $this->db->get("lms_assessment_sheets");
+            $new_response = $new_query->result_array();
+
+            if(empty($new_response)){
+                $assessment_data['assessment_id'] = $id;
+                $assessment_data['account_id'] = $data['account_id'];
+                $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
+                $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
             }
 
-
-
-            $this->load->view('lms/assessment/answer', $data);
+            $data['assessment_sheet'] = $new_response[0];
+            
+            $this->load->view('lms/assessment/review', $data);
         }
         
     }
@@ -150,7 +191,7 @@ class Assessment extends General_Controller {
         $data['id'] = $_REQUEST['id'];
         $data['sheet'] = $_REQUEST['sheet'];
         $data['assigned'] = $_REQUEST['assigned'];
-        print_r($this->assessment_model->lms_update("lms_assessment",$data));
+        $this->assessment_model->lms_update("lms_assessment",$data);
 
         // $this->assessment_model->lms_update("lms_assessment",$data);
     }
@@ -198,5 +239,16 @@ class Assessment extends General_Controller {
         if($this->assessment_model->lms_delete("lms_assessment",$data)){
             redirect(site_url("lms/assessment/index"));
         }
+    }
+
+    public function answer_submit(){
+        
+        $data['id'] = $_REQUEST['id'];
+        $data['answer'] = $_REQUEST['answer'];
+        print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
+    }
+
+    public function check_answers($assessment_id){
+        
     }
 }
