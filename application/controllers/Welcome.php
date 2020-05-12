@@ -235,7 +235,7 @@ class Welcome extends Front_Controller
 
             if ($enrollment_type == 'old') 
             {                
-                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');                
+                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
             }                
             else 
             {
