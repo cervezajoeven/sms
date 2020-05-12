@@ -129,7 +129,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label></label><small class="req"> *</small>
+                                            <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label>
                                             <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no'); ?>" />
                                             <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
                                         </div>
@@ -1457,7 +1457,7 @@
         $('#previous_school').val('');
         $('#note').val('');
 
-        
+
 
         $('#save').prop('disabled', false);
     }
