@@ -193,7 +193,7 @@ if (!$form_admission) {
         </div>
         <div class="col-md-3" id="id_number_input">
             <div class="form-group">
-                <label for="studentidnumber"><?php echo $this->lang->line('lrn_no').' (old students only)'; ?></label><small class="req"> *</small> 
+                <label for="studentidnumber"><?php echo $this->lang->line('student_id').' (old students only)'; ?></label><small class="req"> *</small> 
                 <input id="studentidnumber" disabled="disabled" name="studentidnumber" placeholder="Type ID number then press enter" type="text" class="form-control"  value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>

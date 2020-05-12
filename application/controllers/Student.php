@@ -277,7 +277,7 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
@@ -1228,8 +1228,8 @@ public function handle_uploadcreate_doc()
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim',array('check_exists', array($this->student_model, 'valid_student_roll')),));
-        $this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim',array('check_exists', array($this->student_model, 'valid_student_roll')),));
+        //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
         if(!$this->sch_setting_detail->adm_auto_insert) {           
             $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), array('required', array('check_admission_no_exists', array($this->student_model, 'valid_student_admission_no'))));
