@@ -200,8 +200,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 <div class="nav-tabs-custom theme-shadow">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('profile'); ?></a></li>
-
-
                         <?php
                         if ($this->module_lib->hasActive('fees_collection')) {
                             if (($this->rbac->hasPrivilege('collect_fees', 'can_view') ||
@@ -217,22 +215,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     $this->rbac->hasPrivilege('accountants', 'can_view'))) {
                                 ?>
                                 <li class=""><a href="#fee" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('fees'); ?></a></li>
-                                <?php
-                            }
-                        }
-
-
-                       
-                        ?>              
+                            <?php }
+                        } ?>              
                         <li class=""><a href="#documents" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('documents'); ?></a></li>
                         <?php
                         if ($this->rbac->hasPrivilege('student_timeline', 'can_add')) {
                             ?> 
                             <li class=""><a href="#timelineh" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('timeline') ?></a></li>
                         <?php } ?>
-
-
-
 
                         <?php if ($student["is_active"] == "yes") { ?>
                             <?php

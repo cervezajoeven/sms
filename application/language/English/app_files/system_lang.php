@@ -447,7 +447,7 @@ $lang['other_download'] = 'Other Download';
 $lang['paid'] = 'Paid';
 $lang['paid_fees'] = 'Paid Fees';
 $lang['parent'] = 'Parent';
-$lang['parent_guardian_detail'] = 'Parent Guardian Detail';
+$lang['parent_guardian_detail'] = 'Parent Guardian Details';
 $lang['partial'] = 'Partial';
 $lang['pass'] = 'Pass';
 $lang['passing_marks'] = 'Passing Marks';
@@ -1427,4 +1427,20 @@ $lang['lrn_no'] = 'LRN Number';
 $lang['has_pending_admission'] = 'already has pending admission';
 $lang['already_enrolled'] = 'is already enrolled.';
 $lang['enrolling_for'] = 'Enrolling For';
+
+$lang['company'] = 'Company';
+$lang['position'] = 'Position/Official Designation';
+$lang['nature_of_business'] = 'Nature of Business';
+$lang['mobile'] = 'Mobile No';
+$lang['citizenship'] = 'Citizenship';
+$lang['highschool'] = 'Highschool';
+$lang['college'] = 'College School Attended';
+$lang['college_course'] = 'College Degrees Attained';
+$lang['post_graduate'] = 'Post Graduate School Attended';
+$lang['degree_attained'] = 'Post Graduate Degrees Attained';
+$lang['prof_affil'] = 'Proffesional Affiliations';
+$lang['position_held'] = 'Positions Held';
+$lang['tech_prof'] = 'Proficient in the use of technology(Social Media Platforms)';
+
+$lang['other_parent_detail'] = 'Other Parent Details';
 ?>

@@ -644,6 +644,290 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>
                                 </div>
                             </div> 
+
+                            <div class="bozero">
+                                <h4 class="pagetitleh2"><?php echo $this->lang->line('other_parent_detail'); ?></h4>
+                                <div class="around10">
+                                <div class="row" id="otherparentdetail">
+                                    <!-- <div class="col-md-12"><h4 class="pagetitleh2"><?php //echo $this->lang->line('other_parent_detail'); ?></h4></div> -->
+                                    <div class="nav-tabs-custom theme-shadow">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#father" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('father'); ?></a></li>
+                                            <li class=""><a href="#mother" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('mother'); ?></a></li>
+                                        </ul>
+                                    </div>
+                                </div><!--./row-->
+
+                                <div class="tab-content" style="margin-top:5px;">
+                                    <div class="tab-pane active" id="father">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="father_company_name"><?php echo $this->lang->line('company'); ?></label>
+                                                    <input id="father_company_name" name="father_company_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_company_name', $student['father_company_name']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_company_name'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="father_company_position"><?php echo $this->lang->line('position'); ?></label>
+                                                    <input id="father_company_position" name="father_company_position" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_company_position', $student['father_company_position']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_company_position'); ?></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="father_nature_of_business"><?php echo $this->lang->line('nature_of_business'); ?></label>
+                                                    <input id="father_nature_of_business" name="father_nature_of_business" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_nature_of_business', $student['father_nature_of_business']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_nature_of_business'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="father_mobile"><?php echo $this->lang->line('mobile'); ?></label>
+                                                    <input id="father_mobile" name="father_mobile" pattern="[+][0-9]{2}[0-9]{3}[0-9]{7}" placeholder="e.g. +639999999999" type="text" class="form-control"  value="<?php echo set_value('father_mobile', $student['father_mobile']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_mobile'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="father_dob"><?php echo $this->lang->line('date_of_birth'); ?></label>
+                                                    <input  type="text" class="form-control date"  value="<?php echo set_value('father_dob', $this->customlib->dateformat(($student['father_dob']))); ?>" id="father_dob" name="father_dob" readonly="readonly" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_dob'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="father_citizenship"><?php echo $this->lang->line('citizenship'); ?></label>
+                                                    <input id="father_citizenship" name="father_citizenship" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_citizenship', $student['father_citizenship']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_citizenship'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="father_religion"><?php echo $this->lang->line('religion'); ?></label>
+                                                    <input id="father_religion" name="father_religion" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_religion', $student['father_religion']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_religion'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="father_highschool"><?php echo $this->lang->line('highschool'); ?></label>
+                                                    <input id="father_highschool" name="father_highschool" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_highschool', $student['father_highschool']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_highschool'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="father_college"><?php echo $this->lang->line('college'); ?></label>
+                                                    <input id="father_college" name="father_college" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_college', $student['father_college']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_college'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="father_college_course"><?php echo $this->lang->line('college_course'); ?></label>
+                                                    <input id="father_college_course" name="father_college_course" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_college_course', $student['father_college_course']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_college_course'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="father_post_graduate"><?php echo $this->lang->line('post_graduate'); ?></label>
+                                                    <input id="father_post_graduate" name="father_post_graduate" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_post_graduate', $student['father_post_graduate']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_post_graduate'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="father_post_course"><?php echo $this->lang->line('degree_attained'); ?></label>
+                                                    <input id="father_post_course" name="father_post_course" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_post_course', $student['father_post_course']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_post_course'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="father_prof_affiliation"><?php echo $this->lang->line('prof_affil'); ?></label>
+                                                    <input id="father_prof_affiliation" name="father_prof_affiliation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_prof_affiliation', $student['father_prof_affiliation']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_prof_affiliation'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="father_prof_affiliation_position"><?php echo $this->lang->line('position_held'); ?></label>
+                                                    <input id="father_prof_affiliation_position" name="father_prof_affiliation_position" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_prof_affiliation_position', $student['father_prof_affiliation_position']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('father_prof_affiliation_position'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label><?php echo $this->lang->line('tech_prof');?>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="father_tech_prof"  <?php if ($student['father_tech_prof'] == "yes") echo "checked"; ?> value="yes" > <?php echo $this->lang->line('yes'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="father_tech_prof"  <?php if ($student['father_tech_prof'] == "no") echo "checked"; ?> value="no" > <?php echo $this->lang->line('no'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="father_tech_prof"  <?php if ($student['father_tech_prof'] == "other") echo "checked"; ?> value="other" > <?php echo $this->lang->line('other'); ?>
+                                                </label>
+                                                <span class="text-danger"><?php echo form_error('father_tech_prof'); ?></span>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input id="father_tech_prof_other" name="father_tech_prof_other" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_tech_prof_other', $student['father_tech_prof_other']); ?>" autocomplete="off"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane" id="mother">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="mother_company_name"><?php echo $this->lang->line('company'); ?></label>
+                                                    <input id="mother_company_name" name="mother_company_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_company_name', $student['mother_company_name']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_company_name'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="mother_company_position"><?php echo $this->lang->line('position'); ?></label>
+                                                    <input id="mother_company_position" name="mother_company_position" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_company_position', $student['mother_company_position']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_company_position'); ?></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="mother_nature_of_business"><?php echo $this->lang->line('nature_of_business'); ?></label>
+                                                    <input id="mother_nature_of_business" name="mother_nature_of_business" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_nature_of_business', $student['mother_nature_of_business']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_nature_of_business'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="mother_mobile"><?php echo $this->lang->line('mobile'); ?></label>
+                                                    <input id="mother_mobile" name="mother_mobile" pattern="^\+(?:[0-9] ?){6,25}[0-9]$" placeholder="e.g. +639999999999" type="text" class="form-control"  value="<?php echo set_value('mother_mobile', $student['mother_mobile']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_mobile'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="mother_dob"><?php echo $this->lang->line('date_of_birth'); ?></label>
+                                                    <input  type="text" class="form-control date"  value="<?php echo set_value('mother_dob', $this->customlib->dateformat(($student['mother_dob']))); ?>" id="mother_dob" name="mother_dob" readonly="readonly" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_dob'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="mother_citizenship"><?php echo $this->lang->line('citizenship'); ?></label>
+                                                    <input id="mother_citizenship" name="mother_citizenship" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_citizenship', $student['mother_citizenship']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_citizenship'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="mother_religion"><?php echo $this->lang->line('religion'); ?></label>
+                                                    <input id="mother_religion" name="mother_religion" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_religion', $student['mother_religion']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_religion'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="mother_highschool"><?php echo $this->lang->line('highschool'); ?></label>
+                                                    <input id="mother_highschool" name="mother_highschool" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_highschool', $student['mother_highschool']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_highschool'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="mother_college"><?php echo $this->lang->line('college'); ?></label>
+                                                    <input id="mother_college" name="mother_college" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_college', $student['mother_college']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_college'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="mother_college_course"><?php echo $this->lang->line('college_course'); ?></label>
+                                                    <input id="mother_college_course" name="mother_college_course" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_college_course', $student['mother_college_course']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_college_course'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mother_post_graduate"><?php echo $this->lang->line('post_graduate'); ?></label>
+                                                    <input id="mother_post_graduate" name="mother_post_graduate" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_post_graduate', $student['mother_post_graduate']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_post_graduate'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mother_post_course"><?php echo $this->lang->line('degree_attained'); ?></label>
+                                                    <input id="mother_post_course" name="mother_post_course" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_post_course', $student['mother_post_course']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_post_course'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mother_prof_affiliation"><?php echo $this->lang->line('prof_affil'); ?></label>
+                                                    <input id="mother_prof_affiliation" name="mother_prof_affiliation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_prof_affiliation', $student['mother_prof_affiliation']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_prof_affiliation'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mother_prof_affiliation_position"><?php echo $this->lang->line('position_held'); ?></label>
+                                                    <input id="mother_prof_affiliation_position" name="mother_prof_affiliation_position" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_prof_affiliation_position', $student['mother_prof_affiliation_position']); ?>" autocomplete="off"/>
+                                                    <span class="text-danger"><?php echo form_error('mother_prof_affiliation_position'); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label><?php echo $this->lang->line('tech_prof');?>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="mother_tech_prof"  <?php if ($student['mother_tech_prof'] == "yes") echo "checked"; ?> value="yes" > <?php echo $this->lang->line('yes'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="mother_tech_prof"  <?php if ($student['mother_tech_prof'] == "no") echo "checked"; ?> value="no" > <?php echo $this->lang->line('no'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="mother_tech_prof"  <?php if ($student['mother_tech_prof'] == "other") echo "checked"; ?> value="other" > <?php echo $this->lang->line('other'); ?>
+                                                </label>
+                                                <span class="text-danger"><?php echo form_error('mother_tech_prof'); ?></span>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input id="mother_tech_prof_other" name="mother_tech_prof_other" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_tech_prof_other', $student['mother_tech_prof_other']); ?>" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
                             <div class="tshadow mb25 bozero">
                                 <h3 class="pagetitleh2"><?php echo $this->lang->line('address_details'); ?></h3>
                                 <div class="around10">  
@@ -1042,6 +1326,28 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#father_tech_prof_other').fadeOut();
+        $('#mother_tech_prof_other').fadeOut();
+
+        $('#mySiblingModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: false
+        });
+
+        $('#deleteModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: false
+        });
+
+        $(document).on('click', '.delete_confirm', function () {
+            $('#deleteModal').modal('hide');
+            $('.sibling_div').remove();
+        });
+    });
+
     $('#deleteModal').on('shown.bs.modal', function () {
         console.log("srer");
         $(".del_modal_title").html("Delete Confirmation");
@@ -1097,7 +1403,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                     $this.button('reset');
                 }
             });
-
         }
 
     });
@@ -1125,29 +1430,33 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
     });
 
+    $('input:radio[name="father_tech_prof"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "other") {
+                    $('#father_tech_prof_other').fadeIn();
+                }
+                else {
+                    $('#father_tech_prof_other').fadeOut();
+                }
+            }
+        }
+    );
 
-
-    $(document).ready(function () {
-
-        $('#mySiblingModal').modal({
-            backdrop: 'static',
-            keyboard: false,
-            show: false
-        });
-
-        $('#deleteModal').modal({
-            backdrop: 'static',
-            keyboard: false,
-            show: false
-        });
-
-        $(document).on('click', '.delete_confirm', function () {
-            $('#deleteModal').modal('hide');
-            $('.sibling_div').remove();
-        });
-
-
-    });
+    $('input:radio[name="mother_tech_prof"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "other") {
+                    $('#mother_tech_prof_other').fadeIn();
+                }
+                else {
+                    $('#mother_tech_prof_other').fadeOut();
+                }
+            }
+        }
+    );
 </script>
 
 

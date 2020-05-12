@@ -30,7 +30,15 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.guardian_address,online_admissions.is_enroll ,online_admissions.created_at,online_admissions.document ,online_admissions.updated_at,online_admissions.father_name,
                            online_admissions.father_phone,online_admissions.blood_group,online_admissions.school_house_id,online_admissions.father_occupation,online_admissions.mother_name,online_admissions.mother_phone,
                            online_admissions.mother_occupation,online_admissions.guardian_occupation,online_admissions.gender,online_admissions.guardian_is,online_admissions.rte,online_admissions.guardian_email,
-                           online_admissions.enrollment_type, online_admissions.mode_of_payment,online_admissions.middlename,online_admissions.lrn_no');
+                           online_admissions.enrollment_type, online_admissions.mode_of_payment,online_admissions.middlename,online_admissions.lrn_no,
+                           online_admissions.father_company_name,online_admissions.father_company_position,online_admissions.father_nature_of_business,online_admissions.father_mobile,online_admissions.father_email,
+                           online_admissions.father_dob,online_admissions.father_citizenship,online_admissions.father_religion,online_admissions.father_highschool,online_admissions.father_college,
+                           online_admissions.father_college_course,online_admissions.father_post_graduate,online_admissions.father_post_course,online_admissions.father_prof_affiliation,
+                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,
+                           online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
+                           online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
+                           online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -89,6 +97,9 @@ class Onlinestudent_model extends MY_Model {
                         $admission_no = $sch_setting_detail->adm_prefix . $sch_setting_detail->adm_start_from;
                         $data['admission_no'] = $admission_no;
                     }
+
+                    //-- Set id number equal to admission no
+                    $data['roll_no'] = $admission_no;
                 }
 
                 $admission_no_exists = $this->student_model->check_adm_exists($data['admission_no']);
@@ -234,7 +245,15 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.created_at,online_admissions.document ,online_admissions.updated_at,online_admissions.father_name,online_admissions.father_phone,online_admissions.blood_group,
                            online_admissions.school_house_id,online_admissions.father_occupation,online_admissions.mother_name,online_admissions.mother_phone,
                            online_admissions.mother_occupation,online_admissions.guardian_occupation,online_admissions.gender,online_admissions.guardian_is,online_admissions.rte,online_admissions.guardian_email,
-                           online_admissions.enrollment_type, online_admissions.mode_of_payment,online_admissions.middlename,online_admissions.lrn_no');
+                           online_admissions.enrollment_type, online_admissions.mode_of_payment,online_admissions.middlename,online_admissions.lrn_no,
+                           online_admissions.father_company_name,online_admissions.father_company_position,online_admissions.father_nature_of_business,online_admissions.father_mobile,online_admissions.father_email,
+                           online_admissions.father_dob,online_admissions.father_citizenship,online_admissions.father_religion,online_admissions.father_highschool,online_admissions.father_college,
+                           online_admissions.father_college_course,online_admissions.father_post_graduate,online_admissions.father_post_course,online_admissions.father_prof_affiliation,
+                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,
+                           online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
+                           online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
+                           online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -268,7 +287,15 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.created_at,online_admissions.document ,online_admissions.updated_at,online_admissions.father_name,online_admissions.father_phone,online_admissions.blood_group,
                            online_admissions.school_house_id,online_admissions.father_occupation,online_admissions.mother_name,online_admissions.mother_phone,
                            online_admissions.mother_occupation,online_admissions.guardian_occupation,online_admissions.gender,online_admissions.guardian_is,online_admissions.rte,online_admissions.guardian_email,
-                           online_admissions.enrollment_type, online_admissions.mode_of_payment,online_admissions.middlename,online_admissions.lrn_no');
+                           online_admissions.enrollment_type, online_admissions.mode_of_payment,online_admissions.middlename,online_admissions.lrn_no,
+                           online_admissions.father_company_name,online_admissions.father_company_position,online_admissions.father_nature_of_business,online_admissions.father_mobile,online_admissions.father_email,
+                           online_admissions.father_dob,online_admissions.father_citizenship,online_admissions.father_religion,online_admissions.father_highschool,online_admissions.father_college,
+                           online_admissions.father_college_course,online_admissions.father_post_graduate,online_admissions.father_post_course,online_admissions.father_prof_affiliation,
+                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,
+                           online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
+                           online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
+                           online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');

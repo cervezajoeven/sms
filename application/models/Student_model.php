@@ -21,7 +21,15 @@ class Student_model extends MY_Model
                            students.religion,students.dob,students.current_address,students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code,students.guardian_name,students.guardian_relation,students.guardian_phone,
                            students.guardian_address,students.is_active,students.created_at,students.updated_at,students.father_name,students.rte,students.gender,users.id as `user_tbl_id`,users.username,
-                           users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -53,7 +61,15 @@ class Student_model extends MY_Model
                           students.religion,students.dob,students.current_address,students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                           students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,students.ifsc_code,students.guardian_name,students.guardian_relation,students.guardian_phone,
                           students.guardian_address,students.is_active,students.created_at,students.updated_at,students.father_name,students.rte,students.gender,users.id as `user_tbl_id`,users.username,
-                          users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                          users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                          students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -77,7 +93,15 @@ class Student_model extends MY_Model
                            students.religion,students.dob,students.current_address,students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.app_key ,students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active,students.created_at,students.updated_at,students.father_name,students.rte,students.gender,users.id as `user_tbl_id`,
-                           users.username,users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           users.username,users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -102,7 +126,15 @@ class Student_model extends MY_Model
                            students.current_address,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
                            students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at,
                            students.updated_at,students.father_name,students.father_phone,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,
-                           students.guardian_occupation,students.gender,students.guardian_is,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.guardian_occupation,students.gender,students.guardian_is,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -135,7 +167,15 @@ class Student_model extends MY_Model
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
                            students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
                            students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,students.app_key,students.parent_app_key,
-                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -179,7 +219,15 @@ class Student_model extends MY_Model
                            students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,
                            students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,
                            students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,
-                           students.dis_note,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.dis_note,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -216,7 +264,15 @@ class Student_model extends MY_Model
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
                            students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
-                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -260,7 +316,15 @@ class Student_model extends MY_Model
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
                            students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
                            students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,
-                           students.enrollment_type,students.middlename,students.lrn_no');
+                           students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -305,7 +369,15 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,students.category_id,    students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
                            students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,
                            students.updated_at,students.father_name,students.father_phone,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,
-                           students.guardian_occupation,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.guardian_occupation,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -354,7 +426,14 @@ return false;
                            students.religion,students.dob,students.current_address,students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,
                            students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.app_key,students.parent_app_key,students.rte,students.gender,
-                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no' . $field_variable);
+                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                           students.father_prof_affiliation_position,students.father_tech_prof,
+                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                           students.mother_prof_affiliation_position,students.mother_tech_prof,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -383,7 +462,15 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
                            IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
-                           students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -412,7 +499,15 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,students.category_id, categories.category,   
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,students.gender,
-                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -477,7 +572,14 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
                            IFNULL(categories.category, "") as `category`,      students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , 
                            students.guardian_name , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,
-                           students.rte,student_session.session_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,' . $field_variable);
+                           students.rte,student_session.session_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                           students.father_prof_affiliation_position,students.father_tech_prof,
+                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                           students.mother_prof_affiliation_position,students.mother_tech_prof,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -531,7 +633,14 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,student_session.session_id,
-                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,' . $field_variable);
+                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                           students.father_prof_affiliation_position,students.father_tech_prof,
+                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                           students.mother_prof_affiliation_position,students.mother_tech_prof,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -592,7 +701,14 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name,students.mother_name , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,
-                           student_session.session_id,students.parent_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,' . $field_variable);
+                           student_session.session_id,students.parent_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                           students.father_prof_affiliation_position,students.father_tech_prof,
+                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                           students.mother_prof_affiliation_position,students.mother_tech_prof,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -884,7 +1000,15 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
                            IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
-                           students.gender,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.gender,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -906,7 +1030,15 @@ return false;
                            students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,
                            students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,students.gender,students.mode_of_payment,
-                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no'); 
+                           students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -935,7 +1067,15 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,     
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_email,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,students.app_key,
-                           students.parent_app_key,student_session.session_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no');
+                           students.parent_app_key,student_session.session_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -960,7 +1100,15 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.guardian_email,students.rte,
-                           student_session.session_id,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no'); 
+                           student_session.session_id,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -985,7 +1133,15 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
                            IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
-                           students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no'); 
+                           students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1178,7 +1334,15 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,student_session.session_id,dis_reason,
-                           dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no'); 
+                           dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1198,7 +1362,15 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
                            IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
-                           students.gender,dis_reason,dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no'); 
+                           students.gender,dis_reason,dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1226,7 +1398,15 @@ return false;
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,student_session.session_id,dis_reason,
-                           dis_note,students.mode_of_payment,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no'); 
+                           dis_note,students.mode_of_payment,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1297,7 +1477,15 @@ return false;
                            IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.cast,students.bank_name, students.ifsc_code , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.mother_name,students.updated_at,students.father_name,
                            students.rte,students.gender,users.id as `user_tbl_id`,users.username,users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.mode_of_payment,
-                           students.enrollment_type,students.middlename,students.lrn_no,' . $field_variable); 
+                           students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof,' . $field_variable); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1366,7 +1554,15 @@ return false;
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
                            IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
-                           students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,' . $field_variable);
+                           students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1416,7 +1612,15 @@ return false;
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
                            students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
                            students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,category,students.mode_of_payment,
-                           students.enrollment_type,students.middlename,students.lrn_no');
+                           students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1536,7 +1740,15 @@ return false;
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
                            students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
-                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no');
+                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1573,7 +1785,15 @@ return false;
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
                            students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
-                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no');
+                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                          students.mother_prof_affiliation_position,students.mother_tech_prof');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
