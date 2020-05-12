@@ -1744,11 +1744,11 @@ return false;
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
-                          students.father_prof_affiliation_position,students.father_tech_prof,
+                          students.father_prof_affiliation_position,students.father_tech_prof,students.father_tech_prof_other,
                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
-                          students.mother_prof_affiliation_position,students.mother_tech_prof');
+                          students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1769,7 +1769,7 @@ return false;
         // $query = $this->db->get();
         // return $query->result();
         $result = $this->db->get()->row();
-
+        //echo $this->db->last_query();die;
         return $result;
     }
 

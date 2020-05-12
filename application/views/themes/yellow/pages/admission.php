@@ -537,24 +537,18 @@ if (!$form_admission) {
                     <div class="form-group col-md-6">
                         <label><?php echo $this->lang->line('tech_prof');?>
                         <label class="radio-inline">
-                            <input type="radio" name="father_tech_prof" <?php
-                            echo set_value('father_tech_prof') == "yes" ? "checked" : "";
-                            ?>   value="yes"> <?php echo $this->lang->line('yes'); ?>
+                            <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="father_tech_prof" <?php
-                            echo set_value('father_tech_prof') == "no" ? "checked" : "";
-                            ?>   value="no"> <?php echo $this->lang->line('no'); ?>
+                            <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="father_tech_prof" <?php
-                            echo set_value('father_tech_prof') == "other" ? "checked" : "";
-                            ?>   value="other"> <?php echo $this->lang->line('other'); ?>
+                            <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "others" ? "checked" : ""; ?> value="others"> <?php echo $this->lang->line('other'); ?>
                         </label>
                         <span class="text-danger"><?php echo form_error('father_tech_prof'); ?></span>
                     </div>
                     <div class="form-group col-md-6">
-                        <input id="father_tech_prof_other" name="father_tech_prof_other" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_tech_prof_other'); ?>" autocomplete="off"/>
+                        <input id="father_tech_prof_other" name="father_tech_prof_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('father_tech_prof_other'); ?>" autocomplete="off"/>
                     </div>
                 </div>
 
@@ -675,24 +669,18 @@ if (!$form_admission) {
                     <div class="form-group col-md-6">
                         <label><?php echo $this->lang->line('tech_prof');?>
                         <label class="radio-inline">
-                            <input type="radio" name="mother_tech_prof" <?php
-                            echo set_value('mother_tech_prof') == "yes" ? "checked" : "";
-                            ?>   value="yes"> <?php echo $this->lang->line('yes'); ?>
+                            <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="mother_tech_prof" <?php
-                            echo set_value('mother_tech_prof') == "no" ? "checked" : "";
-                            ?>   value="no"> <?php echo $this->lang->line('no'); ?>
+                            <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="mother_tech_prof" <?php
-                            echo set_value('mother_tech_prof') == "other" ? "checked" : "";
-                            ?>   value="other"> <?php echo $this->lang->line('other'); ?>
+                            <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "other" ? "checked" : "";?> value="other"> <?php echo $this->lang->line('other'); ?>
                         </label>
                         <span class="text-danger"><?php echo form_error('mother_tech_prof'); ?></span>
                     </div>
                     <div class="form-group col-md-6">
-                    <input id="mother_tech_prof_other" name="mother_tech_prof_other" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_tech_prof_other'); ?>" autocomplete="off"/>
+                    <input id="mother_tech_prof_other" name="mother_tech_prof_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('mother_tech_prof_other'); ?>" autocomplete="off"/>
                     </div>
                 </div>
             </div>
@@ -824,7 +812,7 @@ if (!$form_admission) {
         function () {
             if ($(this).is(':checked')) {
                 var value = $(this).val();
-                if (value === "other") {
+                if (value === "others") {
                     $('#father_tech_prof_other').fadeIn();
                 }
                 else {
@@ -838,7 +826,7 @@ if (!$form_admission) {
         function () {
             if ($(this).is(':checked')) {
                 var value = $(this).val();
-                if (value === "other") {
+                if (value === "others") {
                     $('#mother_tech_prof_other').fadeIn();
                 }
                 else {

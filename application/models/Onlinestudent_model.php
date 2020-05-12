@@ -249,11 +249,11 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.father_company_name,online_admissions.father_company_position,online_admissions.father_nature_of_business,online_admissions.father_mobile,online_admissions.father_email,
                            online_admissions.father_dob,online_admissions.father_citizenship,online_admissions.father_religion,online_admissions.father_highschool,online_admissions.father_college,
                            online_admissions.father_college_course,online_admissions.father_post_graduate,online_admissions.father_post_course,online_admissions.father_prof_affiliation,
-                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,
+                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,online_admissions.father_tech_other,
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof_other');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -291,11 +291,11 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.father_company_name,online_admissions.father_company_position,online_admissions.father_nature_of_business,online_admissions.father_mobile,online_admissions.father_email,
                            online_admissions.father_dob,online_admissions.father_citizenship,online_admissions.father_religion,online_admissions.father_highschool,online_admissions.father_college,
                            online_admissions.father_college_course,online_admissions.father_post_graduate,online_admissions.father_post_course,online_admissions.father_prof_affiliation,
-                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,
+                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,online_admissions.father_tech_prof,
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -316,9 +316,10 @@ class Onlinestudent_model extends MY_Model {
 
     public function HasPendingAdmission($firstname, $lastname, $birthdate)
     {
-        $this->db->select('firstname, lastname, dob, is_enroll');
+        $this->db->select('firstname, lastname, dob, is_enroll, session_id');
         $this->db->from('online_admissions');
         $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate));
+        $this->db->order_by('online_admissions.session_id', 'DESC');
         $result = $this->db->get()->row();
         return $result;
     }
