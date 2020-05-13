@@ -108,7 +108,7 @@ li {
 .sortable{
 	position: relative;
     padding: 0;
-    top: 120px;
+    /*top: 120px*/
 	background-color: none;
 	z-index: 1;
 }
@@ -231,4 +231,7 @@ body{
 .numbering_option{
 	padding: 10px;
 	font-size: 20px;
+}
+.score{
+	font-weight: bolder;
 }

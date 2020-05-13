@@ -215,7 +215,7 @@ $(".true_save").click(function(){
 		json.push(option_json);
 
 		
-		console.log(json);
+
 	});
 
 	var student_ids = [];
@@ -236,8 +236,8 @@ $(".true_save").click(function(){
 	    data: final_json,
 	    // contentType: "application/json",
 	    complete: function(response){
-	    	// console.log(response.responseText);
-	    	alert("Sucessfully Saved!");
+	    	console.log(response.responseText);
+	    	// alert("Sucessfully Saved!");
 	    }
 	});
 });

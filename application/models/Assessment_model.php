@@ -32,6 +32,19 @@ class Assessment_model extends MY_Model {
         return $return;
     }
 
+    public function assessment_sheets($assessment_id){
+
+        $this->db->select('*');
+        $this->db->from('lms_assessment_sheets');
+        $this->db->where("assessment_id",$assessment_id);
+        $this->db->where("deleted", 0);
+
+        $query = $this->db->get();
+
+        $return = $query->result_array();
+        return $return;
+    }
+
     public function delete_assessment($table,$id){
         $data['id'] = $id;
         $data['deleted'] = 1;

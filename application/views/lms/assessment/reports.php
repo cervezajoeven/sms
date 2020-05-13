@@ -10,51 +10,11 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <?php
-            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                ?>
-                <div class="col-md-4">
-                    <!-- Horizontal Form -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Create Assessment</h3>
-                        </div><!-- /.box-header -->
-                        <!-- form start -->
-
-                        <form id="form1" action="<?php echo site_url('lms/assessment/save') ?>"  id="assessment" name="assessmentform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
-                            <div class="box-body">
-                                <?php if ($this->session->flashdata('msg')) { ?>
-                                    <?php echo $this->session->flashdata('msg') ?>
-                                <?php } ?>
-                                <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Assessment Name</label><small class="req"> *</small>
-                                    <input autofocus="" id="assessment_name" name="assessment_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-
-                            </div><!-- /.box-body -->
-
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div><!--/.col (right) -->
-                <!-- left column -->
-            <?php } ?>
-            <div class="col-md-<?php
-            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                echo "8";
-            } else {
-                echo "12";
-            }
-            ?>">
+            <div class="col-md-7">
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix">Assessment List</h3>
+                        <h3 class="box-title titlefix">Students List</h3>
                         <div class="box-tools pull-right">
 
                         </div><!-- /.box-tools -->
@@ -71,43 +31,41 @@
                             <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th><?php echo $this->lang->line('date'); ?></th>
-                                        <th>Views</th>
-                                        <th>Assigned To</th>
+                                        <th>Name</th>
+                                        <th>Grade</th>
+                                        <th>Section</th>
+                                        <th>Score</th>
+                                        <th>Percentage</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($list as $list_key => $list_data): ?>
+                                    <?php foreach ($students as $list_key => $list_data): ?>
 
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['assessment_name']?>
+                                                <?php echo $list_data['firstname']?>
                                             </td>
 
                                             <td class="mailbox-name">
-                                               <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
+                                               <?php echo $list_data['class']?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo rand(30,50); ?>
+                                                <?php echo $list_data['section']?>
                                             </td>
                                             <td>
-                                                
+                                                <?php echo $list_data['score']?>
+                                            </td>
+                                            <td>
+                                                <?php echo ($list_data['score']/$list_data['total_score'])*100 ?>%
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
-                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/reports/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Reports" >
-                                                            <i class="fa fa-file"></i>
-                                                    </a>
 
-                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/edit/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
-                                                            <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a data-placement="left" href=""class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
-                                                        <i class="fa fa-remove"></i>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/review/'.$list_data['assessment_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer Sheet" >
+                                                            <i class="fa fa-eye"></i>
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
@@ -125,6 +83,64 @@
 
                                 </tbody>
                             </table><!-- /.table -->
+                        </div><!-- /.mail-box-messages -->
+
+                    </div><!-- /.box-body -->
+
+                </div>
+            </div><!--/.col (left) -->
+            
+            <div class="col-md-5">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header ptbnull">
+                        <h3 class="box-title titlefix">Assessment Details</h3>
+                        <div class="box-tools pull-right">
+
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="mailbox-controls">
+                            <!-- Check all button -->
+                            <div class="pull-right">
+
+                            </div><!-- /.pull-right -->
+                        </div>
+                        <div class="mailbox-messages table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th>Title</th>
+                                    <td><?php echo $assessment['assessment_name']?></td>
+                                </tr>
+                                <tr>
+                                    <th>Total Score</th>
+                                    <td><?php echo $assessment['total_score']?></td>
+                                </tr>
+                                <tr>
+                                    <th>Start Date</th>
+                                    <td><?php echo date("F d, Y",strtotime($assessment['start_date'])) ?></td>
+                                </tr>
+                                <tr>
+                                    <th>End Date</th>
+                                    <td><?php echo date("F d, Y",strtotime($assessment['end_date'])) ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Duration</th>
+                                    <td><?php echo $assessment['duration']?></td>
+                                </tr>
+                                <tr>
+                                    <th>Passing Percentage</th>
+                                    <td><?php echo $assessment['passing']?>%</td>
+                                </tr>
+                                <tr>
+                                    <th>Analysis Report</th>
+                                    <td>
+                                        <a href="<?php echo site_url('lms/assessment/analysis/').$assessment['id'] ?>">
+                                            <button class="form-control btn btn-primary">Item Analysis</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div><!-- /.mail-box-messages -->
 
                     </div><!-- /.box-body -->

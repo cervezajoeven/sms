@@ -32,7 +32,7 @@ class General_model extends MY_Model {
         $current_session = $this->setting_model->getCurrentSession();
         $userdata = $this->session->userdata();
         if(array_key_exists('student', $userdata)){
-            $account_id = $userdata['student']['id'];
+            $account_id = $userdata['student']['student_id'];
         }else{ 
             $account_id = 1;
         }
