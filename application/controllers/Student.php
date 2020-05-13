@@ -277,7 +277,7 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
@@ -330,7 +330,7 @@ class Student extends Admin_Controller
 
             $data_insert = array(
                 'firstname'           => $this->input->post('firstname'),
-                'lastname'           => $this->input->post('lastname'),
+                'lastname'            => $this->input->post('lastname'),
                 'rte'                 => $this->input->post('rte'),
                 'state'               => $this->input->post('state'),
                 'city'                => $this->input->post('city'),
@@ -362,6 +362,40 @@ class Student extends Admin_Controller
                 'enrollment_type'     => $this->input->post('enrollment_type'),
                 'middlename'          => $this->input->post('middlename'),
                 'lrn_no'              => $this->input->post('lrn_no'),
+
+                'father_company_name'    => $this->input->post('father_company_name'),
+                'father_company_position'    => $this->input->post('father_company_position'),
+                'father_nature_of_business'    => $this->input->post('father_nature_of_business'),
+                'father_mobile'    => $this->input->post('father_mobile'),
+                'father_dob'    => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('father_dob'))),
+                'father_citizenship'    => $this->input->post('father_citizenship'),
+                'father_religion'    => $this->input->post('father_religion'),
+                'father_highschool'    => $this->input->post('father_highschool'),
+                'father_college'    => $this->input->post('father_college'),
+                'father_college_course'    => $this->input->post('father_college_course'),
+                'father_post_graduate'    => $this->input->post('father_post_graduate'),
+                'father_post_course'    => $this->input->post('father_post_course'),
+                'father_prof_affiliation'    => $this->input->post('father_prof_affiliation'),
+                'father_prof_affiliation_position'    => $this->input->post('father_prof_affiliation_position'),
+                'father_tech_prof'    => $this->input->post('father_tech_prof'),
+                'father_tech_prof_other'    => $this->input->post('father_tech_prof_other'),
+
+                'mother_company_name'    => $this->input->post('mother_company_name'),
+                'mother_company_position'    => $this->input->post('mother_company_position'),
+                'mother_nature_of_business'    => $this->input->post('mother_nature_of_business'),
+                'mother_mobile'    => $this->input->post('mother_mobile'),
+                'mother_dob'    => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('mother_dob'))),
+                'mother_citizenship'    => $this->input->post('mother_citizenship'),
+                'mother_religion'    => $this->input->post('mother_religion'),
+                'mother_highschool'    => $this->input->post('mother_highschool'),
+                'mother_college'    => $this->input->post('mother_college'),
+                'mother_college_course'    => $this->input->post('mother_college_course'),
+                'mother_post_graduate'    => $this->input->post('mother_post_graduate'),
+                'mother_post_course'    => $this->input->post('mother_post_course'),
+                'mother_prof_affiliation'    => $this->input->post('mother_prof_affiliation'),
+                'mother_prof_affiliation_position'    => $this->input->post('mother_prof_affiliation_position'),
+                'mother_tech_prof'    => $this->input->post('mother_tech_prof'),
+                'mother_tech_prof_other'    => $this->input->post('mother_tech_prof_other'),
             );
 
             $house            = $this->input->post('house');
@@ -394,9 +428,9 @@ class Student extends Admin_Controller
                 $data_insert['blood_group'] = $this->input->post('blood_group');
             }
 
-            if (isset($roll_no)) {
-                $data_insert['roll_no'] = $this->input->post('roll_no');
-            }
+            // if (isset($roll_no)) {
+            //     $data_insert['roll_no'] = $this->input->post('roll_no');
+            // }
 
             // if (isset($lastname)) {
             //     $data_insert['lastname'] = $this->input->post('lastname');
@@ -488,7 +522,11 @@ class Student extends Admin_Controller
                     $data_insert['admission_no'] = $admission_no;
                 }
 
+                //-- Set id number = admission no
+                $data_insert['roll_no'] = $admission_no;
+
                 $admission_no_exists = $this->student_model->check_adm_exists($admission_no);
+
                 if ($admission_no_exists) {
                     $insert = false;
                 }
@@ -1189,8 +1227,8 @@ public function handle_uploadcreate_doc()
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim',array('check_exists', array($this->student_model, 'valid_student_roll')),));
-        $this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+        //$this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim',array('check_exists', array($this->student_model, 'valid_student_roll')),));
+        //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
         if(!$this->sch_setting_detail->adm_auto_insert) {           
             $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), array('required', array('check_admission_no_exists', array($this->student_model, 'valid_student_admission_no'))));

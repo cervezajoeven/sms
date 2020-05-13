@@ -235,7 +235,7 @@ class Welcome extends Front_Controller
 
             if ($enrollment_type == 'old') 
             {                
-                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');                
+                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
             }                
             else 
             {
@@ -265,17 +265,22 @@ class Welcome extends Front_Controller
             {
                 //==============
                 $document_validate = true;
-                $image_validate    = $this->config->item('file_validate');
+                $file_validate    = $this->config->item('file_validate');
 
                 if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
                     $file_type         = $_FILES["document"]['type'];
                     $file_size         = $_FILES["document"]["size"];
                     $file_name         = $_FILES["document"]["name"];
-                    $allowed_extension = $image_validate['allowed_extension'];
+                    $allowed_extension = $file_validate['allowed_extension'];
                     $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
-                    $allowed_mime_type = $image_validate['allowed_mime_type'];
-                    if ($files = filesize($_FILES['document']['tmp_name'])) {
-                    
+                    $allowed_mime_type = $file_validate['allowed_mime_type'];
+                    // var_dump($file_type);
+                    // var_dump($file_size);
+                    // var_dump($file_name);
+                    // var_dump($allowed_extension);
+                    // var_dump($allowed_mime_type);die;
+
+                    if ($files = filesize($_FILES['document']['tmp_name'])) {                    
                         if (!in_array($file_type, $allowed_mime_type)) {
                             $this->data['error_message'] = 'File Type Not Allowed';
                             $document_validate           = false;
@@ -285,8 +290,8 @@ class Welcome extends Front_Controller
                             $this->data['error_message'] = 'Extension Not Allowed';
                             $document_validate           = false;
                         }
-                        if ($file_size > $image_validate['upload_size']) {
-                            $this->data['error_message'] = 'File should be less than' . number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
+                        if ($file_size > $file_validate['upload_size']) {
+                            $this->data['error_message'] = 'File should be less than' . number_format($file_validate['upload_size'] / 1048576, 2) . " MB";
                             $document_validate           = false;
                         }
                     }
@@ -299,12 +304,13 @@ class Welcome extends Front_Controller
 
                     //--Get Class_Section_ID
                     $class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
+                    $current_session = $this->setting_model->getCurrentSession();
 
                     if ($enrollment_type == 'old')
                     {
-                        // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
-                        // var_dump($old_student_data);
-                        $old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
+                        $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
+                        //var_dump($old_student_data);
+                        //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
                         //var_dump($this->input->post('studentidnumber'));die;
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
 
@@ -338,6 +344,7 @@ class Welcome extends Front_Controller
                             'middlename'          => $old_student_data->middlename,
                             'email'               => $this->input->post('email'),
                             'class_section_id'    => $class_section_id,
+                            'session_id'          => $current_session,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
@@ -349,23 +356,29 @@ class Welcome extends Front_Controller
                             $data['document'] = $doc_name;
                         }
 
-                        $current_session = $this->setting_model->getCurrentSession();
-
-                        if (sizeOf($has_admission) <= 0 && ($old_student_data->session_id != $current_session))
+                        if (sizeOf($has_admission) <= 0)
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
                             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                         }
                         else 
                         {
-                            if ($old_student_data->session_id == $current_session)
+                            if ($current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != $current_session)
                             {
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                                $insert_id = $this->onlinestudent_model->add($data);
+                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                             }
-                            else if ($has_admission->is_enroll == '0')
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
                             else 
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');                        
+                            {
+                                if ((int)$old_student_data->session_id == $current_session)
+                                {
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                                }
+                                else if ($has_admission->is_enroll == '0')
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                                // else 
+                                //     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');                        
+                            }
                         }
                     }
                     else 
@@ -400,6 +413,41 @@ class Welcome extends Front_Controller
                             'middlename'          => $this->input->post('middlename'),
                             'email'               => $this->input->post('email'),
                             'class_section_id'    => $class_section_id,
+
+                            'father_company_name'    => $this->input->post('father_company_name'),
+                            'father_company_position'    => $this->input->post('father_company_position'),
+                            'father_nature_of_business'    => $this->input->post('father_nature_of_business'),
+                            'father_mobile'    => $this->input->post('father_mobile'),
+                            'father_dob'    => $this->input->post('father_dob'),
+                            'father_citizenship'    => $this->input->post('father_citizenship'),
+                            'father_religion'    => $this->input->post('father_religion'),
+                            'father_highschool'    => $this->input->post('father_highschool'),
+                            'father_college'    => $this->input->post('father_college'),
+                            'father_college_course'    => $this->input->post('father_college_course'),
+                            'father_post_graduate'    => $this->input->post('father_post_graduate'),
+                            'father_post_course'    => $this->input->post('father_post_course'),
+                            'father_prof_affiliation'    => $this->input->post('father_prof_affiliation'),
+                            'father_prof_affiliation_position'    => $this->input->post('father_prof_affiliation_position'),
+                            'father_tech_prof'    => $this->input->post('father_tech_prof'),
+                            'father_tech_prof_other'    => $this->input->post('father_tech_prof_other'),
+
+                            'mother_company_name'    => $this->input->post('mother_company_name'),
+                            'mother_company_position'    => $this->input->post('mother_company_position'),
+                            'mother_nature_of_business'    => $this->input->post('mother_nature_of_business'),
+                            'mother_mobile'    => $this->input->post('mother_mobile'),
+                            'mother_dob'    => $this->input->post('mother_dob'),
+                            'mother_citizenship'    => $this->input->post('mother_citizenship'),
+                            'mother_religion'    => $this->input->post('mother_religion'),
+                            'mother_highschool'    => $this->input->post('mother_highschool'),
+                            'mother_college'    => $this->input->post('mother_college'),
+                            'mother_college_course'    => $this->input->post('mother_college_course'),
+                            'mother_post_graduate'    => $this->input->post('mother_post_graduate'),
+                            'mother_post_course'    => $this->input->post('mother_post_course'),
+                            'mother_prof_affiliation'    => $this->input->post('mother_prof_affiliation'),
+                            'mother_prof_affiliation_position'    => $this->input->post('mother_prof_affiliation_position'),
+                            'mother_tech_prof'    => $this->input->post('mother_tech_prof'),
+                            'mother_tech_prof_other'    => $this->input->post('mother_tech_prof_other'),
+                            'session_id'    => $current_session,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
@@ -416,16 +464,27 @@ class Welcome extends Front_Controller
                             $insert_id = $this->onlinestudent_model->add($data);
                             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                         }
-                        else 
-                        {
-                            if ($has_admission->is_enroll == '0')
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                        else {
+                            if ($current_session > (int)$has_admission->session_id)
+                            {
+                                $insert_id = $this->onlinestudent_model->add($data);
+                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                            }
                             else 
-                                $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
-                        }
+                            {
+                                if ($has_admission->is_enroll == '0')
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                                else 
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                            }
+                        }                        
                     }
                     
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');
+                }
+                else 
+                {
+                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$this->data['error_message'].'</div>');
                 }
 
                 $this->load_theme('pages/admission');
