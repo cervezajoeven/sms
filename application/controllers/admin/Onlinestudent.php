@@ -213,6 +213,8 @@ class Onlinestudent extends Admin_Controller
                 'mother_tech_prof_other'    => $this->input->post('mother_tech_prof_other'),
             );
 
+            //var_dump($data);die;
+
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
           
             if ($response) {

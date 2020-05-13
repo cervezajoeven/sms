@@ -197,6 +197,8 @@ class Onlinestudent_model extends MY_Model {
                 }
             }
 
+            //var_dump($data);die;
+
             $this->db->where('id', $data_id);
             $this->db->update('online_admissions', $data);
 			
