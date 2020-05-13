@@ -80,6 +80,7 @@ class Onlinestudent_model extends MY_Model {
             $this->db->trans_begin();
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
+            $enroll_type = $data['enrollment_type'];
 
             if ($action == "enroll") {
 			//==========================
@@ -98,8 +99,9 @@ class Onlinestudent_model extends MY_Model {
                         $data['admission_no'] = $admission_no;
                     }
 
-                    //-- Set id number equal to admission no
-                    $data['roll_no'] = $admission_no;
+                    //-- Set id number equal to admission no for all non old students
+                    if ($enroll_type != 'old')
+                        $data['roll_no'] = $admission_no;
                 }
 
                 $admission_no_exists = $this->student_model->check_adm_exists($data['admission_no']);
@@ -110,8 +112,6 @@ class Onlinestudent_model extends MY_Model {
                     $record_update_status = false;
                 }
 
-                $enroll_type = $data['enrollment_type'];
- 
 				//============================
                 if ($insert) {
                     $this->db->select('class_sections.*')->from('class_sections');
@@ -124,7 +124,15 @@ class Onlinestudent_model extends MY_Model {
                     if ($enroll_type == 'old') 
                     {
                         $student_id = $this->GetStudentID1($data['lrn_no'], $data['roll_no']);
-                        //$student_id = $this->GetStudentIDLRN($data['lrn_no']);
+                        $old_data = array (
+                            'mode_of_payment' => $data['mode_of_payment'],
+                            'enrollment_type' => $data['enrollment_type'],
+                            'guardian_email' => $data['email'],
+                        );
+                        
+                        $this->db->where('id', $student_id);
+                        $this->db->update('students', $old_data);
+                        echo $this->db->last_query();die;
                     } 
                     else 
                     {

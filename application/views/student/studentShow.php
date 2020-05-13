@@ -131,11 +131,11 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right text-aqua"><?php echo $student['section']; ?></a>
                             </li>
-                            <?php if ($sch_setting->rte) { ?>
-                            <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('rte'); ?></b> <a class="pull-right text-aqua"><?php echo $student['rte']; ?></a>
-                            </li>
-                            <?php } ?>
+                            <?php //if ($sch_setting->rte) { ?>
+                            <!-- <li class="list-group-item listnoback">
+                                <b><?php //echo $this->lang->line('rte'); ?></b> <a class="pull-right text-aqua"><?php //echo $student['rte']; ?></a>
+                            </li> -->
+                            <?php //} ?>
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo $this->lang->line(strtolower($student['gender'])); ?></a>
                             </li>
