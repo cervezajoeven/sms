@@ -90,7 +90,8 @@ class Onlinestudent_model extends MY_Model {
                 if ($sch_setting_detail->adm_auto_insert) {
                     if ($sch_setting_detail->adm_update_status) {
                         $admission_no = $sch_setting_detail->adm_prefix . $sch_setting_detail->adm_start_from;
-                        $last_student = $this->student_model->lastRecord();
+                        //$last_student = $this->student_model->lastRecord();
+                        $last_student = $this->student_model->lastRecordByAdmissionNo();
                         $last_admission_digit = str_replace($sch_setting_detail->adm_prefix, "", $last_student->admission_no);
                         $admission_no = $sch_setting_detail->adm_prefix . sprintf("%0" . $sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);                        
                         $data['admission_no'] = $admission_no;
@@ -126,7 +127,7 @@ class Onlinestudent_model extends MY_Model {
                         $student_id = $this->GetStudentID($data['roll_no']);
                         
                         $old_data = array (
-                            //'admission_no' => $data['admission_no'],
+                            'admission_no' => $data['admission_no'],
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'guardian_email' => $data['email'],
