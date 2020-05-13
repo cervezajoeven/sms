@@ -102,7 +102,7 @@ class Onlinestudent_model extends MY_Model {
                     //-- Set id number equal to admission no for all non old students
                     if ($enroll_type != 'old')
                         $data['roll_no'] = $admission_no;
-                }
+                }                
 
                 $admission_no_exists = $this->student_model->check_adm_exists($data['admission_no']);
                 //$lrn_num_exists = $this->student_model->check_roll_exists($data['roll_no']); //-- LRN Number
@@ -123,8 +123,10 @@ class Onlinestudent_model extends MY_Model {
 
                     if ($enroll_type == 'old') 
                     {
-                        $student_id = $this->GetStudentID1($data['lrn_no'], $data['roll_no']);
+                        $student_id = $this->GetStudentID($data['roll_no']);
+                        
                         $old_data = array (
+                            //'admission_no' => $data['admission_no'],
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'guardian_email' => $data['email'],
@@ -347,7 +349,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function GetStudentID($idnumber)
     {
-        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->or_where('roll_no', $idnumber)->limit(1)->get()->row();
+        $result = $this->db->select('id')->from('students')->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
 

@@ -118,6 +118,7 @@ class Onlinestudent extends Admin_Controller
             $hostel_room_id = $this->input->post('hostel_room_id');
             $fees_discount  = $this->input->post('fees_discount');
             $vehroute_id    = $this->input->post('vehroute_id');
+            //$class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
             
             if (empty($vehroute_id)) {
                 $vehroute_id = 0;

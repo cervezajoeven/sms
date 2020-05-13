@@ -1522,6 +1522,7 @@ return false;
     public function lastRecord()
     {
         $last_row = $this->db->select('*')->order_by('id', "desc")->limit(1)->get('students')->row();
+        //$last_row = $this->db->select('*')->order_by('admission_no', "desc")->limit(1)->get('students')->row();
         return $last_row;
     }
 
