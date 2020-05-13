@@ -1,3 +1,7 @@
+<style type="text/css">
+    .ui-autocomplete { max-height: 300px; overflow-y: scroll; overflow-x: hidden;}
+</style>
+
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
