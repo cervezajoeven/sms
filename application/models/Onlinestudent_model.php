@@ -8,6 +8,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('mailsmsconf');
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
     }
@@ -81,6 +82,7 @@ class Onlinestudent_model extends MY_Model {
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
             $enroll_type = $data['enrollment_type'];
+            $sender_details = [];
 
             if ($action == "enroll") {
 			//==========================
@@ -197,6 +199,8 @@ class Onlinestudent_model extends MY_Model {
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
+
+                    $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 }
             }
 
@@ -208,13 +212,15 @@ class Onlinestudent_model extends MY_Model {
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";
 			$record_id    = $data_id;
-			$this->log($message, $record_id, $action);
-			
-            if ($this->db->trans_status() === false) {
+            $this->log($message, $record_id, $action);
+            
+            if ($action == "enroll")
+                $this->mailsmsconf->mailsms('student_admission', $sender_details);
+
+            if ($this->db->trans_status() === false) 
                 $this->db->trans_rollback();
-            } else {
+            else 
                 $this->db->trans_commit();
-            }
         }
 
         return $record_update_status;
