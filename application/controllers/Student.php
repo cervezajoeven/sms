@@ -718,12 +718,12 @@ class Student extends Admin_Controller
                     move_uploaded_file($_FILES["fifth_doc"]["tmp_name"], $img_name);
                     $data_img = array('student_id' => $insert_id, 'title' => $fifth_title, 'doc' => $imp);
                     $this->student_model->adddoc($data_img);
+
+                    $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                    $this->mailsmsconf->mailsms('student_admission', $sender_details);
                     
                     if ($this->input->post('enrollment_type') != 'old') 
                     {
-                        $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
-                        $this->mailsmsconf->mailsms('student_admission', $sender_details);
-        
                         $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
                         $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
                     
