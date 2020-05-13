@@ -131,8 +131,7 @@ class Onlinestudent_model extends MY_Model {
                         );
                         
                         $this->db->where('id', $student_id);
-                        $this->db->update('students', $old_data);
-                        echo $this->db->last_query();die;
+                        $this->db->update('students', $old_data);                        
                     } 
                     else 
                     {
