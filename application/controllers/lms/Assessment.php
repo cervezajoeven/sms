@@ -35,6 +35,118 @@ class Assessment extends General_Controller {
         $this->load->view('layout/footer');
     }
 
+    public function reports($assessment_id){
+
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/assessment');
+        $data['list'] = $this->assessment_model->all_assessment();
+
+        $data['role'] = $this->general_model->get_role();
+        $current_session = $this->setting_model->getCurrentSession();
+
+        $data['assessment'] = $this->assessment_model->lms_get('lms_assessment',$assessment_id,"id")[0];
+
+        $query = $this->db
+        ->select("*")
+        ->from("lms_assessment AS lms_a")
+        ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
+        ->join("lms_assessment_sheets AS lms_as","lms_as.account_id = s.id","left")
+        ->join("student_session AS ss","s.id = ss.student_id","left")
+        ->join("classes AS c","c.id = ss.class_id","left")
+        ->join("sections AS sc","sc.id = ss.section_id","left")
+        ->where("ss.session_id",$current_session)
+        ->get();
+        $students = $query->result_array();
+
+        $data['students'] = $students;
+
+        if($data['role']=='admin'){
+            $this->load->view('layout/header');
+        }else{
+
+            $this->load->view('layout/student/header');
+        }
+
+        $this->load->view('lms/assessment/reports', $data);
+        $this->load->view('layout/footer');
+    }
+
+    public function get_sheets($id) {
+        if($id){
+            $assessment = $this->assessment_model->lms_get('lms_assessment',$id,"id")[0];
+            $assessment_sheets = $this->assessment_model->assessment_sheets($id);
+
+            
+            $json_sheet = json_decode($assessment['sheet']);
+            $responses['data'] = array();
+            $array_pos = 0;
+
+            //var_dump($json_sheet[0]->type);
+            // echo '<pre>';print_r($assessment_sheets);exit();
+            foreach ($assessment_sheets as $row) {
+                $json_respond = json_decode($row['answer']);
+                //var_dump($json_respond);
+                $answers_count['data'] = array();
+                $resp_pos = 0;
+                // echo '<pre>';print_r($json_respond);exit();
+                if ($json_respond != null || $json_respond != '') {
+                    foreach($json_respond as $respond) {
+                        // var_dump($respond);
+                        // echo($respond->type);
+                        
+                        if ($respond->type != "long_answer" && $respond->type != "short_answer") {
+                            if (strpos($respond->answer, '1') > -1) {
+                                if ($array_pos == 0) {
+                                    $responses['data'][] = array (
+                                        'answer_choices' => explode(',', $json_sheet[$resp_pos]->option_labels),
+                                        'respondents' => 1,
+                                        'answers_count' =>  explode(',', $respond->answer)
+                                    );
+                                } else {
+                                    $responses['data'][$resp_pos]['respondents'] = $responses['data'][$resp_pos]['respondents'] + 1;
+            
+                                    $answer = explode(',', $respond->answer);
+                                    $answerIdx = 0;
+                                    foreach($answer as $ans) {
+                                        $responses['data'][$resp_pos]['answers_count'][$answerIdx] = (string)((int)$responses['data'][$resp_pos]['answers_count'][$answerIdx] + (int)$ans);
+                                        $answerIdx++;
+                                    }
+                                }
+                                
+                            } else {
+                                if ($array_pos == 0) {
+                                    $responses['data'][] = array (
+                                        'answer_choices' => explode(',', $json_sheet[$resp_pos]->option_labels),
+                                        'respondents' => 0,
+                                        'answers_count' => explode(',', $respond->answer)
+                                    );
+                                } else {
+                                    //
+                                }
+                            }
+                        } else {
+                            $responses['data'][] = array (
+                                'answer_choices' => array(''),
+                                'respondents' => 0,
+                                'answers_count' =>  array('')
+                            );
+                        }                   
+        
+                        //var_dump($responses['data']);
+                        $resp_pos++;
+                    }
+                }           
+
+                //var_dump($responses['data'][$array_pos]['respondents']);            
+                $array_pos++;
+            }
+
+            //var_dump($responses['data']);
+            echo json_encode($responses['data']);
+        }
+        
+    }
+
     public function assigned(){
 
         $this->page_title = "Assigned";
@@ -42,38 +154,6 @@ class Assessment extends General_Controller {
         $this->sms_view(__FUNCTION__);
     }
 
-    public function respond($id){
-        $this->data['survey_id'] = $id;
-        $data['id'] = $id;
-
-        $this->data['survey'] = $this->survey_model->get("survey",$data);
-        $this->data['account_profile'] = $this->survey_model->ben_where("profile","account_id",$this->session->userdata('id'))[0];
-        $this->db->select("*");
-        $this->db->where("account_id",$this->data['account_profile']['account_id']);
-        $this->db->where("survey_id",$id);
-        $this->db->where("response_status",1);
-        $query = $this->db->get("survey_sheets");
-        $response = $query->result_array();
-        if(!empty($response)){
-            echo "<script>alert('Survey has already been responded ".$this->data['account_profile']['account_id']."');window.location.replace('".$this->ben_link('general/survey/assigned')."')</script>";
-            
-            $this->ben_view_ultraclear(__FUNCTION__);
-        }else{
-            $this->db->select("*");
-            $this->db->where("account_id",$this->data['account_profile']['account_id']);
-            $this->db->where("survey_id",$id);
-            $new_query = $this->db->get("survey_sheets");
-            $new_response = $new_query->result_array();
-            if(empty($new_response)){
-                $survey_data['survey_id'] = $id;
-                $survey_data['account_id'] = $this->session->userdata('id');
-                $this->survey_model->create_new("survey_sheets",$survey_data);
-                
-            }
-            $this->ben_view_ultraclear(__FUNCTION__);
-        }
-        
-    }
 
     public function save(){
 
@@ -107,7 +187,6 @@ class Assessment extends General_Controller {
     public function answer($id){
         $data['id'] = $id;
         $data['account_id'] = $this->general_model->get_account_id();
-
         $this->db->select("*");
         $this->db->where("account_id", $data['account_id']);
         $this->db->where("assessment_id",$id);
@@ -145,9 +224,14 @@ class Assessment extends General_Controller {
         
     }
 
-    public function review($id){
+    public function review($id,$account_id=""){
         $data['id'] = $id;
-        $data['account_id'] = $this->general_model->get_account_id();
+        if($account_id){
+            $data['account_id'] = $account_id;
+        }else{
+            $data['account_id'] = $this->general_model->get_account_id();
+        }
+        
 
         $this->db->select("*");
         $this->db->where("account_id", $data['account_id']);
@@ -191,9 +275,17 @@ class Assessment extends General_Controller {
         $data['id'] = $_REQUEST['id'];
         $data['sheet'] = $_REQUEST['sheet'];
         $data['assigned'] = $_REQUEST['assigned'];
+        $sheet = (array)json_decode($data['sheet']);
+        $total_score = 0;
+        //convert to array
+        foreach ($sheet as $answer_key => $answer_value) {
+            $sheet[$answer_key] = (array)$answer_value;
+            $total_score +=1;
+        }
+        //convert to array
+        
+        $data['total_score'] = $total_score;
         $this->assessment_model->lms_update("lms_assessment",$data);
-
-        // $this->assessment_model->lms_update("lms_assessment",$data);
     }
 
     public function update_survey_sheet(){
@@ -244,11 +336,59 @@ class Assessment extends General_Controller {
     public function answer_submit(){
         
         $data['id'] = $_REQUEST['id'];
+        $data['assessment_id'] = $_REQUEST['assessment_id'];
         $data['answer'] = $_REQUEST['answer'];
+        $answer = (array)json_decode($data['answer']);
+        $assessment = $this->assessment_model->lms_get("lms_assessment",$data['assessment_id'],"id")[0];
+        $assessment_answer = (array)json_decode($assessment['sheet']);
+        
+        //convert to array
+        foreach ($answer as $answer_key => $answer_value) {
+            $answer[$answer_key] = (array)$answer_value;
+        }
+        foreach ($assessment_answer as $answer_key => $answer_value) {
+            $assessment_answer[$answer_key] = (array)$answer_value;
+        }
+        //convert to array
+        $score = 0;
+        $total_score = 0;
+        foreach ($answer as $answer_key => $answer_value) {
+            $total_score += 1;
+            $assessment_value = $assessment_answer[$answer_key];
+            if($answer_value['type']=="multiple_choice"||$answer_value['type']=="multiple_answer"){
+
+                if($answer_value['answer'] == $assessment_value['correct']){
+                    $score += 1;
+                }
+            }else if($answer_value['type']=="short_answer"){
+                if(in_array(strtolower($answer_value['answer']), explode(",", strtolower($assessment_value['correct'])))){
+                    $score += 1;
+                }
+            }else{
+
+            }
+
+        }
+
+        $data['score'] = $score;
+
         print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
     }
 
     public function check_answers($assessment_id){
         
+    }
+
+    public function analysis($id){
+        $this->page_title = "Item Analysis";
+        $assessment_sheets = $this->assessment_model->assessment_sheets($id);
+        $assessment = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+        $data['data'] = $assessment_sheets;
+        $data['assessment'] = $assessment;
+        // echo '<pre>';print_r($assessment);exit();
+        // $data['id'] = $id;
+        $data['resources'] = site_url('backend/lms/');
+
+        $this->load->view('lms/assessment/analysis', $data);
     }
 }

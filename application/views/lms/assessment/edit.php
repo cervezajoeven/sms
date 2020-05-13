@@ -35,6 +35,7 @@
 		        </div>
 
 		        <div class="col-sm-5 right">
+		        	
 		        	<div class="info col-sm-5">
 		        		<div class="info-row">
 			        		<div class="info-tab info-title col-sm-2">Name :</div>

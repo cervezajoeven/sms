@@ -990,7 +990,6 @@ public function handle_uploadcreate_doc()
                                 $n++;
                             }
                             
-
                             $roll_no                           = $student_data[$i]["roll_no"];
                             $adm_no                            = $student_data[$i]["admission_no"];
                             $mobile_no                         = $student_data[$i]["mobileno"];

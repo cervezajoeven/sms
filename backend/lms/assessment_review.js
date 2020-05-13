@@ -4,13 +4,14 @@ var answer = $("#answer").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
 var assigned = $("#assigned").val();
+var score = 0;
+var total_score = 0;
 
-
-$(".sortable").sortable({
-	stop:function(event,ui){
-		renumbering();
-	}
-});
+// $(".sortable").sortable({
+// 	stop:function(event,ui){
+// 		renumbering();
+// 	}
+// });
 $(".option-container-clonable").hide();
 
 
@@ -99,13 +100,6 @@ $(document).ready(function(){
 		$.each(JSON.parse(stored_json),function(key,value){
 			populate_key(value.type,value);
 			
-			var checked_ids = [];
-			if(assigned){
-
-				$.each(assigned.split(","),function(key,value){
-					checked_ids.push("student_"+value);
-				});
-			}
 			
 			$.each(value.option_labels.split(","),function(split_key,split_value){
 				
@@ -126,10 +120,85 @@ $(document).ready(function(){
 			
 		});
 		renumbering();
+		$(document).find(".option_label_input").find("input").attr("readonly","readonly");
+		$(document).find(".option_type").find("input").attr("readonly","readonly");
+		$(document).find(".option_type").find("textarea").attr("readonly","readonly");
 	}
 	
 
 });
+//fill answers
+$(document).ready(function(){
+	// #52b152
+	if(answer){
+		answer = JSON.parse(answer);
+		stored_json_parsed = JSON.parse(stored_json);
+		$.each(answer,function(key,value){
+
+			if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+				var correct_answer = stored_json_parsed[key].correct.split(",");
+				var student_answer = value.answer.split(",");
+				var the_options = $(".option-container-actual").eq(key).find(".option");
+				var correct_label = [];
+				total_score += 1;
+				$.each(the_options,function(the_option_key,the_option_value){
+					// console.log(student_answer[the_option_key]);
+					if(student_answer[the_option_key] == "1"){
+						$(the_option_value).find(".option_type").find("input").prop("checked",true);
+					}
+					if(correct_answer[the_option_key] == "1"){
+
+						correct_label.push(stored_json_parsed[key].option_labels.split(",")[the_option_key]);
+					}
+				});
+
+				if(value.answer == stored_json_parsed[key].correct){
+					score += 1;
+					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
+				}else{
+					$(".option-container-actual").eq(key).css("background-color","rgb(255, 108, 108)");
+					$(the_options).last().after("<div>Correct : "+correct_label.join(" , ")+"</div>");
+				}
+				
+			}else if(value.type=="short_answer"){
+				var short_answer_correct_array = stored_json_parsed[key].correct.toLowerCase().split(",");
+				total_score += 1;
+				// console.log(short_answer_correct_array);
+				var the_options = $(".option-container-actual").eq(key).find(".option");
+				$(the_options).find(".option_type").find("input").val(value.answer);
+				if(short_answer_correct_array.indexOf(value.answer.toLowerCase()) != -1){
+					score += 1;
+					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
+				}else{
+					$(".option-container-actual").eq(key).css("background-color","rgb(255, 108, 108)");
+					$(the_options).last().after("<div>Correct : "+short_answer_correct_array.join(" , ")+"</div>");
+				}
+				
+				
+
+			}else if(value.type=="long_answer"){
+
+				var the_options = $(".option-container-actual").eq(key).find(".option");
+				$(the_options).find(".option_type").find("textarea").text(value.answer);
+			}	
+			
+
+			
+
+		});
+
+	}
+	console.log(score);
+	$(".score").text(score+"/"+total_score);
+	$(document).find(".option_label_input").find("input").attr("readonly","readonly");
+		$(document).find(".option_type").find("input").attr("disabled","disabled");
+		$(document).find(".option_type").find("textarea").attr("readonly","readonly");
+	
+
+});
+
+//fill answers
+
 $(document).on("click",".remove_option",function(){
 	$(this).parent().remove();
 	renumbering();

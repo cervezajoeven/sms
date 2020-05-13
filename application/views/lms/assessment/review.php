@@ -9,8 +9,13 @@
 		<link rel="stylesheet" href="<?php echo $resources.'fileinput.min.css'?>">
 		<link rel="stylesheet" href="<?php echo $resources.'jquery-ui.css'?>">
 		<link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css'?>">
-		<link rel="stylesheet" href="<?php echo $resources.'assessment.css'?>">
+		<link rel="stylesheet" href="<?php echo $resources.'answer.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<style type="text/css">
+			.sortable{
+				top: 0;
+			}
+		</style>
 	</head>
 	<body>
 		<div class = "container-fluid">
@@ -28,33 +33,34 @@
 		        </div>
 
 		        <div class="col-sm-5 right">
-		        	<div class="info col-sm-5">
-		        		<div class="info-row">
-			        		<div class="info-tab info-title col-sm-2">Name : </div>
-			        		<div class="info-tab col-sm-8">John Doe</div>
-		        		</div>
-		        		<div class="info-row">
-		        			<a href="<?php echo site_url('lms/assessment/index/'); ?>">
-			        			<div class="info-tab info-title col-sm-2 the_close">Close</div>
-			        		</a>
-		        		</div>
-
-		        		<div class="info-row">
-			        		<div class="info-tab info-title col-sm-3">Date : </div>
-			        		<div class="info-tab col-sm-9"><?php echo date('F d, Y'); ?></div>
-		        		</div>
-
-		        		<div class="info-row">
-			        		<div class="info-tab info-title col-sm-3">Title :</div>
-			        		<div class="info-tab col-sm-9"><?php echo $assessment['assessment_name']?></div>
-		        		</div>
-		        		
-		        		<!-- <div class="info-row">
-			        		<div class="info-tab col-sm-12 save submit">
-			        			<center>Submit</center>
-			        		</div>
-		        		</div> -->
-		        	</div>
+		        	<table class="table table-bordered">
+		        		<tr>
+		        			
+		        			<td colspan="4" style="padding: 0;cursor: pointer;">
+		        				<a href="<?php echo site_url('lms/assessment/index/'); ?>">
+		        					<div class="info-tab info-title the_close">X Close</div>
+		        				</a>
+		        			</td>
+		        			
+		        		</tr>
+		        		<tr>
+		        			<td>Name :</td>
+		        			<td>John Doe</td>
+		        			<td>Date</td>
+		        			<td><?php echo date("F d, Y"); ?></td>
+		        		</tr>
+		        		<tr>
+		        			<td>Title :</td>
+		        			<td colspan="3"><?php echo $assessment['assessment_name']?></td>
+		        		</tr>
+		        		<tr>
+		        			<td>Score :</td>
+		        			<td class="score"></td>
+		        			<td>Duration</td>
+		        			<td class="duration"></td>
+		        		</tr>
+		        	</table>
+		        	
 		        	<div class="clearfix"></div>
 		        	<ul class="sortable ui-sortable">
 		        		<li class="option-container option-container-clonable">
