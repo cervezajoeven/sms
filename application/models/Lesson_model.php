@@ -28,6 +28,17 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
+    public function student_lessons($account_id=""){
+
+        $this->db->select("*");
+        $this->db->where("FIND_IN_SET('".$account_id."', assigned) !=", 0);
+        $this->db->where('deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function get_students(){
         $current_session = $this->setting_model->getCurrentSession();
         $this->db->select("*");

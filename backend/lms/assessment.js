@@ -3,6 +3,15 @@ var stored_json = $("#stored_json").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
 var assigned = $("#assigned").val();
+
+var duration = $(".duration").val();
+var percentage = $(".percentage").val();
+var attempts = $(".attempts").val();
+var start_date = $(".start_date").val();
+var end_date = $(".end_date").val();
+
+
+
 $(".sortable").sortable({
 	stop:function(event,ui){
 		renumbering();
@@ -176,6 +185,7 @@ $(document).on("click",".add_option",function(){
 $(".true_save").click(function(){
 	var json = [];
 	var options = $(".option-container-actual");
+
 	$.each(options,function(key,value){
 		var the_option_type = $(value).attr("option_type");
 		
@@ -228,8 +238,17 @@ $(".true_save").click(function(){
 		}
 	});
 
-	final_json = {id:$("#assessment_id").val(),sheet:JSON.stringify(json),assigned:student_ids.join(',')};
-	
+	final_json = {
+		id:$("#assessment_id").val(),
+		sheet:JSON.stringify(json),
+		assigned:student_ids.join(','),
+		duration: duration,
+		percentage: percentage,
+		attempts: attempts,
+		start_date: start_date,
+		end_date: end_date,
+	};
+
 	$.ajax({
 	    url: url,
 	    type: "POST",
@@ -237,7 +256,7 @@ $(".true_save").click(function(){
 	    // contentType: "application/json",
 	    complete: function(response){
 	    	console.log(response.responseText);
-	    	alert("Sucessfully Saved!");
+	    	alert("Quiz has been sucessfully saved!");
 	    }
 	});
 });
@@ -256,4 +275,13 @@ $(".assign_panel").hide();
 $(".assign").click(function(){
 	$(".assign_panel").toggle();
 	$(".sortable").toggle();
+});
+
+$('.date_range').daterangepicker({
+	timePicker: true,
+	startDate: moment().startOf('hour'),
+	endDate: moment().startOf('hour').add(24, 'hour'),
+	locale: {
+	  format: 'MMMM DD hh:mm A'
+	}
 });

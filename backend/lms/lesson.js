@@ -14,6 +14,7 @@ $(document).ready(function(){
     var lesson_id = $("#lesson_id").val();
     var main_url = $("#main_url").val();
     var assigned = $("#assigned").val();
+    var checked_ids = [];
     var role = $("#role").val();
     console.log(assigned);
     var jstree = $('#jstree_demo_div').jstree({
@@ -22,6 +23,14 @@ $(document).ready(function(){
         },
         "plugins" : [ "checkbox" ]
     });
+
+    if(assigned){
+
+        $.each(assigned.split(","),function(key,value){
+            checked_ids.push("student_"+value);
+        });
+        $.jstree.reference('#jstree_demo_div').select_node(checked_ids);
+    }
 
     function unescapeHtml(safe) {
         return safe.replace(/&amp;/g, '&')
@@ -1097,5 +1106,17 @@ $(document).ready(function(){
     }else{
         
     }
-    
+    $(".assign_save").click(function(){
+        change_detected();
+        alert("Lesson has been assigned successfully");
+    });
+});
+
+$('.date_range').daterangepicker({
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(24, 'hour'),
+    locale: {
+      format: 'MMMM DD hh:mm A'
+    }
 });

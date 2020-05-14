@@ -20,16 +20,19 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/lesson');
 
         $data['title'] = 'Lesson';
-        $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+        
 
         $data['role'] = $this->general_model->get_role();
         
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
+            $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+            
         }else{
 
             $this->load->view('layout/student/header');
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
         }
 
         

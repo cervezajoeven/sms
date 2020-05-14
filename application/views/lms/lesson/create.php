@@ -16,6 +16,7 @@
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
         <style type="text/css">
             .ql-snow{
@@ -112,7 +113,7 @@
         
         <div class="edit_area">
 
-            <div class="part left">
+            <div class="part ben_left">
                 <div class="navigation">
 
                     <div class="title_container">
@@ -276,6 +277,10 @@
                           </div>
                         </div>
                         <div class="col-lg-6">
+
+                            <h3>Assign Date</h3>
+                            
+                            <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
                             <h3>Lesson Type</h3>
 
                             <div class="select-box">
@@ -310,13 +315,11 @@
 
                             </div>
 
-                            <h3>Assign Start Date</h3>
                             
-                            <input type="datetime-local" class="start_date" name="">
 
-                            <h3>Assign End Date</h3>
+                            <h3>Save</h3>
                             
-                            <input type="datetime-local" class="start_date" name="">
+                            <button class="assign_save" style="padding: 10px;width: 50%;border-radius: 10px;border: 0px;cursor: pointer;">Assign</button>
                         </div>
                         
 
@@ -382,7 +385,7 @@
                     </div>
                 </div>
             </div>
-            <div class="part right">
+            <div class="part ben_right">
                 <div class="navigation">
                     <div class="title_container">
                         <input type="text" disabled="" value="Campus LMS Resources Search" name="">
@@ -518,13 +521,12 @@
         <script src="<?php echo $resources.'jquery.magnify.js'?>"></script>
         <script src="<?php echo $resources.'jquery-ui.js'?>"></script>
         <script src="<?php echo $resources.'jquery.mousewheel.min.js'?>"></script>
-        <script src="<?php echo $resources.'lesson.js'?>"></script>
+        
         <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-        <script type="text/javascript">
-
-            
-        </script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script src="<?php echo $resources.'lesson.js'?>"></script>
     </body>
 </html>

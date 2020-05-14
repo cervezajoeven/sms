@@ -277,7 +277,11 @@ class Assessment extends General_Controller {
         $data['id'] = $_REQUEST['id'];
         $data['sheet'] = $_REQUEST['sheet'];
         $data['assigned'] = $_REQUEST['assigned'];
+        $data['duration'] = $_REQUEST['duration'];
+        $data['percentage'] = $_REQUEST['percentage'];
+        $data['attempts'] = $_REQUEST['attempts'];
         $sheet = (array)json_decode($data['sheet']);
+        print_r($_REQUEST);
         $total_score = 0;
         //convert to array
         foreach ($sheet as $answer_key => $answer_value) {

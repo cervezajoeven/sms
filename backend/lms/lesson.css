@@ -113,14 +113,14 @@ html, body {
 .part{
 
 }
-.left{
+.ben_left{
     position: relative;
     float: left;
     width: 65%;
     height: 100%;
     overflow: auto;
 }
-.right{
+.ben_right{
     float: left;
     width: 30%;
     height: 100%;

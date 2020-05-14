@@ -12,6 +12,12 @@
 		<link rel="stylesheet" href="<?php echo $resources.'assessment.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+
+
+		
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 		<style type="text/css">
 			.jstree-themeicon-custom{
                 background-size: 100%!important;
@@ -22,7 +28,7 @@
 
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
-		        <div class = "col-sm-7 left">
+		        <div class = "col-sm-7 ben_left">
 		        	<form enctype="multipart/form-data" id="upload_form" method="POST" action="<?php echo site_url('lms/assessment/upload/'.$assessment['id']); ?>" style="top: 0;position: absolute; width: 100%;">
 		        		<input type="file" required="" class="form-control file" accept="application/pdf" name="assessment_form">
 		        		<input type="button" value="Upload" class="form-control btn btn-success upload">
@@ -90,16 +96,12 @@
 		        		</div>
 		        		<div class = "col-sm-4">
 		        			Attempts
-		        			<input type="number" min="0" value="1" class="form-control" name="">
+		        			<input type="number" min="0" value="1" class="form-control attempts" name="">
 		        		</div>
 
-		        		<div class = "col-sm-6">
-		        			Start Date
-		        			<input type="datetime-local" value="<?php echo date('Y-m-d\TH:i:sP'); ?>" class="form-control" name="">
-		        		</div>
-		        		<div class = "col-sm-6">
-		        			End Date
-		        			<input type="datetime-local" min="0" max="100" value="50" class="form-control" name="">
+		        		<div class = "col-sm-12">
+		        			Date Assigned
+		        			<input type="text" value="" class="form-control date_range" name="">
 		        		</div>
 		        		<div class = "col-sm-12">
 		        			Assign Students
@@ -192,7 +194,10 @@
 </html>
 <script type="text/javascript" src="<?php echo $resources.'jquery-1.12.4.js'?>"></script>
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
+
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo $resources.'assessment.js'?>"></script>
