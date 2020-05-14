@@ -16,6 +16,7 @@ class Student extends Admin_Controller
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
         $this->load->library('encoding_lib');
+        $this->load->library('email');
         $this->load->model("classteacher_model");
         $this->load->model("timeline_model");
         $this->blood_group        = $this->config->item('bloodgroup');
@@ -282,6 +283,7 @@ class Student extends Admin_Controller
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
 
         if (!$this->sch_setting_detail->adm_auto_insert) 
         {
@@ -1262,6 +1264,7 @@ public function handle_uploadcreate_doc()
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
         //$this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim',array('check_exists', array($this->student_model, 'valid_student_roll')),));
         //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
