@@ -82,8 +82,10 @@ class Onlinestudent_model extends MY_Model {
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
             $enroll_type = $data['enrollment_type'];
-            $sender_details = [];
-
+            $student_id = 0;
+            $user_password = '';
+            $parent_password = '';
+            
             if ($action == "enroll") {
 			//==========================
                 $insert = true;
@@ -130,6 +132,7 @@ class Onlinestudent_model extends MY_Model {
                         
                         $old_data = array (
                             'admission_no' => $data['admission_no'],
+                            'admission_date' => $data['admission_date'],
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'guardian_email' => $data['email'],
@@ -199,8 +202,6 @@ class Onlinestudent_model extends MY_Model {
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
-
-                    $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 }
             }
 
@@ -215,12 +216,25 @@ class Onlinestudent_model extends MY_Model {
             $this->log($message, $record_id, $action);
             
             if ($action == "enroll")
+            {
+                $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
-            if ($this->db->trans_status() === false) 
+                if ($enroll_type != 'old')
+                {
+                    $student_login_detail = array('id' => $student_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+                    $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                    
+                    $parent_login_detail = array('id' => $student_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                    $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+                }
+            }
+			
+            if ($this->db->trans_status() === false) {
                 $this->db->trans_rollback();
-            else 
+            } else {
                 $this->db->trans_commit();
+            }
         }
 
         return $record_update_status;

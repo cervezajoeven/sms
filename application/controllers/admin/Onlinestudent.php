@@ -14,6 +14,7 @@ class Onlinestudent extends Admin_Controller
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
         $this->load->library('encoding_lib');
+        $this->load->library('email');
         $this->load->model("classteacher_model");
         $this->load->model("timeline_model");
         $this->blood_group        = $this->config->item('bloodgroup');
@@ -103,6 +104,7 @@ class Onlinestudent extends Admin_Controller
         $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
         //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
@@ -139,10 +141,10 @@ class Onlinestudent extends Admin_Controller
                 'previous_school'     => $this->input->post('previous_school'),
                 'guardian_is'         => $this->input->post('guardian_is'),
                 'pincode'             => $this->input->post('pincode'),
-                'measurement_date'    => $this->customlib->dateFormatToYYYYMMDD($this->input->post('measure_date')),
+                'measurement_date'    => date('Y-m-d', strtotime($this->input->post('measure_date'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('measure_date')),
                 'religion'            => $this->input->post('religion'),
-                'dob'                 => $this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
-                'admission_date'      => $this->customlib->dateFormatToYYYYMMDD($this->input->post('admission_date')),
+                'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
+                'admission_date'      => date('Y-m-d', strtotime($this->input->post('admission_date'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('admission_date')),
                 'current_address'     => $this->input->post('current_address'),
                 'permanent_address'   => $this->input->post('permanent_address'),
                 'category_id'         => $this->input->post('category_id'),
@@ -183,7 +185,7 @@ class Onlinestudent extends Admin_Controller
                 'father_company_position'    => $this->input->post('father_company_position'),
                 'father_nature_of_business'    => $this->input->post('father_nature_of_business'),
                 'father_mobile'    => $this->input->post('father_mobile'),
-                'father_dob'    => $this->customlib->dateFormatToYYYYMMDD($this->input->post('father_dob')),
+                'father_dob'    => date('Y-m-d', strtotime($this->input->post('father_dob'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('father_dob')),
                 'father_citizenship'    => $this->input->post('father_citizenship'),
                 'father_religion'    => $this->input->post('father_religion'),
                 'father_highschool'    => $this->input->post('father_highschool'),
@@ -200,7 +202,7 @@ class Onlinestudent extends Admin_Controller
                 'mother_company_position'    => $this->input->post('mother_company_position'),
                 'mother_nature_of_business'    => $this->input->post('mother_nature_of_business'),
                 'mother_mobile'    => $this->input->post('mother_mobile'),
-                'mother_dob'    => $this->customlib->dateFormatToYYYYMMDD($this->input->post('mother_dob')),
+                'mother_dob'    => date('Y-m-d', strtotime($this->input->post('mother_dob'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('mother_dob')),
                 'mother_citizenship'    => $this->input->post('mother_citizenship'),
                 'mother_religion'    => $this->input->post('mother_religion'),
                 'mother_highschool'    => $this->input->post('mother_highschool'),
