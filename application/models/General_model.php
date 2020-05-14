@@ -31,8 +31,11 @@ class General_model extends MY_Model {
     public function get_account_id(){
         $current_session = $this->setting_model->getCurrentSession();
         $userdata = $this->session->userdata();
+
         if(array_key_exists('student', $userdata)){
             $account_id = $userdata['student']['student_id'];
+        }else if(array_key_exists('admin', $userdata)){
+            $account_id = $userdata['admin']['id'];
         }else{ 
             $account_id = 1;
         }

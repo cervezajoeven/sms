@@ -36,6 +36,7 @@
                                         <th>Section</th>
                                         <th>Score</th>
                                         <th>Percentage</th>
+                                        <th>Status</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -58,7 +59,10 @@
                                                 <?php echo $list_data['score']?>
                                             </td>
                                             <td>
-                                                <?php echo ($list_data['score']/$list_data['total_score'])*100 ?>%
+                                                <?php echo round(($list_data['score']/$list_data['total_score'])*100) ?>%
+                                            </td>
+                                            <td>
+                                                Pass/Fail
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>

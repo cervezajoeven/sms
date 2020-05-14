@@ -82,11 +82,11 @@
 		        	<div class="assign_panel">
 		        		<div class = "col-sm-4">
 		        			Duration (Minutes)
-		        			<input type="number" min="1" value="30" class="form-control" name="">
+		        			<input type="number" min="1" value="30" class="form-control duration" name="duration">
 		        		</div>
 		        		<div class = "col-sm-4">
 		        			Passing Percentage %
-		        			<input type="number" min="0" max="100" value="50" class="form-control" name="">
+		        			<input type="number" min="0" max="100" value="50" class="form-control percentage" name="">
 		        		</div>
 		        		<div class = "col-sm-4">
 		        			Attempts
