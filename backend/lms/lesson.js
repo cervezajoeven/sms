@@ -55,6 +55,13 @@ $(document).ready(function(){
     $(".instruction").hide();
     $(".instructions").show();
     $(".upload_actions").hide();
+
+    $("loader").show();
+
+    $(document).ready(function(){
+
+        $(".loader").hide();
+    });
     // window.addEventListener("resize", adjust_iframe());
     function youtube_search(query,maxResults = 10){
         var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_key;
@@ -934,11 +941,11 @@ $(document).ready(function(){
             
         });
     }
-    $(document).ready(function(){
-        deploy_stored_data();
-        // setInterval(function(){check_thumbnails();}, 3000);
 
-        // setInterval(function(){check_offline_files();}, 3000);
+    $(document).ready(function(){
+        
+        deploy_stored_data();
+        
         
     });
     
@@ -1087,6 +1094,8 @@ $(document).ready(function(){
             $(".slideshow_action").click();
         },1500);
         $(".edit_area").hide();
+    }else{
+        
     }
     
 });

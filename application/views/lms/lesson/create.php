@@ -80,8 +80,11 @@
 
         </style>
     </head>
+
     <body>
-        
+        <div style="position: relative;height: 100%;width: 100%;background-color: white;z-index: 9999" class="loader">
+          <img style="position: absolute;top: 0%;left: 50%;margin: 13% 0px 0px -10%;" src="<?php echo $resources.'images/loader.gif' ?>">
+        </div>
         <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
         <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
         <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
@@ -106,6 +109,7 @@
           </div>
 
         </div>
+        
         <div class="edit_area">
 
             <div class="part left">

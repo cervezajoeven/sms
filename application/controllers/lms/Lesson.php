@@ -20,11 +20,10 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/lesson');
 
         $data['title'] = 'Lesson';
-        $data['list'] = $this->lesson_model->lms_get("lms_lesson");
+        $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
 
         $data['role'] = $this->general_model->get_role();
         
-
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
@@ -35,12 +34,14 @@ class Lesson extends General_Controller {
 
         
         $this->load->view('lms/lesson/index', $data);
-        // $this->load->view('layout/footer');
+        $this->load->view('layout/footer');
     }
 
     function save(){
 
         $data = array("lesson_name"=>$_REQUEST['content_title']);
+        $data['account_id'] = $this->general_model->get_account_id();
+
         $id = $this->lesson_model->lms_create("lms_lesson",$data);
         
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){

@@ -17,6 +17,17 @@ class Lesson_model extends MY_Model {
      * @return mixed
      */
 
+    public function get_lessons($account_id=""){
+
+        $this->db->select("*");
+        $this->db->where("account_id",$account_id);
+        $this->db->where('deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function get_students(){
         $current_session = $this->setting_model->getCurrentSession();
         $this->db->select("*");
