@@ -1,3 +1,7 @@
+<style type="text/css">
+    .ui-autocomplete { max-height: 300px; overflow-y: scroll; overflow-x: hidden;}
+</style>
+
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -98,7 +102,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('roll_no'); ?></label>
-                                            <input id="roll_no" name="roll_no" disabled placeholder="Auto generated" type="text" class="form-control"  value="<?php //echo set_value('roll_no'); ?>"/>
+                                            <input id="roll_no" name="roll_no" readonly placeholder="Auto generated" type="text" class="form-control"  value="<?php //echo set_value('roll_no'); ?>"/>
                                             <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                         </div>
                                     </div>

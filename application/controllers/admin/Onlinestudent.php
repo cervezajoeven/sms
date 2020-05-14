@@ -118,6 +118,7 @@ class Onlinestudent extends Admin_Controller
             $hostel_room_id = $this->input->post('hostel_room_id');
             $fees_discount  = $this->input->post('fees_discount');
             $vehroute_id    = $this->input->post('vehroute_id');
+            //$class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
             
             if (empty($vehroute_id)) {
                 $vehroute_id = 0;
@@ -212,6 +213,8 @@ class Onlinestudent extends Admin_Controller
                 'mother_tech_prof'    => $this->input->post('mother_tech_prof'),
                 'mother_tech_prof_other'    => $this->input->post('mother_tech_prof_other'),
             );
+
+            //var_dump($data);die;
 
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
           

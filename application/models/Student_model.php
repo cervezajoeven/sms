@@ -856,8 +856,7 @@ return false;
                 
                 return $insert_id;
             }
-        }
-				
+        }				
     }
 
     public function add_student_sibling($data_sibling)
@@ -1525,6 +1524,12 @@ return false;
         return $last_row;
     }
 
+    public function lastRecordByAdmissionNo()
+    {
+        $last_row = $this->db->select('*')->order_by('admission_no', "desc")->limit(1)->get('students')->row();
+        return $last_row;
+    }
+
     public function currentClassSectionById($studentid, $schoolsessionId)
     {
         return $this->db->select('class_id,section_id')->from('student_session')->where('session_id', $schoolsessionId)->where('student_id', $studentid)->get()->row_array();
@@ -1867,8 +1872,8 @@ return false;
 
     public function GetNameList($name)
     {
-        $this->db->select("DISTINCT(lrn_no), studentname");
-        $this->db->from("(SELECT students.lrn_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname FROM students) tbl1");
+        $this->db->select("DISTINCT(roll_no), studentname");
+        $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname FROM students) tbl1");
         if ($name != "")
             $this->db->where("LOWER(studentname) like '".strtolower(urldecode($name))."%'");
         $this->db->order_by('studentname', 'asc');
@@ -1886,7 +1891,7 @@ return false;
 
     public function GetStudentID($idnumber)
     {
-        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->where('roll_no', $idnumber)->limit(1)->get()->row();
+        $result = $this->db->select('id')->from('students')->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
 }

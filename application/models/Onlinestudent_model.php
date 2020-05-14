@@ -8,6 +8,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('mailsmsconf');
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
     }
@@ -80,6 +81,8 @@ class Onlinestudent_model extends MY_Model {
             $this->db->trans_begin();
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
+            $enroll_type = $data['enrollment_type'];
+            $sender_details = [];
 
             if ($action == "enroll") {
 			//==========================
@@ -89,7 +92,8 @@ class Onlinestudent_model extends MY_Model {
                 if ($sch_setting_detail->adm_auto_insert) {
                     if ($sch_setting_detail->adm_update_status) {
                         $admission_no = $sch_setting_detail->adm_prefix . $sch_setting_detail->adm_start_from;
-                        $last_student = $this->student_model->lastRecord();
+                        //$last_student = $this->student_model->lastRecord();
+                        $last_student = $this->student_model->lastRecordByAdmissionNo();
                         $last_admission_digit = str_replace($sch_setting_detail->adm_prefix, "", $last_student->admission_no);
                         $admission_no = $sch_setting_detail->adm_prefix . sprintf("%0" . $sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);                        
                         $data['admission_no'] = $admission_no;
@@ -98,9 +102,10 @@ class Onlinestudent_model extends MY_Model {
                         $data['admission_no'] = $admission_no;
                     }
 
-                    //-- Set id number equal to admission no
-                    $data['roll_no'] = $admission_no;
-                }
+                    //-- Set id number equal to admission no for all non old students
+                    if ($enroll_type != 'old')
+                        $data['roll_no'] = $admission_no;
+                }                
 
                 $admission_no_exists = $this->student_model->check_adm_exists($data['admission_no']);
                 //$lrn_num_exists = $this->student_model->check_roll_exists($data['roll_no']); //-- LRN Number
@@ -110,8 +115,6 @@ class Onlinestudent_model extends MY_Model {
                     $record_update_status = false;
                 }
 
-                $enroll_type = $data['enrollment_type'];
- 
 				//============================
                 if ($insert) {
                     $this->db->select('class_sections.*')->from('class_sections');
@@ -123,8 +126,17 @@ class Onlinestudent_model extends MY_Model {
 
                     if ($enroll_type == 'old') 
                     {
-                        $student_id = $this->GetStudentID1($data['lrn_no'], $data['roll_no']);
-                        //$student_id = $this->GetStudentIDLRN($data['lrn_no']);
+                        $student_id = $this->GetStudentID($data['roll_no']);
+                        
+                        $old_data = array (
+                            'admission_no' => $data['admission_no'],
+                            'mode_of_payment' => $data['mode_of_payment'],
+                            'enrollment_type' => $data['enrollment_type'],
+                            'guardian_email' => $data['email'],
+                        );
+                        
+                        $this->db->where('id', $student_id);
+                        $this->db->update('students', $old_data);                        
                     } 
                     else 
                     {
@@ -187,8 +199,12 @@ class Onlinestudent_model extends MY_Model {
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
+
+                    $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 }
             }
+
+            //var_dump($data);die;
 
             $this->db->where('id', $data_id);
             $this->db->update('online_admissions', $data);
@@ -196,13 +212,15 @@ class Onlinestudent_model extends MY_Model {
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";
 			$record_id    = $data_id;
-			$this->log($message, $record_id, $action);
-			
-            if ($this->db->trans_status() === false) {
+            $this->log($message, $record_id, $action);
+            
+            if ($action == "enroll")
+                $this->mailsmsconf->mailsms('student_admission', $sender_details);
+
+            if ($this->db->trans_status() === false) 
                 $this->db->trans_rollback();
-            } else {
+            else 
                 $this->db->trans_commit();
-            }
         }
 
         return $record_update_status;
@@ -338,7 +356,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function GetStudentID($idnumber)
     {
-        $result = $this->db->select('id')->from('students')->where('lrn_no', $idnumber)->or_where('roll_no', $idnumber)->limit(1)->get()->row();
+        $result = $this->db->select('id')->from('students')->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
     }
 
