@@ -53,10 +53,7 @@
 			        			<center>Assign</center>
 			        		</div>
 		        		</div>
-		        		<div class="assign_panel">
-		        			Assign
-		        		</div>
-
+		        		
 		        	</div>
 		        	<div class="clearfix"></div>
 		        	<ul class="sortable ui-sortable">

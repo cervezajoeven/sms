@@ -237,7 +237,7 @@ $(".true_save").click(function(){
 	    // contentType: "application/json",
 	    complete: function(response){
 	    	console.log(response.responseText);
-	    	// alert("Sucessfully Saved!");
+	    	alert("Sucessfully Saved!");
 	    }
 	});
 });

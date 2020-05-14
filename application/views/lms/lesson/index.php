@@ -44,7 +44,7 @@
 
                 </div><!--/.col (right) -->
                 <!-- left column -->
-            <?php } ?>
+            <!-- <?php } ?> -->
             <div class="col-md-<?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
                 echo "8";

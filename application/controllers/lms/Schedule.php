@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Assessment extends General_Controller {
+class Schedule extends General_Controller {
     public $current_function;
     function __construct() {
 
@@ -10,7 +10,6 @@ class Assessment extends General_Controller {
         $this->load->model('general_model');
         $this->load->model('class_model');
         $this->load->model('lesson_model');
-        $this->load->library('customlib');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
     }
@@ -18,12 +17,12 @@ class Assessment extends General_Controller {
     public function index(){
 
         $this->session->set_userdata('top_menu', 'Download Center');
-        $this->session->set_userdata('sub_menu', 'content/assessment');
+        $this->session->set_userdata('sub_menu', 'content/lms_schedule');
         $data['list'] = $this->assessment_model->all_assessment();
-
         $data['role'] = $this->general_model->get_role();
         
-
+        $account_id = $this->general_model->get_account_id();
+        
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
@@ -32,7 +31,7 @@ class Assessment extends General_Controller {
             $this->load->view('layout/student/header');
         }
 
-        $this->load->view('lms/assessment/index', $data);
+        $this->load->view('lms/schedule/index', $data);
         $this->load->view('layout/footer');
     }
 
@@ -56,7 +55,6 @@ class Assessment extends General_Controller {
         ->join("classes AS c","c.id = ss.class_id","left")
         ->join("sections AS sc","sc.id = ss.section_id","left")
         ->where("ss.session_id",$current_session)
-        ->where("lms_a.id", $assessment_id)
         ->get();
         $students = $query->result_array();
 

@@ -136,10 +136,10 @@
                             <!-- <input type="text" placeholder="Extend" value="Extend" name=""> -->
                             <span>Evaluation</span>
                         </div>
-                        <div class="folder">
-                            <!-- <input type="text" placeholder="LAS" value="LAS" name=""> -->
+                        <!-- <div class="folder">
+                            <input type="text" placeholder="LAS" value="LAS" name="">
                             <span>Modules</span>
-                        </div>
+                        </div> -->
                     </div>
                     
                 </div>
@@ -171,7 +171,7 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
-                    <h2>LMS Learning Plan</h2>
+                    <h2>Learning Plan 5E's</h2>
                     <div class="slider_container">
                         <div id="learing_plan_text">
                           <p><strong>Engage</strong></p>
@@ -341,7 +341,7 @@
                             </a>
                         </div>
                         <div class="actions">
-                            <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>Learning Plan</button>
+                            <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>LP 5E's</button>
                         </div>
                         <div class="actions">
                             <button id="objective" class="trigger action_button"><i class="fas fa-bullseye"></i>Objective</button>
@@ -353,7 +353,7 @@
                             <button id="assign" class="trigger action_button assign_action"><i class="fas fa-chalkboard-teacher"></i>Assign</button>
                         </div>
                         <div class="actions">
-                            <!-- <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Discussion</button> -->
+                            <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Save</button>
                         </div>
                         <div class="actions">
                             <!-- <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button> -->
