@@ -402,7 +402,7 @@ if (!$form_admission) {
     
         <div class="col-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_email'); ?></label>
+                <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_email'); ?></label><small class="req"> *</small>
                 <input id="guardian_email" name="guardian_email" placeholder="" type="text" class="form-control"  value="<?php echo set_value('guardian_email'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_email'); ?></span>
             </div>

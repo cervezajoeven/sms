@@ -10,7 +10,7 @@ class Welcome extends Front_Controller
         $this->load->config('form-builder');
         $this->load->config('app-config');
         $this->load->library(array('mailer', 'form_builder'));
-        $this->load->helper(array('directory', 'customfield', 'custom'));
+        $this->load->helper(array('directory', 'customfield', 'custom', 'email'));
         $this->load->model(array('frontcms_setting_model', 'complaint_Model', 'Visitors_model', 'onlinestudent_model', 'customfield_model'));
         $this->blood_group = $this->config->item('bloodgroup');
         $this->load->library('Ajax_pagination');
@@ -242,16 +242,17 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');            
-            $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|valid_email');
+            $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|valid_email|xss_clean');
             $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('class_id', $this->lang->line('class_id'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('class_id', $this->lang->line('class_id'), 'trim|required|xss_clean');            
             
             // if (empty($_FILES['document']['name']))
             // {
