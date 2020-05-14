@@ -47,7 +47,8 @@ $(document).ready(function(){
     //005829641482717962768:2e59rdva9xk
     var key = "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k";
     var cx = "005829641482717962768:2e59rdva9xk";
-
+    var youtube_key = 'AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws';
+    var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
     adjust_iframe();
 
@@ -56,7 +57,7 @@ $(document).ready(function(){
     $(".upload_actions").hide();
     // window.addEventListener("resize", adjust_iframe());
     function youtube_search(query,maxResults = 10){
-        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key=AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00";
+        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_key;
         $.ajax({
             url: youtube_api,
             context: document.body
