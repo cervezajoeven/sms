@@ -863,6 +863,8 @@ if (!$form_admission) {
                     //alert( "Data Loaded: " + data );
                     if (data != "null")
                         AutoFillDetails(JSON.parse(data));
+                    else 
+                        ClearEntries();
                 });
             }
         //}
@@ -912,18 +914,22 @@ if (!$form_admission) {
 
     function AutoFillDetails(data) {
         //$('#studentidnumber').val('');
-        $('#firstname').val('');
-        $('#lrn_no').val('');
-        $('#middlename').val('');
-        $('#lastname').val('');
-        $('#gender').val('');
-        $('#dob').val('');
+        ClearEntries();
         $('#lrn_no').val(data.lrn_no);
         $('#firstname').val(data.firstname);
         $('#middlename').val(data.middlename);
         $('#lastname').val(data.lastname);
         $('#gender').val(data.gender);
         $('#dob').val(data.dob);
+    }
+
+    function ClearEntries() {
+        $('#firstname').val('');
+        $('#lrn_no').val('');
+        $('#middlename').val('');
+        $('#lastname').val('');
+        $('#gender').val('');
+        $('#dob').val('');
     }
 
     function ShowGuidelines() {
