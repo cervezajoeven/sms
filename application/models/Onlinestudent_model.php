@@ -132,7 +132,7 @@ class Onlinestudent_model extends MY_Model {
                         
                         $old_data = array (
                             'admission_no' => $data['admission_no'],
-                            'admission_dat' => $data['admission_date'],
+                            'admission_date' => $data['admission_date'],
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'guardian_email' => $data['email'],
