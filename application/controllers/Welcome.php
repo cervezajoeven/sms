@@ -449,7 +449,8 @@ class Welcome extends Front_Controller
 
                         // var_dump($data);die;
 
-                        if ($has_admission == NULL)
+                        //if ($has_admission == NULL)
+                        if (sizeOf($has_admission) <= 0)
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
                             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');

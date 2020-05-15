@@ -15,7 +15,6 @@ class Onlinestudent_model extends MY_Model {
 
     public function add($data) {    
         $this->db->insert('online_admissions', $data);
-        $this->db->last_query();die;
         return $this->db->insert_id();       
     }
 
