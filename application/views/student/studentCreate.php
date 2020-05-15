@@ -503,11 +503,13 @@
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#father" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('father'); ?></a></li>
                                             <li class=""><a href="#mother" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('mother'); ?></a></li>
+                                            <li class=""><a href="#marriage" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('marriage'); ?></a></li>
                                         </ul>
                                     </div>
                                 </div><!--./row-->
 
                                 <div class="tab-content" style="margin-top:5px;">
+                                    <!-- Start Father Pane -->
                                     <div class="tab-pane active" id="father">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -589,31 +591,28 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="father_post_graduate"><?php echo $this->lang->line('post_graduate'); ?></label>
                                                     <input id="father_post_graduate" name="father_post_graduate" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_post_graduate'); ?>" autocomplete="off"/>
                                                     <span class="text-danger"><?php echo form_error('father_post_graduate'); ?></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="father_post_course"><?php echo $this->lang->line('degree_attained'); ?></label>
                                                     <input id="father_post_course" name="father_post_course" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_post_course'); ?>" autocomplete="off"/>
                                                     <span class="text-danger"><?php echo form_error('father_post_course'); ?></span>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="father_prof_affiliation"><?php echo $this->lang->line('prof_affil'); ?></label>
                                                     <input id="father_prof_affiliation" name="father_prof_affiliation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_prof_affiliation'); ?>" autocomplete="off"/>
                                                     <span class="text-danger"><?php echo form_error('father_prof_affiliation'); ?></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="father_prof_affiliation_position"><?php echo $this->lang->line('position_held'); ?></label>
                                                     <input id="father_prof_affiliation_position" name="father_prof_affiliation_position" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_prof_affiliation_position'); ?>" autocomplete="off"/>
@@ -626,29 +625,24 @@
                                             <div class="form-group col-md-6">
                                                 <label><?php echo $this->lang->line('tech_prof');?>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="father_tech_prof" <?php
-                                                    echo set_value('father_tech_prof') == "yes" ? "checked" : "";
-                                                    ?>   value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                                    <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="father_tech_prof" <?php
-                                                    echo set_value('father_tech_prof') == "no" ? "checked" : "";
-                                                    ?>   value="no"> <?php echo $this->lang->line('no'); ?>
+                                                    <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="father_tech_prof" <?php
-                                                    echo set_value('father_tech_prof') == "other" ? "checked" : "";
-                                                    ?>   value="other"> <?php echo $this->lang->line('other'); ?>
+                                                    <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "others" ? "checked" : ""; ?> value="others"> <?php echo $this->lang->line('other'); ?>
                                                 </label>
                                                 <span class="text-danger"><?php echo form_error('father_tech_prof'); ?></span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <input id="father_tech_prof_other" name="father_tech_prof_other" placeholder="" type="text" class="form-control"  value="<?php echo set_value('father_tech_prof_other'); ?>" autocomplete="off"/>
+                                                <label><?php echo $this->lang->line('others_specify');?></label>
+                                                <input id="father_tech_prof_other" disabled name="father_tech_prof_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('father_tech_prof_other'); ?>" autocomplete="off"/>
                                             </div>
                                         </div>
-
                                     </div>
-
+                                    <!-- End Father Pane -->
+                                    <!-- Start Mother Pane -->
                                     <div class="tab-pane" id="mother">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -728,30 +722,28 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="mother_post_graduate"><?php echo $this->lang->line('post_graduate'); ?></label>
                                                     <input id="mother_post_graduate" name="mother_post_graduate" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_post_graduate'); ?>" autocomplete="off"/>
                                                     <span class="text-danger"><?php echo form_error('mother_post_graduate'); ?></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="mother_post_course"><?php echo $this->lang->line('degree_attained'); ?></label>
                                                     <input id="mother_post_course" name="mother_post_course" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_post_course'); ?>" autocomplete="off"/>
                                                     <span class="text-danger"><?php echo form_error('mother_post_course'); ?></span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="mother_prof_affiliation"><?php echo $this->lang->line('prof_affil'); ?></label>
                                                     <input id="mother_prof_affiliation" name="mother_prof_affiliation" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_prof_affiliation'); ?>" autocomplete="off"/>
                                                     <span class="text-danger"><?php echo form_error('mother_prof_affiliation'); ?></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="mother_prof_affiliation_position"><?php echo $this->lang->line('position_held'); ?></label>
                                                     <input id="mother_prof_affiliation_position" name="mother_prof_affiliation_position" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_prof_affiliation_position'); ?>" autocomplete="off"/>
@@ -764,27 +756,98 @@
                                             <div class="form-group col-md-6">
                                                 <label><?php echo $this->lang->line('tech_prof');?>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="mother_tech_prof" <?php
-                                                    echo set_value('mother_tech_prof') == "yes" ? "checked" : "";
-                                                    ?>   value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                                    <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="mother_tech_prof" <?php
-                                                    echo set_value('mother_tech_prof') == "no" ? "checked" : "";
-                                                    ?>   value="no"> <?php echo $this->lang->line('no'); ?>
+                                                    <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="mother_tech_prof" <?php
-                                                    echo set_value('mother_tech_prof') == "other" ? "checked" : "";
-                                                    ?>   value="other"> <?php echo $this->lang->line('other'); ?>
+                                                    <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "others" ? "checked" : "";?> value="others"> <?php echo $this->lang->line('other'); ?>
                                                 </label>
                                                 <span class="text-danger"><?php echo form_error('mother_tech_prof'); ?></span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <input id="mother_tech_prof_other" name="mother_tech_prof_other" placeholder="" type="text" class="form-control"  value="<?php echo set_value('mother_tech_prof_other'); ?>" autocomplete="off"/>
+                                                <label><?php echo $this->lang->line('others_specify');?></label>
+                                                <input id="mother_tech_prof_other" disabled name="mother_tech_prof_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('mother_tech_prof_other'); ?>" autocomplete="off"/>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- End Mother Pane -->
+                                    <!-- Start Marriage Pane -->
+                                    <div class="tab-pane" id="marriage">
+                                        <div class="row">
+											<div class="col-md-3">
+												<div class="form-group">
+													<label for="marriage"><?php echo $this->lang->line('marriage'); ?></label>
+													<input id="marriage" name="marriage" placeholder="" type="text" class="form-control"  value="<?php echo set_value('marriage'); ?>" autocomplete="off"/>
+													<span class="text-danger"><?php echo form_error('marriage'); ?></span>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group">
+													<label for="dom"><?php echo $this->lang->line('dom'); ?></label>
+													<input  type="text" class="form-control date"  value="<?php echo set_value('dom'); ?>" id="dom" name="dom" readonly="readonly" autocomplete="off"/>
+													<span class="text-danger"><?php echo form_error('dom'); ?></span>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group">
+													<label for="church"><?php echo $this->lang->line('church'); ?></label>
+													<input id="church" name="church" placeholder="" type="text" class="form-control"  value="<?php echo set_value('church'); ?>" autocomplete="off"/>
+													<span class="text-danger"><?php echo form_error('church'); ?></span>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group">
+													<label for="family_together"><?php echo $this->lang->line('family_together'); ?></label>
+													<select class="form-control" name="family_together" id="family_together">
+														<option value="">Select</option>
+														<option value="yes" <?php echo(set_value('family_together') == 'yes' ? 'selected' : ''); ?>>Yes</option>
+														<option value="no" <?php echo(set_value('family_together') == 'no' ? 'selected' : ''); ?>>No</option>
+													</select>
+													<span class="text-danger"><?php echo form_error('family_together'); ?></span>
+												</div>
+											</div>
+
+											<div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label><?php echo $this->lang->line('parents_away');?></label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="parents_away" <?php echo set_value('parents_away') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="parents_away" <?php echo set_value('parents_away') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                                    </label>
+                                                    <span class="text-danger"><?php echo form_error('parents_away'); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label><?php echo $this->lang->line('parents_away_state');?></label>
+                                                <input id="parents_away_state" disabled name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control"  value="<?php echo set_value('parents_away_state'); ?>" autocomplete="off"/>
+                                            </div>
+
+											<div class="col-md-4">
+												<div class="form-group">
+													<label><?php echo $this->lang->line('parents_civil_status');?></label>
+													<label class="radio-inline">
+														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "separated" ? "checked" : ""; ?> value="separated"> <?php echo $this->lang->line('separated'); ?>
+													</label>
+													<label class="radio-inline">
+														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "widow_er" ? "checked" : ""; ?> value="widow_er"> <?php echo $this->lang->line('widower'); ?>
+													</label>
+													<label class="radio-inline">
+														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "others" ? "checked" : "";?> value="others"> <?php echo $this->lang->line('other'); ?>
+													</label>
+													<span class="text-danger"><?php echo form_error('parents_civil_status'); ?></span>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<label><?php echo $this->lang->line('others_specify');?></label>
+												<input id="parents_civil_status_other" <?php if ($student['parents_civil_status'] != "others") echo "disabled"; ?> name="parents_civil_status_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('parents_civil_status_other', $student['parents_civil_status_other']); ?>" autocomplete="off"/>
+											</div>
+                                        </div>
+                                    </div>
+                                    <!-- End Marriage Pane -->
                                 </div>
                                 </div>
                         </div>
@@ -1123,8 +1186,8 @@
         var hostel_room_id = '<?php echo set_value('hostel_room_id', 0) ?>';
 
         $('#alreadyenrolled').hide();
-        $('#father_tech_prof_other').fadeOut();
-        $('#mother_tech_prof_other').fadeOut();
+        // $('#father_tech_prof_other').fadeOut();
+        // $('#mother_tech_prof_other').fadeOut();
 
         getHostel(hostel_id, hostel_room_id);
         getSectionByClass(class_id, section_id);
@@ -1550,11 +1613,11 @@
         function () {
             if ($(this).is(':checked')) {
                 var value = $(this).val();
-                if (value === "other") {
-                    $('#father_tech_prof_other').fadeIn();
+                if (value === "others") {
+                    $('#father_tech_prof_other').prop('disabled', false);
                 }
                 else {
-                    $('#father_tech_prof_other').fadeOut();
+                    $('#father_tech_prof_other').prop('disabled', true);
                 }
             }
         }
@@ -1564,11 +1627,39 @@
         function () {
             if ($(this).is(':checked')) {
                 var value = $(this).val();
-                if (value === "other") {
-                    $('#mother_tech_prof_other').fadeIn();
+                if (value === "others") {
+                    $('#mother_tech_prof_other').prop('disabled', false);
                 }
                 else {
-                    $('#mother_tech_prof_other').fadeOut();
+                    $('#mother_tech_prof_other').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="parents_away"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#parents_away_state').prop('disabled', false);
+                }
+                else {
+                    $('#parents_away_state').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="parents_civil_status"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "others") {
+                    $('#parents_civil_status_other').prop('disabled', false);
+                }
+                else {
+                    $('#parents_civil_status_other').prop('disabled', true);
                 }
             }
         }

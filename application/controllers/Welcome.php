@@ -235,24 +235,69 @@ class Welcome extends Front_Controller
 
             if ($enrollment_type == 'old') 
             {                
-                $this->form_validation->set_rules('studentidnumber', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('studentidnumber', $this->lang->line('required'), 'trim|required|xss_clean');
             }                
             else 
             {
-                $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
+                $this->form_validation->set_rules('father_name', $this->lang->line('required'), 'trim|required|xss_clean');
+                
+                $this->form_validation->set_rules('father_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_name', $this->lang->line('required'), 'trim|required|xss_clean');
+                
+                $this->form_validation->set_rules('mother_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
+                
+                $this->form_validation->set_rules('father_company_name', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_company_position', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_mobile', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_nature_of_business', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_dob', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_citizenship', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_religion', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_highschool', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_college', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_college_course', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_prof_affiliation', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_prof_affiliation_position', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('father_tech_prof', $this->lang->line('required'), 'trim|required|xss_clean');
+
+                $this->form_validation->set_rules('mother_company_name', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_company_position', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_mobile', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_nature_of_business', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_dob', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_citizenship', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_religion', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_highschool', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_college', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_college_course', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_prof_affiliation', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_prof_affiliation_position', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('mother_tech_prof', $this->lang->line('required'), 'trim|required|xss_clean');
+
+                $this->form_validation->set_rules('marriage', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('dom', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('church', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('family_together', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('parents_away', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('parents_civil_status', $this->lang->line('required'), 'trim|required|xss_clean');
+
+                $this->form_validation->set_rules('guardian_is', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+                $this->form_validation->set_rules('guardian_occupation', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+                
             }
 
-            $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');            
-            $this->form_validation->set_rules('email', $this->lang->line('email'), 'trim|required|valid_email|xss_clean');
-            $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('class_id', $this->lang->line('class_id'), 'trim|required|xss_clean');            
+            $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');            
+            $this->form_validation->set_rules('email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+            $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('gender', $this->lang->line('genrequiredder'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob', $this->lang->line('required'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
             
             // if (empty($_FILES['document']['name']))
             // {
@@ -310,10 +355,11 @@ class Welcome extends Front_Controller
                     if ($enrollment_type == 'old')
                     {
                         $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
-                        //var_dump($old_student_data);
+                        //var_dump($old_student_data);die;
                         //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
                         //var_dump($this->input->post('studentidnumber'));die;
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
+                        //var_dump($has_admission);die;
 
                         $data = array(
                             'roll_no'             => $old_student_data->roll_no,
@@ -333,7 +379,7 @@ class Welcome extends Front_Controller
                             'mother_occupation'   => $old_student_data->mother_occupation,
                             'guardian_occupation' => $old_student_data->guardian_occupation,
                             'guardian_email'      => $old_student_data->guardian_email == '' ? $this->input->post('email') : $old_student_data->guardian_email,
-                            'gender'              => $$this->input->post('gender') != '' ? $this->input->post('gender') : $old_student_data->gender,
+                            'gender'              => $this->input->post('gender') != '' ? $this->input->post('gender') : $old_student_data->gender,
                             'guardian_name'       => $old_student_data->guardian_name,
                             'guardian_relation'   => $old_student_data->guardian_relation,
                             'guardian_phone'      => $old_student_data->guardian_phone,
@@ -345,7 +391,51 @@ class Welcome extends Front_Controller
                             'middlename'          => $old_student_data->middlename,
                             'email'               => $this->input->post('email'),
                             'class_section_id'    => $class_section_id,
-                            'session_id'          => $current_session,
+
+                            'father_company_name'              => $old_student_data->father_company_name,
+                            'father_company_position'          => $old_student_data->father_company_position,
+                            'father_nature_of_business'        => $old_student_data->father_nature_of_business,
+                            'father_mobile'                    => $old_student_data->father_mobile,
+                            'father_dob'                       => date('Y-m-d', strtotime($old_student_data->father_dob)),
+                            'father_citizenship'               => $old_student_data->father_citizenship,
+                            'father_religion'                  => $old_student_data->father_religion,
+                            'father_highschool'                => $old_student_data->father_highschool,
+                            'father_college'                   => $old_student_data->father_college,
+                            'father_college_course'            => $old_student_data->father_college_course,
+                            'father_post_graduate'             => $old_student_data->father_post_graduate,
+                            'father_post_course'               => $old_student_data->father_post_course,
+                            'father_prof_affiliation'          => $old_student_data->father_prof_affiliation,
+                            'father_prof_affiliation_position' => $old_student_data->father_prof_affiliation_position,
+                            'father_tech_prof'                 => $old_student_data->father_tech_prof,
+                            'father_tech_prof_other'           => $old_student_data->father_tech_prof_other,
+
+                            'mother_company_name'              => $old_student_data->mother_company_name,
+                            'mother_company_position'          => $old_student_data->mother_company_position,
+                            'mother_nature_of_business'        => $old_student_data->mother_nature_of_business,
+                            'mother_mobile'                    => $old_student_data->mother_mobile,
+                            'mother_dob'                       => date('Y-m-d', strtotime($old_student_data->mother_dob)),
+                            'mother_citizenship'               => $old_student_data->mother_citizenship,
+                            'mother_religion'                  => $old_student_data->mother_religion,
+                            'mother_highschool'                => $old_student_data->mother_highschool,
+                            'mother_college'                   => $old_student_data->mother_college,
+                            'mother_college_course'            => $old_student_data->mother_college_course,
+                            'mother_post_graduate'             => $old_student_data->mother_post_graduate,
+                            'mother_post_course'               => $old_student_data->mother_post_course,
+                            'mother_prof_affiliation'          => $old_student_data->mother_prof_affiliation,
+                            'mother_prof_affiliation_position' => $old_student_data->mother_prof_affiliation_position,
+                            'mother_tech_prof'                 => $old_student_data->mother_tech_prof,
+                            'mother_tech_prof_other'           => $old_student_data->mother_tech_prof_other,
+
+                            'marriage'                   => $old_student_data->marriage,
+                            'dom'                        => $old_student_data->dom,
+                            'church'                     => $old_student_data->church,
+                            'family_together'            => $old_student_data->family_together,
+                            'parents_away'               => $old_student_data->parents_away,
+                            'parents_away_state'         => $old_student_data->parents_away_state,
+                            'parents_civil_status'       => $old_student_data->parents_civil_status,
+                            'parents_civil_status_other' => $old_student_data->parents_civil_status_other,
+
+                            'session_id' => $current_session,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
@@ -357,7 +447,9 @@ class Welcome extends Front_Controller
                             $data['document'] = $doc_name;
                         }
 
-                        if (sizeOf($has_admission) <= 0)
+                        // var_dump($data);die;
+
+                        if ($has_admission == NULL)
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
                             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
@@ -416,40 +508,50 @@ class Welcome extends Front_Controller
                             'class_section_id'    => $class_section_id,
                             'lrn_no'              => $this->input->post('lrn_no'),
 
-                            'father_company_name'    => $this->input->post('father_company_name'),
-                            'father_company_position'    => $this->input->post('father_company_position'),
-                            'father_nature_of_business'    => $this->input->post('father_nature_of_business'),
-                            'father_mobile'    => $this->input->post('father_mobile'),
-                            'father_dob'    => date('Y-m-d', strtotime($this->input->post('father_dob'))),
-                            'father_citizenship'    => $this->input->post('father_citizenship'),
-                            'father_religion'    => $this->input->post('father_religion'),
-                            'father_highschool'    => $this->input->post('father_highschool'),
-                            'father_college'    => $this->input->post('father_college'),
-                            'father_college_course'    => $this->input->post('father_college_course'),
-                            'father_post_graduate'    => $this->input->post('father_post_graduate'),
-                            'father_post_course'    => $this->input->post('father_post_course'),
-                            'father_prof_affiliation'    => $this->input->post('father_prof_affiliation'),
-                            'father_prof_affiliation_position'    => $this->input->post('father_prof_affiliation_position'),
-                            'father_tech_prof'    => $this->input->post('father_tech_prof'),
-                            'father_tech_prof_other'    => $this->input->post('father_tech_prof_other'),
+                            'father_company_name'              => $this->input->post('father_company_name'),
+                            'father_company_position'          => $this->input->post('father_company_position'),
+                            'father_nature_of_business'        => $this->input->post('father_nature_of_business'),
+                            'father_mobile'                    => $this->input->post('father_mobile'),
+                            'father_dob'                       => date('Y-m-d', strtotime($this->input->post('father_dob'))),
+                            'father_citizenship'               => $this->input->post('father_citizenship'),
+                            'father_religion'                  => $this->input->post('father_religion'),
+                            'father_highschool'                => $this->input->post('father_highschool'),
+                            'father_college'                   => $this->input->post('father_college'),
+                            'father_college_course'            => $this->input->post('father_college_course'),
+                            'father_post_graduate'             => $this->input->post('father_post_graduate'),
+                            'father_post_course'               => $this->input->post('father_post_course'),
+                            'father_prof_affiliation'          => $this->input->post('father_prof_affiliation'),
+                            'father_prof_affiliation_position' => $this->input->post('father_prof_affiliation_position'),
+                            'father_tech_prof'                 => $this->input->post('father_tech_prof'),
+                            'father_tech_prof_other'           => $this->input->post('father_tech_prof_other'),
 
-                            'mother_company_name'    => $this->input->post('mother_company_name'),
-                            'mother_company_position'    => $this->input->post('mother_company_position'),
-                            'mother_nature_of_business'    => $this->input->post('mother_nature_of_business'),
-                            'mother_mobile'    => $this->input->post('mother_mobile'),
-                            'mother_dob'    => date('Y-m-d', strtotime($this->input->post('mother_dob'))),
-                            'mother_citizenship'    => $this->input->post('mother_citizenship'),
-                            'mother_religion'    => $this->input->post('mother_religion'),
-                            'mother_highschool'    => $this->input->post('mother_highschool'),
-                            'mother_college'    => $this->input->post('mother_college'),
-                            'mother_college_course'    => $this->input->post('mother_college_course'),
-                            'mother_post_graduate'    => $this->input->post('mother_post_graduate'),
-                            'mother_post_course'    => $this->input->post('mother_post_course'),
-                            'mother_prof_affiliation'    => $this->input->post('mother_prof_affiliation'),
-                            'mother_prof_affiliation_position'    => $this->input->post('mother_prof_affiliation_position'),
-                            'mother_tech_prof'    => $this->input->post('mother_tech_prof'),
-                            'mother_tech_prof_other'    => $this->input->post('mother_tech_prof_other'),
-                            'session_id'    => $current_session,
+                            'mother_company_name'              => $this->input->post('mother_company_name'),
+                            'mother_company_position'          => $this->input->post('mother_company_position'),
+                            'mother_nature_of_business'        => $this->input->post('mother_nature_of_business'),
+                            'mother_mobile'                    => $this->input->post('mother_mobile'),
+                            'mother_dob'                       => date('Y-m-d', strtotime($this->input->post('mother_dob'))),
+                            'mother_citizenship'               => $this->input->post('mother_citizenship'),
+                            'mother_religion'                  => $this->input->post('mother_religion'),
+                            'mother_highschool'                => $this->input->post('mother_highschool'),
+                            'mother_college'                   => $this->input->post('mother_college'),
+                            'mother_college_course'            => $this->input->post('mother_college_course'),
+                            'mother_post_graduate'             => $this->input->post('mother_post_graduate'),
+                            'mother_post_course'               => $this->input->post('mother_post_course'),
+                            'mother_prof_affiliation'          => $this->input->post('mother_prof_affiliation'),
+                            'mother_prof_affiliation_position' => $this->input->post('mother_prof_affiliation_position'),
+                            'mother_tech_prof'                 => $this->input->post('mother_tech_prof'),
+                            'mother_tech_prof_other'           => $this->input->post('mother_tech_prof_other'),
+
+                            'marriage'                   => $this->input->post('marriage'),
+                            'dom'                        => date('Y-m-d', strtotime($this->input->post('dom'))),
+                            'church'                     => $this->input->post('church'),
+                            'family_together'            => $this->input->post('family_together'),
+                            'parents_away'               => $this->input->post('parents_away'),
+                            'parents_away_state'         => $this->input->post('parents_away_state'),
+                            'parents_civil_status'       => $this->input->post('parents_civil_status'),
+                            'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
+
+                            'session_id' => $current_session,
                         );
 
                         if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {

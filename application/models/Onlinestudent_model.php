@@ -14,8 +14,9 @@ class Onlinestudent_model extends MY_Model {
     }
 
     public function add($data) {    
-            $this->db->insert('online_admissions', $data);
-            return $this->db->insert_id();       
+        $this->db->insert('online_admissions', $data);
+        $this->db->last_query();die;
+        return $this->db->insert_id();       
     }
 
     public function get($id = null,$carray=null) {
@@ -35,11 +36,13 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.father_company_name,online_admissions.father_company_position,online_admissions.father_nature_of_business,online_admissions.father_mobile,online_admissions.father_email,
                            online_admissions.father_dob,online_admissions.father_citizenship,online_admissions.father_religion,online_admissions.father_highschool,online_admissions.father_college,
                            online_admissions.father_college_course,online_admissions.father_post_graduate,online_admissions.father_post_course,online_admissions.father_prof_affiliation,
-                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,
+                           online_admissions.father_prof_affiliation_position,online_admissions.father_tech_prof,online_admissions.father_tech_prof_other,
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof_other,
+                           online_admissions.marriage,online_admissions.dom,online_admissions.church,online_admissions.family_together,online_admissions.parents_away,online_admissions.parents_away_state,
+                           online_admissions.parents_civil_status,online_admissions.parents_civil_status_other');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -186,9 +189,9 @@ class Onlinestudent_model extends MY_Model {
                             'parent_id' => $ins_parent_id,
                         );
                         $this->student_model->add($update_student);
-                        //===============End Parent ID===========
+                        //=============== End Parent ID ===========
 
-                        //============== Update setting modal=================
+                        //============== Update setting modal =================
                         if ($sch_setting_detail->adm_auto_insert) {
                             if ($sch_setting_detail->adm_update_status == 0) {
                                 $data_setting=array();
