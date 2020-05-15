@@ -285,8 +285,8 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
-                $this->form_validation->set_rules('guardian_occupation', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
-                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+                $this->form_validation->set_rules('guardian_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 
             }
 
