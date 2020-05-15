@@ -20,9 +20,9 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/lesson');
 
         $data['title'] = 'Lesson';
-        
 
         $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
         
 
         if($data['role']=='admin'){

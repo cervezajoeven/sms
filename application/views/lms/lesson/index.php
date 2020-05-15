@@ -32,6 +32,26 @@
                                     <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
+                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Grade</label><small class="req"> *</small>
+                                    <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control">
+                                        <?php foreach ($classes as $key => $value) : ?>
+                                            
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
+                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
 
                                 
                             </div><!-- /.box-body -->
