@@ -770,7 +770,7 @@ if (!$form_admission) {
     <div class="row" id="guardiandetail2">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_phone'); ?></label><small class="req"> *</small>
+                <label for="exampleInputEmail1"><?php echo $this->lang->line('guardian_mobile_eg'); ?></label><small class="req"> *</small>
                 <input id="guardian_phone" name="guardian_phone" placeholder="e.g. +639999999999" type="text" class="form-control"  value="<?php echo set_value('guardian_phone'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('guardian_phone'); ?></span>
             </div>
