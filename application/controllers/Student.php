@@ -16,7 +16,7 @@ class Student extends Admin_Controller
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
         $this->load->library('encoding_lib');
-        $this->load->library('email');
+        $this->load->library('email'); //-- used for email address validation
         $this->load->model("classteacher_model");
         $this->load->model("timeline_model");
         $this->blood_group        = $this->config->item('bloodgroup');
