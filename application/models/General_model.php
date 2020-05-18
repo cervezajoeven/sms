@@ -44,9 +44,11 @@ class General_model extends MY_Model {
     }
 
     public function get_classes(){
-        return $this->db->select("*")->get("classes")->result_array();
+        return $this->db->select("*")->get("classes")->result_array();   
+    }
 
-        
+    public function get_subjects(){
+        return $this->db->select("*")->get("subjects")->result_array();   
     }
 
 

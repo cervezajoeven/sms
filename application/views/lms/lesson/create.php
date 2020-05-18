@@ -92,6 +92,7 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
+        <input type="hidden" id="education_level" value="<?php echo $lesson['education_level'] ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -99,6 +100,7 @@
           <div class="modal-content">
 
             <h3 style="color: white">Add Text</h3>
+            <input type="text" id="text_title" name="" style="padding: 10px; width: 100%;" placeholder="Text Title">
             <div id="view_text">
           
             </div>
@@ -286,7 +288,7 @@
                             <div class="select-box">
     
                                 <label for="select-box1" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
-                                <select id="select-box1" class="select">
+                                <select id="lesson_type" class="select">
                                     <option value="classroom">Classroom Use</option>
                                     <option value="reviewer">Reviewer</option>
                                     <option value="assignment">Assignment</option>
@@ -298,16 +300,16 @@
                             <div class="notification_control">
                               <h3>Notification</h3>
                             
-                              <div class="pretty p-switch p-fill">
+                              <!-- <div class="pretty p-switch p-fill">
                                   <input type="checkbox" />
                                   <div class="state p-primary">
                                       <label>SMS Notification</label>
                                   </div>
-                              </div>
+                              </div> -->
                             
                             
                               <div class="pretty p-switch p-fill">
-                                  <input type="checkbox" />
+                                  <input type="checkbox" id="email_notification" />
                                   <div class="state p-primary">
                                       <label>Email Notification</label>
                                   </div>
