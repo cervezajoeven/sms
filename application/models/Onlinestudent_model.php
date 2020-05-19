@@ -8,7 +8,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('mailsmsconf');
+        // $this->load->library('mailsmsconf');
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
     }
@@ -163,7 +163,7 @@ class Onlinestudent_model extends MY_Model {
                         $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
                             $data_student_login = array(
-                            'username' => $this->student_login_prefix . $student_id,
+                            'username' => $this->student_login_prefix . $student_id, //"std" . $student_id,//
                             'password' => $user_password,
                             'user_id' => $student_id,
                             'role' => 'student',
@@ -211,12 +211,7 @@ class Onlinestudent_model extends MY_Model {
 
             $this->db->where('id', $data_id);
             $this->db->update('online_admissions', $data);
-			
-			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
-			$action       = "Update";
-			$record_id    = $data_id;
-            $this->log($message, $record_id, $action);
-            
+
             if ($action == "enroll")
             {
                 $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
@@ -231,6 +226,11 @@ class Onlinestudent_model extends MY_Model {
                     $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                 }
             }
+			
+			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
+			$action       = "Update";
+			$record_id    = $data_id;
+            $this->log($message, $record_id, $action);
 			
             if ($this->db->trans_status() === false) {
                 $this->db->trans_rollback();

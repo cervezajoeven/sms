@@ -306,7 +306,7 @@ $lang['guardian_details'] = "Guardian's Details";
 $lang['guardian_email'] = "Guardian's Email";
 $lang['guardian_name'] = "Guardian's Name";
 $lang['guardian_occupation'] = "Guardian's Occupation";
-$lang['guardian_phone'] = "Guardian's Mobile Number (<i>e.g. +639999999999</i>)";
+$lang['guardian_phone'] = "Guardian's Mobile Number";
 $lang['guardian_relation'] = "Guardian's Relation";
 $lang['guardians'] = 'Guardians';
 $lang['half_day'] = 'Half Day';
@@ -1459,5 +1459,5 @@ $lang['parents_civil_status'] = "Parents Civil Status";
 $lang['others_specify'] = "If others, please specify";
 
 $lang['required'] = "This";
-
+$lang['guardian_mobile_eg'] = "Guardian's Mobile Number (<i>e.g. +639999999999</i>)";
 ?>
