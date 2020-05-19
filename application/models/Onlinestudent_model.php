@@ -137,6 +137,8 @@ class Onlinestudent_model extends MY_Model {
                             'admission_date' => $data['admission_date'],
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
+                            'gender' => $data['gender'],
+                            'dob' => $data['dob'],
                             'guardian_email' => $data['email'],
                         );
                         
@@ -217,7 +219,7 @@ class Onlinestudent_model extends MY_Model {
                 $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
-                if ($enroll_type != 'old')
+                //if ($enroll_type != 'old')
                 {
                     $student_login_detail = array('id' => $student_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
                     $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
