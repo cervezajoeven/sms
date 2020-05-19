@@ -23,7 +23,7 @@ class Lesson extends General_Controller {
 
         $data['role'] = $this->general_model->get_role();
         $data['classes'] = $this->general_model->get_classes();
-        
+        $data['subjects'] = $this->general_model->get_subjects(); 
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
@@ -42,8 +42,12 @@ class Lesson extends General_Controller {
 
     function save(){
 
-        $data = array("lesson_name"=>$_REQUEST['content_title']);
+        $data['lesson_name'] = $_REQUEST['content_title'];
+        $data['subject_id'] = $_REQUEST['subject'];
+        $data['grade_id'] = $_REQUEST['grade'];
+        $data['education_level'] = $_REQUEST['education_level'];
         $data['account_id'] = $this->general_model->get_account_id();
+
 
         $id = $this->lesson_model->lms_create("lms_lesson",$data);
         
@@ -113,8 +117,12 @@ class Lesson extends General_Controller {
         $data['content_pool'] = json_encode($_REQUEST['content_pool']);
         $data['folder_names'] = $_REQUEST['folder_names'];
         $data['assigned'] = $_REQUEST['assigned'];
-
-        $this->lesson_model->lms_update("lms_lesson",$data);
+        $data['email_notification'] = $_REQUEST['email_notification'];
+        $data['lesson_type'] = $_REQUEST['lesson_type'];
+        $data['start_date'] = $_REQUEST['start_date'];
+        $data['end_date'] = $_REQUEST['end_date'];
+        echo '<pre>';print_r($data);exit();
+        // $this->lesson_model->lms_update("lms_lesson",$data);
         
 
         //thumbnails
@@ -256,7 +264,7 @@ class Lesson extends General_Controller {
                 
             }
         }elseif($upload_type=="add_text"){
-            $data['name'] = "Text";
+            $data['name'] = $_REQUEST['title'];
             $data['type'] = "text";
             $data['description'] = "";
             $data['text_value'] = $_REQUEST['text_value'];

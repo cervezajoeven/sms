@@ -34,14 +34,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
-                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
+                                    <select autofocus="" id="subject_id" name="subject" placeholder="" type="text" class="form-control">
+                                        <?php foreach ($subjects as $key => $value) : ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Grade</label><small class="req"> *</small>
                                     <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control">
                                         <?php foreach ($classes as $key => $value) : ?>
-                                            
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
@@ -49,7 +53,10 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
-                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
+                                    <select autofocus="" id="" name="education_level" placeholder="" type="text" class="form-control">
+                                        <option value="elementary">Elementary</option>
+                                        <option value="tertiary">Tertiary</option>
+                                    </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
@@ -96,6 +103,9 @@
                                         <th><?php echo $this->lang->line('type'); ?></th>
                                         <th><?php echo $this->lang->line('date'); ?></th>
                                         <th>Views</th>
+                                        <th>Subject</th>
+                                        <th>Grade</th>
+                                        <th>Education Level</th>
                                         <th>Assigned To</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
@@ -116,6 +126,15 @@
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php echo rand(30,50); ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['subject_id']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['grade_id']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['education_level']; ?>
                                             </td>
                                             <td>
                                                 

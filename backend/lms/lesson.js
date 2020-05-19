@@ -3,7 +3,6 @@ $(document).ready(function(){
     var stored_lesson_data = '';
     var result_pool = [];
     var content_pool = [];
-    var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var active_content = "";
     var active_content_data = {};
     var content_order = [];
@@ -14,15 +13,24 @@ $(document).ready(function(){
     var lesson_id = $("#lesson_id").val();
     var main_url = $("#main_url").val();
     var assigned = $("#assigned").val();
+    var education_level = $("#education_level").val();
     var checked_ids = [];
     var role = $("#role").val();
-    console.log(assigned);
+    var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
+    var folder_names = "Engage,Explore,Explain,Explain,Explore";
+    if(education_level=="tertiary"){
+        folder_names = "Introduction,Lesson Proper,Evaluation";
+        folders = "#folder_1,#folder_2,#folder_3";
+    }
+    
     var jstree = $('#jstree_demo_div').jstree({
         "checkbox" : {
           "keep_selected_style" : false
         },
         "plugins" : [ "checkbox" ]
     });
+
+    console.log(folder_names);
 
     if(assigned){
 
@@ -242,7 +250,10 @@ $(document).ready(function(){
                             data_population[index].image = encodeURIComponent(main_url+'uploads/lms_my_resources/'+item.link);
                         }else if(item.type=="video"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                        }else if(item.type=="text"){
+                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
                         }
+                        console.log(data_population);
                         
 
                         
@@ -465,6 +476,19 @@ $(document).ready(function(){
         var title = $(".title").val();
         var update_url = $("#site_url").val();
         var id = $("#lesson_id").val();
+        var lesson_type = $("#lesson_type").val();
+        var email_notification = $("#email_notification").prop("checked");
+        var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
+        var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
+        start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
+        end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
+        console.log(end_date);
+        if(email_notification){
+            email_notification = "1";
+        }else{
+            email_notification = "0";
+        }
+
         var student_ids = [];
         $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
@@ -479,6 +503,10 @@ $(document).ready(function(){
             title:title,
             content_order:content_order,
             content_pool:content_pool,
+            lesson_type:lesson_type,
+            email_notification:email_notification,
+            start_date:start_date,
+            end_date:end_date,
             assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
         };
@@ -962,7 +990,7 @@ $(document).ready(function(){
         change_detected();
     });
     $(".notification_control").hide();
-    $("#select-box1").change(function(){
+    $("#lesson_type").change(function(){
 
         var the_val = $(this).val();
         if(the_val=="classroom"){
@@ -1068,21 +1096,22 @@ $(document).ready(function(){
     // add_text.setHtml('<div class="ql-editor" data-gramm="false" contenteditable="true"><p>asdfasdfasfd</p></div><div class="ql-clipboard" contenteditable="true" tabindex="-1"></div><div class="ql-tooltip ql-hidden"><a class="ql-preview" target="_blank" href="about:blank"></a><input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL"><a class="ql-action"></a><a class="ql-remove"></a></div>');
 
     $(".add_text_done").click(function(){
+        var text_title = $("#text_title").val();
         var text_value = JSON.stringify(add_text.getContents());
         var add_text_url = url+"upload/add_text/"+lesson_id;
         console.log(text_value);
         $.ajax({
             url: add_text_url,
             type: "POST",
-            data: {text_value:text_value},
+            data: {title:text_title,text_value:text_value},
        
             success: function(data)
             {
                console.log(data);
-               // $("div[portal='my_resources']").click();
+               $("div[portal='my_resources']").click();
             },
             error: function(e){
-                alert("error");
+                alert("Something Went Wrong");
             }
         });
 
