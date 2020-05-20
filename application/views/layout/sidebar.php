@@ -583,18 +583,11 @@
             }
 
             if ($this->module_lib->hasActive('communicate')) {
-                if (($this->rbac->hasPrivilege('notice_board', 'can_view') ||
-                        $this->rbac->hasPrivilege('email', 'can_view') ||
-                        $this->rbac->hasPrivilege('sms', 'can_view') ||
-                        $this->rbac->hasPrivilege('email_sms_log', 'can_view'))) {
-                    ?>
+                if (($this->rbac->hasPrivilege('notice_board', 'can_view') || $this->rbac->hasPrivilege('email', 'can_view') ||
+                     $this->rbac->hasPrivilege('sms', 'can_view') ||  $this->rbac->hasPrivilege('email_sms_log', 'can_view'))) { ?>
                     <li class = "treeview <?php echo set_Topmenu('Communicate'); ?>">
-                        <a href = "#">
-                            <i class="fa fa-bullhorn ftlayer"></i> <span><?php echo $this->lang->line('communicate');
-                    ?></span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            
+                        <a href = "#"><i class="fa fa-bullhorn ftlayer"></i> <span><?php echo $this->lang->line('communicate'); ?></span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">                            
                             <?php
                             if ($this->rbac->hasPrivilege('notice_board', 'can_view')) {
                                 ?>
@@ -616,6 +609,8 @@
                                 ?>
                                 <li class="<?php echo set_Submenu('mailsms/index'); ?>"><a href="<?php echo base_url(); ?>admin/mailsms/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('email_/_sms_log'); ?></a></li>
                             <?php } ?>
+
+                            <li class="<?php echo set_Submenu('Communicate/senddocs'); ?>"><a href="<?php echo base_url(); ?>student/SendDocs"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('senddocs'); ?></a></li>
                         </ul>
                     </li>
                     <?php

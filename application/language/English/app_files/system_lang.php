@@ -928,7 +928,7 @@ $lang['account_id'] = "Account ID";
 $lang['account_type'] = "Account Type";
 $lang['active'] = "Active";
 $lang['address_phone_email'] = "Address/Phone/Email";
-$lang['admission_form_disable_please_contact_to_administrator'] = "Admission Form Disable Please Contact to Administrator";
+$lang['admission_form_disable_please_contact_to_administrator'] = "Online admission has ended. See you next school year!";
 $lang['admission_in_this_duration'] = " Total Admission in this duration";
 $lang['admission_no'] = 'Admission No';
 $lang['admission_no_digit'] = "Admission No Digit";
@@ -1460,4 +1460,6 @@ $lang['others_specify'] = "If others, please specify";
 
 $lang['required'] = "This";
 $lang['guardian_mobile_eg'] = "Guardian's Mobile Number (<i>e.g. +639999999999</i>)";
+$lang['senddocs'] = "Send Documents";
+$lang['doctitle'] = "Document Title";
 ?>

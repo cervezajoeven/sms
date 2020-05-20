@@ -922,8 +922,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <div class="tab-pane" id="documents">
                             <div class="timeline-header no-border">
                                 <button type="button"  data-student-session-id="<?php echo $student['student_session_id'] ?>" class="btn btn-xs btn-primary pull-right myTransportFeeBtn"> <i class="fa fa-upload"></i>  <?php echo $this->lang->line('upload_documents'); ?></button>
-
-                                <!-- <h2 class="page-header"><?php //echo $this->lang->line('documents');             ?> <?php //echo $this->lang->line('list');             ?></h2> -->
                                 <div class="table-responsive" style="clear: both;">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
@@ -1069,7 +1067,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             backdrop: 'static',
             keyboard: false,
             show: true
-
         });
     });
 
@@ -1257,9 +1254,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 </div>
 
 <script type="text/javascript">
-
-
-
     $(document).ready(function (e) {
 
         $("#timelineform").on('submit', (function (e) {
@@ -1394,9 +1388,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
         });
     }));
+
     function disable(id) {
-
-
         if (confirm("Are you sure you want to disable this record.")) {
             var student_id = '<?php echo $student["id"] ?>';
             $.ajax({
@@ -1452,8 +1445,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                  window.location.reload(true);
 
                 }
-            });
-            
+            });         
             
             
         } else {
@@ -1612,7 +1604,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 },
                 success: function (data) {
 
-
                     $('.examgroup_result').html(data.result);
                 },
                 complete: function () {
@@ -1683,45 +1674,35 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             complete: function () {
                 submit_button.button('reset');
             }
-        });
-
- 
+        }); 
     });
-                        $(document).ready(function (e) {
 
-                                            $("#form1").on('submit', (function (e) {
+    $(document).ready(function (e) {
+        $("#form1").on('submit', (function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "<?php echo site_url("student/create_doc") ?>",
+                type: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (res) {
+                    if (res.status == "fail") {
 
-                                                e.preventDefault();
-                                                $.ajax({
-                                                    url: "<?php echo site_url("student/create_doc") ?>",
-                                                    type: "POST",
-                                                    data: new FormData(this),
-                                                    dataType: 'json',
-                                                    contentType: false,
-                                                    cache: false,
-                                                    processData: false,
-                                                    success: function (res)
-                                                    {
+                        var message = "";
+                        $.each(res.error, function (index, value) {
+                            message += value;
+                        });
+                        errorMsg(message);
 
-                                                        if (res.status == "fail") {
-
-                                                            var message = "";
-                                                            $.each(res.error, function (index, value) {
-
-                                                                message += value;
-                                                            });
-                                                            errorMsg(message);
-
-                                                        } else {
-
-                                                            successMsg(res.message);
-
-                                                            window.location.reload(true);
-                                                        }
-                                                    }
-                                                });
-
-                                            }));
-
-                                        });
+                    } else {
+                        successMsg(res.message);
+                        window.location.reload(true);
+                    }
+                }
+            });
+        }));
+    });
 </script>

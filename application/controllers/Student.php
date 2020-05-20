@@ -2062,7 +2062,8 @@ class Student extends Admin_Controller
         echo json_encode($returnData); die;
     }
 
-    public function AutoCompleteStudentName() {
+    public function AutoCompleteStudentName() 
+    {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
         $name = $_POST['search'];        
@@ -2070,15 +2071,182 @@ class Student extends Admin_Controller
 
         if(empty($names)) 
             $results['error'] = true;
-        else {
-            if(!empty($names)){
-                foreach ($names as $row){
+        else 
+        {
+            if(!empty($names))
+            {
+                foreach ($names as $row)
                     $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['studentname']);
-                }
             }
         }       
         
         // Return results as json encoded array
         echo json_encode($returnData); die;
-    }    
+    }
+
+    public function SendDocs() 
+    {
+        if (!$this->rbac->hasPrivilege('student', 'can_add')) 
+            access_denied();
+
+        $this->session->set_userdata('top_menu', 'Communicate');
+        $this->session->set_userdata('sub_menu', 'Communicate/senddocs');
+        
+        $data['title']           = 'Student Send Documents';
+        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+        $data['sch_setting']     = $this->sch_setting_detail;
+        $data['fields']          = $this->customfield_model->get_custom_fields('students', 1);
+        $class                   = $this->class_model->get();
+        $data['classlist']       = $class;
+
+        $userdata = $this->customlib->getUserData();
+        $carray   = array();
+
+        if (!empty($data["classlist"])) 
+            foreach ($data["classlist"] as $ckey => $cvalue) 
+                $carray[] = $cvalue["id"];
+
+        //echo "<pre>";  print_r($carray); echo "<pre>";die;
+        $button = $this->input->post('search');
+
+        if ($this->input->server('REQUEST_METHOD') == "GET") 
+        {
+            $this->load->view('layout/header', $data);
+            $this->load->view('student/studentSendDocs', $data);
+            $this->load->view('layout/footer', $data);
+        } 
+        else 
+        {
+            $class       = $this->input->post('class_id');
+            $section     = $this->input->post('section_id');
+            $search      = $this->input->post('search');
+            
+            $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+            
+            if ($this->form_validation->run() == false) 
+            {
+            } 
+            else 
+            {
+                $data['searchby']    = "filter";
+                $data['class_id']    = $this->input->post('class_id');
+                $data['section_id']  = $this->input->post('section_id');
+                $resultlist          = $this->student_model->searchByClassSection($class, $section);
+                $data['resultlist']  = $resultlist;
+                $title               = $this->classsection_model->getDetailbyClassSection($data['class_id'], $data['section_id']);
+                $data['title']       = 'Student Details for ' . $title['class'] . "(" . $title['section'] . ")";
+            }
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('student/studentSendDocs', $data);
+            $this->load->view('layout/footer', $data);
+        }
+    }
+
+    public function Upload_Documents() 
+    {
+        $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('docs', $this->lang->line('document'), 'callback_handle_upload_doc');
+
+        if ($this->form_validation->run() == false) 
+        {
+            $msg = array(
+                'doctitle' => form_error('doctitle'),
+                'docs' => form_error('docs')              
+            );
+            $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+        } 
+        else 
+        {
+            $student_id = $this->input->post('id_num');
+            $student_docs = $_FILES["docs"];
+            // var_dump($this->input->post('doctitle'));die;
+            // $studcnt = count($student_docs);
+            // var_dump($student_docs);
+            // var_dump($studcnt); die;
+
+            if (isset($_FILES['docs'])) 
+            {
+                for($i = 0; $i < count($student_docs["name"]); $i++) 
+                {
+                    if (!empty($student_docs["name"][$i])) 
+                    {
+                        $uploaddir = './uploads/student_documents/' . $student_id[$i] . '/';
+
+                        if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
+                            die("Error creating folder $uploaddir");
+    
+                        $fileInfo    = pathinfo($student_docs["name"][$i]);
+                        $title = $this->input->post('doctitle');
+                        $file_name   = $student_docs["name"][$i];
+                        $exp         = explode(' ', $file_name);
+                        $imp         = implode('_', $exp);
+                        $img_name    = $uploaddir . basename($imp);
+                        move_uploaded_file($student_docs["tmp_name"][$i], $img_name);
+                        $data_img = array('student_id' => (int)$student_id[$i], 'title' => $title, 'doc' => $imp);
+                        $this->student_model->adddoc($data_img);    
+                    }
+                }
+            }
+
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
+        }
+
+        echo json_encode($array);
+    }
+
+    public function handle_upload_doc()
+    {
+        $image_validate = $this->config->item('file_validate');
+      
+        if (isset($_FILES["docs"])) // && !empty($_FILES['docs']['name'])) 
+        { 
+            for($i = 0; $i < count($_FILES["docs"]["name"]); $i++) 
+            {
+                if (!empty($_FILES['docs']['name'][$i])) 
+                {
+                    $file_type         = $_FILES["docs"]['type'][$i];
+                    $file_size         = $_FILES["docs"]["size"][$i];
+                    $file_name         = $_FILES["docs"]["name"][$i];
+                    $allowed_extension = $image_validate['allowed_extension'];
+                    $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+                    $allowed_mime_type = $image_validate['allowed_mime_type'];
+                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    $mtype = finfo_file($finfo, $_FILES["docs"]['tmp_name'][$i]);
+                    finfo_close($finfo);
+
+                    if (!in_array($mtype, $allowed_mime_type)) 
+                    {
+                        $this->form_validation->set_message('handle_upload_doc', 'File Type Not Allowed');
+                        return false;
+                    }
+                    if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) 
+                    {
+                        $this->form_validation->set_message('handle_upload_doc', 'Extension Not Allowed');
+                        return false;
+                    }
+                    if ($file_size > $image_validate['upload_size']) 
+                    {
+                        $this->form_validation->set_message('handle_upload_doc', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                        return false;
+                    }
+                } 
+                else 
+                {
+                    $this->form_validation->set_message('handle_upload_doc', "The File Field is required");
+                    return false;
+                }                
+            }
+
+            return true;
+        }
+        else
+        {
+            $this->form_validation->set_message('handle_upload_doc', "The File Field is required");
+            return false;
+        }
+
+        return true;
+    }
 }
