@@ -66,6 +66,7 @@ class Lesson extends General_Controller {
 
         $data['id'] = $id;
         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
+
         $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
         $current_session = $this->setting_model->getCurrentSession();
         $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
