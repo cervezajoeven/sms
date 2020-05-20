@@ -726,25 +726,25 @@ class Student extends Admin_Controller
 
                     move_uploaded_file($_FILES["fifth_doc"]["tmp_name"], $img_name);
                     $data_img = array('student_id' => $insert_id, 'title' => $fifth_title, 'doc' => $imp);
-                    $this->student_model->adddoc($data_img);
+                    $this->student_model->adddoc($data_img);                    
+                }
 
-                    $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
-                    $this->mailsmsconf->mailsms('student_admission', $sender_details);
-                    
-                    if ($this->input->post('enrollment_type') != 'old') 
+                $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                $this->mailsmsconf->mailsms('student_admission', $sender_details);
+                
+                //if ($this->input->post('enrollment_type') != 'old') 
+                {
+                    $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+                    $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                
+                    if ($sibling_id > 0) 
                     {
-                        $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
-                        $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
-                    
-                        if ($sibling_id > 0) 
-                        {
-        
-                        } 
-                        else 
-                        {
-                            $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
-                            $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
-                        }
+    
+                    } 
+                    else 
+                    {
+                        $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                        $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                     }
                 }
 
@@ -763,9 +763,8 @@ class Student extends Admin_Controller
   
     public function create_doc()
     {
-
         $this->form_validation->set_rules('first_title', $this->lang->line('title'), 'trim|required|xss_clean');
-          $this->form_validation->set_rules('first_doc', $this->lang->line('document'), 'callback_handle_uploadcreate_doc');
+        $this->form_validation->set_rules('first_doc', $this->lang->line('document'), 'callback_handle_uploadcreate_doc');
 
         if ($this->form_validation->run() == false) {
             $msg = array(
@@ -773,37 +772,35 @@ class Student extends Admin_Controller
                 'first_doc'              => form_error('first_doc')              
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
-        } else {
+        } 
+        else {
             $student_id = $this->input->post('student_id');
-        if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
-            $uploaddir = './uploads/student_documents/' . $student_id . '/';
-            if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
-                die("Error creating folder $uploaddir");
+            if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+                $uploaddir = './uploads/student_documents/' . $student_id . '/';
+                if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                    die("Error creating folder $uploaddir");
+                }
+                
+                $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
+                $first_title = $this->input->post('first_title');
+                $file_name   = $_FILES['first_doc']['name'];
+                $exp         = explode(' ', $file_name);
+                $imp         = implode('_', $exp);
+                $img_name    = $uploaddir . basename($imp);
+                move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
+                $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
+                $this->student_model->adddoc($data_img);
+
             }
-            
-            $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
-            $first_title = $this->input->post('first_title');
-            $file_name   = $_FILES['first_doc']['name'];
-            $exp         = explode(' ', $file_name);
-            $imp         = implode('_', $exp);
-            $img_name    = $uploaddir . basename($imp);
-            move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
-            $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
-            $this->student_model->adddoc($data_img);
 
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
         }
 
-       $msg   = $this->lang->line('success_message');
-            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
-        
-        }
         echo json_encode($array);
-
-
-       
     }
 
-public function handle_uploadcreate_doc()
+    public function handle_uploadcreate_doc()
     {
 
         $image_validate = $this->config->item('file_validate');
@@ -837,10 +834,13 @@ public function handle_uploadcreate_doc()
      
 
             return true;
-        }else{
-            $this->form_validation->set_message('handle_uploadcreate_doc', "The File Field is required");
-                return false;
         }
+        else
+        {
+            $this->form_validation->set_message('handle_uploadcreate_doc', "The File Field is required");
+            return false;
+        }
+
         return true;
     }
 
