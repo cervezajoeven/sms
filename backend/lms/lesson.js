@@ -19,7 +19,7 @@ $(document).ready(function(){
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
     if(education_level=="tertiary"){
-        folder_names = "Introduction,Lesson Proper,Evaluation";
+        folder_names = "Introduction,Lesson Proper,Examination";
         folders = "#folder_1,#folder_2,#folder_3";
     }
     

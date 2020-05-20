@@ -102,7 +102,6 @@
                                         <th>Title</th>
                                         <th><?php echo $this->lang->line('type'); ?></th>
                                         <th><?php echo $this->lang->line('date'); ?></th>
-                                        <th>Views</th>
                                         <th>Subject</th>
                                         <th>Grade</th>
                                         <th>Education Level</th>
@@ -125,16 +124,13 @@
                                                <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo rand(30,50); ?>
+                                                <?php echo $list_data['name']; ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['subject_id']; ?>
+                                                <?php echo $list_data['class']; ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['grade_id']; ?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['education_level']; ?>
+                                                <?php echo strtoupper($list_data['education_level']); ?>
                                             </td>
                                             <td>
                                                 
