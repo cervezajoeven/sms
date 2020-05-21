@@ -1029,13 +1029,13 @@ class Student extends Admin_Controller
         //$fields = array('admission_no','roll_no','firstname','lastname','middlename','gender','dob','guardian_is','guardian_name','guardian_relation','guardian_phone','enrollment_type','mobileno','email','category_id','religion','cast','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation','mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','bank_account_no','bank_name','ifsc_code','adhar_no','samagra_id','rte','previous_school','note');
         $fields = array('admission_no','roll_no','lrn_no','firstname','lastname','gender','dob','guardian_is','guardian_relation','guardian_name','guardian_phone','enrollment_type','category_id',
                         'religion','cast','mobileno','email','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation',
-                        'mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','previous_school','note',
-                        'father_company_name','father_company_position','father_nature_of_business','father_mobile','father_email','father_dob','father_citizenship','father_religion',
-                        'father_highschool','father_college','father_college_course','father_post_graduate','father_post_course','father_prof_affiliation','father_prof_affiliation_position',
-                        'father_tech_prof','father_tech_prof_other','mother_company_name','mother_company_position','mother_nature_of_business','mother_mobile','mother_email','mother_dob',
-                        'mother_citizenship','mother_religion','mother_highschool','mother_college','mother_college_course','mother_post_graduate','mother_post_course','mother_prof_affiliation',
-                        'mother_prof_affiliation_position','mother_tech_prof','mother_tech_prof_other','marriage','dom','church','family_together','parents_away','parents_away_state','parents_civil_status',
-                        'parents_civil_status_other');
+                        'mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','previous_school','note');
+                        // ,'father_company_name','father_company_position','father_nature_of_business','father_mobile','father_email','father_dob','father_citizenship','father_religion',
+                        // 'father_highschool','father_college','father_college_course','father_post_graduate','father_post_course','father_prof_affiliation','father_prof_affiliation_position',
+                        // 'father_tech_prof','father_tech_prof_other','mother_company_name','mother_company_position','mother_nature_of_business','mother_mobile','mother_email','mother_dob',
+                        // 'mother_citizenship','mother_religion','mother_highschool','mother_college','mother_college_course','mother_post_graduate','mother_post_course','mother_prof_affiliation',
+                        // 'mother_prof_affiliation_position','mother_tech_prof','mother_tech_prof_other','marriage','dom','church','family_together','parents_away','parents_away_state','parents_civil_status',
+                        // 'parents_civil_status_other');
 
         $data["fields"]       = $fields;
         $data['categorylist'] = $category;
