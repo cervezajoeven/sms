@@ -96,7 +96,7 @@ if ((isset($search_type)) && ($search_type == $key)) {
                         </div>
                         <div class="box-body table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('income_result'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
 

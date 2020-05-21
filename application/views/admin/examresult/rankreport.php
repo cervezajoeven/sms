@@ -233,7 +233,7 @@
                                 }
                                 ?>
 
-                                <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th><?php echo $this->lang->line('rank'); ?></th>

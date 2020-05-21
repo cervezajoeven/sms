@@ -133,7 +133,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="box-body table-responsive">
                  <div class="download_label"> <?php echo $this->lang->line('student')." ".$this->lang->line('profile')."<br>";$this->customlib->get_postmessage(); ?></div>
-                    <table class="table table-striped table-bordered table-hover example">
+                    <table class="table table-striped table-bordered table-hover example nowrap">
                        <thead>
                             <tr>
                                 <?php if(!$adm_auto_insert){

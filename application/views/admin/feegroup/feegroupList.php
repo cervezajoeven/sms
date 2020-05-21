@@ -70,7 +70,7 @@
                     <div class="box-body">
                         <div class="download_label"><?php echo $this->lang->line('fees_group_list'); ?></div>
                         <div class="mailbox-messages table-responsive">
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('name'); ?>

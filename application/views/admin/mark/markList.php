@@ -107,7 +107,7 @@
                                     <input type="hidden" name="exam_id" value="<?php echo $exam_id; ?>">
                                     <div class="table-responsive">
                                         <div class="download_label"><?php echo $this->lang->line('marks_register'); ?></div>
-                                        <table class="table table-striped table-bordered table-hover example">
+                                        <table class="table table-striped table-bordered table-hover example nowrap">
                                             <thead>
                                                 <tr>
                                                     <th>

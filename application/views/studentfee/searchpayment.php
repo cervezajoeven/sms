@@ -53,7 +53,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <div class="box-body table-responsive">
 
 
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('payment_id'); ?></th>

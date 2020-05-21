@@ -93,7 +93,7 @@ if (isset($resultlist)) {
                         <div class="tab-content">
                             <div class="tab-pane active table-responsive no-padding" id="tab_1">
                                 <div class="download_label"><?php echo $this->lang->line('student_lists'); ?></div>
-                                <table class="table table-striped table-bordered table-hover example">
+                                <table class="table table-striped table-bordered table-hover example nowrap">
                                     <thead>
                                         <tr>
                                             <th><?php echo $this->lang->line('admission_no'); ?></th>

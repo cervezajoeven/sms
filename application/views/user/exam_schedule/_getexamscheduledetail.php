@@ -3,7 +3,7 @@
 if (!empty($subject_list)) {
     ?>
 <div class="table-responsive">    
-<table class="table table-striped table-bordered table-hover example1">
+<table class="table table-striped table-bordered table-hover example nowrap">
   <thead>
     <tr>
                 <th><?php echo $this->lang->line('subject'); ?></th>

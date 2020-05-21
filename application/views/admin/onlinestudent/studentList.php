@@ -16,7 +16,7 @@
                     </div><!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <div class="mailbox-messages">
-                           <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                           <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>                                          
                                         <th><?php echo $this->lang->line('student_name'); ?></th>

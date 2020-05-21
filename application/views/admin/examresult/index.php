@@ -129,7 +129,7 @@
                                     <input type="hidden" name="post_exam_group_id" value="<?php echo $exam_group_id; ?>">
                                     <div class="tab-pane active table-responsive no-padding" id="tab_1">
                                         <div class="download_label"> <?php echo $this->lang->line('exam') . " " . $this->lang->line('result'); ?></div>
-                                        <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                                        <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
 

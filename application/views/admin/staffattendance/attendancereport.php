@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                                 <div class="download_label"><?php echo $this->lang->line('staff'); ?> <?php echo $this->lang->line('attendance'); ?> <?php echo $this->lang->line('report')."<br>";$this->customlib->get_postmessage(); ?></div>
-                                <table class="table table-striped table-bordered table-hover example xyz">
+                                <table class="table table-striped table-bordered table-hover example nowrap xyz">
                                     <thead>
                                         <tr>
                                             <th>

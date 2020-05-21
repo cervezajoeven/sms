@@ -87,7 +87,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                                     <div class="tab-pane table-responsive" id="tab_payroll"> 
                                     <div class="download_label"><?php echo $collection_title; ?></div> 
-                                        <table class="table table-striped table-bordered table-hover example">
+                                        <table class="table table-striped table-bordered table-hover example nowrap">
                                             <thead>
                                                  <tr>
 
@@ -218,7 +218,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>
                                     <div class="tab-pane active table-responsive" id="tab_students">
                                         <div class="download_label"><?php echo $income_title; ?></div>
-                                        <table class="table table-striped table-bordered table-hover example table-fixed-header">
+                                        <table class="table table-striped table-bordered table-hover example nowrap table-fixed-header">
                                             <thead class="header">
                                                 <tr>
                                                     <th><?php echo $this->lang->line('payment_id'); ?></th>
@@ -316,7 +316,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                       <!--   <h4 class="text text-left"><b><?php //echo $this->lang->line('expense_detail');     ?></b></h4><hr/> -->
                                     <div class="tab-pane table-responsive" id="tab_parent">
                                        <div class="download_label"><?php echo $expense_title; ?></div>
-                                        <table class="table table-striped table-bordered table-hover example">
+                                        <table class="table table-striped table-bordered table-hover example nowrap">
                                             <thead>
                                                 <tr>
                                                     <th><?php echo $this->lang->line('expense_id'); ?></th>
@@ -383,7 +383,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                                     <div class="tab-pane table-responsive" id="tab_income"> 
                                      <div class="download_label"><?php echo $income_title; ?></div> 
-                                        <table class="table table-striped table-bordered table-hover example">
+                                        <table class="table table-striped table-bordered table-hover example nowrap">
                                             <thead>
                                                 <tr>
                                                     <th><?php echo $this->lang->line('income_id'); ?></th>

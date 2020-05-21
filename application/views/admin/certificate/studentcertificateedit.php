@@ -172,7 +172,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <div class="mailbox-messages">
                             <div class="download_label"><?php echo $this->lang->line('student'); ?> <?php echo $this->lang->line('certificate'); ?> <?php echo $this->lang->line('list'); ?></div>
                           <div class="table-responsive">  
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('certificate'); ?> <?php echo $this->lang->line('name'); ?></th>

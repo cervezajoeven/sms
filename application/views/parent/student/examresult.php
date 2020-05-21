@@ -55,7 +55,7 @@
                                     <button type='button' class="btn btn-default btn-sm pull-right no-print" onclick="printDiv('<?php echo "#print_view" . $counter ?>');"><i class="fa fa-print"></i></button>
                                     <h4 class="page-header"><?php echo $value['exam_name']; ?></h4>
                                     <div class="download_label"><?php echo $this->lang->line('exam_marks_report'); ?></div>
-                                    <table class="table table-striped table-bordered table-hover example">
+                                    <table class="table table-striped table-bordered table-hover example nowrap">
                                         <thead>
                                             <tr>
                                                 <th>

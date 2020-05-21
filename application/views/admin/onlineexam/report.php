@@ -103,7 +103,7 @@ if (isset($results)) {
                                 <div class="download_label"><?php ?> <?php echo $this->lang->line('online') . " " . $this->lang->line('exam') . " " . $this->lang->line('report') . "<br>";
     $this->customlib->get_postmessage(); ?></div>
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th><?php echo $this->lang->line('admission_no'); ?></th>
