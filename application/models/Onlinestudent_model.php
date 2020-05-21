@@ -204,7 +204,22 @@ class Onlinestudent_model extends MY_Model {
                             }
                         }
                         //===================================================
-                    }                    
+
+                        //if ($action == "enroll")
+                        {
+                            $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                            $this->mailsmsconf->mailsms('student_admission', $sender_details);
+
+                            //if ($enroll_type != 'old')
+                            {
+                                $student_login_detail = array('id' => $student_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $student_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+                                $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                                
+                                $parent_login_detail = array('id' => $student_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $ins_parent_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                                $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+                            }
+                        }
+                    }
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
@@ -214,22 +229,7 @@ class Onlinestudent_model extends MY_Model {
             //var_dump($data);die;
 
             $this->db->where('id', $data_id);
-            $this->db->update('online_admissions', $data);
-
-            if ($action == "enroll")
-            {
-                $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
-                $this->mailsmsconf->mailsms('student_admission', $sender_details);
-
-                //if ($enroll_type != 'old')
-                {
-                    $student_login_detail = array('id' => $student_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
-                    $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
-                    
-                    $parent_login_detail = array('id' => $student_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
-                    $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
-                }
-            }
+            $this->db->update('online_admissions', $data);            
 			
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";
