@@ -2249,4 +2249,20 @@ class Student extends Admin_Controller
 
         return true;
     }
+
+    public function GetEnrollmentTypes()
+    {
+        $this->db->select('e_type, description');
+        $this->db->from('enrollment_type');
+        $result = $this->db->get()->result_array();
+        return $result;
+    }
+
+    public function GetModesOfPayment()
+    {
+        $this->db->select('mode, description');
+        $this->db->from('mode_of_payment');
+        $result = $this->db->get()->result_array();
+        return $result;
+    }
 }

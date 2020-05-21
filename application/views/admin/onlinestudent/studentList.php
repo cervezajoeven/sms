@@ -56,7 +56,7 @@
                                         <td><?php echo $student['mobileno']; ?></td>
                                         <td><?php echo ($student['is_enroll'])? "<i class='fa fa-check'></i><span style='display:none'>Yes</span>":"<i class='fa fa-minus-circle'></i><span style='display:none'>No</span>"; ?></td>
                                         <td><?php echo strtoupper($student['mode_of_payment']); ?></td>
-                                        <td><?php echo strtoupper($student['enrollment_type']); ?></td>
+                                        <td><?php echo strtoupper($student['enrollment_type'] == 'old_new' ? 'old' : $student['enrollment_type']); ?></td>
                                         <td><?php echo strtoupper($student['created_at']); ?></td>
                                         <td class="mailbox-date pull-right">
                                             <?php if($student['document'] != "") { ?>

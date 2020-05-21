@@ -235,9 +235,10 @@
                                             <div class="form-group">
                                                 <label for="" class="control-label">Mode of Payment</label><small class='req'> *</small>                                                
                                                 <select id="mode_of_payment" name="mode_of_payment" class="form-control">
-                                                    <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
-                                                        <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
-                                                    <?php }?>
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <?php foreach ($payment_mode_list as $pmode) { ?>
+                                                    <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
+                                                <?php } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -245,7 +246,8 @@
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Enrollment Type</label><small class='req'> *</small>
-                                                <input type="text" readonly value="<?php echo $student["enrollment_type"] ?>" name="enrollment_type" id="enrollment_type" class="form-control" value="<?php echo set_value('enrollment_type', $student['enrollment_type']); ?>">
+                                                <input type="hidden" name="enrollment_type" id="enrollment_type" value = "<?php echo $student['enrollment_type'] ?>">
+                                                <input type="text" readonly name="enrollment_type_disp" id="enrollment_type_disp" class="form-control" value="<?php echo strtoupper(set_value('enrollment_type', $student['enrollment_type'] == 'old_new' ? 'old' : $student['enrollment_type'])); ?>">
                                                 <!-- <select id="enrollment_type" name="enrollment_type" class="form-control">
                                                     <?php //foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
                                                     <option value="<?php //echo $enrollType_key; ?>" <?php //echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php //echo $enrollType_value; ?></option>

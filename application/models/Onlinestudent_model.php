@@ -107,7 +107,7 @@ class Onlinestudent_model extends MY_Model {
                     }
 
                     //-- Set id number equal to admission no for all non old students
-                    if ($enroll_type != 'old')
+                    if ($enroll_type != 'old' && $enroll_type != 'old_new' )
                         $data['roll_no'] = $admission_no;
                 }                
 
@@ -147,6 +147,8 @@ class Onlinestudent_model extends MY_Model {
                     } 
                     else 
                     {
+                        $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
+
                         $this->db->insert('students', $data);
                         $student_id = $this->db->insert_id();
                     }                    
@@ -159,7 +161,7 @@ class Onlinestudent_model extends MY_Model {
                     );
                     $this->db->insert('student_session', $data_new);
                     
-                    if ($enroll_type != 'old') 
+                    //if ($enroll_type != 'old') 
                     {
                         //===============Start Student ID===========
                         $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
@@ -388,5 +390,23 @@ class Onlinestudent_model extends MY_Model {
     {
         $result = $this->db->select('id')->from('sections')->where('section', $section_name)->limit(1)->get()->row();
         return $result->id;
+    }
+
+    public function GetEnrollmentTypes()
+    {
+        $this->db->select('e_type, description');
+        $this->db->from('enrollment_type');
+        $this->db->order_by('description');
+        $result = $this->db->get()->result_array();
+        return $result;
+    }
+
+    public function GetModesOfPayment()
+    {
+        $this->db->select('mode, description');
+        $this->db->from('mode_of_payment');
+        $this->db->order_by('description');
+        $result = $this->db->get()->result_array();
+        return $result;
     }
 }

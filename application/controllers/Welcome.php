@@ -214,6 +214,10 @@ class Welcome extends Front_Controller
             ///============
             $this->data['form_admission'] = $this->setting_model->getOnlineAdmissionStatus();
 
+            //-- EMN --
+            $this->data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
+            $this->data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
+
             ///////===
             $genderList = $this->customlib->getGender();
             $this->data['genderList'] = $genderList;
@@ -233,19 +237,17 @@ class Welcome extends Front_Controller
 
             $enrollment_type = $this->input->post('enrollment_type');
 
-            if ($enrollment_type == 'old') 
-            {                
+            if ($enrollment_type == 'old' || $enrollment_type == 'old_new') 
+            {
                 $this->form_validation->set_rules('studentidnumber', $this->lang->line('required'), 'trim|required|xss_clean');
-            }                
+                $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
+            }
             else 
             {
-                $this->form_validation->set_rules('father_name', $this->lang->line('required'), 'trim|required|xss_clean');
-                
+                $this->form_validation->set_rules('father_name', $this->lang->line('required'), 'trim|required|xss_clean');                
                 $this->form_validation->set_rules('father_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('mother_name', $this->lang->line('required'), 'trim|required|xss_clean');
-                
-                $this->form_validation->set_rules('mother_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
-                
+                $this->form_validation->set_rules('mother_name', $this->lang->line('required'), 'trim|required|xss_clean');                
+                $this->form_validation->set_rules('mother_occupation', $this->lang->line('required'), 'trim|required|xss_clean');                
                 $this->form_validation->set_rules('father_company_name', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('father_company_position', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('father_mobile', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -286,8 +288,7 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
                 $this->form_validation->set_rules('guardian_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|xss_clean');
-                
+                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|xss_clean');                
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -344,7 +345,8 @@ class Welcome extends Front_Controller
                 }
 
                 //=====================
-                if ($document_validate) {
+                if ($document_validate) 
+                {
                     $class_id   = $this->input->post('class_id');
                     $section_id = $this->onlinestudent_model->GetSectionID('No Section'); //--Assign "No Section" for online admissions
 
@@ -503,10 +505,11 @@ class Welcome extends Front_Controller
                             'admission_date'      => date('Y/m/d'),
                             'measurement_date'    => date('Y/m/d'),
                             'mode_of_payment'     => $this->input->post('mode_of_payment'),
-                            'enrollment_type'     => $enrollment_type,                        
+                            'enrollment_type'     => $enrollment_type, 
                             'middlename'          => $this->input->post('middlename'),
                             'email'               => $this->input->post('email'),
                             'class_section_id'    => $class_section_id,
+                            'roll_no'             => $this->input->post('studentidnumber'),
                             'lrn_no'              => $this->input->post('lrn_no'),
 
                             'father_company_name'              => $this->input->post('father_company_name'),
