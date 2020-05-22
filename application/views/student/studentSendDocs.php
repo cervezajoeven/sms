@@ -50,7 +50,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label><?php echo $this->lang->line('section'); ?></label>
+                                                <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small> 
                                                 <select  id="section_id" name="section_id" class="form-control" >
                                                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                 </select>
@@ -71,7 +71,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                     
                     <?php if (isset($resultlist)) { ?>
                     
-                    <form id='frm_senddocs' action="<?php echo site_url('student/Upload_Documents') ?>"  method="post" accept-charset="utf-8">
+                    <form id='frm_senddocs' action="<?php echo site_url('student/Upload_Documents') ?>"  method="post" accept-charset="utf-8" enctype="multipart/form-data">
                     <div class="nav-tabs-custom border0 navnoshadow">
                         <div class="box-header ptbnull"></div>  
                         <ul class="nav nav-tabs">
@@ -113,7 +113,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <td><?php echo $student['class'] . "(" . $student['section'] . ")" ?></td>                                                    
                                                     <td><?php echo $student['gender']; ?></td>                                                    
                                                     <td>
-                                                        <input name="docs[]" placeholder="" type="file" class="form-control filestyle" data-height="25"  value="<?php echo set_value('first_doc'); ?>" />
+                                                        <input name="docs<?php echo $student['id'] ?>[]" placeholder="" type="file" multiple class="form-control filestyle" data-height="25"  value="<?php echo set_value('first_doc'); ?>" />
+                                                        <!-- <input name="docs<?php echo $student['id'] ?>" placeholder="" type="file" multiple class="form-control filestyle" data-height="25"  value="<?php echo set_value('first_doc'); ?>" /> -->
                                                     </td>
                                                 </tr>
                                                 <?php $count++;
@@ -195,7 +196,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             var frmdata = new FormData(this);
 
             $.ajax({
-                url: "<?php echo site_url("student/Upload_Documents") ?>",
+                url: "<?php echo site_url("student/Upload_MultiDocs") ?>",
                 type: "POST",
                 data: frmdata,
                 dataType: 'json',

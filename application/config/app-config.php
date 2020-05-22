@@ -40,5 +40,5 @@ $config['file_validate'] = array(
         'image/jpg',
         'image/png'), //mime_type
     'allowed_extension' => array('zip','pdf','doc','xls','ppt','docx','xlsx','pptx','jpg','jpeg','png','gif','bmp','svg','ZIP','PDF','DOC','XLS','PPT','DOCX','XLSX','PPTX','JPG','JPEG','PNG','GIF','BMP','SVG','Pdf','Zip','Doc','Ppt','Xls','Docx','Xlsx','Pptx','Jpg','Jpeg','Png','Gif','Bmp','Svg'), // image extensions
-    'upload_size'       => 524285, //1048576, // bytes
+    'upload_size'       => 3145728, //1048576, // bytes
 );

@@ -1363,49 +1363,6 @@ if (!$form_admission) {
         ClearRadio("parents_away");
         ClearRadio("parents_civil_status");
         ClearRadio("guardian_is");
-
-        //$('select').val('');
-        // $('#firstname').val('');
-        // $('#lrn_no').val('');
-        // $('#middlename').val('');
-        // $('#lastname').val('');
-        // $('#gender').val('');
-        // $('#dob').val('');
-        // $('#class_id').val('');
-        // $('#father_name').val('');
-        // $('#father_phone').val('');
-        // $('#father_occupation').val('');
-        // $('#mother_name').val('');
-        // $('#mother_phone').val('');
-        // $('#mother_occupation').val('');
-        // $('#guardian_occupation').val('');
-        // $('#guardian_email').val('');
-        // $('#guardian_name').val('');
-        // $('#guardian_relation').val('');
-        // $('#guardian_phone').val('');
-        // $('#guardian_address').val('');
-        // $('#mode_of_payment').val('');
-        // $('#enrollment_type').val('');
-        // $('#middlename').val('');
-        // $('#email').val('');
-        
-        // $('#father_company_name').val('');
-        // $('#father_company_position').val('');
-        // $('#father_nature_of_business').val('');
-        // $('#father_mobile').val('');
-        // $('#father_dob').val('');
-        // $('#father_citizenship').val('');
-        // $('#father_religion').val('');
-        // $('#father_highschool').val('');
-        // $('#father_college').val('');
-        // $('#father_college_course').val('');
-        // $('#father_post_graduate').val('');
-        // $('#').val('');
-        // $('#').val('');
-        // $('#').val('');
-        // $('#').val('');
-        // $('#').val('');
-        
     }
 
     // function clearAllInputs() {

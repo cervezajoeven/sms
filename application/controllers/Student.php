@@ -1000,7 +1000,7 @@ class Student extends Admin_Controller
     {
 
         $student_login_detail = array('id' => $this->input->post('student_id'), 'credential_for' => 'student', 'username' => $this->input->post('username'), 'password' => $this->input->post('password'), 'contact_no' => $this->input->post('contact_no'), 'email' => $this->input->post('email'));
-
+        // var_dump($student_login_detail);die;
         $msg = $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
     }
 
@@ -2131,6 +2131,7 @@ class Student extends Admin_Controller
             $search      = $this->input->post('search');
             
             $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
             
             if ($this->form_validation->run() == false) 
             {
@@ -2150,6 +2151,152 @@ class Student extends Admin_Controller
             $this->load->view('student/studentSendDocs', $data);
             $this->load->view('layout/footer', $data);
         }
+    }
+
+    public function Upload_MultiDocs()
+    {
+        $student_id = $this->input->post('id_num');
+        $student_docs = $this->reArrayFilesMultiple();
+        // var_dump($student_docs);die;
+
+        $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('docs', $this->lang->line('document'), 'callback_handle_upload_multidocs');
+        
+        if ($this->form_validation->run() == false) 
+        {
+            $msg = array(
+                'doctitle' => form_error('doctitle'),
+                'docs' => form_error('docs')              
+            );
+            $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+        }
+        else 
+        {
+            if (isset($student_docs)) 
+            {
+                $stdidx = 0;
+
+                foreach($student_docs as $key0=>$FILES) 
+                {   
+                    for ($i=0; $i<sizeof($FILES); $i++)
+                    {
+                        $uploaddir = './uploads/student_documents/' . $student_id[$stdidx] . '/';
+
+                        if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
+                            die("Error creating folder $uploaddir");
+    
+                        $fileInfo    = pathinfo($FILES[$i]["name"]);
+                        $title = $this->input->post('doctitle');
+                        $file_name   = $FILES[$i]["name"];
+                        $exp         = explode(' ', $file_name);
+                        $imp         = implode('_', $exp);
+                        $img_name    = $uploaddir . basename($imp);
+                        move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
+                        $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp);
+                        $this->student_model->adddoc($data_img);    
+                        // var_dump($FILES[$i]["name"]);
+                        // echo ("<BR>");
+                    }
+
+                    $stdidx++;
+                }
+            }
+
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
+        }
+
+        echo json_encode($array);
+    }
+
+    function reArrayFilesMultiple() {
+        $uploads = array();
+        foreach($_FILES as $key0=>$FILES) {
+            foreach($FILES as $key=>$value) {
+                foreach($value as $key2=>$value2) {
+                    $uploads[$key0][$key2][$key] = $value2;
+                }
+            }
+        }
+        $files = $uploads;
+        return $uploads; // prevent misuse issue
+    }
+
+    public function handle_upload_multidocs()
+    {
+        $image_validate = $this->config->item('file_validate');
+        $student_docs = $this->reArrayFilesMultiple();
+
+        if (isset($student_docs)) 
+        {
+            foreach($student_docs as $key0=>$FILES) 
+            {   
+                // var_dump($FILES);
+                // echo "<BR>";
+                // $fsize = sizeof($FILES);
+                // var_dump($fsize);
+                // echo "<BR>";
+                // echo "<BR>";
+
+                if (sizeof($FILES) < 6)
+                {
+                    for ($i=0; $i<sizeof($FILES); $i++)
+                    {
+                        // var_dump($FILES[$i]["name"]);
+                        // echo "<BR>";
+                        if (!empty($FILES[$i]["name"])) 
+                        {
+                            $file_type         = $FILES[$i]['type'];
+                            $file_size         = $FILES[$i]["size"];
+                            $file_name         = $FILES[$i]["name"];
+                            $allowed_extension = $image_validate['allowed_extension'];
+                            $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+                            $allowed_mime_type = $image_validate['allowed_mime_type'];
+                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                            $mtype = finfo_file($finfo, $FILES[$i]['tmp_name']);
+                            finfo_close($finfo);
+    
+                            if (!in_array($mtype, $allowed_mime_type)) 
+                            {
+                                $this->form_validation->set_message('handle_upload_multidocs', 'File Type Not Allowed');
+                                return false;
+                            }
+                            if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) 
+                            {
+                                $this->form_validation->set_message('handle_upload_multidocs', 'Extension Not Allowed');
+                                return false;
+                            }
+                            if ($file_size > $image_validate['upload_size']) 
+                            {
+                                $this->form_validation->set_message('handle_upload_multidocs', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                                return false;
+                            }
+                        } 
+                        else 
+                        {
+                            $this->form_validation->set_message('handle_upload_multidocs', "The File Field is required");
+                            return false;
+                        }
+                    }
+                    // echo "<BR>";
+                    // echo "<BR>";
+
+                    return true;
+                }
+                else
+                {
+                    $this->form_validation->set_message('handle_upload_multidocs', "Only maximum of 5 files per student is allowed");            
+                }
+            }
+            die;
+        }
+        else
+        {
+            $this->form_validation->set_message('handle_upload_multidocs', "The File Field is required");
+            return false;
+        }
+
+        return true;
     }
 
     public function Upload_Documents() 
