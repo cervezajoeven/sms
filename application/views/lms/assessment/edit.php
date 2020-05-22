@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="<?php echo $resources.'assessment.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
 
 
 		
@@ -71,12 +71,17 @@
 
 			        		<div class="info-tab info-key col-sm-3" title="Essay" option_type="long_answer"><center>Long Answer</center></div>
 			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
+
 		        		</div>
+
 		        		<div class="info-row">
-		        			<div class="info-tab col-sm-6 save assign">
+		        			<div class="info-tab info-key col-sm-4 save add_section" option_type="section">
+			        			<center>Add Section</center>
+			        		</div>
+		        			<div class="info-tab col-sm-4 save assign">
 			        			<center>Assign</center>
 			        		</div>
-			        		<div class="info-tab col-sm-6 save true_save">
+			        		<div class="info-tab col-sm-4 save true_save">
 			        			<center>Save</center>
 			        		</div>
 			        		
@@ -88,21 +93,33 @@
 		        	<div class="assign_panel">
 		        		<div class = "col-sm-4">
 		        			Duration (Minutes)
-		        			<input type="number" min="1" value="30" class="form-control duration" name="duration">
+		        			<input type="number" min="1" value="<?php echo ($assessment['duration'])?$assessment['duration']:30 ?>" class="form-control duration" name="duration">
 		        		</div>
 		        		<div class = "col-sm-4">
 		        			Passing Percentage %
-		        			<input type="number" min="0" max="100" value="50" class="form-control percentage" name="">
+		        			<input type="number" min="0" max="100" value="<?php echo ($assessment['percentage'])?$assessment['percentage']:50 ?>" class="form-control percentage" name="">
 		        		</div>
 		        		<div class = "col-sm-4">
 		        			Attempts
-		        			<input type="number" min="0" value="1" class="form-control attempts" name="">
+		        			<input type="number" min="0" value="<?php echo ($assessment['attempts'])?$assessment['attempts']:1 ?>" class="form-control attempts" name="">
 		        		</div>
 
-		        		<div class = "col-sm-12">
+		        		<div class = "col-sm-8">
 		        			Date Assigned
+
+		        			<input type="hidden" value="<?php echo $assessment['start_date'] ?>" class="start_date" name="">
+		        			<input type="hidden" value="<?php echo $assessment['end_date'] ?>" class="end_date" name="">
 		        			<input type="text" value="" class="form-control date_range" name="">
 		        		</div>
+		        		<div class = "col-sm-4">
+			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
+	                                
+		                        <input type="checkbox" id="email_notification" />
+		                        <div class="state p-primary">
+		                            <label>Email Notification</label>
+		                        </div>
+		                    </div>
+		                </div>
 		        		<div class = "col-sm-12">
 		        			Assign Students
 		        			<div id="jstree_demo_div">

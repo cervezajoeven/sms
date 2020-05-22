@@ -1462,4 +1462,10 @@ $lang['required'] = "This";
 $lang['guardian_mobile_eg'] = "Guardian's Mobile Number (<i>e.g. +639999999999</i>)";
 $lang['senddocs'] = "Send Documents";
 $lang['doctitle'] = "Document Title";
+
+$lang['study_material'] = 'Modules/Activities';
+$lang['study_material_list'] = 'Modules/Activities List';
+$lang['syllabus'] = 'Learning Plan';
+$lang['syllabus_list'] = 'Learning Plan List';
+$lang['upload_content'] = 'Upload Documents';
 ?>

@@ -326,7 +326,7 @@ class Customlib
     public function getcontenttype()
     {
         $status                   = array();
-        $status['Assignments']    = $this->CI->lang->line('assignments');
+        // $status['Assignments']    = $this->CI->lang->line('assignments');
         $status['Study_material'] = $this->CI->lang->line('study_material');
         $status['Syllabus']       = $this->CI->lang->line('syllabus');
         $status['Other_download'] = $this->CI->lang->line('other_download');
