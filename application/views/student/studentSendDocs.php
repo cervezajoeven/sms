@@ -126,7 +126,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                             <div class="row">
                                 <div class="box-footer">
-                                    <button type="submit" name="action" value="upload_docs" class="btn btn-primary pull-right"><?php echo $this->lang->line('senddocs'); ?></button>
+                                    <button type="submit" name="action" value="upload_docs" class="btn btn-primary pull-right submitdocs" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Sending"><?php echo $this->lang->line('senddocs'); ?></button>
                                 </div>
                             </div>                            
                         </div>
@@ -192,6 +192,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
         $("#frm_senddocs").on('submit', (function (e) {
             e.preventDefault();
+            var $this = $('.submitdocs');
+            $this.button('loading');
 
             var frmdata = new FormData(this);
 
@@ -203,6 +205,9 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 contentType: false,
                 cache: false,
                 processData: false,
+                beforeSend: function () {
+                    $this.button('loading');
+                },
                 success: function (res) {
                     if (res.status == "fail") {
 
@@ -216,6 +221,11 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         successMsg(res.message);
                         window.location.reload(true);
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }, 
+                complete: function (data) {
+                    $this.button('reset');
                 }
             });
         }));
