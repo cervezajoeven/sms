@@ -2231,15 +2231,15 @@ class Student extends Admin_Controller
         {
             foreach($student_docs as $key0=>$FILES) 
             {   
-                // var_dump($FILES);
-                // echo "<BR>";
-                // $fsize = sizeof($FILES);
-                // var_dump($fsize);
-                // echo "<BR>";
-                // echo "<BR>";
-
                 if (sizeof($FILES) < 6)
                 {
+                    // var_dump($FILES);
+                    // echo "<BR>";
+                    // $fsize = sizeof($FILES);
+                    // var_dump($fsize);
+                    // echo "<BR>";
+                    // echo "<BR>";
+
                     for ($i=0; $i<sizeof($FILES); $i++)
                     {
                         // var_dump($FILES[$i]["name"]);
@@ -2274,25 +2274,26 @@ class Student extends Admin_Controller
                         } 
                         else 
                         {
-                            $this->form_validation->set_message('handle_upload_multidocs', "The File Field is required");
+                            $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
                             return false;
                         }
                     }
                     // echo "<BR>";
                     // echo "<BR>";
-
-                    return true;
                 }
                 else
                 {
                     $this->form_validation->set_message('handle_upload_multidocs', "Only maximum of 5 files per student is allowed");            
                 }
             }
-            die;
+            // die;
+
+            return true;
+
         }
         else
         {
-            $this->form_validation->set_message('handle_upload_multidocs', "The File Field is required");
+            $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
             return false;
         }
 
