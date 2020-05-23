@@ -69,7 +69,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         </div><!--./row-->
                     </div>
                     
-                    <?php if (isset($resultlist)) { ?>
+                    <?php 
+                    
+                    $resultsize = sizeof($resultlist);
+                    if (isset($resultlist)) { ?>
                     
                     <form id='frm_senddocs' action="<?php echo site_url('student/Upload_Documents') ?>"  method="post" accept-charset="utf-8" enctype="multipart/form-data">
                     <div class="nav-tabs-custom border0 navnoshadow">
@@ -126,7 +129,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                             <div class="row">
                                 <div class="box-footer">
-                                    <button type="submit" name="action" value="upload_docs" class="btn btn-primary pull-right submitdocs" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Sending"><?php echo $this->lang->line('senddocs'); ?></button>
+                                    <button type="submit" name="action" <?php echo($resultsize <= 0 ? 'disabled' : ''); ?> value="upload_docs" class="btn btn-primary pull-right submitdocs" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Sending"><?php echo $this->lang->line('senddocs'); ?></button>
                                 </div>
                             </div>                            
                         </div>
