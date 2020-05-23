@@ -10,6 +10,7 @@ class Lesson extends General_Controller {
         parent::__construct();
         $this->load->model('lesson_model');
         $this->load->model('general_model');
+        $this->load->model('discussion_model');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
     }
@@ -122,8 +123,10 @@ class Lesson extends General_Controller {
         $data['lesson_type'] = $_REQUEST['lesson_type'];
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
-        echo '<pre>';print_r($data);exit();
-        // $this->lesson_model->lms_update("lms_lesson",$data);
+        $data['learning_plan'] = $_REQUEST['learning_plan'];
+        // echo '<pre>';print_r($data);exit();
+        // echo '<pre>';print_r($data);exit();
+        print_r($this->lesson_model->lms_update("lms_lesson",$data));
         
 
         //thumbnails
@@ -279,8 +282,26 @@ class Lesson extends General_Controller {
 
          
     }
-    
 
+    public function send_chat(){
+
+        $data['account_id'] = $this->general_model->get_account_id();
+        $data['account_type'] = $this->general_model->get_role();
+        $data['content'] = $_REQUEST['content'];
+        $data['lesson_id'] = $_REQUEST['lesson_id'];
+
+        $this->lesson_model->lms_create("lms_discussion",$data);
+
+    }
+    
+    public function fetch_chat(){
+        
+        $lesson_id = $_REQUEST['lesson_id'];
+        $discussion = $this->discussion_model->lesson_discussion($lesson_id);
+
+        echo json_encode($discussion);
+
+    }
 }
  
 ?>

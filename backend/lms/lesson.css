@@ -634,3 +634,12 @@ html, body {
     background-color: white;
     height: 100%;
 }
+
+
+
+.dicussion_container{
+    background-color: white;
+    height: 300px;
+    color:black;
+    overflow: scroll;
+}
