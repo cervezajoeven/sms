@@ -2180,22 +2180,25 @@ class Student extends Admin_Controller
                 {   
                     for ($i=0; $i<sizeof($FILES); $i++)
                     {
-                        $uploaddir = './uploads/student_documents/' . $student_id[$stdidx] . '/';
+                        if (!empty($FILES[$i]["name"])) 
+                        {
+                            $uploaddir = './uploads/student_documents/' . $student_id[$stdidx] . '/';
 
-                        if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
-                            die("Error creating folder $uploaddir");
-    
-                        $fileInfo    = pathinfo($FILES[$i]["name"]);
-                        $title = $this->input->post('doctitle');
-                        $file_name   = $FILES[$i]["name"];
-                        $exp         = explode(' ', $file_name);
-                        $imp         = implode('_', $exp);
-                        $img_name    = $uploaddir . basename($imp);
-                        move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
-                        $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp);
-                        $this->student_model->adddoc($data_img);    
-                        // var_dump($FILES[$i]["name"]);
-                        // echo ("<BR>");
+                            if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
+                                die("Error creating folder $uploaddir");
+        
+                            $fileInfo    = pathinfo($FILES[$i]["name"]);
+                            $title = $this->input->post('doctitle');
+                            $file_name   = $FILES[$i]["name"];
+                            $exp         = explode(' ', $file_name);
+                            $imp         = implode('_', $exp);
+                            $img_name    = $uploaddir . basename($imp);
+                            move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
+                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp);
+                            $this->student_model->adddoc($data_img);    
+                            // var_dump($FILES[$i]["name"]);
+                            // echo ("<BR>");
+                        }
                     }
 
                     $stdidx++;
@@ -2226,6 +2229,7 @@ class Student extends Admin_Controller
     {
         $image_validate = $this->config->item('file_validate');
         $student_docs = $this->reArrayFilesMultiple();
+        $isempty = true;
 
         if (isset($student_docs)) 
         {
@@ -2271,25 +2275,29 @@ class Student extends Admin_Controller
                                 $this->form_validation->set_message('handle_upload_multidocs', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
                                 return false;
                             }
+
+                            $isempty = false;
                         } 
                         else 
                         {
-                            $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
-                            return false;
+                            // $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
+                            // return false;
                         }
                     }
                     // echo "<BR>";
                     // echo "<BR>";
                 }
                 else
-                {
                     $this->form_validation->set_message('handle_upload_multidocs', "Only maximum of 5 files per student is allowed");            
-                }
             }
-            // die;
 
+            if ($isempty)
+            {
+                $this->form_validation->set_message('handle_upload_multidocs', "There are no documents to send.");
+                return false;
+            }
+            
             return true;
-
         }
         else
         {
