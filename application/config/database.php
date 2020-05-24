@@ -80,7 +80,7 @@ $exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs",
 echo '<pre>';
 print_r($exceptions);
 print_r(in_array($database_name, $exceptions));
-exit();
+
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = '';
@@ -97,7 +97,7 @@ else{
   	$password = 'joeven241';
   	$database = 'campus_'.$database_name;
 }
-
+print_r($database);
 exit();
 $db['default'] = array(
 	'dsn'	=> '',
