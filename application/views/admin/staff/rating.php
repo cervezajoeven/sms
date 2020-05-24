@@ -40,7 +40,7 @@
                                         </div>
                                     </div>
                                     <div class="download_label"><?php echo $this->lang->line('teachers')." ".$this->lang->line('rating')." ".$this->lang->line('list'); ?></div>
-                                    <table class="table table-striped table-bordered table-hover example xyz">
+                                    <table class="table table-striped table-bordered table-hover example nowrap xyz">
                                         <thead>
                                             <tr>
                                               <th><?php echo $this->lang->line('staff_id');?></th>

@@ -928,7 +928,12 @@ $lang['account_id'] = "Account ID";
 $lang['account_type'] = "Account Type";
 $lang['active'] = "Active";
 $lang['address_phone_email'] = "Address/Phone/Email";
-$lang['admission_form_disable_please_contact_to_administrator'] = "Admission Form Disable Please Contact to Administrator";
+$lang['admission_form_disable_please_contact_to_administrator'] = "Good Day Sophians!<BR><BR>
+We would like to inform you that we are having a system upgrade at the backend of our system.<BR><BR>For now, we will disable the online admission feature until further notice.<BR><BR>
+Reminder:<BR>
+Please do not make any changes or inserting of new data inside the system.<BR><BR>
+Thank you!<BR>
+CloudPH Admin";
 $lang['admission_in_this_duration'] = " Total Admission in this duration";
 $lang['admission_no'] = 'Admission No';
 $lang['admission_no_digit'] = "Admission No Digit";
@@ -1460,4 +1465,32 @@ $lang['others_specify'] = "If others, please specify";
 
 $lang['required'] = "This";
 $lang['guardian_mobile_eg'] = "Guardian's Mobile Number (<i>e.g. +639999999999</i>)";
+$lang['senddocs'] = "Send Documents";
+$lang['doctitle'] = "Document Title";
+
+$lang['study_material'] = 'Modules/Activities';
+$lang['study_material_list'] = 'Modules/Activities List';
+$lang['syllabus'] = 'Learning Plan';
+$lang['syllabus_list'] = 'Learning Plan List';
+$lang['upload_content'] = 'Upload Documents';
+
+$lang['class_record'] = 'Class Record';
+$lang['record_master'] = 'Record Master';
+$lang['quarter'] = 'Quarter';
+$lang['components'] = 'Components';
+$lang['transmuted_grade'] = 'Transmuted Grade';
+
+$lang['add_quarter'] = 'Add Quarter';
+$lang['edit_quarter'] = 'Edit Quarter';
+$lang['quarter_list'] = 'Quarter List';
+$lang['add_component'] = 'Add Component';
+$lang['component_list'] = 'Component List';
+$lang['edit_component'] = 'Edit Component';
+$lang['add_transmuted_grade'] = 'Add Transmuted Grade';
+$lang['transmuted_grade_list'] = 'Transmuted Grade List';
+$lang['edit_transmuted_grade'] = 'Edit Transmuted Grade';
+
+$lang['transmute_from'] = 'Transmute From';
+$lang['transmute_to'] = 'Transmute To';
+
 ?>

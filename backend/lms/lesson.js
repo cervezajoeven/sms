@@ -18,6 +18,7 @@ $(document).ready(function(){
     var role = $("#role").val();
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
+
     if(education_level=="tertiary"){
         folder_names = "Introduction,Lesson Proper,Examination";
         folders = "#folder_1,#folder_2,#folder_3";
@@ -29,8 +30,52 @@ $(document).ready(function(){
         },
         "plugins" : [ "checkbox" ]
     });
+    $(".notification_control").hide();
+    $("select").on("click" , function() {
+  
+        $(this).parent(".select-box").toggleClass("open");
+      
+    });
 
-    console.log(folder_names);
+    $(document).mouseup(function (e)
+    {
+        var container = $(".select-box");
+
+        if (container.has(e.target).length === 0)
+        {
+            container.removeClass("open");
+        }
+    });
+
+
+    $("select").on("change" , function() {
+        
+        var selection = $(this).find("option:selected").text(),
+            labelFor = $(this).attr("id"),
+            label = $("[for='" + labelFor + "']");
+            console.log(label);
+            console.log(labelFor);
+            console.log(selection);
+        label.find(".label-desc").html(selection);
+        
+    });
+
+    console.log($("#lesson_type").val());
+    if($("#lesson_type").val()=="classroom"){
+        
+        $(".notification_control").hide();
+    }else{
+
+        $(".notification_control").show();
+
+    }
+
+    $.each($(".select"),function(key,value){
+        var selection = $(this).find("option:selected").text(),
+            labelFor = $(this).attr("id"),
+            label = $("[for='" + labelFor + "']");
+        label.find(".label-desc").html(selection);
+    });
 
     if(assigned){
 
@@ -346,6 +391,7 @@ $(document).ready(function(){
                 case "text":
                     $(".html_content").show();
                     $(".html_content").css("height",screen.height-180);
+                    $(".html_content").css("background-color","#d2cece");
                     view_text.setContents(JSON.parse(unescapeHtml(active_content_data.content.text_value)));
                     var rendered_text = view_text.container.innerHTML;
                     $(rendered_text).find("div[contenteditable*='true']").attr("contenteditable","false");
@@ -480,9 +526,10 @@ $(document).ready(function(){
         var email_notification = $("#email_notification").prop("checked");
         var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
         var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
+        var learing_plan_text = JSON.stringify(learing_plan.getContents());
         start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
         end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
-        console.log(end_date);
+        
         if(email_notification){
             email_notification = "1";
         }else{
@@ -507,11 +554,12 @@ $(document).ready(function(){
             email_notification:email_notification,
             start_date:start_date,
             end_date:end_date,
+            learning_plan:learing_plan_text,
             assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
         };
 
-
+        console.log(lesson_data);
         $.ajax({
             url: update_url,
             method:"POST",
@@ -989,7 +1037,7 @@ $(document).ready(function(){
     $(".title").change(function(){
         change_detected();
     });
-    $(".notification_control").hide();
+    
     $("#lesson_type").change(function(){
 
         var the_val = $(this).val();
@@ -1055,32 +1103,6 @@ $(document).ready(function(){
       }
     }
 
-    $("select").on("click" , function() {
-  
-        $(this).parent(".select-box").toggleClass("open");
-      
-    });
-
-    $(document).mouseup(function (e)
-    {
-        var container = $(".select-box");
-
-        if (container.has(e.target).length === 0)
-        {
-            container.removeClass("open");
-        }
-    });
-
-
-    $("select").on("change" , function() {
-      
-        var selection = $(this).find("option:selected").text(),
-            labelFor = $(this).attr("id"),
-            label = $("[for='" + labelFor + "']");
-        
-        label.find(".label-desc").html(selection);
-        
-    });
     
     var learing_plan = new Quill('#learing_plan_text', {
         theme: 'snow',
@@ -1141,11 +1163,97 @@ $(document).ready(function(){
     });
 });
 
-$('.date_range').daterangepicker({
-    timePicker: true,
-    startDate: moment().startOf('hour'),
-    endDate: moment().startOf('hour').add(24, 'hour'),
-    locale: {
-      format: 'MMMM DD hh:mm A'
+if($(".start_date").val()){
+    $('.date_range').daterangepicker({
+        timePicker: true,
+        startDate: moment($(".start_date").val()),
+        endDate: moment($(".end_date").val()),
+        locale: {
+          format: 'MMMM DD hh:mm A'
+        }
+    });
+}else{
+
+    $('.date_range').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(24, 'hour'),
+        locale: {
+          format: 'MMMM DD hh:mm A'
+        }
+    });
+}
+
+function fetch_chat(){
+
+    var fetch_chat_url = $(url).val()+"fetch_chat";
+    var chat_lesson_id = $(lesson_id).val();
+
+    $.ajax({
+        url: fetch_chat_url,
+        type: "POST",
+        data: {lesson_id:chat_lesson_id},
+   
+        success: function(data)
+        {
+            var chats = JSON.parse(data);
+            var chat_html = '';
+            var user_type = '';
+            $(".dicussion_container").empty();
+            $.each(chats,function(key,value){
+
+                if(value.account_type=="admin"){
+                    user_type = "Teacher";
+                }else{
+                    user_type = "Student";
+                }
+                chat_html = '<div class="chat_container">';
+                chat_html += '<div class="the_chat">';           
+                chat_html += '<span class="user_type">'+user_type+': </span><span class="chat_content">'+value.content+'</span>';           
+                chat_html += '</div>';
+                chat_html += '</div>';
+                // $(chat_clone).find(".chat_content");
+                // $(chat_html).find(".chat_content").text("asdasd");
+                $(".dicussion_container").append(chat_html);
+            });
+
+
+        },
+        error: function(e){
+
+        }
+    });
+
+}
+
+fetch_chat();
+setInterval(function(){
+    fetch_chat();
+},1000);
+function send_chat(student_chat){
+    var chat_url = $(url).val()+"send_chat";
+    if(student_chat){
+        var chat_content = student_chat;
+    }else{
+        var chat_content = $(".chat_text").eq(0).val();
     }
-});
+    
+    var chat_lesson_id = $(lesson_id).val();
+    
+
+    $.ajax({
+        url: chat_url,
+        type: "POST",
+        data: {content:chat_content,lesson_id:chat_lesson_id},
+   
+        success: function(data)
+        {
+           console.log(data);
+           $(".chat_text").val('');
+           fetch_chat();
+        },
+        error: function(e){
+
+        }
+    });
+}

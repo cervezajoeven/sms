@@ -43,7 +43,7 @@
                     </div>
                     <div class="box-body">
                         <div class="mailbox-messages table-responsive">
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th align="left"><?php echo $this->lang->line('category'); ?></th>

@@ -29,7 +29,7 @@
                         </div>
                         <div class="table-responsive mailbox-messages">
                             <div class="download_label"><?php echo $this->lang->line('members'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example" id="members">
+                            <table class="table table-striped table-bordered table-hover example nowrap" id="members">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('member_id'); ?></th>

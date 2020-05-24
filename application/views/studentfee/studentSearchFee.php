@@ -123,7 +123,7 @@ if (isset($student_due_fee)) {
                                 </div>
                             </div>
                             <div class="download_label"><?php echo $this->lang->line('student_lists'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
 

@@ -108,7 +108,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             <div class="tab-content">
                                 <div class="tab-pane active table-responsive" id="tab_parent">
                                     <div class="download_label"><?php echo $this->lang->line('payroll'); ?> <?php echo $this->lang->line('report_for')."<br>"; $this->customlib->get_postmessage(); ?></div>
-                                    <table class="table table-striped table-bordered table-hover example table-fixed-header">
+                                    <table class="table table-striped table-bordered table-hover example nowrap table-fixed-header">
                                         <thead class="header">
                                             <tr>
 

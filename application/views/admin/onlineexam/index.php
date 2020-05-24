@@ -24,7 +24,7 @@ $language_name = $language["short_code"];
                         <div class="mailbox-messages">
                             <div class="download_label"><?php ?> <?php echo $this->lang->line('online') . " " . $this->lang->line('exam') . " " . $this->lang->line('list'); ?></div>
                             <div class="table-responsive">
-                             <table class="table table-striped table-bordered table-hover example">
+                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
 

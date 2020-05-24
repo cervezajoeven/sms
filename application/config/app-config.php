@@ -7,7 +7,7 @@ if (!defined('BASEPATH')) {
 }
 
 $config['adm_digit_length'] = 6;
-$config['exam_type']        = array(
+$config['exam_type'] = array(
     'basic_system'        => lang('basic_system'),
     'school_grade_system' => lang('school_grade_system'),
     'coll_grade_system'   => lang('coll_grade_system'),
@@ -34,9 +34,11 @@ $config['file_validate'] = array(
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/x-zip-compressed',
+        'application/zip',
+        'application/octet-stream',
         'image/jpeg',
         'image/jpg',
         'image/png'), //mime_type
-    'allowed_extension' => array('zip', 'pdf', 'doc', 'xls', 'docx', 'xlsx','jpg', 'jpeg', 'png','gif','bmp','svg', 'ZIP', 'PDF', 'DOC', 'XLS', 'DOCX', 'XLSX','JPG', 'JPEG', 'PNG','GIF','BMP','SVG','Pdf','Zip', 'Doc', 'Xls', 'Docx', 'Xlsx','Jpg', 'Jpeg', 'Png','Gif','Bmp','Svg'), // image extensions
-    'upload_size'       => 524285, //1048576, // bytes
+    'allowed_extension' => array('zip','pdf','doc','xls','ppt','docx','xlsx','pptx','jpg','jpeg','png','gif','bmp','svg','ZIP','PDF','DOC','XLS','PPT','DOCX','XLSX','PPTX','JPG','JPEG','PNG','GIF','BMP','SVG','Pdf','Zip','Doc','Ppt','Xls','Docx','Xlsx','Pptx','Jpg','Jpeg','Png','Gif','Bmp','Svg'), // image extensions
+    'upload_size'       => 3145728, //1048576, // bytes
 );

@@ -14,7 +14,7 @@
                     </div>
                     <div class="box-body table-responsive">
                         <div class="download_label"><?php echo $this->lang->line('exam_schedule'); ?></div>
-                        <table class="table table-striped table-bordered table-hover example">
+                        <table class="table table-striped table-bordered table-hover example nowrap">
                             <thead>
                                 <tr>
                                     <th style="width: 30px">#</th>

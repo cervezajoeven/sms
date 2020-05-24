@@ -19,7 +19,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                     <div class="box-body">
                         <div class="table-responsive mailbox-messages">
                             <div class="download_label"><?php echo $this->lang->line('library_book'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('book_title'); ?></th>

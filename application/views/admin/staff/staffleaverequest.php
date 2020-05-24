@@ -23,7 +23,7 @@
                             <div class="col-md-12">
                                 <div class="tab-pane active table-responsive no-padding">
                                     <div class="download_label"><?php echo $this->lang->line('approve_leave_request'); ?></div>
-                                    <table class="table table-striped table-bordered table-hover example">
+                                    <table class="table table-striped table-bordered table-hover example nowrap">
                                         <thead>
 
                                         <th><?php echo $this->lang->line('staff'); ?></th>

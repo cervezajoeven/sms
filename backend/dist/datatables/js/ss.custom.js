@@ -1,14 +1,13 @@
 $(document).ready(function () {
         var table = $('.example').DataTable({
-            "aaSorting": [],
-           
+            "aaSorting": [],           
             rowReorder: {
-            selector: 'td:nth-child(2)'
+                selector: 'td:nth-child(2)'
             },
+            pageLength: 50,
             //responsive: 'false',
             dom: "Bfrtip",
             buttons: [
-
                 {
                     extend: 'copyHtml5',
                     text: '<i class="fa fa-files-o"></i>',

@@ -88,7 +88,7 @@ if (($this->rbac->hasPrivilege('department', 'can_add')) || ($this->rbac->hasPri
                         </div>
                         <div class="table-responsive mailbox-messages">
                             <div class="download_label"><?php echo $this->lang->line('department'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
 

@@ -163,7 +163,7 @@ $language_name = $language["short_code"];
                         </div>
                         <div class="table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('student_fees') . ": " . $student['firstname'] . " " . $student['lastname'] ?> </div>
-                            <table class="table table-striped table-bordered table-hover example table-fixed-header">
+                            <table class="table table-striped table-bordered table-hover example nowrap table-fixed-header">
                                 <thead class="header">
                                     <tr>
                                         <th style="width: 10px"><input type="checkbox" id="select_all"/></th>

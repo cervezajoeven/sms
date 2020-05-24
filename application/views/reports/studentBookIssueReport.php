@@ -150,7 +150,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="box-body table-responsive">
                  <div class="download_label"><?php echo $this->lang->line('student')." ".$this->lang->line('book')." ".$this->lang->line('issue')." ".$this->lang->line('report')." ".$this->lang->line('from')."<br>";$this->customlib->get_postmessage(); ?> </div>
-                    <table class="table table-striped table-bordered table-hover example">
+                    <table class="table table-striped table-bordered table-hover example nowrap">
                        <thead>
                                         <tr>
 

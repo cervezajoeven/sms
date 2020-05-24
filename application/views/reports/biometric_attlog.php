@@ -141,7 +141,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         </div>
                         <div class="box-body table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('biometric') . " " . $this->lang->line('attendance') . " " . $this->lang->line('log'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <?php if (!$adm_auto_insert) { ?>

@@ -245,7 +245,7 @@
 								$i = 0;
 
 								foreach($respond as $resp) {
-									if ($resp->type != "long_answer" && $resp->type != "short_answer") {
+									if ($resp->type != "long_answer" && $resp->type != "short_answer" && $resp->type != "section") {
 										print('<div class="w3-panel w3-card-2 question_container">');
 										print('<div class="radio">');
 										printf('<label class="sort_number" style="font-size: 1.5em">%s</label>', $i+1);

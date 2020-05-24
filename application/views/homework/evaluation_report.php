@@ -9,7 +9,7 @@
         <form id="evaluation_data" method="post" class="ptt10" style="min-height: 500px;">
             <div class="download_label"><?php echo "Homework Evaluation Report " . $result[0]["class"] . "(" . $result[0]["section"] . ")  " . $result[0]["name"]; ?></div>
             <div class="table-responsive mailbox-messages">
-                <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%" id="modaltable">
+                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%" id="modaltable">
                     <thead> 
                         <tr>
                             <th><?php echo $this->lang->line("admission_no") ?></th>

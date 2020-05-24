@@ -93,6 +93,8 @@ class Onlinestudent extends Admin_Controller
         $data['hostelList']         = $hostelList;
         $houses                     = $this->houselist_model->get();
         $data['houses']             = $houses;
+        $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
+        $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
 
         $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');

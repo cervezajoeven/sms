@@ -32,7 +32,7 @@
                         </div>
                         <div class="table-responsive mailbox-messages">
                             <div class="download_label"><?php echo $this->lang->line('book')." ".$this->lang->line('issue_return')." ".$this->lang->line('report'); ?></div>
-                              <table class="table table-striped table-bordered table-hover example">
+                              <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
 

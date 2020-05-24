@@ -89,7 +89,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             <div class="box-body table-responsive">
                                 <div class="download_label"><?php echo $title; ?></div>
                                 <div class="tab-pane active table-responsive no-padding" id="tab_1">
-                                    <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                                    <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
 												

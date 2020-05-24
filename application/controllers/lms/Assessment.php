@@ -48,7 +48,7 @@ class Assessment extends General_Controller {
         $data['assessment'] = $this->assessment_model->lms_get('lms_assessment',$assessment_id,"id")[0];
 
         $query = $this->db
-        ->select("*")
+        ->select("*,lms_a.id as id")
         ->from("lms_assessment AS lms_a")
         ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
         ->join("lms_assessment_sheets AS lms_as","lms_as.account_id = s.id","left")
@@ -59,7 +59,9 @@ class Assessment extends General_Controller {
         ->where("lms_a.id", $assessment_id)
         ->get();
         $students = $query->result_array();
-
+        // echo "<pre>";
+        // print_r($students);
+        // exit;
         $data['students'] = $students;
 
         if($data['role']=='admin'){
@@ -277,19 +279,23 @@ class Assessment extends General_Controller {
         $data['id'] = $_REQUEST['id'];
         $data['sheet'] = $_REQUEST['sheet'];
         $data['assigned'] = $_REQUEST['assigned'];
-        // $data['duration'] = $_REQUEST['duration'];
-        // $data['percentage'] = $_REQUEST['percentage'];
-        // $data['attempts'] = $_REQUEST['attempts'];
+        $data['duration'] = $_REQUEST['duration'];
+        $data['percentage'] = $_REQUEST['percentage'];
+        $data['attempts'] = $_REQUEST['attempts'];
+        $data['start_date'] = $_REQUEST['start_date'];
+        $data['end_date'] = $_REQUEST['end_date'];
         $sheet = (array)json_decode($data['sheet']);
-        print_r($_REQUEST);
+
         $total_score = 0;
         //convert to array
         foreach ($sheet as $answer_key => $answer_value) {
-            $sheet[$answer_key] = (array)$answer_value;
-            $total_score +=1;
+            if($answer_value->type!="section"){
+                $sheet[$answer_key] = (array)$answer_value;
+                $total_score +=1;
+            }
+            
         }
         //convert to array
-        
         $data['total_score'] = $total_score;
         $this->assessment_model->lms_update("lms_assessment",$data);
     }

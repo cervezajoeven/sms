@@ -94,15 +94,46 @@ function populate_key(option_type,data={}){
 			option_clone.find(".option_type").find("textarea").css("width","100%");
 			$(".sortable").append(option_clone);
 		break;
+		case "section":
+			
+			option_clone.removeClass("option-container-clonable");
+			option_clone.addClass("option-container-actual");
+			option_clone.addClass("option-container-section");
+			option_clone.addClass("section");
+			option_clone.show();
+			option_clone.attr("option_type","section");
+			option_clone.css("background-color","rgb(251, 210, 127)");
+			option_clone.find(".option_type").empty();
+			option_clone.find(".add_option").remove();
+			option_clone.find(".option_label_input").find("input").remove();
+			option_clone.find(".remove_choice").remove();
+			option_clone.find(".option_type").html('<textarea class="form-control"></textarea>');
+			
+			option_clone.find(".option_type").find("textarea").css("width","100%");
+			$(".sortable").append(option_clone);
+		break;
 	}
 }
 
 function renumbering(){
 	var total_number = $(".option-container-actual");
+	var total_section = $(".option-container-section");
+	var section_number = 1;
+	var option_number = 1;
 	$.each(total_number,function(key,value){
-		$(value).find(".numbering_option").text(key+1);
-		$(value).find(".option_type").find("input").attr("name","option_"+key+1);
+
+		if($(value).hasClass('option-container-section')){
+			$(value).find(".numbering_option").text("Section "+section_number);
+			section_number++;
+			option_number = 0;
+		}else{
+			$(value).find(".numbering_option").text("No. "+option_number);
+			$(value).find(".option_type").find("input").attr("name","option_"+section_number+"_"+(option_number));
+		}
+		
+		option_number++;
 	});
+	
 }
 $(document).ready(function(){
 	
@@ -125,6 +156,9 @@ $(document).ready(function(){
 				
 				// console.log(value);
 			}
+			if(value.type=="section"){
+				$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
+			}
 			$.each(value.option_labels.split(","),function(split_key,split_value){
 				
 				var last_option = $(".option-container-actual").eq(key).find(".option").length;
@@ -132,7 +166,9 @@ $(document).ready(function(){
 				$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
 
 			});
-			if(value.type!="long_answer"){
+
+			if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+
 				$.each(value.correct.split(","),function(correct_key,correct_value){
 
 					if(value.type=="multiple_choice"||value.type=="multiple_answer"){
@@ -156,7 +192,6 @@ $(document).ready(function(){
 				
 			});
 			$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
-
 
 			
 		});
@@ -216,6 +251,15 @@ $(".true_save").click(function(){
 				"correct": short_answer_val.join(","),
 				"option_labels":"",
 			};
+		}else if(the_option_type=="section"){
+			
+			var instruction = $(value).find(".option").find("textarea").eq(0).val();
+
+			option_json = {
+				"type":the_option_type,
+				"correct": instruction,
+				"option_labels":"",
+			};
 		}else{
 			option_json = {
 				"type":the_option_type,
@@ -223,7 +267,7 @@ $(".true_save").click(function(){
 			};
 		}
 		json.push(option_json);
-
+		console.log(json);
 		
 
 	});
@@ -238,6 +282,13 @@ $(".true_save").click(function(){
 		}
 	});
 
+	attempts = $(".attempts").val();
+	duration = $(".duration").val();
+	percentage = $(".percentage").val();
+	start_date = $(".date_range").data('daterangepicker').startDate.toDate();
+	end_date = $(".date_range").data('daterangepicker').endDate.toDate();
+	start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
+    end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
 	final_json = {
 		id:$("#assessment_id").val(),
 		sheet:JSON.stringify(json),
@@ -285,3 +336,24 @@ $('.date_range').daterangepicker({
 	  format: 'MMMM DD hh:mm A'
 	}
 });
+
+if($(".start_date").val()){
+    $('.date_range').daterangepicker({
+        timePicker: true,
+        startDate: moment($(".start_date").val()),
+        endDate: moment($(".end_date").val()),
+        locale: {
+          format: 'MMMM DD hh:mm A'
+        }
+    });
+}else{
+
+    $('.date_range').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(24, 'hour'),
+        locale: {
+          format: 'MMMM DD hh:mm A'
+        }
+    });
+}

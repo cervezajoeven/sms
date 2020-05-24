@@ -583,18 +583,11 @@
             }
 
             if ($this->module_lib->hasActive('communicate')) {
-                if (($this->rbac->hasPrivilege('notice_board', 'can_view') ||
-                        $this->rbac->hasPrivilege('email', 'can_view') ||
-                        $this->rbac->hasPrivilege('sms', 'can_view') ||
-                        $this->rbac->hasPrivilege('email_sms_log', 'can_view'))) {
-                    ?>
+                if (($this->rbac->hasPrivilege('notice_board', 'can_view') || $this->rbac->hasPrivilege('email', 'can_view') ||
+                     $this->rbac->hasPrivilege('sms', 'can_view') ||  $this->rbac->hasPrivilege('email_sms_log', 'can_view'))) { ?>
                     <li class = "treeview <?php echo set_Topmenu('Communicate'); ?>">
-                        <a href = "#">
-                            <i class="fa fa-bullhorn ftlayer"></i> <span><?php echo $this->lang->line('communicate');
-                    ?></span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            
+                        <a href = "#"><i class="fa fa-bullhorn ftlayer"></i> <span><?php echo $this->lang->line('communicate'); ?></span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">                            
                             <?php
                             if ($this->rbac->hasPrivilege('notice_board', 'can_view')) {
                                 ?>
@@ -616,6 +609,8 @@
                                 ?>
                                 <li class="<?php echo set_Submenu('mailsms/index'); ?>"><a href="<?php echo base_url(); ?>admin/mailsms/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('email_/_sms_log'); ?></a></li>
                             <?php } ?>
+
+                            <li class="<?php echo set_Submenu('Communicate/senddocs'); ?>"><a href="<?php echo base_url(); ?>student/SendDocs"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('senddocs'); ?></a></li>
                         </ul>
                     </li>
                     <?php
@@ -655,7 +650,7 @@
                             <?php if ($this->rbac->hasPrivilege('upload_content', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('admin/content'); ?>"><a href="<?php echo base_url(); ?>admin/content"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('upload_content'); ?></a></li>
                             <?php } ?>
-                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assignments'); ?></a></li>
+                            <!-- <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assignments'); ?></a></li> -->
                             <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>admin/content/studymaterial"><i class="fa fa-angle-double-right"></i> Module/Activities</a></li>
                             <li class="<?php echo set_Submenu('content/syllabus'); ?>"><a href="<?php echo base_url(); ?>admin/content/syllabus"><i class="fa fa-angle-double-right"></i> Learning Plan</a></li>
                             <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>admin/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li>

@@ -15,8 +15,8 @@
         <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
 
         <style type="text/css">
             .ql-snow{
@@ -123,30 +123,49 @@
                         
                     </div>
                     <div class="folders_container">
-                        <div class="folder folder_active">
+                        <?php if($lesson['education_level']=='tertiary'): ?>
+                          <div class="folder folder_active" style="width: 33.33%">
+                              <!-- <input type="text" placeholder="Engage" value="Engage" name=""> -->
+                              <span>Introduction</span>
+                          </div>
+                          <div class="folder" style="width: 33.33%">
+                              <!-- <input type="text" placeholder="Explore" value="Explore" name=""> -->
+                              <span>Lesson Proper</span>
+                          </div>
+                          <div class="folder" style="width: 33.33%">
+                              <!-- <input type="text" placeholder="Explain" value="Explain" name=""> -->
+                              <span>Examination</span>
+                          </div>
+                         
+                        <?php else: ?>
+                          <div class="folder folder_active">
                             <!-- <input type="text" placeholder="Engage" value="Engage" name=""> -->
                             <span>Engage</span>
-                        </div>
-                        <div class="folder">
-                            <!-- <input type="text" placeholder="Explore" value="Explore" name=""> -->
-                            <span>Explore</span>
-                        </div>
-                        <div class="folder">
-                            <!-- <input type="text" placeholder="Explain" value="Explain" name=""> -->
-                            <span>Explain</span>
-                        </div>
-                        <div class="folder">
-                            <!-- <input type="text" placeholder="Extend" value="Extend" name=""> -->
-                            <span>Extend</span>
-                        </div>
-                        <div class="folder">
-                            <!-- <input type="text" placeholder="Extend" value="Extend" name=""> -->
-                            <span>Evaluation</span>
-                        </div>
-                        <!-- <div class="folder">
-                            <input type="text" placeholder="LAS" value="LAS" name="">
-                            <span>Modules</span>
-                        </div> -->
+                          </div>
+                          <div class="folder">
+                              <!-- <input type="text" placeholder="Explore" value="Explore" name=""> -->
+                              <span>Explore</span>
+                          </div>
+                          <div class="folder">
+                              <!-- <input type="text" placeholder="Explain" value="Explain" name=""> -->
+                              <span>Explain</span>
+                          </div>
+                          <div class="folder">
+                              <!-- <input type="text" placeholder="Extend" value="Extend" name=""> -->
+                              <span>Extend</span>
+                          </div>
+                          <div class="folder">
+                              <!-- <input type="text" placeholder="Extend" value="Extend" name=""> -->
+                              <span>Evaluation</span>
+                          </div>
+                          <!-- <div class="folder">
+                              <input type="text" placeholder="LAS" value="LAS" name="">
+                              <span>Modules</span>
+                          </div> -->
+
+
+                        <?php endif; ?>
+                        
                     </div>
                     
                 </div>
@@ -281,18 +300,18 @@
                         <div class="col-lg-6">
 
                             <h3>Assign Date</h3>
-                            
+                            <input type="hidden" name="" value="<?php echo $lesson['start_date'] ?>" class="start_date">
+                            <input type="hidden" name="" value="<?php echo $lesson['end_date'] ?>" class="end_date">
                             <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
                             <h3>Lesson Type</h3>
-
                             <div class="select-box">
-    
-                                <label for="select-box1" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
+            
+                                <label for="lesson_type" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
                                 <select id="lesson_type" class="select">
-                                    <option value="classroom">Classroom Use</option>
-                                    <option value="reviewer">Reviewer</option>
-                                    <option value="assignment">Assignment</option>
-                                    <option value="virtual">Virtual Class</option>
+                                    <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
+                                    <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
+                                    <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
+                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
                                 </select>
                                 
                               </div>
@@ -306,10 +325,10 @@
                                       <label>SMS Notification</label>
                                   </div>
                               </div> -->
-                            
-                            
+
                               <div class="pretty p-switch p-fill">
-                                  <input type="checkbox" id="email_notification" />
+                                
+                                  <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> />
                                   <div class="state p-primary">
                                       <label>Email Notification</label>
                                   </div>
@@ -333,7 +352,16 @@
 
                     <div class="slider_container">
                     
-                        <h2>Discuss with Students</h2>
+                        <h2>Discussion Board</h2>
+                        <div class="dicussion_container teacher_chat_container">
+
+                          
+                          
+                        </div>
+                        <div class="chat_discussion" style="position: relative;">
+                          <input type="text" class="chat_text" name="" style="bottom: 0;">
+                          <button class="chat_submit" onclick="send_chat()">Send</button>
+                        </div>
                     </div>
                 </div>
                 <div id="" class="slider close settings_slider">
@@ -362,10 +390,10 @@
                             <button id="assign" class="trigger action_button assign_action"><i class="fas fa-chalkboard-teacher"></i>Assign</button>
                         </div>
                         <div class="actions">
-                            <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Save</button>
+                            <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Discussion</button>
                         </div>
                         <div class="actions">
-                            <!-- <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button> -->
+                            <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button>
                         </div>
                     </div>
                     
@@ -513,7 +541,15 @@
                 
                 <div class="student_view_navigation">
                     <div class="student_view_buttons close_action close_student_view"><i class="fas fa-times-circle"></i> Close Slideshow</div>
-                    
+                    <div class="dicussion_container student_chat_container" style="width: 100%">
+
+                          adasdas
+                          
+                    </div>
+                    <div class="chat_discussion" style="position: relative;">
+                      <input type="text" class="chat_text student_chat" name="" style="bottom: 0;">
+                      <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
+                    </div>
                 
                 </div>
             </div>

@@ -272,12 +272,11 @@ class User extends Student_Controller
         $this->load->view('student/getfees', $data);
         $this->load->view('layout/student/footer', $data);
     }
- 
+
     public function create_doc()
     {
-
-          $this->form_validation->set_rules('first_title', $this->lang->line('title'), 'trim|required|xss_clean');
-          $this->form_validation->set_rules('first_doc', $this->lang->line('document'), 'callback_handle_upload');
+        $this->form_validation->set_rules('first_title', $this->lang->line('title'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('first_doc', $this->lang->line('document'), 'callback_handle_uploadcreate_doc');
 
         if ($this->form_validation->run() == false) {
             $msg = array(
@@ -285,37 +284,76 @@ class User extends Student_Controller
                 'first_doc'              => form_error('first_doc')              
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
-        } else {
+        } 
+        else {
             $student_id = $this->input->post('student_id');
-        if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
-            $uploaddir = './uploads/student_documents/' . $student_id . '/';
-            if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
-                die("Error creating folder $uploaddir");
+            if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+                $uploaddir = './uploads/student_documents/' . $student_id . '/';
+                if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                    die("Error creating folder $uploaddir");
+                }
+                
+                $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
+                $first_title = $this->input->post('first_title');
+                $file_name   = $_FILES['first_doc']['name'];
+                $exp         = explode(' ', $file_name);
+                $imp         = implode('_', $exp);
+                $img_name    = $uploaddir . basename($imp);
+                move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
+                $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
+                $this->student_model->adddoc($data_img);
+
             }
-            
-            $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
-            $first_title = $this->input->post('first_title');
-            $file_name   = $_FILES['first_doc']['name'];
-            $exp         = explode(' ', $file_name);
-            $imp         = implode('_', $exp);
-            $img_name    = $uploaddir . basename($imp);
-            move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
-            $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
-            $this->student_model->adddoc($data_img);
 
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
         }
 
-       $msg   = $this->lang->line('success_message');
-            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
-        
-        }
         echo json_encode($array);
+    }
 
-        
+    public function handle_uploadcreate_doc()
+    {
+        $image_validate = $this->config->item('file_validate');
+      
+        if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+            $file_type         = $_FILES["first_doc"]['type'];
+            $file_size         = $_FILES["first_doc"]["size"];
+            $file_name         = $_FILES["first_doc"]["name"];
 
-        
-    } 
-public function handle_upload()
+            $allowed_extension = $image_validate['allowed_extension'];
+            $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+            $allowed_mime_type = $image_validate['allowed_mime_type'];
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mtype = finfo_file($finfo, $_FILES['first_doc']['tmp_name']);
+            finfo_close($finfo);
+
+                if (!in_array($mtype, $allowed_mime_type)) {
+                    $this->form_validation->set_message('handle_uploadcreate_doc', 'File Type Not Allowed');
+                    return false;
+                }
+
+                if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
+                    $this->form_validation->set_message('handle_uploadcreate_doc', 'Extension Not Allowed');
+                    return false;
+                }
+                if ($file_size > $image_validate['upload_size']) {
+                    $this->form_validation->set_message('handle_uploadcreate_doc', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                    return false;
+                }     
+
+            return true;
+        }
+        else
+        {
+            $this->form_validation->set_message('handle_uploadcreate_doc', "The File Field is required");
+            return false;
+        }
+
+        return true;
+    }
+
+    public function handle_upload()    
     {
 
         $image_validate = $this->config->item('file_validate');

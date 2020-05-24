@@ -39,7 +39,7 @@
                                 <?php echo $this->session->flashdata('msg') ?>
                             <?php } ?>
 
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('title'); ?></th>

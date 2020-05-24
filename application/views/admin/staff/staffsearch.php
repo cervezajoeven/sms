@@ -102,7 +102,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <div class="tab-content">
                             <div class="download_label"><?php echo $title; ?></div>
                             <div class="tab-pane table-responsive no-padding" id="tab_2">
-                                <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th><?php echo $this->lang->line('staff_id'); ?></th>

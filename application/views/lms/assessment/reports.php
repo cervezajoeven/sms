@@ -28,7 +28,7 @@
                         </div>
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -60,9 +60,10 @@
                                             </td>
                                             <td>
                                                 <?php echo round(($list_data['score']/$list_data['total_score'])*100) ?>%
+                                                <?php $current_percentage = round(($list_data['score']/$list_data['total_score'])*100) ?>
                                             </td>
                                             <td>
-                                                Pass/Fail
+                                                <?php echo ($current_percentage>=$assessment['percentage'])?"Pass":"Fail"; ?>
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
@@ -134,7 +135,7 @@
                                 </tr>
                                 <tr>
                                     <th>Passing Percentage</th>
-                                    <td><?php echo $assessment['passing']?>%</td>
+                                    <td><?php echo $assessment['percentage']?>%</td>
                                 </tr>
                                 <tr>
                                     <th>Analysis Report</th>

@@ -70,7 +70,7 @@
                     <div class="tab-content">
                         <div class="tab-pane active table-responsive" id="tab_student">
                             <div class="download_label"><?php echo $this->lang->line('users'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                            <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('name'); ?></th>
@@ -418,7 +418,7 @@
                         </div>
 						<div class="tab-pane table-responsive" id="tab_parent">
                             <div class="download_label"><?php echo $this->lang->line('users'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example" cellspacing="0" width="100%">
+                            <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                 <thead>
 									<tr>
                                         <th><?php echo $this->lang->line('name'); ?></th>

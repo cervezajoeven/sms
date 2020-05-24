@@ -954,7 +954,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                 
                                 <div class="table-responsive" style="clear: both;">
                                     <div class="download_label"><?php echo $this->lang->line('details_for'); ?> <?php echo $staff["name"] . " " . $staff["surname"]; ?></div>
-                                    <table class="table table-striped table-bordered table-hover example">
+                                    <table class="table table-striped table-bordered table-hover example nowrap">
                                         <thead>
                                             <tr>
 
@@ -1025,7 +1025,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             <div class="timeline-header no-border">
                                 <div class="download_label"><?php echo $this->lang->line('details_for'); ?> <?php echo $staff["name"] . " " . $staff["surname"]; ?></div>
                                 <div class="table-responsive" style="clear: both;">
-                                    <table class="table table-striped table-bordered table-hover example">
+                                    <table class="table table-striped table-bordered table-hover example nowrap">
                                         <thead>
                                         <th><?php echo $this->lang->line('leave_type'); ?></th>
                                         <th><?php echo $this->lang->line('leave'); ?> <?php echo $this->lang->line('date'); ?></th>

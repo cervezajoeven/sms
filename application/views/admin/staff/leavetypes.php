@@ -86,7 +86,7 @@ if ($this->rbac->hasPrivilege('leave_types', 'can_add')) {
                         </div>
                         <div class="table-responsive mailbox-messages">
                             <div class="download_label"><?php echo $this->lang->line('leave_type')." ".$this->lang->line('list'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
 

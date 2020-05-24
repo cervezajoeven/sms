@@ -54,7 +54,9 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
                                     <select autofocus="" id="" name="education_level" placeholder="" type="text" class="form-control">
-                                        <option value="elementary">Elementary</option>
+                                        <option value="grade_school">Grade School</option>
+                                        <option value="junior">Junior Highschool</option>
+                                        <option value="senior">Senior Highschool</option>
                                         <option value="tertiary">Tertiary</option>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
@@ -96,7 +98,7 @@
                         </div>
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th>Title</th>
@@ -118,7 +120,7 @@
                                                 <?php echo $list_data['lesson_name']?>
                                             </td>
                                             <td class="mailbox-name">
-                                                
+                                                <?php echo $list_data['lesson_type']?>
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
