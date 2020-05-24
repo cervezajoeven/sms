@@ -928,9 +928,12 @@ $lang['account_id'] = "Account ID";
 $lang['account_type'] = "Account Type";
 $lang['active'] = "Active";
 $lang['address_phone_email'] = "Address/Phone/Email";
-$lang['admission_form_disable_please_contact_to_administrator'] = "Dear Students and Parents,<BR><BR> We would like to inform you that we are having a system upgrade at the backend of our system.<BR> For now, we will disable the online admission feature until further notice.<BR><BR>
-We suggest you to please don't make any changes or avoid inserting of new data inside the system.<BR> You will notice that ang latest data in the system is May 18 (part of the upgrade) but we will<BR> put it back to normal after the upgrade.<BR><BR>
-Thank you!";
+$lang['admission_form_disable_please_contact_to_administrator'] = "Good Day Sophians!<BR><BR>
+We would like to inform you that we are having a system upgrade at the backend of our system.<BR><BR>For now, we will disable the online admission feature until further notice.<BR><BR>
+Reminder:<BR>
+Please do not make any changes or inserting of new data inside the system.<BR><BR>
+Thank you!<BR>
+CloudPH Admin";
 $lang['admission_in_this_duration'] = " Total Admission in this duration";
 $lang['admission_no'] = 'Admission No';
 $lang['admission_no_digit'] = "Admission No Digit";
