@@ -76,12 +76,19 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
+$exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs","rcamesolgms");
 
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = '';
-  	$database = 'campus_sophiameycauayan';
-}else{
+  	$database = 'campus_sms';
+}else if(in_array($database_name, $exceptions)){
+
+  	$username = 'joeven';
+  	$password = 'joeven241';
+  	$database = 'cms_'.$database_name;
+}
+else{
 
   	$username = 'joeven';
   	$password = 'joeven241';
