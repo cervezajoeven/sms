@@ -77,7 +77,10 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs","rcamesolgms","solls");
-
+echo '<pre>';
+print_r($exceptions);
+print_r(in_array($database_name, $exceptions));
+exit();
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = '';
@@ -95,6 +98,7 @@ else{
   	$database = 'campus_'.$database_name;
 }
 
+exit();
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
