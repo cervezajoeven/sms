@@ -29,6 +29,8 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 if($HTTP_HOST=="localhost"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/sms';
+}elseif($HTTP_HOST=="stepsmandaluyong.com"){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/cms';
 }else{
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/';
 }
