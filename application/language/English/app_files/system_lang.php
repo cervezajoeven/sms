@@ -934,6 +934,7 @@ Reminder:<BR>
 Please do not make any changes or inserting of new data inside the system.<BR><BR>
 Thank you!<BR>
 CloudPH Admin";
+
 $lang['admission_in_this_duration'] = " Total Admission in this duration";
 $lang['admission_no'] = 'Admission No';
 $lang['admission_no_digit'] = "Admission No Digit";
