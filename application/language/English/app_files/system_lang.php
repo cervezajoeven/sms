@@ -1472,8 +1472,8 @@ $lang['doctitle'] = "Document Title";
 
 $lang['study_material'] = 'Modules/Activities';
 $lang['study_material_list'] = 'Modules/Activities List';
-$lang['syllabus'] = 'Learning Plan';
-$lang['syllabus_list'] = 'Learning Plan List';
+$lang['syllabus'] = 'DepEd Competencies';
+$lang['syllabus_list'] = 'DepEd Competencies List';
 $lang['upload_content'] = 'Upload Documents';
 
 $lang['class_record'] = 'Class Record';

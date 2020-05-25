@@ -197,7 +197,7 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
-                    <h2>Learning Plan 5E's</h2>
+                    <h2>Learning Plan</h2>
                     <div class="slider_container">
                         <div id="learing_plan_text">
                           <p><strong>Engage</strong></p>
@@ -253,7 +253,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="" class="slider close objective_slider">
+                <!-- <div id="" class="slider close objective_slider">
                     <div class="slider_container">
                         <h2>Objective</h2>
                         <div id="objective_text">
@@ -261,7 +261,7 @@
                           
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
                         <div class="col-lg-6">
@@ -359,7 +359,7 @@
                           
                         </div>
                         <div class="chat_discussion" style="position: relative;">
-                          <input type="text" class="chat_text" name="" style="bottom: 0;">
+                          <textarea class="chat_text" style="bottom: 0;"></textarea>
                           <button class="chat_submit" onclick="send_chat()">Send</button>
                         </div>
                     </div>
@@ -380,9 +380,9 @@
                         <div class="actions">
                             <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>LP 5E's</button>
                         </div>
-                        <div class="actions">
+                        <!-- <div class="actions">
                             <button id="objective" class="trigger action_button"><i class="fas fa-bullseye"></i>Objective</button>
-                        </div>
+                        </div> -->
                         <div class="actions">
                             <button id="slideshow" class="action_button slideshow_action"><i class="fas fa-video"></i>Slideshow</button>
                         </div>
@@ -547,7 +547,7 @@
                           
                     </div>
                     <div class="chat_discussion" style="position: relative;">
-                      <input type="text" class="chat_text student_chat" name="" style="bottom: 0;">
+                      <textarea class="chat_text student_chat" name="" style="bottom: 0;"></textarea>
                       <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
                     </div>
                 
