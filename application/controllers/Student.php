@@ -1070,7 +1070,6 @@ class Student extends Admin_Controller
                     if (!empty($result)) {
                         $rowcount = 0;
                         for ($i = 1; $i <= count($result); $i++) {
-
                             $student_data[$i] = array();
                             $n                = 0;
                             foreach ($result[$i] as $key => $value) {
@@ -1156,8 +1155,8 @@ class Student extends Admin_Controller
 
                                 if (!empty($email)) 
                                 {
-                                    $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
-                                    $this->mailsmsconf->mailsms('student_admission', $sender_details);
+                                    // $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
+                                    // $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
                                     $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
                                     $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
