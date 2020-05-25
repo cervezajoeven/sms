@@ -76,8 +76,9 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
-$exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs","rcamesolgms","solls");
-
+$exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs","rcamesolgms","solls","rcamessjbcs");
+print_r($HTTP_HOST);
+exit();
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = '';
