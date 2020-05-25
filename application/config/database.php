@@ -77,8 +77,7 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs","rcamesolgms","solls","rcamessjbcs");
-print_r($HTTP_HOST);
-exit();
+
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = '';
@@ -88,8 +87,12 @@ if($HTTP_HOST=="localhost"){
   	$username = 'joeven';
   	$password = 'joeven241';
   	$database = 'cms_'.$database_name;
-}
-else{
+}else if($HTTP_HOST=="stepsmandaluyong.com"){
+
+  	$username = 'joeven';
+  	$password = 'joeven241';
+  	$database = 'stepsmandaluyong';
+}else{
 
   	$username = 'joeven';
   	$password = 'joeven241';
