@@ -1080,8 +1080,15 @@ class Student extends Admin_Controller
                             }
 
                             $last_student         = $this->student_model->lastRecordByAdmissionNo();
-                            $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
-                            $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
+
+                            if (!empty($last_student))
+                            {
+                                $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
+                                $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
+                            }
+                            else
+                                $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
+                            
                             // var_dump($admission_no);die;
                             
                             $roll_no                           = $student_data[$i]["roll_no"];
