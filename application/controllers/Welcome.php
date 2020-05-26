@@ -241,9 +241,15 @@ class Welcome extends Front_Controller
             {
                 $this->form_validation->set_rules('studentidnumber', $this->lang->line('required'), 'trim|required|xss_clean');
                 $classname = strtolower($this->input->post('classname'));
+
+                // var_dump($classname);
+                // echo(strpos($classname, 'nursery'));
+                // echo(strpos($classname, 'kinder'));
+                // echo(strpos($classname, 'grade 1'));
+                // die;
                 
-                if (!(strpos($classname, 'nursery') > 0 || strpos($classname, 'kinder') > 0 || strpos($classname, 'grade 1') > 0))
-                    $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
+                // if (strpos($classname, 'nursery') !== 0) // && strpos($classname, 'kinder') == false && strpos($classname, 'grade 1') == false)
+                    // $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
             }
             else 
             {
