@@ -27,9 +27,9 @@ class Mailsmsconf
 
     public function mailsms($send_for, $sender_details, $date = null, $exam_schedule_array = null)
     {
-        $send_for = $this->config_mailsms[$send_for];
-        var_dump($send_for);die;
-//=========
+        // $send_for = $this->config_mailsms[$send_for];
+        // var_dump($send_for);die;
+        //=========
         $chk_mail_sms = $this->CI->customlib->sendMailSMS($send_for);
 
         if (!empty($chk_mail_sms)) {
