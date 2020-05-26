@@ -314,7 +314,7 @@
                                     <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
                                 </select>
                                 
-                              </div>
+                            </div>
 
                             <div class="notification_control">
                               <h3>Notification</h3>
@@ -367,6 +367,42 @@
                 <div id="" class="slider close settings_slider">
                     <div class="slider_container">
                         <h2>Settings</h2>
+                        <h3>Subject</h3>
+                        <div class="select-box">
+            
+                            <label for="subject" class="label select-box1"><span class="label-desc">Subject</span> </label>
+                            <select id="subject" class="select">
+                                <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
+                                <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
+                                <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
+                                <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
+                            </select>
+                            
+                        </div>
+                        <h3>Grade</h3>
+                        <div class="select-box">
+            
+                            <label for="grade" class="label select-box1"><span class="label-desc">Grade</span> </label>
+                            <select id="grade" class="select">
+                                <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
+                                <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
+                                <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
+                                <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
+                            </select>
+                            
+                        </div>
+                        <h3>Education Level</h3>
+                        <div class="select-box">
+            
+                            <label for="education_level" class="label select-box1"><span class="label-desc">Education Level</span> </label>
+                            <select id="education_level" class="select">
+                                <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
+                                <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
+                                <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
+                                <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
+                            </select>
+                            
+                        </div>
                     </div>
                 </div>
                 <div class="footer">
@@ -378,7 +414,7 @@
                             </a>
                         </div>
                         <div class="actions">
-                            <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>LP 5E's</button>
+                            <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>Learning Plan</button>
                         </div>
                         <!-- <div class="actions">
                             <button id="objective" class="trigger action_button"><i class="fas fa-bullseye"></i>Objective</button>
