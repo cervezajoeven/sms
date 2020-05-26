@@ -1160,6 +1160,7 @@ class Student extends Admin_Controller
                                         // $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
                                         // $this->mailsmsconf->mailsms('student_admission', $sender_details);
                                         $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
+                                        var_dump($sender_details);die;
                                         $this->mailsmsconf->mailsms('student_import', $sender_details);
 
                                         // $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
@@ -1195,6 +1196,13 @@ class Student extends Admin_Controller
             redirect('student/import');
         }
     }
+
+    // function console_log( $data ) {
+    //     $output  = "<script>console.log( 'PHP debugger: ";
+    //     $output .= json_encode(print_r($data, true));
+    //     $output .= "' );</script>";
+    //     echo $output;
+    // }
 
     public function handle_csv_upload()
     {
