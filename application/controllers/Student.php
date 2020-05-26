@@ -1160,7 +1160,7 @@ class Student extends Admin_Controller
                                         // $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
                                         // $this->mailsmsconf->mailsms('student_admission', $sender_details);
                                         $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
-                                        // var_dump($sender_details);die;
+                                        var_dump($sender_details);die;
                                         $this->mailsmsconf->mailsms('student_import', $sender_details);
 
                                         // $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
