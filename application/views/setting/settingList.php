@@ -652,11 +652,29 @@
                                             </div>
                                          </div>
                                     </div>
+                                    
+                                    <div class="col-md-8">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4"><?php echo $this->lang->line('email_on_student_import'); ?></label>
+                                            <div class="col-sm-8">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="email_on_student_import" value="0" <?php
+                                                    if ($result->email_on_student_import == 0) {
+                                                        echo "checked";
+                                                    }
+                                                    ?> ><?php echo $this->lang->line('disabled'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="email_on_student_import" value="1" <?php
+                                                    if ($result->email_on_student_import == 1) {
+                                                        echo "checked";
+                                                    }
+                                                    ?>><?php echo $this->lang->line('enabled'); ?>
+                                                </label>
+                                            </div>
+                                         </div>
+                                    </div>
 
-
-
-
-                                 
                                 </div><!--./row-->
 
                                 <div class="row">

@@ -928,7 +928,7 @@ $lang['account_id'] = "Account ID";
 $lang['account_type'] = "Account Type";
 $lang['active'] = "Active";
 $lang['address_phone_email'] = "Address/Phone/Email";
-$lang['admission_form_disable_please_contact_to_administrator'] = "Good Day Sophians!<BR><BR>
+$lang['admission_form_disable_please_contact_to_administrator'] = "Good Day!<BR><BR>
 We would like to inform you that we are having a system upgrade at the backend of our system.<BR><BR>For now, we will disable the online admission feature until further notice.<BR><BR>
 Reminder:<BR>
 Please do not make any changes or inserting of new data inside the system.<BR><BR>
@@ -1493,5 +1493,5 @@ $lang['edit_transmuted_grade'] = 'Edit Transmuted Grade';
 
 $lang['transmute_from'] = 'Transmute From';
 $lang['transmute_to'] = 'Transmute To';
-
+$lang['email_on_student_import'] = 'Send Email on Student Import';
 ?>

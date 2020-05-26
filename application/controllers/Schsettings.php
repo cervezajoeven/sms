@@ -336,7 +336,8 @@ class Schsettings extends Admin_Controller
                 'is_duplicate_fees_invoice' => $this->input->post('is_duplicate_fees_invoice'),
                  'app_primary_color_code'    => $this->input->post('app_primary_color_code'),
                 'app_secondary_color_code'  => $this->input->post('app_secondary_color_code'),
-                'mobile_api_url'            => $this->input->post('mobile_api_url')
+                'mobile_api_url'            => $this->input->post('mobile_api_url'),
+                'email_on_student_import' => $this->input->post('email_on_student_import')
             );
             $session_result=$this->session_model->get($this->input->post('sch_session_id'));
           // echo "<pre>"; print_r($session_result); echo "<pre>";die;
