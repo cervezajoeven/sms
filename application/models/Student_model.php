@@ -254,7 +254,7 @@ class Student_model extends MY_Model
 
      public function get($id = null)
     {
-        $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
+        $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
                            sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, 
@@ -274,7 +274,7 @@ class Student_model extends MY_Model
                            students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                            students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other,
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
-                           students.parents_civil_status,students.parents_civil_status_other,'.$this->schoolname.' AS school_name');
+                           students.parents_civil_status,students.parents_civil_status_other,'".$this->schoolname."' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
