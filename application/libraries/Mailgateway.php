@@ -23,6 +23,13 @@ class Mailgateway
         $this->sch_setting = $this->_CI->setting_model->get();
     }
 
+    function console_log( $data ) {
+        $output  = "<script>console.log( 'PHP debugger: ";
+        $output .= json_encode(print_r($data, true));
+        $output .= "' );</script>";
+        echo $output;
+    }
+
     public function sentMail($sender_details, $template, $subject)
     {
         $msg = $this->getContent($sender_details, $template);
@@ -39,7 +46,7 @@ class Mailgateway
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Admission Confirm";
             $msg = $this->getStudentRegistrationContent($id, $template);
-            
+            $this->console_log($msg);
             $this->_CI->mailer->send_mail($send_to, $subject, $msg);
         }
     }
