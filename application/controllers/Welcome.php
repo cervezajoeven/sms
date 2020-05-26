@@ -248,8 +248,8 @@ class Welcome extends Front_Controller
                 // echo(strpos($classname, 'grade 1'));
                 // die;
                 
-                // if (strpos($classname, 'nursery') !== 0) // && strpos($classname, 'kinder') == false && strpos($classname, 'grade 1') == false)
-                    // $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
+                // if (strpos($classname, "nursery") == false && strpos($classname, "kinder") == false && strpos($classname, "grade 1") == false)
+                    $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
             }
             else 
             {
