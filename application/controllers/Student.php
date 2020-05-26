@@ -1080,8 +1080,24 @@ class Student extends Admin_Controller
                                 $n++;
                             }
                             
+                            $last_student         = $this->student_model->lastRecordByAdmissionNo();
+
+                            if (!empty($last_student))
+                            {
+                                $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
+                                $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
+                            }
+                            else
+                                $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
+                            
+                            // var_dump($admission_no);die;
+                            
                             $roll_no                           = $student_data[$i]["roll_no"];
-                            $adm_no                            = $student_data[$i]["admission_no"];
+                            $adm_no                            = $admission_no; //$student_data[$i]["admission_no"];
+
+                            $student_data[$i]["admission_no"] = $admission_no;
+                            $student_data[$i]["admission_date"] = date('Y/m/d');
+
                             $mobile_no                         = $student_data[$i]["mobileno"];
                             $email                             = $student_data[$i]["email"];
                             $guardian_phone                    = $student_data[$i]["guardian_phone"];
@@ -1090,29 +1106,27 @@ class Student extends Admin_Controller
                             $data_setting['id']                = $this->sch_setting_detail->id;
                             $data_setting['adm_auto_insert']   = $this->sch_setting_detail->adm_auto_insert;
                             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
-                            if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) {
-
-                                if (!empty($roll_no)) {
-
-                                    if ($this->student_model->check_rollno_exists($roll_no, 0, $class_id, $section)) {
-
+                            
+                            if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) 
+                            {
+                                if (!empty($roll_no)) 
+                                {
+                                    if ($this->student_model->check_rollno_exists($roll_no, 0, $class_id, $section)) 
+                                    {
                                         $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">' . $this->lang->line('record_already_exists') . '</div>');
-
                                         $insert_id = "";
-                                    } else {
-
+                                    } 
+                                    else 
                                         $insert_id = $this->student_model->add($student_data[$i], $data_setting);
-
-                                    }
-                                } else {
-
+                                } 
+                                else 
+                                {
+                                    $student_data[$i]["roll_no"] = $admission_no;
                                     $insert_id = $this->student_model->add($student_data[$i], $data_setting);
                                 }
-
-                            } else {
-
+                            } 
+                            else
                                 $insert_id = "";
-                            }
 
                             if (!empty($insert_id)) {
                                 $data_new = array(
