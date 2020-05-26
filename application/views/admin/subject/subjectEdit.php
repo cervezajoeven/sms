@@ -124,7 +124,7 @@
         </div>
     </section>
 </div>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     $(document).ready(function () {
         $("#btnreset").click(function () {
             $("#form1")[0].reset();
@@ -157,4 +157,4 @@
         mywindow.document.close();
         mywindow.print();
     }
-</script>
+</script> -->

@@ -20,8 +20,8 @@ class Mailsmsconf
 
     public function mailsms($send_for, $sender_details, $date = null, $exam_schedule_array = null)
     {
-
         $send_for = $this->config_mailsms[$send_for];
+        // var_dump($send_for);die;
 //=========
         $chk_mail_sms = $this->CI->customlib->sendMailSMS($send_for);
 
@@ -83,10 +83,15 @@ class Mailsmsconf
                 }
 
             } elseif ($send_for == "homework") {
-
-
                 $this->sendHomework($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
-            } else {
+            } 
+            elseif ($send_for == "student_import") {
+                // echo($chk_mail_sms['template']);die;
+
+                if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") 
+                    $this->CI->mailgateway->sentRegisterMail($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template']);
+            }
+            else {
 
             }
         }

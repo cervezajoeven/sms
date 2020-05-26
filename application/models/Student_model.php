@@ -6,12 +6,12 @@ if (!defined('BASEPATH')) {
 
 class Student_model extends MY_Model
 {
- 
     public function __construct()
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date    = $this->setting_model->getDateYmd();
+        $this->schoolname = $this->setting_model->getCurrentSchoolName(); 
     }
 
     public function getBirthDayStudents($date, $email = false, $contact_no = false)
@@ -274,7 +274,7 @@ class Student_model extends MY_Model
                            students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                            students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other,
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
-                           students.parents_civil_status,students.parents_civil_status_other');
+                           students.parents_civil_status,students.parents_civil_status_other,'.$this->schoolname.' AS school_name');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -1936,5 +1936,22 @@ return false;
     {
         $result = $this->db->select('id')->from('students')->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
+    }
+
+    public function AlreadyEnrolled($firstname, $lastname, $birthdate)
+    {
+        // $this->db->select('firstname, lastname, dob, is_enroll, session_id');
+        // $this->db->from('students');
+        // $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate));
+        // $result = $this->db->get();
+
+        $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate));
+        $query = $this->db->get('students');
+
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
