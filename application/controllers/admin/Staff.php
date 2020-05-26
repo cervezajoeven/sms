@@ -415,8 +415,8 @@ class Staff extends Admin_Controller {
         $this->form_validation->set_rules('third_doc', $this->lang->line('image'), 'callback_handle_third_upload');
         $this->form_validation->set_rules('fourth_doc', $this->lang->line('image'), 'callback_handle_fourth_upload');
 
-        //$this->form_validation->set_rules('email', $this->lang->line('email'), array('required', 'valid_email',array('check_exists', array($this->staff_model, 'valid_email_id')),));
-
+        $this->form_validation->set_rules('email', $this->lang->line('email'), array('required', 'valid_email',array('check_exists', array($this->staff_model, 'valid_email_id')),));
+        
         if (!$this->sch_setting_detail->staffid_auto_insert) {
 
             $this->form_validation->set_rules('employee_id', $this->lang->line('staff_id'), 'callback_username_check');
