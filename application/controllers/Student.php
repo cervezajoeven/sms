@@ -528,7 +528,6 @@ class Student extends Admin_Controller
                     //$last_student         = $this->student_model->lastRecord();
                     $last_student         = $this->student_model->lastRecordByAdmissionNo();
                     $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
-
                     $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
                     $data_insert['admission_no'] = $admission_no;
                 } 
@@ -1079,9 +1078,19 @@ class Student extends Admin_Controller
                                 $student_data[$i]['is_active'] = 'yes';
                                 $n++;
                             }
+
+                            $last_student         = $this->student_model->lastRecordByAdmissionNo();
+                            $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
+                            $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
+                            // var_dump($admission_no);die;
                             
-                            $roll_no                           = $student_data[$i]["roll_no"];
-                            $adm_no                            = $student_data[$i]["admission_no"];
+                            $roll_no                           = $admission_no; //$student_data[$i]["roll_no"];
+                            $adm_no                            = $admission_no; //$student_data[$i]["admission_no"];
+
+                            $student_data[$i]["roll_no"] = $admission_no;
+                            $student_data[$i]["admission_no"] = $admission_no;
+                            $student_data[$i]["admission_date"] = date('Y/m/d');
+
                             $mobile_no                         = $student_data[$i]["mobileno"];
                             $email                             = $student_data[$i]["email"];
                             $guardian_phone                    = $student_data[$i]["guardian_phone"];
@@ -1090,6 +1099,7 @@ class Student extends Admin_Controller
                             $data_setting['id']                = $this->sch_setting_detail->id;
                             $data_setting['adm_auto_insert']   = $this->sch_setting_detail->adm_auto_insert;
                             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
+                            
                             if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) {
 
                                 if (!empty($roll_no)) {
