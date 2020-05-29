@@ -43,6 +43,18 @@ class General_model extends MY_Model {
         
     }
 
+    public function get_account_name($account_id="",$account_type=""){
+        // $this->db->select("*");
+        // $this->db->from("students");
+        // $this->db->where("id",5);
+        if($account_type=="admin"){
+            return $this->db->select("*")->where("id",$account_id)->get("staff")->result_array(); 
+        }else{
+            return $this->db->select("*")->where("id",$account_id)->get("students")->result_array(); 
+        }
+          
+    }
+
     public function get_classes(){
         return $this->db->select("*")->get("classes")->result_array();   
     }
@@ -50,6 +62,7 @@ class General_model extends MY_Model {
     public function get_subjects(){
         return $this->db->select("*")->get("subjects")->result_array();   
     }
+        
 
 
 }

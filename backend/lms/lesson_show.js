@@ -516,64 +516,64 @@ $(document).ready(function(){
     }
 
     function change_detected(){
-        var title = $(".title").val();
-        var update_url = $("#site_url").val();
-        var id = $("#lesson_id").val();
-        var lesson_type = $("#lesson_type").val();
-        var email_notification = $("#email_notification").prop("checked");
-        var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
-        var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
+        // var title = $(".title").val();
+        // var update_url = $("#site_url").val();
+        // var id = $("#lesson_id").val();
+        // var lesson_type = $("#lesson_type").val();
+        // var email_notification = $("#email_notification").prop("checked");
+        // var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
+        // var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
         // var learning_plan_text = JSON.stringify(learning_plan.getContents());
-        var subject_id = $("#subject").val();
-        var grade_id = $("#grade").val();
-        education_level = $("#education_level").val();
-        var term = $("#term").val();
-        var shared = $("#shared").val();
-        start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
-        end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
+        // var subject_id = $("#subject").val();
+        // var grade_id = $("#grade").val();
+        // education_level = $("#education_level").val();
+        // var term = $("#term").val();
+        // var shared = $("#shared").val();
+        // start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
+        // end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
         
-        if(email_notification){
-            email_notification = "1";
-        }else{
-            email_notification = "0";
-        }
+        // if(email_notification){
+        //     email_notification = "1";
+        // }else{
+        //     email_notification = "0";
+        // }
 
-        var student_ids = [];
-        $.each(jstree.jstree("get_checked",null,true),function(key,value){
+        // var student_ids = [];
+        // $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
-            if(value.includes('student')){
-                student_id = value.replace('student_','');
+        //     if(value.includes('student')){
+        //         student_id = value.replace('student_','');
                 
-                student_ids.push(student_id);
-            }
-        });
-        lesson_data = {
-            id:id,
-            title:title,
-            content_order:content_order,
-            content_pool:content_pool,
-            lesson_type:lesson_type,
-            email_notification:email_notification,
-            start_date:start_date,
-            end_date:end_date,
-            // learning_plan:learning_plan_text,
-            assigned:student_ids.join(','),
-            folder_names:"Engage,Explore,Explain,Extend,LAS",
-            subject_id:subject_id,
-            grade_id:grade_id,
-            education_level:education_level,
-            term:term,
-            shared:shared,
-        };
+        //         student_ids.push(student_id);
+        //     }
+        // });
+        // lesson_data = {
+        //     id:id,
+        //     title:title,
+        //     content_order:content_order,
+        //     content_pool:content_pool,
+        //     lesson_type:lesson_type,
+        //     email_notification:email_notification,
+        //     start_date:start_date,
+        //     end_date:end_date,
+        //     learning_plan:learning_plan_text,
+        //     assigned:student_ids.join(','),
+        //     folder_names:"Engage,Explore,Explain,Extend,LAS",
+        //     subject_id:subject_id,
+        //     grade_id:grade_id,
+        //     education_level:education_level,
+        //     term:term,
+        //     shared:shared,
+        // };
 
 
-        $.ajax({
-            url: update_url,
-            method:"POST",
-            data: lesson_data,
-        }).done(function(data) {
-            console.log(data);
-        });
+        // $.ajax({
+        //     url: update_url,
+        //     method:"POST",
+        //     data: lesson_data,
+        // }).done(function(data) {
+        //     console.log(data);
+        // });
 
     }
 
@@ -614,43 +614,43 @@ $(document).ready(function(){
 
 
     $( function() {
-        $(folders+",#result_container" ).sortable({
-            connectWith: ".connectedSortable",
-            receive: function(event,ui) {
+        // $(folders+",#result_container" ).sortable({
+        //     connectWith: ".connectedSortable",
+        //     receive: function(event,ui) {
 
-                if (this === ui.item.parent()[0]) {
-                    if(ui.item.parent().attr("id")!="result_container"){
+        //         if (this === ui.item.parent()[0]) {
+        //             if(ui.item.parent().attr("id")!="result_container"){
 
-                        $(ui.item[0]).removeClass('content_result');
-                        $(ui.item[0]).addClass('content_already');
-                        var result_id = $(ui.item[0]).attr("result_id");
+        //                 $(ui.item[0]).removeClass('content_result');
+        //                 $(ui.item[0]).addClass('content_already');
+        //                 var result_id = $(ui.item[0]).attr("result_id");
                         
-                        result_pool.forEach(function(item, index, arr){
-                            if(result_id==item.result_id){
-                                item.status = "fresh";
-                                item.state = "online";
-                                item.blackboard_id = blackboard_id;
-                                var folder_id = ui.item.parent().attr("id");
-                                var content = {folder_id:folder_id,content:item}
-                                content_pool.push(content);
-                            }
-                        });
+        //                 result_pool.forEach(function(item, index, arr){
+        //                     if(result_id==item.result_id){
+        //                         item.status = "fresh";
+        //                         item.state = "online";
+        //                         item.blackboard_id = blackboard_id;
+        //                         var folder_id = ui.item.parent().attr("id");
+        //                         var content = {folder_id:folder_id,content:item}
+        //                         content_pool.push(content);
+        //                     }
+        //                 });
 
-                    } 
+        //             } 
                     
-                }
-                sort_content_order();
+        //         }
+        //         sort_content_order();
                 
-            },
-            stop:function(event,ui){
-                sort_content_order();
-            },
-            beforeStop: function(ev, ui) {
-                if ($(ui.item).hasClass('content_already') && $(ui.placeholder).parent()[0] != this) {
-                    $(this).sortable('cancel');
-                }
-            }
-        }).disableSelection();
+        //     },
+        //     stop:function(event,ui){
+        //         sort_content_order();
+        //     },
+        //     beforeStop: function(ev, ui) {
+        //         if ($(ui.item).hasClass('content_already') && $(ui.placeholder).parent()[0] != this) {
+        //             $(this).sortable('cancel');
+        //         }
+        //     }
+        // }).disableSelection();
     });
 
     $(".extremeright_icon").click(function(){
@@ -915,17 +915,17 @@ $(document).ready(function(){
         check_active_thumbnail();
     });
     $(document).on("mouseover",".content_already",function(){
-        $(this).find(".content_close").show();
+        // $(this).find(".content_close").show();
     });
     $(document).on("mouseout",".content_already",function(){
-        $(this).find(".content_close").hide();
+        // $(this).find(".content_close").hide();
     });
     $(document).on("click",".content_close",function(){
-        var delete_li = $(this).parent().parent();
-        var delete_result_id = $(this).parent().parent().attr("result_id");
-        remove_content(delete_result_id);
-        $(delete_li).remove();
-        change_detected();
+        // var delete_li = $(this).parent().parent();
+        // var delete_result_id = $(this).parent().parent().attr("result_id");
+        // remove_content(delete_result_id);
+        // $(delete_li).remove();
+        // change_detected();
     });
     $(document).on("click",".content_footer",function(){
         // $(this).parent().find(".content_body").find("img").addClass("hide_img");
@@ -1113,9 +1113,6 @@ $(document).ready(function(){
     
     var learning_plan = new Quill('#learning_plan_text', {
         theme: 'snow',
-        modules: {
-            table: true,
-        }
     });
     var objective = new Quill('#objective_text', {
         theme: 'snow',
@@ -1206,7 +1203,6 @@ function fetch_chat(){
    
         success: function(data)
         {
-            console.log(data);
             var chats = JSON.parse(data);
             var chat_html = '';
             var user_type = '';
@@ -1214,10 +1210,9 @@ function fetch_chat(){
             $.each(chats,function(key,value){
 
                 if(value.account_type=="admin"){
-
-                    user_type = value.firstname+" "+value.lastname;
+                    user_type = "Teacher";
                 }else{
-                    user_type = value.firstname+" "+value.lastname;
+                    user_type = "Student";
                 }
                 chat_html = '<div class="chat_container">';
                 chat_html += '<div class="the_chat">';           
