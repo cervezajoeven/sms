@@ -1879,7 +1879,7 @@ return false;
 
     public function GetStudentInfo($id_no) 
     {
-        $this->db->select('students.lrn_no, students.firstname, students.lastname, students.dob, students.gender'); 
+        $this->db->select('students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
         $this->db->from('students');
         $this->db->where('students.lrn_no', $id_no);
         $this->db->or_where('students.roll_no', $id_no);
