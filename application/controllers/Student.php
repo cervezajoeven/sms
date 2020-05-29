@@ -1097,6 +1097,7 @@ class Student extends Admin_Controller
 
                             $student_data[$i]["admission_no"] = $admission_no;
                             $student_data[$i]["admission_date"] = date('Y/m/d');
+                            $student_data[$i]["dob"] = date('Y-m-d', strtotime($student_data[$i]["dob"]));
 
                             $mobile_no                         = $student_data[$i]["mobileno"];
                             $email                             = $student_data[$i]["email"];
