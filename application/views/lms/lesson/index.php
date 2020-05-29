@@ -13,7 +13,7 @@
             <?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
                 ?>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
@@ -76,7 +76,7 @@
             <!-- <?php } ?> -->
             <div class="col-md-<?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                echo "8";
+                echo "12";
             } else {
                 echo "12";
             }

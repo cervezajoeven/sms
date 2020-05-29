@@ -78,6 +78,9 @@
               padding: 5px 15px;
               border-left: 5px solid #fff;
             }
+            .no_background{
+              background-color: none;
+            }
 
         </style>
     </head>
@@ -92,7 +95,6 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
-        <input type="hidden" id="education_level" value="<?php echo $lesson['education_level'] ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -199,57 +201,15 @@
                 <div id="" class="slider close learning_plan_slider">
                     <h2>Learning Plan</h2>
                     <div class="slider_container">
-                        <div id="learing_plan_text">
-                          <p><strong>Engage</strong></p>
-                          <p>How will you capture the student's interest? What questions should students ask themselves?</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Explore</strong></p>
-                          <p>Describe what kinds of hands-on/minds-on activities students will be doing.</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Explain</strong></p>
-                          <p>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Extend</strong></p>
-                          <p>Describe how students will develop a more sophisticated understanding of the concept</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Evaluate</strong></p>
-                          <p>How will students demonstrate that they have achieved the lesson objective?</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
+                        <div id="learning_plan_text">
+                          <table border="1">
+                            <tr>
+                              <th>Topic: Learning Competencies</th>
+                              <th>Virtual Session Schedule</th>
+                              <th>Campus LMS Resources</th>
+                              <th>Learning Experiences</th>
+                            </tr>
+                          </table>
                         </div>
                     </div>
                 </div>
@@ -300,6 +260,10 @@
                         <div class="col-lg-6">
 
                             <h3>Assign Date</h3>
+                            <?php if($lesson['start_date'] == '0000-00-00 00:00:00'): ?>
+                                <?php $lesson['start_date'] = ""; ?>
+                                <?php $lesson['end_date'] = ""; ?>
+                            <?php endif ?>
                             <input type="hidden" name="" value="<?php echo $lesson['start_date'] ?>" class="start_date">
                             <input type="hidden" name="" value="<?php echo $lesson['end_date'] ?>" class="end_date">
                             <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
@@ -367,42 +331,69 @@
                 <div id="" class="slider close settings_slider">
                     <div class="slider_container">
                         <h2>Settings</h2>
-                        <h3>Subject</h3>
-                        <div class="select-box">
-            
-                            <label for="subject" class="label select-box1"><span class="label-desc">Subject</span> </label>
-                            <select id="subject" class="select">
-                                <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
-                                <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
-                                <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
-                                <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
-                            </select>
+                          <div class="col-lg-6">
+                            <h3>Subject</h3>
+                            <div class="select-box">
+                              <label for="subject" class="label select-box1"><span class="label-desc">Subject</span> </label>
+                              <select id="subject" class="select">
+                                  <?php foreach ($subjects as $key => $value) : ?>
+                                    <option <?php if($value['id'] == $lesson['subject_id']){echo "selected=''"; } ?> value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                                  <?php endforeach; ?>
+                              </select>
+                              
+                            </div>
+
+                            <h3>Grade</h3>
+                            <div class="select-box">
+                  
+                                <label for="grade" class="label select-box1"><span class="label-desc">Grade</span> </label>
+                                <select id="grade" class="select">
+                                    <?php foreach ($classes as $key => $value) : ?>
+                                    <option <?php if($value['id'] == $lesson['grade_id']){echo "selected=''"; } ?> value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
+                                  <?php endforeach; ?>
+                                </select>
+                                
+                            </div>
+
+                            <h3>Education Level</h3>
+                            <div class="select-box">
+                
+                                <label for="education_level" class="label select-box1"><span class="label-desc">Education Level</span> </label>
+                                <select id="education_level" class="select">
+                                    <option <?php if($lesson['education_level'] == "grade_school"){echo "selected=''"; } ?> value="grade_school">Grade School</option>
+                                    <option <?php if($lesson['education_level'] == "junior"){echo "selected=''"; } ?> value="junior">Junior Highschool</option>
+                                    <option <?php if($lesson['education_level'] == "senior"){echo "selected=''"; } ?> value="senior">Senior Highschool</option>
+                                    <option <?php if($lesson['education_level'] == "tertiary"){echo "selected=''"; } ?> value="tertiary">Tertiary</option>
+                                </select>
+                                
+                            </div>
                             
-                        </div>
-                        <h3>Grade</h3>
-                        <div class="select-box">
-            
-                            <label for="grade" class="label select-box1"><span class="label-desc">Grade</span> </label>
-                            <select id="grade" class="select">
-                                <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
-                                <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
-                                <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
-                                <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
-                            </select>
-                            
-                        </div>
-                        <h3>Education Level</h3>
-                        <div class="select-box">
-            
-                            <label for="education_level" class="label select-box1"><span class="label-desc">Education Level</span> </label>
-                            <select id="education_level" class="select">
-                                <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
-                                <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
-                                <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
-                                <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
-                            </select>
-                            
-                        </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <h3>Term</h3>
+                            <div class="select-box">
+                
+                                <label for="term" class="label select-box1"><span class="label-desc">Term</span> </label>
+                                <select id="term" class="select">
+                                    <option <?php if($lesson['term'] == "1"){echo "selected=''"; } ?> value="1">1st Term</option>
+                                    <option <?php if($lesson['term'] == "2"){echo "selected=''"; } ?> value="2">2nd Term</option>
+                                    <option <?php if($lesson['term'] == "3"){echo "selected=''"; } ?> value="3">3rd Term</option>
+                                    <option <?php if($lesson['term'] == "4"){echo "selected=''"; } ?> value="4">4th Term</option>
+                                </select>
+                                
+                            </div>
+                            <h3>Shared</h3>
+                            <div class="select-box">
+                
+                                <label for="shared" class="label select-box1"><span class="label-desc">Share</span> </label>
+                                <select id="shared" class="select">
+                                    <option <?php if($lesson['shared'] == "1"){echo "selected=''"; } ?> value="1">Yes</option>
+                                    <option <?php if($lesson['shared'] == "0"){echo "selected=''"; } ?> value="0">No</option>
+                                </select>
+                                
+                            </div>
+                          </div>
+                          
                     </div>
                 </div>
                 <div class="footer">

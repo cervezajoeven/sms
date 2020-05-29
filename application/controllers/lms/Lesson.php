@@ -74,6 +74,8 @@ class Lesson extends General_Controller {
         $data['classes'] = $this->class_model->getAll();
         $data['class_sections'] = $this->lesson_model->get_class_sections();
         $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
         // echo "<pre>";
         // print_r($data['role']);
         // exit();
@@ -124,8 +126,12 @@ class Lesson extends General_Controller {
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
         $data['learning_plan'] = $_REQUEST['learning_plan'];
-        // echo '<pre>';print_r($data);exit();
-        // echo '<pre>';print_r($data);exit();
+        $data['subject_id'] = $_REQUEST['subject_id'];
+        $data['grade_id'] = $_REQUEST['grade_id'];
+        $data['education_level'] = $_REQUEST['education_level'];
+        $data['term'] = $_REQUEST['term'];
+        $data['shared'] = $_REQUEST['shared'];
+
         print_r($this->lesson_model->lms_update("lms_lesson",$data));
         
 
