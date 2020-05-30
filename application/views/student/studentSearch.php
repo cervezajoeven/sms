@@ -110,14 +110,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <th><?php echo $this->lang->line('student_name'); ?></th>
                                             <th><?php echo $this->lang->line('class'); ?></th>
 											 <?php if ($sch_setting->father_name) {  ?>
-                                            <th><?php echo $this->lang->line('father_name'); ?></th>
+                                            <!-- <th><?php //echo $this->lang->line('father_name'); ?></th> -->
                                             <?php } ?>
                                             <th><?php echo $this->lang->line('date_of_birth'); ?></th>
                                             <th><?php echo $this->lang->line('gender'); ?></th>
 											<?php if ($sch_setting->category) {
                                               ?>
                                               <?php if ($sch_setting->category) {  ?>
-                                            <th><?php echo $this->lang->line('category'); ?></th>
+                                            <!-- <th><?php //echo $this->lang->line('category'); ?></th> -->
 											<?php }
                                              } if ($sch_setting->mobile_no) {
                                                ?>
@@ -159,7 +159,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     </td>
                                                     <td><?php echo $student['class'] . "(" . $student['section'] . ")" ?></td>
                                                     <?php if ($sch_setting->father_name) {  ?>
-													<td><?php echo $student['father_name']; ?></td>
+													<!-- <td><?php //echo $student['father_name']; ?></td> -->
 													<?php }?>
                                                     <td><?php
                                                         if ($student["dob"] != null) {
@@ -168,7 +168,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                         ?></td>
                                                     <td><?php echo $student['gender']; ?></td>
 													<?php if ($sch_setting->category) {  ?>
-                                                    <td><?php echo $student['category']; ?></td>
+                                                    <!-- <td><?php //echo $student['category']; ?></td> -->
 													<?php } if ($sch_setting->mobile_no) {  ?>
                                                     <td><?php echo $student['mobileno']; ?></td>
                                                     <?php }

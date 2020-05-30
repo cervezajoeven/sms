@@ -1423,8 +1423,8 @@ $lang['session_changed_successfully'] = "School-Year changed successfully";
 $lang['some_students_are_already_added_in_other_session'] = "Some Students are already added in other School-Year";
 $lang['previous_session_balance_fees'] = 'Previous School-Year Balance Fees';
 $lang['rte'] = 'RTE (Govt.)';
-$lang['admin_login'] = 'Admin Login';
-$lang['user_login'] = 'User Login';
+$lang['admin_login'] = 'School Staff Login';
+$lang['user_login'] = 'Student and Parent Login';
 $lang['lms_homework'] = 'Homework/Project';
 $lang['attendance_from'] = 'Attendance From';
 
