@@ -17,13 +17,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
-        <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
         <style type="text/css">
             .ql-snow{
                 background-color: white;
             }
-            #learning_plan_text{
+            #learing_plan_text{
                 color: black;
             }
             #objective_text{
@@ -118,7 +117,7 @@
         
         <div class="edit_area">
 
-            <div class="part ben_left">
+            <div class="part ben_left" style="width: 100%">
                 <div class="navigation">
 
                     <div class="title_container">
@@ -202,75 +201,16 @@
                 <div id="" class="slider close learning_plan_slider">
                     <h2>Learning Plan</h2>
                     <div class="slider_container">
-                        <!-- <div id="learning_plan_text" style="color: black(); ">
-                          
-                        </div> -->
-                        <textarea class="tinymce">
+                        <div id="learning_plan_text">
                           <table border="1">
                             <tr>
-                              <th rowspan="2">Topic: Learning Competencies</th>
-                              <th rowspan="2">Virtual Session Schedule</th>
-                              <th rowspan="2">Campus LMS Resources</th>
-                              <th rowspan="2" colspan="2">Learning Experiences</th>
-                              <th colspan="2">Hybrid Learning Modes</th>  
-                              <th rowspan="2">Evaluation (Assessments)</th>
-                            </tr>
-                            <tr>
-                              <th>Synchronous</th>
-                              <th>Asynchronous</th>
-                            </tr>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>Engage</td>
-                              <td>How will you capture the student's interest? What questions should students ask themselves?</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>Explore</td>
-                              <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>Explain</td>
-                              <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>Extend</td>
-                              <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td>Evaluate</td>
-                              <td>How will students demonstrate that they have achieved the lesson objective?</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                              <th>Topic: Learning Competencies</th>
+                              <th>Virtual Session Schedule</th>
+                              <th>Campus LMS Resources</th>
+                              <th>Learning Experiences</th>
                             </tr>
                           </table>
-                        </textarea>
+                        </div>
                     </div>
                 </div>
                 <!-- <div id="" class="slider close objective_slider">
@@ -456,15 +396,15 @@
                           
                     </div>
                 </div>
-                <div class="footer">
+                <div class="footer" style="width: 100%">
 
                     <div class="actions_container">
                         <div class="actions">
-                            <a href="<?php echo site_url('lms/lesson/index'); ?>">
+                            <a href="<?php echo site_url('lms/lesson/shared'); ?>">
                                 <button class="action_button close_action"><i class="fas fa-times-circle"></i>Close</button>
                             </a>
                         </div>
-                        <div class="actions">
+                        <div class="actions" style="display: none">
                             <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>Learning Plan</button>
                         </div>
                         <!-- <div class="actions">
@@ -473,13 +413,13 @@
                         <div class="actions">
                             <button id="slideshow" class="action_button slideshow_action"><i class="fas fa-video"></i>Slideshow</button>
                         </div>
-                        <div class="actions">
+                        <div class="actions" style="display: none">
                             <button id="assign" class="trigger action_button assign_action"><i class="fas fa-chalkboard-teacher"></i>Assign</button>
                         </div>
-                        <div class="actions">
+                        <div class="actions" style="display: none">
                             <button id="discussion" class="trigger action_button"><i class="fas fa-school"></i>Discussion</button>
                         </div>
-                        <div class="actions">
+                        <div class="actions" style="display: none">
                             <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button>
                         </div>
                     </div>
@@ -502,7 +442,7 @@
                     </div>
                 </div>
             </div>
-            <div class="part ben_right">
+            <div class="part ben_right" style="width: 0%">
                 <div class="navigation">
                     <div class="title_container">
                         <input type="text" disabled="" value="Campus LMS Resources Search" name="">
@@ -559,7 +499,7 @@
 
             </div>
 
-            <div class="part extremeright">
+            <div class="part extremeright" style="width: 0%">
                 <div class="extremeright_filler">
 
                 </div>
@@ -628,15 +568,18 @@
                 
                 <div class="student_view_navigation">
                     <div class="student_view_buttons close_action close_student_view"><i class="fas fa-times-circle"></i> Close Slideshow</div>
-                    <div class="dicussion_container student_chat_container" style="width: 100%">
+                    <div style="display: none">
+                      <div class="dicussion_container student_chat_container">
 
-                          adasdas
-                          
+                            adasdas
+                            
+                      </div>
+                      <div class="chat_discussion" style="position: relative;">
+                        <textarea class="chat_text student_chat" name="" style="bottom: 0;"></textarea>
+                        <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
+                      </div>
                     </div>
-                    <div class="chat_discussion" style="position: relative;">
-                      <textarea class="chat_text student_chat" name="" style="bottom: 0;"></textarea>
-                      <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
-                    </div>
+                    
                 
                 </div>
             </div>
@@ -648,17 +591,10 @@
         <script src="<?php echo $resources.'jquery.mousewheel.min.js'?>"></script>
         
         <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
-        <script src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script src="<?php echo $resources.'lesson.js'?>"></script>
-        <script type="text/javascript">
-          tinymce.init({
-            selector: '.tinymce',
-            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-            toolbar_mode: 'floating',
-          });
-        </script>
+        <script src="<?php echo $resources.'lesson_show.js'?>"></script>
     </body>
 </html>

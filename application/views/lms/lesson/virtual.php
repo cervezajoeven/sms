@@ -21,7 +21,7 @@
                         </div><!-- /.box-header -->
                         <!-- form start -->
 
-                        <form id="form1" action="<?php echo site_url('lms/lesson/save') ?>"  id="lesson" name="employeeform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
+                        <form id="form1" action="<?php echo site_url('lms/lesson/save/virtual') ?>"  id="lesson" name="employeeform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
                             <div class="box-body">
                                 <?php if ($this->session->flashdata('msg')) { ?>
                                     <?php echo $this->session->flashdata('msg') ?>
@@ -147,8 +147,8 @@
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                                    <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
-                                                            <i class="fa fa-eye" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="zoom_open()"':'' ?> ></i>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                            <i class="fa fa-eye"></i>
                                                     </a>
                                                 <?php endif; ?>
                                                 
@@ -186,9 +186,6 @@
 
 
 <script>
-    function zoom_open(){
-        window.open('https://us02web.zoom.us/j/8713627702?pwd=VTFvc2k0YnkzeGl1dDhhRFBmS2YyQT09');
-    }
     $(document).ready(function () {
         $('.detail_popover').popover({
             placement: 'right',
@@ -199,7 +196,5 @@
                 return $(this).closest('td').find('.fee_detail_popover').html();
             }
         });
-        
-        
     });
 </script>
