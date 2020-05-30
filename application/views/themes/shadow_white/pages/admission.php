@@ -273,8 +273,9 @@ if (!$form_admission) {
         </div>
         <div class="col-md-3">
             <div class="form-group">
+                <input type="hidden" id="classname" name="classname" value="">
                 <label for="class_id"><?php echo $this->lang->line('enrolling_for'); ?></label><small class="req"> *</small>
-                <select  id="class_id" name="class_id" class="form-control all-fields"  >
+                <select  id="class_id" name="class_id" class="form-control all-fields" onchange="SetClassName(this)">
                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                     <?php foreach ($classlist as $class) { ?>
                         <option value="<?php echo $class['id'] ?>"<?php if (set_value('class_id') == $class['id']) echo "selected=selected" ?>><?php echo $class['class'] ?></option>
@@ -1282,6 +1283,11 @@ if (!$form_admission) {
             }
         //}
     });
+
+    function SetClassName(sel) {
+        var text= sel.options[sel.selectedIndex].text;
+        $("#classname").val(text);
+    }
 
     function DoOnChange(sel) {
         $('.text-danger').html('');

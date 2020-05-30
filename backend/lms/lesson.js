@@ -53,14 +53,11 @@ $(document).ready(function(){
         var selection = $(this).find("option:selected").text(),
             labelFor = $(this).attr("id"),
             label = $("[for='" + labelFor + "']");
-            console.log(label);
-            console.log(labelFor);
-            console.log(selection);
+
         label.find(".label-desc").html(selection);
-        
+        change_detected();
     });
 
-    console.log($("#lesson_type").val());
     if($("#lesson_type").val()=="classroom"){
         
         $(".notification_control").hide();
@@ -526,7 +523,12 @@ $(document).ready(function(){
         var email_notification = $("#email_notification").prop("checked");
         var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
         var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
-        var learing_plan_text = JSON.stringify(learing_plan.getContents());
+        // var learning_plan_text = JSON.stringify(learning_plan.getContents());
+        var subject_id = $("#subject").val();
+        var grade_id = $("#grade").val();
+        education_level = $("#education_level").val();
+        var term = $("#term").val();
+        var shared = $("#shared").val();
         start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
         end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
         
@@ -554,12 +556,17 @@ $(document).ready(function(){
             email_notification:email_notification,
             start_date:start_date,
             end_date:end_date,
-            learning_plan:learing_plan_text,
+            // learning_plan:learning_plan_text,
             assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
+            subject_id:subject_id,
+            grade_id:grade_id,
+            education_level:education_level,
+            term:term,
+            shared:shared,
         };
 
-        console.log(lesson_data);
+
         $.ajax({
             url: update_url,
             method:"POST",
@@ -1104,8 +1111,11 @@ $(document).ready(function(){
     }
 
     
-    var learing_plan = new Quill('#learing_plan_text', {
+    var learning_plan = new Quill('#learning_plan_text', {
         theme: 'snow',
+        modules: {
+            table: true,
+        }
     });
     var objective = new Quill('#objective_text', {
         theme: 'snow',
@@ -1196,6 +1206,7 @@ function fetch_chat(){
    
         success: function(data)
         {
+            console.log(data);
             var chats = JSON.parse(data);
             var chat_html = '';
             var user_type = '';
@@ -1203,9 +1214,10 @@ function fetch_chat(){
             $.each(chats,function(key,value){
 
                 if(value.account_type=="admin"){
-                    user_type = "Teacher";
+
+                    user_type = value.firstname+" "+value.lastname;
                 }else{
-                    user_type = "Student";
+                    user_type = value.firstname+" "+value.lastname;
                 }
                 chat_html = '<div class="chat_container">';
                 chat_html += '<div class="the_chat">';           

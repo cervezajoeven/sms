@@ -240,7 +240,16 @@ class Welcome extends Front_Controller
             if ($enrollment_type == 'old' || $enrollment_type == 'old_new') 
             {
                 $this->form_validation->set_rules('studentidnumber', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
+                $classname = strtolower($this->input->post('classname'));
+
+                // var_dump($classname);
+                // echo(strpos($classname, 'nursery'));
+                // echo(strpos($classname, 'kinder'));
+                // echo(strpos($classname, 'grade 1'));
+                // die;
+                
+                // if (strpos($classname, "nursery") == false && strpos($classname, "kinder") == false && strpos($classname, "grade 1") == false)
+                    $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
             }
             else 
             {
@@ -479,113 +488,120 @@ class Welcome extends Front_Controller
                     }
                     else 
                     {
-                        $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
+                        $alreadyEnrolled = $this->student_model->AlreadyEnrolled($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
 
-                        $data = array(
-                            'firstname'           => $this->input->post('firstname'),
-                            'lastname'            => $this->input->post('lastname'),
-                            'mobileno'            => $this->input->post('mobileno'),
-                            'guardian_is'         => $this->input->post('guardian_is'),
-                            'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
-                            'current_address'     => $this->input->post('current_address'),
-                            'permanent_address'   => $this->input->post('permanent_address'),
-                            'father_name'         => $this->input->post('father_name'),
-                            'father_phone'        => $this->input->post('father_phone'),
-                            'father_occupation'   => $this->input->post('father_occupation'),
-                            'mother_name'         => $this->input->post('mother_name'),
-                            'mother_phone'        => $this->input->post('mother_phone'),
-                            'mother_occupation'   => $this->input->post('mother_occupation'),
-                            'guardian_occupation' => $this->input->post('guardian_occupation'),
-                            'guardian_email'      => $this->input->post('guardian_email'),
-                            'gender'              => $this->input->post('gender'),
-                            'guardian_name'       => $this->input->post('guardian_name'),
-                            'guardian_relation'   => $this->input->post('guardian_relation'),
-                            'guardian_phone'      => $this->input->post('guardian_phone'),
-                            'guardian_address'    => $this->input->post('guardian_address'),
-                            'admission_date'      => date('Y/m/d'),
-                            'measurement_date'    => date('Y/m/d'),
-                            'mode_of_payment'     => $this->input->post('mode_of_payment'),
-                            'enrollment_type'     => $enrollment_type, 
-                            'middlename'          => $this->input->post('middlename'),
-                            'email'               => $this->input->post('email'),
-                            'class_section_id'    => $class_section_id,
-                            'roll_no'             => $this->input->post('studentidnumber'),
-                            'lrn_no'              => $this->input->post('lrn_no'),
-
-                            'father_company_name'              => $this->input->post('father_company_name'),
-                            'father_company_position'          => $this->input->post('father_company_position'),
-                            'father_nature_of_business'        => $this->input->post('father_nature_of_business'),
-                            'father_mobile'                    => $this->input->post('father_mobile'),
-                            'father_dob'                       => date('Y-m-d', strtotime($this->input->post('father_dob'))),
-                            'father_citizenship'               => $this->input->post('father_citizenship'),
-                            'father_religion'                  => $this->input->post('father_religion'),
-                            'father_highschool'                => $this->input->post('father_highschool'),
-                            'father_college'                   => $this->input->post('father_college'),
-                            'father_college_course'            => $this->input->post('father_college_course'),
-                            'father_post_graduate'             => $this->input->post('father_post_graduate'),
-                            'father_post_course'               => $this->input->post('father_post_course'),
-                            'father_prof_affiliation'          => $this->input->post('father_prof_affiliation'),
-                            'father_prof_affiliation_position' => $this->input->post('father_prof_affiliation_position'),
-                            'father_tech_prof'                 => $this->input->post('father_tech_prof'),
-                            'father_tech_prof_other'           => $this->input->post('father_tech_prof_other'),
-
-                            'mother_company_name'              => $this->input->post('mother_company_name'),
-                            'mother_company_position'          => $this->input->post('mother_company_position'),
-                            'mother_nature_of_business'        => $this->input->post('mother_nature_of_business'),
-                            'mother_mobile'                    => $this->input->post('mother_mobile'),
-                            'mother_dob'                       => date('Y-m-d', strtotime($this->input->post('mother_dob'))),
-                            'mother_citizenship'               => $this->input->post('mother_citizenship'),
-                            'mother_religion'                  => $this->input->post('mother_religion'),
-                            'mother_highschool'                => $this->input->post('mother_highschool'),
-                            'mother_college'                   => $this->input->post('mother_college'),
-                            'mother_college_course'            => $this->input->post('mother_college_course'),
-                            'mother_post_graduate'             => $this->input->post('mother_post_graduate'),
-                            'mother_post_course'               => $this->input->post('mother_post_course'),
-                            'mother_prof_affiliation'          => $this->input->post('mother_prof_affiliation'),
-                            'mother_prof_affiliation_position' => $this->input->post('mother_prof_affiliation_position'),
-                            'mother_tech_prof'                 => $this->input->post('mother_tech_prof'),
-                            'mother_tech_prof_other'           => $this->input->post('mother_tech_prof_other'),
-
-                            'marriage'                   => $this->input->post('marriage'),
-                            'dom'                        => date('Y-m-d', strtotime($this->input->post('dom'))),
-                            'church'                     => $this->input->post('church'),
-                            'family_together'            => $this->input->post('family_together'),
-                            'parents_away'               => $this->input->post('parents_away'),
-                            'parents_away_state'         => $this->input->post('parents_away_state'),
-                            'parents_civil_status'       => $this->input->post('parents_civil_status'),
-                            'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
-
-                            'session_id' => $current_session,
-                        );
-
-                        if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                            $time     = md5($_FILES["document"]['name'] . microtime());
-                            $fileInfo = pathinfo($_FILES["document"]["name"]);
-                            $doc_name = $time . '.' . $fileInfo['extension'];
-                            move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
-    
-                            $data['document'] = $doc_name;
-                        }
-
-                        if (sizeOf($has_admission) <= 0)
+                        if (!$alreadyEnrolled)
                         {
-                            $insert_id = $this->onlinestudent_model->add($data);
-                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
-                        }
-                        else {
-                            if ($current_session > (int)$has_admission->session_id)
+                            $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
+
+                            $data = array(
+                                'firstname'           => $this->input->post('firstname'),
+                                'lastname'            => $this->input->post('lastname'),
+                                'mobileno'            => $this->input->post('mobileno'),
+                                'guardian_is'         => $this->input->post('guardian_is'),
+                                'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
+                                'current_address'     => $this->input->post('current_address'),
+                                'permanent_address'   => $this->input->post('permanent_address'),
+                                'father_name'         => $this->input->post('father_name'),
+                                'father_phone'        => $this->input->post('father_phone'),
+                                'father_occupation'   => $this->input->post('father_occupation'),
+                                'mother_name'         => $this->input->post('mother_name'),
+                                'mother_phone'        => $this->input->post('mother_phone'),
+                                'mother_occupation'   => $this->input->post('mother_occupation'),
+                                'guardian_occupation' => $this->input->post('guardian_occupation'),
+                                'guardian_email'      => $this->input->post('guardian_email'),
+                                'gender'              => $this->input->post('gender'),
+                                'guardian_name'       => $this->input->post('guardian_name'),
+                                'guardian_relation'   => $this->input->post('guardian_relation'),
+                                'guardian_phone'      => $this->input->post('guardian_phone'),
+                                'guardian_address'    => $this->input->post('guardian_address'),
+                                'admission_date'      => date('Y/m/d'),
+                                'measurement_date'    => date('Y/m/d'),
+                                'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                                'enrollment_type'     => $enrollment_type, 
+                                'middlename'          => $this->input->post('middlename'),
+                                'email'               => $this->input->post('email'),
+                                'class_section_id'    => $class_section_id,
+                                'roll_no'             => $this->input->post('studentidnumber'),
+                                'lrn_no'              => $this->input->post('lrn_no'),
+    
+                                'father_company_name'              => $this->input->post('father_company_name'),
+                                'father_company_position'          => $this->input->post('father_company_position'),
+                                'father_nature_of_business'        => $this->input->post('father_nature_of_business'),
+                                'father_mobile'                    => $this->input->post('father_mobile'),
+                                'father_dob'                       => date('Y-m-d', strtotime($this->input->post('father_dob'))),
+                                'father_citizenship'               => $this->input->post('father_citizenship'),
+                                'father_religion'                  => $this->input->post('father_religion'),
+                                'father_highschool'                => $this->input->post('father_highschool'),
+                                'father_college'                   => $this->input->post('father_college'),
+                                'father_college_course'            => $this->input->post('father_college_course'),
+                                'father_post_graduate'             => $this->input->post('father_post_graduate'),
+                                'father_post_course'               => $this->input->post('father_post_course'),
+                                'father_prof_affiliation'          => $this->input->post('father_prof_affiliation'),
+                                'father_prof_affiliation_position' => $this->input->post('father_prof_affiliation_position'),
+                                'father_tech_prof'                 => $this->input->post('father_tech_prof'),
+                                'father_tech_prof_other'           => $this->input->post('father_tech_prof_other'),
+    
+                                'mother_company_name'              => $this->input->post('mother_company_name'),
+                                'mother_company_position'          => $this->input->post('mother_company_position'),
+                                'mother_nature_of_business'        => $this->input->post('mother_nature_of_business'),
+                                'mother_mobile'                    => $this->input->post('mother_mobile'),
+                                'mother_dob'                       => date('Y-m-d', strtotime($this->input->post('mother_dob'))),
+                                'mother_citizenship'               => $this->input->post('mother_citizenship'),
+                                'mother_religion'                  => $this->input->post('mother_religion'),
+                                'mother_highschool'                => $this->input->post('mother_highschool'),
+                                'mother_college'                   => $this->input->post('mother_college'),
+                                'mother_college_course'            => $this->input->post('mother_college_course'),
+                                'mother_post_graduate'             => $this->input->post('mother_post_graduate'),
+                                'mother_post_course'               => $this->input->post('mother_post_course'),
+                                'mother_prof_affiliation'          => $this->input->post('mother_prof_affiliation'),
+                                'mother_prof_affiliation_position' => $this->input->post('mother_prof_affiliation_position'),
+                                'mother_tech_prof'                 => $this->input->post('mother_tech_prof'),
+                                'mother_tech_prof_other'           => $this->input->post('mother_tech_prof_other'),
+    
+                                'marriage'                   => $this->input->post('marriage'),
+                                'dom'                        => date('Y-m-d', strtotime($this->input->post('dom'))),
+                                'church'                     => $this->input->post('church'),
+                                'family_together'            => $this->input->post('family_together'),
+                                'parents_away'               => $this->input->post('parents_away'),
+                                'parents_away_state'         => $this->input->post('parents_away_state'),
+                                'parents_civil_status'       => $this->input->post('parents_civil_status'),
+                                'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
+    
+                                'session_id' => $current_session,
+                            );
+    
+                            if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
+                                $time     = md5($_FILES["document"]['name'] . microtime());
+                                $fileInfo = pathinfo($_FILES["document"]["name"]);
+                                $doc_name = $time . '.' . $fileInfo['extension'];
+                                move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+        
+                                $data['document'] = $doc_name;
+                            }
+    
+                            if (sizeOf($has_admission) <= 0)
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                             }
-                            else 
-                            {
-                                if ($has_admission->is_enroll == '0')
-                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                            else {
+                                if ($current_session > (int)$has_admission->session_id)
+                                {
+                                    $insert_id = $this->onlinestudent_model->add($data);
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                                }
                                 else 
-                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                                {
+                                    if ($has_admission->is_enroll == '0')
+                                        $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                                    else 
+                                        $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                                }
                             }
-                        }                        
+                        }
+                        else
+                            $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                     }
                     
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');

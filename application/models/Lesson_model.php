@@ -23,6 +23,61 @@ class Lesson_model extends MY_Model {
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
         $this->db->where("lms_lesson.account_id",$account_id);
+        $this->db->where('lms_lesson.deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+    public function get_lessons_no_virtual($account_id=""){
+
+        $this->db->select("*, lms_lesson.id as id");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->where("lms_lesson.account_id",$account_id);
+        $this->db->where('lms_lesson.lesson_type !=',"virtual");
+        $this->db->where('lms_lesson.deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_lessons_virtual_only($account_id=""){
+
+        $this->db->select("*, lms_lesson.id as id");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->where("lms_lesson.account_id",$account_id);
+        $this->db->where('lms_lesson.lesson_type',"virtual");
+        $this->db->where('lms_lesson.deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
+
+    public function get_shared_lessons($account_id=""){
+
+        $this->db->select("*, lms_lesson.id as id");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->where("lms_lesson.shared","1");
+        $this->db->where('deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function lesson_schedule_admin($account_id=""){
+
+        $this->db->select("*, lms_lesson.id as id");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
+        $this->db->where("lms_lesson.account_id",$account_id);
         $this->db->where('deleted',0);
         $query = $this->db->get("lms_lesson");
 

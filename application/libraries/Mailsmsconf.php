@@ -18,11 +18,18 @@ class Mailsmsconf
         $this->config_mailsms = $this->CI->config->item('mailsms');
     }
 
+    function console_log( $data ) {
+        $output  = "<script>console.log( 'PHP debugger: ";
+        $output .= json_encode(print_r($data, true));
+        $output .= "' );</script>";
+        echo $output;
+    }
+
     public function mailsms($send_for, $sender_details, $date = null, $exam_schedule_array = null)
     {
-
-        $send_for = $this->config_mailsms[$send_for];
-//=========
+        // $send_for = $this->config_mailsms[$send_for];
+        // var_dump($send_for);die;
+        //=========
         $chk_mail_sms = $this->CI->customlib->sendMailSMS($send_for);
 
         if (!empty($chk_mail_sms)) {
@@ -83,10 +90,16 @@ class Mailsmsconf
                 }
 
             } elseif ($send_for == "homework") {
-
-
                 $this->sendHomework($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
-            } else {
+            } 
+            elseif ($send_for == "student_import") {
+                // echo($chk_mail_sms['template']);die;
+                $this->console_log($chk_mail_sms['template']);
+                
+                if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") 
+                    $this->CI->mailgateway->sentRegisterMail($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template']);
+            }
+            else {
 
             }
         }

@@ -17,12 +17,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+        <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
         <style type="text/css">
             .ql-snow{
                 background-color: white;
             }
-            #learing_plan_text{
+            #learning_plan_text{
                 color: black;
             }
             #objective_text{
@@ -78,6 +79,9 @@
               padding: 5px 15px;
               border-left: 5px solid #fff;
             }
+            .no_background{
+              background-color: none;
+            }
 
         </style>
     </head>
@@ -92,7 +96,6 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
-        <input type="hidden" id="education_level" value="<?php echo $lesson['education_level'] ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -197,63 +200,80 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
-                    <h2>Learning Plan 5E's</h2>
+                    <h2>Learning Plan</h2>
                     <div class="slider_container">
-                        <div id="learing_plan_text">
-                          <p><strong>Engage</strong></p>
-                          <p>How will you capture the student's interest? What questions should students ask themselves?</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Explore</strong></p>
-                          <p>Describe what kinds of hands-on/minds-on activities students will be doing.</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Explain</strong></p>
-                          <p>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Extend</strong></p>
-                          <p>Describe how students will develop a more sophisticated understanding of the concept</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <p><strong>Evaluate</strong></p>
-                          <p>How will students demonstrate that they have achieved the lesson objective?</p>
-                          <ul>
-                            <li></li>
-                          </ul>
-
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                          <br/>
-                        </div>
+                        <!-- <div id="learning_plan_text" style="color: black(); ">
+                          
+                        </div> -->
+                        <textarea class="tinymce">
+                          <table border="1">
+                            <tr>
+                              <th rowspan="2">Topic: Learning Competencies</th>
+                              <th rowspan="2">Virtual Session Schedule</th>
+                              <th rowspan="2">Campus LMS Resources</th>
+                              <th rowspan="2" colspan="2">Learning Experiences</th>
+                              <th colspan="2">Hybrid Learning Modes</th>  
+                              <th rowspan="2">Evaluation (Assessments)</th>
+                            </tr>
+                            <tr>
+                              <th>Synchronous</th>
+                              <th>Asynchronous</th>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>Engage</td>
+                              <td>How will you capture the student's interest? What questions should students ask themselves?</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>Explore</td>
+                              <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>Explain</td>
+                              <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>Extend</td>
+                              <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>Evaluate</td>
+                              <td>How will students demonstrate that they have achieved the lesson objective?</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          </table>
+                        </textarea>
                     </div>
                 </div>
-                <div id="" class="slider close objective_slider">
+                <!-- <div id="" class="slider close objective_slider">
                     <div class="slider_container">
                         <h2>Objective</h2>
                         <div id="objective_text">
@@ -261,7 +281,7 @@
                           
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
                         <div class="col-lg-6">
@@ -300,6 +320,10 @@
                         <div class="col-lg-6">
 
                             <h3>Assign Date</h3>
+                            <?php if($lesson['start_date'] == '0000-00-00 00:00:00'): ?>
+                                <?php $lesson['start_date'] = ""; ?>
+                                <?php $lesson['end_date'] = ""; ?>
+                            <?php endif ?>
                             <input type="hidden" name="" value="<?php echo $lesson['start_date'] ?>" class="start_date">
                             <input type="hidden" name="" value="<?php echo $lesson['end_date'] ?>" class="end_date">
                             <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
@@ -314,7 +338,7 @@
                                     <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
                                 </select>
                                 
-                              </div>
+                            </div>
 
                             <div class="notification_control">
                               <h3>Notification</h3>
@@ -359,7 +383,7 @@
                           
                         </div>
                         <div class="chat_discussion" style="position: relative;">
-                          <input type="text" class="chat_text" name="" style="bottom: 0;">
+                          <textarea class="chat_text" style="bottom: 0;"></textarea>
                           <button class="chat_submit" onclick="send_chat()">Send</button>
                         </div>
                     </div>
@@ -367,6 +391,69 @@
                 <div id="" class="slider close settings_slider">
                     <div class="slider_container">
                         <h2>Settings</h2>
+                          <div class="col-lg-6">
+                            <h3>Subject</h3>
+                            <div class="select-box">
+                              <label for="subject" class="label select-box1"><span class="label-desc">Subject</span> </label>
+                              <select id="subject" class="select">
+                                  <?php foreach ($subjects as $key => $value) : ?>
+                                    <option <?php if($value['id'] == $lesson['subject_id']){echo "selected=''"; } ?> value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                                  <?php endforeach; ?>
+                              </select>
+                              
+                            </div>
+
+                            <h3>Grade</h3>
+                            <div class="select-box">
+                  
+                                <label for="grade" class="label select-box1"><span class="label-desc">Grade</span> </label>
+                                <select id="grade" class="select">
+                                    <?php foreach ($classes as $key => $value) : ?>
+                                    <option <?php if($value['id'] == $lesson['grade_id']){echo "selected=''"; } ?> value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
+                                  <?php endforeach; ?>
+                                </select>
+                                
+                            </div>
+
+                            <h3>Education Level</h3>
+                            <div class="select-box">
+                
+                                <label for="education_level" class="label select-box1"><span class="label-desc">Education Level</span> </label>
+                                <select id="education_level" class="select">
+                                    <option <?php if($lesson['education_level'] == "grade_school"){echo "selected=''"; } ?> value="grade_school">Grade School</option>
+                                    <option <?php if($lesson['education_level'] == "junior"){echo "selected=''"; } ?> value="junior">Junior Highschool</option>
+                                    <option <?php if($lesson['education_level'] == "senior"){echo "selected=''"; } ?> value="senior">Senior Highschool</option>
+                                    <option <?php if($lesson['education_level'] == "tertiary"){echo "selected=''"; } ?> value="tertiary">Tertiary</option>
+                                </select>
+                                
+                            </div>
+                            
+                          </div>
+                          <div class="col-lg-6">
+                            <h3>Term</h3>
+                            <div class="select-box">
+                
+                                <label for="term" class="label select-box1"><span class="label-desc">Term</span> </label>
+                                <select id="term" class="select">
+                                    <option <?php if($lesson['term'] == "1"){echo "selected=''"; } ?> value="1">1st Term</option>
+                                    <option <?php if($lesson['term'] == "2"){echo "selected=''"; } ?> value="2">2nd Term</option>
+                                    <option <?php if($lesson['term'] == "3"){echo "selected=''"; } ?> value="3">3rd Term</option>
+                                    <option <?php if($lesson['term'] == "4"){echo "selected=''"; } ?> value="4">4th Term</option>
+                                </select>
+                                
+                            </div>
+                            <h3>Shared</h3>
+                            <div class="select-box">
+                
+                                <label for="shared" class="label select-box1"><span class="label-desc">Share</span> </label>
+                                <select id="shared" class="select">
+                                    <option <?php if($lesson['shared'] == "1"){echo "selected=''"; } ?> value="1">Yes</option>
+                                    <option <?php if($lesson['shared'] == "0"){echo "selected=''"; } ?> value="0">No</option>
+                                </select>
+                                
+                            </div>
+                          </div>
+                          
                     </div>
                 </div>
                 <div class="footer">
@@ -378,11 +465,11 @@
                             </a>
                         </div>
                         <div class="actions">
-                            <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>LP 5E's</button>
+                            <button id="learning_plan" class="trigger action_button"><i class="fab fa-leanpub"></i>Learning Plan</button>
                         </div>
-                        <div class="actions">
+                        <!-- <div class="actions">
                             <button id="objective" class="trigger action_button"><i class="fas fa-bullseye"></i>Objective</button>
-                        </div>
+                        </div> -->
                         <div class="actions">
                             <button id="slideshow" class="action_button slideshow_action"><i class="fas fa-video"></i>Slideshow</button>
                         </div>
@@ -547,7 +634,7 @@
                           
                     </div>
                     <div class="chat_discussion" style="position: relative;">
-                      <input type="text" class="chat_text student_chat" name="" style="bottom: 0;">
+                      <textarea class="chat_text student_chat" name="" style="bottom: 0;"></textarea>
                       <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
                     </div>
                 
@@ -561,10 +648,17 @@
         <script src="<?php echo $resources.'jquery.mousewheel.min.js'?>"></script>
         
         <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
-        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="<?php echo $resources.'lesson.js'?>"></script>
+        <script type="text/javascript">
+          tinymce.init({
+            selector: '.tinymce',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+          });
+        </script>
     </body>
 </html>

@@ -13,7 +13,7 @@
             <?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
                 ?>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
@@ -76,7 +76,7 @@
             <!-- <?php } ?> -->
             <div class="col-md-<?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                echo "8";
+                echo "12";
             } else {
                 echo "12";
             }
@@ -107,7 +107,7 @@
                                         <th>Subject</th>
                                         <th>Grade</th>
                                         <th>Education Level</th>
-                                        <th>Assigned To</th>
+                                        <th>Shared</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -135,20 +135,20 @@
                                                 <?php echo strtoupper($list_data['education_level']); ?>
                                             </td>
                                             <td>
-                                                
+                                                <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
                                                             <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a data-placement="left" href=""class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
+                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/delete/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
-                                                            <i class="fa fa-eye"></i>
+                                                    <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                            <i class="fa fa-eye" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="zoom_open()"':'' ?> ></i>
                                                     </a>
                                                 <?php endif; ?>
                                                 
@@ -186,6 +186,9 @@
 
 
 <script>
+    function zoom_open(){
+        window.open('https://us02web.zoom.us/j/8713627702?pwd=VTFvc2k0YnkzeGl1dDhhRFBmS2YyQT09');
+    }
     $(document).ready(function () {
         $('.detail_popover').popover({
             placement: 'right',
@@ -196,5 +199,7 @@
                 return $(this).closest('td').find('.fee_detail_popover').html();
             }
         });
+        
+        
     });
 </script>

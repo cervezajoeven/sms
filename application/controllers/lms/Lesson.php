@@ -28,7 +28,7 @@ class Lesson extends General_Controller {
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
-            $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+            $data['list'] = $this->lesson_model->get_lessons_no_virtual($this->general_model->get_account_id());
             
         }else{
 
@@ -41,12 +41,65 @@ class Lesson extends General_Controller {
         $this->load->view('layout/footer');
     }
 
-    function save(){
+    function shared() {
+        
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/shared_lesson');
+
+        $data['title'] = 'Lesson';
+
+        $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+
+        if($data['role']=='admin'){
+            $this->load->view('layout/header');
+            $data['list'] = $this->lesson_model->get_shared_lessons($this->general_model->get_account_id());
+            
+        }else{
+
+            $this->load->view('layout/student/header');
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+        }
+
+        
+        $this->load->view('lms/lesson/shared', $data);
+        $this->load->view('layout/footer');
+    }
+
+    function virtual() {
+        
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/virtual');
+
+        $data['title'] = 'Lesson';
+
+        $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+
+        if($data['role']=='admin'){
+            $this->load->view('layout/header');
+            $data['list'] = $this->lesson_model->get_lessons_virtual_only($this->general_model->get_account_id());
+            
+        }else{
+
+            $this->load->view('layout/student/header');
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+        }
+
+        
+        $this->load->view('lms/lesson/virtual', $data);
+        $this->load->view('layout/footer');
+    }
+
+    function save($lesson_type="classroom"){
 
         $data['lesson_name'] = $_REQUEST['content_title'];
         $data['subject_id'] = $_REQUEST['subject'];
         $data['grade_id'] = $_REQUEST['grade'];
         $data['education_level'] = $_REQUEST['education_level'];
+        $data['lesson_type'] = $lesson_type;
         $data['account_id'] = $this->general_model->get_account_id();
 
 
@@ -74,6 +127,8 @@ class Lesson extends General_Controller {
         $data['classes'] = $this->class_model->getAll();
         $data['class_sections'] = $this->lesson_model->get_class_sections();
         $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
         // echo "<pre>";
         // print_r($data['role']);
         // exit();
@@ -84,6 +139,52 @@ class Lesson extends General_Controller {
             mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
         }
         $this->load->view('lms/lesson/create', $data);
+        
+    }
+
+    function show($id){
+
+        $data['id'] = $id;
+        $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
+
+        $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
+        $current_session = $this->setting_model->getCurrentSession();
+        $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
+        $data['classes'] = $this->class_model->getAll();
+        $data['class_sections'] = $this->lesson_model->get_class_sections();
+        $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+        // echo "<pre>";
+        // print_r($data['role']);
+        // exit();
+        $data['resources'] = site_url('backend/lms/');
+        if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
+            mkdir(FCPATH."uploads/lms_lesson/".$id);
+            mkdir(FCPATH."uploads/lms_lesson/".$id."/thumbnails/");
+            mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
+        }
+        $this->load->view('lms/lesson/show', $data);
+        
+    }
+
+    function import($id){
+
+        $data['id'] = $id;
+        $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
+        $data['lesson']['account_id'] = $this->general_model->get_account_id();
+        $data['lesson']['shared'] = 0;
+        unset($data['lesson']['id']);
+        unset($data['lesson']['assigned']);
+        $this->lesson_model->lms_create("lms_lesson",$data['lesson']);
+        $data['resources'] = site_url('backend/lms/');
+        if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
+            mkdir(FCPATH."uploads/lms_lesson/".$id);
+            mkdir(FCPATH."uploads/lms_lesson/".$id."/thumbnails/");
+            mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
+        }
+        redirect(site_url()."lms/lesson/index/".$id);
+        // $this->load->view('lms/lesson/show', $data);
         
     }
 
@@ -124,8 +225,12 @@ class Lesson extends General_Controller {
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
         $data['learning_plan'] = $_REQUEST['learning_plan'];
-        // echo '<pre>';print_r($data);exit();
-        // echo '<pre>';print_r($data);exit();
+        $data['subject_id'] = $_REQUEST['subject_id'];
+        $data['grade_id'] = $_REQUEST['grade_id'];
+        $data['education_level'] = $_REQUEST['education_level'];
+        $data['term'] = $_REQUEST['term'];
+        $data['shared'] = $_REQUEST['shared'];
+
         print_r($this->lesson_model->lms_update("lms_lesson",$data));
         
 
@@ -203,6 +308,17 @@ class Lesson extends General_Controller {
 
         // }
         //contents
+    }
+
+    public function delete($id){
+
+        $data['id'] = $id;
+        $data['deleted'] = 1;
+
+        print_r($this->lesson_model->lms_update("lms_lesson",$data));
+
+        redirect(site_url()."lms/lesson/index/");
+    
     }
 
     public function get($id){
@@ -298,6 +414,21 @@ class Lesson extends General_Controller {
         
         $lesson_id = $_REQUEST['lesson_id'];
         $discussion = $this->discussion_model->lesson_discussion($lesson_id);
+        
+        $new_discussion = [];
+        
+        foreach ($discussion as $key => $value) {
+            $profile = $this->general_model->get_account_name($value['account_id'],$value['account_type'])[0];
+            if($value['account_type']=="student"){
+                $discussion[$key]['firstname'] = $profile['firstname'];
+                $discussion[$key]['lastname'] = $profile['lastname'];
+            }else{
+                $discussion[$key]['firstname'] = $profile['name'];
+                $discussion[$key]['lastname'] = $profile['surname'];
+            }
+            
+            // print_r($discussion);
+        }
 
         echo json_encode($discussion);
 

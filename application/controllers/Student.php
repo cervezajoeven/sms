@@ -528,7 +528,6 @@ class Student extends Admin_Controller
                     //$last_student         = $this->student_model->lastRecord();
                     $last_student         = $this->student_model->lastRecordByAdmissionNo();
                     $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
-
                     $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
                     $data_insert['admission_no'] = $admission_no;
                 } 
@@ -1027,7 +1026,7 @@ class Student extends Admin_Controller
 
         // $fields = array('admission_no', 'roll_no', 'firstname', 'lastname', 'gender', 'dob', 'category_id', 'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
         //$fields = array('admission_no','roll_no','firstname','lastname','middlename','gender','dob','guardian_is','guardian_name','guardian_relation','guardian_phone','enrollment_type','mobileno','email','category_id','religion','cast','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation','mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','bank_account_no','bank_name','ifsc_code','adhar_no','samagra_id','rte','previous_school','note');
-        $fields = array('admission_no','roll_no','lrn_no','firstname','lastname','gender','dob','guardian_is','guardian_relation','guardian_name','guardian_phone','enrollment_type','category_id',
+        $fields = array('admission_no','roll_no','lrn_no','firstname','middlename','lastname','gender','dob','guardian_is','guardian_relation','guardian_name','guardian_phone','enrollment_type','category_id',
                         'religion','cast','mobileno','email','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation',
                         'mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','previous_school','note');
                         // ,'father_company_name','father_company_position','father_nature_of_business','father_mobile','father_email','father_dob','father_citizenship','father_religion',
@@ -1070,7 +1069,6 @@ class Student extends Admin_Controller
                     if (!empty($result)) {
                         $rowcount = 0;
                         for ($i = 1; $i <= count($result); $i++) {
-
                             $student_data[$i] = array();
                             $n                = 0;
                             foreach ($result[$i] as $key => $value) {
@@ -1080,9 +1078,25 @@ class Student extends Admin_Controller
                                 $student_data[$i]['is_active'] = 'yes';
                                 $n++;
                             }
+
+                            $last_student         = $this->student_model->lastRecordByAdmissionNo();
+
+                            if (!empty($last_student))
+                            {
+                                $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
+                                $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
+                            }
+                            else
+                                $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
+                            
+                            // var_dump($admission_no);die;
                             
                             $roll_no                           = $student_data[$i]["roll_no"];
-                            $adm_no                            = $student_data[$i]["admission_no"];
+                            $adm_no                            = $admission_no; //$student_data[$i]["admission_no"];
+
+                            $student_data[$i]["admission_no"] = $admission_no;
+                            $student_data[$i]["admission_date"] = date('Y/m/d');
+
                             $mobile_no                         = $student_data[$i]["mobileno"];
                             $email                             = $student_data[$i]["email"];
                             $guardian_phone                    = $student_data[$i]["guardian_phone"];
@@ -1091,29 +1105,27 @@ class Student extends Admin_Controller
                             $data_setting['id']                = $this->sch_setting_detail->id;
                             $data_setting['adm_auto_insert']   = $this->sch_setting_detail->adm_auto_insert;
                             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
-                            if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) {
 
-                                if (!empty($roll_no)) {
-
-                                    if ($this->student_model->check_rollno_exists($roll_no, 0, $class_id, $section)) {
-
+                            if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) 
+                            {
+                                if (!empty($roll_no)) 
+                                {
+                                    if ($this->student_model->check_rollno_exists($roll_no, 0, $class_id, $section)) 
+                                    {
                                         $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">' . $this->lang->line('record_already_exists') . '</div>');
-
                                         $insert_id = "";
-                                    } else {
-
+                                    } 
+                                    else 
                                         $insert_id = $this->student_model->add($student_data[$i], $data_setting);
-
-                                    }
-                                } else {
-
+                                } 
+                                else 
+                                {
+                                    $student_data[$i]["roll_no"] = $admission_no;
                                     $insert_id = $this->student_model->add($student_data[$i], $data_setting);
-                                }
-
-                            } else {
-
+                                }                                    
+                            } 
+                            else 
                                 $insert_id = "";
-                            }
 
                             if (!empty($insert_id)) {
                                 $data_new = array(
@@ -1154,17 +1166,23 @@ class Student extends Admin_Controller
 
                                 $this->student_model->add($update_student);
 
-                                // if (trim($email) != '')
-                                // {
-                                //     $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
-                                //     $this->mailsmsconf->mailsms('student_admission', $sender_details);
+                                if ($this->sch_setting_detail->email_on_student_import)
+                                {
+                                    if (!empty($email))
+                                    {
+                                        // $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
+                                        // $this->mailsmsconf->mailsms('student_admission', $sender_details);
+                                        $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
+                                        $this->mailsmsconf->mailsms('student_import', $sender_details);
 
-                                //     $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
-                                //     $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                                        // $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
+                                        // $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
 
-                                //     $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $guardian_phone, 'email' => $email);
-                                //     $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
-                                // }
+                                        // $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $guardian_phone, 'email' => $email);
+                                        // $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+                                    }
+                                }
+                                
 
                                 $data['csvData'] = $result;
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-center">' . $this->lang->line('students_imported_successfully') . '</div>');
@@ -1190,6 +1208,13 @@ class Student extends Admin_Controller
             redirect('student/import');
         }
     }
+
+    // function console_log( $data ) {
+    //     $output  = "<script>console.log( 'PHP debugger: ";
+    //     $output .= json_encode(print_r($data, true));
+    //     $output .= "' );</script>";
+    //     echo $output;
+    // }
 
     public function handle_csv_upload()
     {

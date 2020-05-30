@@ -415,11 +415,8 @@ class Staff extends Admin_Controller {
         $this->form_validation->set_rules('third_doc', $this->lang->line('image'), 'callback_handle_third_upload');
         $this->form_validation->set_rules('fourth_doc', $this->lang->line('image'), 'callback_handle_fourth_upload');
 
-        $this->form_validation->set_rules(
-                'email', $this->lang->line('email'), array('required', 'valid_email',
-            array('check_exists', array($this->staff_model, 'valid_email_id')),
-                )
-        );
+        $this->form_validation->set_rules('email', $this->lang->line('email'), array('required', 'valid_email',array('check_exists', array($this->staff_model, 'valid_email_id')),));
+        
         if (!$this->sch_setting_detail->staffid_auto_insert) {
 
             $this->form_validation->set_rules('employee_id', $this->lang->line('staff_id'), 'callback_username_check');
@@ -1561,6 +1558,9 @@ class Staff extends Admin_Controller {
                             $check_emailexists = $this->staff_model->import_check_email_exists($result[$r_key]['name'], $result[$r_key]['employee_id']);
 
                             if ($check_exists == 0 && $check_emailexists == 0) {
+                                // $last_staff = $this->staff_model->lastRecord();
+                                // $last_admission_digit = str_replace($this->sch_setting_detail->staffid_prefix, "", $last_staff->employee_id);
+                                // $employee_id = $this->sch_setting_detail->staffid_prefix . sprintf("%0" . $this->sch_setting_detail->staffid_no_digit . "d", $last_admission_digit + 1);
 
                                 $result[$r_key]['employee_id'] = $this->encoding_lib->toUTF8($result[$r_key]['employee_id']);
                                 $result[$r_key]['qualification'] = $this->encoding_lib->toUTF8($result[$r_key]['qualification']);
