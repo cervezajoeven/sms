@@ -338,11 +338,45 @@
                         </ul>
                     </li>
                     <?php
-                }
-                ?>
+                } ?>
+            <?php }
 
-                <?php
-            }
+            if ($this->module_lib->hasActive('class_record')) {
+                if (($this->rbac->hasPrivilege('record_master', 'can_view') ||
+                        $this->rbac->hasPrivilege('quarter', 'can_view') ||
+                        $this->rbac->hasPrivilege('components', 'can_view') ||
+                        $this->rbac->hasPrivilege('transmuted_grade', 'can_view'))) {
+                    ?>
+                    <li class="treeview <?php echo set_Topmenu('Class Record'); ?>">
+                        <a href="#">
+                            <i class="fa fa-file ftlayer"></i> <span><?php echo $this->lang->line('class_record'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <?php
+                            if ($this->rbac->hasPrivilege('record_master', 'can_view')) {
+                                ?>
+                                <li class="<?php echo set_Submenu('recordmaster/index'); ?>"><a href="<?php echo base_url(); ?>admin/classrecord/recordmaster"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('record_master'); ?></a></li>
+                            <?php }
+                            if ($this->rbac->hasPrivilege('quarter', 'can_view')) {
+                                ?>
+                                <li class="<?php echo set_Submenu('quarter/index'); ?>"><a href="<?php echo base_url(); ?>admin/classrecord/quarter"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('quarter'); ?></a></li>
+                            <?php } 
+                            if ($this->rbac->hasPrivilege('components', 'can_view')) {
+                                ?>
+                                <li class="<?php echo set_Submenu('components/index'); ?>"><a href="<?php echo base_url(); ?>admin/classrecord/components"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('components'); ?></a></li>
+                            <?php } 
+                            if ($this->rbac->hasPrivilege('transmuted_grades', 'can_view')) {
+                                ?>
+                                <li class="<?php echo set_Submenu('transmutedgrades/index'); ?>"><a href="<?php echo base_url(); ?>admin/classrecord/transmutedgrades"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('transmuted_grade'); ?></a></li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                    <?php
+                } ?>
+            <?php }
+
+
+
             if ($this->module_lib->hasActive('examination')) {
                 if (($this->rbac->hasPrivilege('exam_group', 'can_view') ||
                         $this->rbac->hasPrivilege('exam_result', 'can_view') ||
@@ -442,7 +476,7 @@
                     ?>
                     <li class="treeview <?php echo set_Topmenu('Academics'); ?>">
                         <a href="#">
-                            <i class="fa fa-mortar-board ftlayer"></i> <span><?php echo $this->lang->line('faculty_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-graduation-cap ftlayer"></i> <span><?php echo $this->lang->line('faculty_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
 
@@ -616,7 +650,22 @@
                     <?php
                 }
             }
-
+            if ($this->module_lib->hasActive('download_center')) {
+                if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
+                    ?>
+                    <li class="treeview <?php echo set_Topmenu('Campus Meetup'); ?>">
+                        <a href="#">
+                            <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('lms_campus_meetup'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_available_soon'); ?></a></li>
+                           
+                            
+                        </ul>
+                    </li>
+                    <?php
+                }
+            }
             if ($this->module_lib->hasActive('download_center')) {
                 if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
                     ?>
@@ -626,8 +675,18 @@
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
+<<<<<<< Updated upstream
                             <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+                            <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                             <li class="<?php echo set_Submenu('content/virtual'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Virtual Class</a></li>
+=======
+>>>>>>> Stashed changes
                             <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>lms/schedule/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
