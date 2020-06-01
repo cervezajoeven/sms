@@ -82,7 +82,14 @@
             .no_background{
               background-color: none;
             }
-
+            .learning_plan_slider{
+                width: 100%;
+                top: 0px;
+                z-index: 4;
+            }
+            .tinymce td{
+              font-size: 10px;
+            }
         </style>
     </head>
 
@@ -200,13 +207,13 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
-                    <h2>Learning Plan</h2>
+                    <h2 style="margin: 5px;">Learning Competencies (MELCS)</h2>
                     <div class="slider_container">
                         <!-- <div id="learning_plan_text" style="color: black(); ">
                           
                         </div> -->
                         <textarea class="tinymce">
-                          <table border="1">
+                          <table style="height: 600px;" border="1">
                             <tr>
                               <th rowspan="2">Topic: Learning Competencies</th>
                               <th rowspan="2">Virtual Session Schedule</th>
@@ -219,51 +226,51 @@
                               <th>Synchronous</th>
                               <th>Asynchronous</th>
                             </tr>
-                            <tr>
+                            <tr style="font-size: 10px">
                               <td></td>
                               <td></td>
                               <td></td>
-                              <td>Engage</td>
+                              <td style="color: red;font-size: 14px;"><h3>Engage</h3></td>
                               <td>How will you capture the student's interest? What questions should students ask themselves?</td>
                               <td></td>
                               <td></td>
                               <td></td>
                             </tr>
-                            <tr>
+                            <tr style="font-size: 10px;">
                               <td></td>
                               <td></td>
                               <td></td>
-                              <td>Explore</td>
+                              <td style="color: blue;font-size: 14px;"><h3>Explore</h3></td>
                               <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
                               <td></td>
                               <td></td>
                               <td></td>
                             </tr>
-                            <tr>
+                            <tr style="font-size: 10px;">
                               <td></td>
                               <td></td>
                               <td></td>
-                              <td>Explain</td>
+                              <td style="color: violet;font-size: 14px;"><h3>Explain</h3></td>
                               <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
                               <td></td>
                               <td></td>
                               <td></td>
                             </tr>
-                            <tr>
+                            <tr style="font-size: 10px">
                               <td></td>
                               <td></td>
                               <td></td>
-                              <td>Extend</td>
+                              <td style="color: green;font-size: 14px;"><h3>Extend</h3></td>
                               <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
                               <td></td>
                               <td></td>
                               <td></td>
                             </tr>
-                            <tr>
+                            <tr style="font-size: 10px">
                               <td></td>
                               <td></td>
                               <td></td>
-                              <td>Evaluate</td>
+                              <td style="color: pink;font-size: 14px;"><h3>Evaluate</h3></td>
                               <td>How will students demonstrate that they have achieved the lesson objective?</td>
                               <td></td>
                               <td></td>
@@ -365,6 +372,7 @@
                             <h3>Save</h3>
                             
                             <button class="assign_save" style="padding: 10px;width: 50%;border-radius: 10px;border: 0px;cursor: pointer;">Assign</button>
+
                         </div>
                         
 
@@ -482,6 +490,14 @@
                         <div class="actions">
                             <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button>
                         </div>
+                        <?php if($lesson['lesson_type'] == "virtual"): ?>
+                          <div class="actions">
+                              <a href="https://us02web.zoom.us/j/8713627702?pwd=b0lFZ0JlUVVBdGxGbWNwUUVGV1RvZz09" target="_blank">
+                                <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Campus Meetup</button>
+                              </a>
+                              
+                          </div>
+                        <?php endif; ?>
                     </div>
                     
                 </div>
@@ -658,6 +674,7 @@
             selector: '.tinymce',
             plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
             toolbar_mode: 'floating',
+            height : "700",
           });
         </script>
     </body>
