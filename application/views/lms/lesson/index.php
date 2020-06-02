@@ -42,7 +42,7 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Grade</label><small class="req"> *</small>
+                                    <label for="exampleInputEmail1">Grade/Level</label><small class="req"> *</small>
                                     <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control">
                                         <?php foreach ($classes as $key => $value) : ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
@@ -54,6 +54,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
                                     <select autofocus="" id="" name="education_level" placeholder="" type="text" class="form-control">
+                                        <option value="pre_school">Pre-School</option>
                                         <option value="grade_school">Grade School</option>
                                         <option value="junior">Junior Highschool</option>
                                         <option value="senior">Senior Highschool</option>
