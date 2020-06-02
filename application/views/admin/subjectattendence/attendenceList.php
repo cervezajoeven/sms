@@ -255,7 +255,7 @@
                                                         </td>
 
                                                         <td>
-                                                            <?php echo $value['firstname'] . " " . $value['lastname']; ?>
+                                                            <?php echo $value['lastname'] . ", " . $value['firstname']; ?>
                                                         </td>
                                                         <td>
                                                             <?php

@@ -100,7 +100,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 									
                                         <th><?php echo $this->lang->line('student'); ?> <?php echo $this->lang->line('name'); ?></th>
 										<?php if ($sch_setting->father_name) {  ?>
-                                        <th><?php echo $this->lang->line('father_name'); ?></th>
+                                        <!-- <th><?php echo $this->lang->line('father_name'); ?></th> -->
 										<?php } ?>
                                         <th><?php echo $this->lang->line('date_of_birth'); ?></th>
                                         <th><?php echo $this->lang->line('phone'); ?></th>
@@ -119,10 +119,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 											
                                             <td><?php echo $student['admission_no']; ?></td>
 											
-                                            <td><?php echo $student['firstname'] . " " . $student['lastname']; ?></td>
-											<?php if ($sch_setting->father_name) {  ?>
-                                            <td><?php echo $student['father_name']; ?></td>
-											<?php } ?>
+                                            <td><?php echo $student['lastname'] . ", " . $student['firstname']; ?></td>
+											<?php //if ($sch_setting->father_name) {  ?>
+                                            <!-- <td><?php //echo $student['father_name']; ?></td> -->
+											<?php //} ?>
                                             <td><?php
                                                 if (!empty($student['dob'])) {
                                                     echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob']));
