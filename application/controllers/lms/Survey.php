@@ -9,6 +9,8 @@ class Survey extends General_Controller {
         $this->module_folder = "general";
         $this->load->model('survey_model');
         $this->load->model('general_model');
+        $this->load->model('class_model');
+        $this->load->model('lesson_model');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/survey');
     }
@@ -21,7 +23,6 @@ class Survey extends General_Controller {
         $data['list'] = $this->survey_model->all_survey();
         $data['role'] = $this->general_model->get_role();
         
-
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
@@ -92,15 +93,20 @@ class Survey extends General_Controller {
         $data['id'] = $id;
         $data['survey'] = $this->survey_model->lms_get("lms_survey",$id,"id")[0];
         $data['resources'] = site_url('backend/lms/');
-
+        $data['students'] = $this->lesson_model->get_students();
+        $data['classes'] = $this->class_model->getAll();
+        $data['class_sections'] = $this->lesson_model->get_class_sections();
         $this->load->view('lms/survey/edit', $data);
     }
 
     public function update(){
         $data['id'] = $_REQUEST['id'];
         $data['sheet'] = $_REQUEST['sheet'];
+        $data['start_date'] = $_REQUEST['start_date'];
+        $data['end_date'] = $_REQUEST['end_date'];
+        $data['assigned'] = $_REQUEST['assigned'];
 
-
+        print_r($data);
         $this->survey_model->lms_update("lms_survey",$data);
     }
 
