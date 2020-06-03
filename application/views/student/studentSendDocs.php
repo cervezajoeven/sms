@@ -117,7 +117,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <td><?php echo $student['gender']; ?></td>                                                    
                                                     <td>
                                                         <input name="docs<?php echo $student['id'] ?>[]" placeholder="" type="file" multiple class="form-control filestyle" data-height="25"  value="<?php echo set_value('first_doc'); ?>" />
-                                                        <!-- <input name="docs<?php echo $student['id'] ?>" placeholder="" type="file" multiple class="form-control filestyle" data-height="25"  value="<?php echo set_value('first_doc'); ?>" /> -->
+                                                        <!-- <input name="docs<?php //echo $student['id'] ?>" placeholder="" type="file" multiple class="form-control filestyle" data-height="25"  value="<?php //echo set_value('first_doc'); ?>" /> -->
                                                     </td>
                                                 </tr>
                                                 <?php $count++;
