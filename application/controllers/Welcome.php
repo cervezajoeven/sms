@@ -262,7 +262,7 @@ class Welcome extends Front_Controller
                 // die;
                 
                 // if (strpos($classname, "nursery") == false && strpos($classname, "kinder") == false && strpos($classname, "grade 1") == false)
-                    $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
+                    // $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
             }
             else 
             {
@@ -560,14 +560,14 @@ class Welcome extends Front_Controller
                         if (sizeOf($has_admission) <= 0)
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
-                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                         }
                         else 
                         {
                             if ($current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != $current_session)
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
-                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                             }
                             else 
                             {
