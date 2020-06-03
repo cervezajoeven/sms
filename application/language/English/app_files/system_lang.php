@@ -1500,5 +1500,5 @@ $lang['living_with_parents_specify'] = 'If No, Please specify';
 $lang['has_siblings_enrolled'] = 'Has Siblings Enrolled';
 $lang['siblings_specify'] = 'If Yes, Please specify';
 
-$lang['admission_success'] = 'We have recieved your online admission. We will review your account and an email notification within 48 hours. Thank you!';
+$lang['admission_success'] = 'We have recieved your online admission. We will review your account and please expect an email notification within 48 hours. Thank you!';
 ?>
