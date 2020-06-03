@@ -308,7 +308,7 @@ if (!$form_admission) {
             </div>
         </div>
         <div class="col-md-3">
-        
+
             <div class="form-group">    
                 <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -662,6 +662,7 @@ if (!$form_admission) {
         </div>
 
         <div class="col-md-5">
+        
             <div class="form-group">
                 <label><?php echo $this->lang->line('parent_civil_status');?></label><small class="req"> *</small> 
                 <label class="radio-inline">

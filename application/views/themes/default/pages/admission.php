@@ -64,42 +64,9 @@ if (!$form_admission) {
       </div>
 
         <div class="modal-body">
-            <p>In bound for this Admission system, the <?php echo $schoolname; ?> is committed to respect and protect the collected the confidentiality and privacy of these data and information, including personal information, from various subject using the system as required under the Data Privacy Act of 2012 (Republic Act No. 10173). 
-            </p>
-            <p>This privacy determines on how the system will manage the personal information/s collected by it, who uses and how the information used, shared and how long is the information will be retained.</p>
-            <p>By visiting our system you are doing so on the basis of the general practices described in this Data Protection and Privacy Policy. Where we require your consent to process your personal data in accordance with these practices, we will seek this consent at the point at which you provide us with this data. Where we wish to process your personal data for a purpose other than that for which the personal data were collected, we will notify you of that intention and obtain any further necessary consents.
-            </p>
-            <p><b>Information you provide to us</b></p>
-            <p>As part of the admission process, you will be asked to provide your specific consent for us to process your personal data, including sensitive information, disability status and/or religion (if provided), during and after admission.
-            </p>
-            <ol>
-            <li>Personal information refers to any information whether recorded in a material form or not, from which the identity of an individual is apparent or can be reasonably and directly ascertained by the entity holding the information, or when put together with other information would directly and certainly identify an individual.</li>
-            <li>Sensitive personal information refers to personal information:</li>
-                <ul>
-                    <li>About a marital status, age, and religious, philosophical or political affiliations;</li>
-                    <li>About an individual’s health, education, genetic or sexual life of a person, or to any proceeding for any offense committed or alleged to have been committed by such person, the disposal of such proceedings, or the sentence of any court in such proceedings;</li>
-                </ul>
-            </ol>
-            <p><b>How we use information about you</b></p>
-            <p>The purposes for which the School uses personal information of students and parents include (but are not limited to):</p>
-            <ul>
-                    <li>evaluating applications for admission to the School and processing confirmation of incoming students and transfer students;</li>
-                    <li>recording, storing and evaluating student work, e. g. homework, seatwork, tests, research papers, essays and presentations;</li>
-                    <li>recording, generating and maintaining records, whether manually, electronically or other means, of class attendance and participation in curricular, co-curricular and extra-curricular activities;</li>
-                    <li>sharing of grades between and among faculty members, and others with legitimate official need, for academic deliberations;</li>
-                    <li>processing scholarship applications, grants and other forms of assistance;</li>
-                    <li>investigating incidents relating to student behavior and implementing disciplinary measures;</li>
-                    <li>maintaining directories and alumni records;</li>
-                    <li>compiling and generating reports for statistical and research purposes;</li>
-                    <li>providing health, counseling, information technology, library, sports/recreation, transportation, parking, campus mobility, safety and security services;</li>
-                    <li>communicating official school announcements;</li>
-                    <li>sharing marketing and promotional materials regarding school-related functions, events, projects and activities;</li>
-                    <li>keeping parents informed about matters related to the student’s schooling, through correspondence, newsletters and magazines;</li>
-                    <li>satisfying the School’s legal obligations and allowing the School to discharge its duty of care. In cases where the School requests personal information about a Student or parent, if the information requested is not provided, the School may not be able to enroll or continue the enrollment of the student or permit the student to take part in a particular activity.</li>
-            </ul>
-            
-            <p><b>Retention of your personal information</b></p>
-            <p>Your personal data will be destroyed or erased from our systems when it is no longer required for the relevant specified purpose that it was collected for, provided that we may retain personal data in order to comply with applicable laws, regulations and rules. </p>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="<?php echo base_url(); ?>page/data-privacy" allowfullscreen></iframe>
+            </div>
         </div>
         <div class="modal-footer">
             <div class="pull-right">
@@ -120,29 +87,9 @@ if (!$form_admission) {
       </div>
 
         <div class="modal-body">
-            <P>We understand that our failure to pay the reservation fee, <B>which is deductible from the tuition during enrollment but non-refundable, on or before May 30, 2020</B> would mean forfeiting the slot intended for our child.</P>
-            
-            <P><B>Refunds</B></P>
-            <P>a. On installment basis, no refund for tuition and other fees shall be granted to a pupil/student who withdraws anytime after registration. Moreover, he/she may be charged all the school fees in full regardless of whether he/she has actually attended classes or not.</P>
-            <P>b. On cash basis, the allowable period for granting a refund is not more than two weeks after the opening of regular classes. Meanwhile, a refund on the said prescribed period is subject to the following conditions:</P>
-            <P>  b.1 90% of the amount paid when he withdraws within the first school week, whether he has attended or not.</P>
-            <P>  b.2 80% of the amount paid when he withdraws within the second school week, whether he has attended or not.</P>
-            <P>  b.3 <B>NO REFUND</B> shall be granted on the third school week.</P>
-            <P ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 100%"><BR></P>
-            <P ALIGN=JUSTIFY STYLE="margin-bottom: 0in; line-height: 100%"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>
-            <I>This is to recognized without reservation, the authority of Sophia School
-            to bar or not to allow the child/children from attending his/her
-            classes (virtual/face-to-face physical schooling) in case the
-            parent/guardian  fails to pay two (2) consecutive installments of the
-            due and demandable tuition and other school fees as indicated in the
-            current schedule of payment (Monthly Basis)  or two(2) months after
-            the due date of payment of tuition and other school fees
-            (Half-Year/Semestral/Quarterly Basis) and that he/she shall only be
-            readmitted as soon as the tuition and other school fees are paid;
-            provided however, that  the child will be solely responsible in
-            keeping up with the lessons, assignments and taking examinations
-            given during the school days the child was not allowed to attend
-            classes.</I></FONT></FONT></P>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="<?php echo base_url(); ?>page/terms-and-conditions" allowfullscreen></iframe>
+            </div>
         </div>
         <div class="modal-footer">
             <div class="pull-right">
@@ -163,58 +110,9 @@ if (!$form_admission) {
       </div>
 
         <div class="modal-body">
-            <!-- <h2>Admission Guidelines</h2> -->
-            <ol>
-                <li>
-                    <h3>
-                        <strong>Guidelines and Requirements</strong>
-                    </h3>
-                    <strong>For new Students</strong><br>
-                    <ol>
-                        <li>Any incoming freshman, whether he/she is a graduate of <?php echo $schoolname; ?> or not, has to undergo an entrance examination and panel interview on top of submitting the necessary credentials.</li>
-                        <li>Only an applicant who is able to pass the above said requirements can be admitted to the High School Department.</li>
-                        <li>A student whose overall screening is a little bit below the acceptable standard is placed on probation for one school year. He/She will be regarded as a regular student in the following school year if he does not fail any of his subject and has a general average of 80%. In addition, he/she should not have any disciplinary problems throughout his first year in our school.</li>
-                        <li>His/ Her parent(s) or guardian has/have to be interviewed also.</li>
-                        <li>The following requirements must be submitted upon application:</li>
-                            <ul>
-                                <li>Photocopy of NSO birth certificate (original copy must be brought for verification purposes)</li>
-                                <li>Medical certificate and immunization record from the child’s pediatrician</li>
-                                <li>Three (3) copies of recent ID picture (1” x 1”)</li>
-                                <li>Assessment and Interview of the Child/ Interview of his/her parent(s) or guardian</li>
-                                <li>Application Fee</li>
-                                <li>For transferees - letters (a – e) plus Report Card and Certificate of good moral character from the school last attended.</li>
-                                <li>ACR and ICR for foreigners</li>
-                                <li>NCAE Results for SHS applicants</li>
-                            </ul>
-                    </ol>
-                    <strong>For incumbent students</strong>
-                    <ol>
-                        <li>The child must present his/her Report Card—Form 138 and re-admission slip.</li>
-                        <li>The child who fails for two (2) consecutive years in the same year level will not be re-admitted. This likewise holds true to any student who gets suspended for three (3) times within a school year.</li>
-                        <li>The child who is under academic and/or disciplinary probation has one school year to meet the condition(s) given to him in order to be re-admitted for the next school year.</li>
-                    </ol>
-                </li>
-                <li>
-                <h3>
-                    <strong>Scholarship</strong>
-                    </h3>
-                    <ol>
-                        <li><strong>School Academic Scholarship</strong> is given to a student who garners the school holistic excellence awards of With Distinctions, With Honors, With High Honors, and With Highest Honors. The percentage of the tuition fee discounts will be based on the award he/she has received.</li>
-                        <li><strong>Educational Service Contracting (ESC) Program</strong> is a DepEd fund assistance to private education. A fund assistance is given to a qualified student for four (4) years, (Grade 7 to 12) provided that he/she will not have any failing grades.</li>
-                        <li><strong>Other scholarship grants</strong> are given to selected underprivileged students.</li>
-                    </ol>
-                </li>
-                <li>
-                    <h3>
-                    <strong>Enrollment Calendar</strong>
-                    </h3>
-                    <ul>
-                        <p>May XX, 2020 – Detail here </p>
-                        <p>May XX, 2020 – Detail here</p>
-                        <p>Month XX, 2020 – Detail here</p>
-                    </ul>
-                </li>
-            </ol>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="<?php echo base_url(); ?>page/admission-guidelines" allowfullscreen></iframe>
+            </div>
         </div>
         <div class="modal-footer">
             <!-- <div class="checkbox pull-left">
@@ -362,11 +260,70 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleInputEmail1"> <?php echo $this->lang->line('upload')." ".$this->lang->line('documents');?></label>
-                <input id="document" name="document"  type="file" class="form-control all-fields"  value="<?php echo set_value('document'); ?>" />
+                <input id="document" name="document[]"  type="file" multiple class="form-control all-fields"  value="<?php echo set_value('document'); ?>" />
                 <span class="text-danger"><?php echo form_error('document'); ?></span>
             </div>
         </div>
     </div><!--./row-->     
+    <div class="row" id="student_address">
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="guardian_address_is_current_address" onclick="">
+                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('current_address'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="permanent_address_is_current_address"onclick="">
+                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">    
+                <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
+                <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">    
+                <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><?php echo $this->lang->line('siblings_specify');?></label>
+                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
+            </div>
+        </div>
+    </div>
     <!-- Start Parent Details -->
     <div class="row" id="parentdetail">  
         <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('parent_detail'); ?></h4><div class="line"></div></div>
@@ -374,7 +331,7 @@ if (!$form_admission) {
         <!-- Start Father section -->
         <div class="col-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1"><?php echo $this->lang->line('father_name'); ?></label><small class="req"> *</small> 
+                <label for="exampleInputEmail1"><?php echo $this->lang->line('father_name')." (Last Name, First Name, Middle Name)"; ?></label><small class="req"> *</small> 
                 <input id="father_name" name="father_name" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('father_name'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('father_name'); ?></span>
             </div>
@@ -494,7 +451,7 @@ if (!$form_admission) {
             </div>
         </div>
         <div class="form-group col-md-6">
-            <label><?php echo $this->lang->line('tech_prof');?><small class="req"> *</small> 
+            <label><?php echo $this->lang->line('tech_prof');?></label><small class="req"> *</small> 
             <label class="radio-inline">
                 <input type="radio" name="father_tech_prof" <?php echo set_value('father_tech_prof') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
             </label>
@@ -515,7 +472,7 @@ if (!$form_admission) {
         <!-- Start Mother section -->
         <div class="col-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1"><?php echo $this->lang->line('mother_name'); ?></label><small class="req"> *</small> 
+                <label for="exampleInputEmail1"><?php echo $this->lang->line('mother_name')." (Last Name, First Name, Middle Name)"; ?></label><small class="req"> *</small> 
                 <input id="mother_name" name="mother_name" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('mother_name'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('mother_name'); ?></span>
             </div>
@@ -634,7 +591,7 @@ if (!$form_admission) {
             </div>
         </div>
         <div class="form-group col-md-6">
-            <label><?php echo $this->lang->line('tech_prof');?><small class="req"> *</small> 
+            <label><?php echo $this->lang->line('tech_prof');?></label><small class="req"> *</small> 
             <label class="radio-inline">
                 <input type="radio" name="mother_tech_prof" <?php echo set_value('mother_tech_prof') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
             </label>
@@ -680,8 +637,8 @@ if (!$form_admission) {
                 <label for="family_together"><?php echo $this->lang->line('family_together'); ?></label><small class="req"> *</small> 
                 <select class="form-control all-fields" name="family_together" id="family_together">
                     <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="yes" <?php if (strtolower(set_value('family_together')) == "yes") echo "selected"; ?>>Yes</option>
+                    <option value="no" <?php if (strtolower(set_value('family_together')) == "no") echo "selected"; ?>>No</option>
                 </select>
                 <span class="text-danger"><?php echo form_error('family_together'); ?></span>
             </div>
@@ -704,9 +661,13 @@ if (!$form_admission) {
             <input id="parents_away_state" disabled name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_away_state'); ?>" autocomplete="off"/>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
+        
             <div class="form-group">
                 <label><?php echo $this->lang->line('parent_civil_status');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="parents_civil_status" <?php echo set_value('parents_civil_status') == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
+                </label>
                 <label class="radio-inline">
                     <input type="radio" name="parents_civil_status" <?php echo set_value('parents_civil_status') == "separated" ? "checked" : ""; ?> value="separated"> <?php echo $this->lang->line('separated'); ?>
                 </label>
@@ -719,9 +680,11 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('parent_civil_status'); ?></span>
             </div>
         </div>
-        <div class="col-md-8">
-            <label><?php echo $this->lang->line('others_specify');?></label>
-            <input id="parents_civil_status_other" disabled name="parents_civil_status_other" placeholder="If others, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_civil_status_other'); ?>" autocomplete="off"/>
+        <div class="col-md-7">
+            <div class="form-group">
+                <label><?php echo $this->lang->line('others_specify');?></label>
+                <input id="parents_civil_status_other" disabled name="parents_civil_status_other" placeholder="If others, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_civil_status_other'); ?>" autocomplete="off"/>
+            </div>
         </div>        
     </div>
     <!-- End Parent Details -->
@@ -1085,7 +1048,10 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <div class="form-group pull-right">
-                    <label><input type="checkbox" value="" id="iagree"> I understand that by checking this box, I agree with the School’s <a href="#" onclick="ShowTermsAndCondition()">Enrollment Terms and conditions</a>, also I authorize the <?php echo $schoolname; ?> to use the information I provided but within the bounds of data privacy act. See our <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a> for more details.</label>
+                    <label><input type="checkbox" value="" id="iagree"> 
+                    I hereby certify that information given are true and correct to the best of my knowledge and I allow the the Department of Education to use my child's details to create and/or and update his/her 
+                    learner profile in the Learner Information System. The information herein shall be treated as confidential in the compliance with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Act of 2012</a>.
+                    </label>
                 </div>
             </div>  
         </div>
@@ -1095,7 +1061,7 @@ if (!$form_admission) {
         <div class="col-md-12">
             <div class="form-group pull-right">
                 <!-- <label><input type="checkbox" value="" id="iagree"> I agree with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a></label> -->
-                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn"><?php echo $this->lang->line('save'); ?></button>
+                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn"><?php echo $this->lang->line('submit'); ?></button>
             </div> 
         </div>    
     </div><!--./row-->    
@@ -1164,11 +1130,13 @@ if (!$form_admission) {
             $('#gender').prop('readonly', true);
             $('#dob').prop('readonly', true);
             $('#id_number_input').fadeIn();
+            $("#student_address").slideUp();
             $('#parentdetail').slideUp();
             $('#guardiandetail1').slideUp();
             $('#guardiandetail2').slideUp();
             $('#otherparentdetail').slideUp();
         }
+        else $('#id_number_input').fadeOut();
     });
 
     $('input:radio[name="guardian_is"]').change(
@@ -1284,6 +1252,46 @@ if (!$form_admission) {
         //}
     });
 
+    $('#guardian_address_is_current_address').click(function(){
+        if($(this).is(':checked')) {
+            $('#permanent_address_is_current_address').prop("checked", false);
+        }
+    });
+
+    $('#permanent_address_is_current_address').click(function(){
+        if($(this).is(':checked')) {
+            $('#guardian_address_is_current_address').prop("checked", false);
+        }
+    });
+
+    $('input:radio[name="living_with_parents"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "no") {
+                    $('#living_with_parents_specify').prop('disabled', false);
+                }
+                else {
+                    $('#living_with_parents_specify').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="has_siblings_enrolled"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#siblings_specify').prop('disabled', false);
+                }
+                else {
+                    $('#siblings_specify').prop('disabled', true);
+                }
+            }
+        }
+    );    
+
     function SetClassName(sel) {
         var text= sel.options[sel.selectedIndex].text;
         $("#classname").val(text);
@@ -1304,6 +1312,7 @@ if (!$form_admission) {
             $('#gender').prop('readonly', true);
             $('#dob').prop('readonly', true);
             $('#id_number_input').fadeIn();
+            $("#student_address").slideUp();
             $('#parentdetail').slideUp();
             $('#guardiandetail1').slideUp();
             $('#guardiandetail2').slideUp();
@@ -1318,6 +1327,7 @@ if (!$form_admission) {
             $('#gender').prop('readonly', false);
             $('#dob').prop('readonly', false);
             $('#id_number_input').fadeIn();
+            $("#student_address").slideDown();
             $('#parentdetail').slideDown();
             $('#guardiandetail1').slideDown();
             $('#guardiandetail2').slideDown();
@@ -1332,6 +1342,7 @@ if (!$form_admission) {
             $('#gender').prop('readonly', false);
             $('#dob').prop('readonly', false);
             $('#id_number_input').fadeOut();
+            $("#student_address").slideDown();
             $('#parentdetail').slideDown();
             $('#guardiandetail1').slideDown();
             $('#guardiandetail2').slideDown();
@@ -1399,6 +1410,10 @@ if (!$form_admission) {
     function ShowTermsAndCondition() {
         $('#termsCondition').modal("show");
     }
+
+    // $('#privacyPolicy').on('shown.bs.modal', function() {
+    //     $(this).find('iframe').attr('src','http://www.google.com')
+    // });
 
 </script>
 
