@@ -407,6 +407,11 @@ class Student extends Admin_Controller
                 'parents_away_state'         => $this->input->post('parents_away_state'),
                 'parents_civil_status'       => $this->input->post('parents_civil_status'),
                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
+
+                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
+                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                'living_with_parents' => $this->input->post('living_with_parents'),
+                'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
             );
 
             $house            = $this->input->post('house');
@@ -519,9 +524,9 @@ class Student extends Admin_Controller
             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
             $admission_no                      = 0;
 
-            if ($this->sch_setting_detail->adm_auto_insert) 
+            if ($this->sch_setting_detail->adm_auto_insert)
             {
-                if ($this->sch_setting_detail->adm_update_status) 
+                if ($this->sch_setting_detail->adm_update_status)
                 {
                     $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
 
@@ -588,7 +593,7 @@ class Student extends Admin_Controller
                 if ($this->input->post('enrollment_type') != 'old') 
                 {
                     $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-                    $sibling_id         = $this->input->post('sibling_id');
+
                     $data_student_login = array(
                         'username' => $this->student_login_prefix . $insert_id,
                         'password' => $user_password,
@@ -597,6 +602,7 @@ class Student extends Admin_Controller
                     );
                     $this->user_model->add($data_student_login);
 
+                    $sibling_id         = $this->input->post('sibling_id');
                     if ($sibling_id > 0) 
                     {
                         $student_sibling = $this->student_model->get($sibling_id);
@@ -1375,7 +1381,7 @@ class Student extends Admin_Controller
                 'dob'                 => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('dob'))),
                 'current_address'     => $this->input->post('current_address'),
                 'permanent_address'   => $this->input->post('permanent_address'),
-                //'image'               => 'uploads/student_images/no_image.png',
+                'image'               => 'uploads/student_images/no_image.png',
                 'adhar_no'            => $this->input->post('adhar_no'),
                 'samagra_id'          => $this->input->post('samagra_id'),
                 'bank_account_no'     => $this->input->post('bank_account_no'),
@@ -1440,6 +1446,11 @@ class Student extends Admin_Controller
                 'parents_away_state'         => $this->input->post('parents_away_state'),
                 'parents_civil_status'       => $this->input->post('parents_civil_status'),
                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
+
+                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
+                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                'living_with_parents' => $this->input->post('living_with_parents'),
+                'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
 
             );
 
@@ -1553,6 +1564,7 @@ class Student extends Admin_Controller
                 $data['admission_no'] = $this->input->post('admission_no');
             }
             $this->student_model->add($data);
+
             $data_new = array(
                 'student_id'    => $id,
                 'class_id'      => $class_id,

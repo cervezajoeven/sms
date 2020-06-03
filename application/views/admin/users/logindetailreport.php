@@ -177,7 +177,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <td><?php echo $student['admission_no']; ?></td>
 										
                                         <td>
-                                            <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['firstname'] . " " . $student['lastname']; ?>
+                                            <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['lastname'] . ", " . $student['firstname']; ?>
                                             </a>
                                         </td>
 

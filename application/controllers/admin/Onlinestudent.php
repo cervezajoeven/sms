@@ -95,6 +95,9 @@ class Onlinestudent extends Admin_Controller
         $data['houses']             = $houses;
         $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
         $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
+        $siblings                   = $this->student_model->getMySiblings($student['parent_id'], $student['id']);
+        $data['siblings']           = $siblings;
+        $data['siblings_counts']    = count($siblings);
 
         $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -119,18 +122,20 @@ class Onlinestudent extends Admin_Controller
             $student_id     = $this->input->post('student_id');
             $class_id       = $this->input->post('class_id');
             $section_id     = $this->input->post('section_id');
-            $hostel_room_id = $this->input->post('hostel_room_id');
+            //$hostel_room_id = $this->input->post('hostel_room_id');
             $fees_discount  = $this->input->post('fees_discount');
-            $vehroute_id    = $this->input->post('vehroute_id');
+            //$vehroute_id    = $this->input->post('vehroute_id');
             //$class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
             
-            if (empty($vehroute_id)) {
-                $vehroute_id = 0;
-            }
-            if (empty($hostel_room_id)) {
-                $hostel_room_id = 0;
-            }
+            // if (empty($vehroute_id)) {
+            //     $vehroute_id = 0;
+            // }
+            // if (empty($hostel_room_id)) {
+            //     $hostel_room_id = 0;
+            // }
+
             $data = array(
+                'sibling_id'          => $this->input->post('sibling_id'),
                 'id'                  => $student_id,
                 'admission_no'        => $this->input->post('admission_no'),
                 'firstname'           => $this->input->post('firstname'),
@@ -142,20 +147,21 @@ class Onlinestudent extends Admin_Controller
                 'city'                => $this->input->post('city'),
                 'previous_school'     => $this->input->post('previous_school'),
                 'guardian_is'         => $this->input->post('guardian_is'),
-                'pincode'             => $this->input->post('pincode'),
+                // 'pincode'             => $this->input->post('pincode'),
                 'measurement_date'    => date('Y-m-d', strtotime($this->input->post('measure_date'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('measure_date')),
                 'religion'            => $this->input->post('religion'),
                 'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
                 'admission_date'      => date('Y-m-d', strtotime($this->input->post('admission_date'))), //$this->customlib->dateFormatToYYYYMMDD($this->input->post('admission_date')),
                 'current_address'     => $this->input->post('current_address'),
                 'permanent_address'   => $this->input->post('permanent_address'),
-                'category_id'         => $this->input->post('category_id'),
-                'adhar_no'            => $this->input->post('adhar_no'),
-                'samagra_id'          => $this->input->post('samagra_id'),
-                'bank_account_no'     => $this->input->post('bank_account_no'),
-                'bank_name'           => $this->input->post('bank_name'),
-                'ifsc_code'           => $this->input->post('ifsc_code'),
-                'cast'                => $this->input->post('cast'),
+                'image'               => 'uploads/student_images/no_image.png',
+                // 'category_id'         => $this->input->post('category_id'),
+                // 'adhar_no'            => $this->input->post('adhar_no'),
+                // 'samagra_id'          => $this->input->post('samagra_id'),
+                // 'bank_account_no'     => $this->input->post('bank_account_no'),
+                // 'bank_name'           => $this->input->post('bank_name'),
+                // 'ifsc_code'           => $this->input->post('ifsc_code'),
+                // 'cast'                => $this->input->post('cast'),
                 'father_name'         => $this->input->post('father_name'),
                 'father_phone'        => $this->input->post('father_phone'),
                 'father_occupation'   => $this->input->post('father_occupation'),
@@ -169,15 +175,15 @@ class Onlinestudent extends Admin_Controller
                 'guardian_relation'   => $this->input->post('guardian_relation'),
                 'guardian_phone'      => $this->input->post('guardian_phone'),
                 'guardian_address'    => $this->input->post('guardian_address'),
-                'vehroute_id'         => $vehroute_id,
-                'hostel_room_id'      => $hostel_room_id,
-                'school_house_id'     => $this->input->post('house'),
+                // 'vehroute_id'         => $vehroute_id,
+                // 'hostel_room_id'      => $hostel_room_id,
+                // 'school_house_id'     => $this->input->post('house'),
                 'blood_group'         => $this->input->post('blood_group'),
                 'height'              => $this->input->post('height'),
                 'weight'              => $this->input->post('weight'),
                 'note'                => $this->input->post('note'),
                 'class_section_id'    => $section_id,
-                'enrollment_type'     => $this->input->post('enrollment_type'),
+                'enrollment_type'     => strtolower($this->input->post('enrollment_type')),
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                 'middlename'          => $this->input->post('middlename'),
                 'lrn_no'              => $this->input->post('lrn_no'),
@@ -225,6 +231,13 @@ class Onlinestudent extends Admin_Controller
                 'parents_away_state'         => $this->input->post('parents_away_state'),
                 'parents_civil_status'       => $this->input->post('parents_civil_status'),
                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
+
+                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
+                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                'living_with_parents' => $this->input->post('living_with_parents'),
+                'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
+                // 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
+                // 'siblings_specify' => $this->input->post('siblings_specify'),
             );
 
             //var_dump($data);die;

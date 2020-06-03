@@ -196,7 +196,7 @@
                                                     <td>     <?php echo $value['admission_no']; ?>   </td>
                                                     <td>     <?php echo $value['roll_no']; ?>   </td>
                                                     <td>
-                                                        <?php echo $value['firstname'] . " " . $value['lastname']; ?>
+                                                        <?php echo $value['lastname'] . ", " . $value['firstname']; ?>
                                                     </td>
                                                     <td class="pull-right">
                                                         <?php

@@ -156,7 +156,7 @@
                                     <td><?php echo $student['admission_no']; ?></td>
 									
                                     <td>
-                                        <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['firstname'] . " " . $student['lastname']; ?></a>
+                                        <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['lastname'] . ", " . $student['firstname']; ?></a>
                                     </td>
 									<?php if ($sch_setting->father_name) {  ?>
                                     <td><?php echo $student['father_name']; ?></td>

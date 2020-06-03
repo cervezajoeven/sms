@@ -22,7 +22,7 @@ class Subject extends Admin_Controller {
         $data['subjectlist'] = $subject_result;
         $data['subject_types']=$this->customlib->subjectType();
         $this->form_validation->set_rules('name', $this->lang->line('subject_name'), 'trim|required|xss_clean|callback__check_name_exists');
-        $this->form_validation->set_rules('type', $this->lang->line('type'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('type', $this->lang->line('type'), 'trim|required|xss_clean');
         if ($this->input->post('code')) {
             $this->form_validation->set_rules('code', $this->lang->line('code'), 'trim|required|callback__check_code_exists');
         }
@@ -95,8 +95,9 @@ class Subject extends Admin_Controller {
         $data['id'] = $id;
         $subject = $this->subject_model->get($id);
         $data['subject'] = $subject;
-          $data['subject_types']=$this->customlib->subjectType();
+        $data['subject_types']=$this->customlib->subjectType();
         $this->form_validation->set_rules('name', $this->lang->line('subject'), 'trim|required|xss_clean');
+        
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('layout/header', $data);
             $this->load->view('admin/subject/subjectEdit', $data);

@@ -1,3 +1,31 @@
+<div class="modal fade" id="mySiblingModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="box-body">
+                        <div class="sibling_msg"></div>
+                        <input  type="hidden" class="form-control" id="transport_student_session_id"  value="0" readonly="readonly"/>                        
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label"><?php echo $this->lang->line('student'); ?></label>
+                            <div class="col-sm-10">
+                                <!-- <input id="firstname-modal" name="firstname-modal" placeholder="" type="text" class="form-control" value=""/> -->
+                                <span class="text-danger" id="transport_amount_fine_error"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-primary add_sibling" id="load" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing"><i class="fa fa-user"></i> <?php echo $this->lang->line('add'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -188,7 +216,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('house') ?></label>
                                                 <select class="form-control" rows="3" placeholder="" name="house">
@@ -199,7 +227,7 @@
                                                 </select>
                                                 <span class="text-danger"><?php echo form_error('house'); ?></span>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
@@ -254,7 +282,41 @@
                                                     <?php //}?>
                                                 </select> -->
                                             </div>
+                                        </div>                                                                                
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">    
+                                                <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="has_siblings_enrolled" <?php echo $student['has_siblings_enrolled'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="has_siblings_enrolled" <?php echo $student['has_siblings_enrolled'] == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- <label><?php //echo $this->lang->line('siblings_specify');?></label> -->
+                                                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo $student['siblings_specify']; ?>" autocomplete="off"/>
+                                            </div>
                                         </div>
+                                        <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="row m-0">
+                                                <div class="col-10 col-sm-10">
+                                                    <input id="firstname-modal" name="firstname-modal" placeholder="Type the sibling name to add" type="text" class="form-control" value=""/>
+                                                </div>
+                                                <div class="col-2 col-sm-2">
+                                                    <button id="btnAddSibling" type="button" class="btn btn-sm"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-0">                                            
+                                                <div class="col-md-6">
+                                                    <div id='sibling' class="pt6"> <span id="sibling_name" class="label label-success "><?php echo set_value('sibling_name'); ?></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -326,6 +388,42 @@
                                     </div>
                                 </div>
                             <?php }?>
+
+                            <?php if (!empty($siblings)) { ?>
+                                <div class="tshadow mb25 bozero sibling_div relative">  
+                                    <h3 class="pagetitleh2"><?php echo $this->lang->line('sibling'); ?></h3>
+                                    <div class="box-tools sibbtnposition">
+                                        <button type="button" class="btn btn-primary btn-sm remove_sibling"><?php echo $this->lang->line('remove'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                    </div>
+
+                                    <div class="around10">           
+                                        <div class="row">
+                                            <input type="hidden" name="siblings_counts" class="siblings_counts" value="<?php echo $siblings_counts; ?>">
+                                            <?php if (empty($siblings)) {                                                
+                                            } 
+                                            else 
+                                            {
+                                                foreach ($siblings as $sibling_key => $sibling_value) { ?>
+                                                    <div class="col-xs-12 col-sm-6 col-md-4 sib_div" id="sib_div_<?php echo $sibling_value->id ?>" data-sibling_id="<?php echo $sibling_value->id ?>">
+                                                        <div class="withsiblings">
+                                                            <img src="<?php echo base_url() . $sibling_value->image ?>" alt="" class="" /> 
+                                                            <div class="withsiblings-content">
+                                                                <h5><a href="#"><?php echo $sibling_value->firstname . " " . $sibling_value->lastname ?></a></h5>
+                                                                <p>
+                                                                    <b><?php echo $this->lang->line('admission_no'); ?></b>:<?php echo $sibling_value->admission_no; ?><br />
+                                                                    <b><?php echo $this->lang->line('class'); ?></b>:<?php echo $sibling_value->class; ?><br />
+                                                                    <b><?php echo $this->lang->line('section'); ?></b>:<?php echo $sibling_value->section; ?>
+                                                                </p>
+                                                                <!-- Split button -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php }                                            
+                                            }?>
+                                        </div>
+                                    </div>
+                                </div> 
+                            <?php } ?>
 
                             <div class="bozero">
                                 <h4 class="pagetitleh2"><?php echo $this->lang->line('parent_guardian_detail'); ?></h4>
@@ -781,9 +879,12 @@
 												<input id="parents_away_state" <?php if ($student['parents_away'] != "yes") echo "disabled"; ?> name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control"  value="<?php echo set_value('parents_away_state', $student['parents_away_state']); ?>" autocomplete="off"/>
 											</div>
 
-											<div class="col-md-4">
+											<div class="col-md-5">
 												<div class="form-group">
 													<label><?php echo $this->lang->line('parents_civil_status');?></label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="parents_civil_status" <?php echo set_value('parents_civil_status') == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
+                                                    </label>
 													<label class="radio-inline">
 														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "separated" ? "checked" : ""; ?> value="separated"> <?php echo $this->lang->line('separated'); ?>
 													</label>
@@ -796,7 +897,7 @@
 													<span class="text-danger"><?php echo form_error('parents_civil_status'); ?></span>
 												</div>
 											</div>
-											<div class="col-md-8">
+											<div class="col-md-7">
 												<label><?php echo $this->lang->line('others_specify');?></label>
 												<input id="parents_civil_status_other" <?php if ($student['parents_civil_status'] != "others") echo "disabled"; ?> name="parents_civil_status_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('parents_civil_status_other', $student['parents_civil_status_other']); ?>" autocomplete="off"/>
 											</div>
@@ -810,9 +911,9 @@
                                 <h3 class="pagetitleh2"><?php echo $this->lang->line('address_details'); ?></h3>
                                 <div class="around10">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="autofill_current_address" onclick="return auto_fill_guardian_address();">
+                                                <input type="checkbox" id="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php if($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">
@@ -823,15 +924,30 @@
                                             <div class="checkbox">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="autofill_address"onclick="return auto_fill_address();">
+                                                <input type="checkbox" id="permanent_address_is_current_address"onclick="return auto_fill_address();" <?php echo($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('permanent_address'); ?></label>
                                                 <textarea id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('permanent_address', $student['permanent_address']) ?></textarea>
                                                 <span class="text-danger"><?php echo form_error('permanent_address', $student['permanent_address']); ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">    
+                                                <label><?php echo $this->lang->line('living_with_parents');?><small class="req"> *</small> 
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
+                                                <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify', $student['living_with_parents_specify']); ?>" autocomplete="off"/>
                                             </div>
                                         </div>
                                     </div>
@@ -925,7 +1041,13 @@
     </section>
 </div>
 
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <script type="text/javascript">
+    var student_id;
+
     $(document).ready(function () {
         var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy']) ?>';
         var class_id = $('#class_id').val();
@@ -1149,4 +1271,111 @@
         }
     );
 
+    $('#guardian_address_is_current_address').click(function(){
+        if($(this).is(':checked')) {
+            $('#permanent_address_is_current_address').prop("checked", false);
+        }
+    });
+
+    $('#permanent_address_is_current_address').click(function(){
+        if($(this).is(':checked')) {
+            $('#guardian_address_is_current_address').prop("checked", false);
+        }
+    });
+
+    $('input:radio[name="living_with_parents"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "no") {
+                    $('#living_with_parents_specify').prop('disabled', false);
+                }
+                else {
+                    $('#living_with_parents_specify').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $(".mysiblings").click(function () {
+        $('.sibling_msg').html("");
+        $('.modal_title').html('<b>' + "<?php echo $this->lang->line('sibling'); ?>" + '</b>');
+        $('#mySiblingModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+    });
+
+    $("#firstname-modal").autocomplete({
+        autofocus: true,
+        source: function( request, response ) {
+            // Fetch data
+            $.ajax({
+                url: '<?php echo base_url()."student/AutoCompleteStudentName"; ?>',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    search: request.term
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        select: function (event, ui) {
+            $("#firstname-modal").val(ui.item.label);
+
+            var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.value;
+            $.get(url)
+            .done(function(data) {
+                //AutoFillDetails(JSON.parse(data));
+                var resp = JSON.parse(data);
+                student_id = resp.id
+            });
+            
+            return false;
+        }
+    }).keyup(function() {
+        //$('#form1')[0].reset();
+    });
+
+    $(document).on('click', '#btnAddSibling', function () {
+        // var student_id = $('#sibiling_student_id').val();
+        var base_url = '<?php echo base_url() ?>';
+        if (student_id.length > 0) {
+            $.ajax({
+                type: "GET",
+                url: base_url + "student/getStudentRecordByID",
+                data: {'student_id': student_id},
+                dataType: "json",
+                success: function (data) {
+                    $("#firstname-modal").val('');
+                    $('#sibling_name').text("Sibling: " + data.firstname + " " + data.lastname);
+                    $('#sibling_name_next').val(data.firstname + " " + data.lastname);
+                    $('#sibling_id').val(data.id);
+                    // $('#father_name').val(data.father_name);
+                    // $('#father_phone').val(data.father_phone);
+                    // $('#father_occupation').val(data.father_occupation);
+                    // $('#mother_name').val(data.mother_name);
+                    // $('#mother_phone').val(data.mother_phone);
+                    // $('#mother_occupation').val(data.mother_occupation);
+                    // $('#guardian_name').val(data.guardian_name);
+                    // $('#guardian_relation').val(data.guardian_relation);
+                    // $('#guardian_address').val(data.guardian_address);
+                    // $('#guardian_phone').val(data.guardian_phone);
+                    // $('#state').val(data.state);
+                    // $('#city').val(data.city);
+                    // $('#pincode').val(data.pincode);
+                    // $('#current_address').val(data.current_address);
+                    // $('#permanent_address').val(data.permanent_address);
+                    // $('#guardian_occupation').val(data.guardian_occupation);
+                    // $("input[name=guardian_is][value='" + data.guardian_is + "']").prop("checked", true);
+                    // $('#mySiblingModal').modal('hide');
+                }
+            });
+        } else {
+            $('.sibling_msg').html("<div class='alert alert-danger'>No Student Selected</div>");
+        }
+    });
 </script>

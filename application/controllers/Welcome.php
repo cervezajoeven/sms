@@ -202,6 +202,19 @@ class Welcome extends Front_Controller
         }
     }
 
+    function reArrayFilesMultiple() {
+        $uploads = array();
+        foreach($_FILES as $key0=>$FILES) {
+            foreach($FILES as $key=>$value) {
+                foreach($value as $key2=>$value2) {
+                    $uploads[$key0][$key2][$key] = $value2;
+                }
+            }
+        }
+        $files = $uploads;
+        return $uploads; // prevent misuse issue
+    }
+
     public function admission()
     {
         if($this->module_lib->hasActive('online_admission')) {
@@ -249,7 +262,7 @@ class Welcome extends Front_Controller
                 // die;
                 
                 // if (strpos($classname, "nursery") == false && strpos($classname, "kinder") == false && strpos($classname, "grade 1") == false)
-                    $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
+                    // $this->form_validation->set_rules('lrn_no', $this->lang->line('required'), 'trim|required|xss_clean');
             }
             else 
             {
@@ -297,7 +310,11 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
                 $this->form_validation->set_rules('guardian_occupation', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|xss_clean');                
+                $this->form_validation->set_rules('guardian_address', $this->lang->line('required'), 'trim|required|xss_clean');
+
+                $this->form_validation->set_rules('current_address', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('permanent_address', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('living_with_parents', $this->lang->line('required'), 'trim|required|xss_clean');
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -321,37 +338,89 @@ class Welcome extends Front_Controller
             {
                 //==============
                 $document_validate = true;
-                $file_validate    = $this->config->item('file_validate');
+                // $file_validate    = $this->config->item('file_validate');
+                $image_validate = $this->config->item('file_validate');
 
-                if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                    $file_type         = $_FILES["document"]['type'];
-                    $file_size         = $_FILES["document"]["size"];
-                    $file_name         = $_FILES["document"]["name"];
-                    $allowed_extension = $file_validate['allowed_extension'];
-                    $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
-                    $allowed_mime_type = $file_validate['allowed_mime_type'];
-                    // var_dump($file_type);
-                    // var_dump($file_size);
-                    // var_dump($file_name);
-                    // var_dump($allowed_extension);
-                    // var_dump($allowed_mime_type);die;
+                $admission_docs = $this->reArrayFilesMultiple();
+                // var_dump($admission_docs);die;
 
-                    if ($files = filesize($_FILES['document']['tmp_name'])) {                    
-                        if (!in_array($file_type, $allowed_mime_type)) {
-                            $this->data['error_message'] = 'File Type Not Allowed';
-                            $document_validate           = false;
-                        }
-
-                        if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
-                            $this->data['error_message'] = 'Extension Not Allowed';
-                            $document_validate           = false;
-                        }
-                        if ($file_size > $file_validate['upload_size']) {
-                            $this->data['error_message'] = 'File should be less than' . number_format($file_validate['upload_size'] / 1048576, 2) . " MB";
-                            $document_validate           = false;
+                if (isset($admission_docs)) 
+                {
+                    if (sizeof($FILES) < 6)
+                    {
+                        foreach($admission_docs as $key0=>$FILES) 
+                        {   
+                            for ($i=0; $i<sizeof($FILES); $i++)
+                            {
+                                // var_dump($FILES[$i]["name"]);
+                                // echo "<BR>";
+                                if (!empty($FILES[$i]["name"])) 
+                                {
+                                    $file_type         = $FILES[$i]['type'];
+                                    $file_size         = $FILES[$i]["size"];
+                                    $file_name         = $FILES[$i]["name"];
+                                    $allowed_extension = $image_validate['allowed_extension'];
+                                    $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+                                    $allowed_mime_type = $image_validate['allowed_mime_type'];
+                                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                                    $mtype = finfo_file($finfo, $FILES[$i]['tmp_name']);
+                                    finfo_close($finfo);
+            
+                                    if (!in_array($mtype, $allowed_mime_type)) 
+                                    {
+                                        $this->data['error_message'] = 'File Type Not Allowed';
+                                        $document_validate = false;
+                                        break;
+                                    }
+                                    if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) 
+                                    {
+                                        $this->data['error_message'] = 'Extension Not Allowed';
+                                        $document_validate = false;
+                                        break;
+                                    }
+                                    if ($file_size > $image_validate['upload_size']) 
+                                    {
+                                        $this->data['error_message'] = 'Files should be less than' . number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
+                                        $document_validate = false;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
+                    else
+                        $this->data['error_message'] = 'Only maximum of 5 files is allowed';
                 }
+
+                // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
+                //     $file_type         = $_FILES["document"]['type'];
+                //     $file_size         = $_FILES["document"]["size"];
+                //     $file_name         = $_FILES["document"]["name"];
+                //     $allowed_extension = $file_validate['allowed_extension'];
+                //     $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+                //     $allowed_mime_type = $file_validate['allowed_mime_type'];
+                //     // var_dump($file_type);
+                //     // var_dump($file_size);
+                //     // var_dump($file_name);
+                //     // var_dump($allowed_extension);
+                //     // var_dump($allowed_mime_type);die;
+
+                //     if ($files = filesize($_FILES['document']['tmp_name'])) {                    
+                //         if (!in_array($file_type, $allowed_mime_type)) {
+                //             $this->data['error_message'] = 'File Type Not Allowed';
+                //             $document_validate           = false;
+                //         }
+
+                //         if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
+                //             $this->data['error_message'] = 'Extension Not Allowed';
+                //             $document_validate           = false;
+                //         }
+                //         if ($file_size > $file_validate['upload_size']) {
+                //             $this->data['error_message'] = 'File should be less than' . number_format($file_validate['upload_size'] / 1048576, 2) . " MB";
+                //             $document_validate           = false;
+                //         }
+                //     }
+                // }
 
                 //=====================
                 if ($document_validate) 
@@ -379,7 +448,7 @@ class Welcome extends Front_Controller
                             'lastname'            => $old_student_data->lastname,
                             'mobileno'            => $old_student_data->mobileno,
                             'guardian_is'         => $old_student_data->guardian_is,
-                            'dob'                 => $this->input->post('dob') != '' ? date('Y-m-d', strtotime($this->input->post('dob'))) : date('Y-m-d', strtotime($old_student_data->dob)),
+                            'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
                             'current_address'     => $old_student_data->current_address,
                             'permanent_address'   => $old_student_data->permanent_address,
                             'father_name'         => $old_student_data->father_name,
@@ -447,16 +516,43 @@ class Welcome extends Front_Controller
                             'parents_civil_status_other' => $old_student_data->parents_civil_status_other,
 
                             'session_id' => $current_session,
+                            'guardian_address_is_current_address' => $old_student_data->guardian_address_is_current_address,
+                            'permanent_address_is_current_address' => $old_student_data->permanent_address_is_current_address,
+                            'living_with_parents' => $old_student_data->living_with_parents,
+                            'living_with_parents_specify' => $old_student_data->living_with_parents_specify,
+
+                            // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
+                            // 'siblings_specify' => $old_student_data->siblings_specify,
                         );
 
-                        if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                            $time     = md5($_FILES["document"]['name'] . microtime());
-                            $fileInfo = pathinfo($_FILES["document"]["name"]);
-                            $doc_name = $time . '.' . $fileInfo['extension'];
-                            move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
-    
-                            $data['document'] = $doc_name;
+                        if (isset($admission_docs)) 
+                        {
+                            $doc_names = "";
+                            for ($i=0; $i<sizeof($FILES); $i++)
+                            {
+                                if (!empty($FILES[$i]["name"])) 
+                                {
+                                    $file_name = $FILES[$i]["name"];
+                                    $time = md5($file_name . microtime());
+                                    $fileInfo = pathinfo($file_name);
+                                    $doc_name = $fileInfo['filename'].'_'.$time.'.'. $fileInfo['extension'];
+
+                                    move_uploaded_file($FILES[$i]["tmp_name"], "./uploads/student_documents/online_admission_doc/".$doc_name);
+                                    $doc_names .= $doc_names != "" ? ",".$doc_name : $doc_name;
+                                }
+                            }
+                            
+                            $data['document'] = $doc_names;
                         }
+
+                        // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
+                        //     $time     = md5($_FILES["document"]['name'] . microtime());
+                        //     $fileInfo = pathinfo($_FILES["document"]["name"]);
+                        //     $doc_name = $time . '.' . $fileInfo['extension'];
+                        //     move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+    
+                        //     $data['document'] = $doc_name;
+                        // }
 
                         // var_dump($data);die;
 
@@ -464,25 +560,21 @@ class Welcome extends Front_Controller
                         if (sizeOf($has_admission) <= 0)
                         {
                             $insert_id = $this->onlinestudent_model->add($data);
-                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                         }
                         else 
                         {
                             if ($current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != $current_session)
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
-                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                             }
                             else 
                             {
                                 if ((int)$old_student_data->session_id == $current_session)
-                                {
                                     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
-                                }
                                 else if ($has_admission->is_enroll == '0')
                                     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
-                                // else 
-                                //     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');                        
                             }
                         }
                     }
@@ -569,27 +661,54 @@ class Welcome extends Front_Controller
                                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
     
                                 'session_id' => $current_session,
+                                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
+                                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                                'living_with_parents' => $this->input->post('living_with_parents'),
+                                'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
+
+                                'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
+                                'siblings_specify' => $this->input->post('siblings_specify'),
                             );
-    
-                            if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                                $time     = md5($_FILES["document"]['name'] . microtime());
-                                $fileInfo = pathinfo($_FILES["document"]["name"]);
-                                $doc_name = $time . '.' . $fileInfo['extension'];
-                                move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
-        
-                                $data['document'] = $doc_name;
+
+                            if (isset($admission_docs)) 
+                            {
+                                $doc_names = "";
+                                for ($i=0; $i<sizeof($FILES); $i++)
+                                {
+                                    if (!empty($FILES[$i]["name"])) 
+                                    {
+                                        $file_name = $FILES[$i]["name"];
+                                        $time = md5($file_name . microtime());
+                                        $fileInfo = pathinfo($file_name);
+                                        $doc_name = $fileInfo['filename'].'_'.$time.'.'. $fileInfo['extension'];
+
+                                        move_uploaded_file($FILES[$i]["tmp_name"], "./uploads/student_documents/online_admission_doc/".$doc_name);
+                                        $doc_names .= $doc_names != "" ? ",".$doc_name : $doc_name;
+                                    }
+                                }
+                                
+                                $data['document'] = $doc_names;
                             }
+    
+                            // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
+                            //     $time     = md5($_FILES["document"]['name'] . microtime());
+                            //     $fileInfo = pathinfo($_FILES["document"]["name"]);
+                            //     $doc_name = $time . '.' . $fileInfo['extension'];
+                            //     move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+        
+                            //     $data['document'] = $doc_name;
+                            // }
     
                             if (sizeOf($has_admission) <= 0)
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
-                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                             }
                             else {
                                 if ($current_session > (int)$has_admission->session_id)
                                 {
                                     $insert_id = $this->onlinestudent_model->add($data);
-                                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                                 }
                                 else 
                                 {
@@ -607,9 +726,7 @@ class Welcome extends Front_Controller
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');
                 }
                 else 
-                {
                     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$this->data['error_message'].'</div>');
-                }
 
                 $this->load_theme('pages/admission');
             }

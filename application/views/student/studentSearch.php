@@ -154,13 +154,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <td><?php echo $student['admission_no']; ?></td>
 											
                                                     <td>
-                                                        <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['firstname'] . " " . $student['lastname']; ?>
+                                                        <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['lastname'] . ", " . $student['firstname']; ?>
                                                         </a>
                                                     </td>
                                                     <td><?php echo $student['class'] . "(" . $student['section'] . ")" ?></td>
-                                                    <?php if ($sch_setting->father_name) {  ?>
+                                                    <?php //if ($sch_setting->father_name) {  ?>
 													<!-- <td><?php //echo $student['father_name']; ?></td> -->
-													<?php }?>
+													<?php //}?>
                                                     <td><?php
                                                         if ($student["dob"] != null) {
                                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob']));

@@ -269,20 +269,20 @@
                                         </div>
                                     </div>
                                     <?php } 
-                                    if ($sch_setting->is_student_house) { ?>
-                                    <div class="col-md-3 col-xs-12">
+                                    //if ($sch_setting->is_student_house) { ?>
+                                    <!-- <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('house') ?></label>
+                                            <label for="exampleInputEmail1"><?php //echo $this->lang->line('house') ?></label>
                                             <select class="form-control" rows="3" placeholder="" name="house" id="house">
-                                                <option value=""><?php echo $this->lang->line('select') ?></option>
-                                                <?php foreach ($houses as $hkey => $hvalue) { ?>
-                                                <option value="<?php echo $hvalue["id"] ?>"><?php echo $hvalue["house_name"] ?></option>
-                                                <?php }?>
+                                                <option value=""><?php //echo $this->lang->line('select') ?></option>
+                                                <?php //foreach ($houses as $hkey => $hvalue) { ?>
+                                                <option value="<?php //echo $hvalue["id"] ?>"><?php //echo $hvalue["house_name"] ?></option>
+                                                <?php //}?>
                                             </select>
-                                            <span class="text-danger"><?php echo form_error('house'); ?></span>
+                                            <span class="text-danger"><?php //echo form_error('house'); ?></span>
                                         </div>
-                                    </div>
-                                    <?php }
+                                    </div> -->
+                                    <?php //}
                                     if ($sch_setting->student_height) { ?>
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
@@ -826,9 +826,12 @@
                                                 <input id="parents_away_state" disabled name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control"  value="<?php echo set_value('parents_away_state'); ?>" autocomplete="off"/>
                                             </div>
 
-											<div class="col-md-4">
+											<div class="col-md-5">
 												<div class="form-group">
 													<label><?php echo $this->lang->line('parents_civil_status');?></label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="parents_civil_status" <?php echo set_value('parents_civil_status') == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
+                                                    </label>
 													<label class="radio-inline">
 														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "separated" ? "checked" : ""; ?> value="separated"> <?php echo $this->lang->line('separated'); ?>
 													</label>
@@ -841,7 +844,7 @@
 													<span class="text-danger"><?php echo form_error('parents_civil_status'); ?></span>
 												</div>
 											</div>
-											<div class="col-md-8">
+											<div class="col-md-7">
 												<label><?php echo $this->lang->line('others_specify');?></label>
 												<input id="parents_civil_status_other" <?php if ($student['parents_civil_status'] != "others") echo "disabled"; ?> name="parents_civil_status_other" placeholder="If others, please specify" type="text" class="form-control"  value="<?php echo set_value('parents_civil_status_other', $student['parents_civil_status_other']); ?>" autocomplete="off"/>
 											</div>
@@ -865,10 +868,10 @@
 
                                         <div class="row around10">
                                             <?php if ($sch_setting->current_address) { ?>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" id="autofill_current_address" onclick="return auto_fill_guardian_address();">
+                                                        <input type="checkbox" id="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php if(set_value('guardian_address_is_current_address') == 1 ? "checked" : ""); ?>>
                                                         <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
                                                     </label>
                                                 </div>
@@ -879,10 +882,10 @@
                                                 </div>
                                             </div>
                                             <?php } if ($sch_setting->permanent_address) { ?>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" id="autofill_address"onclick="return auto_fill_address();">
+                                                        <input type="checkbox" id="permanent_address_is_current_address"onclick="return auto_fill_address();" <?php if(set_value('permanent_address_is_current_address') == 1 ? "checked" : ""); ?>>
                                                         <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
                                                     </label>
                                                 </div>
@@ -893,6 +896,21 @@
                                                 </div>
                                             </div>
                                             <?php } ?>
+                                            <div class="col-md-4">
+                                                <div class="form-group">    
+                                                    <label><?php echo $this->lang->line('living_with_parents');?><small class="req"> *</small> 
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
+                                                    <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify', $student['living_with_parents_specify']); ?>" autocomplete="off"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <?php if ($sch_setting->route_list) { ?>
@@ -1660,6 +1678,32 @@
                 }
                 else {
                     $('#parents_civil_status_other').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('#guardian_address_is_current_address').click(function(){
+        if($(this).is(':checked')) {
+            $('#permanent_address_is_current_address').prop("checked", false);
+        }
+    });
+
+    $('#permanent_address_is_current_address').click(function(){
+        if($(this).is(':checked')) {
+            $('#guardian_address_is_current_address').prop("checked", false);
+        }
+    });
+
+    $('input:radio[name="living_with_parents"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "no") {
+                    $('#living_with_parents_specify').prop('disabled', false);
+                }
+                else {
+                    $('#living_with_parents_specify').prop('disabled', true);
                 }
             }
         }
