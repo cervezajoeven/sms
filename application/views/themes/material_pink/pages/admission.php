@@ -1407,8 +1407,6 @@ if (!$form_admission) {
         $('#privacyPolicy').modal("show");
     }
 
-    
-
     function ShowTermsAndCondition() {
         $('#termsCondition').modal("show");
     }
