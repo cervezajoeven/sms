@@ -201,7 +201,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <td><?php echo $student['admission_no']; ?></td>
 									
                                         <td>
-                                            <a href="#"><?php echo $student['firstname'] . " " . $student['lastname']; ?>
+                                            <a href="#"><?php echo $student['lastname'] . ", " . $student['firstname']; ?>
                                             </a>
                                         </td>
 										<?php if ($sch_setting->admission_date) {  ?>
