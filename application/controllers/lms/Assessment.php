@@ -192,10 +192,14 @@ class Assessment extends General_Controller {
     public function answer($id){
         $data['id'] = $id;
         $data['account_id'] = $this->general_model->get_account_id();
+        $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
+        $data['student_name'] = $data['student_data']['firstname']." ".$data['student_data']['lastname'];
+
         $this->db->select("*");
         $this->db->where("account_id", $data['account_id']);
         $this->db->where("assessment_id",$id);
         $this->db->where("response_status",1);
+
 
         $query = $this->db->get("lms_assessment_sheets");
         $response = $query->result_array();
