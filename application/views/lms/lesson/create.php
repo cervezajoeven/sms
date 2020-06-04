@@ -103,6 +103,7 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
+        <input type="hidden" id="pdfjs" value="<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>" name="" />
 
         <div id="myModal" class="modal">
 

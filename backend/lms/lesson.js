@@ -170,6 +170,20 @@ $(document).ready(function(){
         });
     }
 
+    function cms_resources_search(query){
+        var api = url+"cms_resources/"+query;
+
+        $.ajax({
+            url: api,
+            context: document.body
+        }).done(function(data) {
+
+            var processed_data = process_data(data,"cms_resources");
+            result_pool = processed_data;
+            populate_search_content(processed_data);
+        });
+    }
+
     function reset_result_pool(){
         result_pool = {};
     }
@@ -307,18 +321,28 @@ $(document).ready(function(){
                 return data_population;
             break;
             case "cms_resources":
-                data.items.forEach(function(item, index, arr){
 
-                    data_population[index] = {
-                        result_id:generate_id()+"_"+index,
-                        title:item.title,
-                        description:item.snippet,
-                        image:encodeURIComponent(item.link),
-                        type:"image",
-                        source:encodeURIComponent(item.link),
-                    };
+                data = JSON.parse(data);
 
-                });
+                if(data){
+
+                    data.forEach(function(item, index, arr){
+                        
+                        data_population[index] = {
+                            result_id:generate_id()+"_"+index,
+                            title:item.name,
+                            description:item.description,
+                            image:encodeURIComponent(item.link),
+                            type:item.type,
+                            source:main_url+'uploads/lms_cms_resources/'+item.filename,
+
+                        };
+                        
+                    });
+
+                    console.log(data_population);
+                }
+                
                 return data_population;
             break;
             default:
@@ -381,6 +405,7 @@ $(document).ready(function(){
                     $(".student_view_content_iframe").attr("src",decodeURIComponent(active_content_data.content.source));
                 break;
                 case "pdf":
+
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
                     $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);

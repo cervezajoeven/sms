@@ -334,6 +334,13 @@ class Lesson extends General_Controller {
 
     }
 
+    public function cms_resources($search=""){
+        $account_id = $this->session->userdata('admin')['id'];
+        $search_result = $this->lesson_model->search_cms_resources($account_id,$search);
+        echo json_encode($search_result);
+
+    }
+
     public function upload($upload_type="my_resources",$lesson_id=""){
         if($upload_type=="my_resources"){
             $file = $_FILES['upload_file'];
