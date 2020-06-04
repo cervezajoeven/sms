@@ -11,6 +11,7 @@ class Assessment extends General_Controller {
         $this->load->model('class_model');
         $this->load->model('lesson_model');
         $this->load->library('customlib');
+        $this->load->library('mailsmsconf');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
     }
@@ -284,8 +285,15 @@ class Assessment extends General_Controller {
         $data['attempts'] = $_REQUEST['attempts'];
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
+        $data['email_notification'] = $_REQUEST['email_notification'];
         $sheet = (array)json_decode($data['sheet']);
 
+        if($data['email_notification']=="1"){
+            $sender_details = array('student_id' => 1, 'contact_no' => '+639953230083', 'email' => 'cervezajoeven@gmail.com');
+            $this->mailsmsconf->mailsms('assessment_assigned', $sender_details);
+
+        }
+        print_r($data['email_notification']);
         $total_score = 0;
         //convert to array
         foreach ($sheet as $answer_key => $answer_value) {
