@@ -11,6 +11,7 @@ class Lesson extends General_Controller {
         $this->load->model('lesson_model');
         $this->load->model('general_model');
         $this->load->model('discussion_model');
+        $this->load->library('mailsmsconf');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
     }
@@ -129,9 +130,14 @@ class Lesson extends General_Controller {
         $data['role'] = $this->general_model->get_role();
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects(); 
+
+
+        $sender_details = array('student_id' => $insert_id, 'contact_no' => '+639953230083', 'email' => 'cervezajoeven@gmail.com');
+        var_dump($this->mailsmsconf->mailsms('student_admission', $sender_details));
+
         // echo "<pre>";
         // print_r($data['role']);
-        // exit();
+        exit();
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
             mkdir(FCPATH."uploads/lms_lesson/".$id);
