@@ -20,7 +20,6 @@ class Assessment extends General_Controller {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/assessment');
-        $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
 
         $data['role'] = $this->general_model->get_role();
         
@@ -28,8 +27,10 @@ class Assessment extends General_Controller {
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
+            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
         }else{
 
+            $data['list'] = $this->assessment_model->all_assessment();
             $this->load->view('layout/student/header');
         }
 
