@@ -23,7 +23,12 @@ $(document).ready(function(){
         folder_names = "Introduction,Lesson Proper,Examination";
         folders = "#folder_1,#folder_2,#folder_3";
     }
-    
+    var the_learning_plan = tinymce.init({
+        selector: '.tinymce',
+        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        toolbar_mode: 'floating',
+        height : "700",
+    });
     var jstree = $('#jstree_demo_div').jstree({
         "checkbox" : {
           "keep_selected_style" : false
@@ -538,6 +543,8 @@ $(document).ready(function(){
     }
 
     function change_detected(){
+
+        console.log();
         var title = $(".title").val();
         var update_url = $("#site_url").val();
         var id = $("#lesson_id").val();
@@ -578,7 +585,7 @@ $(document).ready(function(){
             email_notification:email_notification,
             start_date:start_date,
             end_date:end_date,
-            // learning_plan:learning_plan_text,
+            learning_plan:tinymce.get('the_learning_plan').getContent(),
             assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
             subject_id:subject_id,
@@ -1291,3 +1298,4 @@ function send_chat(student_chat){
         }
     });
 }
+
