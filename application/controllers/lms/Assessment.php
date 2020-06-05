@@ -82,7 +82,6 @@ class Assessment extends General_Controller {
             $assessment = $this->assessment_model->lms_get('lms_assessment',$id,"id")[0];
             $assessment_sheets = $this->assessment_model->assessment_sheets($id);
 
-            
             $json_sheet = json_decode($assessment['sheet']);
             $responses['data'] = array();
             $array_pos = 0;

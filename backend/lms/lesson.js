@@ -309,9 +309,6 @@ $(document).ready(function(){
                         }else if(item.type=="text"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
                         }
-                        console.log(data_population);
-                        
-
                         
 
                     });

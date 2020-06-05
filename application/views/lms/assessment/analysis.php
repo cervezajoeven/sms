@@ -245,6 +245,7 @@
 								$i = 0;
 
 								foreach($respond as $resp) {
+
 									if ($resp->type != "long_answer" && $resp->type != "short_answer" && $resp->type != "section") {
 										print('<div class="w3-panel w3-card-2 question_container">');
 										print('<div class="radio">');
@@ -253,9 +254,10 @@
 										printf('<canvas id="myChart_%s" width="600" height="250"></canvas>', $i+1);
 										printf('<div id="resp_%s" class="w3-center"></div>', $i+1);
 										print('</div>');
+										
 									}
-
 									$i++;
+									
 								}
 							} else {
 
