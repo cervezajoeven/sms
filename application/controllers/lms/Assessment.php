@@ -20,7 +20,7 @@ class Assessment extends General_Controller {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/assessment');
-        $data['list'] = $this->assessment_model->all_assessment();
+        $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
 
         $data['role'] = $this->general_model->get_role();
         
@@ -87,7 +87,6 @@ class Assessment extends General_Controller {
             $array_pos = 0;
 
             //var_dump($json_sheet[0]->type);
-            // echo '<pre>';print_r($assessment_sheets);exit();
             foreach ($assessment_sheets as $row) {
                 $json_respond = json_decode($row['answer']);
                 //var_dump($json_respond);
@@ -99,7 +98,8 @@ class Assessment extends General_Controller {
                         // var_dump($respond);
                         // echo($respond->type);
                         
-                        if ($respond->type != "long_answer" && $respond->type != "short_answer") {
+                        if ($respond->type != "long_answer" && $respond->type != "short_answer" && $respond->type != "section") {
+
                             if (strpos($respond->answer, '1') > -1) {
                                 if ($array_pos == 0) {
                                     $responses['data'][] = array (
