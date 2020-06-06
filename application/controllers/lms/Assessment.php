@@ -60,9 +60,24 @@ class Assessment extends General_Controller {
         ->where("ss.session_id",$current_session)
         ->where("lms_a.id", $assessment_id)
         ->get();
+
+        // $query = $this->db
+        // ->select("*,lms_a.id as id")
+        // ->from("lms_assessment AS lms_a")
+        // ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
+        // ->join("student_session AS ss","s.id = ss.student_id","left")
+        // ->join("classes AS c","c.id = ss.class_id","left")
+        // ->join("sections AS sc","sc.id = ss.section_id","left")
+        // ->where("ss.session_id",$current_session)
+        // ->where("lms_a.id", $assessment_id)
+        // ->get();
+
         $students = $query->result_array();
         // echo "<pre>";
         // print_r($students);
+        // foreach ($students as $key => $value) {
+            
+        // }
         // exit;
         $data['students'] = $students;
 
