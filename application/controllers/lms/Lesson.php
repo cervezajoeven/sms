@@ -11,6 +11,7 @@ class Lesson extends General_Controller {
         $this->load->model('lesson_model');
         $this->load->model('general_model');
         $this->load->model('discussion_model');
+        $this->load->library('mailsmsconf');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
     }
@@ -129,9 +130,9 @@ class Lesson extends General_Controller {
         $data['role'] = $this->general_model->get_role();
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects(); 
-        // echo "<pre>";
-        // print_r($data['role']);
-        // exit();
+
+
+        
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
             mkdir(FCPATH."uploads/lms_lesson/".$id);
@@ -230,6 +231,14 @@ class Lesson extends General_Controller {
         $data['education_level'] = $_REQUEST['education_level'];
         $data['term'] = $_REQUEST['term'];
         $data['shared'] = $_REQUEST['shared'];
+        
+        
+        if($data['email_notification']=="1"){
+            $sender_details = array('student_id' => 1, 'contact_no' => '+639953230083', 'email' => 'cervezajoeven@gmail.com');
+            $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+
+        }
+
 
         print_r($this->lesson_model->lms_update("lms_lesson",$data));
         
@@ -330,6 +339,13 @@ class Lesson extends General_Controller {
     public function my_resources($search=""){
         $account_id = $this->session->userdata('admin')['id'];
         $search_result = $this->lesson_model->search_my_resources($account_id,$search);
+        echo json_encode($search_result);
+
+    }
+
+    public function cms_resources($search=""){
+        $account_id = $this->session->userdata('admin')['id'];
+        $search_result = $this->lesson_model->search_cms_resources($account_id,$search);
         echo json_encode($search_result);
 
     }

@@ -3,13 +3,14 @@ class Assessment_model extends MY_Model {
 
 	public $table = "lms_assessment";
 
-	public function all_assessment(){
-
+	public function all_assessment($account_id="1"){
+        // print_r($account_id);
         // $this->db->select('*');
         $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
         $this->db->from('lms_assessment');
         $this->db->join('staff', 'staff.employee_id = lms_assessment.account_id','left');
         $this->db->where('lms_assessment.deleted',0);
+        $this->db->where('lms_assessment.account_id',$account_id);
         $this->db->order_by('lms_assessment.date_created',"desc");
 
         $query = $this->db->get();

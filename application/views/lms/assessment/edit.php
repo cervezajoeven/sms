@@ -114,7 +114,7 @@
 		        		<div class = "col-sm-4">
 			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
 	                                
-		                        <input type="checkbox" id="email_notification" />
+		                        <input type="checkbox" id="email_notification" <?php echo ($assessment['email_notification']==1)?"checked = ''":""; ?> />
 		                        <div class="state p-primary">
 		                            <label>Email Notification</label>
 		                        </div>

@@ -103,6 +103,7 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
+        <input type="hidden" id="pdfjs" value="<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -212,81 +213,88 @@
                         <!-- <div id="learning_plan_text" style="color: black(); ">
                           
                         </div> -->
-                        <textarea class="tinymce">
-                          <table style="height: 600px;" border="1">
-                            <tr>
-                              <th rowspan="2">Learning Competencies (MELCS)</th>
-                              <th rowspan="2">Objectives</th>
-                              <th rowspan="2">Virtual Session Schedule <span style="font-size: 10px;">(10,20,30,40,50,60,70,80,90)</span></th>
-                              <th rowspan="2">Campus LMS Resources</th>
-                              <th rowspan="2" colspan="2">Learning Experiences</th>
-                              <th colspan="2">Hybrid Learning Modes</th>  
-                            </tr>
-                            <tr>
-                              <th>Synchronous</th>
-                              <th>Asynchronous</th>
-                            </tr>
-                            <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: red;font-size: 14px;"><h3>Engage</h3></td>
-                              <td>How will you capture the student's interest? What questions should students ask themselves?</td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr style="font-size: 10px;">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: blue;font-size: 14px;"><h3>Explore</h3></td>
-                              <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr style="font-size: 10px;">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: violet;font-size: 14px;"><h3>Explain</h3></td>
-                              <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: green;font-size: 14px;"><h3>Extend</h3></td>
-                              <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: brown;font-size: 14px;"><h3>Evaluate</h3></td>
-                              <td>How will students demonstrate that they have achieved the lesson objective?</td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: orange;font-size: 14px;"><h3>Life Long Learning</h3></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                          </table>
+
+                        <textarea class="tinymce" id="the_learning_plan">
+                          
+                          <?php if($lesson['learning_plan'] != ""): ?>
+                            <?php echo $lesson['learning_plan'] ?>
+                          <?php else: ?>
+                            <table style="height: 600px;" border="1">
+                              <tr>
+                                <th rowspan="2">Learning Competencies (MELCS)</th>
+                                <th rowspan="2">Objectives</th>
+                                <th rowspan="2">Virtual Session Schedule <span style="font-size: 10px;">(10,20,30,40,50,60,70,80,90)</span></th>
+                                <th rowspan="2">Campus LMS Resources</th>
+                                <th rowspan="2" colspan="2">Learning Experiences</th>
+                                <th colspan="2">Hybrid Learning Modes</th>  
+                              </tr>
+                              <tr>
+                                <th>Synchronous</th>
+                                <th>Asynchronous</th>
+                              </tr>
+                              <tr style="font-size: 10px">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: red;font-size: 14px;"><h3>Engage</h3></td>
+                                <td>How will you capture the student's interest? What questions should students ask themselves?</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr style="font-size: 10px;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: blue;font-size: 14px;"><h3>Explore</h3></td>
+                                <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr style="font-size: 10px;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: violet;font-size: 14px;"><h3>Explain</h3></td>
+                                <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr style="font-size: 10px">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: green;font-size: 14px;"><h3>Extend</h3></td>
+                                <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr style="font-size: 10px">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: brown;font-size: 14px;"><h3>Evaluate</h3></td>
+                                <td>How will students demonstrate that they have achieved the lesson objective?</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr style="font-size: 10px">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="color: orange;font-size: 14px;"><h3>Life Long Learning</h3></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            </table>
+                          <?php endif; ?>
+                          
                         </textarea>
                     </div>
                 </div>
@@ -680,12 +688,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="<?php echo $resources.'lesson.js'?>"></script>
         <script type="text/javascript">
-          tinymce.init({
-            selector: '.tinymce',
-            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-            toolbar_mode: 'floating',
-            height : "700",
-          });
+          
         </script>
     </body>
 </html>

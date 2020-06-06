@@ -650,22 +650,7 @@
                     <?php
                 }
             }
-            if ($this->module_lib->hasActive('download_center')) {
-                if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
-                    ?>
-                    <li class="treeview <?php echo set_Topmenu('Campus Meetup'); ?>">
-                        <a href="#">
-                            <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('lms_campus_meetup'); ?></span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_available_soon'); ?></a></li>
-                           
-                            
-                        </ul>
-                    </li>
-                    <?php
-                }
-            }
+            
             if ($this->module_lib->hasActive('download_center')) {
                 if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
                     ?>

@@ -130,4 +130,15 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
+    public function search_cms_resources($account_id="",$search=""){
+        $this->db->select("*");
+        if($search){
+            $this->db->like("name",$search);    
+        }
+        $this->db->order_by("date_created","desc");
+        $query = $this->db->get("lms_cms_resources");
+        $result = $query->result_array();
+        return $result;
+    }
+
 }

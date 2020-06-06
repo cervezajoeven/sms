@@ -38,10 +38,13 @@
 
                                     <select  id="content_type" name="content_type" class="form-control" >
                                         <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        <option value="Study Material">Modules/Activities</option>
+                                            <option value="Syllabus">Learning Plan</option>
                                         <?php
                                         foreach ($ght as $type) {
                                             ?>
-                                            <option value="<?php echo $type; ?>" <?php if (set_value('content_type') == $type) echo "selected=selected"; ?>><?php echo $type; ?></option>
+
+                                            <!-- <option value="<?php echo $type; ?>" <?php if (set_value('content_type') == $type) echo "selected=selected"; ?>><?php echo $type; ?></option> -->
                                             <?php
                                         }
                                         ?>

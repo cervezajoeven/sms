@@ -23,7 +23,12 @@ $(document).ready(function(){
         folder_names = "Introduction,Lesson Proper,Examination";
         folders = "#folder_1,#folder_2,#folder_3";
     }
-    
+    var the_learning_plan = tinymce.init({
+        selector: '.tinymce',
+        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        toolbar_mode: 'floating',
+        height : "700",
+    });
     var jstree = $('#jstree_demo_div').jstree({
         "checkbox" : {
           "keep_selected_style" : false
@@ -170,6 +175,20 @@ $(document).ready(function(){
         });
     }
 
+    function cms_resources_search(query){
+        var api = url+"cms_resources/"+query;
+
+        $.ajax({
+            url: api,
+            context: document.body
+        }).done(function(data) {
+
+            var processed_data = process_data(data,"cms_resources");
+            result_pool = processed_data;
+            populate_search_content(processed_data);
+        });
+    }
+
     function reset_result_pool(){
         result_pool = {};
     }
@@ -295,9 +314,6 @@ $(document).ready(function(){
                         }else if(item.type=="text"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
                         }
-                        console.log(data_population);
-                        
-
                         
 
                     });
@@ -307,18 +323,28 @@ $(document).ready(function(){
                 return data_population;
             break;
             case "cms_resources":
-                data.items.forEach(function(item, index, arr){
 
-                    data_population[index] = {
-                        result_id:generate_id()+"_"+index,
-                        title:item.title,
-                        description:item.snippet,
-                        image:encodeURIComponent(item.link),
-                        type:"image",
-                        source:encodeURIComponent(item.link),
-                    };
+                data = JSON.parse(data);
 
-                });
+                if(data){
+
+                    data.forEach(function(item, index, arr){
+                        
+                        data_population[index] = {
+                            result_id:generate_id()+"_"+index,
+                            title:item.name,
+                            description:item.description,
+                            image:encodeURIComponent(item.link),
+                            type:item.type,
+                            source:main_url+'uploads/lms_cms_resources/'+item.filename,
+
+                        };
+                        
+                    });
+
+                    console.log(data_population);
+                }
+                
                 return data_population;
             break;
             default:
@@ -381,6 +407,7 @@ $(document).ready(function(){
                     $(".student_view_content_iframe").attr("src",decodeURIComponent(active_content_data.content.source));
                 break;
                 case "pdf":
+
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
                     $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
@@ -516,6 +543,8 @@ $(document).ready(function(){
     }
 
     function change_detected(){
+
+        console.log();
         var title = $(".title").val();
         var update_url = $("#site_url").val();
         var id = $("#lesson_id").val();
@@ -556,7 +585,7 @@ $(document).ready(function(){
             email_notification:email_notification,
             start_date:start_date,
             end_date:end_date,
-            // learning_plan:learning_plan_text,
+            learning_plan:tinymce.get('the_learning_plan').getContent(),
             assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
             subject_id:subject_id,
@@ -1269,3 +1298,4 @@ function send_chat(student_chat){
         }
     });
 }
+
