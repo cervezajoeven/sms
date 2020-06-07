@@ -78,7 +78,7 @@
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Select Payments</label><small class='req'> *</small>                                                
-                                                <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker">
+                                                <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($fees_master_list as $feesmaster) { ?>
                                                     <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
                                                 <?php } ?>
@@ -89,7 +89,7 @@
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Select Discounts</label><small class='req'> *</small>
-                                                <select id="discount" name="discount[]" multiple class="form-control selectpicker">
+                                                <select id="discount" name="discount[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($discount_list as $discount) { ?>
                                                     <option value="<?php echo $discount['id'] ?>"><?php echo $discount['name'] ?></option>
                                                 <?php } ?>
