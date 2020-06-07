@@ -52,7 +52,7 @@
                                     <div class="row">
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label">Mode of Payment</label><small class='req'> *</small>                                                
+                                                <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>                                                
                                                 <select id="mode_of_payment" name="mode_of_payment" class="form-control">
                                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                 <?php foreach ($payment_mode_list as $pmode) { ?>
@@ -64,7 +64,7 @@
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label">Enrollment Type</label><small class='req'> *</small>
+                                                <label for="" class="control-label"><?php echo $this->lang->line('enrollment_type'); ?></label><small class='req'> *</small>
                                                 <input type="hidden" name="enrollment_type" id="enrollment_type" value = "<?php echo $student['enrollment_type'] ?>">
                                                 <input type="text" readonly name="enrollment_type_disp" id="enrollment_type_disp" class="form-control" value="<?php echo strtoupper(set_value('enrollment_type', $student['enrollment_type'] == 'old_new' ? 'old' : $student['enrollment_type'])); ?>">
                                                 <!-- <select id="enrollment_type" name="enrollment_type" class="form-control">
@@ -77,7 +77,7 @@
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label">Select Payments</label><small class='req'> *</small>                                                
+                                                <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label><small class='req'> *</small>                                                
                                                 <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($fees_master_list as $feesmaster) { ?>
                                                     <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
@@ -88,7 +88,7 @@
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label">Select Discounts</label><small class='req'> *</small>
+                                                <label for="" class="control-label"><?php echo $this->lang->line('select_discounts'); ?></label><small class='req'> *</small>
                                                 <select id="discount" name="discount[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($discount_list as $discount) { ?>
                                                     <option value="<?php echo $discount['id'] ?>"><?php echo $discount['name'] ?></option>
@@ -1381,6 +1381,20 @@
     }).keyup(function() {
         //$('#form1')[0].reset();
     });
+
+    $('input:radio[name="has_siblings_enrolled"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#siblings_specify').prop('disabled', false);
+                }
+                else {
+                    $('#siblings_specify').prop('disabled', true);
+                }
+            }
+        }
+    ); 
 
     $(document).on('click', '#btnAddSibling', function () {
         // var student_id = $('#sibiling_student_id').val();

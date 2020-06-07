@@ -1977,7 +1977,10 @@ return false;
     public function GetNameList($name)
     {
         $this->db->select("DISTINCT(roll_no), studentname");
-        $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname FROM students) tbl1");
+        $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname 
+                          FROM students
+                          JOIN student_session ON students.id = student_session.student_id
+                          WHERE student_session.session_id = ".$this->current_session.") tbl1");
         if ($name != "")
             $this->db->where("LOWER(studentname) like '".strtolower(urldecode($name))."%'");
         $this->db->order_by('studentname', 'asc');

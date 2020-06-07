@@ -44,7 +44,7 @@
                                 <div class="row">
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
-                                            <label for="" class="control-label">Mode of Payment</label><small class='req'> *</small>
+                                            <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>
                                             <select id="mode_of_payment" name="mode_of_payment" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($payment_mode_list as $pmode) { ?>
@@ -56,7 +56,7 @@
 
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
-                                            <label for="" class="control-label">Enrollment Type</label><small class='req'> *</small>
+                                            <label for="" class="control-label"><?php echo $this->lang->line('enrollment_type'); ?></label><small class='req'> *</small>
                                             <select id="enrollment_type" name="enrollment_type" class="form-control" onchange="DoOnChange(this)">
                                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                 <?php foreach ($enrollment_type_list as $etype) { ?>
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
-                                            <label for="" class="control-label">Select Payments</label><small class='req'> *</small>                                                
+                                            <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label><small class='req'> *</small>
                                             <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker" data-live-search="true">
                                             <?php foreach ($fees_master_list as $feesmaster) { ?>
                                                 <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
@@ -78,7 +78,7 @@
 
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
-                                            <label for="" class="control-label">Select Discounts</label><small class='req'> *</small>
+                                            <label for="" class="control-label"><?php echo $this->lang->line('select_discounts'); ?></label><small class='req'> *</small>
                                             <select id="discount" name="discount[]" multiple class="form-control selectpicker" data-live-search="true">
                                             <?php foreach ($discount_list as $discount) { ?>
                                                 <option value="<?php echo $discount['id'] ?>"><?php echo $discount['name'] ?></option>
@@ -340,9 +340,40 @@
                                             <span class="text-danger"><?php //echo form_error('fees_discount'); ?></span>
                                         </div>
                                     </div> -->
+                                    <!-- <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">    
+                                            <label><?php //echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
+                                            <label class="radio-inline">
+                                                <input type="radio" name="has_siblings_enrolled" <?php //echo $student['has_siblings_enrolled'] == "yes" ? "checked" : ""; ?> value="yes"> <?php //echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="has_siblings_enrolled" <?php //echo $student['has_siblings_enrolled'] == "no" ? "checked" : ""; ?> value="no"> <?php //echo $this->lang->line('no'); ?>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo $student['siblings_specify']; ?>" autocomplete="off"/>
+                                        </div>
+                                    </div> -->
+                                    <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
+                                    <div class="col-md-3 col-sm-12">
+                                        <div class="row m-0">
+                                            <div class="col-10 col-sm-10">
+                                                <input id="firstname-modal" name="firstname-modal" placeholder="Type the sibling name to add" type="text" class="form-control" value=""/>
+                                                <button id="btnAddSibling" type="button" class="btn btn-sm"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                            </div>
+                                            <!-- <div class="col-2 col-sm-2">
+                                                <button id="btnAddSibling" type="button" class="btn btn-sm"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                            </div> -->
+                                        </div>
+                                        <div class="row m-0">                                            
+                                            <div class="col-md-6">
+                                                <div id='sibling' class="pt6"> <span id="sibling_name" class="label label-success "><?php echo set_value('sibling_name'); ?></span></div>
+                                            </div>
+                                        </div>
+                                    </div>  
                                 </div>
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-3 pt25">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -353,7 +384,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <?php echo display_custom_fields('students'); ?>
                                 </div>
@@ -1731,5 +1762,59 @@
             }
         }
     );
+
+    $("#firstname-modal").autocomplete({
+        autofocus: true,
+        source: function( request, response ) {
+            // Fetch data
+            $.ajax({
+                url: '<?php echo base_url()."student/AutoCompleteStudentName"; ?>',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    search: request.term
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        select: function (event, ui) {
+            $("#firstname-modal").val(ui.item.label);
+
+            var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.value;
+            $.get(url)
+            .done(function(data) {
+                student_id = "";
+                //AutoFillDetails(JSON.parse(data));
+                var resp = JSON.parse(data);
+                student_id = resp.id
+            });
+            
+            return false;
+        }
+    }).keyup(function() {
+        //$('#form1')[0].reset();
+    });
+
+    $(document).on('click', '#btnAddSibling', function () {
+        var base_url = '<?php echo base_url() ?>';
+        if (student_id.length > 0) {
+            $.ajax({
+                type: "GET",
+                url: base_url + "student/getStudentRecordByID",
+                data: {'student_id': student_id},
+                dataType: "json",
+                success: function (data) {
+                    $("#firstname-modal").val('');
+                    $('#sibling_name').text("Sibling: " + data.firstname + " " + data.lastname);
+                    $('#sibling_name_next').val(data.firstname + " " + data.lastname);
+                    $('#sibling_id').val(data.id);
+                }
+            });
+        } else {
+            $('.sibling_msg').html("<div class='alert alert-danger'>No Student Selected</div>");
+        }
+    });
 </script>
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/js/savemode.js"></script>

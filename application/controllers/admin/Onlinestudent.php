@@ -248,7 +248,7 @@ class Onlinestudent extends Admin_Controller
                 'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
                 'living_with_parents' => $this->input->post('living_with_parents'),
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
-                // 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
+                'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
                 // 'siblings_specify' => $this->input->post('siblings_specify'),
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                 'feesmaster' => $this->input->post('feesmaster[]'),

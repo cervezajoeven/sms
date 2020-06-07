@@ -1509,4 +1509,6 @@ $lang['enrollment_payment_status'] = "Enrollment Payment Status";
 
 $lang['student_additional_details'] = "Student's Other Details";
 $lang['error_message'] = "Record Save Failed";
+$lang['fees_assessment'] = "Assessment of Fees";
+$lang['select_discounts'] = "Select Discounts";
 ?>
