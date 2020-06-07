@@ -270,10 +270,10 @@ if (!$form_admission) {
             <div class="form-group">
                 <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
-                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "techbased" ? "checked" : ""; ?> value="Technology-Based Platforms (Online Learning)"> <?php echo $this->lang->line('techbased'); ?>
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "techbased" ? "checked" : ""; ?> value="techbased"> <?php echo $this->lang->line('techbased'); ?>
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "modulebased" ? "checked" : ""; ?> value="Module-Based Learning"> <?php echo $this->lang->line('modulebased'); ?>
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "modulebased" ? "checked" : ""; ?> value="modulebased"> <?php echo $this->lang->line('modulebased'); ?>
                 </label>
                 <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
             </div>
