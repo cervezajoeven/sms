@@ -1319,27 +1319,18 @@ $language_name = $language["short_code"];
         function () {
             if ($(this).is(':checked')) {
                 var value = $(this).val();
-                <?php //echo $student['roll_no']; ?>
 
                 $.ajax({
                     url: '<?php echo base_url()."student/UpdateEnrollmentPaymentStatus/".$student['roll_no']; ?>',
                     type: 'post',
                     dataType: "json",
-                    data: {
-                        enrollment_payment_status: value
-                    },
+                    data: { enrollment_payment_status: value },
                     success: function(res) {
-                        if (res.status == "fail") {
-
-                        var message = "";
-                        $.each(res.error, function (index, value) {
-                            message += value;
-                        });
-                        errorMsg(message);
-
+                        if (res.status == "failed") {
+                            errorMsg(res.message);
+                            // console.log(res.message);
                         } else {
-                        successMsg(res.message);
-                        // window.location.reload(true);
+                            successMsg(res.message);
                         }
                     }
                 });

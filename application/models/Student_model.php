@@ -2046,13 +2046,15 @@ return false;
             'enrollment_payment_status' => $status,
         );
 
-        $this->db->where('id', $idnumber);
-        $this->db->update('students', $data);
+        $this->db->where('roll_no', $idnumber);
+        $update = $this->db->update('students', $data);
 
-        if($this->db->affected_rows() > 0) {
-            return true; //add your code here
-        }else{
-            return false; //add your your code here
-        }
+        // $this->db_exceptions->checkForError();
+        // return ($update == true) ? true : false;        
+
+        if ($this->db->affected_rows() > 0) 
+            return true; 
+        else
+            return false;
     }
 }

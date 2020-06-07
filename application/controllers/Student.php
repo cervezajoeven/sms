@@ -2523,9 +2523,9 @@ class Student extends Admin_Controller
 
     public function UpdateEnrollmentPaymentStatus($idnumber)
     {
-        $enrollment_payment_status = $this->input->get('enrollment_payment_status');
+        $enrollment_payment_status = $this->input->post('enrollment_payment_status');
         $result = $this->student_model->UpdateEnrollmentPaymentStatus($idnumber, $enrollment_payment_status);
-        
+
         if ($result)
         {
             $msg   = $this->lang->line('success_message');
@@ -2534,7 +2534,7 @@ class Student extends Admin_Controller
         }
         else 
         {
-            $msg   = $this->lang->line('error_message');
+            $msg   = $idnumber.' EMN '.$enrollment_payment_status;
             $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
             echo json_encode($array);
         }
