@@ -435,8 +435,10 @@ class Welcome extends Front_Controller
 
                     if ($enrollment_type == 'old')
                     {
+                        $idnum = $this->input->post('studentidnumber');
+                        // echo($idnum);
                         $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
-                        //var_dump($old_student_data);die;
+                        // var_dump($old_student_data);die;
                         //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
                         //var_dump($this->input->post('studentidnumber'));die;
                         $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
@@ -525,7 +527,7 @@ class Welcome extends Front_Controller
                             // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
                             // 'siblings_specify' => $old_student_data->siblings_specify,
 
-                            'preferred_education_mode' => $old_student_data->preferred_education_mode,
+                            'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                         );
 
                         if (isset($admission_docs)) 
