@@ -1328,8 +1328,19 @@ $language_name = $language["short_code"];
                     data: {
                         enrollment_payment_status: value
                     },
-                    success: function(data) {
-                        response(data);
+                    success: function(res) {
+                        if (res.status == "fail") {
+
+                        var message = "";
+                        $.each(res.error, function (index, value) {
+                            message += value;
+                        });
+                        errorMsg(message);
+
+                        } else {
+                        successMsg(res.message);
+                        // window.location.reload(true);
+                        }
                     }
                 });
             }

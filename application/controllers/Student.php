@@ -2524,6 +2524,10 @@ class Student extends Admin_Controller
     public function UpdateEnrollmentPaymentStatus($idnumber)
     {
         $enrollment_payment_status = $this->input->get('enrollment_payment_status');
-        return $this->student_model->UpdateEnrollmentPaymentStatus($idnumber, $enrollment_payment_status);
+        $this->student_model->UpdateEnrollmentPaymentStatus($idnumber, $enrollment_payment_status);
+        
+        $msg   = $this->lang->line('success_message');
+        $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+        echo json_encode($array);
     }
 }
