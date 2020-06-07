@@ -265,65 +265,6 @@ if (!$form_admission) {
             </div>
         </div>
     </div><!--./row-->     
-    <div class="row" id="student_address">
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="guardian_address_is_current_address" onclick="">
-                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
-                <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
-                <span class="text-danger"><?php echo form_error('current_address'); ?></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="permanent_address_is_current_address"onclick="">
-                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
-                <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
-                <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">    
-                <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
-                <label class="radio-inline">
-                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
-                <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
-            </div>
-        </div>
-        <div class="col-md-3">
-
-            <div class="form-group">    
-                <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
-                <label class="radio-inline">
-                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label><?php echo $this->lang->line('siblings_specify');?></label>
-                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
-            </div>
-        </div>
-    </div>
     <div clss="row">
         <!-- <div class="col-md-6">         -->
             <div class="form-group">
@@ -341,7 +282,7 @@ if (!$form_admission) {
     <!-- Start Parent Details -->
     <div class="row" id="parentdetail">  
         <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('parent_detail'); ?></h4><div class="line"></div></div>
-        <!-- <div class="col-md-12"><h4 class="pagetitleh2"><?php echo $this->lang->line('parent_detail'); ?></h4></div> -->
+        <!-- <div class="col-md-12"><h4 class="pagetitleh2"><?php //echo $this->lang->line('parent_detail'); ?></h4></div> -->
         <!-- Start Father section -->
         <div class="col-md-4">
             <div class="form-group">
@@ -767,6 +708,66 @@ if (!$form_admission) {
                 <textarea id="guardian_address" name="guardian_address" placeholder="" class="form-control all-fields" rows="2"><?php echo set_value('guardian_address'); ?></textarea>
                 <span class="text-danger"><?php echo form_error('guardian_address'); ?></span>
             </div>  
+        </div>
+    </div>
+    <div class="row" id="student_address">
+        <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('student_additional_details'); ?></h4><div class="line"></div></div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="guardian_address_is_current_address" onclick="">
+                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('current_address'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="permanent_address_is_current_address"onclick="">
+                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">    
+                <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
+                <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">    
+                <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><?php echo $this->lang->line('siblings_specify');?></label>
+                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
+            </div>
         </div>
     </div>
     <!-- End Guardian Details -->

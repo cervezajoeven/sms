@@ -1855,9 +1855,9 @@ return false;
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status');
         $this->db->from('students');
-        $this->db->join('student_session', 'student_session.student_id = students.id');
-        $this->db->join('classes', 'student_session.class_id = classes.id');
-        $this->db->join('sections', 'sections.id = student_session.section_id');
+        $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
+        $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
         $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
         $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
         $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
@@ -1874,7 +1874,7 @@ return false;
         // $query = $this->db->get();
         // return $query->result();
         $result = $this->db->get()->row();
-        //echo $this->db->last_query();die;
+        // echo $this->db->last_query();die;
         return $result;
     }
 
@@ -1904,9 +1904,9 @@ return false;
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status');
         $this->db->from('students');
-        $this->db->join('student_session', 'student_session.student_id = students.id');
-        $this->db->join('classes', 'student_session.class_id = classes.id');
-        $this->db->join('sections', 'sections.id = student_session.section_id');
+        $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
+        $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
         $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
         $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
         $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
