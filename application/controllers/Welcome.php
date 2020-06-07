@@ -315,6 +315,7 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('current_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('permanent_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('living_with_parents', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('has_siblings_enrolled', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');
             }
 

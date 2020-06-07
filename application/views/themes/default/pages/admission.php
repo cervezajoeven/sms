@@ -265,8 +265,37 @@ if (!$form_admission) {
             </div>
         </div>
     </div><!--./row-->     
-    <div clss="row">
-        <!-- <div class="col-md-6">         -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">    
+                <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><?php echo $this->lang->line('siblings_specify');?></label>
+                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col-md-9">
+        <div class="form-group">
+                <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "techbased" ? "checked" : ""; ?> value="techbased"> <?php echo $this->lang->line('techbased'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "modulebased" ? "checked" : ""; ?> value="modulebased"> <?php echo $this->lang->line('modulebased'); ?>
+                </label>
+                <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
+            </div>
+        </div>
+    </div>
+    <!-- <div clss="row">
+        <div class="col-12">        
             <div class="form-group">
                 <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -277,8 +306,8 @@ if (!$form_admission) {
                 </label>
                 <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
             </div>
-        <!-- </div> -->
-    </div>
+        </div>
+    </div> -->
     <!-- Start Parent Details -->
     <div class="row" id="parentdetail">  
         <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('parent_detail'); ?></h4><div class="line"></div></div>
@@ -753,22 +782,7 @@ if (!$form_admission) {
                 <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
             </div>
         </div>
-        <div class="col-md-3">
-
-            <div class="form-group">    
-                <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
-                <label class="radio-inline">
-                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label><?php echo $this->lang->line('siblings_specify');?></label>
-                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
-            </div>
-        </div>
+        
     </div>
     <!-- End Guardian Details -->
 
