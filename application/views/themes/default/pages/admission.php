@@ -1074,7 +1074,7 @@ if (!$form_admission) {
         <div class="col-md-12">
             <div class="form-group pull-right">
                 <!-- <label><input type="checkbox" value="" id="iagree"> I agree with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a></label> -->
-                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn"><?php echo $this->lang->line('submit'); ?></button>
+                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Next</button>
             </div> 
         </div>    
     </div><!--./row-->    
