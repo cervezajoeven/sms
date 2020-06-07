@@ -46,7 +46,7 @@
 		        		</tr>
 		        		<tr>
 		        			<td>Name :</td>
-		        			<td>John Doe</td>
+		        			<td><?php echo $student_name; ?></td>
 		        			<td>Date</td>
 		        			<td><?php echo date("F d, Y"); ?></td>
 		        		</tr>
@@ -54,12 +54,12 @@
 		        			<td>Title :</td>
 		        			<td colspan="3"><?php echo $assessment['assessment_name']?></td>
 		        		</tr>
-		        		<tr>
+		        		<!-- <tr>
 		        			<td>Score :</td>
 		        			<td class="score"></td>
-		        			<!-- <td>Timer</td>
-		        			<td class="timer"></td> -->
-		        		</tr>
+		        			<td>Timer</td>
+		        			<td class="timer"></td>
+		        		</tr> -->
 		        	</table>
 		        	<div class="info-row">
 			        		<div class="info-tab col-sm-12 save submit">

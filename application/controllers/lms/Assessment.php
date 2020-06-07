@@ -11,6 +11,7 @@ class Assessment extends General_Controller {
         $this->load->model('class_model');
         $this->load->model('lesson_model');
         $this->load->library('customlib');
+        $this->load->library('mailsmsconf');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
     }
@@ -19,7 +20,6 @@ class Assessment extends General_Controller {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/assessment');
-        $data['list'] = $this->assessment_model->all_assessment();
 
         $data['role'] = $this->general_model->get_role();
         
@@ -27,8 +27,10 @@ class Assessment extends General_Controller {
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
+            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
         }else{
 
+            $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
             $this->load->view('layout/student/header');
         }
 
@@ -58,9 +60,24 @@ class Assessment extends General_Controller {
         ->where("ss.session_id",$current_session)
         ->where("lms_a.id", $assessment_id)
         ->get();
+
+        // $query = $this->db
+        // ->select("*,lms_a.id as id")
+        // ->from("lms_assessment AS lms_a")
+        // ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
+        // ->join("student_session AS ss","s.id = ss.student_id","left")
+        // ->join("classes AS c","c.id = ss.class_id","left")
+        // ->join("sections AS sc","sc.id = ss.section_id","left")
+        // ->where("ss.session_id",$current_session)
+        // ->where("lms_a.id", $assessment_id)
+        // ->get();
+
         $students = $query->result_array();
         // echo "<pre>";
         // print_r($students);
+        // foreach ($students as $key => $value) {
+            
+        // }
         // exit;
         $data['students'] = $students;
 
@@ -80,13 +97,11 @@ class Assessment extends General_Controller {
             $assessment = $this->assessment_model->lms_get('lms_assessment',$id,"id")[0];
             $assessment_sheets = $this->assessment_model->assessment_sheets($id);
 
-            
             $json_sheet = json_decode($assessment['sheet']);
             $responses['data'] = array();
             $array_pos = 0;
 
             //var_dump($json_sheet[0]->type);
-            // echo '<pre>';print_r($assessment_sheets);exit();
             foreach ($assessment_sheets as $row) {
                 $json_respond = json_decode($row['answer']);
                 //var_dump($json_respond);
@@ -98,7 +113,8 @@ class Assessment extends General_Controller {
                         // var_dump($respond);
                         // echo($respond->type);
                         
-                        if ($respond->type != "long_answer" && $respond->type != "short_answer") {
+                        if ($respond->type != "long_answer" && $respond->type != "short_answer" && $respond->type != "section") {
+
                             if (strpos($respond->answer, '1') > -1) {
                                 if ($array_pos == 0) {
                                     $responses['data'][] = array (
@@ -191,10 +207,14 @@ class Assessment extends General_Controller {
     public function answer($id){
         $data['id'] = $id;
         $data['account_id'] = $this->general_model->get_account_id();
+        $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
+        $data['student_name'] = $data['student_data']['firstname']." ".$data['student_data']['lastname'];
+
         $this->db->select("*");
         $this->db->where("account_id", $data['account_id']);
         $this->db->where("assessment_id",$id);
         $this->db->where("response_status",1);
+
 
         $query = $this->db->get("lms_assessment_sheets");
         $response = $query->result_array();
@@ -284,8 +304,15 @@ class Assessment extends General_Controller {
         $data['attempts'] = $_REQUEST['attempts'];
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
+        $data['email_notification'] = $_REQUEST['email_notification'];
         $sheet = (array)json_decode($data['sheet']);
 
+        if($data['email_notification']=="1"){
+            $sender_details = array('student_id' => 1, 'contact_no' => '+639953230083', 'email' => 'cervezajoeven@gmail.com');
+            $this->mailsmsconf->mailsms('assessment_assigned', $sender_details);
+
+        }
+        print_r($data['email_notification']);
         $total_score = 0;
         //convert to array
         foreach ($sheet as $answer_key => $answer_value) {

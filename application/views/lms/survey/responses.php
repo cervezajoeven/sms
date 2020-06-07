@@ -217,7 +217,8 @@
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
 		        <div class = "col-sm-7 left">
-		        	<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources.'pdfjs/web/viewer.html?file='.urlencode(site_url('uploads/lms_survey/'.$data[0]['survey_id'].'/'.$data[0]['survey_pdf_file_name'])); ?>"></iframe>
+
+		        	<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources.'pdfjs/web/viewer.html?file='.urlencode(site_url('uploads/lms_survey/'.$survey['id'].'/'.$survey['survey_file'])); ?>"></iframe>
 	            	
 		        </div>
 
@@ -226,23 +227,24 @@
 	                    
 		        		<tr>
 		        			<td style="width: 24%"><b>Survey Name: </b></td>
-		        			<td><?php echo $data[0]['survey_name']?></td>
+		        			<td><?php echo $survey['survey_name']?></td>
 		        			<td><b>Date Created: </b></td>
-		        			<td><?php echo date("F d, Y",strtotime($data[0]['survey_date_created'])) ?></td>
+		        			<td><?php echo date("F d, Y",strtotime($survey['survey_date_created'])) ?></td>
 		        		</tr>	        		
 		        	</table>
 		        	<table class="table table-bordered for_print">
 		        		<td><b>Survey Name: </b></td>
-		        		<td><?php echo $data[0]['survey_name']?></td>
+		        		<td><?php echo $survey['survey_name']?></td>
 		        		<td><b>Date Created: </b></td>
-		        		<td><?php echo date("F d, Y",strtotime($data[0]['survey_date_created'])) ?></td>
+		        		<td><?php echo date("F d, Y",strtotime($survey['survey_date_created'])) ?></td>
 		        	</table>
 
 		        	<div class="w3-container" id="resp-container">
 						<?php
 			
-							if ($data[0]['respond'] != null) {
-								$respond = json_decode($data[0]['respond']);							
+							if ($survey['sheet'] != null) {
+								$respond = json_decode($survey['sheet']);
+
 								$i = 0;
 
 								foreach($respond as $resp) {
@@ -283,10 +285,9 @@
 	});
 
 	function getResponses() {
-		fetch('<?php echo site_url('lms/survey/get_responses/'.$data[0]['survey_id'])?>') 
+		fetch('<?php echo site_url('lms/survey/get_responses/'.$survey['id'])?>') 
 		.then((resp) => resp.json())
 		.then(function(data) {
-			//alert(data);
 			console.log(data);
 			resp_data = data;
 

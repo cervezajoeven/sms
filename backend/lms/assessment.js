@@ -267,7 +267,6 @@ $(".true_save").click(function(){
 			};
 		}
 		json.push(option_json);
-		console.log(json);
 		
 
 	});
@@ -289,6 +288,13 @@ $(".true_save").click(function(){
 	end_date = $(".date_range").data('daterangepicker').endDate.toDate();
 	start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
     end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
+    var email_notification = $("#email_notification").prop('checked');
+    if(email_notification){
+    	email_notification = 1;
+    }else{
+    	email_notification = 0;
+    }
+
 	final_json = {
 		id:$("#assessment_id").val(),
 		sheet:JSON.stringify(json),
@@ -298,6 +304,7 @@ $(".true_save").click(function(){
 		attempts: attempts,
 		start_date: start_date,
 		end_date: end_date,
+		email_notification: email_notification,
 	};
 
 	$.ajax({

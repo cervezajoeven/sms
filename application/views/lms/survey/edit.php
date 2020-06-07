@@ -11,8 +11,21 @@
 		<link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css'?>">
 		<link rel="stylesheet" href="<?php echo $resources.'survey.css'?>">
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	</head>
+	<style type="text/css">
+		.jstree-themeicon-custom{
+            background-size: 100%!important;
+        }
+        .assign_panel{
+			position: relative;
+		    padding: 0;
+		    top: 120px;
+		}
+	</style>
 	<body>
+
 
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
@@ -56,6 +69,57 @@
 		        		
 		        	</div>
 		        	<div class="clearfix"></div>
+		        	<div class="assign_panel">
+
+		        		<div class = "col-sm-8">
+		        			Date Assigned
+		        			<input type="hidden" value="<?php echo $survey['start_date'] ?>" class="start_date" name="">
+		        			<input type="hidden" value="<?php echo $survey['end_date'] ?>" class="end_date" name="">
+		        			<input type="text" value="" class="form-control date_range" name="">
+		        		</div>
+		        		<div class = "col-sm-4">
+			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
+	                                
+		                        <input type="checkbox" id="email_notification" />
+		                        <div class="state p-primary">
+		                            <label>Email Notification</label>
+		                        </div>
+		                    </div>
+		                </div>
+		        		<div class = "col-sm-12">
+		        			Assign Students
+		        			<div id="jstree_demo_div">
+	                            <ul>
+	                                <li class="jstree-open" data-jstree='{
+	                                    "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
+	                                }'>All
+	                                    <ul>
+	                                        <?php foreach($classes as $classes_key => $classes_value): ?>
+	                                            <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
+	                                                <ul>
+	                                                    <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
+	                                                        <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
+	                                                            <li id="section_<?php echo $class_sections_value['class_id']?>_<?php echo $class_sections_value['section_id']?>" data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
+	                                                                <ul>
+	                                                                    <?php foreach($students as $students_key => $students_value): ?>
+	                                                                        <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
+	                                                                            
+	                                                                            <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+	                                                                        <?php endif; ?>
+	                                                                    <?php endforeach; ?>
+	                                                                </ul>
+	                                                            </li>
+	                                                        <?php endif; ?>
+	                                                    <?php endforeach;?>
+	                                                </ul>
+	                                            </li>
+	                                        <?php endforeach;?>
+	                                    </ul>
+	                                </ul>
+	                            </li>    
+	                        </div>
+	                    </div>
+	        		</div>
 		        	<ul class="sortable ui-sortable">
 		        		<li class="option-container option-container-clonable">
 		        			<div class="numbering_option">1.</div>
@@ -95,23 +159,35 @@
 		        </div>
 	      	</div>
 	    </div>
+	    <input type="hidden" id="assigned" value="<?php echo $survey['assigned'] ?>" name="" />
 	</body>
 </html>
+
 <script type="text/javascript" src="<?php echo $resources.'jquery-1.12.4.js'?>"></script>
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <!-- <script type="text/javascript" src="<?php echo $resources.'survey.js'?>"></script> -->
 <script type="text/javascript">
 
 	var url = "<?php echo site_url('lms/survey/update'); ?>";
 	var stored_json = '<?php echo $survey['sheet']; ?>';
 	var final_json = {};
+	var assigned = $("#assigned").val();
 	
 	$(".sortable").sortable({
 		stop:function(event,ui){
 			renumbering();
 		}
+	});
+	var jstree = $('#jstree_demo_div').jstree({
+	    "checkbox" : {
+	      "keep_selected_style" : false
+	    },
+	    "plugins" : [ "checkbox" ]
 	});
 	$(".option-container-clonable").hide();
 
@@ -237,7 +313,22 @@
 			
 			
 		});
-		final_json = {id:"<?php echo $survey['id'] ?>",sheet:JSON.stringify(json)};
+		var student_ids = [];
+		$.each(jstree.jstree("get_checked",null,true),function(key,value){
+			
+			if(value.includes('student')){
+				student_id = value.replace('student_','');
+				
+				student_ids.push(student_id);
+			}
+		});
+
+		final_json = {id:"<?php echo $survey['id'] ?>",
+				sheet:JSON.stringify(json),
+				start_date: moment($(".date_range").data('daterangepicker').startDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
+				end_date: moment($(".date_range").data('daterangepicker').startDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
+				assigned:student_ids.join(','),
+			};
 		$.ajax({
 		    url: url,
 		    type: "POST",
@@ -249,5 +340,52 @@
 		    }
 		});
 	});
+
+	$(".assign_panel").hide();
+	$(".assign").click(function(){
+		$(".assign_panel").toggle();
+		$(".sortable").toggle();
+	});
+
+	
+$('.date_range').daterangepicker({
+	timePicker: true,
+	startDate: moment().startOf('hour'),
+	endDate: moment().startOf('hour').add(24, 'hour'),
+	locale: {
+	  format: 'MMMM DD hh:mm A'
+	}
+});
+
+if($(".start_date").val()!='0000-00-00 00:00:00'){
+    $('.date_range').daterangepicker({
+        timePicker: true,
+        startDate: moment($(".start_date").val()),
+        endDate: moment($(".end_date").val()),
+        locale: {
+          format: 'MMMM DD hh:mm A'
+        }
+    });
+}else{
+
+    $('.date_range').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(24, 'hour'),
+        locale: {
+          format: 'MMMM DD hh:mm A'
+        }
+    });
+}
+
+var checked_ids = [];
+if(assigned){
+
+	$.each(assigned.split(","),function(key,value){
+		checked_ids.push("student_"+value);
+	});
+	$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
+}
+
 
 </script>
