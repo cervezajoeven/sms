@@ -2043,11 +2043,16 @@ return false;
     public function UpdateEnrollmentPaymentStatus($idnumber, $status)
     {        
         $data = array(
-            'enrollment_payment_status'    => $status,
+            'enrollment_payment_status' => $status,
         );
+
         $this->db->where('id', $idnumber);
         $this->db->update('students', $data);
 
-        return 0;
+        if($this->db->affected_rows() > 0) {
+            return true; //add your code here
+        }else{
+            return false; //add your your code here
+        }
     }
 }
