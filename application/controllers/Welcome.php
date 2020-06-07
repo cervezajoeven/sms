@@ -526,6 +526,8 @@ class Welcome extends Front_Controller
 
                             // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
                             // 'siblings_specify' => $old_student_data->siblings_specify,
+                            'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
+                            'siblings_specify' => $this->input->post('siblings_specify'),
 
                             'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                         );
