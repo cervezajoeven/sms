@@ -771,6 +771,97 @@ if (!$form_admission) {
         </div>
     </div>
     <!-- End Guardian Details -->
+
+
+    <div class="row" id="deped">
+        <div class="wrapper"><h4 class="pagetitleh2">Other Information</h4><div class="line"></div></div>
+
+        <div class="form-group col-md-12">
+            <label>Does the learner have special education needs? (i.e. physical, mental, developmental disability, medical condition, giftedness, among others)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="special_needs" <?php echo set_value('special_needs') == "yes" ? "checked" : ""; ?>   value="father"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="special_needs" <?php echo set_value('special_needs') == "no" ? "checked" : ""; ?>   value="mother"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('guardian_is'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Do you have any assistive technology devices available at home? (i.e. screen reader, Braille, DAISY)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="assistive_technology" <?php echo set_value('assistive_technology') == "yes" ? "checked" : ""; ?>   value="father"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="assistive_technology" <?php echo set_value('assistive_technology') == "no" ? "checked" : ""; ?>   value="mother"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>General Condition of Health<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <textarea rows="3" id="general_condition" name="general_condition" placeholder=""  class="form-control" ><?php echo set_value('general_condition'); ?></textarea>
+            
+            <span class="text-danger"><?php echo form_error('general_condition'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Common Health Complaints<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <textarea rows="3" id="common_complaints" name="common_complaints" placeholder=""  class="form-control" ><?php echo set_value('common_complaints'); ?></textarea>
+            
+            <span class="text-danger"><?php echo form_error('common_complaints'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Working from home due to community quarantine? (Father)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_father" <?php echo set_value('work_from_home_father') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_father" <?php echo set_value('work_from_home_father') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+        <div class="form-group col-md-12">
+            <label>Working from home due to community quarantine? (Mother)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_mother" <?php echo set_value('work_from_home_mother') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_mother" <?php echo set_value('work_from_home_mother') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Working from home due to community quarantine? (Guardian)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_guardian" <?php echo set_value('work_from_home_guardian') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_guardian" <?php echo set_value('work_from_home_guardian') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Is your family a beneficiary of 4P's?<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="beneficiary_4p" <?php echo set_value('beneficiary_4p') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="beneficiary_4p" <?php echo set_value('beneficiary_4p') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('common_complaints'); ?></span>
+        </div>
+        
+    </div>
     
     <!-- <div class="row" id="otherparentdetail">
         <div class="col-md-12"><h4 class="pagetitleh2"><?php echo $this->lang->line('other_parent_detail'); ?></h4></div>
@@ -1075,7 +1166,7 @@ if (!$form_admission) {
         <div class="col-md-12">
             <div class="form-group pull-right">
                 <!-- <label><input type="checkbox" value="" id="iagree"> I agree with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a></label> -->
-                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn"><?php echo $this->lang->line('submit'); ?></button>
+                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Next</button>
             </div> 
         </div>    
     </div><!--./row-->    
@@ -1331,6 +1422,7 @@ if (!$form_admission) {
             $('#guardiandetail1').slideUp();
             $('#guardiandetail2').slideUp();
             $('#otherparentdetail').slideUp();
+            $('#deped').slideUp();
         }
         else if (sel.value == "old_new") {
             $('#studentidnumber').prop('disabled', false);
@@ -1346,6 +1438,7 @@ if (!$form_admission) {
             $('#guardiandetail1').slideDown();
             $('#guardiandetail2').slideDown();
             $('#otherparentdetail').slideDown();
+            $('#deped').slideDown();
         }
         else {
             $('#studentidnumber').prop('disabled', true);
@@ -1361,6 +1454,8 @@ if (!$form_admission) {
             $('#guardiandetail1').slideDown();
             $('#guardiandetail2').slideDown();
             $('#otherparentdetail').slideDown();
+            $('#deped').slideDown();
+            
         }        
     }
 
