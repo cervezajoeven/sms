@@ -315,6 +315,7 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('current_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('permanent_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('living_with_parents', $this->lang->line('required'), 'trim|required|xss_clean');
+                $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -523,6 +524,8 @@ class Welcome extends Front_Controller
 
                             // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
                             // 'siblings_specify' => $old_student_data->siblings_specify,
+
+                            'preferred_education_mode' => $old_student_data->preferred_education_mode,
                         );
 
                         if (isset($admission_docs)) 
@@ -668,6 +671,7 @@ class Welcome extends Front_Controller
 
                                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
                                 'siblings_specify' => $this->input->post('siblings_specify'),
+                                'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                             );
 
                             if (isset($admission_docs)) 

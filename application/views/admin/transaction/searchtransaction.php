@@ -264,7 +264,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             <?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($value['date'])); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $value['firstname'] . " " . $value['lastname']; ?>
+                                                            <?php echo $value['lastname'] . ", " . $value['firstname']; ?>
                                                         </td>
                                                         <td>
                                                             <?php echo $value['class'] . " (" . $value['section'] . ")"; ?>

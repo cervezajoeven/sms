@@ -109,10 +109,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 									
                                             <th><?php echo $this->lang->line('student_name'); ?></th>
                                             <th><?php echo $this->lang->line('class'); ?></th>
-											 <?php if ($sch_setting->father_name) {  ?>
-                                            <!-- <th><?php //echo $this->lang->line('father_name'); ?></th> -->
-                                            <?php } ?>
-                                            <th><?php echo $this->lang->line('date_of_birth'); ?></th>
+                                            <!-- <th><?php //echo $this->lang->line('date_of_birth'); ?></th> -->
                                             <th><?php echo $this->lang->line('gender'); ?></th>
 											<?php if ($sch_setting->category) {
                                               ?>
@@ -125,7 +122,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <?php 
                                         }
                                             if (!empty($fields)) {
-
                                                 foreach ($fields as $fields_key => $fields_value) {
                                                     ?>
                                                     <th><?php echo $fields_value->name; ?></th>
@@ -133,6 +129,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 }
                                             }
                                             ?>
+                                            <th><?php echo $this->lang->line('enrollment_payment_status'); ?></th>
                                             <th><?php echo $this->lang->line('mode_of_payment'); ?></th>
                                             <th><?php echo $this->lang->line('enrollment_type'); ?></th>
 
@@ -161,26 +158,21 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <?php //if ($sch_setting->father_name) {  ?>
 													<!-- <td><?php //echo $student['father_name']; ?></td> -->
 													<?php //}?>
-                                                    <td><?php
-                                                        if ($student["dob"] != null) {
-                                                            echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob']));
-                                                        }
-                                                        ?></td>
-                                                    <td><?php echo $student['gender']; ?></td>
+                                                    <!-- <td><?php //if ($student["dob"] != null) { echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob'])); }?></td> -->
+                                                    <td><?php echo ucfirst($student['gender']); ?></td>
 													<?php if ($sch_setting->category) {  ?>
-                                                    <!-- <td><?php //echo $student['category']; ?></td> -->
-													<?php } if ($sch_setting->mobile_no) {  ?>
-                                                    <td><?php echo $student['mobileno']; ?></td>
+                                                        <!-- <td><?php //echo $student['category']; ?></td> -->
+                                                    <?php } 
+                                                    if ($sch_setting->mobile_no) {  ?>
+                                                        <td><?php echo $student['mobileno']; ?></td>
                                                     <?php }
-                                                    if (!empty($fields)) {
-
+                                                    if (!empty($fields)) 
+                                                    {
                                                         foreach ($fields as $fields_key => $fields_value) {
-                                                              $display_field=$student[$fields_value->name];
-                                                      if($fields_value->type == "link"){
-  $display_field= "<a href=".$student[$fields_value->name]." target='_blank'>".$student[$fields_value->name]."</a>";
-
-  }
-                                                            ?>
+                                                            $display_field=$student[$fields_value->name];
+                                                            if ($fields_value->type == "link") {
+                                                                $display_field= "<a href=".$student[$fields_value->name]." target='_blank'>".$student[$fields_value->name]."</a>";
+                                                            }?>
                                                             <td>
                                                                 <?php echo $display_field; ?>
                                                                     
@@ -189,8 +181,9 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                         }
                                                     }
                                                     ?>
-                                                    <td><?php echo strtoupper($student['mode_of_payment']); ?></td>
-                                                    <td><?php echo strtoupper($student['enrollment_type']); ?></td>
+                                                    <td><?php echo ucfirst($student['enrollment_payment_status']); ?></td>
+                                                    <td><?php echo ucfirst($student['mode_of_payment']); ?></td>
+                                                    <td><?php echo ucfirst($student['enrollment_type']); ?></td>
 
                                                     <td class="pull-right">
                                                         <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('show'); ?>" >

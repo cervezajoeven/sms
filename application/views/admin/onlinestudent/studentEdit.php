@@ -71,7 +71,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
-                                                <select  id="class_id" name="class_id" class="form-control" >
+                                                <select id="class_id" name="class_id" class="form-control" >
                                                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                     <?php foreach ($classlist as $class) { ?>
                                                     <option value="<?php echo $class['id'] ?>" <?php if ($student['class_id'] == $class['id']) {echo "selected =selected";}?>><?php echo $class['class'] ?></option>
@@ -145,6 +145,22 @@
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('date_of_birth'); ?></label><small class="req"> *</small>
                                                 <input id="dob" name="dob" placeholder="" type="text" class="form-control date"  value="<?php echo set_value('dob', $this->customlib->dateformat(($student['dob']))); ?>" readonly="readonly"/>
                                                 <span class="text-danger"><?php echo form_error('dob'); ?></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
+                                                <div class="form-group">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="preferred_education_mode" <?php echo $student['preferred_education_mode'] == "techbased" ? "checked" : ""; ?> value="techbased"> <?php echo $this->lang->line('techbased'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="preferred_education_mode" <?php echo $student['preferred_education_mode'] == "modulebased" ? "checked" : ""; ?> value="modulebased"> <?php echo $this->lang->line('modulebased'); ?>
+                                                </label>
+                                                </div>
+                                                
+                                                <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -245,19 +261,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-xs-12">
+                                        <!-- <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('measurement_date'); ?></label>
-                                                <input id="measure_date" name="measure_date" placeholder="" type="text" class="form-control date"  value="<?php echo set_value('measure_date', $this->customlib->dateformat($student['measurement_date'])); ?>" readonly="readonly"/>                                             
-                                                <span class="text-danger"><?php echo form_error('measure_date'); ?></span>
+                                                <label for="exampleInputEmail1"><?php //echo $this->lang->line('measurement_date'); ?></label>
+                                                <input id="measure_date" name="measure_date" placeholder="" type="text" class="form-control date"  value="<?php //echo set_value('measure_date', $this->customlib->dateformat($student['measurement_date'])); ?>" readonly="readonly"/>                                             
+                                                <span class="text-danger"><?php //echo form_error('measure_date'); ?></span>
                                             </div>
-                                        </div>
-
-                                        <?php
-                                            // echo display_custom_fields('online_admissions', $student["id"]);
-                                            $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
-                                            $modeofPayment = array(""=>"Select","Reservation"=>"Reservation","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
-                                        ?>
+                                        </div> -->
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
@@ -283,6 +293,28 @@
                                                 </select> -->
                                             </div>
                                         </div>                                                                                
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Select Payments</label><small class='req'> *</small>                                                
+                                                <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker">
+                                                <?php foreach ($fees_master_list as $feesmaster) { ?>
+                                                    <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Select Discounts</label><small class='req'> *</small>
+                                                <select id="discount" name="discount[]" multiple class="form-control selectpicker">
+                                                <?php foreach ($discount_list as $discount) { ?>
+                                                    <option value="<?php echo $discount['id'] ?>"><?php echo $discount['name'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 col-xs-12">
@@ -305,17 +337,17 @@
                                             <div class="row m-0">
                                                 <div class="col-10 col-sm-10">
                                                     <input id="firstname-modal" name="firstname-modal" placeholder="Type the sibling name to add" type="text" class="form-control" value=""/>
-                                                </div>
-                                                <div class="col-2 col-sm-2">
                                                     <button id="btnAddSibling" type="button" class="btn btn-sm"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
                                                 </div>
+                                                <!-- <div class="col-2 col-sm-2">
+                                                    <button id="btnAddSibling" type="button" class="btn btn-sm"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                                </div> -->
                                             </div>
                                             <div class="row m-0">                                            
                                                 <div class="col-md-6">
                                                     <div id='sibling' class="pt6"> <span id="sibling_name" class="label label-success "><?php echo set_value('sibling_name'); ?></span></div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </div>                                        
                                     </div>
                                 </div>
@@ -604,6 +636,7 @@
                                                     <span class="text-danger"><?php echo form_error('father_dob'); ?></span>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="father_citizenship"><?php echo $this->lang->line('citizenship'); ?></label>
@@ -1041,9 +1074,15 @@
     </section>
 </div>
 
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+<!-- <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
 <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css"> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 
 <script type="text/javascript">
     var student_id;
@@ -1329,6 +1368,7 @@
             var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.value;
             $.get(url)
             .done(function(data) {
+                student_id = "";
                 //AutoFillDetails(JSON.parse(data));
                 var resp = JSON.parse(data);
                 student_id = resp.id

@@ -139,6 +139,21 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <span class="text-danger"><?php echo form_error('dob'); ?></span>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
+                                                <div class="form-group">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="preferred_education_mode" <?php echo $student['preferred_education_mode'] == "techbased" ? "checked" : ""; ?> value="techbased"> <?php echo $this->lang->line('techbased'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="preferred_education_mode" <?php echo $student['preferred_education_mode'] == "modulebased" ? "checked" : ""; ?> value="modulebased"> <?php echo $this->lang->line('modulebased'); ?>
+                                                </label>
+                                                </div>
+                                                
+                                                <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
 										<?php if ($sch_setting->category) {  ?>
@@ -272,31 +287,32 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             <span class="text-danger"><?php echo form_error('height'); ?></span>
                                                         </div>
                                                     </div>
-													<?php } if ($sch_setting->measurement_date) { ?>
-                                                    <div class="col-md-3 col-xs-12">
+                                                    <?php } 
+                                                    //if ($sch_setting->measurement_date) { ?>
+                                                    <!-- <div class="col-md-3 col-xs-12">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('measurement_date'); ?></label>                       
-
- <input id="measure_date" name="measure_date" placeholder="" type="text" class="form-control date"  value="<?php echo set_value('measure_date', date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['measurement_date']))); ?>" readonly="readonly"/>
+                                                            <input id="measure_date" name="measure_date" placeholder="" type="text" class="form-control date"  value="<?php echo set_value('measure_date', date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['measurement_date']))); ?>" readonly="readonly"/>
                                                             <span class="text-danger"><?php echo form_error('measure_date'); ?></span>
                                                         </div>
-                                                    </div>
-													<?php } ?>                                        
+                                                    </div> -->
+													<?php //} ?>                                        
                                         </div>
                                     <div class="row">                                     
                                         <?php 
                                             // echo display_custom_fields('online_admissions', $student["id"]);
-                                            $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
-                                            $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
+                                            // $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
+                                            // $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
                                         ?>
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Mode of Payment</label>
                                                 <select id="mode_of_payment" name="mode_of_payment" class="form-control">
-                                                    <?php foreach ($modeofPayment as $modeofPayment_key => $modeofPayment_value) { ?>
-                                                        <option value="<?php echo $modeofPayment_key; ?>" <?php echo($student['mode_of_payment'] == $modeofPayment_key ? 'selected' : ''); ?>><?php echo $modeofPayment_value; ?></option>
-                                                    <?php }?>
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <?php foreach ($payment_mode_list as $pmode) { ?>
+                                                    <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
+                                                <?php } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -304,10 +320,22 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Enrollment Type</label><small class='req'> *</small>
-                                                <select id="enrollment_type" name="enrollment_type" class="form-control">
-                                                    <?php foreach ($enrollTypes as $enrollType_key => $enrollType_value) { ?>
-                                                        <option value="<?php echo $enrollType_key; ?>" <?php echo($student['enrollment_type'] == $enrollType_key ? 'selected' : ''); ?>><?php echo $enrollType_value; ?></option>
-                                                    <?php }?>
+                                                <select id="enrollment_type" name="enrollment_type" class="form-control" onchange="DoOnChange(this)">
+                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                    <?php foreach ($enrollment_type_list as $etype) { ?>
+                                                        <option value="<?php echo $etype['e_type'] ?>"<?php if ($student['enrollment_type'] == $etype['e_type']) echo "selected=selected" ?>><?php echo $etype['description'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Enrollment Payment Status</label><small class='req'> *</small>
+                                                <select id="enrollment_payment_status" name="enrollment_payment_status" class="form-control"">
+                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                    <option value="paid" <?php if ($student['enrollment_payment_status'] == "paid") echo " selected " ?>><?php echo $this->lang->line('paid'); ?></option>
+                                                    <option value="unpaid" <?php if ($student['enrollment_payment_status'] == "unpaid") echo " selected " ?>><?php echo $this->lang->line('unpaid'); ?></option>
                                                 </select>
                                             </div>
                                         </div>

@@ -43,7 +43,17 @@
 
         <!--language css-->
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>backend/dist/css/bootstrap-select.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="<?php //echo base_url(); ?>backend/dist/css/bootstrap-select.min.css"> -->
+
+        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+        <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
+        <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+       
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css">
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script> -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 
 
         <script src="<?php echo base_url(); ?>backend/custom/jquery.min.js"></script>
@@ -58,9 +68,7 @@
          
         <!-- fullCalendar -->
         <link rel="stylesheet" href="<?php echo base_url() ?>backend/fullcalendar/dist/fullcalendar.min.css">
-        <link rel="stylesheet" href="<?php echo base_url() ?>backend/fullcalendar/dist/fullcalendar.print.min.css" media="print">
-       
-
+        <link rel="stylesheet" href="<?php echo base_url() ?>backend/fullcalendar/dist/fullcalendar.print.min.css" media="print">        
 
         <script type="text/javascript">
             var baseurl = "<?php echo base_url(); ?>";
@@ -147,15 +155,13 @@ if ($this->config->item('SSLK') == "") {
                                 </form>
                             <?php }?>
                             <div class="navbar-custom-menu">
-                                <?php if($this->rbac->hasPrivilege('language_switcher','can_view')){
-                                    ?>
-                                    <div class="langdiv"><select class="languageselectpicker" onchange="set_languages(this.value)"  type="text" id="languageSwitcher" >
-                                          
-                                           <?php $this->load->view('admin/language/languageSwitcher')?>
-
-                                        </select></div> 
-                                    <?php
-                                }?>
+                                <!-- <?php //if($this->rbac->hasPrivilege('language_switcher','can_view')) {?> -->
+                                    <!-- <div class="langdiv">
+                                        <select class="languageselectpicker" onchange="set_languages(this.value)"  type="text" id="languageSwitcher" >                                          
+                                        <?php //$this->load->view('admin/language/languageSwitcher')?>
+                                        </select>
+                                    </div>  -->
+                                <?php //} ?>
                                 
                                      
                                 <ul class="nav navbar-nav headertopmenu">
