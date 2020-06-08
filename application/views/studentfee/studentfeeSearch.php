@@ -102,7 +102,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 										<?php if ($sch_setting->father_name) {  ?>
                                         <!-- <th><?php echo $this->lang->line('father_name'); ?></th> -->
 										<?php } ?>
-                                        <th><?php echo $this->lang->line('date_of_birth'); ?></th>
+                                        <th>Enrollment Payment Status</th>
                                         <th><?php echo $this->lang->line('phone'); ?></th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
 
@@ -123,11 +123,12 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 											<?php //if ($sch_setting->father_name) {  ?>
                                             <!-- <td><?php //echo $student['father_name']; ?></td> -->
 											<?php //} ?>
-                                            <td><?php
+                                            <!-- <td><?php
                                                 if (!empty($student['dob'])) {
                                                     echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob']));
                                                 }
-                                                ?></td>
+                                                ?></td> -->
+                                            <td><?php echo strtoupper($student['enrollment_payment_status']); ?></td>
                                             <td><?php echo $student['guardian_phone']; ?></td>
                                             <td class="pull-right">
                                                     <?php if ($this->rbac->hasPrivilege('collect_fees', 'can_add')) { ?>
