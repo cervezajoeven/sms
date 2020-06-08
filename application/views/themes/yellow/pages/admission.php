@@ -1180,7 +1180,18 @@ if (!$form_admission) {
         <div class="col-md-12">
             <div class="form-group pull-right">
                 <!-- <label><input type="checkbox" value="" id="iagree"> I agree with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a></label> -->
-                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Next</button>
+                <?php 
+                    //joeven
+                    $exceptions = array("tlc-nbs");
+                    $school_code = explode('.', $HTTP_HOST)[0];
+                    //joeven 
+                ?>
+                <?php if(!in_array($school_code, $exceptions)): ?>
+                    <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Next</button>
+                <?php else: ?>
+                    <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Submit</button>
+                <?php endif; ?>
+
             </div> 
         </div>    
     </div><!--./row-->    

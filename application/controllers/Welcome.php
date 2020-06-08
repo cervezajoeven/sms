@@ -217,6 +217,10 @@ class Welcome extends Front_Controller
 
     public function admission()
     {
+        //joeven
+        $exceptions = array("tlc-nbs");
+        $school_code = explode('.', $HTTP_HOST)[0];
+        //joeven
         if($this->module_lib->hasActive('online_admission')) {
             $this->data['active_menu'] = 'home';
             $page                      = array('title' => 'Online Admission Form', 'meta_title' => 'online admission form', 'meta_keyword' => 'online admission form', 'meta_description' => 'online admission form');
@@ -586,7 +590,11 @@ class Welcome extends Front_Controller
                                     $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
                             }
                         }
-                        redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
+
+                        if(!in_array($school_code, $exceptions)){
+
+                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
+                        }
                         
                     }
                     else 
@@ -730,7 +738,11 @@ class Welcome extends Front_Controller
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                 }
                             }
-                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
+                            if(!in_array($school_code, $exceptions)){
+
+                                redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
+                            }
+                            
                         }
                         else
                             $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
