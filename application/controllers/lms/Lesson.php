@@ -357,7 +357,7 @@ class Lesson extends General_Controller {
         $result = $query->result_array();
 
         foreach ($result as $key => $value) {
-            $sender_details = array('student_id' => $value['id'], 'email' => 'tlcnbs@gmail.com');
+            $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
             $this->mailsmsconf->mailsms('parent_notification', $sender_details);
         }
         
