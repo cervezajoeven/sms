@@ -1550,5 +1550,3 @@ if (!$form_admission) {
     // });
 
 </script>
-
-
