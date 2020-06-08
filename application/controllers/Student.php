@@ -297,8 +297,9 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('file', $this->lang->line('image'), 'callback_handle_upload');
         $this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
         
-        // $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|valid_email|xss_clean');
-        // $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|valid_email|xss_clean');
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|valid_email|xss_clean');
+        $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|valid_email|xss_clean');
+        $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|valid_email|xss_clean');
 
         if ($this->form_validation->run() == false) 
         {

@@ -597,21 +597,21 @@ if (!$form_admission) {
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="marriage"><?php echo $this->lang->line('marriage');?>(<i>e.g. Catholic</i>)</label><small class="req"> *</small> 
+                <label for="marriage"><?php echo $this->lang->line('marriage');?>(<i>e.g. Catholic</i>)</label>
                 <input id="marriage" name="marriage" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('marriage'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('marriage'); ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="dom"><?php echo $this->lang->line('dom'); ?></label><small class="req"> *</small> 
+                <label for="dom"><?php echo $this->lang->line('dom'); ?></label>
                 <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('dom'); ?>" id="dom" name="dom" readonly="readonly" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('dom'); ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="church"><?php echo $this->lang->line('church'); ?></label><small class="req"> *</small> 
+                <label for="church"><?php echo $this->lang->line('church'); ?></label>
                 <input id="church" name="church" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('church'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('church'); ?></span>
             </div>

@@ -298,9 +298,9 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('mother_prof_affiliation_position', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('mother_tech_prof', $this->lang->line('required'), 'trim|required|xss_clean');
 
-                $this->form_validation->set_rules('marriage', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('dom', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('church', $this->lang->line('required'), 'trim|required|xss_clean');
+                // $this->form_validation->set_rules('marriage', $this->lang->line('required'), 'trim|required|xss_clean');
+                // $this->form_validation->set_rules('dom', $this->lang->line('required'), 'trim|required|xss_clean');
+                // $this->form_validation->set_rules('church', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('family_together', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('parents_away', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('parents_civil_status', $this->lang->line('required'), 'trim|required|xss_clean');

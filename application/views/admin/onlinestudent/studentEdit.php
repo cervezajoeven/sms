@@ -88,7 +88,7 @@
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label"><?php echo $this->lang->line('select_discounts'); ?></label><small class='req'> *</small>
+                                                <label for="" class="control-label"><?php echo $this->lang->line('select_discounts'); ?>
                                                 <select id="discount" name="discount[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($discount_list as $discount) { ?>
                                                     <option value="<?php echo $discount['id'] ?>"><?php echo $discount['name'] ?></option>
