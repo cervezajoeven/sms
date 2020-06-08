@@ -361,9 +361,6 @@ class Lesson extends General_Controller {
             $this->mailsmsconf->mailsms('parent_notification', $sender_details);
         }
         
-        
-
-
     }
 
     public function upload($upload_type="my_resources",$lesson_id=""){
