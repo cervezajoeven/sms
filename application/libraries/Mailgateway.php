@@ -47,7 +47,6 @@ class Mailgateway
             $subject = "Admission Confirm";
             $msg = $this->getStudentRegistrationContent($id, $template);
             $this->console_log($msg);
-            print_r($msg);
             $this->_CI->mailer->send_mail($send_to, $subject, $msg);
         }
     }

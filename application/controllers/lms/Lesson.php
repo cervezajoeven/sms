@@ -351,13 +351,14 @@ class Lesson extends General_Controller {
     }
 
     public function send_email(){
-        echo "<pre>";
+
         $this->db->select("*");
         $query = $this->db->get("students");
         $result = $query->result_array();
 
         foreach ($result as $key => $value) {
-            $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
+            $sender_details = array('student_id' => $value['id'], 'email' => $value['email']);
+            
             $this->mailsmsconf->mailsms('parent_notification', $sender_details);
         }
         
