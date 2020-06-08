@@ -1184,7 +1184,6 @@ if (!$form_admission) {
                     //joeven
                     $exceptions = array("tlc-nbs");
                     $school_code = explode('.', $HTTP_HOST)[0];
-                    print_r($school_code);
                     //joeven 
                 ?>
                 <?php if(!in_array($school_code, $exceptions)): ?>
