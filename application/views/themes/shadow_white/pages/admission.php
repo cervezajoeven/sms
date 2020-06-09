@@ -1527,7 +1527,7 @@ if (!$form_admission) {
                     source: function( request, response ) {
                         // Fetch data
                         $.ajax({
-                            url: '<?php echo base_url()."student/AutoCompleteStudentNameForAdmission"; ?>',
+                            url: '<?php echo base_url()."welcome/AutoCompleteStudentNameForAdmission"; ?>',
                             type: 'get',
                             dataType: "json",
                             data: {
@@ -1541,7 +1541,7 @@ if (!$form_admission) {
                     select: function (event, ui) {                        
                         $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
 
-                        var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetailsByID/'+ui.item.value;
+                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetailsByID/'+ui.item.value;
                         $.get(url)
                         .done(function(data) {
                             AutoFillDetails(JSON.parse(data));

@@ -274,5 +274,5 @@ class Onlinestudent extends Admin_Controller
         $class_id = $this->input->post('class_id');
         $data     = $this->section_model->getClassBySection($class_id);
         $this->jsonlib->output(200, $data);
-    }
+    }    
 }

@@ -496,4 +496,17 @@ class Onlinestudent_model extends MY_Model {
         $result = $this->db->select('id')->from('fee_session_groups')->where('fee_groups_id', $feegroupid)->where('session_id', $this->current_session)->limit(1)->get()->row();
         return $result->id;
     }
+
+    // public function GetNameListAdmission($name)
+    // {
+    //     $this->db->select("DISTINCT(id), CONCAT(studentname, ' (Birthdate: ', dob, ')') AS studentname");
+    //     $this->db->from("(SELECT students.id, CONCAT(students.firstname, ' ', students.lastname) AS studentname, students.dob FROM students) tbl1");
+    //     if ($name != "")
+    //         $this->db->where("LOWER(studentname) like '%".strtolower(urldecode($name))."%'");
+    //     $this->db->order_by('studentname', 'asc');
+    //     $query = $this->db->get();
+    //     $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+
+    //     return $result;
+    // }
 }
