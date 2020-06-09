@@ -1498,15 +1498,7 @@ if (!$form_admission) {
     $('#studentidnumber').keyup(function (e) {
         var key = e.which;
         var searchby = $('input[name="search_by"]:checked').val();
-
-        $("#accountid").val('');
-        $('#lrn_no').val('');
-        $('#firstname').val('');
-        $('#middlename').val('');
-        $('#lastname').val('');
-        $('#gender').val('');
-        $('#dob').val('');
-
+    
         if (searchby == 'lrn') { 
             if ($("#studentidnumber").val() != '') {
                 var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+$("#studentidnumber").val();
@@ -1599,5 +1591,15 @@ if (!$form_admission) {
     $("input[type='submit']").one('click', function(event) {
         $(this).preventDefault();
     });
+
+    // $("#studentidnumber").on("input", function(){
+    //     $("#accountid").val('');
+    //     $('#lrn_no').val('');
+    //     $('#firstname').val('');
+    //     $('#middlename').val('');
+    //     $('#lastname').val('');
+    //     $('#gender').val('');
+    //     $('#dob').val('');
+    // });
 
 </script>
