@@ -25,7 +25,7 @@
                                         <th><?php echo $this->lang->line('gender'); ?></th>
                                         <th><?php echo $this->lang->line('mobile_no'); ?></th>
                                         <th><?php echo $this->lang->line('enrollment_payment_status'); ?></th>
-                                        <th><?php echo $this->lang->line('enrolled'); ?></th>
+                                        <th>Status</th>
                                         <th><?php echo $this->lang->line('mode_of_payment'); ?></th>
                                         <th><?php echo $this->lang->line('enrollment_type'); ?></th>
                                         <th><?php echo $this->lang->line('date').' Applied'; ?></th>
@@ -44,7 +44,7 @@
                                         <td><?php echo ucfirst($student['gender']); ?></td>
                                         <td><?php echo $student['mobileno']; ?></td>
                                         <td><?php echo ucfirst($student['enrollment_payment_status']); ?></td>
-                                        <td><?php echo ($student['is_enroll'])? "<i class='fa fa-check'></i><span style='display:none'>Yes</span>":"<i class='fa fa-minus-circle'></i><span style='display:none'>No</span>"; ?></td>
+                                        <td><?php echo ($student['is_enroll'])? "<i class='fa fa-check'></i><span style='display:none'>Yes</span> Enrolled":"<i class='fa fa-minus-circle'></i><span style='display:none'>No</span> Not Enrolled"; ?></td>
                                         <td><?php echo ucfirst($student['mode_of_payment']); ?></td>
                                         <td><?php echo ucfirst($student['enrollment_type'] == 'old_new' ? 'old' : $student['enrollment_type']); ?></td>
                                         <td><?php echo $student['created_at']; ?></td>
