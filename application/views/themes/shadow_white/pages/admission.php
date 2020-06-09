@@ -170,8 +170,8 @@ if (!$form_admission) {
             <div class="form-group">
                 <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
                 <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
-                <label for="studentidnumber">Search By: </label>
-                <input type="radio" name="search_by" value="lrn" checked> Student ID / LRN
+                <label for="studentidnumber">Search Student By: </label>
+                <input type="radio" name="search_by" value="lrn" checked> ID / LRN
                 <input type="radio" name="search_by" value="name"> Name
                     <input id="studentidnumber" name="studentidnumber" placeholder="Enter Student ID or LRN" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
@@ -1498,6 +1498,14 @@ if (!$form_admission) {
     $('#studentidnumber').keyup(function (e) {
         var key = e.which;
         var searchby = $('input[name="search_by"]:checked').val();
+
+        $("#accountid").val('');
+        $('#lrn_no').val('');
+        $('#firstname').val('');
+        $('#middlename').val('');
+        $('#lastname').val('');
+        $('#gender').val('');
+        $('#dob').val('');
 
         if (searchby == 'lrn') { 
             if ($("#studentidnumber").val() != '') {
