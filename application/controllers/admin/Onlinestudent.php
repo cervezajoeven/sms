@@ -107,15 +107,15 @@ class Onlinestudent extends Admin_Controller
 
         $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_is', $this->lang->line('required'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('guardian_is', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('dob', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('gender', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
         //$this->form_validation->set_rules('rte', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+        // $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');        
