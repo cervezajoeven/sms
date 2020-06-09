@@ -331,6 +331,7 @@ class Welcome extends Front_Controller
             $this->form_validation->set_rules('gender', $this->lang->line('genrequiredder'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('accountid', $this->lang->line('required'), 'trim|required|xss_clean');
             
             // if (empty($_FILES['document']['name']))
             // {
@@ -440,9 +441,11 @@ class Welcome extends Front_Controller
 
                     if ($enrollment_type == 'old')
                     {
-                        $idnum = $this->input->post('studentidnumber');
-                        // echo($idnum);
-                        $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
+                        //$idnum = $this->input->post('studentidnumber');
+                        // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
+
+                        $idnum = $this->input->post('accountid');
+                        $old_student_data = $this->student_model->GetStudentByID($idnum);
                         // var_dump($old_student_data);die;
                         //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
                         //var_dump($this->input->post('studentidnumber'));die;
@@ -472,8 +475,8 @@ class Welcome extends Front_Controller
                             'guardian_relation'   => $old_student_data->guardian_relation,
                             'guardian_phone'      => $old_student_data->guardian_phone,
                             'guardian_address'    => $old_student_data->guardian_address,
-                            'admission_date'      => date('Y/m/d'),
-                            'measurement_date'    => date('Y/m/d'),
+                            'admission_date'      => date('Y-m-d'),
+                            'measurement_date'    => date('Y-m-d'),
                             'mode_of_payment'     => $this->input->post('mode_of_payment'),
                             'enrollment_type'     => $enrollment_type,                        
                             'middlename'          => $old_student_data->middlename,
@@ -626,8 +629,8 @@ class Welcome extends Front_Controller
                                 'guardian_relation'   => $this->input->post('guardian_relation'),
                                 'guardian_phone'      => $this->input->post('guardian_phone'),
                                 'guardian_address'    => $this->input->post('guardian_address'),
-                                'admission_date'      => date('Y/m/d'),
-                                'measurement_date'    => date('Y/m/d'),
+                                'admission_date'      => date('Y-m-d'),
+                                'measurement_date'    => date('Y-m-d'),
                                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                                 'enrollment_type'     => $enrollment_type, 
                                 'middlename'          => $this->input->post('middlename'),
@@ -738,8 +741,7 @@ class Welcome extends Front_Controller
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                 }
                             }
-                            if(!in_array($school_code, $exceptions)){
-
+                            if (!in_array($school_code, $exceptions)) {
                                 redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
                             }
                             

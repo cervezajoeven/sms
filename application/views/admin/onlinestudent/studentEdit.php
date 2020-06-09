@@ -1,3 +1,7 @@
+<style type="text/css">
+    .ui-autocomplete { max-height: 300px; overflow-y: scroll; overflow-x: hidden;}
+</style>
+
 <div class="modal fade" id="mySiblingModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -972,7 +976,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">    
-                                                <label><?php echo $this->lang->line('living_with_parents');?><small class="req"> *</small> 
+                                                <label><?php echo $this->lang->line('living_with_parents');?></label>
                                                 <label class="radio-inline">
                                                     <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                                                 </label>
@@ -1076,15 +1080,9 @@
     </section>
 </div>
 
-<!-- <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
-
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css"> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script> -->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script type="text/javascript">
     var student_id;
@@ -1358,6 +1356,12 @@
                 dataType: "json",
                 data: {
                     search: request.term
+                },
+                error: function(request, status, error){
+                    try {
+                        console.log(request.getAllResponseHeaders());
+                    }
+                    catch (err) { }
                 },
                 success: function(data) {
                     response(data);

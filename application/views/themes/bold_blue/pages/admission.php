@@ -1,3 +1,7 @@
+<style type="text/css">
+    .ui-autocomplete { max-height: 300px; overflow-y: scroll; overflow-x: hidden;}
+</style>
+
 <?php
 if (!$form_admission) {
     ?>
@@ -164,8 +168,12 @@ if (!$form_admission) {
         </div>
         <div class="col-md-3" id="id_number_input">
             <div class="form-group">
-                <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label><small class="req"> *</small> 
-                    <input id="studentidnumber" style="text-transform:uppercase" name="studentidnumber" placeholder="Enter the Student ID number" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
+                <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
+                <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
+                <label for="studentidnumber">Search By: </label>
+                <input type="radio" name="search_by" value="lrn" checked> Student ID / LRN
+                <input type="radio" name="search_by" value="name"> Name
+                    <input id="studentidnumber" name="studentidnumber" placeholder="Enter Student ID or LRN" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
         </div>
@@ -1197,52 +1205,16 @@ if (!$form_admission) {
     </div><!--./row-->    
 </form>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        // var class_id = $('#class_id').val();
-        // var section_id = '<?php //echo set_value('section_id', 0) ?>';
-
-        // getSectionByClass(class_id, section_id);
-
-        // $(document).on('change', '#class_id', function (e) {
-        //     $('#section_id').html("");
-        //     var class_id = $(this).val();
-        //     getSectionByClass(class_id, 0);
-        // });
-
-        // function getSectionByClass(class_id, section_id) {
-        //     if (class_id !== "") {
-        //         $('#section_id').html("");
-
-        //         var div_data = '<option value=""><?php //echo $this->lang->line('select'); ?></option>';
-        //         var url = "";
-
-        //         $.ajax({
-        //             type: "POST",
-        //             url: base_url + "welcome/getSections",
-        //             data: {'class_id': class_id},
-        //             dataType: "json",
-        //             beforeSend: function () {
-        //                 $('#section_id').addClass('dropdownloading');
-        //             },
-        //             success: function (data) {
-        //                 $.each(data, function (i, obj)
-        //                 {
-        //                     var sel = "";
-        //                     if (section_id === obj.section_id) {
-        //                         sel = "selected";
-        //                     }
-        //                     div_data += "<option value=" + obj.id + " " + sel + ">" + obj.section + "</option>";
-        //                 });
-        //                 $('#section_id').append(div_data);
-        //             },
-        //             complete: function () {
-        //                 $('#section_id').removeClass('dropdownloading');
-        //             }
-        //         });
-        //     }
-        // }
-
         // $('#father_tech_prof_other').fadeOut();
         // $('#mother_tech_prof_other').fadeOut();
 
@@ -1265,6 +1237,7 @@ if (!$form_admission) {
             $('#guardiandetail1').slideUp();
             $('#guardiandetail2').slideUp();
             $('#otherparentdetail').slideUp();
+            $('#deped').slideUp();
         }
         else $('#id_number_input').fadeOut();
     });
@@ -1357,31 +1330,6 @@ if (!$form_admission) {
         }
     });
 
-    $('#studentidnumber').keyup(function (e) {
-        var key = e.which;
-
-        //if(key == 13) {  // the enter key code
-            if ($("#studentidnumber").val() != '') {
-                var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+$("#studentidnumber").val();
-                $.get(url)
-                .done(function(data) {
-                    //alert( "Data Loaded: " + data );
-                    if (data != "null")
-                        AutoFillDetails(JSON.parse(data));
-                    else 
-                    {
-                        $('#lrn_no').val('');
-                        $('#firstname').val('');
-                        $('#middlename').val('');
-                        $('#lastname').val('');
-                        $('#gender').val('');
-                        $('#dob').val('');
-                    }                        
-                });
-            }
-        //}
-    });
-
     $('#guardian_address_is_current_address').click(function(){
         if($(this).is(':checked')) {
             $('#permanent_address_is_current_address').prop("checked", false);
@@ -1420,7 +1368,7 @@ if (!$form_admission) {
                 }
             }
         }
-    );    
+    );
 
     function SetClassName(sel) {
         var text= sel.options[sel.selectedIndex].text;
@@ -1485,12 +1433,14 @@ if (!$form_admission) {
     }
 
     function AutoFillDetails(data) {
+        $("#accountid").val('');
         $('#lrn_no').val('');
         $('#firstname').val('');
         $('#middlename').val('');
         $('#lastname').val('');
         $('#gender').val('');
         $('#dob').val('');
+        $("#accountid").val(data.id);
         $('#lrn_no').val(data.lrn_no);
         $('#firstname').val(data.firstname);
         $('#middlename').val(data.middlename);
@@ -1545,8 +1495,101 @@ if (!$form_admission) {
         $('#termsCondition').modal("show");
     }
 
+    $('#studentidnumber').keyup(function (e) {
+        var key = e.which;
+        var searchby = $('input[name="search_by"]:checked').val();
+
+        if (searchby == 'lrn') { 
+            if ($("#studentidnumber").val() != '') {
+                var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+$("#studentidnumber").val();
+                $.get(url)
+                .done(function(data) {
+                    //alert( "Data Loaded: " + data );
+                    if (data != "null")
+                        AutoFillDetails(JSON.parse(data));
+                    else 
+                    {
+                        $("#accountid").val('');
+                        $('#lrn_no').val('');
+                        $('#firstname').val('');
+                        $('#middlename').val('');
+                        $('#lastname').val('');
+                        $('#gender').val('');
+                        $('#dob').val('');
+                    }                        
+                });
+            }
+        }
+        else if (searchby == 'name') {
+            if ($("#studentidnumber").val() != '') {
+                $("#studentidnumber").autocomplete({
+                    autofocus: true,
+                    source: function( request, response ) {
+                        // Fetch data
+                        $.ajax({
+                            url: '<?php echo base_url()."student/AutoCompleteStudentNameForAdmission"; ?>',
+                            type: 'get',
+                            dataType: "json",
+                            data: {
+                                search: request.term
+                            },
+                            success: function(data) {
+                                response(data);
+                            }
+                        });
+                    },
+                    select: function (event, ui) {                        
+                        $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
+
+                        var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetailsByID/'+ui.item.value;
+                        $.get(url)
+                        .done(function(data) {
+                            AutoFillDetails(JSON.parse(data));
+                        });
+                        
+                        return false;
+                    }
+                }).keyup(function() {
+                    //$('#form1')[0].reset();
+                });
+            }
+        }
+    });    
+
+    $('input:radio[name="search_by"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                $("#accountid").val('');
+                $('#lrn_no').val('');
+                $('#firstname').val('');
+                $('#middlename').val('');
+                $('#lastname').val('');
+                $('#gender').val('');
+                $('#dob').val('');
+
+                if (value == "lrn") {
+                    // $("#studentidnumber").removeClass('ui-autocomplete-input');
+                    $("#studentidnumber").autocomplete({disabled: true});
+                    $("#studentidnumber").attr("placeholder", "Enter Student ID or LRN").val("").focus().blur();
+                }
+                else {
+                    $("#studentidnumber").autocomplete({disabled: false});
+                    $("#studentidnumber").addClass('ui-autocomplete-input');
+                    $("#studentidnumber").attr("placeholder", "Enter Student Name").val("").focus().blur();
+                }
+            }
+        }
+    );
+
     // $('#privacyPolicy').on('shown.bs.modal', function() {
     //     $(this).find('iframe').attr('src','http://www.google.com')
     // });
+
+    //$('input[name="genderS"]:checked').val();
+
+    $("input[type='submit']").one('click', function(event) {
+        $(this).preventDefault();
+    });
 
 </script>

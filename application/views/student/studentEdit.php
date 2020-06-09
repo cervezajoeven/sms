@@ -1064,7 +1064,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 										<?php } ?>
                                         <div class="col-md-4">
                                             <div class="form-group">    
-                                                <label><?php echo $this->lang->line('living_with_parents');?><small class="req"> *</small> 
+                                                <label><?php echo $this->lang->line('living_with_parents');?></label>
                                                 <label class="radio-inline">
                                                     <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                                                 </label>

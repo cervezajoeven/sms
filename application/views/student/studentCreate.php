@@ -952,7 +952,7 @@
                                             <?php } ?>
                                             <div class="col-md-4">
                                                 <div class="form-group">    
-                                                    <label><?php echo $this->lang->line('living_with_parents');?><small class="req"> *</small> 
+                                                    <label><?php echo $this->lang->line('living_with_parents');?></label>
                                                     <label class="radio-inline">
                                                         <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
                                                     </label>
@@ -1245,9 +1245,9 @@
     </div>
 </div>
 
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -1768,7 +1768,7 @@
         source: function( request, response ) {
             // Fetch data
             $.ajax({
-                url: '<?php echo base_url()."student/AutoCompleteStudentName"; ?>',
+                url: '<?php echo base_url()."student/AutoCompleteStudentNameEnrolled"; ?>',
                 type: 'post',
                 dataType: "json",
                 data: {

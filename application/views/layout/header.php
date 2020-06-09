@@ -45,9 +45,13 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css">
         <!-- <link rel="stylesheet" type="text/css" href="<?php //echo base_url(); ?>backend/dist/css/bootstrap-select.min.css"> -->
 
-        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+        <!-- <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet"> -->
         <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
-        <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <!-- <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+
+        <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
        
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->

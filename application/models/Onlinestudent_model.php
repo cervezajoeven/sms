@@ -118,7 +118,7 @@ class Onlinestudent_model extends MY_Model {
                     }
 
                     //-- Set id number equal to admission no for all non old students
-                    if ($enroll_type != 'old' && $enroll_type != 'old_new' )
+                    if ($enroll_type != 'old' && $enroll_type != 'old_new' ) 
                         $data['roll_no'] = $admission_no;
                 }                
 
@@ -145,11 +145,11 @@ class Onlinestudent_model extends MY_Model {
                         
                         $old_data = array (
                             'admission_no' => $data['admission_no'],
-                            'admission_date' => $data['admission_date'],
+                            'admission_date' => date('Y-m-d', $data['admission_date']),
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'gender' => $data['gender'],
-                            'dob' => $data['dob'],
+                            'dob' => date('Y-m-d', $data['dob']),
                             'guardian_email' => $data['email'],
                         );
                         
@@ -310,7 +310,7 @@ class Onlinestudent_model extends MY_Model {
             //var_dump($data);die;
 
             $this->db->where('id', $data_id);
-            $this->db->update('online_admissions', $data);            
+            $this->db->update('online_admissions', $data);
 			
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";

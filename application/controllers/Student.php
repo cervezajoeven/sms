@@ -1623,6 +1623,7 @@ class Student extends Admin_Controller
                 'session_id'    => $session,
                 'fees_discount' => $fees_discount,
             );
+            
             $insert_id = $this->student_model->add_student_session($data_new);
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
@@ -2141,6 +2142,12 @@ class Student extends Admin_Controller
         echo json_encode($data);
     }
 
+    public function GetStudentDetailsByID($idnumber)
+    {
+        $data = $this->student_model->GetStudentByID($idnumber);
+        echo json_encode($data);
+    }
+
     public function AutoCompleteLRN() {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
@@ -2183,6 +2190,50 @@ class Student extends Admin_Controller
         // Return results as json encoded array
         echo json_encode($returnData); die;
     }
+
+    public function AutoCompleteStudentNameEnrolled() 
+    {
+        $returnData = array();
+        $results = array('error' => false, 'data' => '');
+        $name = $_POST['search'];        
+        $names = $this->student_model->GetNameListEnrolled($name);
+
+        if(empty($names)) 
+            $results['error'] = true;
+        else 
+        {
+            if(!empty($names))
+            {
+                foreach ($names as $row)
+                    $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['studentname']);
+            }
+        }       
+        
+        // Return results as json encoded array
+        echo json_encode($returnData); die;
+    }
+
+    public function AutoCompleteStudentNameForAdmission() 
+    {
+        $returnData = array();
+        $results = array('error' => false, 'data' => '');
+        $name = $_GET['search'];        
+        $names = $this->student_model->GetNameListAdmission($name);
+
+        if(empty($names)) 
+            $results['error'] = true;
+        else 
+        {
+            if(!empty($names))
+            {
+                foreach ($names as $row)
+                    $returnData[] = array("value"=>$row['id'],"label"=>$row['studentname']);
+            }
+        }       
+        
+        // Return results as json encoded array
+        echo json_encode($returnData); die;
+    }    
 
     public function SendDocs() 
     {

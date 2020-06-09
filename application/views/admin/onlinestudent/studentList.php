@@ -37,7 +37,7 @@
                                     <?php foreach ($studentlist as $student) { ?>
                                     <tr>                                           
                                         <td>                      
-                                            <?php echo $student['lastname'].", ".$student['firstname'];  ?>
+                                            <?php echo strtoupper($student['lastname']).", ".strtoupper($student['firstname']);  ?>
                                         </td>
                                         <td><?php if ($student['class'] != '') { echo $student['class']; } ?></td>
                                         <!-- <td><?php //if ($student["dob"] != null) { echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob'])); }?></td> -->
