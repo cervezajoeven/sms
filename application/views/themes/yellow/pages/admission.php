@@ -1592,14 +1592,14 @@ if (!$form_admission) {
         $(this).preventDefault();
     });
 
-    // $("#studentidnumber").on("input", function(){
-    //     $("#accountid").val('');
-    //     $('#lrn_no').val('');
-    //     $('#firstname').val('');
-    //     $('#middlename').val('');
-    //     $('#lastname').val('');
-    //     $('#gender').val('');
-    //     $('#dob').val('');
-    // });
+    $("#studentidnumber").on("input", function(){
+        $("#accountid").val('');
+        $('#lrn_no').val('');
+        $('#firstname').val('');
+        $('#middlename').val('');
+        $('#lastname').val('');
+        $('#gender').val('');
+        $('#dob').val('');
+    });
 
 </script>
