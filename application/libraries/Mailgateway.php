@@ -67,7 +67,7 @@ class Mailgateway
         $send_to = $sender_details['email'];
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
-            // $this->_CI->mailer->send_mail($send_to, $subject, $msg);
+            $this->_CI->mailer->send_mail($send_to, $subject, $msg);
         }
     }
 
@@ -215,7 +215,7 @@ class Mailgateway
 
     public function getLoginCredentialContentJoe($credential_for, $sender_details, $template)
     {
-        echo "<pre>";
+
         if ($credential_for == "student") {
             $student                        = $this->_CI->student_model->get($sender_details['id']);
             $sender_details['url']          = site_url('site/userlogin');
@@ -233,7 +233,7 @@ class Mailgateway
             $sender_details['url']          = site_url('site/login');
             $sender_details['display_name'] = $staff['name'];
         }
-        print_r($sender_details);
+
         foreach ($sender_details as $key => $value) {
 
             $template = str_replace('{{' . $key . '}}', $value, $template);
