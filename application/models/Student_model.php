@@ -2006,13 +2006,14 @@ return false;
         }
     }
 
-    public function GetStudentInfo($id_no) 
+    public function GetStudentInfo($id_no)
     {
-        $this->db->select('students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
+        $this->db->select('students.id, students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
         $this->db->from('students');
         $this->db->where('students.lrn_no', $id_no);
         $this->db->or_where('students.roll_no', $id_no);
         $this->db->or_where('students.admission_no', $id_no);
+        $this->db->or_where('students.id', $id_no);
         $this->db->limit(1);
 
         // $query = $this->db->get();

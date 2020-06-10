@@ -1396,22 +1396,22 @@ if (!$form_admission) {
             $('#otherparentdetail').slideUp();
             $('#deped').slideUp();
         }
-        else if (sel.value == "old_new") {
-            $('#studentidnumber').prop('disabled', false);
-            $('#lrn_no').prop('readonly', false);
-            $('#firstname').prop('readonly', false);
-            $('#middlename').prop('readonly', false);
-            $('#lastname').prop('readonly', false);
-            $('#gender').prop('readonly', false);
-            // $('#dob').prop('readonly', false);
-            $('#id_number_input').fadeIn();
-            $("#student_address").slideDown();
-            $('#parentdetail').slideDown();
-            $('#guardiandetail1').slideDown();
-            $('#guardiandetail2').slideDown();
-            $('#otherparentdetail').slideDown();
-            $('#deped').slideDown();
-        }
+        // else if (sel.value == "old_new") {
+        //     $('#studentidnumber').prop('disabled', false);
+        //     $('#lrn_no').prop('readonly', false);
+        //     $('#firstname').prop('readonly', false);
+        //     $('#middlename').prop('readonly', false);
+        //     $('#lastname').prop('readonly', false);
+        //     $('#gender').prop('readonly', false);
+        //     // $('#dob').prop('readonly', false);
+        //     $('#id_number_input').fadeIn();
+        //     $("#student_address").slideDown();
+        //     $('#parentdetail').slideDown();
+        //     $('#guardiandetail1').slideDown();
+        //     $('#guardiandetail2').slideDown();
+        //     $('#otherparentdetail').slideDown();
+        //     $('#deped').slideDown();
+        // }
         else {
             $('#studentidnumber').prop('disabled', true);
             $('#lrn_no').prop('readonly', false);
@@ -1540,7 +1540,7 @@ if (!$form_admission) {
                     select: function (event, ui) {                        
                         $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
 
-                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetailsByID/'+ui.item.value;
+                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+ui.item.value;
                         $.get(url)
                         .done(function(data) {
                             AutoFillDetails(JSON.parse(data));
