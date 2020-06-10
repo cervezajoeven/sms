@@ -61,6 +61,17 @@ class Mailgateway
         }
     }
 
+    public function sendLoginCredentialJoe($chk_mail_sms, $sender_details, $template)
+    {
+        $msg     = $this->getLoginCredentialContentJoe($sender_details['credential_for'], $sender_details, $template);
+        $send_to = $sender_details['email'];
+        print_r($msg);
+        if (!empty($this->_CI->mail_config) && $send_to != "") {
+            $subject = "Login Credential";
+            $this->_CI->mailer->send_mail($send_to, $subject, $msg);
+        }
+    }
+
     public function sentAddFeeMail($detail, $template)
     {
         $send_to = $detail->email;
@@ -178,11 +189,12 @@ class Mailgateway
 
     public function getLoginCredentialContent($credential_for, $sender_details, $template)
     {
-
         if ($credential_for == "student") {
             $student                        = $this->_CI->student_model->get($sender_details['id']);
+
             $sender_details['url']          = site_url('site/userlogin');
             $sender_details['display_name'] = $student['firstname'] . " " . $student['lastname'];
+
         } elseif ($credential_for == "parent") {
             $parent                         = $this->_CI->student_model->get($sender_details['id']);
             $sender_details['url']          = site_url('site/userlogin');
@@ -195,6 +207,35 @@ class Mailgateway
         }
 
         foreach ($sender_details as $key => $value) {
+
+            $template = str_replace('{{' . $key . '}}', $value, $template);
+        }
+
+        return $template;
+    }
+
+    public function getLoginCredentialContentJoe($credential_for, $sender_details, $template)
+    {
+        if ($credential_for == "student") {
+            $student                        = $this->_CI->student_model->get($sender_details['id']);
+            $sender_details['url']          = site_url('site/userlogin');
+            $sender_details['display_name'] = $student['firstname'] . " " . $student['lastname'];
+            $sender_details['username'] = $student['username'];
+            $sender_details['password'] = $student['password'];
+
+        } elseif ($credential_for == "parent") {
+            $parent                         = $this->_CI->student_model->get($sender_details['id']);
+            $sender_details['url']          = site_url('site/userlogin');
+            $sender_details['display_name'] = $parent['guardian_name'];
+
+        } elseif ($credential_for == "staff") {
+            $staff                          = $this->_CI->staff_model->get($sender_details['id']);
+            $sender_details['url']          = site_url('site/login');
+            $sender_details['display_name'] = $staff['name'];
+        }
+
+        foreach ($sender_details as $key => $value) {
+
             $template = str_replace('{{' . $key . '}}', $value, $template);
         }
 

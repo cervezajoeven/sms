@@ -120,6 +120,14 @@ class Mailsmsconf
                 if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") 
                     $this->CI->mailgateway->sentRegisterMail($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template']);
             }
+            elseif ($send_for == "old_student_account") {
+
+                $this->console_log($chk_mail_sms['template']);
+                if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "")
+                    $sender_details['credential_for'] = "student";
+                    
+                    $this->CI->mailgateway->sendLoginCredentialJoe($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
+            }
             else {
 
             }
