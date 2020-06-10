@@ -351,7 +351,6 @@ class Lesson extends General_Controller {
     }
 
     public function send_email(){
-        echo "<pre>";
         $this->db->select("*");
         $query = $this->db->get("students");
         $result = $query->result_array();
@@ -360,8 +359,7 @@ class Lesson extends General_Controller {
             //for parent notification
             // $sender_details = array('student_id' => $value['id'], 'email' => $value['email']);
             $sender_details = array('id' => $value['id'], 'email' => $value['email']);
-            print_r($sender_details);
-            // $this->mailsmsconf->mailsms('old_student_account', $sender_details);
+            $this->mailsmsconf->mailsms('old_student_account', $sender_details);
         }
         
     }
