@@ -346,8 +346,8 @@ function admission_report(){
         $from_date=date('Y-m-d',strtotime($between_date['from_date']));
 
         $to_date=date('Y-m-d',strtotime($between_date['to_date']));
-
-        $condition=" date_format(admission_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
+        // echo '<pre>';print_r($to_date);exit();
+        $condition=" date_format(online_admissions.admission_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
         $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
         $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
         
@@ -357,9 +357,10 @@ function admission_report(){
             $data['resultlist']=array();
         }else{
 
-            $data['resultlist']=$this->student_model->admission_report($searchterm, $carray ,$condition);
+            $data['resultlist']=$this->student_model->admission_report_joe($searchterm, $carray ,$condition);
            
         }
+        
         
 
         $this->load->view('layout/header', $data);

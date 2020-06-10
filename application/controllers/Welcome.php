@@ -596,11 +596,10 @@ class Welcome extends Front_Controller
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
                                 }
                             }
+ 
     
-                            if(!in_array($school_code, $exceptions)){
-    
-                                redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
-                            }
+                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
+                            
                         }
                         else 
                             $this->session->set_flashdata('msg', '<div class="alert alert-info">We have received an incomplete data. Please try to do the admission again. We are sorry for your inconvinience.</div>');
@@ -746,9 +745,9 @@ class Welcome extends Front_Controller
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                 }
                             }
-                            if (!in_array($school_code, $exceptions)) {
-                                redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
-                            }
+         
+                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
+                            
                             
                         }
                         else
