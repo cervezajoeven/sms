@@ -169,9 +169,9 @@ if (!$form_admission) {
             <div class="form-group">
                 <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
                 <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
-                <label for="studentidnumber">Search Student By: </label>
-                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'lrn') echo "checked" ?> value="lrn" checked> ID / LRN
-                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'name') echo "checked" ?> value="name"> Name
+                <label for="studentidnumber"><b>Search Student By:</b> </label>
+                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'lrn') echo "checked" ?> value="lrn" checked><span class="text-primary"> ID / LRN</span>
+                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'name') echo "checked" ?> value="name"><span class="text-primary"> Name</span>
                     <input id="studentidnumber" name="studentidnumber" placeholder="Enter Student ID or LRN" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
@@ -282,10 +282,11 @@ if (!$form_admission) {
                 <label class="radio-inline">
                     <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                 </label>
+                <span class="text-danger"><?php echo form_error('has_siblings_enrolled'); ?></span>
             </div>
             <div class="form-group">
                 <label><?php echo $this->lang->line('siblings_specify');?></label>
-                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
+                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>                
             </div>
         </div>
         <div class="col-md-9">
