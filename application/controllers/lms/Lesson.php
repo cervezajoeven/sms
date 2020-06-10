@@ -359,7 +359,7 @@ class Lesson extends General_Controller {
         foreach ($result as $key => $value) {
             //for parent notification
             // $sender_details = array('student_id' => $value['id'], 'email' => $value['email']);
-            $sender_details = array('id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
+            $sender_details = array('id' => $value['id'], 'email' => $value['email']);
 
             $this->mailsmsconf->mailsms('old_student_account', $sender_details);
         }
