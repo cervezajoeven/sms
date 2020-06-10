@@ -445,160 +445,165 @@ class Welcome extends Front_Controller
                         // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
 
                         $idnum = $this->input->post('accountid');
-                        $old_student_data = $this->student_model->GetStudentByID($idnum);
-                        // var_dump($old_student_data);die;
-                        //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
-                        //var_dump($this->input->post('studentidnumber'));die;
-                        $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
-                        //var_dump($has_admission);die;
 
-                        $data = array(
-                            'roll_no'             => $old_student_data->roll_no,
-                            'lrn_no'              => $old_student_data->lrn_no,
-                            'firstname'           => $old_student_data->firstname,
-                            'lastname'            => $old_student_data->lastname,
-                            'mobileno'            => $old_student_data->mobileno,
-                            'guardian_is'         => $old_student_data->guardian_is,
-                            'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
-                            'current_address'     => $old_student_data->current_address,
-                            'permanent_address'   => $old_student_data->permanent_address,
-                            'father_name'         => $old_student_data->father_name,
-                            'father_phone'        => $old_student_data->father_phone,
-                            'father_occupation'   => $old_student_data->father_occupation,
-                            'mother_name'         => $old_student_data->mother_name,
-                            'mother_phone'        => $old_student_data->mother_phone,
-                            'mother_occupation'   => $old_student_data->mother_occupation,
-                            'guardian_occupation' => $old_student_data->guardian_occupation,
-                            'guardian_email'      => $old_student_data->guardian_email == '' ? $this->input->post('email') : $old_student_data->guardian_email,
-                            'gender'              => $this->input->post('gender') != '' ? $this->input->post('gender') : $old_student_data->gender,
-                            'guardian_name'       => $old_student_data->guardian_name,
-                            'guardian_relation'   => $old_student_data->guardian_relation,
-                            'guardian_phone'      => $old_student_data->guardian_phone,
-                            'guardian_address'    => $old_student_data->guardian_address,
-                            'admission_date'      => date('Y-m-d'),
-                            'measurement_date'    => date('Y-m-d'),
-                            'mode_of_payment'     => $this->input->post('mode_of_payment'),
-                            'enrollment_type'     => $enrollment_type,                        
-                            'middlename'          => $old_student_data->middlename,
-                            'email'               => $this->input->post('email'),
-                            'class_section_id'    => $class_section_id,
-
-                            'father_company_name'              => $old_student_data->father_company_name,
-                            'father_company_position'          => $old_student_data->father_company_position,
-                            'father_nature_of_business'        => $old_student_data->father_nature_of_business,
-                            'father_mobile'                    => $old_student_data->father_mobile,
-                            'father_dob'                       => date('Y-m-d', strtotime($old_student_data->father_dob)),
-                            'father_citizenship'               => $old_student_data->father_citizenship,
-                            'father_religion'                  => $old_student_data->father_religion,
-                            'father_highschool'                => $old_student_data->father_highschool,
-                            'father_college'                   => $old_student_data->father_college,
-                            'father_college_course'            => $old_student_data->father_college_course,
-                            'father_post_graduate'             => $old_student_data->father_post_graduate,
-                            'father_post_course'               => $old_student_data->father_post_course,
-                            'father_prof_affiliation'          => $old_student_data->father_prof_affiliation,
-                            'father_prof_affiliation_position' => $old_student_data->father_prof_affiliation_position,
-                            'father_tech_prof'                 => $old_student_data->father_tech_prof,
-                            'father_tech_prof_other'           => $old_student_data->father_tech_prof_other,
-
-                            'mother_company_name'              => $old_student_data->mother_company_name,
-                            'mother_company_position'          => $old_student_data->mother_company_position,
-                            'mother_nature_of_business'        => $old_student_data->mother_nature_of_business,
-                            'mother_mobile'                    => $old_student_data->mother_mobile,
-                            'mother_dob'                       => date('Y-m-d', strtotime($old_student_data->mother_dob)),
-                            'mother_citizenship'               => $old_student_data->mother_citizenship,
-                            'mother_religion'                  => $old_student_data->mother_religion,
-                            'mother_highschool'                => $old_student_data->mother_highschool,
-                            'mother_college'                   => $old_student_data->mother_college,
-                            'mother_college_course'            => $old_student_data->mother_college_course,
-                            'mother_post_graduate'             => $old_student_data->mother_post_graduate,
-                            'mother_post_course'               => $old_student_data->mother_post_course,
-                            'mother_prof_affiliation'          => $old_student_data->mother_prof_affiliation,
-                            'mother_prof_affiliation_position' => $old_student_data->mother_prof_affiliation_position,
-                            'mother_tech_prof'                 => $old_student_data->mother_tech_prof,
-                            'mother_tech_prof_other'           => $old_student_data->mother_tech_prof_other,
-
-                            'marriage'                   => $old_student_data->marriage,
-                            'dom'                        => $old_student_data->dom,
-                            'church'                     => $old_student_data->church,
-                            'family_together'            => $old_student_data->family_together,
-                            'parents_away'               => $old_student_data->parents_away,
-                            'parents_away_state'         => $old_student_data->parents_away_state,
-                            'parents_civil_status'       => $old_student_data->parents_civil_status,
-                            'parents_civil_status_other' => $old_student_data->parents_civil_status_other,
-
-                            'session_id' => $current_session,
-                            'guardian_address_is_current_address' => $old_student_data->guardian_address_is_current_address,
-                            'permanent_address_is_current_address' => $old_student_data->permanent_address_is_current_address,
-                            'living_with_parents' => $old_student_data->living_with_parents,
-                            'living_with_parents_specify' => $old_student_data->living_with_parents_specify,
-
-                            // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
-                            // 'siblings_specify' => $old_student_data->siblings_specify,
-                            'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
-                            'siblings_specify' => $this->input->post('siblings_specify'),
-
-                            'preferred_education_mode' => $this->input->post('preferred_education_mode'),
-                        );
-
-                        if (isset($admission_docs)) 
+                        if (!empty($idnum))
                         {
-                            $doc_names = "";
-                            for ($i=0; $i<sizeof($FILES); $i++)
-                            {
-                                if (!empty($FILES[$i]["name"])) 
-                                {
-                                    $file_name = $FILES[$i]["name"];
-                                    $time = md5($file_name . microtime());
-                                    $fileInfo = pathinfo($file_name);
-                                    $doc_name = $fileInfo['filename'].'_'.$time.'.'. $fileInfo['extension'];
-
-                                    move_uploaded_file($FILES[$i]["tmp_name"], "./uploads/student_documents/online_admission_doc/".$doc_name);
-                                    $doc_names .= $doc_names != "" ? ",".$doc_name : $doc_name;
-                                }
-                            }
-                            
-                            $data['document'] = $doc_names;
-                        }
-
-                        // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                        //     $time     = md5($_FILES["document"]['name'] . microtime());
-                        //     $fileInfo = pathinfo($_FILES["document"]["name"]);
-                        //     $doc_name = $time . '.' . $fileInfo['extension'];
-                        //     move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+                            $old_student_data = $this->student_model->GetStudentByID($idnum);
+                            // var_dump($old_student_data);die;
+                            //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
+                            //var_dump($this->input->post('studentidnumber'));die;
+                            $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
+                            //var_dump($has_admission);die;
     
-                        //     $data['document'] = $doc_name;
-                        // }
-
-                        // var_dump($data);die;
-
-                        //if ($has_admission == NULL)
-                        if (sizeOf($has_admission) <= 0)
-                        {
-                            $insert_id = $this->onlinestudent_model->add($data);
-                            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
-                        }
-                        else 
-                        {
-                            if ($current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != $current_session)
+                            $data = array(
+                                'roll_no'             => $old_student_data->roll_no,
+                                'lrn_no'              => $old_student_data->lrn_no,
+                                'firstname'           => $old_student_data->firstname,
+                                'lastname'            => $old_student_data->lastname,
+                                'mobileno'            => $old_student_data->mobileno,
+                                'guardian_is'         => $old_student_data->guardian_is,
+                                'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
+                                'current_address'     => $old_student_data->current_address,
+                                'permanent_address'   => $old_student_data->permanent_address,
+                                'father_name'         => $old_student_data->father_name,
+                                'father_phone'        => $old_student_data->father_phone,
+                                'father_occupation'   => $old_student_data->father_occupation,
+                                'mother_name'         => $old_student_data->mother_name,
+                                'mother_phone'        => $old_student_data->mother_phone,
+                                'mother_occupation'   => $old_student_data->mother_occupation,
+                                'guardian_occupation' => $old_student_data->guardian_occupation,
+                                'guardian_email'      => $old_student_data->guardian_email == '' ? $this->input->post('email') : $old_student_data->guardian_email,
+                                'gender'              => $this->input->post('gender') != '' ? $this->input->post('gender') : $old_student_data->gender,
+                                'guardian_name'       => $old_student_data->guardian_name,
+                                'guardian_relation'   => $old_student_data->guardian_relation,
+                                'guardian_phone'      => $old_student_data->guardian_phone,
+                                'guardian_address'    => $old_student_data->guardian_address,
+                                'admission_date'      => date('Y-m-d'),
+                                'measurement_date'    => date('Y-m-d'),
+                                'mode_of_payment'     => $this->input->post('mode_of_payment'),
+                                'enrollment_type'     => $enrollment_type,                        
+                                'middlename'          => $old_student_data->middlename,
+                                'email'               => $this->input->post('email'),
+                                'class_section_id'    => $class_section_id,
+    
+                                'father_company_name'              => $old_student_data->father_company_name,
+                                'father_company_position'          => $old_student_data->father_company_position,
+                                'father_nature_of_business'        => $old_student_data->father_nature_of_business,
+                                'father_mobile'                    => $old_student_data->father_mobile,
+                                'father_dob'                       => date('Y-m-d', strtotime($old_student_data->father_dob)),
+                                'father_citizenship'               => $old_student_data->father_citizenship,
+                                'father_religion'                  => $old_student_data->father_religion,
+                                'father_highschool'                => $old_student_data->father_highschool,
+                                'father_college'                   => $old_student_data->father_college,
+                                'father_college_course'            => $old_student_data->father_college_course,
+                                'father_post_graduate'             => $old_student_data->father_post_graduate,
+                                'father_post_course'               => $old_student_data->father_post_course,
+                                'father_prof_affiliation'          => $old_student_data->father_prof_affiliation,
+                                'father_prof_affiliation_position' => $old_student_data->father_prof_affiliation_position,
+                                'father_tech_prof'                 => $old_student_data->father_tech_prof,
+                                'father_tech_prof_other'           => $old_student_data->father_tech_prof_other,
+    
+                                'mother_company_name'              => $old_student_data->mother_company_name,
+                                'mother_company_position'          => $old_student_data->mother_company_position,
+                                'mother_nature_of_business'        => $old_student_data->mother_nature_of_business,
+                                'mother_mobile'                    => $old_student_data->mother_mobile,
+                                'mother_dob'                       => date('Y-m-d', strtotime($old_student_data->mother_dob)),
+                                'mother_citizenship'               => $old_student_data->mother_citizenship,
+                                'mother_religion'                  => $old_student_data->mother_religion,
+                                'mother_highschool'                => $old_student_data->mother_highschool,
+                                'mother_college'                   => $old_student_data->mother_college,
+                                'mother_college_course'            => $old_student_data->mother_college_course,
+                                'mother_post_graduate'             => $old_student_data->mother_post_graduate,
+                                'mother_post_course'               => $old_student_data->mother_post_course,
+                                'mother_prof_affiliation'          => $old_student_data->mother_prof_affiliation,
+                                'mother_prof_affiliation_position' => $old_student_data->mother_prof_affiliation_position,
+                                'mother_tech_prof'                 => $old_student_data->mother_tech_prof,
+                                'mother_tech_prof_other'           => $old_student_data->mother_tech_prof_other,
+    
+                                'marriage'                   => $old_student_data->marriage,
+                                'dom'                        => $old_student_data->dom,
+                                'church'                     => $old_student_data->church,
+                                'family_together'            => $old_student_data->family_together,
+                                'parents_away'               => $old_student_data->parents_away,
+                                'parents_away_state'         => $old_student_data->parents_away_state,
+                                'parents_civil_status'       => $old_student_data->parents_civil_status,
+                                'parents_civil_status_other' => $old_student_data->parents_civil_status_other,
+    
+                                'session_id' => $current_session,
+                                'guardian_address_is_current_address' => $old_student_data->guardian_address_is_current_address,
+                                'permanent_address_is_current_address' => $old_student_data->permanent_address_is_current_address,
+                                'living_with_parents' => $old_student_data->living_with_parents,
+                                'living_with_parents_specify' => $old_student_data->living_with_parents_specify,
+    
+                                // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
+                                // 'siblings_specify' => $old_student_data->siblings_specify,
+                                'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
+                                'siblings_specify' => $this->input->post('siblings_specify'),
+    
+                                'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+                            );
+    
+                            if (isset($admission_docs)) 
+                            {
+                                $doc_names = "";
+                                for ($i=0; $i<sizeof($FILES); $i++)
+                                {
+                                    if (!empty($FILES[$i]["name"])) 
+                                    {
+                                        $file_name = $FILES[$i]["name"];
+                                        $time = md5($file_name . microtime());
+                                        $fileInfo = pathinfo($file_name);
+                                        $doc_name = $fileInfo['filename'].'_'.$time.'.'. $fileInfo['extension'];
+    
+                                        move_uploaded_file($FILES[$i]["tmp_name"], "./uploads/student_documents/online_admission_doc/".$doc_name);
+                                        $doc_names .= $doc_names != "" ? ",".$doc_name : $doc_name;
+                                    }
+                                }
+                                
+                                $data['document'] = $doc_names;
+                            }
+    
+                            // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
+                            //     $time     = md5($_FILES["document"]['name'] . microtime());
+                            //     $fileInfo = pathinfo($_FILES["document"]["name"]);
+                            //     $doc_name = $time . '.' . $fileInfo['extension'];
+                            //     move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
+        
+                            //     $data['document'] = $doc_name;
+                            // }
+    
+                            // var_dump($data);die;
+    
+                            //if ($has_admission == NULL)
+                            if (sizeOf($has_admission) <= 0)
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
-
                             }
                             else 
                             {
-                                if ((int)$old_student_data->session_id == $current_session)
-                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
-                                else if ($has_admission->is_enroll == '0')
-                                    $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                                if ($current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != $current_session)
+                                {
+                                    $insert_id = $this->onlinestudent_model->add($data);
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
+    
+                                }
+                                else 
+                                {
+                                    if ((int)$old_student_data->session_id == $current_session)
+                                        $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                                    else if ($has_admission->is_enroll == '0')
+                                        $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                                }
+                            }
+    
+                            if(!in_array($school_code, $exceptions)){
+    
+                                redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
                             }
                         }
-
-                        if(!in_array($school_code, $exceptions)){
-
-                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
-                        }
-                        
+                        else 
+                            $this->session->set_flashdata('msg', '<div class="alert alert-info">We have received an incomplete data. Please try to do the admission again. We are sorry for your inconvinience.</div>');
                     }
                     else 
                     {
