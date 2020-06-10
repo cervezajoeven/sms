@@ -275,30 +275,30 @@ class Student extends Admin_Controller
         //     }
         // }
 
-        $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('gender', $this->lang->line('gender'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('dob', $this->lang->line('date_of_birth'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('guardian_is', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('gender', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('dob', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('required'), 'trim|required|xss_clean');
         //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
         // $this->form_validation->set_rules('rte', $this->lang->line('rtl'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_name', $this->lang->line('guardian_name'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
+        $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
 
         // if (!$this->sch_setting_detail->adm_auto_insert) 
         // {
         //     $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), 'trim|required|xss_clean|is_unique[students.admission_no]');
         // }
 
-        $this->form_validation->set_rules('file', $this->lang->line('image'), 'callback_handle_upload');
-        $this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
+        $this->form_validation->set_rules('file', $this->lang->line('required'), 'callback_handle_upload');
+        $this->form_validation->set_rules('roll_no', $this->lang->line('required'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
         
-        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');            
         // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
 
         // var_dump($data);die;
@@ -353,7 +353,7 @@ class Student extends Admin_Controller
                 // 'pincode'             => $this->input->post('pincode'),
                 // 'cast'                => $this->input->post('cast'),
                 'previous_school'     => $this->input->post('previous_school'),
-                'dob'                 => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('dob'))),
+                'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
                 'current_address'     => $this->input->post('current_address'),
                 'permanent_address'   => $this->input->post('permanent_address'),
                 'image'               => 'uploads/student_images/no_image.png',
@@ -377,7 +377,9 @@ class Student extends Admin_Controller
                 'enrollment_type'     => $this->input->post('enrollment_type'),
                 'middlename'          => $this->input->post('middlename'),
                 'lrn_no'              => $this->input->post('lrn_no'),
-                'roll_no'              => $this->input->post('roll_no'),
+                'roll_no'             => $this->input->post('roll_no'),
+
+                'admission_date'      => date('Y-m-d'),
 
                 'father_company_name'              => $this->input->post('father_company_name'),
                 'father_company_position'          => $this->input->post('father_company_position'),
@@ -428,12 +430,14 @@ class Student extends Admin_Controller
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
 
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
-            );            
+            );
+
+            // var_dump($this->input->post('roll_no'));die;
 
             $house            = $this->input->post('house');
             $blood_group      = $this->input->post('blood_group');
             $measurement_date = $this->input->post('measure_date');
-            $roll_no           = $this->input->post('roll_no');
+            // $roll_no           = $this->input->post('roll_no');
             $lastname          = $this->input->post('lastname');
             $category_id       = $this->input->post('category_id');
             $religion          = $this->input->post('religion');
@@ -447,7 +451,7 @@ class Student extends Admin_Controller
             $father_occupation = $this->input->post('father_occupation');
             $mother_name       = $this->input->post('mother_name');
             $mother_phone      = $this->input->post('mother_phone');
-            $mother_occupation = $this->input->post('mother_occupation');
+            $mother_occupation = $this->input->post('mother_occupation');            
 
             // if (isset($measurement_date)) {
             //     $data_insert['measurement_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('measure_date')));
@@ -488,10 +492,10 @@ class Student extends Admin_Controller
                 $data_insert['email'] = $this->input->post('email');
             }
 
-            if (isset($admission_date)) {
+            // if (isset($admission_date)) {
 
-                $data_insert['admission_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('admission_date')));
-            }
+            //     $data_insert['admission_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('admission_date')));
+            // }
 
             if (isset($height)) {
 
@@ -540,6 +544,8 @@ class Student extends Admin_Controller
             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
             $admission_no                      = 0;
 
+            // var_dump($data_insert);die;
+
             if ($this->sch_setting_detail->adm_auto_insert)
             {
                 if ($this->sch_setting_detail->adm_update_status)
@@ -577,12 +583,13 @@ class Student extends Admin_Controller
 
                 if ($this->input->post('enrollment_type') == 'old') //--For old students
                 {
-                    $insert_id = $this->student_model->GetStudentID($this->input->post('roll_no'));
-                    // var_dump($insert_id);die;
+                    // $insert_id = $this->student_model->GetStudentID($this->input->post('roll_no'));
+                    $insert_id = $this->input->post('accountid');
                     //--Delete old record
                     //$this->student_model->DeleteStudent($insert_id);
                     //-- Insert
-                    $data_insert['id'] = $insert_id; //-- Assign the same id for old
+                    $data_insert['id'] = $this->input->post('accountid');
+                    // var_dump($data_insert);die;
                     $this->student_model->add($data_insert, $data_setting);
                 }                    
                 else
