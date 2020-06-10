@@ -1540,7 +1540,7 @@ if (!$form_admission) {
                     select: function (event, ui) {                        
                         $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
 
-                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetailsByID/'+ui.item.value;
+                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+ui.item.value;
                         $.get(url)
                         .done(function(data) {
                             AutoFillDetails(JSON.parse(data));

@@ -254,7 +254,7 @@ class Welcome extends Front_Controller
 
             $enrollment_type = $this->input->post('enrollment_type');
 
-            if ($enrollment_type == 'old' || $enrollment_type == 'old_new') 
+            if ($enrollment_type == 'old') 
             {
                 $this->form_validation->set_rules('studentidnumber', $this->lang->line('required'), 'trim|required|xss_clean');
                 $classname = strtolower($this->input->post('classname'));
