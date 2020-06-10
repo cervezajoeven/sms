@@ -149,6 +149,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 											<?php if ($sch_setting->admission_date) {  ?>
                                             <th><?php echo $this->lang->line('admission')." ".$this->lang->line('date'); ?></th><?php } ?>
                                             
+                                            <th>Enrollment Status</th>
                                             <th><?php echo $this->lang->line('gender'); ?></th>
 											<!-- <?php if ($sch_setting->category) {  ?>
                                             <th><?php echo $this->lang->line('category'); ?></th>
@@ -193,6 +194,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['admission_date']));
                                                         }
                                                         ?></td><?php } ?>
+                                                    <td><?php echo ($student['is_enroll']==1)?"Enrolled":"Not Enrolled"; ?></td>
                                                     <td><?php echo $student['gender']; ?></td>
 													<!-- <?php if ($sch_setting->category) {  ?>
                                                     <td><?php echo $student['category']; ?></td>

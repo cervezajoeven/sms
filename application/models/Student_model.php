@@ -729,10 +729,11 @@ return false;
         $this->db->join('class_sections','online_admissions.class_section_id = class_sections.id');
         $this->db->join('classes','class_sections.class_id = classes.id');
         $this->db->join('sections','class_sections.section_id = sections.id');
-        return $data = $this->db->get("online_admissions")->result_array();
+        $data = $this->db->get("online_admissions")->result_array();
         // echo "<pre>";
         // print_r($data);
         // exit();
+        return $data;
     }
 
     public function sibling_report($searchterm, $carray = null, $condition = null)
