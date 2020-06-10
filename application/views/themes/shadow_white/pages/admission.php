@@ -138,7 +138,6 @@ if (!$form_admission) {
         }
 
         $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","old_new"=>"Old (New Data)","returnee"=>"Returnee","transferee"=>"Transferee");
-        // $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old");
         $modeofPayment = array(""=>"Select","Reservation"=>"Reservation", "Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
     ?>
     
@@ -171,8 +170,8 @@ if (!$form_admission) {
                 <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
                 <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
                 <label for="studentidnumber">Search Student By: </label>
-                <input type="radio" name="search_by" value="lrn" checked> ID / LRN
-                <input type="radio" name="search_by" value="name"> Name
+                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'lrn') echo "checked" ?> value="lrn" checked> ID / LRN
+                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'name') echo "checked" ?> value="name"> Name
                     <input id="studentidnumber" name="studentidnumber" placeholder="Enter Student ID or LRN" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
@@ -254,7 +253,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('date_of_birth'); ?></label><small class="req"> *</small> 
-                <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('dob'); ?>" id="dob" name="dob" readonly="readonly" autocomplete="off"/>
+                <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('dob'); ?>" id="dob" name="dob" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('dob'); ?></span>
             </div>            
         </div>
@@ -1388,7 +1387,7 @@ if (!$form_admission) {
             $('#middlename').prop('readonly', true);
             $('#lastname').prop('readonly', true);
             $('#gender').prop('readonly', true);
-            $('#dob').prop('readonly', true);
+            // $('#dob').prop('readonly', true);
             $('#id_number_input').fadeIn();
             $("#student_address").slideUp();
             $('#parentdetail').slideUp();
@@ -1397,22 +1396,22 @@ if (!$form_admission) {
             $('#otherparentdetail').slideUp();
             $('#deped').slideUp();
         }
-        else if (sel.value == "old_new") {
-            $('#studentidnumber').prop('disabled', false);
-            $('#lrn_no').prop('readonly', false);
-            $('#firstname').prop('readonly', false);
-            $('#middlename').prop('readonly', false);
-            $('#lastname').prop('readonly', false);
-            $('#gender').prop('readonly', false);
-            $('#dob').prop('readonly', false);
-            $('#id_number_input').fadeIn();
-            $("#student_address").slideDown();
-            $('#parentdetail').slideDown();
-            $('#guardiandetail1').slideDown();
-            $('#guardiandetail2').slideDown();
-            $('#otherparentdetail').slideDown();
-            $('#deped').slideDown();
-        }
+        // else if (sel.value == "old_new") {
+        //     $('#studentidnumber').prop('disabled', false);
+        //     $('#lrn_no').prop('readonly', false);
+        //     $('#firstname').prop('readonly', false);
+        //     $('#middlename').prop('readonly', false);
+        //     $('#lastname').prop('readonly', false);
+        //     $('#gender').prop('readonly', false);
+        //     // $('#dob').prop('readonly', false);
+        //     $('#id_number_input').fadeIn();
+        //     $("#student_address").slideDown();
+        //     $('#parentdetail').slideDown();
+        //     $('#guardiandetail1').slideDown();
+        //     $('#guardiandetail2').slideDown();
+        //     $('#otherparentdetail').slideDown();
+        //     $('#deped').slideDown();
+        // }
         else {
             $('#studentidnumber').prop('disabled', true);
             $('#lrn_no').prop('readonly', false);
@@ -1420,7 +1419,7 @@ if (!$form_admission) {
             $('#middlename').prop('readonly', false);
             $('#lastname').prop('readonly', false);
             $('#gender').prop('readonly', false);
-            $('#dob').prop('readonly', false);
+            // $('#dob').prop('readonly', false);
             $('#id_number_input').fadeOut();
             $("#student_address").slideDown();
             $('#parentdetail').slideDown();
@@ -1541,7 +1540,7 @@ if (!$form_admission) {
                     select: function (event, ui) {                        
                         $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
 
-                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetailsByID/'+ui.item.value;
+                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+ui.item.value;
                         $.get(url)
                         .done(function(data) {
                             AutoFillDetails(JSON.parse(data));
