@@ -65,6 +65,7 @@ class Mailgateway
     {
         $msg     = $this->getLoginCredentialContentJoe($sender_details['credential_for'], $sender_details, $template);
         $send_to = $sender_details['email'];
+        print_r($msg);
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
             $this->_CI->mailer->send_mail($send_to, $subject, $msg);
