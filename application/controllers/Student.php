@@ -267,13 +267,13 @@ class Student extends Admin_Controller
         $data['fees_master_list'] = $this->feegroup_model->getFeesByGroupFiltered(); //$this->feegroup_model->get();
         $data['discount_list'] = $this->feediscount_model->get();
 
-        foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
-            if ($custom_fields_value['validation']) {
-                $custom_fields_id   = $custom_fields_value['id'];
-                $custom_fields_name = $custom_fields_value['name'];
-                $this->form_validation->set_rules("custom_fields[students][" . $custom_fields_id . "]", $custom_fields_name, 'trim|required');
-            }
-        }
+        // foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
+        //     if ($custom_fields_value['validation']) {
+        //         $custom_fields_id   = $custom_fields_value['id'];
+        //         $custom_fields_name = $custom_fields_value['name'];
+        //         $this->form_validation->set_rules("custom_fields[students][" . $custom_fields_id . "]", $custom_fields_name, 'trim|required');
+        //     }
+        // }
 
         $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
@@ -289,17 +289,19 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
 
-        if (!$this->sch_setting_detail->adm_auto_insert) 
-        {
-            $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), 'trim|required|xss_clean|is_unique[students.admission_no]');
-        }
+        // if (!$this->sch_setting_detail->adm_auto_insert) 
+        // {
+        //     $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), 'trim|required|xss_clean|is_unique[students.admission_no]');
+        // }
 
         $this->form_validation->set_rules('file', $this->lang->line('image'), 'callback_handle_upload');
         $this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
         
-        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|valid_email|xss_clean');
-        $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|valid_email|xss_clean');
-        $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|valid_email|xss_clean');
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
+
+        // var_dump($data);die;
 
         if ($this->form_validation->run() == false) 
         {
