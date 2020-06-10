@@ -283,8 +283,13 @@
 		    // contentType: "application/json",
 		    complete: function(response){
 		    	console.log(response.responseText);
+		    	if("<?php echo $survey['id'] ?>" == "lms_survey_offline_159146294820546101"){
+		    		window.location.replace("<?php echo site_url('online_admission') ?>/");
+		    	}else{
+		    		window.location.replace("<?php echo site_url('lms/survey/index') ?>/");
+		    	}
 		    	alert("Sucessfully Submitted!");
-		    	window.location.replace("<?php echo site_url('lms/survey/index') ?>/");
+		    	
 		    }
 		});
 	});

@@ -43,7 +43,8 @@ $language = $this->customlib->getLanguage();
 <script src="<?php echo base_url(); ?>backend/dist/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <!--language js-->
-<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/js/bootstrap-select.min.js"></script>
+<!-- <script type="text/javascript" src="<?php //echo base_url(); ?>backend/dist/js/bootstrap-select.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
  <script type="text/javascript">
     $(function(){

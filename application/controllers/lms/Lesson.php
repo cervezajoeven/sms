@@ -350,6 +350,20 @@ class Lesson extends General_Controller {
 
     }
 
+    public function send_email(){
+        $this->db->select("*");
+        $query = $this->db->get("students");
+        $result = $query->result_array();
+
+        foreach ($result as $key => $value) {
+            //for parent notification
+            // $sender_details = array('student_id' => $value['id'], 'email' => $value['email']);
+            $sender_details = array('id' => $value['id'], 'email' => $value['email']);
+            $this->mailsmsconf->mailsms('old_student_account', $sender_details);
+        }
+        
+    }
+
     public function upload($upload_type="my_resources",$lesson_id=""){
         if($upload_type=="my_resources"){
             $file = $_FILES['upload_file'];

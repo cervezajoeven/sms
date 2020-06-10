@@ -94,7 +94,7 @@
 
                     <li class="treeview <?php echo set_Topmenu('Student Information'); ?>">
                         <a href="#">
-                            <i class="fa fa-user-plus ftlayer"></i> <span><?php echo $this->lang->line('student_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-user-plus ftlayer"></i> <span>Registrar</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <?php
@@ -109,12 +109,12 @@
                             if ($this->rbac->hasPrivilege('student', 'can_add')) {
                                 ?>
 
-                                <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> On-Site Admission</a></li>
+                                <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> On-Site Enrollment</a></li>
                             <?php } ?><?php 
                                 if ($this->module_lib->hasActive('online_admission')) {
                             if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
 
-                                <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('online') . " " . $this->lang->line('admission'); ?></a></li>
+                                <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
 
                                 <?php
                             } }

@@ -26,6 +26,18 @@ class Feegroup_model extends MY_Model {
         }
     }
 
+    public function getFeesByGroupFiltered()
+    {
+        $this->db->select('fee_session_groups.*,fee_groups.name as `group_name`');
+        $this->db->from('fee_session_groups');
+        $this->db->join('fee_groups', 'fee_groups.id = fee_session_groups.fee_groups_id');
+        $this->db->where('fee_session_groups.session_id', $this->current_session);
+        $this->db->where('fee_groups.is_system', 0);
+        $this->db->order_by('fee_groups.name', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     /**
      * This function will delete the record based on the id
      * @param $id

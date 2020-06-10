@@ -136,9 +136,18 @@ $language_name = $language["short_code"];
                                                             }
                                                             ?>
                                                         </td>
-                                                        <th><?php echo $this->lang->line('rte'); ?></th>
-                                                        <td><b class="text-danger"> <?php echo $student['rte']; ?> </b>
+                                                        <th><?php echo $this->lang->line('enrollment_payment_status'); ?></th>
+                                                        <td>
+                                                        <div class="form-group">                
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="enrollment_payment_status" <?php echo $student['enrollment_payment_status'] == "paid" ? "checked" : ""; ?> value="paid"> <?php echo $this->lang->line('paid'); ?>
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="enrollment_payment_status" <?php echo $student['enrollment_payment_status'] == "unpaid" ? "checked" : ""; ?> value="unpaid"> <?php echo $this->lang->line('unpaid'); ?>
+                                                        </label>
+                                                        </div>
                                                         </td>
+                                                        
                                                     </tr>
 
                                                 </tbody>
@@ -1305,5 +1314,28 @@ $language_name = $language["short_code"];
         $('input:checkbox').not(this).prop('checked', this.checked);
         // $(".checkbox").prop('checked', $(this).prop("checked")); //change all ".checkbox" checked status
     });
+
+    $('input:radio[name="enrollment_payment_status"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+
+                $.ajax({
+                    url: '<?php echo base_url()."student/UpdateEnrollmentPaymentStatus/".$student['roll_no']; ?>',
+                    type: 'post',
+                    dataType: "json",
+                    data: { enrollment_payment_status: value },
+                    success: function(res) {
+                        if (res.status == "failed") {
+                            errorMsg(res.message);
+                            // console.log(res.message);
+                        } else {
+                            successMsg(res.message);
+                        }
+                    }
+                });
+            }
+        }
+    ); 
 
 </script>

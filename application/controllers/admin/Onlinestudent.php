@@ -17,6 +17,7 @@ class Onlinestudent extends Admin_Controller
         $this->load->library('email');
         $this->load->model("classteacher_model");
         $this->load->model("timeline_model");
+        $this->load->model("feesessiongroup_model");
         $this->blood_group        = $this->config->item('bloodgroup');
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->role;
@@ -72,6 +73,7 @@ class Onlinestudent extends Admin_Controller
         if (!$this->rbac->hasPrivilege('online_admission', 'can_edit')) {
             access_denied();
         }
+
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['title']           = 'Edit Student';
         $data['id']              = $id;
@@ -99,26 +101,34 @@ class Onlinestudent extends Admin_Controller
         $data['siblings']           = $siblings;
         $data['siblings_counts']    = count($siblings);
 
+        $data['fees_master_list'] = $this->feegroup_model->getFeesByGroupFiltered(); //$this->feegroup_model->get();
+        // var_dump($data['fees_master_list']);die;
+        $data['discount_list'] = $this->feediscount_model->get();
+
         $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_is', $this->lang->line('required'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('guardian_is', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('dob', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('gender', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('guardian_name', $this->lang->line('required'), 'trim|required|xss_clean');
         //$this->form_validation->set_rules('rte', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
+        // $this->form_validation->set_rules('guardian_phone', $this->lang->line('required'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
-        //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');        
+        // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
 
-        if ($this->form_validation->run() == false) {
+        if ($this->form_validation->run() == false) 
+        {
             $this->load->view('layout/header', $data);
             $this->load->view('admin/onlinestudent/studentEdit', $data);
             $this->load->view('layout/footer', $data);
-        } else {
+        } 
+        else 
+        {
             $student_id     = $this->input->post('student_id');
             $class_id       = $this->input->post('class_id');
             $section_id     = $this->input->post('section_id');
@@ -133,6 +143,8 @@ class Onlinestudent extends Admin_Controller
             // if (empty($hostel_room_id)) {
             //     $hostel_room_id = 0;
             // }
+
+            // var_dump($student_id);die;
 
             $data = array(
                 'sibling_id'          => $this->input->post('sibling_id'),
@@ -236,11 +248,14 @@ class Onlinestudent extends Admin_Controller
                 'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
                 'living_with_parents' => $this->input->post('living_with_parents'),
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
-                // 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
+                'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
                 // 'siblings_specify' => $this->input->post('siblings_specify'),
+                'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+                'feesmaster' => $this->input->post('feesmaster[]'),
+                'feesdiscount' => $this->input->post('discount[]'),
             );
 
-            //var_dump($data);die;
+            // var_dump($data);die;
 
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
           
@@ -259,5 +274,5 @@ class Onlinestudent extends Admin_Controller
         $class_id = $this->input->post('class_id');
         $data     = $this->section_model->getClassBySection($class_id);
         $this->jsonlib->output(200, $data);
-    }
+    }    
 }

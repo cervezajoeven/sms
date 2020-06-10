@@ -261,15 +261,20 @@ class Student extends Admin_Controller
         $vehroute_result            = $this->vehroute_model->get();
         $data['vehroutelist']       = $vehroute_result;
         $custom_fields              = $this->customfield_model->getByBelong('students');
+        $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
+        $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
 
-        foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
-            if ($custom_fields_value['validation']) {
-                $custom_fields_id   = $custom_fields_value['id'];
-                $custom_fields_name = $custom_fields_value['name'];
-                $this->form_validation->set_rules("custom_fields[students][" . $custom_fields_id . "]", $custom_fields_name, 'trim|required');
-            }
-        }
- 
+        $data['fees_master_list'] = $this->feegroup_model->getFeesByGroupFiltered(); //$this->feegroup_model->get();
+        $data['discount_list'] = $this->feediscount_model->get();
+
+        // foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
+        //     if ($custom_fields_value['validation']) {
+        //         $custom_fields_id   = $custom_fields_value['id'];
+        //         $custom_fields_name = $custom_fields_value['name'];
+        //         $this->form_validation->set_rules("custom_fields[students][" . $custom_fields_id . "]", $custom_fields_name, 'trim|required');
+        //     }
+        // }
+
         $this->form_validation->set_rules('firstname', $this->lang->line('first_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('last_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_is', $this->lang->line('guardian'), 'trim|required|xss_clean');
@@ -284,13 +289,19 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('guardian_phone', $this->lang->line('guardian_phone'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('guardian_email', $this->lang->line('guardian_email'), 'trim|required|valid_email|xss_clean');
 
-        if (!$this->sch_setting_detail->adm_auto_insert) 
-        {
-            $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), 'trim|required|xss_clean|is_unique[students.admission_no]');
-        }
+        // if (!$this->sch_setting_detail->adm_auto_insert) 
+        // {
+        //     $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), 'trim|required|xss_clean|is_unique[students.admission_no]');
+        // }
 
         $this->form_validation->set_rules('file', $this->lang->line('image'), 'callback_handle_upload');
         $this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
+        
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('mode_of_payment'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('enrollment_type', $this->lang->line('enrollment_type'), 'trim|required|xss_clean');
+        // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
+
+        // var_dump($data);die;
 
         if ($this->form_validation->run() == false) 
         {
@@ -300,10 +311,12 @@ class Student extends Admin_Controller
         } 
         else 
         {
+            // var_dump($data);die;
             $custom_field_post  = $this->input->post("custom_fields[students]");
             $custom_value_array = array();
-            if (!empty($custom_field_post)) {
 
+            if (!empty($custom_field_post)) 
+            {
                 foreach ($custom_field_post as $key => $value) {
                     $check_field_type = $this->input->post("custom_fields[students][" . $key . "]");
                     $field_value      = is_array($check_field_type) ? implode(",", $check_field_type) : $check_field_type;
@@ -319,15 +332,16 @@ class Student extends Admin_Controller
             $class_id   = $this->input->post('class_id');
             $section_id = $this->input->post('section_id');
             $fees_discount = 0; //$this->input->post('fees_discount');
-            $vehroute_id    = $this->input->post('vehroute_id');
-            $hostel_room_id = $this->input->post('hostel_room_id');
+            // $vehroute_id    = $this->input->post('vehroute_id');
+            // $hostel_room_id = $this->input->post('hostel_room_id');
 
-            if (empty($vehroute_id)) {
-                $vehroute_id = 0;
-            }
-            if (empty($hostel_room_id)) {
-                $hostel_room_id = 0;
-            }
+            // if (empty($vehroute_id)) {
+            //     $vehroute_id = 0;
+            // }
+            // if (empty($hostel_room_id)) {
+            //     $hostel_room_id = 0;
+            // }
+            
 
             $data_insert = array(
                 'firstname'           => $this->input->post('firstname'),
@@ -336,18 +350,18 @@ class Student extends Admin_Controller
                 'state'               => $this->input->post('state'),
                 'city'                => $this->input->post('city'),
                 'guardian_is'         => $this->input->post('guardian_is'),
-                'pincode'             => $this->input->post('pincode'),
-                'cast'                => $this->input->post('cast'),
+                // 'pincode'             => $this->input->post('pincode'),
+                // 'cast'                => $this->input->post('cast'),
                 'previous_school'     => $this->input->post('previous_school'),
                 'dob'                 => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('dob'))),
                 'current_address'     => $this->input->post('current_address'),
                 'permanent_address'   => $this->input->post('permanent_address'),
                 'image'               => 'uploads/student_images/no_image.png',
-                'adhar_no'            => $this->input->post('adhar_no'),
-                'samagra_id'          => $this->input->post('samagra_id'),
-                'bank_account_no'     => $this->input->post('bank_account_no'),
-                'bank_name'           => $this->input->post('bank_name'),
-                'ifsc_code'           => $this->input->post('ifsc_code'),
+                // 'adhar_no'            => $this->input->post('adhar_no'),
+                // 'samagra_id'          => $this->input->post('samagra_id'),
+                // 'bank_account_no'     => $this->input->post('bank_account_no'),
+                // 'bank_name'           => $this->input->post('bank_name'),
+                // 'ifsc_code'           => $this->input->post('ifsc_code'),
                 'guardian_occupation' => $this->input->post('guardian_occupation'),
                 'guardian_email'      => $this->input->post('guardian_email'),
                 'gender'              => $this->input->post('gender'),
@@ -355,8 +369,8 @@ class Student extends Admin_Controller
                 'guardian_relation'   => $this->input->post('guardian_relation'),
                 'guardian_phone'      => $this->input->post('guardian_phone'),
                 'guardian_address'    => $this->input->post('guardian_address'),
-                'vehroute_id'         => $vehroute_id,
-                'hostel_room_id'      => $hostel_room_id,
+                // 'vehroute_id'         => $vehroute_id,
+                // 'hostel_room_id'      => $hostel_room_id,
                 'note'                => $this->input->post('note'),
                 'is_active'           => 'yes',
                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
@@ -412,7 +426,9 @@ class Student extends Admin_Controller
                 'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
                 'living_with_parents' => $this->input->post('living_with_parents'),
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
-            );
+
+                'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+            );            
 
             $house            = $this->input->post('house');
             $blood_group      = $this->input->post('blood_group');
@@ -433,13 +449,13 @@ class Student extends Admin_Controller
             $mother_phone      = $this->input->post('mother_phone');
             $mother_occupation = $this->input->post('mother_occupation');
 
-            if (isset($measurement_date)) {
-                $data_insert['measurement_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('measure_date')));
-            }
+            // if (isset($measurement_date)) {
+            //     $data_insert['measurement_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('measure_date')));
+            // }
 
-            if (isset($house)) {
-                $data_insert['school_house_id'] = $this->input->post('house');
-            }
+            // if (isset($house)) {
+            //     $data_insert['school_house_id'] = $this->input->post('house');
+            // }
 
             if (isset($blood_group)) {
                 $data_insert['blood_group'] = $this->input->post('blood_group');
@@ -557,12 +573,12 @@ class Student extends Admin_Controller
             }
 
             if ($insert) {
-                //var_dump($data_insert);die;
+                // var_dump($data_insert);die;
 
                 if ($this->input->post('enrollment_type') == 'old') //--For old students
                 {
                     $insert_id = $this->student_model->GetStudentID($this->input->post('roll_no'));
-                    //var_dump($insert_id);die;
+                    // var_dump($insert_id);die;
                     //--Delete old record
                     //$this->student_model->DeleteStudent($insert_id);
                     //-- Insert
@@ -587,7 +603,41 @@ class Student extends Admin_Controller
                     'session_id'    => $session,
                     'fees_discount' => $fees_discount,
                 );
-                $this->student_model->add_student_session($data_new);
+                $student_session_id = $this->student_model->add_student_session($data_new);
+                // $student_session_id = $this->db->insert_id();
+
+                $feesmaster = $this->input->post('feesmaster[]');
+                $feesdiscount = $this->input->post('discount[]');
+
+                //-- Assign fees master
+                if (isset($feesmaster)) 
+                {
+                    foreach($feesmaster as $feemaster)
+                    {
+                        $fee_session_group_id = $this->student_model->GetFeeSessionGroupID($feemaster);
+
+                        $insert_array = array(
+                            'student_session_id'   => $student_session_id,
+                            'fee_session_group_id' => $fee_session_group_id,
+                        );
+
+                        $this->studentfeemaster_model->add($insert_array);
+                    }
+                }
+
+                //-- Assign discount
+                if (isset($feesdiscount))
+                {
+                    foreach($feesdiscount as $discount_id)
+                    {
+                        $insert_array = array(
+                            'student_session_id' => $student_session_id,
+                            'fees_discount_id' => $discount_id,
+                        );
+
+                        $this->feediscount_model->allotdiscount($insert_array);
+                    }
+                }
 
                 //-- Generate parent and student login credentials for non old students
                 if ($this->input->post('enrollment_type') != 'old') 
@@ -1294,6 +1344,8 @@ class Student extends Admin_Controller
         $data['siblings_counts']    = count($siblings);
         $custom_fields              = $this->customfield_model->getByBelong('students');
         $data['sch_setting']        = $this->sch_setting_detail;
+        $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
+        $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
 
         foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
             if ($custom_fields_value['validation']) {
@@ -1451,7 +1503,8 @@ class Student extends Admin_Controller
                 'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
                 'living_with_parents' => $this->input->post('living_with_parents'),
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
-
+                'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+                'enrollment_payment_status' => $this->input->post('enrollment_payment_status'),
             );
 
             $house             = $this->input->post('house');
@@ -1572,6 +1625,7 @@ class Student extends Admin_Controller
                 'session_id'    => $session,
                 'fees_discount' => $fees_discount,
             );
+            
             $insert_id = $this->student_model->add_student_session($data_new);
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
@@ -2090,6 +2144,12 @@ class Student extends Admin_Controller
         echo json_encode($data);
     }
 
+    public function GetStudentDetailsByID($idnumber)
+    {
+        $data = $this->student_model->GetStudentByID($idnumber);
+        echo json_encode($data);
+    }
+
     public function AutoCompleteLRN() {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
@@ -2132,6 +2192,50 @@ class Student extends Admin_Controller
         // Return results as json encoded array
         echo json_encode($returnData); die;
     }
+
+    public function AutoCompleteStudentNameEnrolled() 
+    {
+        $returnData = array();
+        $results = array('error' => false, 'data' => '');
+        $name = $_POST['search'];        
+        $names = $this->student_model->GetNameListEnrolled($name);
+
+        if(empty($names)) 
+            $results['error'] = true;
+        else 
+        {
+            if(!empty($names))
+            {
+                foreach ($names as $row)
+                    $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['studentname']);
+            }
+        }       
+        
+        // Return results as json encoded array
+        echo json_encode($returnData); die;
+    }
+
+    public function AutoCompleteStudentNameForAdmission() 
+    {
+        $returnData = array();
+        $results = array('error' => false, 'data' => '');
+        $name = $_GET['search'];        
+        $names = $this->student_model->GetNameListAdmission($name);
+
+        if(empty($names)) 
+            $results['error'] = true;
+        else 
+        {
+            if(!empty($names))
+            {
+                foreach ($names as $row)
+                    $returnData[] = array("value"=>$row['id'],"label"=>$row['studentname']);
+            }
+        }       
+        
+        // Return results as json encoded array
+        echo json_encode($returnData); die;
+    }    
 
     public function SendDocs() 
     {
@@ -2469,5 +2573,24 @@ class Student extends Admin_Controller
         $this->db->from('mode_of_payment');
         $result = $this->db->get()->result_array();
         return $result;
+    }
+
+    public function UpdateEnrollmentPaymentStatus($idnumber)
+    {
+        $enrollment_payment_status = $this->input->post('enrollment_payment_status');
+        $result = $this->student_model->UpdateEnrollmentPaymentStatus($idnumber, $enrollment_payment_status);
+
+        if ($result)
+        {
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+            echo json_encode($array);
+        }
+        else 
+        {
+            $msg   = $idnumber.' EMN '.$enrollment_payment_status;
+            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+            echo json_encode($array);
+        }
     }
 }

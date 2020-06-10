@@ -43,7 +43,7 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.marriage,online_admissions.dom,online_admissions.church,online_admissions.family_together,online_admissions.parents_away,online_admissions.parents_away_state,
                            online_admissions.parents_civil_status,online_admissions.parents_civil_status_other,
                            online_admissions.guardian_address_is_current_address,online_admissions.permanent_address_is_current_address,online_admissions.living_with_parents,online_admissions.living_with_parents_specify,
-                           online_admissions.has_siblings_enrolled, online_admissions.siblings_specify');
+                           online_admissions.has_siblings_enrolled, online_admissions.siblings_specify, online_admissions.preferred_education_mode, online_admissions.enrollment_payment_status');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -80,6 +80,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function update($data, $action = "save") {
         $record_update_status = true;
+        // var_dump($data);die;
 
         if (isset($data['id'])) {
             $this->db->trans_begin();
@@ -91,6 +92,12 @@ class Onlinestudent_model extends MY_Model {
             $parent_password = '';
             $sibling_id = $data['sibling_id'];
             unset($data['sibling_id']);
+            $feesmaster = $data['feesmaster'];
+            unset($data['feesmaster']);
+            $feesdiscount = $data['feesdiscount'];
+            unset($data['feesdiscount']);
+
+            // var_dump($feesmaster);die;
             
             if ($action == "enroll") {
 			//==========================
@@ -111,7 +118,7 @@ class Onlinestudent_model extends MY_Model {
                     }
 
                     //-- Set id number equal to admission no for all non old students
-                    if ($enroll_type != 'old' && $enroll_type != 'old_new' )
+                    if ($enroll_type != 'old' && $enroll_type != 'old_new' ) 
                         $data['roll_no'] = $admission_no;
                 }                
 
@@ -130,7 +137,7 @@ class Onlinestudent_model extends MY_Model {
                     $query = $this->db->get();
                     $classs_section_result = $query->row();
                     unset($data['class_section_id']);
-                    unset($data['id']);
+                    unset($data['id']);                    
 
                     if ($enroll_type == 'old') 
                     {
@@ -138,11 +145,11 @@ class Onlinestudent_model extends MY_Model {
                         
                         $old_data = array (
                             'admission_no' => $data['admission_no'],
-                            'admission_date' => $data['admission_date'],
+                            'admission_date' => date('Y-m-d', $data['admission_date']),
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'gender' => $data['gender'],
-                            'dob' => $data['dob'],
+                            'dob' => date('Y-m-d', $data['dob']),
                             'guardian_email' => $data['email'],
                         );
                         
@@ -163,7 +170,39 @@ class Onlinestudent_model extends MY_Model {
                         'section_id' => $classs_section_result->section_id,
                         'session_id' => $this->current_session,
                     );
+
                     $this->db->insert('student_session', $data_new);
+                    $student_session_id = $this->db->insert_id();
+
+                    //-- Assign fees master
+                    if (isset($feesmaster)) 
+                    {
+                        foreach($feesmaster as $feemaster)
+                        {
+                            $fee_session_group_id = $this->GetFeeSessionGroupID($feemaster);
+
+                            $insert_array = array(
+                                'student_session_id'   => $student_session_id,
+                                'fee_session_group_id' => $fee_session_group_id,
+                            );
+
+                            $this->studentfeemaster_model->add($insert_array);
+                        }
+                    }
+
+                    //-- Assign discount
+                    if (isset($feesdiscount))
+                    {
+                        foreach($feesdiscount as $discount_id)
+                        {
+                            $insert_array = array(
+                                'student_session_id' => $student_session_id,
+                                'fees_discount_id' => $discount_id,
+                            );
+
+                            $this->feediscount_model->allotdiscount($insert_array);
+                        }
+                    }
                     
                     //if ($enroll_type != 'old') 
                     {
@@ -271,7 +310,7 @@ class Onlinestudent_model extends MY_Model {
             //var_dump($data);die;
 
             $this->db->where('id', $data_id);
-            $this->db->update('online_admissions', $data);            
+            $this->db->update('online_admissions', $data);
 			
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";
@@ -451,4 +490,23 @@ class Onlinestudent_model extends MY_Model {
         $result = $this->db->get()->result_array();
         return $result;
     }
+
+    public function GetFeeSessionGroupID($feegroupid)
+    {
+        $result = $this->db->select('id')->from('fee_session_groups')->where('fee_groups_id', $feegroupid)->where('session_id', $this->current_session)->limit(1)->get()->row();
+        return $result->id;
+    }
+
+    // public function GetNameListAdmission($name)
+    // {
+    //     $this->db->select("DISTINCT(id), CONCAT(studentname, ' (Birthdate: ', dob, ')') AS studentname");
+    //     $this->db->from("(SELECT students.id, CONCAT(students.firstname, ' ', students.lastname) AS studentname, students.dob FROM students) tbl1");
+    //     if ($name != "")
+    //         $this->db->where("LOWER(studentname) like '%".strtolower(urldecode($name))."%'");
+    //     $this->db->order_by('studentname', 'asc');
+    //     $query = $this->db->get();
+    //     $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+
+    //     return $result;
+    // }
 }

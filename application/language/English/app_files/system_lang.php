@@ -320,7 +320,7 @@ $lang['hostel_room_list'] = 'Hostel Room List';
 $lang['hostel_rooms'] = 'Hostel Rooms';
 $lang['id'] = 'Id';
 $lang['identification'] = 'Identification';
-$lang['if_guardian_address_is_current_address'] = 'Guardian\'s Address is Current Address';
+$lang['if_guardian_address_is_current_address'] = "Guardian's Address is Current Address";
 $lang['if_guardian_is'] = 'If Guardian Is';
 $lang['if_permanent_address_is_current_address'] = 'Permanent Address is Current Address';
 $lang['ifsc_code'] = 'IFSC Code';
@@ -1501,4 +1501,14 @@ $lang['has_siblings_enrolled'] = 'Has Siblings Enrolled';
 $lang['siblings_specify'] = 'If Yes, Please specify';
 
 $lang['admission_success'] = 'We have recieved your online admission. We will review your account and please expect an email notification within 48 hours. Thank you!';
+$lang['preferred_education_mode'] = "Preferred Mode of Education";
+
+$lang['techbased'] = "Technology-Based Platforms (Online Learning)";
+$lang['modulebased'] = "Module-Based Learning";
+$lang['enrollment_payment_status'] = "Enrollment Payment Status";
+
+$lang['student_additional_details'] = "Student's Other Details";
+$lang['error_message'] = "Record Save Failed";
+$lang['fees_assessment'] = "Assessment of Fees";
+$lang['select_discounts'] = "Select Discounts";
 ?>

@@ -137,21 +137,22 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                        <thead>
                                         <tr>
 											
-                                            <th><?php echo $this->lang->line('admission_no'); ?></th>
+                                            <!-- <th><?php echo $this->lang->line('admission_no'); ?></th> -->
 											
                                             <th><?php echo $this->lang->line('student_name'); ?></th>
                                             <th><?php echo $this->lang->line('class'); ?></th>
-											<?php if ($sch_setting->father_name) {  ?>
+											<!-- <?php if ($sch_setting->father_name) {  ?>
                                             <th><?php echo $this->lang->line('father_name'); ?></th>
-											<?php } ?>
-											<th><?php echo $this->lang->line('date_of_birth'); ?></th>
+											<?php } ?> -->
+											<th>Enrollment Type</th>
+                                            <!-- <th><?php echo $this->lang->line('date_of_birth'); ?></th> -->
 											<?php if ($sch_setting->admission_date) {  ?>
                                             <th><?php echo $this->lang->line('admission')." ".$this->lang->line('date'); ?></th><?php } ?>
                                             
                                             <th><?php echo $this->lang->line('gender'); ?></th>
-											<?php if ($sch_setting->category) {  ?>
+											<!-- <?php if ($sch_setting->category) {  ?>
                                             <th><?php echo $this->lang->line('category'); ?></th>
-											<?php } if ($sch_setting->mobile_no) {  ?>
+											<?php } if ($sch_setting->mobile_no) {  ?> -->
                                             <th><?php echo $this->lang->line('mobile_no'); ?></th>
 											<?php } ?>
                                         </tr>
@@ -169,31 +170,32 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 ?>
                                                 <tr>
 													
-                                                    <td><?php echo $student['admission_no']; ?></td>
+                                                    <!-- <td><?php echo $student['admission_no']; ?></td> -->
 													
                                                     <td>
                                                         <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['lastname'] . ", " . $student['firstname']; ?>
                                                         </a>
                                                     </td>
                                                     <td><?php echo $student['class'] . " (" . $student['section'] . ")" ?></td>
-													<?php if ($sch_setting->father_name) {  ?>
+													<!-- <?php if ($sch_setting->father_name) {  ?>
                                                     <td><?php echo $student['father_name']; ?></td>
-													<?php } ?>
-                                                     <td><?php
+													<?php } ?> -->
+                                                    <td><?php echo $student['enrollment_type'] ?></td>
+                                                     <!-- <td><?php
                                                         if (!empty($student['dob'])) {
                                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob']));
                                                         }
                                                         ?></td>
-														<?php if ($sch_setting->admission_date) {  ?>
+														<?php if ($sch_setting->admission_date) {  ?> -->
                                                     <td><?php
                                                         if (!empty($student['admission_date'])) {
                                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['admission_date']));
                                                         }
                                                         ?></td><?php } ?>
                                                     <td><?php echo $student['gender']; ?></td>
-													<?php if ($sch_setting->category) {  ?>
+													<!-- <?php if ($sch_setting->category) {  ?>
                                                     <td><?php echo $student['category']; ?></td>
-													<?php } if ($sch_setting->mobile_no) {  ?>
+													<?php } if ($sch_setting->mobile_no) {  ?> -->
                                                     <td><?php echo $student['mobileno']; ?></td>
 													<?php } ?>
 

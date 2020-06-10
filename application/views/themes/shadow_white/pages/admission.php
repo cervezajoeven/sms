@@ -1,3 +1,7 @@
+<style type="text/css">
+    .ui-autocomplete { max-height: 300px; overflow-y: scroll; overflow-x: hidden;}
+</style>
+
 <?php
 if (!$form_admission) {
     ?>
@@ -164,8 +168,12 @@ if (!$form_admission) {
         </div>
         <div class="col-md-3" id="id_number_input">
             <div class="form-group">
-                <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label><small class="req"> *</small> 
-                    <input id="studentidnumber" style="text-transform:uppercase" name="studentidnumber" placeholder="Enter the Student ID number" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
+                <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
+                <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
+                <label for="studentidnumber">Search Student By: </label>
+                <input type="radio" name="search_by" value="lrn" checked> ID / LRN
+                <input type="radio" name="search_by" value="name"> Name
+                    <input id="studentidnumber" name="studentidnumber" placeholder="Enter Student ID or LRN" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
         </div>
@@ -265,50 +273,8 @@ if (!$form_admission) {
             </div>
         </div>
     </div><!--./row-->     
-    <div class="row" id="student_address">
+    <div class="row">
         <div class="col-md-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="guardian_address_is_current_address" onclick="">
-                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
-                <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
-                <span class="text-danger"><?php echo form_error('current_address'); ?></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="permanent_address_is_current_address"onclick="">
-                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
-                <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
-                <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">    
-                <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
-                <label class="radio-inline">
-                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
-                </label>
-            </div>
-            <div class="form-group">
-                <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
-                <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
-            </div>
-        </div>
-        <div class="col-md-3">
-
             <div class="form-group">    
                 <label><?php echo $this->lang->line('has_siblings_enrolled');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -323,11 +289,37 @@ if (!$form_admission) {
                 <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
             </div>
         </div>
+        <div class="col-md-9">
+        <div class="form-group">
+                <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "techbased" ? "checked" : ""; ?> value="techbased"> <?php echo $this->lang->line('techbased'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "modulebased" ? "checked" : ""; ?> value="modulebased"> <?php echo $this->lang->line('modulebased'); ?>
+                </label>
+                <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
+            </div>
+        </div>
     </div>
+    <!-- <div clss="row">
+        <div class="col-12">        
+            <div class="form-group">
+                <label><?php echo $this->lang->line('preferred_education_mode');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "techbased" ? "checked" : ""; ?> value="techbased"> <?php echo $this->lang->line('techbased'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="preferred_education_mode" <?php echo set_value('preferred_education_mode') == "modulebased" ? "checked" : ""; ?> value="modulebased"> <?php echo $this->lang->line('modulebased'); ?>
+                </label>
+                <span class="text-danger"><?php echo form_error('preferred_education_mode'); ?></span>
+            </div>
+        </div>
+    </div> -->
     <!-- Start Parent Details -->
     <div class="row" id="parentdetail">  
         <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('parent_detail'); ?></h4><div class="line"></div></div>
-        <!-- <div class="col-md-12"><h4 class="pagetitleh2"><?php echo $this->lang->line('parent_detail'); ?></h4></div> -->
+        <!-- <div class="col-md-12"><h4 class="pagetitleh2"><?php //echo $this->lang->line('parent_detail'); ?></h4></div> -->
         <!-- Start Father section -->
         <div class="col-md-4">
             <div class="form-group">
@@ -613,21 +605,21 @@ if (!$form_admission) {
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="marriage"><?php echo $this->lang->line('marriage');?>(<i>e.g. Catholic</i>)</label><small class="req"> *</small> 
+                <label for="marriage"><?php echo $this->lang->line('marriage');?>(<i>e.g. Catholic</i>)</label>
                 <input id="marriage" name="marriage" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('marriage'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('marriage'); ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="dom"><?php echo $this->lang->line('dom'); ?></label><small class="req"> *</small> 
+                <label for="dom"><?php echo $this->lang->line('dom'); ?></label>
                 <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('dom'); ?>" id="dom" name="dom" readonly="readonly" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('dom'); ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="church"><?php echo $this->lang->line('church'); ?></label><small class="req"> *</small> 
+                <label for="church"><?php echo $this->lang->line('church'); ?></label>
                 <input id="church" name="church" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('church'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('church'); ?></span>
             </div>
@@ -661,8 +653,7 @@ if (!$form_admission) {
             <input id="parents_away_state" disabled name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_away_state'); ?>" autocomplete="off"/>
         </div>
 
-        <div class="col-md-5">
-        
+        <div class="col-md-5">        
             <div class="form-group">
                 <label><?php echo $this->lang->line('parent_civil_status');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -756,7 +747,143 @@ if (!$form_admission) {
             </div>  
         </div>
     </div>
+    <div class="row" id="student_address">
+        <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('student_additional_details'); ?></h4><div class="line"></div></div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="guardian_address_is_current_address" onclick="">
+                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('current_address'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="permanent_address_is_current_address"onclick="">
+                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">    
+                <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
+                <label class="radio-inline">
+                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+            <div class="form-group">
+                <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
+                <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
+            </div>
+        </div>
+        
+    </div>
     <!-- End Guardian Details -->
+
+
+    <div class="row" id="deped">
+        <div class="wrapper"><h4 class="pagetitleh2">Other Information</h4><div class="line"></div></div>
+
+        <div class="form-group col-md-12">
+            <label>Does the learner have special education needs? (i.e. physical, mental, developmental disability, medical condition, giftedness, among others)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="special_needs" <?php echo set_value('special_needs') == "yes" ? "checked" : ""; ?>   value="father"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="special_needs" <?php echo set_value('special_needs') == "no" ? "checked" : ""; ?>   value="mother"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('guardian_is'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Do you have any assistive technology devices available at home? (i.e. screen reader, Braille, DAISY)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="assistive_technology" <?php echo set_value('assistive_technology') == "yes" ? "checked" : ""; ?>   value="father"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="assistive_technology" <?php echo set_value('assistive_technology') == "no" ? "checked" : ""; ?>   value="mother"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>General Condition of Health<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <textarea rows="3" id="general_condition" name="general_condition" placeholder=""  class="form-control" ><?php echo set_value('general_condition'); ?></textarea>
+            
+            <span class="text-danger"><?php echo form_error('general_condition'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Common Health Complaints<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <textarea rows="3" id="common_complaints" name="common_complaints" placeholder=""  class="form-control" ><?php echo set_value('common_complaints'); ?></textarea>
+            
+            <span class="text-danger"><?php echo form_error('common_complaints'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Working from home due to community quarantine? (Father)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_father" <?php echo set_value('work_from_home_father') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_father" <?php echo set_value('work_from_home_father') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+        <div class="form-group col-md-12">
+            <label>Working from home due to community quarantine? (Mother)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_mother" <?php echo set_value('work_from_home_mother') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_mother" <?php echo set_value('work_from_home_mother') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Working from home due to community quarantine? (Guardian)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_guardian" <?php echo set_value('work_from_home_guardian') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="work_from_home_guardian" <?php echo set_value('work_from_home_guardian') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label>Is your family a beneficiary of 4P's?<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="beneficiary_4p" <?php echo set_value('beneficiary_4p') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="beneficiary_4p" <?php echo set_value('beneficiary_4p') == "no" ? "checked" : ""; ?>   value="no"> No
+            </label>
+            
+            <span class="text-danger"><?php echo form_error('common_complaints'); ?></span>
+        </div>
+        
+    </div>
     
     <!-- <div class="row" id="otherparentdetail">
         <div class="col-md-12"><h4 class="pagetitleh2"><?php echo $this->lang->line('other_parent_detail'); ?></h4></div>
@@ -1061,58 +1188,33 @@ if (!$form_admission) {
         <div class="col-md-12">
             <div class="form-group pull-right">
                 <!-- <label><input type="checkbox" value="" id="iagree"> I agree with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Policy</a></label> -->
-                <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn"><?php echo $this->lang->line('submit'); ?></button>
+                <?php 
+                    //joeven
+                    $exceptions = array("tlc-nbs");
+                    $school_code = explode('.', $HTTP_HOST)[0];
+                    //joeven 
+                ?>
+                <?php if(!in_array($school_code, $exceptions)): ?>
+                    <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Next</button>
+                <?php else: ?>
+                    <button disabled='disabled' id="save_admission" type="submit" class="onlineformbtn">Submit</button>
+                <?php endif; ?>
+
             </div> 
         </div>    
     </div><!--./row-->    
 </form>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        // var class_id = $('#class_id').val();
-        // var section_id = '<?php //echo set_value('section_id', 0) ?>';
-
-        // getSectionByClass(class_id, section_id);
-
-        // $(document).on('change', '#class_id', function (e) {
-        //     $('#section_id').html("");
-        //     var class_id = $(this).val();
-        //     getSectionByClass(class_id, 0);
-        // });
-
-        // function getSectionByClass(class_id, section_id) {
-        //     if (class_id !== "") {
-        //         $('#section_id').html("");
-
-        //         var div_data = '<option value=""><?php //echo $this->lang->line('select'); ?></option>';
-        //         var url = "";
-
-        //         $.ajax({
-        //             type: "POST",
-        //             url: base_url + "welcome/getSections",
-        //             data: {'class_id': class_id},
-        //             dataType: "json",
-        //             beforeSend: function () {
-        //                 $('#section_id').addClass('dropdownloading');
-        //             },
-        //             success: function (data) {
-        //                 $.each(data, function (i, obj)
-        //                 {
-        //                     var sel = "";
-        //                     if (section_id === obj.section_id) {
-        //                         sel = "selected";
-        //                     }
-        //                     div_data += "<option value=" + obj.id + " " + sel + ">" + obj.section + "</option>";
-        //                 });
-        //                 $('#section_id').append(div_data);
-        //             },
-        //             complete: function () {
-        //                 $('#section_id').removeClass('dropdownloading');
-        //             }
-        //         });
-        //     }
-        // }
-
         // $('#father_tech_prof_other').fadeOut();
         // $('#mother_tech_prof_other').fadeOut();
 
@@ -1135,6 +1237,7 @@ if (!$form_admission) {
             $('#guardiandetail1').slideUp();
             $('#guardiandetail2').slideUp();
             $('#otherparentdetail').slideUp();
+            $('#deped').slideUp();
         }
         else $('#id_number_input').fadeOut();
     });
@@ -1227,31 +1330,6 @@ if (!$form_admission) {
         }
     });
 
-    $('#studentidnumber').keyup(function (e) {
-        var key = e.which;
-
-        //if(key == 13) {  // the enter key code
-            if ($("#studentidnumber").val() != '') {
-                var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+$("#studentidnumber").val();
-                $.get(url)
-                .done(function(data) {
-                    //alert( "Data Loaded: " + data );
-                    if (data != "null")
-                        AutoFillDetails(JSON.parse(data));
-                    else 
-                    {
-                        $('#lrn_no').val('');
-                        $('#firstname').val('');
-                        $('#middlename').val('');
-                        $('#lastname').val('');
-                        $('#gender').val('');
-                        $('#dob').val('');
-                    }                        
-                });
-            }
-        //}
-    });
-
     $('#guardian_address_is_current_address').click(function(){
         if($(this).is(':checked')) {
             $('#permanent_address_is_current_address').prop("checked", false);
@@ -1290,7 +1368,7 @@ if (!$form_admission) {
                 }
             }
         }
-    );    
+    );
 
     function SetClassName(sel) {
         var text= sel.options[sel.selectedIndex].text;
@@ -1317,6 +1395,7 @@ if (!$form_admission) {
             $('#guardiandetail1').slideUp();
             $('#guardiandetail2').slideUp();
             $('#otherparentdetail').slideUp();
+            $('#deped').slideUp();
         }
         else if (sel.value == "old_new") {
             $('#studentidnumber').prop('disabled', false);
@@ -1332,6 +1411,7 @@ if (!$form_admission) {
             $('#guardiandetail1').slideDown();
             $('#guardiandetail2').slideDown();
             $('#otherparentdetail').slideDown();
+            $('#deped').slideDown();
         }
         else {
             $('#studentidnumber').prop('disabled', true);
@@ -1347,16 +1427,20 @@ if (!$form_admission) {
             $('#guardiandetail1').slideDown();
             $('#guardiandetail2').slideDown();
             $('#otherparentdetail').slideDown();
+            $('#deped').slideDown();
+            
         }        
     }
 
     function AutoFillDetails(data) {
+        $("#accountid").val('');
         $('#lrn_no').val('');
         $('#firstname').val('');
         $('#middlename').val('');
         $('#lastname').val('');
         $('#gender').val('');
         $('#dob').val('');
+        $("#accountid").val(data.id);
         $('#lrn_no').val(data.lrn_no);
         $('#firstname').val(data.firstname);
         $('#middlename').val(data.middlename);
@@ -1411,10 +1495,111 @@ if (!$form_admission) {
         $('#termsCondition').modal("show");
     }
 
+    $('#studentidnumber').keyup(function (e) {
+        var key = e.which;
+        var searchby = $('input[name="search_by"]:checked').val();
+    
+        if (searchby == 'lrn') { 
+            if ($("#studentidnumber").val() != '') {
+                var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+$("#studentidnumber").val();
+                $.get(url)
+                .done(function(data) {
+                    //alert( "Data Loaded: " + data );
+                    if (data != "null")
+                        AutoFillDetails(JSON.parse(data));
+                    else 
+                    {
+                        $("#accountid").val('');
+                        $('#lrn_no').val('');
+                        $('#firstname').val('');
+                        $('#middlename').val('');
+                        $('#lastname').val('');
+                        $('#gender').val('');
+                        $('#dob').val('');
+                    }                        
+                });
+            }
+        }
+        else if (searchby == 'name') {
+            if ($("#studentidnumber").val() != '') {
+                $("#studentidnumber").autocomplete({
+                    autofocus: true,
+                    source: function( request, response ) {
+                        // Fetch data
+                        $.ajax({
+                            url: '<?php echo base_url()."welcome/AutoCompleteStudentNameForAdmission"; ?>',
+                            type: 'get',
+                            dataType: "json",
+                            data: {
+                                search: request.term
+                            },
+                            success: function(data) {
+                                response(data);
+                            }
+                        });
+                    },
+                    select: function (event, ui) {                        
+                        $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
+
+                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetailsByID/'+ui.item.value;
+                        $.get(url)
+                        .done(function(data) {
+                            AutoFillDetails(JSON.parse(data));
+                        });
+                        
+                        return false;
+                    }
+                }).keyup(function() {
+                    //$('#form1')[0].reset();
+                });
+            }
+        }
+    });    
+
+    $('input:radio[name="search_by"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                $("#accountid").val('');
+                $('#lrn_no').val('');
+                $('#firstname').val('');
+                $('#middlename').val('');
+                $('#lastname').val('');
+                $('#gender').val('');
+                $('#dob').val('');
+
+                if (value == "lrn") {
+                    // $("#studentidnumber").removeClass('ui-autocomplete-input');
+                    $("#studentidnumber").autocomplete({disabled: true});
+                    $("#studentidnumber").attr("placeholder", "Enter Student ID or LRN").val("").focus().blur();
+                }
+                else {
+                    $("#studentidnumber").autocomplete({disabled: false});
+                    $("#studentidnumber").addClass('ui-autocomplete-input');
+                    $("#studentidnumber").attr("placeholder", "Enter Student Name").val("").focus().blur();
+                }
+            }
+        }
+    );
+
     // $('#privacyPolicy').on('shown.bs.modal', function() {
     //     $(this).find('iframe').attr('src','http://www.google.com')
     // });
 
+    //$('input[name="genderS"]:checked').val();
+
+    $("input[type='submit']").one('click', function(event) {
+        $(this).preventDefault();
+    });
+
+    $("#studentidnumber").on("input", function(){
+        $("#accountid").val('');
+        $('#lrn_no').val('');
+        $('#firstname').val('');
+        $('#middlename').val('');
+        $('#lastname').val('');
+        $('#gender').val('');
+        $('#dob').val('');
+    });
+
 </script>
-
-

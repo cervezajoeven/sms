@@ -36,7 +36,7 @@ class Feesessiongroup_model extends MY_Model {
         } else {
         //return $return_value;
         }
-    }
+    }    
 
     public function getFeesByGroup($id = null) {
         $this->db->select('fee_session_groups.*,fee_groups.name as `group_name`');
