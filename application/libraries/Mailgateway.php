@@ -68,7 +68,7 @@ class Mailgateway
         print_r($msg);
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
-            $this->_CI->mailer->send_mail($send_to, $subject, $msg);
+            // $this->_CI->mailer->send_mail($send_to, $subject, $msg);
         }
     }
 
