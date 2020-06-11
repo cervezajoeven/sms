@@ -1375,7 +1375,7 @@ $lang['complain'] = 'Concerns/Feedback';
 $lang['complain_by'] = 'Concerns/Feedback By';
 $lang['complain_type'] = 'Concerns/Feedback Type';
 $lang['enrollment_type'] = 'Enrollment Type';
-$lang['mode_of_payment'] = 'Mode of Payment';
+$lang['mode_of_payment'] = 'Payment Scheme';
 $lang['add_fees'] = 'Add Payment';
 $lang['add_fees_discount'] = 'Add Payment Discount';
 $lang['add_fees_group'] = 'Add Payment Group';
@@ -1511,5 +1511,5 @@ $lang['student_additional_details'] = "Student's Other Details";
 $lang['error_message'] = "Record Save Failed";
 $lang['fees_assessment'] = "Assessment of Fees";
 $lang['select_discounts'] = "Select Discounts";
-$lang['payment_scheme'] = 'Payment Scheme';
+$lang['payment_scheme'] = 'Mode of Payment';
 ?>
