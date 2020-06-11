@@ -90,6 +90,12 @@
             .tinymce td{
               font-size: 10px;
             }
+            #learning_plan_save{
+              width: 200px;
+              padding: 10px;
+              background-color: green;
+              color: white;
+            }
         </style>
     </head>
 
@@ -208,7 +214,7 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
-                    <h2 style="margin: 5px;">Learning Competencies (MELCS)</h2>
+                    <h2 style="margin: 5px;">Learning Competencies (MELCS) <button id="learning_plan_save"> Save </button></h2>
                     <div class="slider_container">
                         <!-- <div id="learning_plan_text" style="color: black(); ">
                           

@@ -682,6 +682,11 @@ $(document).ready(function(){
         }).disableSelection();
     });
 
+    $("#learning_plan_save").click(function(){
+        change_detected();
+        alert("Learning Plan successfully saved");
+    });
+
     $(".extremeright_icon").click(function(){
         var portal_name = $(this).attr("portal");
         $(".extremeright_icon").removeClass("icon_active");
@@ -1223,6 +1228,8 @@ if($(".start_date").val()){
     });
 }
 
+
+
 function fetch_chat(){
 
     var fetch_chat_url = $(url).val()+"fetch_chat";
@@ -1266,6 +1273,8 @@ function fetch_chat(){
     });
 
 }
+
+
 
 fetch_chat();
 setInterval(function(){
