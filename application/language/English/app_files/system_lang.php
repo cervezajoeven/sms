@@ -1512,4 +1512,5 @@ $lang['error_message'] = "Record Save Failed";
 $lang['fees_assessment'] = "Assessment of Fees";
 $lang['select_discounts'] = "Select Discounts";
 $lang['payment_scheme'] = 'Mode of Payment';
+$lang['enrolment_guidelines'] = 'Enrolment Guidelines';
 ?>

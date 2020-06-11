@@ -110,7 +110,7 @@ if (!$form_admission) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3><b>Admission Guidelines</b></h3>
+        <h3><b><?php echo $this->lang->line('enrolment_guidelines'); ?></b></h3>
       </div>
 
         <div class="modal-body">
@@ -144,7 +144,7 @@ if (!$form_admission) {
     <div class="row">
         <div class="col-md-12">
             <div class="form-group pull-right">
-                <button type="button" class="onlineformbtn pull-right pb-3" onclick="ShowGuidelines()">Admission Guidelines</button>
+                <button type="button" class="onlineformbtn pull-right pb-3" onclick="ShowGuidelines()"><?php echo $this->lang->line('enrolment_guidelines'); ?></button>
             </div> 
         </div>    
     </div>
