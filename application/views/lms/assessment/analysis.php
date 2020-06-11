@@ -211,6 +211,14 @@
 				}
 
 			}
+			.close{
+				background-color: red;
+				width: 100%;
+				color: white;
+			}
+			.close a{
+				text-decoration: none;
+			}
 	    </style>
 	</head>
 	<body style="margin: 0">
@@ -224,7 +232,7 @@
 		        <div class="col-sm-5 right">
 		        	<table class="table table-bordered table-striped for_display" style="margin:0">
 	                    <tr>
-		        			<td><div class="close">Close</div></td>
+		        			<td class="close"><a href="<?php echo site_url('lms/assessment/reports/'.$assessment['id']) ?>"><div class="">Close</div></a></td>
 		        			<td><b>Date Created: </b></td>
 		        			<td><?php echo date("F d, Y",strtotime($data[0]['date_created'])) ?></td>
 		        		</tr>
