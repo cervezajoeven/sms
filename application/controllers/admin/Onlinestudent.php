@@ -104,6 +104,8 @@ class Onlinestudent extends Admin_Controller
         $data['fees_master_list'] = $this->feegroup_model->getFeesByGroupFiltered(); //$this->feegroup_model->get();
         // var_dump($data['fees_master_list']);die;
         $data['discount_list'] = $this->feediscount_model->get();
+        $data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
+
 
         $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -118,8 +120,9 @@ class Onlinestudent extends Admin_Controller
         // $this->form_validation->set_rules('guardian_email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');        
+        $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');
         // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) 
         {
@@ -253,6 +256,8 @@ class Onlinestudent extends Admin_Controller
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                 'feesmaster' => $this->input->post('feesmaster[]'),
                 'feesdiscount' => $this->input->post('discount[]'),
+
+                'payment_scheme' => $this->input->post('payment_scheme'),
             );
 
             // var_dump($data);die;

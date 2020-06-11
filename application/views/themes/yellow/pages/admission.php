@@ -165,7 +165,7 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('enrollment_type'); ?></span>
             </div>
         </div>
-        <div class="col-md-3" id="id_number_input">
+        <div class="col-md-9" id="id_number_input">
             <div class="form-group">
                 <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
                 <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
@@ -176,7 +176,9 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
         </div>
-        <div class="col-md-3">
+    </div>
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <input type="hidden" id="classname" name="classname" value="">
                 <label for="class_id"><?php echo $this->lang->line('enrolling_for'); ?></label><small class="req"> *</small>
@@ -189,9 +191,9 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('class_id'); ?></span>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
-                <label for="" class="control-label">Mode of Payment</label><small class='req'> *</small>
+                <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>
                 <select id="mode_of_payment" name="mode_of_payment" class="form-control all-fields">
                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                     <?php foreach ($payment_mode_list as $pmode) { ?>
@@ -199,6 +201,18 @@ if (!$form_admission) {
                     <?php } ?>
                 </select>
                 <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="" class="control-label"><?php echo $this->lang->line('payment_scheme'); ?></label><small class='req'> *</small>
+                <select id="payment_scheme" name="payment_scheme" class="form-control all-fields">
+                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                    <?php foreach ($payment_scheme_list as $pscheme) { ?>
+                        <option value="<?php echo $pscheme['scheme'] ?>"<?php if (set_value('payment_scheme') == $pscheme['scheme']) echo "selected=selected" ?>><?php echo $pscheme['description'] ?></option>
+                    <?php } ?>
+                </select>
+                <span class="text-danger"><?php echo form_error('payment_scheme'); ?></span>
             </div>
         </div>
     </div>

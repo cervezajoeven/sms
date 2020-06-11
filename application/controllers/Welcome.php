@@ -234,6 +234,7 @@ class Welcome extends Front_Controller
             //-- EMN --
             $this->data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
             $this->data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
+            $this->data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
 
             ///////===
             $genderList = $this->customlib->getGender();
@@ -322,7 +323,7 @@ class Welcome extends Front_Controller
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');            
+            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
             $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -331,6 +332,8 @@ class Welcome extends Front_Controller
             $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('has_siblings_enrolled', $this->lang->line('required'), 'trim|required|xss_clean');
+
+            $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
             // $this->form_validation->set_rules('accountid', $this->lang->line('required'), 'trim|required|xss_clean');
             
             // if (empty($_FILES['document']['name']))
@@ -538,9 +541,10 @@ class Welcome extends Front_Controller
                                 // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
                                 // 'siblings_specify' => $old_student_data->siblings_specify,
                                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
-                                'siblings_specify' => $this->input->post('siblings_specify'),
-    
+                                'siblings_specify' => $this->input->post('siblings_specify'),    
                                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+                                
+                                'payment_scheme' => $this->input->post('payment_scheme'),
                             );
     
                             if (isset($admission_docs)) 
@@ -697,6 +701,8 @@ class Welcome extends Front_Controller
                                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
                                 'siblings_specify' => $this->input->post('siblings_specify'),
                                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+
+                                'payment_scheme' => $this->input->post('payment_scheme'),
                             );
 
                             if (isset($admission_docs)) 

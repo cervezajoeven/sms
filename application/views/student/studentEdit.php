@@ -32,16 +32,111 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     <input type="hidden" name="sibling_name" value="<?php echo set_value('sibling_name', 0); ?>" id="sibling_name_next">
                                     <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
                                     <div class="row">
-									    <?php if (!$adm_auto_insert) {  ?>
-                                        <div class="col-md-3">
+									    <?php //if (!$adm_auto_insert) {  ?>
+                                        <!-- <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('admission_no'); ?></label><small class="req"> *</small>
                                                 <input autofocus="" id="admission_no" name="admission_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('admission_no', $student['admission_no']); ?>" />
                                                 <span class="text-danger"><?php echo form_error('admission_no'); ?></span>
                                             </div>
+                                        </div> -->
+                                        <?php //} 
+                                        //if ($sch_setting->roll_no) {  ?><?php //} ?>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label"><?php echo $this->lang->line('enrollment_type'); ?></label><small class='req'> *</small>
+                                                <select id="enrollment_type" name="enrollment_type" class="form-control" onchange="DoOnChange(this)">
+                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                    <?php foreach ($enrollment_type_list as $etype) { ?>
+                                                        <option value="<?php echo $etype['e_type'] ?>"<?php if ($student['enrollment_type'] == $etype['e_type']) echo "selected=selected" ?>><?php echo $etype['description'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <span class="text-danger"><?php echo form_error('enrollment_type'); ?></span>
+                                            </div>
                                         </div>
-                                        <?php } 
-                                        if ($sch_setting->roll_no) {  ?>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>                                                
+                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <?php foreach ($payment_mode_list as $pmode) { ?>
+                                                    <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>                                                                                                                        
+
+                                        <!-- <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label><small class='req'> *</small>                                                
+                                                <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker" data-live-search="true">
+                                                <?php foreach ($fees_master_list as $feesmaster) { ?>
+                                                    <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label"><?php echo $this->lang->line('select_discounts'); ?></label>
+                                                <select id="discount" name="discount[]" multiple class="form-control selectpicker" data-live-search="true">
+                                                <?php foreach ($discount_list as $discount) { ?>
+                                                    <option value="<?php echo $discount['id'] ?>"><?php echo $discount['name'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>                                                                              -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="" class="control-label"><?php echo $this->lang->line('payment_scheme'); ?></label><small class='req'> *</small>
+                                                <select id="payment_scheme" name="payment_scheme" class="form-control all-fields">
+                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                    <?php foreach ($payment_scheme_list as $pscheme) { ?>
+                                                        <option value="<?php echo $pscheme['scheme'] ?>"<?php if ($student['payment_scheme'] == $pscheme['scheme']) echo "selected=selected" ?>><?php echo $pscheme['description'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <span class="text-danger"><?php echo form_error('payment_scheme'); ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small>
+                                                <input id="firstname" name="firstname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('firstname', $student['firstname']); ?>" />
+                                                <input type="hidden" name="studentid" value="<?php echo $student["id"] ?>">
+                                                <span class="text-danger"><?php echo form_error('first_name'); ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="middlename"><?php echo $this->lang->line('middle_name'); ?></label>
+                                                <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename', $student['middlename']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('middlename'); ?></span>
+                                            </div>
+                                        </div>
+										<?php if ($sch_setting->lastname) {  ?>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('last_name'); ?></label>
+                                                <input id="lastname" name="lastname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lastname', $student['lastname']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('lastname'); ?></span>
+                                            </div>
+                                        </div>
+										<?php } ?>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('lrn_no'); ?></label>
+                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
+                                            </div>
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="roll_no"><?php echo $this->lang->line('roll_no'); ?></label>
@@ -49,7 +144,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <span class="text-danger"><?php echo form_error('roll_no'); ?></span>
                                             </div>
                                         </div>
-										<?php } ?>
+										
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
@@ -79,41 +174,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 </select>
                                                 <span class="text-danger"><?php echo form_error('section_id'); ?></span>
                                             </div>
-                                        </div>                                     
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('lrn_no'); ?></label>
-                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
-                                            </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('first_name'); ?></label><small class="req"> *</small>
-                                                <input id="firstname" name="firstname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('firstname', $student['firstname']); ?>" />
-                                                <input type="hidden" name="studentid" value="<?php echo $student["id"] ?>">
-                                                <span class="text-danger"><?php echo form_error('first_name'); ?></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="middlename"><?php echo $this->lang->line('middle_name'); ?></label>
-                                                <input id="middlename" name="middlename" placeholder="" type="text" class="form-control"  value="<?php echo set_value('middlename', $student['middlename']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('middlename'); ?></span>
-                                            </div>
-                                        </div>
-										<?php if ($sch_setting->lastname) {  ?>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1"><?php echo $this->lang->line('last_name'); ?></label>
-                                                <input id="lastname" name="lastname" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lastname', $student['lastname']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('lastname'); ?></span>
-                                            </div>
-                                        </div>
-										<?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -296,39 +357,31 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             <span class="text-danger"><?php echo form_error('measure_date'); ?></span>
                                                         </div>
                                                     </div> -->
-													<?php //} ?>                                        
-                                        </div>
-                                    <div class="row">                                     
-                                        <?php 
-                                            // echo display_custom_fields('online_admissions', $student["id"]);
-                                            // $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","returnee"=>"Returnee","transferee"=>"Transferee");
-                                            // $modeofPayment = array(""=>"Select","Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
-                                        ?>
+													<?php //} ?>    
+                                                    <div class="col-md-3 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="control-label">Enrollment Payment Status</label><small class='req'> *</small>
+                                                            <select id="enrollment_payment_status" name="enrollment_payment_status" class="form-control"">
+                                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                                <option value="paid" <?php if ($student['enrollment_payment_status'] == "paid") echo " selected " ?>><?php echo $this->lang->line('paid'); ?></option>
+                                                                <option value="unpaid" <?php if ($student['enrollment_payment_status'] == "unpaid") echo " selected " ?>><?php echo $this->lang->line('unpaid'); ?></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
-                                        <div class="col-md-3 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="" class="control-label">Mode of Payment</label>
-                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                <?php foreach ($payment_mode_list as $pmode) { ?>
-                                                    <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
-                                                <?php } ?>
-                                                </select>
-                                            </div>
+                                                    <div class="col-md-3 pt25">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-sm btn-primary mysiblings anchorbtn "><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> <?php echo $this->lang->line('sibling'); ?></button>
+                                                            </div> 
+                                                            <div class="col-md-6">
+                                                                <div class="pt6">
+                                                                    <span id="sibling_name" class="label label-success "><?php echo set_value('sibling_name'); ?></span></div>
+                                                            </div>
+                                                        </div>
+                                        </div>                                    
                                         </div>
-
-                                        <div class="col-md-3 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="" class="control-label">Enrollment Type</label><small class='req'> *</small>
-                                                <select id="enrollment_type" name="enrollment_type" class="form-control" onchange="DoOnChange(this)">
-                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                    <?php foreach ($enrollment_type_list as $etype) { ?>
-                                                        <option value="<?php echo $etype['e_type'] ?>"<?php if ($student['enrollment_type'] == $etype['e_type']) echo "selected=selected" ?>><?php echo $etype['description'] ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
+                                    <!-- <div class="row">
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
                                                 <label for="" class="control-label">Enrollment Payment Status</label><small class='req'> *</small>
@@ -351,7 +404,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>  
                             </div>   
 

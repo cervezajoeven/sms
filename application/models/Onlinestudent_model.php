@@ -43,7 +43,8 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.marriage,online_admissions.dom,online_admissions.church,online_admissions.family_together,online_admissions.parents_away,online_admissions.parents_away_state,
                            online_admissions.parents_civil_status,online_admissions.parents_civil_status_other,
                            online_admissions.guardian_address_is_current_address,online_admissions.permanent_address_is_current_address,online_admissions.living_with_parents,online_admissions.living_with_parents_specify,
-                           online_admissions.has_siblings_enrolled, online_admissions.siblings_specify, online_admissions.preferred_education_mode, online_admissions.enrollment_payment_status');
+                           online_admissions.has_siblings_enrolled, online_admissions.siblings_specify, online_admissions.preferred_education_mode, online_admissions.enrollment_payment_status,
+                           online_admissions.payment_scheme');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -151,6 +152,7 @@ class Onlinestudent_model extends MY_Model {
                             'gender' => $data['gender'],
                             'dob' => date('Y-m-d', $data['dob']),
                             'guardian_email' => $data['email'],
+                            'payment_scheme' => $data['payment_scheme'],
                         );
                         
                         $this->db->where('id', $student_id);
@@ -171,7 +173,8 @@ class Onlinestudent_model extends MY_Model {
                         'session_id' => $this->current_session,
                     );
 
-                    $this->db->insert('student_session', $data_new);
+                    // $this->db->insert('student_session', $data_new);
+                    $this->student_model->add_student_session($data_new); //-- This updates the existing student session
                     $student_session_id = $this->db->insert_id();
 
                     //-- Assign fees master
@@ -372,7 +375,8 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof_other');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof_other,
+                           online_admissions.payment_scheme');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -414,7 +418,8 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof,
+                           online_admissions.payment_scheme');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
@@ -486,6 +491,15 @@ class Onlinestudent_model extends MY_Model {
     {
         $this->db->select('mode, description');
         $this->db->from('mode_of_payment');
+        $this->db->order_by('description');
+        $result = $this->db->get()->result_array();
+        return $result;
+    }
+
+    public function GetPaymentSchemes()
+    {
+        $this->db->select('scheme, description');
+        $this->db->from('payment_scheme');
         $this->db->order_by('description');
         $result = $this->db->get()->result_array();
         return $result;

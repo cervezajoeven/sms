@@ -266,6 +266,7 @@ class Student extends Admin_Controller
 
         $data['fees_master_list'] = $this->feegroup_model->getFeesByGroupFiltered(); //$this->feegroup_model->get();
         $data['discount_list'] = $this->feediscount_model->get();
+        $data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
 
         // foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
         //     if ($custom_fields_value['validation']) {
@@ -298,7 +299,8 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('roll_no', $this->lang->line('required'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
         
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');            
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
         // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
 
         // var_dump($data);die;
@@ -430,6 +432,7 @@ class Student extends Admin_Controller
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
 
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+                'payment_scheme' => $this->input->post('payment_scheme'),
             );
 
             // var_dump($this->input->post('roll_no'));die;
@@ -1353,6 +1356,7 @@ class Student extends Admin_Controller
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
         $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
+        $data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
 
         foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
             if ($custom_fields_value['validation']) {
@@ -1386,6 +1390,10 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('mother_pic', $this->lang->line('image'), 'callback_handle_mother_upload');
         $this->form_validation->set_rules('guardian_pic', $this->lang->line('image'), 'callback_handle_guardian_upload');
         $this->form_validation->set_rules('guardian_pic', $this->lang->line('image'), 'callback_handle_guardian_upload');
+
+        $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('layout/header', $data);
@@ -1512,6 +1520,7 @@ class Student extends Admin_Controller
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                 'enrollment_payment_status' => $this->input->post('enrollment_payment_status'),
+                'payment_scheme' => $this->input->post('payment_scheme'),
             );
 
             $house             = $this->input->post('house');

@@ -131,6 +131,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             ?>
                                             <th><?php echo $this->lang->line('enrollment_payment_status'); ?></th>
                                             <th><?php echo $this->lang->line('mode_of_payment'); ?></th>
+                                            <th><?php echo $this->lang->line('payment_scheme'); ?></th>
                                             <th><?php echo $this->lang->line('enrollment_type'); ?></th>
 
                                             <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
@@ -183,6 +184,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     ?>
                                                     <td><?php echo ucfirst($student['enrollment_payment_status']); ?></td>
                                                     <td><?php echo ucfirst($student['mode_of_payment']); ?></td>
+                                                    <td><?php echo ucfirst($student['payment_scheme']); ?></td>
                                                     <td><?php echo ucfirst($student['enrollment_type']); ?></td>
 
                                                     <td class="pull-right">
