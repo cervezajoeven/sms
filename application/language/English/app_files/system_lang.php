@@ -1513,4 +1513,10 @@ $lang['fees_assessment'] = "Assessment of Fees";
 $lang['select_discounts'] = "Select Discounts";
 $lang['payment_scheme'] = 'Mode of Payment';
 $lang['enrolment_guidelines'] = 'Enrolment Guidelines';
+
+$lang['student_import'] = "Student Import";
+$lang['parent_notification'] = "Parent Notification";
+$lang['old_student_account'] = "Old Student Notification";
+
+
 ?>
