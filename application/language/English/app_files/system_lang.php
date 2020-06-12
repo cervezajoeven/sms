@@ -1517,6 +1517,9 @@ $lang['enrolment_guidelines'] = 'Enrolment Guidelines';
 $lang['student_import'] = "Student Import";
 $lang['parent_notification'] = "Parent Notification";
 $lang['old_student_account'] = "Old Student Notification";
+$lang['lesson_assigned'] = "Lesson Assigned";
+$lang['assessment_assigned'] = "Assessment Assigned";
+
 
 
 ?>
