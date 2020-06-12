@@ -993,6 +993,7 @@ return false;
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
         $q = $this->db->get('student_session');
+
         if ($q->num_rows() > 0) {
             $rec = $q->row_array();
             $this->db->where('id', $rec['id']);
@@ -1001,7 +1002,7 @@ return false;
             $action    = "Update";
             $record_id = $rec['id'];
             $this->log($message, $record_id, $action);
-            
+            // $session_id = $rec['student_session_id'];
 
         } else {
             $this->db->insert('student_session', $data);

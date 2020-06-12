@@ -174,38 +174,43 @@ class Onlinestudent_model extends MY_Model {
                     );
 
                     // $this->db->insert('student_session', $data_new);
-                    $this->student_model->add_student_session($data_new); //-- This updates the existing student session
-                    $student_session_id = $this->db->insert_id();
+                    // $student_session_id = $this->db->insert_id();
 
-                    //-- Assign fees master
-                    if (isset($feesmaster)) 
+                    $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session                    
+                    // var_dump($feesmaster);die;
+
+                    if ($student_session_id != 0)
                     {
-                        foreach($feesmaster as $feemaster)
+                        //-- Assign fees master
+                        if (isset($feesmaster)) 
                         {
-                            $fee_session_group_id = $this->GetFeeSessionGroupID($feemaster);
+                            foreach($feesmaster as $feemaster)
+                            {
+                                $fee_session_group_id = $this->GetFeeSessionGroupID($feemaster);
 
-                            $insert_array = array(
-                                'student_session_id'   => $student_session_id,
-                                'fee_session_group_id' => $fee_session_group_id,
-                            );
+                                $insert_array = array(
+                                    'student_session_id'   => $student_session_id,
+                                    'fee_session_group_id' => $fee_session_group_id,
+                                );
 
-                            $this->studentfeemaster_model->add($insert_array);
+                                $this->studentfeemaster_model->add($insert_array);
+                            }
                         }
-                    }
 
-                    //-- Assign discount
-                    if (isset($feesdiscount))
-                    {
-                        foreach($feesdiscount as $discount_id)
+                        //-- Assign discount
+                        if (isset($feesdiscount))
                         {
-                            $insert_array = array(
-                                'student_session_id' => $student_session_id,
-                                'fees_discount_id' => $discount_id,
-                            );
+                            foreach($feesdiscount as $discount_id)
+                            {
+                                $insert_array = array(
+                                    'student_session_id' => $student_session_id,
+                                    'fees_discount_id' => $discount_id,
+                                );
 
-                            $this->feediscount_model->allotdiscount($insert_array);
+                                $this->feediscount_model->allotdiscount($insert_array);
+                            }
                         }
-                    }
+                    }                   
                     
                     //if ($enroll_type != 'old') 
                     {

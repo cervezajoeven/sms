@@ -76,12 +76,13 @@
                                                     <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
                                                 <?php } ?>
                                                 </select>
+                                                <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
                                             </div>
                                         </div>                                                                                                                        
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label><small class='req'> *</small>                                                
+                                                <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label>
                                                 <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($fees_master_list as $feesmaster) { ?>
                                                     <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
