@@ -234,6 +234,7 @@ class Welcome extends Front_Controller
             //-- EMN --
             $this->data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
             $this->data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
+            $this->data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
 
             ///////===
             $genderList = $this->customlib->getGender();
@@ -254,7 +255,7 @@ class Welcome extends Front_Controller
 
             $enrollment_type = $this->input->post('enrollment_type');
 
-            if ($enrollment_type == 'old' || $enrollment_type == 'old_new') 
+            if ($enrollment_type == 'old') 
             {
                 $this->form_validation->set_rules('studentidnumber', $this->lang->line('required'), 'trim|required|xss_clean');
                 $classname = strtolower($this->input->post('classname'));
@@ -319,18 +320,20 @@ class Welcome extends Front_Controller
                 $this->form_validation->set_rules('current_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('permanent_address', $this->lang->line('required'), 'trim|required|xss_clean');
                 $this->form_validation->set_rules('living_with_parents', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('has_siblings_enrolled', $this->lang->line('required'), 'trim|required|xss_clean');
-                $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');
             }
 
             $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
-            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');            
+            $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('email', $this->lang->line('required'), 'trim|required|valid_email|xss_clean');
             $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('gender', $this->lang->line('genrequiredder'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('dob', $this->lang->line('required'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('class_id', $this->lang->line('required'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('preferred_education_mode', $this->lang->line('required'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('has_siblings_enrolled', $this->lang->line('required'), 'trim|required|xss_clean');
+
+            $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
             // $this->form_validation->set_rules('accountid', $this->lang->line('required'), 'trim|required|xss_clean');
             
             // if (empty($_FILES['document']['name']))
@@ -538,9 +541,10 @@ class Welcome extends Front_Controller
                                 // 'has_siblings_enrolled' => $old_student_data->has_siblings_enrolled,
                                 // 'siblings_specify' => $old_student_data->siblings_specify,
                                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
-                                'siblings_specify' => $this->input->post('siblings_specify'),
-    
+                                'siblings_specify' => $this->input->post('siblings_specify'),    
                                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+                                
+                                'payment_scheme' => $this->input->post('payment_scheme'),
                             );
     
                             if (isset($admission_docs)) 
@@ -572,35 +576,36 @@ class Welcome extends Front_Controller
                             //     $data['document'] = $doc_name;
                             // }
     
-                            // var_dump($data);die;
-    
                             //if ($has_admission == NULL)
-                            if (sizeOf($has_admission) <= 0)
+                            if (!isset($has_admission))
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                             }
                             else 
                             {
-                                if ($current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != $current_session)
+                                if ((int)$current_session > (int)$has_admission->session_id && (int)$old_student_data->session_id != (int)$current_session)
                                 {
                                     $insert_id = $this->onlinestudent_model->add($data);
-                                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
-    
+                                    $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');    
                                 }
                                 else 
                                 {
-                                    if ((int)$old_student_data->session_id == $current_session)
+                                    if ((int)$old_student_data->session_id == (int)$current_session)
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                     else if ($has_admission->is_enroll == '0')
+                                    {
+                                        // var_dump($has_admission);
+                                        // echo "<BR>".isset($has_admission)."<BR>".$current_session."<BR>";
+                                        // var_dump($old_student_data);
+                                        // die;
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$old_student_data->firstname.' '.$old_student_data->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
+                                    }
+                                        
                                 }
-                            }
+                            } 
     
-                            if(!in_array($school_code, $exceptions)){
-    
-                                redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
-                            }
+                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));                            
                         }
                         else 
                             $this->session->set_flashdata('msg', '<div class="alert alert-info">We have received an incomplete data. Please try to do the admission again. We are sorry for your inconvinience.</div>');
@@ -696,6 +701,8 @@ class Welcome extends Front_Controller
                                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
                                 'siblings_specify' => $this->input->post('siblings_specify'),
                                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+
+                                'payment_scheme' => $this->input->post('payment_scheme'),
                             );
 
                             if (isset($admission_docs)) 
@@ -726,8 +733,8 @@ class Welcome extends Front_Controller
         
                             //     $data['document'] = $doc_name;
                             // }
-    
-                            if (sizeOf($has_admission) <= 0)
+
+                            if (!isset($has_admission))
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
@@ -746,10 +753,8 @@ class Welcome extends Front_Controller
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                 }
                             }
-                            if (!in_array($school_code, $exceptions)) {
-                                redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
-                            }
-                            
+         
+                            redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
                         }
                         else
                             $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');

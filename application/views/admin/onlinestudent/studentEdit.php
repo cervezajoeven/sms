@@ -56,18 +56,6 @@
                                     <div class="row">
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>                                                
-                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                <?php foreach ($payment_mode_list as $pmode) { ?>
-                                                    <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
-                                                <?php } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-xs-12">
-                                            <div class="form-group">
                                                 <label for="" class="control-label"><?php echo $this->lang->line('enrollment_type'); ?></label><small class='req'> *</small>
                                                 <input type="hidden" name="enrollment_type" id="enrollment_type" value = "<?php echo $student['enrollment_type'] ?>">
                                                 <input type="text" readonly name="enrollment_type_disp" id="enrollment_type_disp" class="form-control" value="<?php echo strtoupper(set_value('enrollment_type', $student['enrollment_type'] == 'old_new' ? 'old' : $student['enrollment_type'])); ?>">
@@ -77,11 +65,24 @@
                                                     <?php //}?>
                                                 </select> -->
                                             </div>
-                                        </div>                                                                                
+                                        </div>
 
                                         <div class="col-md-3 col-xs-12">
                                             <div class="form-group">
-                                                <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label><small class='req'> *</small>                                                
+                                                <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>                                                
+                                                <select id="mode_of_payment" name="mode_of_payment" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <?php foreach ($payment_mode_list as $pmode) { ?>
+                                                    <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                                <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
+                                            </div>
+                                        </div>                                                                                                                        
+
+                                        <div class="col-md-3 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label"><?php echo $this->lang->line('fees_assessment'); ?></label>
                                                 <select id="feesmaster" name="feesmaster[]" multiple class="form-control selectpicker" data-live-search="true">
                                                 <?php foreach ($fees_master_list as $feesmaster) { ?>
                                                     <option value="<?php echo $feesmaster['fee_groups_id'] ?>"><?php echo $feesmaster['group_name'] ?></option>
@@ -105,9 +106,14 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label></label>
-                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
-                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
+                                                <label for="" class="control-label"><?php echo $this->lang->line('payment_scheme'); ?></label><small class='req'> *</small>
+                                                <select id="payment_scheme" name="payment_scheme" class="form-control all-fields">
+                                                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                    <?php foreach ($payment_scheme_list as $pscheme) { ?>
+                                                        <option value="<?php echo $pscheme['scheme'] ?>"<?php if ($student['payment_scheme'] == $pscheme['scheme']) echo "selected=selected" ?>><?php echo $pscheme['description'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <span class="text-danger"><?php echo form_error('payment_scheme'); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -137,15 +143,22 @@
                                     </div>
 
                                     <div class="row">
-                                        <?php if(!$adm_auto_insert) {?>
-                                            <div class="col-md-3">
+                                        <?php //if(!$adm_auto_insert) {?>
+                                            <!-- <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1"><?php echo $this->lang->line('admission_no'); ?></label><small class="req"> *</small>
                                                     <input autofocus="" id="admission_no" name="admission_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('admission_no'); ?>" />
                                                     <span class="text-danger"><?php echo form_error('admission_no'); ?></span>
                                                 </div>
+                                            </div> -->
+                                        <?php //} ?>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="lrn_no"><?php echo $this->lang->line('lrn_no'); ?></label></label>
+                                                <input id="lrn_no" name="lrn_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('lrn_no', $student['lrn_no']); ?>" />
+                                                <span class="text-danger"><?php echo form_error('lrn_no'); ?></span>
                                             </div>
-                                        <?php } ?>
+                                        </div>
                                     
                                         <div class="col-md-3">
                                             <div class="form-group">

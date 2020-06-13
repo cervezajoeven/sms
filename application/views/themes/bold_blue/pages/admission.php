@@ -110,7 +110,7 @@ if (!$form_admission) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3><b>Admission Guidelines</b></h3>
+        <h3><b><?php echo $this->lang->line('enrolment_guidelines'); ?></b></h3>
       </div>
 
         <div class="modal-body">
@@ -144,7 +144,7 @@ if (!$form_admission) {
     <div class="row">
         <div class="col-md-12">
             <div class="form-group pull-right">
-                <button type="button" class="onlineformbtn pull-right pb-3" onclick="ShowGuidelines()">Admission Guidelines</button>
+                <button type="button" class="onlineformbtn pull-right pb-3" onclick="ShowGuidelines()"><?php echo $this->lang->line('enrolment_guidelines'); ?></button>
             </div> 
         </div>    
     </div>
@@ -165,18 +165,20 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('enrollment_type'); ?></span>
             </div>
         </div>
-        <div class="col-md-3" id="id_number_input">
+        <div class="col-md-9" id="id_number_input">
             <div class="form-group">
                 <!-- <label for="studentidnumber"><?php echo $this->lang->line('student_id'); ?></label> -->
                 <input type="hidden" value="<?php echo set_value('accountid');?>" name="accountid" id="accountid">
-                <label for="studentidnumber">Search Student By: </label>
-                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'lrn') echo "checked" ?> value="lrn" checked> ID / LRN
-                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'name') echo "checked" ?> value="name"> Name
+                <label for="studentidnumber"><b>Search Student By:</b> </label>
+                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'lrn') echo "checked" ?> value="lrn" checked><span class="text-primary"> ID / LRN</span>
+                <input type="radio" name="search_by" <?php if (set_value('search_by') == 'name') echo "checked" ?> value="name"><span class="text-primary"> Name</span>
                     <input id="studentidnumber" name="studentidnumber" placeholder="Enter Student ID or LRN" type="text" class="form-control all-fields" value="<?php echo set_value('studentidnumber'); ?>" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('studentidnumber'); ?></span>
             </div>
         </div>
-        <div class="col-md-3">
+    </div>
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <input type="hidden" id="classname" name="classname" value="">
                 <label for="class_id"><?php echo $this->lang->line('enrolling_for'); ?></label><small class="req"> *</small>
@@ -189,9 +191,9 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('class_id'); ?></span>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
-                <label for="" class="control-label">Mode of Payment</label><small class='req'> *</small>
+                <label for="" class="control-label"><?php echo $this->lang->line('mode_of_payment'); ?></label><small class='req'> *</small>
                 <select id="mode_of_payment" name="mode_of_payment" class="form-control all-fields">
                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                     <?php foreach ($payment_mode_list as $pmode) { ?>
@@ -199,6 +201,18 @@ if (!$form_admission) {
                     <?php } ?>
                 </select>
                 <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="" class="control-label"><?php echo $this->lang->line('payment_scheme'); ?></label><small class='req'> *</small>
+                <select id="payment_scheme" name="payment_scheme" class="form-control all-fields">
+                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                    <?php foreach ($payment_scheme_list as $pscheme) { ?>
+                        <option value="<?php echo $pscheme['scheme'] ?>"<?php if (set_value('payment_scheme') == $pscheme['scheme']) echo "selected=selected" ?>><?php echo $pscheme['description'] ?></option>
+                    <?php } ?>
+                </select>
+                <span class="text-danger"><?php echo form_error('payment_scheme'); ?></span>
             </div>
         </div>
     </div>
@@ -282,10 +296,11 @@ if (!$form_admission) {
                 <label class="radio-inline">
                     <input type="radio" name="has_siblings_enrolled" <?php echo set_value('has_siblings_enrolled') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                 </label>
+                <span class="text-danger"><?php echo form_error('has_siblings_enrolled'); ?></span>
             </div>
             <div class="form-group">
                 <label><?php echo $this->lang->line('siblings_specify');?></label>
-                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>
+                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>                
             </div>
         </div>
         <div class="col-md-9">
@@ -1540,7 +1555,7 @@ if (!$form_admission) {
                     select: function (event, ui) {                        
                         $("#studentidnumber").val(ui.item.label.substr(0, ui.item.label.indexOf(' (')));
 
-                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetailsByID/'+ui.item.value;
+                        var url = '<?php echo base_url(); ?>' + 'welcome/GetStudentDetails/'+ui.item.value;
                         $.get(url)
                         .done(function(data) {
                             AutoFillDetails(JSON.parse(data));

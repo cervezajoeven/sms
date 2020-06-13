@@ -313,6 +313,9 @@ $(document).ready(function(){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
                         }else if(item.type=="text"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
+                        }else if(item.type=="youtube"){
+                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                            data_population[index].source = encodeURIComponent(item.link);
                         }
                         
 
@@ -419,8 +422,6 @@ $(document).ready(function(){
                     view_text.setContents(JSON.parse(unescapeHtml(active_content_data.content.text_value)));
                     var rendered_text = view_text.container.innerHTML;
                     $(rendered_text).find("div[contenteditable*='true']").attr("contenteditable","false");
-                    // console.log(rendered_text);
-                    console.log($(rendered_text).html());
                     $(".html_content").html($(rendered_text).html());
                 break;
                 default:
@@ -680,6 +681,11 @@ $(document).ready(function(){
                 }
             }
         }).disableSelection();
+    });
+
+    $("#learning_plan_save").click(function(){
+        change_detected();
+        alert("Learning Plan successfully saved");
     });
 
     $(".extremeright_icon").click(function(){
@@ -1139,6 +1145,32 @@ $(document).ready(function(){
       }
     }
 
+    // Get the modal
+    var vimeo_modal = document.getElementById("vimeo_modal");
+
+    // Get the button that opens the modal
+    var vimeo_btn = document.getElementById("vimeo_btn");
+
+    // Get the <span> element that closes the modal
+    var vimeo_span = document.getElementsByClassName("vimeo_modal_close")[0];
+
+    // When the user clicks on the button, open the modal
+    vimeo_btn.onclick = function() {
+      vimeo_modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    vimeo_span.onclick = function() {
+      vimeo_modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == vimeo_modal) {
+        vimeo_modal.style.display = "none";
+      }
+    }
+
     
     var learning_plan = new Quill('#learning_plan_text', {
         theme: 'snow',
@@ -1169,6 +1201,30 @@ $(document).ready(function(){
             success: function(data)
             {
                console.log(data);
+               $("div[portal='my_resources']").click();
+            },
+            error: function(e){
+                alert("Something Went Wrong");
+            }
+        });
+
+    });
+
+    $(".vimeo_modal_done").click(function(){
+        var link = $("#vimeo_url").val();
+        var name = $("#vimeo_title").val();
+        var description = $("#vimeo_description").val();
+        var type = "youtube";
+        var vimeo_url = url+"upload/vimeo/"+lesson_id;
+        $.ajax({
+            url: vimeo_url,
+            type: "POST",
+            data: {link:link,name:name,type:type,description:description},
+       
+            success: function(data)
+            {
+                console.log(data);
+               // console.log(data);
                $("div[portal='my_resources']").click();
             },
             error: function(e){
@@ -1223,6 +1279,8 @@ if($(".start_date").val()){
     });
 }
 
+
+
 function fetch_chat(){
 
     var fetch_chat_url = $(url).val()+"fetch_chat";
@@ -1266,6 +1324,8 @@ function fetch_chat(){
     });
 
 }
+
+
 
 fetch_chat();
 setInterval(function(){

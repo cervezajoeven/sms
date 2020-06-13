@@ -31,7 +31,8 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status');
+                          students.preferred_education_mode, students.enrollment_payment_status,
+                          students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -73,7 +74,8 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status');
+                          students.preferred_education_mode, students.enrollment_payment_status,
+                          students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -107,7 +109,8 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status');
+                          students.preferred_education_mode, students.enrollment_payment_status,
+                          students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -142,7 +145,8 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status');
+                          students.preferred_education_mode, students.enrollment_payment_status,
+                          students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -185,7 +189,8 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status');
+                          students.preferred_education_mode, students.enrollment_payment_status,
+                          students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -239,7 +244,8 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status');
+                          students.preferred_education_mode, students.enrollment_payment_status,
+                          students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -288,7 +294,8 @@ class Student_model extends MY_Model
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,'".$this->schoolname."' AS school_name");
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,'".$this->schoolname."' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -348,7 +355,8 @@ class Student_model extends MY_Model
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -405,7 +413,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -465,7 +474,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -506,7 +516,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -547,7 +558,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -623,7 +635,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -688,7 +701,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id','left');
@@ -718,6 +732,22 @@ return false;
         // echo($this->db->last_query());
 
         return $query->result_array();
+    }
+
+    public function admission_report_joe($searchterm, $carray = null, $condition = null)
+    {
+        $this->db->select("*");
+        $this->db->where($condition);
+        $this->db->where('online_admissions.session_id',$this->current_session);
+
+        $this->db->join('class_sections','online_admissions.class_section_id = class_sections.id');
+        $this->db->join('classes','class_sections.class_id = classes.id');
+        $this->db->join('sections','class_sections.section_id = sections.id');
+        $data = $this->db->get("online_admissions")->result_array();
+        // echo "<pre>";
+        // print_r($data);
+        // exit();
+        return $data;
     }
 
     public function sibling_report($searchterm, $carray = null, $condition = null)
@@ -763,7 +793,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -962,6 +993,7 @@ return false;
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
         $q = $this->db->get('student_session');
+
         if ($q->num_rows() > 0) {
             $rec = $q->row_array();
             $this->db->where('id', $rec['id']);
@@ -970,7 +1002,7 @@ return false;
             $action    = "Update";
             $record_id = $rec['id'];
             $this->log($message, $record_id, $action);
-            
+            // $session_id = $rec['student_session_id'];
 
         } else {
             $this->db->insert('student_session', $data);
@@ -1067,7 +1099,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1101,7 +1134,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status'); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1142,7 +1176,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1179,7 +1214,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status'); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1216,7 +1252,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status'); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1421,7 +1458,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status'); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1453,7 +1491,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status'); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1493,7 +1532,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status'); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme'); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1576,7 +1616,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,' . $field_variable); 
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,' . $field_variable); 
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1663,7 +1704,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1724,7 +1766,8 @@ return false;
                            students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other,
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
-                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify');
+                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1856,7 +1899,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,
                            students.parents_away_state,students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1905,7 +1949,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,
                            students.parents_away_state,students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1954,7 +1999,8 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status');
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1990,13 +2036,14 @@ return false;
         }
     }
 
-    public function GetStudentInfo($id_no) 
+    public function GetStudentInfo($id_no)
     {
-        $this->db->select('students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
+        $this->db->select('students.id, students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
         $this->db->from('students');
         $this->db->where('students.lrn_no', $id_no);
         $this->db->or_where('students.roll_no', $id_no);
         $this->db->or_where('students.admission_no', $id_no);
+        $this->db->or_where('students.id', $id_no);
         $this->db->limit(1);
 
         // $query = $this->db->get();
