@@ -96,6 +96,12 @@
               background-color: green;
               color: white;
             }
+            .joe_text{
+              padding: 10px; 
+              width: 100%;
+              margin-top: 10px;
+              margin-bottom: 10px;
+            }
         </style>
     </head>
 
@@ -126,6 +132,21 @@
             </div>
             <button class="add_text_done add_text_close">Done</button>
             <button class="add_text_close">Close</button>
+          </div>
+
+        </div>
+
+        <div id="vimeo_modal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+
+            <h3 style="color: white">Vimeo Url</h3>
+            <input type="text" class="joe_text" id="vimeo_title" name="" style="padding: 10px; width: 100%;" placeholder="Title">
+            <input type="text" class="joe_text" id="vimeo_url" name="" style="padding: 10px; width: 100%;" placeholder="vimeo url here...">
+            <textarea type="text" class="joe_text" id="vimeo_description" name="" style="padding: 10px; width: 100%;" placeholder="Description"></textarea>
+            <button class="vimeo_modal_done vimeo_modal_close">Done</button>
+            <button class="vimeo_modal_close">Close</button>
           </div>
 
         </div>
@@ -538,6 +559,11 @@
                     <div class="upload_actions actions_container">
                         <div class="actions">
                             <button class="action_button text_color" id="myBtn"><i class="fas fa-file-alt"></i>Add Text</button>
+                        </div>
+                    </div>
+                    <div class="upload_actions actions_container">
+                        <div class="actions">
+                            <button class="action_button vimeo vimeo_color" id="vimeo_btn"><i class="fas fa-video"></i>Vimeo</button>
                         </div>
                     </div>
                 </div>

@@ -566,9 +566,7 @@ html, body {
     z-index: 10;
     background-color: rgb(118, 113, 113);
 }
-.result_actions .actions{
-    width: 100%;
-}
+
 .upload_color{
     background-color: rgb(46, 117, 182);
 }
@@ -578,7 +576,7 @@ html, body {
 
 }
 .result_actions .actions{
-    width: 50%;
+    width: 33%;
 }
 .text_color{
     background-color: #d0790e;
@@ -635,11 +633,13 @@ html, body {
     height: 100%;
 }
 
-
-
 .dicussion_container{
     background-color: white;
     height: 300px;
     color:black;
     overflow: scroll;
+}
+
+.vimeo_color{
+    background-color: #00ADEF;    
 }
