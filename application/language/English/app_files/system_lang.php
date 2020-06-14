@@ -1445,7 +1445,7 @@ $lang['college'] = 'College School Attended';
 $lang['college_course'] = 'College Degree Attained';
 $lang['post_graduate'] = 'Post Graduate School Attended';
 $lang['degree_attained'] = 'Post Graduate Degree Attained';
-$lang['prof_affil'] = 'Proffesional Affiliations';
+$lang['prof_affil'] = 'Profesional Affiliations';
 $lang['position_held'] = 'Positions Held';
 $lang['tech_prof'] = 'Proficient in the use of technology(Social Media Platforms)';
 
