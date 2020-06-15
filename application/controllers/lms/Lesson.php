@@ -359,6 +359,7 @@ class Lesson extends General_Controller {
             //for parent notification
             $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
             // $sender_details = array('id' => $value['id'], 'email' => $value['email']);
+            print_r($sender_details);
             $this->mailsmsconf->mailsms('parent_notification', $sender_details);
         }
         
