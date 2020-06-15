@@ -354,7 +354,7 @@ class Lesson extends General_Controller {
         $this->db->select("*");
         $query = $this->db->get("students");
         $result = $query->result_array();
-        
+        echo "<pre>";
         print_r("current session: ".$current_session);
 
         foreach ($result as $key => $value) {
