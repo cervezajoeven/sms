@@ -354,11 +354,14 @@ class Lesson extends General_Controller {
         $this->db->select("*");
         $query = $this->db->get("students");
         $result = $query->result_array();
+        
+        print_r("current session: ".$current_session);
 
         foreach ($result as $key => $value) {
             //for parent notification
             $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
             // $sender_details = array('id' => $value['id'], 'email' => $value['email']);
+            $current_session = $this->setting_model->getCurrentSession();
             print_r($sender_details);
             $this->mailsmsconf->mailsms('parent_notification', $sender_details);
         }
