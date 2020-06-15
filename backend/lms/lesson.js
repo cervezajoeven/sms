@@ -19,6 +19,7 @@ $(document).ready(function(){
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
 
+    $("#classroomscreen").attr("src","https://app.classroomscreen.com/wv1/b3eaec6b-ed84-4706-936a-0483a585b1c9");
     if(education_level=="tertiary"){
         folder_names = "Introduction,Lesson Proper,Examination";
         folders = "#folder_1,#folder_2,#folder_3";
@@ -895,8 +896,11 @@ $(document).ready(function(){
         
         $(".edit_area").toggleClass("close_edit");
         $(".student_view").toggleClass("student_view_close");
+
+
         active_content_data = get_content_data(content_order[0]);
         active_content = content_order[0];
+
         adjust_iframe();
         render_student_view();
         populate_slides();
@@ -1359,3 +1363,12 @@ function send_chat(student_chat){
     });
 }
 
+$(".teacher_tools_button").click(function(){
+    $(".teacher_tools").toggle();
+});
+var myIframe = document.getElementById('classroomscreen');
+myIframe.addEventListener("load", function() {
+
+    this.contentWindow.document.notesform.ID_client.value = Client;
+
+});

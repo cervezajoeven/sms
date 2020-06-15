@@ -448,7 +448,8 @@ class Lesson extends General_Controller {
             
             $data['name'] = $_REQUEST['name'];
             $data['type'] = $_REQUEST['type'];
-            $data['link'] = "https://player.vimeo.com/video/".explode("/", $_REQUEST['link'])[3];
+            // $data['link'] = "https://player.vimeo.com/video/".explode("/", $_REQUEST['link'])[3];
+            $data['link'] = $_REQUEST['link'];
             $data['description'] = $_REQUEST['description'];
             $data['account_id'] = $this->session->userdata('admin')['id'];
             $data['lms_lesson_ids'] = $lesson_id;
