@@ -350,7 +350,21 @@ class Lesson extends General_Controller {
 
     }
 
-    public function send_email(){
+    public function send_email_parent(){
+        $this->db->select("*");
+        $query = $this->db->get("students");
+        $result = $query->result_array();
+
+        foreach ($result as $key => $value) {
+            //for parent notification
+            $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
+            // $sender_details = array('id' => $value['id'], 'email' => $value['email']);
+            $this->mailsmsconf->mailsms('parent_notification', $sender_details);
+        }
+        
+    }
+
+    public function send_email_old_accounts(){
         $this->db->select("*");
         $query = $this->db->get("students");
         $result = $query->result_array();
