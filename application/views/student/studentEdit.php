@@ -65,6 +65,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
                                                 <?php } ?>
                                                 </select>
+                                                <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
                                             </div>
                                         </div>                                                                                                                        
 
