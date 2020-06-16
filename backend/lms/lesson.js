@@ -19,7 +19,6 @@ $(document).ready(function(){
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
 
-    $("#classroomscreen").attr("src","https://app.classroomscreen.com/wv1/b3eaec6b-ed84-4706-936a-0483a585b1c9");
     if(education_level=="tertiary"){
         folder_names = "Introduction,Lesson Proper,Examination";
         folders = "#folder_1,#folder_2,#folder_3";
