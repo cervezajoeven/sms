@@ -617,6 +617,7 @@ class Welcome extends Front_Controller
                         if (!$alreadyEnrolled)
                         {
                             $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
+                            $datenow = date("Y-m-d");
 
                             $data = array(
                                 'firstname'           => $this->input->post('firstname'),
@@ -639,8 +640,8 @@ class Welcome extends Front_Controller
                                 'guardian_relation'   => $this->input->post('guardian_relation'),
                                 'guardian_phone'      => $this->input->post('guardian_phone'),
                                 'guardian_address'    => $this->input->post('guardian_address'),
-                                'admission_date'      => date('Y-m-d'),
-                                'measurement_date'    => date('Y-m-d'),
+                                'admission_date'      => $this->customlib->dateFormatToYYYYMMDD($this->input->post('datenow')),
+                                'measurement_date'    => $this->customlib->dateFormatToYYYYMMDD($this->input->post('datenow')),
                                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                                 'enrollment_type'     => $enrollment_type, 
                                 'middlename'          => $this->input->post('middlename'),
