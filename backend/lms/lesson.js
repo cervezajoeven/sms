@@ -109,8 +109,8 @@ $(document).ready(function(){
     //cervezajoeven@gmail.com
     //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
     //005829641482717962768:2e59rdva9xk
-    var key = "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k";
-    var cx = "005829641482717962768:2e59rdva9xk";
+    var key = "AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc";
+    var cx = "017301866149964088276:l0dgsrgie8b";
     var youtube_key = 'AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws';
     var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
@@ -1371,7 +1371,7 @@ $(".teacher_tools_button").click(function(){
 });
 var myIframe = document.getElementById('classroomscreen');
 myIframe.addEventListener("load", function() {
-
+    
     this.contentWindow.document.notesform.ID_client.value = Client;
 
 });
