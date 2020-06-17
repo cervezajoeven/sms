@@ -348,7 +348,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <!-- <label><?php //echo $this->lang->line('siblings_specify');?></label> -->
-                                                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo $student['siblings_specify']; ?>" autocomplete="off"/>
+                                                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify the name(s)" type="text" class="form-control all-fields"  value="<?php echo $student['siblings_specify']; ?>" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <input type="hidden" name="sibling_id" value="<?php echo set_value('sibling_id', 0); ?>" id="sibling_id">
@@ -965,7 +965,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php if($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
+                                                <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php echo($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">
@@ -978,7 +978,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="permanent_address_is_current_address"onclick="return auto_fill_address();" <?php echo($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
+                                                <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" onclick="return auto_fill_address();" <?php echo($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">

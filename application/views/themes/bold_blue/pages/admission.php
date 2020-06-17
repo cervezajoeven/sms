@@ -300,7 +300,7 @@ if (!$form_admission) {
             </div>
             <div class="form-group">
                 <label><?php echo $this->lang->line('siblings_specify');?></label>
-                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>                
+                <input id="siblings_specify" disabled name="siblings_specify" placeholder="If yes, please specify the name(s)" type="text" class="form-control all-fields"  value="<?php echo set_value('siblings_specify'); ?>" autocomplete="off"/>                
             </div>
         </div>
         <div class="col-md-9">
@@ -667,7 +667,7 @@ if (!$form_admission) {
             <input id="parents_away_state" disabled name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_away_state'); ?>" autocomplete="off"/>
         </div>
 
-        <div class="col-md-5">        
+        <div class="col-md-6">        
             <div class="form-group">
                 <label><?php echo $this->lang->line('parent_civil_status');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -685,7 +685,7 @@ if (!$form_admission) {
                 <span class="text-danger"><?php echo form_error('parent_civil_status'); ?></span>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
             <div class="form-group">
                 <label><?php echo $this->lang->line('others_specify');?></label>
                 <input id="parents_civil_status_other" disabled name="parents_civil_status_other" placeholder="If others, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_civil_status_other'); ?>" autocomplete="off"/>
@@ -766,7 +766,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="guardian_address_is_current_address" onclick="">
+                    <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" <?php echo set_value('guardian_address_is_current_address') == "on" ? "checked" : ""; ?>>
                     <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
                 </label>
             </div>
@@ -779,7 +779,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="permanent_address_is_current_address"onclick="">
+                    <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" <?php echo set_value('permanent_address_is_current_address') == "on" ? "checked" : ""; ?>>
                     <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
                 </label>
             </div>
@@ -1344,7 +1344,7 @@ if (!$form_admission) {
         }
     });
 
-    $('#guardian_address_is_current_address').click(function(){
+    $('#guardian_address_is_current_address').click(function() {
         if($(this).is(':checked')) {
             $('#permanent_address_is_current_address').prop("checked", false);
         }

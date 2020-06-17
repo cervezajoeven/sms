@@ -646,7 +646,7 @@ class Welcome extends Front_Controller
                                 'middlename'          => $this->input->post('middlename'),
                                 'email'               => $this->input->post('email'),
                                 'class_section_id'    => $class_section_id,
-                                'roll_no'             => $this->input->post('studentidnumber'),
+                                // 'roll_no'             => $this->input->post('studentidnumber'),
                                 'lrn_no'              => $this->input->post('lrn_no'),
     
                                 'father_company_name'              => $this->input->post('father_company_name'),
@@ -693,8 +693,8 @@ class Welcome extends Front_Controller
                                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
     
                                 'session_id' => $current_session,
-                                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
-                                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address') == "on" ? 1 : 0,
+                                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address') == "on" ? 1 : 0,
                                 'living_with_parents' => $this->input->post('living_with_parents'),
                                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
 
@@ -704,6 +704,8 @@ class Welcome extends Front_Controller
 
                                 'payment_scheme' => $this->input->post('payment_scheme'),
                             );
+
+                            // var_dump($data);die;
 
                             if (isset($admission_docs)) 
                             {
@@ -757,7 +759,7 @@ class Welcome extends Front_Controller
                             redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
                         }
                         else
-                            $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                            $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$this->input->post('firstname').' '.$this->input->post('lastname').' '.$this->lang->line('already_enrolled') . '</div>');
                     }
                     
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');
