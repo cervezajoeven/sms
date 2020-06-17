@@ -668,7 +668,7 @@ if (!$form_admission) {
         </div>
 
         <div class="col-md-6">     
-           
+
             <div class="form-group">
                 <label><?php echo $this->lang->line('parent_civil_status');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -1190,11 +1190,9 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <div class="form-group pull-right">
-                    <label><input type="checkbox" value="" id="iagree"> 
-                    <!-- I hereby certify that information given are true and correct to the best of my knowledge and I allow the the Department of Education to use my child's details to create and/or and update his/her 
-                    learner profile in the Learner Information System. The information herein shall be treated as confidential in the compliance with the <a href="#" onclick="ShowPrivacyPolicy()">Data Privacy Act of 2012</a>. -->
-                    <?php $this->setting_model->getDataPrivacyChkboxText(); ?>
-                    </label>
+                    
+                    <p class="text-justify"><input type="checkbox" value="" id="iagree">&nbsp;<?php $this->setting_model->getDataPrivacyChkboxText(); ?></p>
+                    
                 </div>
             </div>  
         </div>
