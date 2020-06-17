@@ -667,7 +667,8 @@ if (!$form_admission) {
             <input id="parents_away_state" disabled name="parents_away_state" placeholder="If yes, state details" type="text" class="form-control all-fields"  value="<?php echo set_value('parents_away_state'); ?>" autocomplete="off"/>
         </div>
 
-        <div class="col-md-6">        
+        <div class="col-md-6">     
+           
             <div class="form-group">
                 <label><?php echo $this->lang->line('parent_civil_status');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
