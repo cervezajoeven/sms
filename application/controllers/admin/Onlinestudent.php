@@ -247,8 +247,8 @@ class Onlinestudent extends Admin_Controller
                 'parents_civil_status'       => $this->input->post('parents_civil_status'),
                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
 
-                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
-                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address') == "on" ? 1 : 0,
+                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address') == "on" ? 1 : 0,
                 'living_with_parents' => $this->input->post('living_with_parents'),
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),

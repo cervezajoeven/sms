@@ -1092,7 +1092,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 										<?php if ($sch_setting->current_address) { ?>
                                         <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php if($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
+                                                <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php echo($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">
@@ -1106,7 +1106,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 										<?php } if ($sch_setting->permanent_address) { ?>
                                         <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="permanent_address_is_current_address"onclick="return auto_fill_address();" <?php if($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
+                                                <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" onclick="return auto_fill_address();" <?php echo($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">
