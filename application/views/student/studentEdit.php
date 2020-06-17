@@ -1061,7 +1061,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 												<div class="form-group">
 													<label><?php echo $this->lang->line('parents_civil_status');?></label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="parents_civil_status" <?php echo set_value('parents_civil_status') == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
+                                                        <input type="radio" name="parents_civil_status" <?php echo $student('parents_civil_status') == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
                                                     </label>
 													<label class="radio-inline">
 														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "separated" ? "checked" : ""; ?> value="separated"> <?php echo $this->lang->line('separated'); ?>
