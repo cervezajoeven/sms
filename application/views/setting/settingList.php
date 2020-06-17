@@ -653,7 +653,7 @@
                                          </div>
                                     </div>
                                     
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-4"><?php echo $this->lang->line('email_on_student_import'); ?></label>
                                             <div class="col-sm-8">
@@ -671,6 +671,17 @@
                                                     }
                                                     ?>><?php echo $this->lang->line('enabled'); ?>
                                                 </label>
+                                            </div>
+                                         </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4"><?php echo $this->lang->line('data_privacy_chkbox_text'); ?></label>
+                                            <div class="col-sm-8">
+                                            <textarea id="data_privacy_chkbox_text" name="data_privacy_chkbox_text" rows="4" cols="50">
+                                                <?php echo $result->data_privacy_chkbox_text; ?>
+                                            </textarea>
                                             </div>
                                          </div>
                                     </div>
