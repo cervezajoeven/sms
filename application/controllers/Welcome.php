@@ -623,7 +623,7 @@ class Welcome extends Front_Controller
                                 'lastname'            => $this->input->post('lastname'),
                                 'mobileno'            => $this->input->post('mobileno'),
                                 'guardian_is'         => $this->input->post('guardian_is'),
-                                'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
+                                'dob'                 => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('dob'))),
                                 'current_address'     => $this->input->post('current_address'),
                                 'permanent_address'   => $this->input->post('permanent_address'),
                                 'father_name'         => $this->input->post('father_name'),
@@ -653,7 +653,7 @@ class Welcome extends Front_Controller
                                 'father_company_position'          => $this->input->post('father_company_position'),
                                 'father_nature_of_business'        => $this->input->post('father_nature_of_business'),
                                 'father_mobile'                    => $this->input->post('father_mobile'),
-                                'father_dob'                       => date('Y-m-d', strtotime($this->input->post('father_dob'))),
+                                'father_dob'                       => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('father_dob'))),
                                 'father_citizenship'               => $this->input->post('father_citizenship'),
                                 'father_religion'                  => $this->input->post('father_religion'),
                                 'father_highschool'                => $this->input->post('father_highschool'),
@@ -670,7 +670,7 @@ class Welcome extends Front_Controller
                                 'mother_company_position'          => $this->input->post('mother_company_position'),
                                 'mother_nature_of_business'        => $this->input->post('mother_nature_of_business'),
                                 'mother_mobile'                    => $this->input->post('mother_mobile'),
-                                'mother_dob'                       => date('Y-m-d', strtotime($this->input->post('mother_dob'))),
+                                'mother_dob'                       => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('mother_dob'))),
                                 'mother_citizenship'               => $this->input->post('mother_citizenship'),
                                 'mother_religion'                  => $this->input->post('mother_religion'),
                                 'mother_highschool'                => $this->input->post('mother_highschool'),
@@ -684,7 +684,7 @@ class Welcome extends Front_Controller
                                 'mother_tech_prof_other'           => $this->input->post('mother_tech_prof_other'),
     
                                 'marriage'                   => $this->input->post('marriage'),
-                                'dom'                        => date('Y-m-d', strtotime($this->input->post('dom'))),
+                                'dom'                        => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('dom'))),
                                 'church'                     => $this->input->post('church'),
                                 'family_together'            => $this->input->post('family_together'),
                                 'parents_away'               => $this->input->post('parents_away'),
@@ -752,14 +752,14 @@ class Welcome extends Front_Controller
                                     if ($has_admission->is_enroll == '0')
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('has_pending_admission') . '</div>');
                                     else 
-                                        $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
+                                        $this->session->set_flashdata('msg', '<div class="alert alert-info">Your child '.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                 }
                             }
          
                             redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
                         }
                         else
-                            $this->session->set_flashdata('msg', '<div class="alert alert-info">'.$this->input->post('firstname').' '.$this->input->post('lastname').' '.$this->lang->line('already_enrolled') . '</div>');
+                            $this->session->set_flashdata('msg', '<div class="alert alert-info">Your child '.$this->input->post('firstname').' '.$this->input->post('lastname').' '.$this->lang->line('already_enrolled') . '</div>');
                     }
                     
                     redirect($_SERVER['HTTP_REFERER'], 'refresh');
