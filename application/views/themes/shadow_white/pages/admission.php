@@ -1190,9 +1190,9 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <div class="form-group pull-right">
-                    <label><input type="checkbox" value="" id="iagree"> 
-                    <?php $this->setting_model->getDataPrivacyChkboxText(); ?>
-                    </label>
+                    
+                    <p class="text-justify"><input type="checkbox" value="" id="iagree">&nbsp;<?php $this->setting_model->getDataPrivacyChkboxText(); ?></p>
+                    
                 </div>
             </div>  
         </div>
