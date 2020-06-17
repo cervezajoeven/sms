@@ -457,6 +457,7 @@ class Welcome extends Front_Controller
                             //var_dump($this->input->post('studentidnumber'));die;
                             $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
                             //var_dump($has_admission);die;
+                            $datenow = date("Y-m-d");
     
                             $data = array(
                                 'roll_no'             => $old_student_data->roll_no,
@@ -481,8 +482,8 @@ class Welcome extends Front_Controller
                                 'guardian_relation'   => $old_student_data->guardian_relation,
                                 'guardian_phone'      => $old_student_data->guardian_phone,
                                 'guardian_address'    => $old_student_data->guardian_address,
-                                'admission_date'      => date('Y-m-d'),
-                                'measurement_date'    => date('Y-m-d'),
+                                'admission_date'      => date('Y-m-d', strtotime($datenow)),
+                                'measurement_date'    => date('Y-m-d', strtotime($datenow)),
                                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                                 'enrollment_type'     => $enrollment_type,                        
                                 'middlename'          => $old_student_data->middlename,
@@ -524,7 +525,7 @@ class Welcome extends Front_Controller
                                 'mother_tech_prof_other'           => $old_student_data->mother_tech_prof_other,
     
                                 'marriage'                   => $old_student_data->marriage,
-                                'dom'                        => $old_student_data->dom,
+                                'dom'                        => date('Y-m-d', strtotime($old_student_data->dom)),
                                 'church'                     => $old_student_data->church,
                                 'family_together'            => $old_student_data->family_together,
                                 'parents_away'               => $old_student_data->parents_away,
@@ -624,7 +625,7 @@ class Welcome extends Front_Controller
                                 'lastname'            => $this->input->post('lastname'),
                                 'mobileno'            => $this->input->post('mobileno'),
                                 'guardian_is'         => $this->input->post('guardian_is'),
-                                'dob'                 => $this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
+                                'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))), // $this->customlib->dateFormatToYYYYMMDD($this->input->post('dob')),
                                 'current_address'     => $this->input->post('current_address'),
                                 'permanent_address'   => $this->input->post('permanent_address'),
                                 'father_name'         => $this->input->post('father_name'),
@@ -640,8 +641,8 @@ class Welcome extends Front_Controller
                                 'guardian_relation'   => $this->input->post('guardian_relation'),
                                 'guardian_phone'      => $this->input->post('guardian_phone'),
                                 'guardian_address'    => $this->input->post('guardian_address'),
-                                'admission_date'      => $this->customlib->dateFormatToYYYYMMDD($this->input->post('datenow')),
-                                'measurement_date'    => $this->customlib->dateFormatToYYYYMMDD($this->input->post('datenow')),
+                                'admission_date'      => date('Y-m-d', strtotime($old_student_data->dom)), // $this->customlib->dateFormatToYYYYMMDD($this->input->post('datenow')),
+                                'measurement_date'    => date('Y-m-d', strtotime($old_student_data->dom)), // $this->customlib->dateFormatToYYYYMMDD($this->input->post('datenow')),
                                 'mode_of_payment'     => $this->input->post('mode_of_payment'),
                                 'enrollment_type'     => $enrollment_type, 
                                 'middlename'          => $this->input->post('middlename'),
@@ -654,7 +655,7 @@ class Welcome extends Front_Controller
                                 'father_company_position'          => $this->input->post('father_company_position'),
                                 'father_nature_of_business'        => $this->input->post('father_nature_of_business'),
                                 'father_mobile'                    => $this->input->post('father_mobile'),
-                                'father_dob'                       => $this->customlib->dateFormatToYYYYMMDD($this->input->post('father_dob')),
+                                'father_dob'                       => date('Y-m-d', strtotime($this->input->post('father_dob'))), // $this->customlib->dateFormatToYYYYMMDD($this->input->post('father_dob')),
                                 'father_citizenship'               => $this->input->post('father_citizenship'),
                                 'father_religion'                  => $this->input->post('father_religion'),
                                 'father_highschool'                => $this->input->post('father_highschool'),
@@ -671,7 +672,7 @@ class Welcome extends Front_Controller
                                 'mother_company_position'          => $this->input->post('mother_company_position'),
                                 'mother_nature_of_business'        => $this->input->post('mother_nature_of_business'),
                                 'mother_mobile'                    => $this->input->post('mother_mobile'),
-                                'mother_dob'                       => $this->customlib->dateFormatToYYYYMMDD($this->input->post('mother_dob')),
+                                'mother_dob'                       => date('Y-m-d', strtotime($this->input->post('mother_dob'))), // $this->customlib->dateFormatToYYYYMMDD($this->input->post('mother_dob')),
                                 'mother_citizenship'               => $this->input->post('mother_citizenship'),
                                 'mother_religion'                  => $this->input->post('mother_religion'),
                                 'mother_highschool'                => $this->input->post('mother_highschool'),
@@ -685,7 +686,7 @@ class Welcome extends Front_Controller
                                 'mother_tech_prof_other'           => $this->input->post('mother_tech_prof_other'),
     
                                 'marriage'                   => $this->input->post('marriage'),
-                                'dom'                        => $this->customlib->dateFormatToYYYYMMDD($this->input->post('dom')),
+                                'dom'                        => date('Y-m-d', strtotime($this->input->post('dom'))), // $this->customlib->dateFormatToYYYYMMDD($this->input->post('dom')),
                                 'church'                     => $this->input->post('church'),
                                 'family_together'            => $this->input->post('family_together'),
                                 'parents_away'               => $this->input->post('parents_away'),
