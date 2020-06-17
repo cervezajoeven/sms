@@ -666,7 +666,9 @@
         
 
         <div class="student_view student_view_close">
+            
             <div class="student_view_container">
+
                 <div class="student_view_navigation">
                     <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Previous</div>
                     <div class="student_view_buttons student_view_title">Title</div>
@@ -688,12 +690,49 @@
                     <div class="content_type html_content" src="" style="background-color: white;"></div>
                     <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
                 </div>
+
+                <div id="teacher_tools" class="teacher_tools">
+                    <div class="student_view_buttons close_action teacher_tools_button" style="
+                            width: 12%;
+                            background-color: green;
+                            border-radius: 20px;
+                            margin: 5px;
+                            z-index: 99999;
+                            float: right;
+                            padding: 5px;
+                        "><i class="fas fa-times-circle"></i> Close</div>
+
+                        <h2 style="padding: 5px 30px;
+                            margin: 0px;
+                            left: 15px;
+                            position: relative;
+                            color: white;
+                            width: 200px;
+                            background-color: rgb(22, 187, 238);
+                            font-weight: bolder;
+                            margin-top: 0px;"
+                            >CMS Teacher Tools</h2>
+                    <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 106%;height: 90%;left: -70px;position: relative;" >
+                      
+                    </iframe>
+                </div>
                 
             </div>
             <div class="student_view_right">
                 
                 <div class="student_view_navigation">
-                    <div class="student_view_buttons close_action close_student_view"><i class="fas fa-times-circle"></i> Close Slideshow</div>
+                    <div class="student_view_buttons close_action teacher_tools_button" style="
+                    width: 47%;
+                    background-color: green;
+                    border-radius: 20px;
+                    margin: 5px;
+                    z-index: 99999;
+                    "><i class="fas fa-wrench"></i> CMS Teacher Tools</div>
+                    <div class="student_view_buttons close_action close_student_view" style="
+                    width: 47%;
+                    border-radius: 20px;
+                    margin: 5px;
+                    "><i class="fas fa-times-circle"></i> Close Slideshow</div>
                     <div class="dicussion_container student_chat_container" style="width: 100%">
 
                           adasdas
@@ -703,9 +742,12 @@
                       <textarea class="chat_text student_chat" name="" style="bottom: 0;"></textarea>
                       <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
                     </div>
+
+                    
                 
                 </div>
             </div>
+            
         </div>
 
         <script src="<?php echo $resources.'jquery-1.12.4.js'?>"></script>
