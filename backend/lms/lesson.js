@@ -126,9 +126,10 @@ $(document).ready(function(){
     //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK9Oa
     //005829641482717962768:2e59pava9xP
 
+    //AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE
     var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
     var cx = "005829641482717962768:2e59rdva9xk";
-    var youtube_key = 'AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE';
+    var youtube_key = 'AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs';
     var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
     adjust_iframe();
