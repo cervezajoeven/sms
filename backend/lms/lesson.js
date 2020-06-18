@@ -18,6 +18,8 @@ $(document).ready(function(){
     var role = $("#role").val();
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
+    var youtube_looper = 0;
+    var google_looper = 0;
 
     if(education_level=="tertiary"){
         folder_names = "Introduction,Lesson Proper,Examination";
@@ -119,19 +121,22 @@ $(document).ready(function(){
     //005829641482717962768:2e5awdva9xk
 
     //campuscloudph3@gmail.com
-    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
+    //AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws
     //005829612482717962768:2e59rdva9xk
 
     //campuscloudph4@gmail.com
-    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK9Oa
+    //AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI
     //005829641482717962768:2e59pava9xP
 
     //AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE
+    //AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs
     var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
     var cx = "005829641482717962768:2e59rdva9xk";
-    var youtube_key = 'AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs';
-    var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
+    var youtube_key = 'AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws';
+    // var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
+
+
     adjust_iframe();
 
     $(".instruction").hide();
@@ -144,20 +149,40 @@ $(document).ready(function(){
 
         $(".loader").hide();
     });
+
+    var youtube_keys = [
+        "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k",
+        "AIzaSyA3pDViRGgZvU1n7GcvTlbs533Nkf5z4co",
+        "AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws",
+        "AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs",
+        "AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE",
+        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+    ];
+
+    var google_keys = [
+        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+    ];
     // window.addEventListener("resize", adjust_iframe());
-    function youtube_search(query,maxResults = 10){
-        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_key;
+    function youtube_search(query,maxResults = 5){
+        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
         $.ajax({
             url: youtube_api,
             context: document.body
         }).done(function(data) {
+
             var processed_data = process_data(data,"youtube");
             result_pool = processed_data;
             populate_search_content(processed_data);
+
+        }).error(function(){
+            console.log("looped");
+            youtube_looper++;
+            youtube_search();
+
         });
     }
 
-    function google_search(query,maxResults = 10){
+    function google_search(query,maxResults = 5){
         var api = "https://www.googleapis.com/customsearch/v1?key="+key+"&cx="+cx+"&q="+query;
         $.ajax({
             url: api,
@@ -166,11 +191,16 @@ $(document).ready(function(){
             var processed_data = process_data(data,"google");
             result_pool = processed_data;
             populate_search_content(processed_data);
+        }).error(function(){
+
+            console.log("looped");
+            key_looper++;
+            youtube_search();
         });
     }
 
     function google_image_search(query,maxResults = 10){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+key+"&cx="+cx+"&searchType=image&q="+query;
+        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[0]+"&cx="+cx+"&searchType=image&q="+query;
         $.ajax({
             url: api,
             context: document.body
