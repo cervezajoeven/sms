@@ -102,16 +102,33 @@ $(document).ready(function(){
         }
     });
     $("#view_text").hide();
-    //suddenshutdown
+    //suddenshutdown@gmail.com
     //AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc
     //017301866149964088276:l0dgsrgie8b
     
     //cervezajoeven@gmail.com
     //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
     //005829641482717962768:2e59rdva9xk
+
+    //campuscloudph1@gmail.com
+    //AIzaSyDsB_WGyzL6BpZcawwdCRGTclvh5nkWixJc
+    //017301866149964088276:l0dgsrgie8b
+    
+    //campuscloudph2@gmail.com
+    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
+    //005829641482717962768:2e5awdva9xk
+
+    //campuscloudph3@gmail.com
+    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
+    //005829612482717962768:2e59rdva9xk
+
+    //campuscloudph4@gmail.com
+    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK9Oa
+    //005829641482717962768:2e59pava9xP
+
     var key = "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k";
     var cx = "005829641482717962768:2e59rdva9xk";
-    var youtube_key = 'AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws';
+    var youtube_key = 'AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE';
     var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
     adjust_iframe();
@@ -1368,10 +1385,4 @@ $(".teacher_tools_button").click(function(){
     $(".student_view_slides").hide();
     $(".student_view_content").toggle();
     $("#classroomscreen").css("width",width+70);
-});
-var myIframe = document.getElementById('classroomscreen');
-myIframe.addEventListener("load", function() {
-    
-    this.contentWindow.document.notesform.ID_client.value = Client;
-
 });
