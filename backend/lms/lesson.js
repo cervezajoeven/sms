@@ -104,36 +104,9 @@ $(document).ready(function(){
         }
     });
     $("#view_text").hide();
-    //suddenshutdown@gmail.com
-    //AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc
-    //017301866149964088276:l0dgsrgie8b
+
+
     
-    //cervezajoeven@gmail.com
-    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
-    //005829641482717962768:2e59rdva9xk
-
-    //campuscloudph1@gmail.com
-    //AIzaSyDsB_WGyzL6BpZcawwdCRGTclvh5nkWixJc
-    //017301866149964088276:l0dgsrgie8b
-    
-    //campuscloudph2@gmail.com
-    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
-    //005829641482717962768:2e5awdva9xk
-
-    //campuscloudph3@gmail.com
-    //AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws
-    //005829612482717962768:2e59rdva9xk
-
-    //campuscloudph4@gmail.com
-    //AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI
-    //005829641482717962768:2e59pava9xP
-
-    //AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE
-    //AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs
-    var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
-    var cx = "005829641482717962768:2e59rdva9xk";
-    var youtube_key = 'AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws';
-    // var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
 
 
@@ -150,18 +123,27 @@ $(document).ready(function(){
         $(".loader").hide();
     });
 
+    var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
+    var cx = "005829641482717962768:2e59rdva9xk";
+
     var youtube_keys = [
         "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k",
+        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+        "AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc",
         "AIzaSyA3pDViRGgZvU1n7GcvTlbs533Nkf5z4co",
         "AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws",
         "AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs",
         "AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE",
-        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
-        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+        "AIzaSyDb3Ct7i14iJuTnIVitiE5zAV3WpYEQOZU",
+        "AIzaSyB9TfPawPi4983afD7iS4T6tLk3IX1DQRU",
+        "AIzaSyBCBJ4M9e8UwwheDswtzeEzQet2NqpNqXk",
     ];
 
     var google_keys = [
+        "AIzaSyCa2SdElivdp3iAh3d25YGP5mhkYyTXgxs",
         "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+        "AIzaSyDixpRH3jO6vOJir4JnDA1U_8DYGfOtvHo",
+        "AIzaSyCKCH9YY-tNPS_hCfjdwv2gQkbVuFL67f4",
     ];
     // window.addEventListener("resize", adjust_iframe());
     function youtube_search(query,maxResults = 5){
@@ -171,12 +153,13 @@ $(document).ready(function(){
             context: document.body
         }).done(function(data) {
 
+            console.log(google_keys[google_looper]+" Worked");
             var processed_data = process_data(data,"youtube");
             result_pool = processed_data;
             populate_search_content(processed_data);
 
         }).error(function(){
-            console.log("looped");
+            console.log(youtube_keys[youtube_looper]+" Did not work!");
             youtube_looper++;
             youtube_search();
 
@@ -184,24 +167,25 @@ $(document).ready(function(){
     }
 
     function google_search(query,maxResults = 5){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+key+"&cx="+cx+"&q="+query;
+        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&q="+query;
         $.ajax({
             url: api,
             context: document.body
         }).done(function(data) {
+            console.log(google_keys[google_looper]+" Worked");
             var processed_data = process_data(data,"google");
             result_pool = processed_data;
             populate_search_content(processed_data);
         }).error(function(){
 
-            console.log("looped");
-            key_looper++;
-            youtube_search();
+            console.log(google_keys[google_looper]+" Did not work!");
+            google_looper++;
+            google_search();
         });
     }
 
     function google_image_search(query,maxResults = 10){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[0]+"&cx="+cx+"&searchType=image&q="+query;
+        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&searchType=image&q="+query;
         $.ajax({
             url: api,
             context: document.body
@@ -209,6 +193,11 @@ $(document).ready(function(){
             var processed_data = process_data(data,"google_image");
             result_pool = processed_data;
             populate_search_content(processed_data);
+        }).error(function(){
+
+            console.log(google_keys[google_looper]+" Did not work!");
+            google_looper++;
+            google_search();
         });
     }
     function my_resources_search(query){
