@@ -157,6 +157,7 @@ $(document).ready(function(){
         "AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs",
         "AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE",
         "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
     ];
 
     var google_keys = [
