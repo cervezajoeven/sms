@@ -233,7 +233,7 @@ $language_name = $language["short_code"];
                                                 <td align="left"><?php
                                                     echo $fee_value->name;
                                                     ?></td>
-                                                <td align="left"><?php echo $fee_value->code; ?></td>
+                                                <td align="left"><?php echo $fee_value->type; ?></td>
                                                 <td align="left" class="text text-left">
 
                                                     <?php
