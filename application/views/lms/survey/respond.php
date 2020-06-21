@@ -192,6 +192,7 @@
 
 					var last_option = $(".option-container-actual").eq(key).find(".option").length;
 					var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
+
 					$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
 				});
 				var the_last = $(".option-container-actual").eq(key).find(".option").length;
@@ -229,19 +230,24 @@
 	$(".save").click(function(){
 		var json = [];
 		var options = $(".option-container-actual");
+		var completed_answer = 0;
 		$.each(options,function(key,value){
 			var the_option_type = $(value).attr("option_type");
-			
+			var has_answer = 0;
 			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
 				var option_val = [];
 				$.each($(value).find(".option"),function(option_key,option_value){
-					console.log();
 					if($(option_value).find(".option_type").find("input").is(":checked")){
 					 	option_val.push(1);
+					 	
 					}else{
 						option_val.push(0);
 					}
 				});
+
+				if($.inArray(1,option_val)>=0){
+					completed_answer++;
+				}
 				option_json = {
 					"type":the_option_type,
 					"answer":option_val.join(","),
@@ -269,29 +275,43 @@
 					"answer":option_val.join(","),
 				};
 			}
+
+			
+
+
 			json.push(option_json);
 
 			
 			
 		});
+		console.log(json.length);
+		console.log(completed_answer);
 
 		final_json = {survey_id:"<?php echo $survey['id'] ?>",respond:JSON.stringify(json),account_id:account_id};
-		$.ajax({
-		    url: url,
-		    type: "POST",
-		    data: final_json,
-		    // contentType: "application/json",
-		    complete: function(response){
-		    	console.log(response.responseText);
-		    	if("<?php echo $survey['id'] ?>" == "lms_survey_offline_159146294820546101"){
-		    		window.location.replace("<?php echo site_url('online_admission') ?>/");
-		    	}else{
-		    		window.location.replace("<?php echo site_url('lms/survey/index') ?>/");
-		    	}
-		    	alert("Sucessfully Submitted!");
-		    	
-		    }
-		});
+
+		console.log(completed_answer);
+		if(completed_answer >= json.length){
+			$.ajax({
+			    url: url,
+			    type: "POST",
+			    data: final_json,
+			    // contentType: "application/json",
+			    complete: function(response){
+			    	console.log(response.responseText);
+			    	if("<?php echo $survey['id'] ?>" == "lms_survey_offline_159146294820546101"){
+			    		window.location.replace("<?php echo site_url('online_admission') ?>/");
+			    	}else{
+			    		window.location.replace("<?php echo site_url('lms/survey/index') ?>/");
+			    	}
+			    	alert("Sucessfully Submitted!");
+			    	
+			    }
+			});
+		}else{
+
+			alert("Please complete the survey first.");
+		}
+		
 	});
 
 	$(".add_option").remove();
