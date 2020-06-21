@@ -240,7 +240,6 @@
                                 <address>
                                     <strong><?php echo $feearray[0]->firstname . " " . $feearray[0]->lastname . " (" . $feearray[0]->admission_no . ")"; ?></strong><br>
 
-                                    <?php echo $this->lang->line('father_name'); ?>: <?php echo $feearray[0]->father_name; ?><br>
                                     <?php echo $this->lang->line('class'); ?>: <?php echo $feearray[0]->class . " (" . $feearray[0]->section . ")"; ?>
                                 </address>
                             </div>
@@ -268,7 +267,7 @@
                                     <th><?php echo $this->lang->line('fees_group'); ?></th>
                                     <th><?php echo $this->lang->line('fees_code'); ?></th>
                                     <th  class=""><?php echo $this->lang->line('due_date'); ?></th>
-                                    <th class=""><?php echo $this->lang->line('status'); ?></th>
+                                    <!-- <th class=""><?php echo $this->lang->line('status'); ?></th> -->
                                     <th  class="text text-right"><?php echo $this->lang->line('amount'); ?></th>
                                     <th  class="text text-center"><?php echo $this->lang->line('payment_id'); ?></th>
                                     <th  class="text text-center"><?php echo $this->lang->line('mode'); ?></th>
@@ -340,7 +339,7 @@
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td class="">
+                                                    <!-- <td class="">
                                                         <?php
                                                         if ($feetype_balance == 0) {
                                                             echo $this->lang->line('paid');
@@ -351,7 +350,7 @@
                                                         }
                                                         ?>
 
-                                                    </td>
+                                                    </td> -->
                                                     <td class="text text-right"><?php echo $currency_symbol . $feeList->amount; ?></td>
 
                                                     <td colspan="3"></td>
@@ -409,7 +408,7 @@
                                         <tr class="success">
                                             <td align="left" ></td>
                                             <td align="left" ></td>
-                                            <td align="left" ></td>
+                                            <!-- <td align="left" ></td> -->
 
                                             <td align="left" class="text text-left" >
                                                 <b>    <?php echo $this->lang->line('grand_total'); ?></b>

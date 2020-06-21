@@ -126,15 +126,9 @@ $language_name = $language["short_code"];
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th><?php echo $this->lang->line('category'); ?></th>
+                                                        <th>Check Balance</th>
                                                         <td>
-                                                            <?php
-                                                            foreach ($categorylist as $value) {
-                                                                if ($student['category_id'] == $value['id']) {
-                                                                    echo $value['category'];
-                                                                }
-                                                            }
-                                                            ?>
+                                                            <button>Previous Balance</button>
                                                         </td>
                                                         <th><?php echo $this->lang->line('enrollment_payment_status'); ?></th>
                                                         <td>
