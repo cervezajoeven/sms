@@ -371,7 +371,8 @@ $language_name = $language["short_code"];
                                                 <td></td>
                                                 <td align="left"> <?php echo $this->lang->line('discount'); ?> </td>
                                                 <td align="left">
-                                                    <?php echo $discount_value['code']; ?>
+                                                    
+                                                    <?php echo $discount_value['name']; ?> (<?php echo $discount_value['code']; ?>)
                                                 </td>
                                                 <td align="left"></td>
                                                 <td align="left" class="text text-left">
