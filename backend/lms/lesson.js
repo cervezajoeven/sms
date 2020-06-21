@@ -18,6 +18,8 @@ $(document).ready(function(){
     var role = $("#role").val();
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
+    var youtube_looper = 0;
+    var google_looper = 0;
 
     if(education_level=="tertiary"){
         folder_names = "Introduction,Lesson Proper,Examination";
@@ -102,18 +104,12 @@ $(document).ready(function(){
         }
     });
     $("#view_text").hide();
-    //suddenshutdown
-    //AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc
-    //017301866149964088276:l0dgsrgie8b
+
+
     
-    //cervezajoeven@gmail.com
-    //AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k
-    //005829641482717962768:2e59rdva9xk
-    var key = "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k";
-    var cx = "005829641482717962768:2e59rdva9xk";
-    var youtube_key = 'AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws';
-    var youtube_key2 = 'AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00';
     // deploy_stored_data(stored_lesson_data);
+
+
     adjust_iframe();
 
     $(".instruction").hide();
@@ -126,33 +122,70 @@ $(document).ready(function(){
 
         $(".loader").hide();
     });
+
+    var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
+    var cx = "005829641482717962768:2e59rdva9xk";
+
+    var youtube_keys = [
+        "AIzaSyCQABaeip2nXZiL5sr1aTf0Oq3VbfPK_-k",
+        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+        "AIzaSyDsB_WGyzL6VpZcoxoCRGTclvh5nkWixJc",
+        "AIzaSyA3pDViRGgZvU1n7GcvTlbs533Nkf5z4co",
+        "AIzaSyBpB251vsnGdn7P0t2EOuBX7AtW05bYYws",
+        "AIzaSyAvtCp9gxcaFC5WvOdioqLH47r_lacdyCs",
+        "AIzaSyA3eZ1yVlYplPkiwNJUhbqrDG-GSm8NcyE",
+        "AIzaSyDb3Ct7i14iJuTnIVitiE5zAV3WpYEQOZU",
+        "AIzaSyB9TfPawPi4983afD7iS4T6tLk3IX1DQRU",
+        "AIzaSyBCBJ4M9e8UwwheDswtzeEzQet2NqpNqXk",
+    ];
+
+    var google_keys = [
+        "AIzaSyCa2SdElivdp3iAh3d25YGP5mhkYyTXgxs",
+        "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
+        "AIzaSyDixpRH3jO6vOJir4JnDA1U_8DYGfOtvHo",
+        "AIzaSyCKCH9YY-tNPS_hCfjdwv2gQkbVuFL67f4",
+    ];
     // window.addEventListener("resize", adjust_iframe());
-    function youtube_search(query,maxResults = 10){
-        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_key;
+    function youtube_search(query,maxResults = 5){
+        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
         $.ajax({
             url: youtube_api,
             context: document.body
         }).done(function(data) {
+
+            console.log(google_keys[google_looper]+" Worked");
             var processed_data = process_data(data,"youtube");
             result_pool = processed_data;
             populate_search_content(processed_data);
+
+        }).error(function(){
+            console.log(youtube_keys[youtube_looper]+" Did not work!");
+            youtube_looper++;
+            youtube_search();
+
         });
     }
 
-    function google_search(query,maxResults = 10){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+key+"&cx="+cx+"&q="+query;
+    function google_search(query,maxResults = 5){
+        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&q="+query;
         $.ajax({
             url: api,
             context: document.body
         }).done(function(data) {
+            console.log(google_keys[google_looper]+" Worked");
             var processed_data = process_data(data,"google");
             result_pool = processed_data;
             populate_search_content(processed_data);
+        }).error(function(){
+
+            console.log(google_keys[google_looper]+" Did not work!");
+            google_looper++;
+            google_search();
         });
     }
 
     function google_image_search(query,maxResults = 10){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+key+"&cx="+cx+"&searchType=image&q="+query;
+        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&searchType=image&q="+query;
         $.ajax({
             url: api,
             context: document.body
@@ -160,6 +193,11 @@ $(document).ready(function(){
             var processed_data = process_data(data,"google_image");
             result_pool = processed_data;
             populate_search_content(processed_data);
+        }).error(function(){
+
+            console.log(google_keys[google_looper]+" Did not work!");
+            google_looper++;
+            google_search();
         });
     }
     function my_resources_search(query){
@@ -895,8 +933,11 @@ $(document).ready(function(){
         
         $(".edit_area").toggleClass("close_edit");
         $(".student_view").toggleClass("student_view_close");
+
+
         active_content_data = get_content_data(content_order[0]);
         active_content = content_order[0];
+
         adjust_iframe();
         render_student_view();
         populate_slides();
@@ -1358,4 +1399,12 @@ function send_chat(student_chat){
         }
     });
 }
-
+if(role=="admin"){
+    $(".teacher_tools_button").click(function(){
+        $(".teacher_tools").toggle();
+        var width = document.getElementById('teacher_tools').offsetWidth;
+        $(".student_view_slides").hide();
+        $(".student_view_content").toggle();
+        $("#classroomscreen").css("width",width+70);
+    });
+}

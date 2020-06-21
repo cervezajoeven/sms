@@ -233,7 +233,7 @@ $lang['email_engine'] = 'Email Engine';
 $lang['email_setting'] = 'Email Setting';
 $lang['enabled'] = 'Enabled';
 $lang['end_time'] = 'End Time';
-$lang['enrollment_no'] = 'Enrollment Number';
+$lang['enrollment_no'] = 'Enrolment Number';
 $lang['enter_room_no'] = 'Enter Room Number';
 $lang['exam'] = 'Exam';
 $lang['exam_list'] = 'Exam List';
@@ -1038,7 +1038,7 @@ $lang['due'] = "Due";
 $lang['duplicate'] = "Duplicate";
 $lang['duplicate_entry'] = "Duplicate entry";
 $lang['duration'] = "Duration";
-$lang['enrolled'] = "Enrolled";
+$lang['enrolled'] = "Enroled";
 $lang['enter'] = "Enter";
 $lang['evaluation_completed_message'] = "Homework Evaluation completed Successfully.";
 $lang['exam_absent'] = "ABS";
@@ -1374,7 +1374,7 @@ $lang['lms_feedback'] = 'Concerns/Feedback';
 $lang['complain'] = 'Concerns/Feedback';
 $lang['complain_by'] = 'Concerns/Feedback By';
 $lang['complain_type'] = 'Concerns/Feedback Type';
-$lang['enrollment_type'] = 'Enrollment Type';
+$lang['enrollment_type'] = 'Enrolment Type';
 $lang['mode_of_payment'] = 'Payment Scheme';
 $lang['add_fees'] = 'Add Payment';
 $lang['add_fees_discount'] = 'Add Payment Discount';
@@ -1432,7 +1432,7 @@ $lang['middle_name'] = 'Middle Name';
 $lang['lrn_no'] = 'Learner Reference Number';
 $lang['student_id'] = 'Student ID Number';
 $lang['has_pending_admission'] = 'already has pending admission';
-$lang['already_enrolled'] = 'is already enrolled.';
+$lang['already_enrolled'] = 'is already enroled.';
 $lang['enrolling_for'] = 'Enrolling For';
 
 $lang['company'] = 'Company';
@@ -1445,7 +1445,7 @@ $lang['college'] = 'College School Attended';
 $lang['college_course'] = 'College Degree Attained';
 $lang['post_graduate'] = 'Post Graduate School Attended';
 $lang['degree_attained'] = 'Post Graduate Degree Attained';
-$lang['prof_affil'] = 'Proffesional Affiliations';
+$lang['prof_affil'] = 'Professional Affiliations';
 $lang['position_held'] = 'Positions Held';
 $lang['tech_prof'] = 'Proficient in the use of technology(Social Media Platforms)';
 
@@ -1497,15 +1497,15 @@ $lang['email_on_student_import'] = 'Send Email on Student Import';
 
 $lang['living_with_parents'] = 'Living with parents?';
 $lang['living_with_parents_specify'] = 'If No, Please specify';
-$lang['has_siblings_enrolled'] = 'Has Siblings Enrolled';
+$lang['has_siblings_enrolled'] = 'Has Siblings Enroled';
 $lang['siblings_specify'] = 'If Yes, Please specify';
 
-$lang['admission_success'] = 'We have recieved your online admission. We will review your account and please expect an email notification within 48 hours. Thank you!';
+$lang['admission_success'] = 'We have received your online admission. We will review your account and please expect an email notification within 48 hours. Thank you!';
 $lang['preferred_education_mode'] = "Preferred Mode of Education";
 
 $lang['techbased'] = "Technology-Based Platforms (Online Learning)";
 $lang['modulebased'] = "Module-Based Learning";
-$lang['enrollment_payment_status'] = "Enrollment Payment Status";
+$lang['enrollment_payment_status'] = "Enrolment Payment Status";
 
 $lang['student_additional_details'] = "Student's Other Details";
 $lang['error_message'] = "Record Save Failed";
@@ -1519,7 +1519,5 @@ $lang['parent_notification'] = "Parent Notification";
 $lang['old_student_account'] = "Old Student Notification";
 $lang['lesson_assigned'] = "Lesson Assigned";
 $lang['assessment_assigned'] = "Assessment Assigned";
-
-
-
+$lang['data_privacy_chkbox_text'] = "Data Privacy Checkbox Text";
 ?>

@@ -2134,8 +2134,8 @@ return false;
         // $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate));
         // $result = $this->db->get();
 
-        $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate));
-        $query = $this->db->get('students');
+        $this->db->where(array('firstname' => $firstname, 'lastname' => $lastname, 'dob' => $birthdate, 'is_enroll' => 1));
+        $query = $this->db->get('online_admissions');
 
         if ($query->num_rows() > 0) {
             return true;

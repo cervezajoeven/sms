@@ -126,15 +126,9 @@ $language_name = $language["short_code"];
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th><?php echo $this->lang->line('category'); ?></th>
+                                                        <th>Check Balance</th>
                                                         <td>
-                                                            <?php
-                                                            foreach ($categorylist as $value) {
-                                                                if ($student['category_id'] == $value['id']) {
-                                                                    echo $value['category'];
-                                                                }
-                                                            }
-                                                            ?>
+                                                            <button>Previous Balance</button>
                                                         </td>
                                                         <th><?php echo $this->lang->line('enrollment_payment_status'); ?></th>
                                                         <td>
@@ -239,7 +233,7 @@ $language_name = $language["short_code"];
                                                 <td align="left"><?php
                                                     echo $fee_value->name;
                                                     ?></td>
-                                                <td align="left"><?php echo $fee_value->code; ?></td>
+                                                <td align="left"><?php echo $fee_value->type; ?></td>
                                                 <td align="left" class="text text-left">
 
                                                     <?php
@@ -377,7 +371,8 @@ $language_name = $language["short_code"];
                                                 <td></td>
                                                 <td align="left"> <?php echo $this->lang->line('discount'); ?> </td>
                                                 <td align="left">
-                                                    <?php echo $discount_value['code']; ?>
+                                                    
+                                                    <?php echo $discount_value['name']; ?> (<?php echo $discount_value['code']; ?>)
                                                 </td>
                                                 <td align="left"></td>
                                                 <td align="left" class="text text-left">

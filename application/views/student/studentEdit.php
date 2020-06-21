@@ -65,6 +65,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <option value="<?php echo $pmode['mode'] ?>"<?php if ($student['mode_of_payment'] == $pmode['mode']) echo " selected " ?>><?php echo $pmode['description'] ?></option>
                                                 <?php } ?>
                                                 </select>
+                                                <span class="text-danger"><?php echo form_error('mode_of_payment'); ?></span>
                                             </div>
                                         </div>                                                                                                                        
 
@@ -1060,7 +1061,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 												<div class="form-group">
 													<label><?php echo $this->lang->line('parents_civil_status');?></label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="parents_civil_status" <?php echo set_value('parents_civil_status') == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
+                                                        <input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "married" ? "checked" : ""; ?> value="married"> <?php echo $this->lang->line('married'); ?>
                                                     </label>
 													<label class="radio-inline">
 														<input type="radio" name="parents_civil_status" <?php echo $student['parents_civil_status'] == "separated" ? "checked" : ""; ?> value="separated"> <?php echo $this->lang->line('separated'); ?>
@@ -1091,7 +1092,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 										<?php if ($sch_setting->current_address) { ?>
                                         <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php if($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
+                                                <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php echo($student['guardian_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">
@@ -1105,7 +1106,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 										<?php } if ($sch_setting->permanent_address) { ?>
                                         <div class="col-md-4">
                                             <label>
-                                                <input type="checkbox" id="permanent_address_is_current_address"onclick="return auto_fill_address();" <?php if($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
+                                                <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" onclick="return auto_fill_address();" <?php echo($student['permanent_address_is_current_address'] == 1 ? "checked" : ""); ?>>
                                                 <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
                                             </label>
                                             <div class="form-group">

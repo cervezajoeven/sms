@@ -118,6 +118,7 @@ class Assessment extends General_Controller {
                             if (strpos($respond->answer, '1') > -1) {
                                 if ($array_pos == 0) {
                                     $responses['data'][] = array (
+                                        'type' => $respond->type,
                                         'answer_choices' => explode(',', $json_sheet[$resp_pos]->option_labels),
                                         'respondents' => 1,
                                         'answers_count' =>  explode(',', $respond->answer)
@@ -136,6 +137,7 @@ class Assessment extends General_Controller {
                             } else {
                                 if ($array_pos == 0) {
                                     $responses['data'][] = array (
+                                        'type' => $respond->type,
                                         'answer_choices' => explode(',', $json_sheet[$resp_pos]->option_labels),
                                         'respondents' => 0,
                                         'answers_count' => explode(',', $respond->answer)
@@ -146,6 +148,7 @@ class Assessment extends General_Controller {
                             }
                         } else {
                             $responses['data'][] = array (
+                                'type' => $respond->type,
                                 'answer_choices' => array(''),
                                 'respondents' => 0,
                                 'answers_count' =>  array('')
@@ -424,7 +427,7 @@ class Assessment extends General_Controller {
         $assessment = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         $data['data'] = $assessment_sheets;
         $data['assessment'] = $assessment;
-        // echo '<pre>';print_r($assessment);exit();
+        // echo '<pre>';print_r(json_decode($assessment['sheet']));exit();
         // $data['id'] = $id;
         $data['resources'] = site_url('backend/lms/');
 

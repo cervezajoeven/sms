@@ -14,8 +14,35 @@ class Onlinestudent_model extends MY_Model {
     }
 
     public function add($data) {    
-        $this->db->insert('online_admissions', $data);
-        return $this->db->insert_id();       
+        $this->db->where('firstname', $data['firstname']);
+        $this->db->where('lastname', $data['lastname']);
+        $this->db->where('dob', $data['dob']);
+        $q = $this->db->get('online_admissions');
+
+        if ($q->num_rows() > 0) {
+            if ($rec['is_enroll'] == 0)
+            {
+                $rec = $q->row_array();
+                $this->db->where('id', $rec['id']);
+                $this->db->update('online_admissions', $data);
+                $message   = UPDATE_RECORD_CONSTANT . " On online_admissions id " . $rec['id'];
+                $action    = "Update";
+                $record_id = $rec['id'];
+                $this->log($message, $record_id, $action);
+            }
+        } else {
+            $this->db->insert('online_admissions', $data);
+            $insert_id = $this->db->insert_id();
+            $message   = INSERT_RECORD_CONSTANT . " On online_admissions id " . $session_id;
+            $action    = "Insert";
+            $record_id = $insert_id;
+            $this->log($message, $record_id, $action);
+        }
+
+        // $this->db->insert('online_admissions', $data);
+        // return $this->db->insert_id();       
+
+        return $record_id;
     }
 
     public function get($id = null,$carray=null) {
@@ -146,11 +173,11 @@ class Onlinestudent_model extends MY_Model {
                         
                         $old_data = array (
                             'admission_no' => $data['admission_no'],
-                            'admission_date' => date('Y-m-d', $data['admission_date']),
+                            'admission_date' => date('Y-m-d', strtotime($data['admission_date'])),
                             'mode_of_payment' => $data['mode_of_payment'],
                             'enrollment_type' => $data['enrollment_type'],
                             'gender' => $data['gender'],
-                            'dob' => date('Y-m-d', $data['dob']),
+                            'dob' => date('Y-m-d', strtotime($data['dob'])),
                             'guardian_email' => $data['email'],
                             'payment_scheme' => $data['payment_scheme'],
                         );

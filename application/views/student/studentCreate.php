@@ -1637,6 +1637,20 @@
                         response(data);
                     }
                 });
+            }
+            if ($('#enrollment_type').val() == 'old_new' ) {
+                // Fetch data
+                $.ajax({
+                    url: '<?php echo base_url()."student/AutoCompleteLRN"; ?>',
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
             }            
         },
         select: function (event, ui) {
@@ -1645,6 +1659,13 @@
 
             // Set selection
             if ($('#enrollment_type').val() == 'old' ) {
+                var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.label;
+                $.get(url)
+                .done(function(data) {
+                    AutoFillDetails(JSON.parse(data));
+                });
+            }
+            if ($('#enrollment_type').val() == 'old_new' ) {
                 var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.label;
                 $.get(url)
                 .done(function(data) {
@@ -1675,6 +1696,20 @@
                     }
                 });
             }
+            if ($('#enrollment_type').val() == 'old_new' ) {
+                // Fetch data
+                $.ajax({
+                    url: '<?php echo base_url()."student/AutoCompleteStudentName"; ?>',
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            }
         },
         select: function (event, ui) {
             //$('.alert').alert('close');
@@ -1683,6 +1718,13 @@
 
             // Set selection
             if ($('#enrollment_type').val() == 'old' ) {
+                var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.value;
+                $.get(url)
+                .done(function(data) {
+                    AutoFillDetails(JSON.parse(data));
+                });
+            }
+            if ($('#enrollment_type').val() == 'old_new' ) {
                 var url = '<?php echo base_url(); ?>' + 'student/GetStudentDetails/'+ui.item.value;
                 $.get(url)
                 .done(function(data) {

@@ -29,7 +29,7 @@ public function getSqlMode(){
           sch_settings.address,sch_settings.dise_code,sch_settings.date_format,sch_settings.currency,sch_settings.currency_symbol,sch_settings.currency_place,sch_settings.start_month,
           sch_settings.session_id,sch_settings.fee_due_days,sch_settings.image,sch_settings.theme,sessions.session,sch_settings.online_admission,sch_settings.is_duplicate_fees_invoice,
           sch_settings.is_student_house,sch_settings.is_blood_group,sch_settings.admin_logo,sch_settings.admin_small_logo,sch_settings.mobile_api_url,sch_settings.app_primary_color_code,
-          sch_settings.app_secondary_color_code,sch_settings.app_logo'
+          sch_settings.app_secondary_color_code,sch_settings.app_logo,sch_settings.email_on_student_import,sch_settings.data_privacy_chkbox_text'
         );
         $this->db->from('sch_settings');
         $this->db->join('sessions', 'sessions.id = sch_settings.session_id');
@@ -116,8 +116,7 @@ public function getSqlMode(){
                            sch_settings.staff_qualification,sch_settings.staff_work_experience,sch_settings.staff_note,sch_settings.staff_epf_no,sch_settings.staff_basic_salary,sch_settings.staff_contract_type,
                            sch_settings.staff_work_shift,sch_settings.staff_work_location,sch_settings.staff_leaves,sch_settings.staff_account_details,sch_settings.staff_social_media,sch_settings.staff_upload_documents,
                            sch_settings.admin_logo,sch_settings.admin_small_logo,sch_settings.mobile_api_url,sch_settings.app_primary_color_code,sch_settings.app_secondary_color_code,sch_settings.app_logo,
-                           sch_settings.email_on_student_import,languages.short_code as `language_code`,'
-        );
+                           sch_settings.email_on_student_import,languages.short_code as `language_code`,sch_settings.data_privacy_chkbox_text');
         $this->db->from('sch_settings');
         $this->db->join('sessions', 'sessions.id = sch_settings.session_id');
         $this->db->join('languages', 'languages.id = sch_settings.lang_id');
@@ -318,5 +317,11 @@ public function unlink_receiptheader(){
     public function get_payslipfooter(){
         $image=$this->db->select('footer_content')->from('print_headerfooter')->where('print_type','staff_payslip')->get()->row_array();
       echo $image['footer_content'];
+    }
+
+    public function getDataPrivacyChkboxText() {
+        $query=$this->db->select('data_privacy_chkbox_text')->get('sch_settings');
+        $name=$query->row_array();
+        echo $name['data_privacy_chkbox_text'];
     }
 }

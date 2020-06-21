@@ -350,7 +350,26 @@ class Lesson extends General_Controller {
 
     }
 
-    public function send_email(){
+    public function send_email_parent(){
+        $this->db->select("*");
+        $query = $this->db->get("students");
+        $result = $query->result_array();
+        echo "<pre>";
+        $current_session = $this->setting_model->getCurrentSession();
+        print_r("current session: ".$current_session);
+
+        foreach ($result as $key => $value) {
+            //for parent notification
+            // $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
+            $sender_details = array('id' => $value['id'], 'email' => $value['email']);
+            
+            print_r($sender_details);
+            $this->mailsmsconf->mailsms('parent_notification', $sender_details);
+        }
+        
+    }
+
+    public function send_email_old_accounts(){
         $this->db->select("*");
         $query = $this->db->get("students");
         $result = $query->result_array();
@@ -430,6 +449,7 @@ class Lesson extends General_Controller {
             $data['name'] = $_REQUEST['name'];
             $data['type'] = $_REQUEST['type'];
             $data['link'] = "https://player.vimeo.com/video/".explode("/", $_REQUEST['link'])[3];
+            // $data['link'] = $_REQUEST['link'];
             $data['description'] = $_REQUEST['description'];
             $data['account_id'] = $this->session->userdata('admin')['id'];
             $data['lms_lesson_ids'] = $lesson_id;

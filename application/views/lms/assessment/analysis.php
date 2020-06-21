@@ -251,20 +251,30 @@
 							if ($data[0]['answer'] != null) {
 								$respond = json_decode($data[0]['answer']);							
 								$i = 0;
+								$section_counter = 0;
 
 								foreach($respond as $resp) {
-
+									$i++;
 									if ($resp->type != "long_answer" && $resp->type != "short_answer" && $resp->type != "section") {
+										
 										print('<div class="w3-panel w3-card-2 question_container">');
 										print('<div class="radio">');
-										printf('<label class="sort_number" style="font-size: 1.5em">%s</label>', $i+1);
+										printf('<label class="sort_number" style="font-size: 1.5em">%s</label>', $i,$section_counter);
 										print('</div>');
-										printf('<canvas id="myChart_%s" width="600" height="250"></canvas>', $i+1);
-										printf('<div id="resp_%s" class="w3-center"></div>', $i+1);
+										printf('<canvas id="myChart_%s_%s" width="600" height="250"></canvas>', $i,$section_counter);
+										printf('<div id="resp_%s_%s" class="w3-center"></div>', $i,$section_counter);
 										print('</div>');
 										
+										
+									}elseif($resp->type == "section"){
+										print('<div><h1>');
+										print_r($resp->answer);
+										print('</h1></div>');
+										$i = 0;
+										$section_counter++;
+
 									}
-									$i++;
+									
 									
 								}
 							} else {
@@ -295,89 +305,96 @@
 		fetch('<?php echo site_url('lms/assessment/get_sheets/'.$assessment['id'])?>') 
 		.then((resp) => resp.json())
 		.then(function(data) {
-			//alert(data);
-			console.log(data);
 			resp_data = data;
 
 			var display="";
-			var chart_ctr = 1;
+			var chart_ctr = 0;
+			var section = 0;
 
 			//-- Show charts
 			$.each(data, function() {
-				console.log(data[chart_ctr-1].answer_choices);
+				// console.log(data[chart_ctr-1].type);	
+				chart_ctr++;
+				if(data[chart_ctr-1].type != "section"){
+					console.log("beri gud");
+					if (data[chart_ctr-1].answer_choices != '') {
+						$('#resp_' + chart_ctr).html('<h4>RESPONDENTS: '+data[chart_ctr-1].respondents+'</h4>')
 
-				if (data[chart_ctr-1].answer_choices != '') {
-					$('#resp_' + chart_ctr).html('<h4>RESPONDENTS: '+data[chart_ctr-1].respondents+'</h4>')
-
-					var config = {
-						type: 'bar',
-						data: {
-							datasets: [{
-								label: 'Question ' + chart_ctr,
-								data: data[chart_ctr-1].answers_count.map(Number),
-								fill: false,
-								backgroundColor: [window.chartColors.green,
-												window.chartColors.blue,
-												window.chartColors.red,
-												window.chartColors.orange,
-												window.chartColors.yellow,
-												window.chartColors.purple,
-												window.chartColors.grey]
-							}],
-							labels: data[chart_ctr-1].answer_choices
-						},
-						options: {
-							scales: {
-								yAxes: [{
-									ticks: {
-										precision: 0
+						var config = {
+							type: 'bar',
+							data: {
+								datasets: [{
+									label: 'Question ' + chart_ctr,
+									data: data[chart_ctr-1].answers_count.map(Number),
+									fill: false,
+									backgroundColor: [window.chartColors.green,
+													window.chartColors.blue,
+													window.chartColors.red,
+													window.chartColors.orange,
+													window.chartColors.yellow,
+													window.chartColors.purple,
+													window.chartColors.grey]
+								}],
+								labels: data[chart_ctr-1].answer_choices
+							},
+							options: {
+								scales: {
+									yAxes: [{
+										ticks: {
+											precision: 0
+										}
+									}]
+								},
+								responsive: true,
+								maintainAspectRatio: true,
+								layout: {
+									padding: {
+										left: 0,
+										right: 0,
+										top: 0,
+										bottom: 15
 									}
-								}]
-							},
-							responsive: true,
-							maintainAspectRatio: true,
-							layout: {
-								padding: {
-									left: 0,
-									right: 0,
-									top: 0,
-									bottom: 15
-								}
-							},
-							plugins: {
-								datalabels: {
-									anchor: 'end',
-									backgroundColor: function(context) {
-										return context.dataset.backgroundColor;
-									},
-									borderColor: 'white',
-									borderRadius: 25,
-									borderWidth: 2,
-									color: 'white',
-									font: {
-										weight: 'bold'
-									},
-									formatter: (value, ctx) => {
-										let sum = 0;
-										let dataArr = ctx.chart.data.datasets[0].data;
-										dataArr.map(data => {
-											sum += data;
-										});
-										let percentage = (value*100 / sum).toFixed(1)+"%";
-										return percentage;
-									},
+								},
+								plugins: {
+									datalabels: {
+										anchor: 'end',
+										backgroundColor: function(context) {
+											return context.dataset.backgroundColor;
+										},
+										borderColor: 'white',
+										borderRadius: 25,
+										borderWidth: 2,
+										color: 'white',
+										font: {
+											weight: 'bold'
+										},
+										formatter: (value, ctx) => {
+											let sum = 0;
+											let dataArr = ctx.chart.data.datasets[0].data;
+											dataArr.map(data => {
+												sum += data;
+											});
+											let percentage = (value*100 / sum).toFixed(1)+"%";
+											return percentage;
+										},
+									}
 								}
 							}
-						}
-					};
-					
-					var can_id="canvas"+chart_ctr;
-					var ctx = $('#myChart_'+chart_ctr);
-					window.can_id = new Chart(ctx, config);
+						};
+						var the_id = (chart_ctr-1)+"_"+(section);
+						console.log(the_id);
+						var can_id="canvas"+the_id;
+						var ctx = $('#myChart_'+the_id);
+						window.can_id = new Chart(ctx, config);
+					}
+				}else{
+					chart_ctr = 1;
+					section++;
 				}
 				
+				
 
-				chart_ctr++;
+				
 			});					
 		})
 		.catch(function(error) {

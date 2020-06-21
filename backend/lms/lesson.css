@@ -643,3 +643,26 @@ html, body {
 .vimeo_color{
     background-color: #00ADEF;    
 }
+/*.teacher_tools_button{
+    width: 20%;
+    text-align: center;
+    background-color: rgb(118, 113, 113);
+    color: white;
+    padding: 10px 0px;
+    cursor: pointer;
+    max-height: 20px;
+    transition: all 1s;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}*/
+.teacher_tools_button{
+    z-index: 5;
+}
+.teacher_tools {
+    display: none;
+    background-color: rgb(22, 187, 238);
+    width: 70%;
+    height: 100%;
+    position: absolute;
+}
