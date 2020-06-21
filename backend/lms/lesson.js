@@ -1399,11 +1399,12 @@ function send_chat(student_chat){
         }
     });
 }
-
-$(".teacher_tools_button").click(function(){
-    $(".teacher_tools").toggle();
-    var width = document.getElementById('teacher_tools').offsetWidth;
-    $(".student_view_slides").hide();
-    $(".student_view_content").toggle();
-    $("#classroomscreen").css("width",width+70);
-});
+if(role=="admin"){
+    $(".teacher_tools_button").click(function(){
+        $(".teacher_tools").toggle();
+        var width = document.getElementById('teacher_tools').offsetWidth;
+        $(".student_view_slides").hide();
+        $(".student_view_content").toggle();
+        $("#classroomscreen").css("width",width+70);
+    });
+}
