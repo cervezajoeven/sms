@@ -701,26 +701,28 @@
                             float: right;
                             padding: 5px;
                         "><i class="fas fa-times-circle"></i> Close</div>
+                        
+                          <h2 style="padding: 5px 30px;
+                              margin: 0px;
+                              left: 15px;
+                              position: relative;
+                              color: white;
+                              width: 200px;
+                              background-color: rgb(22, 187, 238);
+                              font-weight: bolder;
+                              margin-top: 0px;"
+                              >CMS Teacher Tools</h2>
+                          <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 106%;height: 90%;left: -70px;position: relative;" >
+                            
+                          </iframe>
 
-                        <h2 style="padding: 5px 30px;
-                            margin: 0px;
-                            left: 15px;
-                            position: relative;
-                            color: white;
-                            width: 200px;
-                            background-color: rgb(22, 187, 238);
-                            font-weight: bolder;
-                            margin-top: 0px;"
-                            >CMS Teacher Tools</h2>
-                    <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 106%;height: 90%;left: -70px;position: relative;" >
-                      
-                    </iframe>
                 </div>
                 
             </div>
             <div class="student_view_right">
                 
                 <div class="student_view_navigation">
+                  <?php if($role=="admin"): ?>
                     <div class="student_view_buttons close_action teacher_tools_button" style="
                     width: 47%;
                     background-color: green;
@@ -728,6 +730,7 @@
                     margin: 5px;
                     z-index: 99999;
                     "><i class="fas fa-wrench"></i> CMS Teacher Tools</div>
+                  <?php endif;?>
                     <div class="student_view_buttons close_action close_student_view" style="
                     width: 47%;
                     border-radius: 20px;
