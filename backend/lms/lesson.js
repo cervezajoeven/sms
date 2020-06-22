@@ -16,6 +16,7 @@ $(document).ready(function(){
     var education_level = $("#education_level").val();
     var checked_ids = [];
     var role = $("#role").val();
+    var role2 = $("#role").val();
     var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
     var folder_names = "Engage,Explore,Explain,Explain,Explore";
     var youtube_looper = 0;
@@ -1282,7 +1283,7 @@ $(document).ready(function(){
         reset_student_view();
     });
 
-    if(role!="admin"){
+    if(role2!="admin"){
         $(".close_student_view").click(function(){
             window.location.replace(url+"index");
         });
@@ -1290,9 +1291,8 @@ $(document).ready(function(){
             $(".slideshow_action").click();
         },1500);
         $(".edit_area").hide();
-    }else{
-        
     }
+
     $(".assign_save").click(function(){
         change_detected();
         alert("Lesson has been assigned successfully");
@@ -1399,12 +1399,12 @@ function send_chat(student_chat){
         }
     });
 }
-if(role=="admin"){
-    $(".teacher_tools_button").click(function(){
-        $(".teacher_tools").toggle();
-        var width = document.getElementById('teacher_tools').offsetWidth;
-        $(".student_view_slides").hide();
-        $(".student_view_content").toggle();
-        $("#classroomscreen").css("width",width+70);
-    });
-}
+
+$(".teacher_tools_button").click(function(){
+    $(".teacher_tools").toggle();
+    var width = document.getElementById('teacher_tools').offsetWidth;
+    $(".student_view_slides").hide();
+    $(".student_view_content").toggle();
+    $("#classroomscreen").css("width",width+70);
+});
+
