@@ -146,7 +146,7 @@ class Studentfee extends Admin_Controller
         
      
         $this->load->view('layout/header', $data);
-        $this->load->view('studentfee/collection_report', $data);
+        $this->load->view('studentfee/cms_collection_report', $data);
         $this->load->view('layout/footer', $data);
     }
 
