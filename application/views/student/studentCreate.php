@@ -1527,6 +1527,7 @@
         $('#roll_no').val(data.roll_no);
         //$('#class_id').val(data.class_id);
         //$('#section_id').val(data.section_id);        
+        
         $('#lrn_no').val(data.lrn_no);
         $('#firstname').val(data.firstname);
         $('#middlename').val(data.middlename);
