@@ -1288,10 +1288,10 @@
            getSectionByClass(class_id, 0);
         });
 
-        $('.datetime').datetimepicker({
+        // $('.datetime').datetimepicker({
 
-        });
-         $(".color").colorpicker();
+        // });
+        //  $(".color").colorpicker();
 
         $("#btnreset").click(function () {
             $("#form1")[0].reset();
@@ -1532,12 +1532,12 @@
         $('#middlename').val(data.middlename);
         $('#lastname').val(data.lastname);
         $('#gender').val(data.gender);
-        $('#dob').val(data.dob);
+        $('#dob').val($.datepicker.formatDate('mm/dd/yy', new Date(data.dob)));
         $('#category_id').val(data.category_id);
         $('#religion').val(data.religion);
         $('#mobileno').val(data.mobileno);
         $('#email').val(data.email);
-        $('#admission_date').val(data.admission_date);
+        $('#admission_date').val($.datepicker.formatDate('mm/dd/yy', new Date(data.admission_date)));
         $('#blood_group').val(data.blood_group);
         $('#house').val(data.house);
         $('#height').val(data.height);

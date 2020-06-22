@@ -1002,7 +1002,7 @@ return false;
             $action    = "Update";
             $record_id = $rec['id'];
             $this->log($message, $record_id, $action);
-            // $session_id = $rec['student_session_id'];
+            // $session_id = $record_id;
 
         } else {
             $this->db->insert('student_session', $data);
@@ -1014,19 +1014,19 @@ return false;
             
         }
 		//echo $this->db->last_query();die;
-            //======================Code End==============================
+        //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
-            /*Optional*/
+        $this->db->trans_complete(); # Completing transaction
+        /*Optional*/
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return 0;
+        if ($this->db->trans_status() === false) {
+            # Something went wrong.
+            $this->db->trans_rollback();
+            return 0;
 
-            } else {
-                return $session_id;
-            }
+        } else {
+            return $session_id;
+        }
     }
 
     public function add_student_session_update($data)
