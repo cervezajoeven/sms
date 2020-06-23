@@ -180,6 +180,7 @@ class Onlinestudent_model extends MY_Model {
                             'dob' => date('Y-m-d', strtotime($data['dob'])),
                             'guardian_email' => $data['email'],
                             'payment_scheme' => $data['payment_scheme'],
+                            'preferred_education_mode' => $data['preferred_education_mode'],
                         );
                         
                         $this->db->where('id', $student_id);
