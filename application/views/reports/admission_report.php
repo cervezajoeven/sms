@@ -94,7 +94,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                             <?php echo $this->customlib->getCSRF(); ?>
 
-                             <div class="col-sm-6 col-md-3" >
+                            <div class="col-sm-6 col-md-3" >
                                 <div class="form-group">
                                     <label><?php echo $this->lang->line('search') . " " . $this->lang->line('type'); ?></label>
                                     <select class="form-control" name="search_type" onchange="showdate(this.value)">
@@ -109,6 +109,43 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 }
                                             ?>><?php echo $search ?></option>
                                         <?php } ?>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('search_type'); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3" >
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control" name="gender">
+                                       <option value="all" <?php if($other_variables['gender']=='all'){ echo "selected"; } ?>>All</option>
+                                       <option value="male" <?php if($other_variables['gender']=='male'){ echo "selected"; } ?>>Male</option>
+                                       <option value="female" <?php if($other_variables['gender']=='female'){ echo "selected"; } ?>>Female</option>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('search_type'); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3" >
+                                <div class="form-group">
+                                    <label>Enrollment Payment Status</label>
+                                    <select class="form-control" name="enrollment_payment_status">
+                                       <option value="all" <?php if($other_variables['enrollment_payment_status']=='all'){ echo "selected"; } ?> >All</option>
+                                       <option value="paid" <?php if($other_variables['enrollment_payment_status']=='paid'){ echo "selected"; } ?> >Paid</option>
+                                       <option value="unpaid" <?php if($other_variables['enrollment_payment_status']=='unpaid'){ echo "selected"; } ?> >Unpaid</option>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('search_type'); ?></span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-3" >
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <select class="form-control" name="class">
+                                        <option value="all">All</option>
+                                        <?php foreach ($classes as $key => $value): ?>
+                                            <option value="<?php echo $value['id'] ?>" <?php if($other_variables['class']== $value['id']){ echo "selected"; } ?> ><?php echo $value['class'] ?></option>
+                                        <?php endforeach; ?>
+                                        
+                                        <option value="unpaid">Unpaid</option>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('search_type'); ?></span>
                                 </div>
@@ -154,7 +191,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 											<!-- <?php if ($sch_setting->category) {  ?>
                                             <th><?php echo $this->lang->line('category'); ?></th>
 											<?php } if ($sch_setting->mobile_no) {  ?> -->
-                                            <th><?php echo $this->lang->line('mobile_no'); ?></th>
+                                            <th>Enrollment Payment Status</th>
+                                            <!-- <th><?php echo $this->lang->line('mobile_no'); ?></th> -->
 											<?php } ?>
                                         </tr>
                                     </thead>
@@ -199,7 +237,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 													<!-- <?php if ($sch_setting->category) {  ?>
                                                     <td><?php echo $student['category']; ?></td>
 													<?php } if ($sch_setting->mobile_no) {  ?> -->
-                                                    <td><?php echo $student['mobileno']; ?></td>
+                                                    <!-- <td><?php echo $student['mobileno']; ?></td> -->
+                                                    <td><?php echo strtoupper($student['enrollment_payment_status']); ?></td>
 													<?php } ?>
 
                                                 </tr>

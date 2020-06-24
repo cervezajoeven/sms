@@ -13,6 +13,7 @@ class Report extends Admin_Controller {
       $this->payment_mode= $this->customlib->payment_mode();
         $this->search_type=$this->customlib->get_searchtype();
 		$this->sch_setting_detail = $this->setting_model->getSetting();
+        $this->load->model('general_model');
     }
 
     function pdfStudentFeeRecord() {
@@ -351,13 +352,17 @@ function admission_report(){
         $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
         $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
         
-
+        $data['classes'] = $this->general_model->get_classes();
         if ($this->form_validation->run() == false) {
 
             $data['resultlist']=array();
         }else{
-
-            $data['resultlist']=$this->student_model->admission_report_joe($searchterm, $carray ,$condition);
+            
+            $other_variables['gender'] = $_REQUEST['gender'];
+            $other_variables['enrollment_payment_status'] = $_REQUEST['enrollment_payment_status'];
+            $other_variables['class'] = $_REQUEST['class'];
+            $data['other_variables'] = $other_variables;
+            $data['resultlist']=$this->student_model->admission_report_joe($searchterm, $carray ,$condition,$other_variables);
            
         }
         
