@@ -2604,7 +2604,7 @@ class Student extends Admin_Controller
         }
         else 
         {
-            $msg   = $idnumber.' EMN '.$enrollment_payment_status;
+            // $msg   = $idnumber.' EMN '.$enrollment_payment_status;
             $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
             echo json_encode($array);
         }
