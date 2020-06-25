@@ -2201,11 +2201,15 @@ return false;
     {        
         $data = array(
             'enrollment_payment_status' => $status,
+            'enrollment_payment_date' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
         );
 
         $this->db->where('roll_no', $idnumber);
         $update = $this->db->update('students', $data);
 
+        $this->db->where('roll_no', $idnumber);
+        $update = $this->db->update('online_admissions', $data);
         // $this->db_exceptions->checkForError();
         // return ($update == true) ? true : false;        
 
