@@ -378,7 +378,7 @@ function enrollment_report(){
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
-        $this->session->set_userdata('subsub_menu', 'Reports/student_information/admission_report');
+        $this->session->set_userdata('subsub_menu', 'Reports/student_information/enrollment_report');
         $data['title'] = 'Add Fees Type';
         $data['searchlist']=$this->search_type;
         $data['sch_setting']        = $this->sch_setting_detail;
@@ -417,14 +417,14 @@ function enrollment_report(){
             $other_variables['enrollment_payment_status'] = $_REQUEST['enrollment_payment_status'];
             $other_variables['class'] = $_REQUEST['class'];
             $data['other_variables'] = $other_variables;
-            $data['resultlist']=$this->student_model->admission_report_joe($searchterm, $carray ,$condition,$other_variables);
+            $data['resultlist']=$this->student_model->enrollment_report_joe($searchterm, $carray ,$condition,$other_variables);
            
         }
         
         
 
         $this->load->view('layout/header', $data);
-        $this->load->view('reports/admission_report', $data);
+        $this->load->view('reports/enrollment_report', $data);
         $this->load->view('layout/footer', $data);
 
 }
