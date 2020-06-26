@@ -352,7 +352,6 @@ class Welcome extends Front_Controller
                 $image_validate = $this->config->item('file_validate');
 
                 $admission_docs = $this->reArrayFilesMultiple();
-                // var_dump($admission_docs);die;
 
                 if (isset($admission_docs)) 
                 {
@@ -432,6 +431,8 @@ class Welcome extends Front_Controller
                 //     }
                 // }
 
+                // var_dump($admission_docs);die;
+
                 //=====================
                 if ($document_validate) 
                 {
@@ -441,13 +442,12 @@ class Welcome extends Front_Controller
                     //--Get Class_Section_ID
                     $class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
                     $current_session = $this->setting_model->getCurrentSession();
+                    $idnum = $this->input->post('accountid');
 
                     if ($enrollment_type == 'old')
                     {
                         //$idnum = $this->input->post('studentidnumber');
-                        // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));
-
-                        $idnum = $this->input->post('accountid');
+                        // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));                        
 
                         if (!empty($idnum))
                         {
@@ -568,16 +568,6 @@ class Welcome extends Front_Controller
                                 $data['document'] = $doc_names;
                             }
     
-                            // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                            //     $time     = md5($_FILES["document"]['name'] . microtime());
-                            //     $fileInfo = pathinfo($_FILES["document"]["name"]);
-                            //     $doc_name = $time . '.' . $fileInfo['extension'];
-                            //     move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
-        
-                            //     $data['document'] = $doc_name;
-                            // }
-    
-                            //if ($has_admission == NULL)
                             if (!isset($has_admission))
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);
@@ -620,6 +610,9 @@ class Welcome extends Front_Controller
                             $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
                             $datenow = date("Y-m-d");
 
+                            // $studentid = $this->onlinestudent_model->GetStudentIDNumber($idnum);
+                            // var_dump($studentid);die;
+
                             $data = array(
                                 'firstname'           => $this->input->post('firstname'),
                                 'lastname'            => $this->input->post('lastname'),
@@ -648,7 +641,7 @@ class Welcome extends Front_Controller
                                 'middlename'          => $this->input->post('middlename'),
                                 'email'               => $this->input->post('email'),
                                 'class_section_id'    => $class_section_id,
-                                // 'roll_no'             => $this->input->post('studentidnumber'),
+                                'roll_no'             => $enrollment_type == "old_new" ? $this->onlinestudent_model->GetStudentIDNumber($idnum) : "",
                                 'lrn_no'              => $this->input->post('lrn_no'),
     
                                 'father_company_name'              => $this->input->post('father_company_name'),
@@ -729,15 +722,6 @@ class Welcome extends Front_Controller
                                 $data['document'] = $doc_names;
                             }
     
-                            // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                            //     $time     = md5($_FILES["document"]['name'] . microtime());
-                            //     $fileInfo = pathinfo($_FILES["document"]["name"]);
-                            //     $doc_name = $time . '.' . $fileInfo['extension'];
-                            //     move_uploaded_file($_FILES["document"]["tmp_name"], "./uploads/student_documents/online_admission_doc/" . $doc_name);
-        
-                            //     $data['document'] = $doc_name;
-                            // }
-
                             if (!isset($has_admission))
                             {
                                 $insert_id = $this->onlinestudent_model->add($data);

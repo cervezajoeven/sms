@@ -186,9 +186,16 @@ class Onlinestudent_model extends MY_Model {
                         $this->db->where('id', $student_id);
                         $this->db->update('students', $old_data);                        
                     } 
+                    else if ($enroll_type == 'old_new') 
+                    {
+                        $student_id = $this->GetStudentID($data['roll_no']);
+                        $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
+                        $this->db->where('id', $student_id);
+                        $this->db->update('students', $data);
+                    }
                     else 
                     {
-                        $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
+                        // $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
 
                         $this->db->insert('students', $data);
                         $student_id = $this->db->insert_id();
@@ -497,6 +504,12 @@ class Onlinestudent_model extends MY_Model {
     {
         $result = $this->db->select('id')->from('students')->where('roll_no', $idnumber)->limit(1)->get()->row();
         return $result->id;
+    }
+
+    public function GetStudentIDNumber($accountid)
+    {
+        $result = $this->db->select('roll_no')->from('students')->where('id', $accountid)->limit(1)->get()->row();
+        return $result->roll_no;
     }
 
     public function GetClassSectionID($class_id, $section_id)
