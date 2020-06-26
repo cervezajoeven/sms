@@ -48,7 +48,7 @@
                         }if($this->rbac->hasPrivilege('homehork_evaluation_report','can_view')){ ?>
                          <li class="col-lg-4 col-md-4 col-sm-6 <?php echo set_SubSubmenu('Reports/student_information/evaluation_report'); ?>"><a href="<?php echo base_url(); ?>homework/evaluation_report"><i class="fa fa-file-text-o"></i> <?php echo $this->lang->line('homework')." ".$this->lang->line('evaluation_report'); ?></a></li>
                        <?php }  ?>
-
+                        <li class="col-lg-4 col-md-4 col-sm-6 <?php echo set_SubSubmenu('Reports/student_information/enrollment_report'); ?>"><a href="<?php echo base_url(); ?>report/enrollment_report"><i class="fa fa-file-text-o"></i> Enrollment Report</a></li>
                         </ul>
                     </div>
                 </div>

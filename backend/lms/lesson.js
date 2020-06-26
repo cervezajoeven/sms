@@ -1371,7 +1371,7 @@ function fetch_chat(){
 fetch_chat();
 setInterval(function(){
     fetch_chat();
-},1000);
+},5000);
 function send_chat(student_chat){
     var chat_url = $(url).val()+"send_chat";
     if(student_chat){

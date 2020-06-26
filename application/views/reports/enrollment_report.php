@@ -89,7 +89,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <h3 class="box-title"><i class="fa fa-search"></i> <?php echo $this->lang->line('select_criteria'); ?></h3>
                     </div>
 
-                     <form role="form" action="<?php echo site_url('report/admission_report') ?>" method="post" class="">
+                     <form role="form" action="<?php echo site_url('report/enrollment_report') ?>" method="post" class="">
                         <div class="box-body row">
 
                             <?php echo $this->customlib->getCSRF(); ?>
@@ -124,7 +124,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     <span class="text-danger"><?php echo form_error('search_type'); ?></span>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3" >
+                            <!-- <div class="col-sm-6 col-md-3" >
                                 <div class="form-group">
                                     <label>Enrollment Payment Status</label>
                                     <select class="form-control" name="enrollment_payment_status">
@@ -134,7 +134,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </select>
                                     <span class="text-danger"><?php echo form_error('search_type'); ?></span>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-sm-6 col-md-3" >
                                 <div class="form-group">
@@ -166,7 +166,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             <div class="">
                 <div class="box-header ptbnull"></div>
                 <div class="box-header ptbnull">
-                    <h3 class="box-title titlefix"><i class="fa fa-money"></i> <?php echo $this->lang->line('admission')." ".$this->lang->line('report') ?></h3>
+                    <h3 class="box-title titlefix"><i class="fa fa-money"></i> Enrollment Report</h3>
                 </div>
                 <div class="box-body table-responsive">
                  <div class="download_label"><?php echo  $this->lang->line('admission')." ".$this->lang->line('report')."<br>";$this->customlib->get_postmessage();; ?></div>
@@ -184,14 +184,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 											<th>Enrollment Type</th>
                                             <!-- <th><?php echo $this->lang->line('date_of_birth'); ?></th> -->
 											<?php if ($sch_setting->admission_date) {  ?>
-                                            <th><?php echo $this->lang->line('admission')." ".$this->lang->line('date'); ?></th><?php } ?>
+                                            <th>Enrollment Payment Date</th><?php } ?>
                                             
-                                            <th>Enrollment Status</th>
+                                            <!-- <th>Enrollment Status</th> -->
                                             <th><?php echo $this->lang->line('gender'); ?></th>
 											<!-- <?php if ($sch_setting->category) {  ?>
                                             <th><?php echo $this->lang->line('category'); ?></th>
 											<?php } if ($sch_setting->mobile_no) {  ?> -->
-                                            <th>Enrollment Payment Status</th>
+                                            <!-- <th>Enrollment Payment Status</th> -->
                                             <!-- <th><?php echo $this->lang->line('mobile_no'); ?></th> -->
 											<?php } ?>
                                         </tr>
@@ -232,13 +232,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['admission_date']));
                                                         }
                                                         ?></td><?php } ?>
-                                                    <td><?php echo ($student['is_enroll']==1)?"Enrolled":"Not Enrolled"; ?></td>
+                                                    <!-- <td><?php echo ($student['is_enroll']==1)?"Enrolled":"Not Enrolled"; ?></td> -->
                                                     <td><?php echo $student['gender']; ?></td>
 													<!-- <?php if ($sch_setting->category) {  ?>
                                                     <td><?php echo $student['category']; ?></td>
 													<?php } if ($sch_setting->mobile_no) {  ?> -->
                                                     <!-- <td><?php echo $student['mobileno']; ?></td> -->
-                                                    <td><?php echo strtoupper($student['enrollment_payment_status']); ?></td>
+                                                    <!-- <td><?php echo strtoupper($student['enrollment_payment_status']); ?></td> -->
 													<?php } ?>
 
                                                 </tr>
@@ -247,7 +247,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             }
                                         }
                                         ?>
-                                        <tr><td></td><td></td><td></td><td></td><td>Total Admission in this duration :</td><td > <?php echo $filter_label; ?></td><td><?php echo $count; ?></td><td></td><td></td><td></td><td ></td></tr>
+                                        <tr><td></td><td></td><td>Total Enrollment in this duration :</td><td > <?php echo $filter_label; ?></td><td><?php echo $count; ?></td><td></td><td></td><td></td><td ></td></tr>
                                     </tbody>
                     </table>
                 </div>
