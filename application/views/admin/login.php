@@ -24,6 +24,29 @@
       /* @media (max-width: 767px){.col-md-offset-3 {margin-left: 0;}}*/
        .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
        background: rgb(53, 170, 71);} 
+       #form-username::placeholder {
+        color: black;
+      }
+      #form-password::placeholder {
+        color: black;
+      }
+        .loginbg {
+            background-image: url("https://phsi.campuscloudph.com/uploads/gallery/media/background%20for%20school%20staff.png");
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+                background-repeat: no-repeat;
+                opacity: 0.9;
+            }
+            body{
+                    color: black;           
+                }
+            input[type="text"], input[type="password"], textarea, textarea.form-control{
+                    border-bottom: 1px solid black !important;
+            }
+            a.forgot{
+                color: black;
+            }
   
    </style>
 

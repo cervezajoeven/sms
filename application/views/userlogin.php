@@ -15,6 +15,13 @@
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/usertemplate/assets/css/jquery.mCustomScrollbar.min.css">
         <style type="text/css">
             body{background:linear-gradient(to right,#676767 0,#dadada 100%);}
+            .loginbg {
+            background-image: url("https://phsi.campuscloudph.com/uploads/gallery/media/background%20for%20stud%20parent%20login.png");
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+                background-repeat: no-repeat;
+            }
             /*.loginbg {background: #455a64;}*/
         .top-content{position: relative;}   
         .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
