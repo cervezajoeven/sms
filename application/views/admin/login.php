@@ -31,7 +31,7 @@
         color: black;
       }
         .loginbg {
-            background-image: url(<?php echo base_url(); ?> + "uploads/gallery/media/background%20for%20school%20staff.png");
+            background-image: url("<?php echo base_url(); ?>uploads/gallery/media/background%20for%20school%20staff.png");
             width: 100%;
             height: 100%;
             background-size: cover;
