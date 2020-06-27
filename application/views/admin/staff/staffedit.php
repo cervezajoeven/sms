@@ -341,7 +341,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('basic_salary'); ?></label>
-                                                        <input type="text" value="<?php echo $staff["basic_salary"] ?>" class="form-control" name="basic_salary" >
+                                                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php echo $staff["basic_salary"] ?>" class="form-control" name="basic_salary" >
                                                     </div>
                                                 </div>
 												<?php } if ($sch_setting->staff_work_shift) {  ?>
