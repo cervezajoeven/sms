@@ -180,8 +180,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <div class="payrollbox feebox">
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label"><?php echo $this->lang->line('basic_salary'); ?></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" name="basic" value="<?php
+                                                <div class="col-sm-8 mr-15">
+                                                    <input class="form-control" name="basic" style="padding-right: 10px;" value="<?php
                                                     if (!empty($result["basic_salary"])) {
                                                         echo $result["basic_salary"];
                                                     } else {
@@ -193,26 +193,26 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label"><?php echo $this->lang->line('earning'); ?></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" name="total_allowance" id="total_allowance"  type="text" />
+                                                    <input class="form-control" name="total_allowance" id="total_allowance" style="padding-right: 10px;"  type="text" />
                                                 </div>
                                             </div><!--./form-group-->
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label"><?php echo $this->lang->line('deduction'); ?></label>
                                                 <div class="col-sm-8 deductiondred">
-                                                    <input class="form-control" name="total_deduction" id="total_deduction" type="text" style="color:#f50000" />
+                                                    <input class="form-control" name="total_deduction" id="total_deduction" style="padding-right: 10px;" type="text" style="color:#f50000" />
                                                 </div>
                                             </div><!--./form-group-->
 
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label"><?php echo $this->lang->line('gross_salary'); ?></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" name="gross_salary" id="gross_salary" value="0" type="text" />
+                                                    <input class="form-control" name="gross_salary" id="gross_salary" style="padding-right: 10px;" value="0" type="text" />
                                                 </div>
                                             </div><!--./form-group-->
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label"><?php echo $this->lang->line('tax'); ?></label>
                                                 <div class="col-sm-8 deductiondred">
-                                                    <input class="form-control" name="tax" id="tax" value="0" type="text" />
+                                                    <input class="form-control" name="tax" id="tax" value="0" style="padding-right: 10px;" type="text" />
                                                 </div>
                                             </div><!--./form-group-->
 
@@ -220,7 +220,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label"><?php echo $this->lang->line('net_salary'); ?></label>
                                                 <div class="col-sm-8 net_green">
-                                                    <input class="form-control greentest"  name="net_salary" id="net_salary"  type="text" />
+                                                    <input class="form-control greentest"  name="net_salary" id="net_salary" style="padding-right: 10px;" type="text" />
                                                     <span class="text-danger" id="err"><?php echo form_error('net_salary'); ?></span>
 
                                                     <input class="form-control" name="staff_id" value="<?php echo $result["id"]; ?>"  type="hidden" />
