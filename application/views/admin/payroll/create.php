@@ -276,7 +276,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 var inpvalue = inp.value;
             }
 
-            total_allowance += parseInt(inpvalue);
+            total_allowance += parseFloat(inpvalue);
 
         }
 
@@ -293,29 +293,29 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                 var inpdvalue = inpd.value;
             }
-            total_deduction += parseInt(inpdvalue);
+            total_deduction += parseFloat(inpdvalue);
         }
 
 
 //total_deduction += parseInt(leave_deduction) ;
 
-        var gross_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction);
+        var gross_salary = parseFloat(basic_pay) + parseFloat(total_allowance) - parseFloat(total_deduction);
 
-        var net_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction) - parseInt(tax);
+        var net_salary = parseFloat(basic_pay) + parseFloat(total_allowance) - parseFloat(total_deduction) - parseFloat(tax);
 
-        $("#total_allowance").val(total_allowance);
-        $("#total_deduction").val(total_deduction);
-        $("#total_allow").html(total_allowance);
-        $("#total_deduc").html(total_deduction);
-        $("#gross_salary").val(gross_salary);
-        $("#net_salary").val(net_salary);
+        $("#total_allowance").val(total_allowance.toFixed(2));
+        $("#total_deduction").val(total_deduction.toFixed(2));
+        $("#total_allow").html(total_allowance.toFixed(2));
+        $("#total_deduc").html(total_deduction.toFixed(2));
+        $("#gross_salary").val(gross_salary.toFixed(2));
+        $("#net_salary").val(net_salary.toFixed(2));
 
     }
     function add_more() {
 
         var table = document.getElementById("tableID");
         var table_len = (table.rows.length);
-        var id = parseInt(table_len);
+        var id = parseFloat(table_len);
         var row = table.insertRow(table_len).outerHTML = "<tr id='row" + id + "'><td><input type='text' class='form-control' id='allowance_type' name='allowance_type[]' placeholder='Type'></td><td><input type='text' class='form-control' id='allowance_amount' name='allowance_amount[]'  value='0'></td><td><button type='button' onclick='delete_row(" + id + ")' class='closebtn'><i class='fa fa-remove'></i></button></td></tr>";
     }
 
@@ -333,7 +333,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
         var table = document.getElementById("tableID2");
         var table_len = (table.rows.length);
-        var id = parseInt(table_len);
+        var id = parseFloat(table_len);
         var row = table.insertRow(table_len).outerHTML = "<tr id='deduction_row" + id + "'><td><input type='text' class='form-control' id='deduction_type' name='deduction_type[]' placeholder='Type'></td><td><input type='text' id='deduction_amount' name='deduction_amount[]' class='form-control' value='0'></td><td><button type='button' onclick='delete_deduction_row(" + id + ")' class='closebtn'><i class='fa fa-remove'></i></button></td></tr>";
 
     }
