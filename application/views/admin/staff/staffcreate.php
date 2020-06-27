@@ -299,7 +299,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('basic_salary'); ?></label>
-                                                            <input type="text" class="form-control" name="basic_salary" value="<?php echo set_value('basic_salary') ?>" >
+                                                            <input type="text" class="form-control" name="basic_salary" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php echo set_value('basic_salary') ?>" >
                                                         </div>
                                                     </div>
                                                 <?php } if ($sch_setting->staff_contract_type) { ?>
