@@ -229,14 +229,14 @@
 		        			<td style="width: 24%"><b>Survey Name: </b></td>
 		        			<td><?php echo $survey['survey_name']?></td>
 		        			<td><b>Date Created: </b></td>
-		        			<td><?php echo date("F d, Y",strtotime($survey['survey_date_created'])) ?></td>
+		        			<td><?php echo date("F d, Y",strtotime($survey['date_created'])) ?></td>
 		        		</tr>	        		
 		        	</table>
 		        	<table class="table table-bordered for_print">
 		        		<td><b>Survey Name: </b></td>
 		        		<td><?php echo $survey['survey_name']?></td>
 		        		<td><b>Date Created: </b></td>
-		        		<td><?php echo date("F d, Y",strtotime($survey['survey_date_created'])) ?></td>
+		        		<td><?php echo date("F d, Y",strtotime($survey['date_created'])) ?></td>
 		        	</table>
 
 		        	<div class="w3-container" id="resp-container">
@@ -314,7 +314,26 @@
 												window.chartColors.orange,
 												window.chartColors.yellow,
 												window.chartColors.purple,
-												window.chartColors.grey]
+												"#fc7b03",
+												"#eb9834",
+												"#ebd034",
+												"#e5eb34",
+												"#9ceb34",
+												"#4ceb34",
+												"#34eb89",
+												"#34ebba",
+												"#34d0eb",
+												"#349feb",
+												"#3437eb",
+												"#7734eb",
+												"#a834eb",
+												"#e534eb",
+												"#eb34c3",
+												"#eb3499",
+												"#eb3471",
+												"#eb3443",
+											]
+								// backgroundColor: ["#fcb603"]
 							}],
 							labels: data[chart_ctr-1].answer_choices
 						},
