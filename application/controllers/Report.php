@@ -403,7 +403,7 @@ function enrollment_report(){
 
         $to_date=date('Y-m-d',strtotime($between_date['to_date']));
         // echo '<pre>';print_r($to_date);exit();
-        $condition=" date_format(online_admissions.admission_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
+        $condition="date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
         $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
         $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
         
@@ -425,6 +425,61 @@ function enrollment_report(){
 
         $this->load->view('layout/header', $data);
         $this->load->view('reports/enrollment_report', $data);
+        $this->load->view('layout/footer', $data);
+
+}
+
+function enrollment_summary_report(){
+
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'Reports/student_information');
+        $this->session->set_userdata('subsub_menu', 'Reports/student_information/enrollment_summary_report');
+        $data['title'] = 'Add Fees Type';
+        $data['searchlist']=$this->search_type;
+        $data['sch_setting']        = $this->sch_setting_detail;
+        $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
+        $searchterm='';
+        $class = $this->class_model->get();
+        $data['classlist'] = $class;
+        foreach ($data['classlist'] as $key => $value) {
+           $carray[]=$value['id'];
+        }
+        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+
+        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
+         $data['search_type']=$search_type=$_POST['search_type'];
+        }else{
+
+        $between_date=$this->customlib->get_betweendate('this_year');
+        $data['search_type']=$search_type='';
+        }
+
+        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
+
+        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
+        // echo '<pre>';print_r($to_date);exit();
+        $condition="date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
+        $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
+        $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
+        
+        $data['classes'] = $this->general_model->get_classes();
+        if ($this->form_validation->run() == false) {
+
+            $data['resultlist']=array();
+        }else{
+            
+            $other_variables['gender'] = $_REQUEST['gender'];
+            $other_variables['enrollment_payment_status'] = $_REQUEST['enrollment_payment_status'];
+            $other_variables['class'] = $_REQUEST['class'];
+            $data['other_variables'] = $other_variables;
+            $data['resultlist']=$this->student_model->enrollment_summary_report_joe($searchterm, $carray ,$condition,$other_variables);
+           
+        }
+        
+        
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/enrollment_summary_report', $data);
         $this->load->view('layout/footer', $data);
 
 }
