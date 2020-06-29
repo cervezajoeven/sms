@@ -558,7 +558,7 @@ class Welcome extends Front_Controller
                                         $file_name = $FILES[$i]["name"];
                                         $time = md5($file_name . microtime());
                                         $fileInfo = pathinfo($file_name);
-                                        $doc_name = $fileInfo['filename'].'_'.$time.'.'. $fileInfo['extension'];
+                                        $doc_name = str_replace(",", "_", $fileInfo['filename']).'_'.$time.'.'. $fileInfo['extension'];
     
                                         move_uploaded_file($FILES[$i]["tmp_name"], "./uploads/student_documents/online_admission_doc/".$doc_name);
                                         $doc_names .= $doc_names != "" ? "|".$doc_name : $doc_name;
