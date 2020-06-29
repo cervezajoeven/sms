@@ -51,7 +51,7 @@
                                         <td><?php echo ucfirst($student['enrollment_type'] == 'old_new' ? 'old' : $student['enrollment_type']); ?></td>
                                         <td><?php echo $student['created_at']; ?></td>
                                         <td class="mailbox-date pull-right">
-                                            <?php $documents = explode(",", $student['document']);
+                                            <?php $documents = explode("|", $student['document']);
                                             foreach ($documents as $document) 
                                             { 
                                                 if (!empty($document)) 
