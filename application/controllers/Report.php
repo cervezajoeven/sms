@@ -403,7 +403,7 @@ function enrollment_report(){
 
         $to_date=date('Y-m-d',strtotime($between_date['to_date']));
         // echo '<pre>';print_r($to_date);exit();
-        $condition=" date_format(online_admissions.admission_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
+        $condition="date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
         $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
         $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
         
