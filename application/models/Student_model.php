@@ -826,6 +826,58 @@ return false;
         return $data;
     }
 
+    public function enrollment_summary_report_joe($searchterm, $carray = null, $condition = null,$other_variables=array("gender"=>"all","enrollment_payment_status"=>"all","class"=>"all"))
+    {
+        $this->db->select("classes.class,
+          SUM(if(students.gender = 'male',1,0)) as male,
+          SUM(if(students.gender = 'female',1,0)) as female,
+          COUNT(students.gender) as total
+          ");
+        $this->db->where($condition);
+
+        $this->db->where('student_session.session_id',$this->current_session);
+        // if(array_key_exists("gender", $other_variables)){
+        //   if($other_variables['gender']=="male"){
+        //     $this->db->where('students.gender',"male");
+
+        //   }else if($other_variables['gender']=="female"){
+        //     $this->db->where('students.gender',"female");
+
+        //   }
+
+        // }
+        // if(array_key_exists("enrollment_payment_status", $other_variables)){
+          
+        //   if($other_variables['enrollment_payment_status']=="paid"){
+        //     $this->db->where('students.enrollment_payment_status',"paid");
+
+        //   }else if($other_variables['enrollment_payment_status']=="unpaid"){
+        //     $this->db->where('students.enrollment_payment_status',"unpaid");
+
+        //   }
+
+        // }
+
+        // if(array_key_exists("class", $other_variables)){
+
+        //   if($other_variables['class']!="all"){
+        //     $this->db->where('student_session.class_id',$other_variables['class']);
+
+        //   }
+
+        // }
+
+
+        $this->db->join('students','students.id = student_session.student_id');
+        // $this->db->join('class_sections','class_sections.class_section_id = class_sections.id');
+        $this->db->join('classes','student_session.class_id = classes.id');
+        $this->db->join('sections','student_session.section_id = sections.id');
+        $this->db->group_by('student_session.class_id');
+        $data = $this->db->get("student_session")->result_array();
+        // echo '<pre>';print_r($data);exit();
+        return $data;
+    }
+
     public function sibling_report($searchterm, $carray = null, $condition = null)
     {
         $userdata = $this->customlib->getUserData();
