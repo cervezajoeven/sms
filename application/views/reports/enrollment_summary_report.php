@@ -113,43 +113,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     <span class="text-danger"><?php echo form_error('search_type'); ?></span>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3" >
-                                <div class="form-group">
-                                    <label>Gender</label>
-                                    <select class="form-control" name="gender">
-                                       <option value="all" <?php if($other_variables['gender']=='all'){ echo "selected"; } ?>>All</option>
-                                       <option value="male" <?php if($other_variables['gender']=='male'){ echo "selected"; } ?>>Male</option>
-                                       <option value="female" <?php if($other_variables['gender']=='female'){ echo "selected"; } ?>>Female</option>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('search_type'); ?></span>
-                                </div>
-                            </div>
-                            <!-- <div class="col-sm-6 col-md-3" >
-                                <div class="form-group">
-                                    <label>Enrollment Payment Status</label>
-                                    <select class="form-control" name="enrollment_payment_status">
-                                       <option value="all" <?php if($other_variables['enrollment_payment_status']=='all'){ echo "selected"; } ?> >All</option>
-                                       <option value="paid" <?php if($other_variables['enrollment_payment_status']=='paid'){ echo "selected"; } ?> >Paid</option>
-                                       <option value="unpaid" <?php if($other_variables['enrollment_payment_status']=='unpaid'){ echo "selected"; } ?> >Unpaid</option>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('search_type'); ?></span>
-                                </div>
-                            </div> -->
-
-                            <div class="col-sm-6 col-md-3" >
-                                <div class="form-group">
-                                    <label>Class</label>
-                                    <select class="form-control" name="class">
-                                        <option value="all">All</option>
-                                        <?php foreach ($classes as $key => $value): ?>
-                                            <option value="<?php echo $value['id'] ?>" <?php if($other_variables['class']== $value['id']){ echo "selected"; } ?> ><?php echo $value['class'] ?></option>
-                                        <?php endforeach; ?>
-                                        
-                                        <option value="unpaid">Unpaid</option>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('search_type'); ?></span>
-                                </div>
-                            </div>
+                            
                                
                             <div id='date_result'>
                                 
@@ -172,56 +136,70 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                  <div class="download_label"><?php echo  $this->lang->line('admission')." ".$this->lang->line('report')."<br>";$this->customlib->get_postmessage();; ?></div>
                     <table class="table table-striped table-bordered table-hover example nowrap">
                        <thead>
-                                        <tr>
-											
-                                            <!-- <th><?php echo $this->lang->line('admission_no'); ?></th> -->
-											
-                                            <th><?php echo $this->lang->line('class'); ?></th>
-											<!-- <?php if ($sch_setting->father_name) {  ?>
-                                            <th><?php echo $this->lang->line('father_name'); ?></th>
-											<?php } ?> -->
-											<th>Male</th>
-                                            <th>Female</th>
-                                            <th>Total</th>
-                                            
-                                        </tr>
-                                    </thead>
-                           <tbody>
-                                        <?php
-                                        $count = 0;
-                                        if (empty($resultlist)) {
-                                            ?>
+                            <tr>
+								
+                                <!-- <th><?php echo $this->lang->line('admission_no'); ?></th> -->
+								
+                                <th><?php echo $this->lang->line('class'); ?></th>
+								<!-- <?php if ($sch_setting->father_name) {  ?>
+                                <th><?php echo $this->lang->line('father_name'); ?></th>
+								<?php } ?> -->
+								<th>Male</th>
+                                <th>Female</th>
+                                <th>Total</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $count = 0;
+                            $male_total = 0;
+                            $female_total = 0;
+                            $overall_total = 0;
+                            if (empty($resultlist)) {
+                                ?>
 
-                                            <?php
-                                        } else {
-                                            $count = 0;
-                                            foreach ($resultlist as $student) {
-                                                ?>
-                                                <tr>
-													
-                                                    <!-- <td><?php echo $student['admission_no']; ?></td> -->
-													
-                                                    <td><?php echo $student['class']?></td>
-	
-                                                    <td><?php echo $student['male'] ?></td>
-                                                    <td><?php echo $student['female'] ?></td>
-                                                    
-                                                    <td><?php echo $student['total']; ?></td>
-													<!-- <?php if ($sch_setting->category) {  ?>
-                                                    <td><?php echo $student['category']; ?></td>
-													<?php } if ($sch_setting->mobile_no) {  ?> -->
-                                                    <!-- <td><?php echo $student['mobileno']; ?></td> -->
-                                                    <!-- <td><?php echo strtoupper($student['enrollment_payment_status']); ?></td> -->
-													<?php } ?>
+                                <?php
+                            } else {
+                                $count = 0;
+                                foreach ($resultlist as $student) {
+                                    ?>
+                                    <tr>
+										
+                                        <!-- <td><?php echo $student['admission_no']; ?></td> -->
+										
+                                        <td><?php echo $student['class']?></td>
+                                        <?php $male_total += $student['male'] ?>
+                                        <?php $female_total += $student['female'] ?>
+                                        <?php $overall_total += $student['total'] ?>
+                                        <td><?php echo $student['male'] ?></td>
+                                        <td><?php echo $student['female'] ?></td>
+                                        
+                                        <td><?php echo $student['total']; ?></td>
+										<!-- <?php if ($sch_setting->category) {  ?>
+                                        <td><?php echo $student['category']; ?></td>
+										<?php } if ($sch_setting->mobile_no) {  ?> -->
+                                        <!-- <td><?php echo $student['mobileno']; ?></td> -->
+                                        <!-- <td><?php echo strtoupper($student['enrollment_payment_status']); ?></td> -->
+										<?php } ?>
 
-                                                </tr>
-                                                <?php
-                                                $count++;
-                                            }
-                                        }
-                                        ?>
-                                        <tr><td></td><td></td><td>Total Enrollment in this duration :</td><td > <?php echo $filter_label; ?></td><td><?php echo $count; ?></td><td></td><td></td><td></td><td ></td></tr>
-                                    </tbody>
+                                    </tr>
+                                    <?php
+                                    $count++;
+                                }
+                            }
+                            ?>
+                            <tr>
+                                <th>Overall Total</th>
+                                <th><?php echo $male_total ?></th>
+                                <th><?php echo $female_total ?></th>
+                                <th><?php echo $overall_total ?></th>
+                            </tr>
+                        </tbody>
+
+                        <tfoot>
+                            
+                        </tfoot>
                     </table>
                 </div>
             </div>
