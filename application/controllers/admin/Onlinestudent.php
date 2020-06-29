@@ -52,7 +52,7 @@ class Onlinestudent extends Admin_Controller
     public function download($doc)
     {
         $this->load->helper('download');
-        $filepath = "./uploads/student_documents/online_admission_doc/" . $doc;
+        $filepath = "./uploads/student_documents/online_admission_doc/" . urldecode($doc);
         $data     = file_get_contents($filepath);
         $name     = $this->uri->segment(6);
         force_download($name, $data);
