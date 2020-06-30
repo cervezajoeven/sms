@@ -102,7 +102,7 @@ class Lesson extends General_Controller {
         $data['education_level'] = $_REQUEST['education_level'];
         $data['lesson_type'] = $lesson_type;
         $data['account_id'] = $this->general_model->get_account_id();
-
+        $data['google_meet'] = $this->general_model->get_account_name($data['account_id'],"admin")[0]['google_meet'];
 
         $id = $this->lesson_model->lms_create("lms_lesson",$data);
         

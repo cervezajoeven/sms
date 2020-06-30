@@ -537,7 +537,7 @@
                         </div>
                         <?php if($lesson['lesson_type'] == "virtual"): ?>
                           <div class="actions">
-                              <a href="https://us02web.zoom.us/j/8713627702?pwd=b0lFZ0JlUVVBdGxGbWNwUUVGV1RvZz09" target="_blank">
+                              <a href="<?php echo $lesson['google_meet'] ?>" target="_blank">
                                 <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Virtual</button>
                               </a>
                               

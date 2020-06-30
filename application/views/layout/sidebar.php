@@ -1116,14 +1116,19 @@
                             <i class="fa fa-gears ftlayer"></i> <span><?php echo $this->lang->line('system_settings'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
+
                             <?php
                             if ($this->rbac->hasPrivilege('general_setting', 'can_view')) {
                                 ?>
+                                <li class="<?php echo set_Submenu('lms/googlemeet'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet"><i class="fa fa-angle-double-right"></i> Google Meet Settings</a></li>
+
                                 <li class="<?php echo set_Submenu('schsettings/index'); ?>"><a href="<?php echo base_url(); ?>schsettings"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('general_settings'); ?></a></li>
                                 <?php
                             }
+
                             if ($this->rbac->hasPrivilege('session_setting', 'can_view')) {
                                 ?>
+
                                 <li class="<?php echo set_Submenu('sessions/index'); ?>"><a href="<?php echo base_url(); ?>sessions"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('session_setting'); ?></a></li>
                                 <?php
                             }
