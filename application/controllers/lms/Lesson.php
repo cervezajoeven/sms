@@ -135,7 +135,9 @@ class Lesson extends General_Controller {
         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
         $data['lms_google_meet'] = $data['lesson']['google_meet'];
         if($data['google_meet']==""){
-            echo "<script>alert('Your google meet account has not been initialized yet. Please contact your admin.');</script>";
+            $data['virtual_status'] = "available";
+        }else{
+            $data['virtual_status'] = "not_available";
         }
 
         if($data['google_meet'] != $data['lms_google_meet']){
