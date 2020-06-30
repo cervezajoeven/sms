@@ -111,7 +111,13 @@ $config['charset'] = 'UTF-8';
   | setting this variable to TRUE (boolean).  See the user guide for details.
   |
  */
-$config['enable_hooks'] = FALSE;
+if($HTTP_HOST=="localhost"){
+  $config['enable_hooks'] = FALSE;
+}elseif($HTTP_HOST=="stepsmandaluyong.com"){
+  $config['enable_hooks'] = TRUE;
+}else{
+  $config['enable_hooks'] = TRUE;
+}
 
 /*
   |--------------------------------------------------------------------------
