@@ -538,9 +538,13 @@
                         </div>
                         <?php if($lesson['lesson_type'] == "virtual"): ?>
                           <div class="actions">
-                              <a href="<?php echo $lesson['google_meet'] ?>" target="_blank">
-                                <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Virtual</button>
-                              </a>
+                              <?php if($lesson['google_meet'] != ""): ?>
+                                <a href="<?php echo $lesson['google_meet'] ?>" target="_blank">
+                                  <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Meetup</button>
+                                </a>
+                              <?php else: ?>
+                                <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Google ID Need to be Set</button>
+                              <?php endif; ?>
                               
                           </div>
                         <?php endif; ?>
