@@ -427,12 +427,9 @@ class Studentfee extends Admin_Controller
             access_denied();
         }
         $data['title']   = 'Student Detail';
-
         $student         = $this->student_model->getByStudentSession($id);
         $data['student'] = $student;
-
-        $student_due_fee = $this->studentfeemaster_model->getStudentFees($id);
-      
+        $student_due_fee = $this->studentfeemaster_model->getStudentFees($id);      
         $student_discount_fee = $this->feediscount_model->getStudentFeesDiscount($id);
 
         $data['student_discount_fee'] = $student_discount_fee;

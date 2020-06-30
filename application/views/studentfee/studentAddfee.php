@@ -169,6 +169,8 @@ $language_name = $language["short_code"];
                             <table class="table table-striped table-bordered table-hover example nowrap table-fixed-header">
                                 <thead class="header">
                                     <tr>
+                                        <th align="left"><?php echo $this->lang->line('student_name'); ?></th>
+                                        <th align="left"><?php echo $this->lang->line('class_section'); ?></th>
                                         <th style="width: 10px"><input type="checkbox" id="select_all"/></th>
                                         <th align="left"><?php echo $this->lang->line('fees_group'); ?></th>
                                         <th align="left"><?php echo $this->lang->line('fees_code'); ?></th>
@@ -194,9 +196,9 @@ $language_name = $language["short_code"];
                                     $total_discount_amount = 0;
                                     $total_balance_amount = 0;
                                     $alot_fee_discount = 0;
+                                    $stud_details_shown = false;
 
-                                    foreach ($student_due_fee as $key => $fee) {
-
+                                    foreach ($student_due_fee as $key => $fee) {                                        
                                         foreach ($fee->fees as $fee_key => $fee_value) {
                                             $fee_paid = 0;
                                             $fee_discount = 0;
@@ -211,24 +213,29 @@ $language_name = $language["short_code"];
                                                     $fee_fine = $fee_fine + $fee_deposits_value->amount_fine;
                                                 }
                                             }
+                                            
                                             $total_amount = $total_amount + $fee_value->amount;
                                             $total_discount_amount = $total_discount_amount + $fee_discount;
                                             $total_deposite_amount = $total_deposite_amount + $fee_paid;
                                             $total_fine_amount = $total_fine_amount + $fee_fine;
                                             $feetype_balance = $fee_value->amount - ($fee_paid + $fee_discount);
-                                            $total_balance_amount = $total_balance_amount + $feetype_balance;
-                                            ?>
-                                            <?php
-                                            if ($feetype_balance > 0 && strtotime($fee_value->due_date) < strtotime(date('Y-m-d'))) {
-                                                ?>
+                                            $total_balance_amount = $total_balance_amount + $feetype_balance;   
+
+                                            if ($feetype_balance > 0 && strtotime($fee_value->due_date) < strtotime(date('Y-m-d'))) { ?>
                                                 <tr class="danger font12">
-                                                    <?php
-                                                } else {
-                                                    ?>
+                                            <?php } 
+                                            else { ?>
                                                 <tr class="dark-gray">
-                                                    <?php
-                                                }
-                                                ?>
+                                            <?php } 
+                                                if (!$stud_details_shown) { 
+                                                    $stud_details_shown = true; ?>
+                                                    <td><?php echo $student['lastname'] . ", " . $student['firstname'] ?></td>
+                                                    <td><?php echo $student['class'] . " (" . $student['section'] . ")" ?></td>
+                                                <?php } else { ?>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                <?php } ?>
+                                                
                                                 <td><input class="checkbox" type="checkbox" name="fee_checkbox" data-fee_master_id="<?php echo $fee_value->id ?>" data-fee_session_group_id="<?php echo $fee_value->fee_session_group_id ?>" data-fee_groups_feetype_id="<?php echo $fee_value->fee_groups_feetype_id ?>"></td>
                                                 <td align="left"><?php
                                                     echo $fee_value->name;
@@ -369,6 +376,8 @@ $language_name = $language["short_code"];
                                             ?>
                                             <tr class="dark-light">
                                                 <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td align="left"> <?php echo $this->lang->line('discount'); ?> </td>
                                                 <td align="left">
                                                     
@@ -448,6 +457,8 @@ $language_name = $language["short_code"];
 
 
                                     <tr class="box box-solid total-bg">
+                                        <td align="left" ></td>
+                                        <td align="left" ></td>
                                         <td align="left" ></td>
                                         <td align="left" ></td>
                                         <td align="left" ></td>
