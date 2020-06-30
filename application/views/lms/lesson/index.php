@@ -148,8 +148,8 @@
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                                    <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
-                                                            <i class="fa fa-eye" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="zoom_open()"':'' ?> ></i>
+                                                    <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="google_meet_open(\''.$list_data["google_meet"].'\')"':'' ?> class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                            <i class="fa fa-eye"  ></i>
                                                     </a>
                                                 <?php endif; ?>
                                                 
@@ -187,8 +187,8 @@
 
 
 <script>
-    function zoom_open(){
-        window.open('https://us02web.zoom.us/j/8713627702?pwd=VTFvc2k0YnkzeGl1dDhhRFBmS2YyQT09');
+    function google_meet_open(url){
+        window.open(url);
     }
     $(document).ready(function () {
         $('.detail_popover').popover({

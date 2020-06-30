@@ -28,7 +28,9 @@ class General_model extends MY_Model {
         return $role;
         
     }
+
     public function get_account_id(){
+
         $current_session = $this->setting_model->getCurrentSession();
         $userdata = $this->session->userdata();
 
@@ -44,15 +46,17 @@ class General_model extends MY_Model {
     }
 
     public function get_account_name($account_id="",$account_type=""){
-        // $this->db->select("*");
-        // $this->db->from("students");
-        // $this->db->where("id",5);
+
         if($account_type=="admin"){
             return $this->db->select("*")->where("id",$account_id)->get("staff")->result_array(); 
         }else{
             return $this->db->select("*")->where("id",$account_id)->get("students")->result_array(); 
         }
           
+    }
+
+    public function get_all_staff(){
+        return $this->db->select("*")->get("staff")->result_array();   
     }
 
     public function get_classes(){

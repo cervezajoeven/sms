@@ -115,6 +115,7 @@
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
+        <input type="hidden" id="google_meet_id" value="<?php echo $role ?>" name="" />
         <input type="hidden" id="pdfjs" value="<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>" name="" />
 
         <div id="myModal" class="modal">
@@ -537,9 +538,13 @@
                         </div>
                         <?php if($lesson['lesson_type'] == "virtual"): ?>
                           <div class="actions">
-                              <a href="https://us02web.zoom.us/j/8713627702?pwd=b0lFZ0JlUVVBdGxGbWNwUUVGV1RvZz09" target="_blank">
-                                <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Virtual</button>
-                              </a>
+                              <?php if($lesson['google_meet'] != ""): ?>
+                                <a href="<?php echo $lesson['google_meet'] ?>" target="_blank">
+                                  <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Meetup</button>
+                                </a>
+                              <?php else: ?>
+                                <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Google ID Need to be Set</button>
+                              <?php endif; ?>
                               
                           </div>
                         <?php endif; ?>

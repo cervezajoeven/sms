@@ -30,9 +30,9 @@ $HTTP_HOST = $_SERVER['HTTP_HOST'];
 if($HTTP_HOST=="localhost"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/sms';
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
-  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/cms';
+  $config['base_url'] = 'https://'.$HTTP_HOST.'/cms';
 }else{
-  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/';
+  $config['base_url'] = 'https://'.$HTTP_HOST.'/';
 }
 
 
@@ -111,7 +111,13 @@ $config['charset'] = 'UTF-8';
   | setting this variable to TRUE (boolean).  See the user guide for details.
   |
  */
-$config['enable_hooks'] = FALSE;
+if($HTTP_HOST=="localhost"){
+  $config['enable_hooks'] = FALSE;
+}elseif($HTTP_HOST=="stepsmandaluyong.com"){
+  $config['enable_hooks'] = TRUE;
+}else{
+  $config['enable_hooks'] = TRUE;
+}
 
 /*
   |--------------------------------------------------------------------------
