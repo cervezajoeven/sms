@@ -39,6 +39,10 @@ class Googlemeet extends General_Controller {
         $data['google_meet'] = $_REQUEST['google_meet'];
 
         $result = $this->lesson_model->lms_update("staff",$data);
+        
+        $lesson_data['account_id'] = $_REQUEST['account_id'];
+        $lesson_data['google_meet'] = $_REQUEST['google_meet'];
+        $result = $this->lesson_model->lms_update("lms_lesson",$lesson_data,"account_id");
         if ($result)
         {
             $msg   = $this->lang->line('success_message');

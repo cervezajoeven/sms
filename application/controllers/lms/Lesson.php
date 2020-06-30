@@ -139,13 +139,15 @@ class Lesson extends General_Controller {
         }else{
             $data['virtual_status'] = "not_available";
         }
+        if($data['role']!="student"){
+            if($data['google_meet'] != $data['lms_google_meet']){
 
-        if($data['google_meet'] != $data['lms_google_meet']){
-
-            $update_google_meet_data['google_meet'] = $data['google_meet'];
-            $update_google_meet_data['id'] = $data['id'];
-            $this->lesson_model->lms_update("lms_lesson",$update_google_meet_data);
+                $update_google_meet_data['google_meet'] = $data['google_meet'];
+                $update_google_meet_data['id'] = $data['id'];
+                $this->lesson_model->lms_update("lms_lesson",$update_google_meet_data);
+            }
         }
+        
         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
         
 
