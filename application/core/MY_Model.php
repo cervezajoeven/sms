@@ -91,13 +91,13 @@ class MY_Model extends CI_Model
         }
     }
 
-    public function lms_update($table="",$data=array()){
+    public function lms_update($table="",$data=array(),$where="id"){
         
         if($table&&is_string($table)){
             $this->db->where("id", $data["id"]);
             $data['date_updated'] = date("Y-m-d H:i:s");
             if($this->db->update($table, $data)){
-                $this->db->where("id", $data["id"]);
+                $this->db->where($where, $data[$where]);
                 $query = $this->db->get($table);
                 $return = $query->result_array()[0];
                 return $return;

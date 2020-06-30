@@ -120,7 +120,6 @@ class Lesson extends General_Controller {
     function create($id){
 
         $data['id'] = $id;
-        $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
 
         $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
         $current_session = $this->setting_model->getCurrentSession();
@@ -131,8 +130,23 @@ class Lesson extends General_Controller {
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects(); 
 
+        $data['account_id'] = $this->general_model->get_account_id();
+        $data['google_meet'] = $this->general_model->get_account_name($data['account_id'],"admin")[0]['google_meet'];
+        $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
+        $data['lms_google_meet'] = $data['lesson']['google_meet'];
+        if($data['google_meet']==""){
+            echo "<script>alert('Your google meet account has not been initialized yet. Please contact your admin.');</script>";
+        }
 
+        if($data['google_meet'] != $data['lms_google_meet']){
+
+            $update_google_meet_data['google_meet'] = $data['google_meet'];
+            $update_google_meet_data['id'] = $data['id'];
+            $this->lesson_model->lms_update("lms_lesson",$update_google_meet_data);
+        }
+        $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
         
+
         $data['resources'] = site_url('backend/lms/');
         if(!is_dir(FCPATH."uploads/lms_lesson/".$id)){
             mkdir(FCPATH."uploads/lms_lesson/".$id);
