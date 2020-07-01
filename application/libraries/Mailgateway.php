@@ -19,6 +19,7 @@ class Mailgateway
         $this->_CI->load->model('librarian_model');
         $this->_CI->load->model('accountant_model');
         $this->_CI->load->library('mailer');
+        $this->_CI->load->model('my_model');
         $this->_CI->mailer;
         $this->sch_setting = $this->_CI->setting_model->get();
     }
@@ -46,18 +47,22 @@ class Mailgateway
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Admission Confirm";
             $msg = $this->getStudentRegistrationContent($id, $template);
-            $this->console_log($msg);
-            $this->_CI->mailer->send_mail($send_to, $subject, $msg);
+
+            if ($this->_CI->mailer->send_mail($send_to, $subject, $msg))
+                $this->_CI->my_model->log("Student admission notice for ".$id." sent", $id, "Email");
         }
     }
 
     public function sendLoginCredential($chk_mail_sms, $sender_details, $template)
     {
+        // var_dump($sender_details);die;
+
         $msg     = $this->getLoginCredentialContent($sender_details['credential_for'], $sender_details, $template);
         $send_to = $sender_details['email'];
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
-            $this->_CI->mailer->send_mail($send_to, $subject, $msg);
+            if ($this->_CI->mailer->send_mail($send_to, $subject, $msg))
+                $this->_CI->my_model->log("Student login credentials for ".$sender_details['username']." sent", $sender_details['username'], "Email");
         }
     }
 
@@ -68,7 +73,8 @@ class Mailgateway
 
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
-            $this->_CI->mailer->send_mail($send_to, $subject, $msg);
+            if ($this->_CI->mailer->send_mail($send_to, $subject, $msg))
+                $this->_CI->my_model->log("Parent login credentials for ".$sender_details['username']." sent", $sender_details['username'], "Email");
         }
     }
 
