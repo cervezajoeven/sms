@@ -62,7 +62,7 @@ class Mailgateway
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg))
-                $this->_CI->my_model->log("Student login credentials for ".$sender_details['username']." sent", $sender_details['username'], "Email");
+                $this->_CI->my_model->log(strtoupper($sender_details['credential_for']) . " login credentials for ".$sender_details['username']." sent", $sender_details['username'], "Email");
         }
     }
 
@@ -74,7 +74,7 @@ class Mailgateway
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg))
-                $this->_CI->my_model->log("Parent login credentials for ".$sender_details['username']." sent", $sender_details['username'], "Email");
+                $this->_CI->my_model->log(strtoupper($sender_details['credential_for']) . " login credentials for ".$sender_details['username']." sent", $sender_details['username'], "Email");
         }
     }
 
