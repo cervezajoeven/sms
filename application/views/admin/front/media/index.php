@@ -327,18 +327,32 @@
             var fileInput = document.getElementById('file');
             var filePath = fileInput.value;
 
-            var allowedExtensions = /(\.mp4|\.mov|\.flv|\.wmv|\.avi|\.mpg|\.mpeg|\.rm|\.ram|\.swf|\.ogg|\.webm|\.mkv|\.wav|\.mp3|\.aac)$/i;
-            if (allowedExtensions.exec(filePath)) {
-                errorMsg('File Type not allowed');
-                fileInput.value = '';
-                return false;
-            }
+            // var allowedExtensions = /(\.zip|\.mp4|\.mov|\.flv|\.wmv|\.avi|\.mpg|\.mpeg|\.rm|\.ram|\.swf|\.ogg|\.webm|\.mkv|\.wav|\.mp3|\.aac)$/i;
+            // if (allowedExtensions.exec(filePath)) {
+            //     errorMsg('File Type not allowed');
+            //     fileInput.value = '';
+            //     return false;
+            // }
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.pdf)$/i;
             var ins = fileInput.files.length;
 
-            for (var x = 0; x < ins; x++) {
-                fd.append("files[]", document.getElementById('file').files[x]);
-            }
-            uploadData(fd);
+            if (ins > 0) {
+                for (var x = 0; x < ins; x++) {
+                    var fnamepath = "C:\\fakepath\\" + fileInput.files[x].name;
+                    var filesize = fileInput.files[x].size;
+                    
+                    if (allowedExtensions.exec(fnamepath))
+                        if (filesize > 500000)
+                            errorMsg('Only files with 500kb below is allowed');
+                        else
+                            fd.append("files[]", fileInput.files[x]);
+                    else 
+                        errorMsg('File Type not allowed');
+                }
+
+                // if (fd.entries() > 0)
+                    uploadData(fd);
+            }            
         });
     });
 

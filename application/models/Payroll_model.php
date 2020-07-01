@@ -11,24 +11,45 @@ class Payroll_model extends MY_Model {
         $this->current_date = $this->setting_model->getDateYmd();
     }
 
-    function searchEmployee($month, $year, $emp_name, $role) {
+    // function searchEmployee($month, $year, $emp_name, $role) {
+
+    //     $date_month = date("m", strtotime($year));
+    //     if (!empty($role) && !empty($emp_name)) {
+
+    //         $query = $this->db->query("select staff_payslip.status,
+	// 	IFNULL(staff_payslip.id, 0) as payslip_id ,staff.* ,roles.name as user_type ,staff_designation.designation as designation,department.department_name as department from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' left join department on department.id = staff.department left join staff_designation on staff_designation.id = staff.designation left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id where roles.name = '" . $role . "' and name = '" . $emp_name . "' and staff.is_active = 1 ");
+    //     } else if (!empty($role)) {
+
+    //         $query = $this->db->query("select staff_payslip.status,
+	// 	IFNULL(staff_payslip.id, 0) as payslip_id ,staff.*,staff_designation.designation as designation,department.department_name as department ,roles.name as user_type from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' left join department on department.id = staff.department left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id left join staff_designation on staff_designation.id = staff.designation where roles.name = '" . $role . "' and staff.is_active = 1 ");
+    //     } else {
+
+    //         $query = $this->db->query("select staff_payslip.status,
+	// 	IFNULL(staff_payslip.id, 0) as payslip_id ,staff.* ,roles.name as user_type ,staff_designation.designation as designation,department.department_name as department  from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' left join department on department.id = staff.department left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id left join staff_designation on staff_designation.id = staff.designation where staff.is_active = 1 ");
+    //     }
+
+    //     // echo($this->db->last_query());die;
+    //     return $query->result_array();
+    // }
+
+    function searchEmployee($month, $year, $emp_name, $role, $pay_period) {
 
         $date_month = date("m", strtotime($year));
         if (!empty($role) && !empty($emp_name)) {
 
             $query = $this->db->query("select staff_payslip.status,
-		IFNULL(staff_payslip.id, 0) as payslip_id ,staff.* ,roles.name as user_type ,staff_designation.designation as designation,department.department_name as department from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' left join department on department.id = staff.department left join staff_designation on staff_designation.id = staff.designation left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id where roles.name = '" . $role . "' and name = '" . $emp_name . "' and staff.is_active = 1 ");
+		IFNULL(staff_payslip.id, 0) as payslip_id ,staff.* ,roles.name as user_type ,staff_designation.designation as designation,department.department_name as department from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' and pay_period = '".$pay_period."' left join department on department.id = staff.department left join staff_designation on staff_designation.id = staff.designation left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id where roles.name = '" . $role . "' and name = '" . $emp_name . "' and staff.is_active = 1 ");
         } else if (!empty($role)) {
 
             $query = $this->db->query("select staff_payslip.status,
-		IFNULL(staff_payslip.id, 0) as payslip_id ,staff.*,staff_designation.designation as designation,department.department_name as department ,roles.name as user_type from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' left join department on department.id = staff.department left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id left join staff_designation on staff_designation.id = staff.designation where roles.name = '" . $role . "' and staff.is_active = 1 ");
+		IFNULL(staff_payslip.id, 0) as payslip_id ,staff.*,staff_designation.designation as designation,department.department_name as department ,roles.name as user_type from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' and pay_period = '".$pay_period."' left join department on department.id = staff.department left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id left join staff_designation on staff_designation.id = staff.designation where roles.name = '" . $role . "' and staff.is_active = 1 ");
         } else {
 
             $query = $this->db->query("select staff_payslip.status,
-		IFNULL(staff_payslip.id, 0) as payslip_id ,staff.* ,roles.name as user_type ,staff_designation.designation as designation,department.department_name as department  from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' left join department on department.id = staff.department left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id left join staff_designation on staff_designation.id = staff.designation where staff.is_active = 1 ");
+		IFNULL(staff_payslip.id, 0) as payslip_id ,staff.* ,roles.name as user_type ,staff_designation.designation as designation,department.department_name as department  from staff left join staff_payslip on staff.id = staff_payslip.staff_id and month = '" . $month . "' and year = '" . $year . "' and pay_period = '".$pay_period."' left join department on department.id = staff.department left join staff_roles on staff_roles.staff_id = staff.id left join roles on staff_roles.role_id = roles.id left join staff_designation on staff_designation.id = staff.designation where staff.is_active = 1 ");
         }
 
-
+        // echo($this->db->last_query());die;
         return $query->result_array();
     }
 
@@ -85,9 +106,9 @@ class Payroll_model extends MY_Model {
         }
     }
 
-    function checkPayslip($month, $year, $staff_id) {
+    function checkPayslip($month, $year, $staff_id, $pay_period) {
 
-        $query = $this->db->where(array('month' => $month, 'year' => $year, 'staff_id' => $staff_id))->get("staff_payslip");
+        $query = $this->db->where(array('month' => $month, 'year' => $year, 'staff_id' => $staff_id, 'pay_period' => $pay_period))->get("staff_payslip");
 
         if ($query->num_rows() > 0) {
             return false;
@@ -96,6 +117,18 @@ class Payroll_model extends MY_Model {
             return true;
         }
     }
+
+    // function checkPayslip($month, $year, $staff_id) {
+
+    //     $query = $this->db->where(array('month' => $month, 'year' => $year, 'staff_id' => $staff_id))->get("staff_payslip");
+
+    //     if ($query->num_rows() > 0) {
+    //         return false;
+    //     } else {
+
+    //         return true;
+    //     }
+    // }
 
     function add_allowance($data) {
 		$this->db->trans_start(); # Starting Transaction

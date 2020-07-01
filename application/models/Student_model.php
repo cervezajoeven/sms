@@ -1520,7 +1520,7 @@ return false;
             }
 
             if ($this->check_rollno_exists($roll_no, $student_id, $class)) {
-                $this->form_validation->set_message('check_exists', 'Roll Number should be unique at Class level');
+                $this->form_validation->set_message('check_exists', 'ID Number should be unique at Class level');
                 return false;
             } else {
                 return true;

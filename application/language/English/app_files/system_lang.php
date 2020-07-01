@@ -1520,4 +1520,6 @@ $lang['old_student_account'] = "Old Student Notification";
 $lang['lesson_assigned'] = "Lesson Assigned";
 $lang['assessment_assigned'] = "Assessment Assigned";
 $lang['data_privacy_chkbox_text'] = "Data Privacy Checkbox Text";
+
+$lang['pay_period'] = "Pay Period";
 ?>

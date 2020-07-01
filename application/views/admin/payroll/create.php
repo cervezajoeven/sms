@@ -156,7 +156,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>
                                 </div><!--./col-md-4-->
                                 <div class="col-md-4 col-sm-4">
-
                                     <h3 class="box-title"><?php echo $this->lang->line('deduction'); ?></h3>
                                     <button type="button" onclick="add_more_deduction()" class="plusign"><i class="fa fa-plus"></i></button>
                                     <div class="sameheight">
@@ -173,8 +172,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>  
                                 </div><!--./col-md-4--> 
                                 <div class="col-md-4 col-sm-4">
-
-                                    <h3 class="box-title"><?php echo $this->lang->line('payroll'); ?> <?php echo $this->lang->line('summary'); ?>(<?php echo $currency_symbol ?>)</h3>
+                                    <input type="hidden" name="pay_period" value="<?php echo $pay_period; ?>"/>
+                                    <h3 class="box-title"><?php echo $this->lang->line('payroll'); ?> <?php echo $this->lang->line('summary'); ?>(<?php echo $pay_period_desc ?>)</h3>
                                     <button type="button" onclick="add_allowance()" class="plusign"><i class="fa fa-calculator"></i> <?php echo $this->lang->line('calculate'); ?></button>
                                     <div class="sameheight">
                                         <div class="payrollbox feebox">

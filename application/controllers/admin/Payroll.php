@@ -47,30 +47,43 @@ class Payroll extends Admin_Controller {
         $data['monthlist'] = $this->customlib->getMonthDropdown();
 		$data['sch_setting']        = $this->sch_setting_detail;
 		$data['staffid_auto_insert'] = $this->sch_setting_detail->staffid_auto_insert;
-        $submit = $this->input->post("search");
-        if (isset($submit) && $submit == "search") {
 
-            $month = $this->input->post("month");
-            $year = $this->input->post("year");
-            $emp_name = $this->input->post("name");
-            $role = $this->input->post("role");
-
-            $searchEmployee = $this->payroll_model->searchEmployee($month, $year, $emp_name, $role);
-
-            $data["resultlist"] = $searchEmployee;
-            $data["name"] = $emp_name;
-            $data["month"] = $month;
-            $data["year"] = $year;
-        }
+        $this->form_validation->set_rules('pay_period', $this->lang->line('required'), 'trim|required|xss_clean');
+        if ($this->form_validation->run() == false) {
+            $data["payroll_status"] = $this->payroll_status;
+            $this->load->view("layout/header", $data);
+            $this->load->view("admin/payroll/stafflist", $data);
+            $this->load->view("layout/footer", $data);
+        } 
+        else 
+        {
+            $submit = $this->input->post("search");
         
-        $data["payroll_status"] = $this->payroll_status;
-        $this->load->view("layout/header", $data);
-        $this->load->view("admin/payroll/stafflist", $data);
-        $this->load->view("layout/footer", $data);
+            if (isset($submit) && $submit == "search") {
+    
+                $month = $this->input->post("month");
+                $year = $this->input->post("year");
+                $emp_name = $this->input->post("name");
+                $role = $this->input->post("role");
+                $pay_period = $this->input->post("pay_period");
+    
+                // $searchEmployee = $this->payroll_model->searchEmployee($month, $year, $emp_name, $role);
+                $searchEmployee = $this->payroll_model->searchEmployee($month, $year, $emp_name, $role, $pay_period);
+    
+                $data["resultlist"] = $searchEmployee;
+                $data["name"] = $emp_name;
+                $data["month"] = $month;
+                $data["year"] = $year;
+            }
+            
+            $data["payroll_status"] = $this->payroll_status;
+            $this->load->view("layout/header", $data);
+            $this->load->view("admin/payroll/stafflist", $data);
+            $this->load->view("layout/footer", $data);   
+        }
     }
 
-    function create($month, $year, $id) {
-
+    function create($month, $year, $id, $pay_period) {
         $data["staff_id"] = "";
         $data["basic"] = "";
         $data["name"] = "";
@@ -87,33 +100,88 @@ class Payroll extends Admin_Controller {
 		$data['staffid_auto_insert'] = $this->sch_setting_detail->staffid_auto_insert;
         $user_type = $this->staff_model->getStaffRole();
         $data['classlist'] = $user_type;
-
         $date = $year . "-" . $month;
-
-
         $searchEmployee = $this->payroll_model->searchEmployeeById($id);
-
         $data['result'] = $searchEmployee;
         $data["month"] = $month;
         $data["year"] = $year;
-
-
-
+        $data["pay_period"] = $pay_period;
+        $data["pay_period_desc"] = $this->getPayPeriodDesc($pay_period);
         $alloted_leave = $this->staff_model->alloted_leave($id);
-
         $newdate = date('Y-m-d', strtotime($date . " +1 month"));
-
         $data['monthAttendance'] = $this->monthAttendance($newdate, 3, $id);
         $data['monthLeaves'] = $this->monthLeaves($newdate, 3, $id);
-
         $data["attendanceType"] = $this->staffattendancemodel->getStaffAttendanceType();
-
-        $data["alloted_leave"] = $alloted_leave[0]["alloted_leave"];
+        // var_dump($data);die;
 
         $this->load->view("layout/header", $data);
         $this->load->view("admin/payroll/create", $data);
         $this->load->view("layout/footer", $data);
     }
+
+    function getPayPeriodDesc($pay_period)
+    {
+        switch ($pay_period) {
+            case "15":
+                return "01 - 15";
+                break;
+            case "30":
+                return "16 - 30";
+                break;
+            // case "5":
+            //     return "05 - 20";
+            //     break;
+            // case "20":
+            //     return "21 - 20";
+            //     break;
+        }
+    }
+
+    // function create($month, $year, $id) {
+
+    //     $data["staff_id"] = "";
+    //     $data["basic"] = "";
+    //     $data["name"] = "";
+    //     $data["month"] = "";
+    //     $data["year"] = "";
+    //     $data["present"] = 0;
+    //     $data["absent"] = 0;
+    //     $data["late"] = 0;
+    //     $data["half_day"] = 0;
+    //     $data["holiday"] = 0;
+    //     $data["leave_count"] = 0;
+    //     $data["alloted_leave"] = 0;
+	// 	$data['sch_setting']        = $this->sch_setting_detail;
+	// 	$data['staffid_auto_insert'] = $this->sch_setting_detail->staffid_auto_insert;
+    //     $user_type = $this->staff_model->getStaffRole();
+    //     $data['classlist'] = $user_type;
+
+    //     $date = $year . "-" . $month;
+
+
+    //     $searchEmployee = $this->payroll_model->searchEmployeeById($id);
+
+    //     $data['result'] = $searchEmployee;
+    //     $data["month"] = $month;
+    //     $data["year"] = $year;
+
+
+
+    //     $alloted_leave = $this->staff_model->alloted_leave($id);
+
+    //     $newdate = date('Y-m-d', strtotime($date . " +1 month"));
+
+    //     $data['monthAttendance'] = $this->monthAttendance($newdate, 3, $id);
+    //     $data['monthLeaves'] = $this->monthLeaves($newdate, 3, $id);
+
+    //     $data["attendanceType"] = $this->staffattendancemodel->getStaffAttendanceType();
+
+    //     $data["alloted_leave"] = $alloted_leave[0]["alloted_leave"];
+
+    //     $this->load->view("layout/header", $data);
+    //     $this->load->view("admin/payroll/create", $data);
+    //     $this->load->view("layout/footer", $data);
+    // }
 
     function monthAttendance($st_month, $no_of_months, $emp) {
         $record = array();
@@ -173,6 +241,9 @@ class Payroll extends Admin_Controller {
         $year = $this->input->post("year");
         $tax = $this->input->post("tax");
         $leave_deduction = $this->input->post("leave_deduction");
+        $pay_period = $this->input->post("pay_period");
+        $role_selected = $this->input->post("role");
+
         $this->form_validation->set_rules('net_salary', 'Net Salary', 'trim|required|xss_clean');
         if ($this->form_validation->run() == FALSE) {
 
@@ -189,27 +260,28 @@ class Payroll extends Admin_Controller {
                 'month' => $month,
                 'year' => $year,
                 'tax' => $tax,
-                'leave_deduction' => '0'
+                'leave_deduction' => '0',
+                'pay_period' => $pay_period
             );
 
-            $checkForUpdate = $this->payroll_model->checkPayslip($month, $year, $staff_id);
+            $checkForUpdate = $this->payroll_model->checkPayslip($month, $year, $staff_id, $pay_period);
+            // $checkForUpdate = $this->payroll_model->checkPayslip($month, $year, $staff_id);
           
-            if ($checkForUpdate == true) {
+            if ($checkForUpdate == true) 
+            {
                // print_r($data);die;
                 $insert_id = $this->payroll_model->createPayslip($data);
-
-                $payslipid = $insert_id;
-                
+                $payslipid = $insert_id;                
                 $allowance_type = $this->input->post("allowance_type");
                 $deduction_type = $this->input->post("deduction_type");
-
                 $allowance_amount = $this->input->post("allowance_amount");
                 $deduction_amount = $this->input->post("deduction_amount");
-                if (!empty($allowance_type)) {
 
+                if (!empty($allowance_type)) 
+                {
                     $i = 0;
-                    foreach ($allowance_type as $key => $all) {
-
+                    foreach ($allowance_type as $key => $all) 
+                    {
                         $all_data = array('payslip_id' => $payslipid,
                             'allowance_type' => $allowance_type[$i],
                             'amount' => $allowance_amount[$i],
@@ -218,15 +290,15 @@ class Payroll extends Admin_Controller {
                         );
 
                         $insert_payslip_allowance = $this->payroll_model->add_allowance($all_data);
-
                         $i++;
                     }
                 }
 
-                if (!empty($deduction_type)) {
+                if (!empty($deduction_type)) 
+                {
                     $j = 0;
-                    foreach ($deduction_type as $key => $type) {
-
+                    foreach ($deduction_type as $key => $type) 
+                    {
                         $type_data = array('payslip_id' => $payslipid,
                             'allowance_type' => $deduction_type[$j],
                             'amount' => $deduction_amount[$j],
@@ -240,30 +312,31 @@ class Payroll extends Admin_Controller {
                     }
                 }
 
-                redirect('admin/payroll');
-            } else {
-
+                // redirect('admin/payroll');
+                redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $pay_period . "/" . $role_selected);
+            } 
+            else 
+            {
                 $this->session->set_flashdata("msg", $this->lang->line('payslip_already_generated'));
-
-                redirect('admin/payroll');
+                // redirect('admin/payroll');
+                redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $pay_period . "/" . $role_selected);
             }
         }
     }
 
-   
-
-    function search($month, $year, $role = '') {
+    function search($month, $year, $pay_period, $role = '') {
 
         $user_type = $this->staff_model->getStaffRole();
         $data['classlist'] = $user_type;
         $data['monthlist'] = $this->customlib->getMonthDropdown();
 
-        $searchEmployee = $this->payroll_model->searchEmployee($month, $year, $emp_name = '', $role);
+        $searchEmployee = $this->payroll_model->searchEmployee($month, $year, $emp_name = '', $role, $pay_period);
 
         $data["resultlist"] = $searchEmployee;
         $data["name"] = $emp_name;
         $data["month"] = $month;
         $data["year"] = $year;
+        $data["pay_period"] = $pay_period;
         $data['sch_setting']        = $this->sch_setting_detail;
         
         $data["payroll_status"] = $this->payroll_status;
@@ -274,6 +347,29 @@ class Payroll extends Admin_Controller {
         $this->load->view("admin/payroll/stafflist", $data);
         $this->load->view("layout/footer", $data);
     }
+
+    // function search($month, $year, $role = '') {
+
+    //     $user_type = $this->staff_model->getStaffRole();
+    //     $data['classlist'] = $user_type;
+    //     $data['monthlist'] = $this->customlib->getMonthDropdown();
+
+    //     $searchEmployee = $this->payroll_model->searchEmployee($month, $year, $emp_name = '', $role);
+
+    //     $data["resultlist"] = $searchEmployee;
+    //     $data["name"] = $emp_name;
+    //     $data["month"] = $month;
+    //     $data["year"] = $year;
+    //     $data['sch_setting']        = $this->sch_setting_detail;
+        
+    //     $data["payroll_status"] = $this->payroll_status;
+    //     $data["resultlist"] = $searchEmployee;
+    //     $data["payment_mode"] = $this->payment_mode;
+
+    //     $this->load->view("layout/header", $data);
+    //     $this->load->view("admin/payroll/stafflist", $data);
+    //     $this->load->view("layout/footer", $data);
+    // }
 
     function paymentRecord() {
 
@@ -408,7 +504,34 @@ class Payroll extends Admin_Controller {
         }
     }
 
-    function deletepayroll($payslipid, $month, $year, $role = '') {
+    // function deletepayroll($payslipid, $month, $year, $role = '') {
+    //     if (!$this->rbac->hasPrivilege('staff_payroll', 'can_delete')) {
+    //         access_denied();
+    //     }
+    //     if (!empty($payslipid)) {
+
+    //         $this->payroll_model->deletePayslip($payslipid);
+    //     }
+    //     //redirect("admin/payroll");
+    //     redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $role);
+    // }
+
+    // function revertpayroll($payslipid, $month, $year, $role = '') {
+
+
+    //     if (!$this->rbac->hasPrivilege('staff_payroll', 'can_delete')) {
+    //         access_denied();
+    //     }
+    //     if (!empty($payslipid)) {
+
+    //         $this->payroll_model->revertPayslipStatus($payslipid);
+    //     }
+    //     redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $role);
+    //     //$this->search($month,$year,$role);
+    //     //redirect("admin/payroll");
+    // }
+
+    function deletepayroll($payslipid, $month, $year, $pay_period, $role = '') {
         if (!$this->rbac->hasPrivilege('staff_payroll', 'can_delete')) {
             access_denied();
         }
@@ -417,10 +540,10 @@ class Payroll extends Admin_Controller {
             $this->payroll_model->deletePayslip($payslipid);
         }
         //redirect("admin/payroll");
-        redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $role);
+        redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $pay_period . "/" . $role);
     }
-
-    function revertpayroll($payslipid, $month, $year, $role = '') {
+    
+    function revertpayroll($payslipid, $month, $year, $pay_period, $role = '') {
 
 
         if (!$this->rbac->hasPrivilege('staff_payroll', 'can_delete')) {
@@ -430,11 +553,10 @@ class Payroll extends Admin_Controller {
 
             $this->payroll_model->revertPayslipStatus($payslipid);
         }
-        redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $role);
+        redirect('admin/payroll/search/' . $month . "/" . $year . "/" . $pay_period . "/" . $role);
         //$this->search($month,$year,$role);
         //redirect("admin/payroll");
     }
-
 }
 
 ?>

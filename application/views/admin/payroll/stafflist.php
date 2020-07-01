@@ -27,7 +27,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                                 <?php echo $this->customlib->getCSRF(); ?>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">
                                             <?php echo $this->lang->line("role"); ?>
@@ -40,7 +40,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 if (isset($_POST["role"])) {
                                                     $role_selected = $_POST["role"];
                                                 } else {
-                                                    $role_selected = '';
+                                                    // $role_selected = '';
                                                 }
                                                 ?>
                                                 <option value="<?php echo $class["type"] ?>" 
@@ -57,8 +57,21 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     </div>
                                 </div>
 
+                                <div class="col-md-3">
+                                    <?php if (isset($_POST["pay_period"])) $pay_period = $_POST["pay_period"]; ?>
+                                    <div class="form-group">
+                                        <label for="pay_period"><?php echo $this->lang->line('pay_period'); ?></label>
+                                        <select autofocus="" id="pay_period" name="pay_period" class="form-control" >
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            <option <?php if($pay_period == "15"){ echo "selected"; } ?>  value="15">01 - 15</option>
+                                            <option <?php if($pay_period == "30"){ echo "selected"; } ?>  value="30">16 - 30</option>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('pay_period'); ?></span>
+                                    </div>
+                                </div>
 
-                                <div class="col-md-4">
+
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('month') ?></label>
 
@@ -86,7 +99,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <span class="text-danger"><?php echo form_error('month'); ?></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('year'); ?></label>
 
@@ -180,21 +193,21 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <?php
                                                     if ($this->rbac->hasPrivilege('staff_payroll', 'can_add')) {
                                                         ?>
-                                                        <a class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" href="<?php echo base_url() . "admin/payroll/revertpayroll/" . $staff["payslip_id"] . "/" . $month_selected . "/" . date("Y") . "/" . $role_selected ?>" title="Revert">
+                                                        <a class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" href="<?php echo base_url() . "admin/payroll/revertpayroll/" . $staff["payslip_id"] . "/" . $month_selected . "/" . date("Y") . "/" . $pay_period . "/" . $role_selected ?>" title="Revert">
                                                             <i class="fa fa-undo"> </i>
                                                         </a>
-            <?php } ?>
+                                                    <?php } ?>
                                                     <a href="javascript:void" onclick="getPayslip('<?php echo $staff["payslip_id"]; ?>')"  role="button" class="btn btn-primary btn-xs checkbox-toggle edit_setting" data-toggle="tooltip" title="<?php echo $this->lang->line('Payslip View'); ?>" ><?php echo $this->lang->line('view'); ?> <?php echo $this->lang->line('payslip'); ?></a>
 
 
-        <?php } ?></td>
+                                                <?php } ?></td>
                                                 <?php if ($status == "generated") { ?>
 
                                                 <td class="pull-right no-print">
                                                     <?php
                                                     if ($this->rbac->hasPrivilege('staff_payroll', 'can_delete')) {
                                                         ?>
-                                                        <a href="<?php echo base_url() ?>admin/payroll/deletepayroll/<?php echo $staff["payslip_id"] . "/" . $month_selected . "/" . date("Y") . "/" . $role_selected ?>" class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" title="Revert">
+                                                        <a href="<?php echo base_url() ?>admin/payroll/deletepayroll/<?php echo $staff["payslip_id"] . "/" . $month_selected . "/" . date("Y") . "/" . $pay_period . "/" . $role_selected ?>" class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" title="Revert">
                                                             <i class="fa fa-undo"> </i>
                                                         </a>
                                                         <?php
@@ -213,7 +226,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <?php
                                                     if ($this->rbac->hasPrivilege('staff_payroll', 'can_add')) {
                                                         ?>
-                                                        <a class="btn btn-primary btn-xs checkbox-toggle edit_setting" role="button" href="<?php echo base_url() . "admin/payroll/create/" . $month_selected . "/" . $year . "/" . $staff["id"] ?>"><?php echo $this->lang->line('generate'); ?> <?php echo $this->lang->line('payroll'); ?></a>
+                                                        <a class="btn btn-primary btn-xs checkbox-toggle edit_setting" role="button" href="<?php echo base_url() . "admin/payroll/create/" . $month_selected . "/" . $year . "/" . $staff["id"] . "/" . $pay_period ?>"><?php echo $this->lang->line('generate'); ?> <?php echo $this->lang->line('payroll'); ?></a>
                                             <?php } ?>
                                                 </td>
                                         <?php } ?>

@@ -162,7 +162,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 <div class="box-body table-responsive" id="transfee">
                     <div class="download_label"><?php  ?> <?php echo $this->lang->line('fees')." ".$this->lang->line('collection')." ".$this->lang->line('report')."<br>"; $this->customlib->get_postmessage(); ?></div>
                     <a class="btn btn-default btn-xs pull-right" id="print" onclick="printDiv()" ><i class="fa fa-print"></i></a> <a class="btn btn-default btn-xs pull-right" id="btnExport" onclick="fnExcelReport();"> <i class="fa fa-file-excel-o"></i> </a>
-                    <table class="table table-striped  table-hover " id="headerTable">
+                    <table class="table table-striped  table-hover nowrap" id="headerTable">
                        <thead class="header">
                                     <tr>
                                                     <th><?php echo $this->lang->line('payment_id'); ?></th>
