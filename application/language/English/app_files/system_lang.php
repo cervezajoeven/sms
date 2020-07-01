@@ -1522,4 +1522,6 @@ $lang['assessment_assigned'] = "Assessment Assigned";
 $lang['data_privacy_chkbox_text'] = "Data Privacy Checkbox Text";
 
 $lang['pay_period'] = "Pay Period";
+
+$lang['level'] = "Level";
 ?>
