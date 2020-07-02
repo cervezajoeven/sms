@@ -38,14 +38,17 @@ class Assessment_model extends MY_Model {
 
     public function assigned_assessment($account_id){
 
-        $this->db->select('*');
+        $this->db->select('*,lms_assessment.id as id,(SELECT COUNT(lms_assessment_sheets.id) FROM lms_assessment_sheets WHERE lms_assessment_sheets.assessment_id = lms_assessment.id AND lms_assessment_sheets.account_id = '.$account_id.' ) as student_attempt');
         $this->db->from('lms_assessment');
-        $this->db->where("FIND_IN_SET('".$account_id."', assigned) !=", 0);
+        $this->db->join('staff',"staff.id = lms_assessment.account_id");
+        $this->db->where("FIND_IN_SET('".$account_id."', lms_assessment.assigned) !=", 0);
+        $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+        $this->db->where('end_date >=', date('Y-m-d H:i:s'));
         $this->db->where("deleted", 0);
 
         $query = $this->db->get();
-
         $return = $query->result_array();
+        // echo '<pre>';print_r($return);exit();
         return $return;
     }
 
@@ -61,6 +64,7 @@ class Assessment_model extends MY_Model {
         $return = $query->result_array();
         return $return;
     }
+
 
     public function delete_assessment($table,$id){
         $data['id'] = $id;

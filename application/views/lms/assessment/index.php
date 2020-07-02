@@ -72,9 +72,9 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th><?php echo $this->lang->line('date'); ?></th>
-                                        <th>Views</th>
-                                        <th>Assigned To</th>
+                                        <th>Availability</th>
+                                        <th>Attempts</th>
+                                        <th>Assigned By</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -88,13 +88,14 @@
                                             </td>
 
                                             <td class="mailbox-name">
-                                               <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
+                                               <?php echo date("F d H:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("F d H:i A", strtotime($list_data['end_date'])); ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo rand(30,50); ?>
+
+                                                <?php print_r($list_data['student_attempt']) ?>/<?php print_r($list_data['attempts']) ?>
                                             </td>
                                             <td>
-                                                
+                                                <?php print_r($list_data['name']) ?> <?php print_r($list_data['surname']) ?>
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
@@ -111,6 +112,7 @@
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
+                                                    
                                                     <a data-placement="left" href="<?php echo site_url('lms/assessment/review/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer" >
                                                             <i class="fa fa-eye"></i>
                                                     </a>

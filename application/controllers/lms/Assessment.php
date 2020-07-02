@@ -22,6 +22,7 @@ class Assessment extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/assessment');
 
         $data['role'] = $this->general_model->get_role();
+
         
 
 
@@ -49,22 +50,11 @@ class Assessment extends General_Controller {
 
         $data['assessment'] = $this->assessment_model->lms_get('lms_assessment',$assessment_id,"id")[0];
 
-        $query = $this->db
-        ->select("*,lms_a.id as id")
-        ->from("lms_assessment AS lms_a")
-        ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
-        ->join("lms_assessment_sheets AS lms_as","lms_as.account_id = s.id","left")
-        ->join("student_session AS ss","s.id = ss.student_id","left")
-        ->join("classes AS c","c.id = ss.class_id","left")
-        ->join("sections AS sc","sc.id = ss.section_id","left")
-        ->where("ss.session_id",$current_session)
-        ->where("lms_a.id", $assessment_id)
-        ->get();
-
         // $query = $this->db
         // ->select("*,lms_a.id as id")
         // ->from("lms_assessment AS lms_a")
         // ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
+        // ->join("lms_assessment_sheets AS lms_as","lms_as.account_id = s.id","left")
         // ->join("student_session AS ss","s.id = ss.student_id","left")
         // ->join("classes AS c","c.id = ss.class_id","left")
         // ->join("sections AS sc","sc.id = ss.section_id","left")
@@ -72,12 +62,22 @@ class Assessment extends General_Controller {
         // ->where("lms_a.id", $assessment_id)
         // ->get();
 
+        $query = $this->db
+        ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id")
+        ->from("lms_assessment_sheets")
+        ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
+        ->join("students","students.id = lms_assessment_sheets.account_id","left")
+        ->join("student_session","lms_assessment_sheets.account_id = student_session.student_id")
+        ->join("classes","classes.id = student_session.class_id","left")
+        ->join("sections","sections.id = student_session.section_id","left")
+        ->where("student_session.session_id",$current_session)
+        ->where("lms_assessment_sheets.assessment_id", $assessment_id)
+        ->get();
+
         $students = $query->result_array();
         // echo "<pre>";
         // print_r($students);
-        // foreach ($students as $key => $value) {
-            
-        // }
+
         // exit;
         $data['students'] = $students;
 
@@ -201,7 +201,6 @@ class Assessment extends General_Controller {
             
 
             $this->load->view('lms/assessment/edit', $data);
-
             
         }
         
@@ -220,7 +219,10 @@ class Assessment extends General_Controller {
 
 
         $query = $this->db->get("lms_assessment_sheets");
+
+
         $response = $query->result_array();
+        $attempt_data = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         
         $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         
@@ -228,19 +230,21 @@ class Assessment extends General_Controller {
 
         
             
-        if(!empty($response)){
-            echo "<script>alert('Assesment has already been answered Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
+        if(count($response)>=$attempt_data['attempts']){
+            echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
             
             $this->load->view('lms/assessment/answer', $data);
         }else{
             $this->db->select("*");
             $this->db->where("account_id",$data['account_id']);
             $this->db->where("assessment_id",$id);
+            $this->db->where("response_status !=",1);
             $new_query = $this->db->get("lms_assessment_sheets");
             $new_response = $new_query->result_array();
             if(empty($new_response)){
                 $assessment_data['assessment_id'] = $id;
                 $assessment_data['account_id'] = $data['account_id'];
+
                 $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
                 $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
             }
@@ -271,30 +275,25 @@ class Assessment extends General_Controller {
         $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         $data['resources'] = site_url('backend/lms/');
             
-        if(!empty($response)){
-            echo "<script>alert('Assesment has already been answered Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
-            
-            $this->load->view('lms/assessment/answer', $data);
 
-        }else{
+        $this->db->select("*");
+        $this->db->where("account_id",$data['account_id']);
+        $this->db->where("assessment_id",$id);
+        $this->db->where("response_status",1);
+        $this->db->order_by("date_created","desc");
+        $new_query = $this->db->get("lms_assessment_sheets");
+        $new_response = $new_query->result_array();
 
-            $this->db->select("*");
-            $this->db->where("account_id",$data['account_id']);
-            $this->db->where("assessment_id",$id);
-            $new_query = $this->db->get("lms_assessment_sheets");
-            $new_response = $new_query->result_array();
-
-            if(empty($new_response)){
-                $assessment_data['assessment_id'] = $id;
-                $assessment_data['account_id'] = $data['account_id'];
-                $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
-                $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
-            }
-
-            $data['assessment_sheet'] = $new_response[0];
-            
-            $this->load->view('lms/assessment/review', $data);
+        if(empty($new_response)){
+            $assessment_data['assessment_id'] = $id;
+            $assessment_data['account_id'] = $data['account_id'];
+            $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
+            $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
         }
+        $data['assessment_sheet'] = $new_response[0];
+        
+        $this->load->view('lms/assessment/review', $data);
+        
         
     }
 
@@ -413,6 +412,7 @@ class Assessment extends General_Controller {
         }
 
         $data['score'] = $score;
+        $data['response_status'] = "1";
 
         print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
     }

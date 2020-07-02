@@ -318,7 +318,7 @@
                                                                 <div class="radio radio-info radio-inline">
                                                                     <input <?php if ($attendancefrom == 'Campus Meetup') echo "checked"; ?> type="radio" id="attendancefrom<?php echo $value['student_session_id']."-1"; ?>" value="Campus Meetup" name="attendancefrom<?php echo $value['student_session_id']; ?>" >                                                                    
                                                                     <label for="attendancefrom<?php echo $value['student_session_id']."-1"; ?>"> 
-                                                                        Campus Meetup
+                                                                        Online Attendance
                                                                     </label>
                                                                 </div>                                                                
                                                             </td>
