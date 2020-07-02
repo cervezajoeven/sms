@@ -142,9 +142,9 @@
           <!-- Modal content -->
           <div class="modal-content">
 
-            <h3 style="color: white">Vimeo Url</h3>
+            <h3 style="color: white">External Link Url</h3>
             <input type="text" class="joe_text" id="vimeo_title" name="" style="padding: 10px; width: 100%;" placeholder="Title">
-            <input type="text" class="joe_text" id="vimeo_url" name="" style="padding: 10px; width: 100%;" placeholder="vimeo url here...">
+            <input type="text" class="joe_text" id="vimeo_url" name="" style="padding: 10px; width: 100%;" placeholder="https://">
             <textarea type="text" class="joe_text" id="vimeo_description" name="" style="padding: 10px; width: 100%;" placeholder="Description"></textarea>
             <button class="vimeo_modal_done vimeo_modal_close">Done</button>
             <button class="vimeo_modal_close">Close</button>
@@ -568,7 +568,7 @@
                     </div>
                     <div class="upload_actions actions_container">
                         <div class="actions">
-                            <button class="action_button vimeo vimeo_color" id="vimeo_btn"><i class="fas fa-video"></i>Vimeo</button>
+                            <button class="action_button vimeo vimeo_color" id="vimeo_btn"><i class="fas fa-video"></i>External Link</button>
                         </div>
                     </div>
                 </div>

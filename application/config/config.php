@@ -116,7 +116,7 @@ if($HTTP_HOST=="localhost"){
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
   $config['enable_hooks'] = TRUE;
 }else{
-  $config['enable_hooks'] = FALSE;
+  $config['enable_hooks'] = TRUE;
 }
 
 /*
