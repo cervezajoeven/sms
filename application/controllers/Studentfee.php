@@ -21,8 +21,7 @@ class Studentfee extends Admin_Controller
         if (!$this->rbac->hasPrivilege('collect_fees', 'can_view')){
             access_denied();
         }
-
-        $this->session->set_userdata('top_menu', $this->lang->line('fees_collection'));
+        $this->session->set_userdata('top_menu', 'Fees Collection');
         $this->session->set_userdata('sub_menu', 'studentfee/index');
         $data['title']     = 'student fees';
         $class             = $this->class_model->get();
