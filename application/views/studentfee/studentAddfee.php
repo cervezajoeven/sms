@@ -169,10 +169,10 @@ $language_name = $language["short_code"];
                             <table class="table table-striped table-bordered table-hover example nowrap table-fixed-header">
                                 <thead class="header">
                                     <tr>
-                                        <th align="left"><?php echo $this->lang->line('roll_no'); ?></th>
-                                        <th align="left"><?php echo $this->lang->line('level'); ?></th>
-                                        <th align="left"><?php echo $this->lang->line('section'); ?></th>
-                                        <th align="left"><?php echo $this->lang->line('student_name'); ?></th>
+                                        <!-- <th align="left"><?php //echo $this->lang->line('roll_no'); ?></th>
+                                        <th align="left"><?php //echo $this->lang->line('level'); ?></th>
+                                        <th align="left"><?php //echo $this->lang->line('section'); ?></th>
+                                        <th align="left"><?php //echo $this->lang->line('student_name'); ?></th> -->
                                         <th style="width: 10px"><input type="checkbox" id="select_all"/></th>
                                         <th align="left"><?php echo $this->lang->line('fees_group'); ?></th>
                                         <th align="left"><?php echo $this->lang->line('fees_code'); ?></th>
@@ -229,10 +229,10 @@ $language_name = $language["short_code"];
                                             else { ?>
                                                 <tr class="dark-gray">
                                             <?php } ?>
-                                                <td><?php echo $student['roll_no'] ?></td>
-                                                <td><?php echo $student['class'] ?></td>
-                                                <td><?php echo $student['section'] ?></td>
-                                                <td><?php echo $student['lastname'] . ", " . $student['firstname'] ?></td>                                                
+                                                <!-- <td><?php //echo $student['roll_no'] ?></td>
+                                                <td><?php //echo $student['class'] ?></td>
+                                                <td><?php //echo $student['section'] ?></td>
+                                                <td><?php //echo $student['lastname'] . ", " . $student['firstname'] ?></td> -->
                                                 
                                                 <td><input class="checkbox" type="checkbox" name="fee_checkbox" data-fee_master_id="<?php echo $fee_value->id ?>" data-fee_session_group_id="<?php echo $fee_value->fee_session_group_id ?>" data-fee_groups_feetype_id="<?php echo $fee_value->fee_groups_feetype_id ?>"></td>
                                                 <td align="left"><?php
@@ -310,10 +310,10 @@ $language_name = $language["short_code"];
                                                 foreach ($fee_deposits as $fee_deposits_key => $fee_deposits_value) {
                                                     ?>
                                                     <tr class="white-td">
+                                                        <!-- <td align="left"></td>
                                                         <td align="left"></td>
                                                         <td align="left"></td>
-                                                        <td align="left"></td>
-                                                        <td align="left"></td>
+                                                        <td align="left"></td> -->
                                                         <td align="left"></td>
                                                         <td align="left"></td>
                                                         <td align="left"></td>
@@ -373,10 +373,10 @@ $language_name = $language["short_code"];
                                         foreach ($student_discount_fee as $discount_key => $discount_value) {
                                             ?>
                                             <tr class="dark-light">
+                                                <!-- <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td></td> -->
                                                 <td></td>
                                                 <td align="left"> <?php echo $this->lang->line('discount'); ?> </td>
                                                 <td align="left">
@@ -457,10 +457,10 @@ $language_name = $language["short_code"];
 
 
                                     <tr class="box box-solid total-bg">
+                                        <!-- <td align="left" ></td>
                                         <td align="left" ></td>
                                         <td align="left" ></td>
-                                        <td align="left" ></td>
-                                        <td align="left" ></td>
+                                        <td align="left" ></td> -->
                                         <td align="left" ></td>
                                         <td align="left" ></td>
                                         <td align="left" ></td>
