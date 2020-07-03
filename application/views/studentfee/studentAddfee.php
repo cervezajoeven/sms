@@ -1048,7 +1048,6 @@ $language_name = $language["short_code"];
                 selector: 'td:nth-child(2)'
             },
             pageLength: 50,
-            //responsive: 'false',
             dom: "Bfrtip",
             buttons: [
                 {
@@ -1060,7 +1059,6 @@ $language_name = $language["short_code"];
                         columns: ':visible'
                     }
                 },
-
                 {
                     extend: 'excelHtml5',
                     text: '<i class="fa fa-file-excel-o"></i>',
@@ -1070,7 +1068,6 @@ $language_name = $language["short_code"];
                         columns: ':visible'
                     }
                 },
-
                 {
                     extend: 'csvHtml5',
                     text: '<i class="fa fa-file-text-o"></i>',
@@ -1080,36 +1077,31 @@ $language_name = $language["short_code"];
                         columns: ':visible'
                     }
                 },
-
                 {
                     extend: 'pdfHtml5',
                     text: '<i class="fa fa-file-pdf-o"></i>',
                     titleAttr: 'PDF',
                     title: $('.download_label').html(),
                     exportOptions: {
-                        columns: ':visible'
-                        
+                        columns: ':visible'                        
                     }
                 },
-
                 {
                     extend: 'print',
                     text: '<i class="fa fa-print"></i>',
                     titleAttr: 'Print',
                     title: $('.download_label').html(),
-                        customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '10pt' );
- 
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' );
-                },
+                    customize: function ( win ) {
+                        $(win.document.body)
+                            .css( 'font-size', '10pt' );    
+                        $(win.document.body).find( 'table' )
+                            .addClass( 'compact' )
+                            .css( 'font-size', 'inherit' );
+                    },
                     exportOptions: {
                         columns: ':visible'
                     }
                 },
-
                 {
                     extend: 'colvis',
                     text: '<i class="fa fa-columns"></i>',
@@ -1123,7 +1115,7 @@ $language_name = $language["short_code"];
         $.extend($.fn.dataTable.defaults, {
             searching: false,
             ordering: false,
-            paging: false,
+            // paging: false,
             bSort: false,
             info: false
         });
