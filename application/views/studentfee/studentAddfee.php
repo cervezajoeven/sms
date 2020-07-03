@@ -311,9 +311,9 @@ $language_name = $language["short_code"];
                                                     ?>
                                                     <tr class="white-td">
                                                         <!-- <td align="left"></td>
+                                                        <td align="left"></td>-->
                                                         <td align="left"></td>
-                                                        <td align="left"></td>
-                                                        <td align="left"></td> -->
+                                                        <td align="left"></td> 
                                                         <td align="left"></td>
                                                         <td align="left"></td>
                                                         <td align="left"></td>
