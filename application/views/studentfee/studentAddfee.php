@@ -837,9 +837,16 @@ $language_name = $language["short_code"];
                                         <?php } ?>
                                         </td>
                                         <td class="text text-right"><?php echo $fee_value->amount; ?></td>
+                                        <?php if (!empty($fee_value->amount_detail)) { ?>
                                         <td class="text text-left"><?php echo $fee_value->student_fees_deposite_id . "/" . $fee_deposits_value->inv_no; ?></td>
                                         <td class="text text-left"><?php echo $fee_deposits_value->payment_mode; ?></td>
                                         <td class="text text-left"><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date)); ?></td>
+                                        <?php } else {?>
+                                            <td class="text text-left"></td>
+                                            <td class="text text-left"></td>
+                                            <td class="text text-left"></td>
+                                        <?php }?>
+
                                         <td class="text text-left"><?php echo $fee_deposits_value->description; ?></td>
                                         <td class="text text-right"><?php
                                             echo (number_format($fee_discount, 2, '.', ''));
