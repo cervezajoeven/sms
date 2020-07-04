@@ -160,7 +160,7 @@ $language_name = $language["short_code"];
                                 <a href="#" class="btn btn-sm btn-info printSelected"><i class="fa fa-print"></i> <?php echo $this->lang->line('print_selected'); ?> </a>
 
                                 <button type="button" class="btn btn-sm btn-warning collectSelected" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please Wait.."><i class="fa fa-money"></i> <?php echo $this->lang->line('collect')." ".$this->lang->line('selected')?></button>
-                                <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#forReciept">For Reciept</button>
+                                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#forReciept">For Reciept</button>
 
                                 <span class="pull-right"><?php echo $this->lang->line('date'); ?>: <?php echo date($this->customlib->getSchoolDateFormat()); ?></span>
                             </div>
