@@ -341,6 +341,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <td><?php echo $this->lang->line('email'); ?></td>
                                                 <td><?php echo $student['email']; ?></td>
                                             </tr>
+                                            <tr>
+                                                <td>Resend Admission Details</td>
+                                                <td><button onclick="send_admission_details(<?php echo $student['id'] ?>)">Admission Details</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Resend Login Credential</td>
+                                                <td><button onclick="send_login_credentials(<?php echo $student['id'] ?>)">Login Credentials</button></td>
+                                            </tr>
                                             <?php } ?>
                                             <?php
                                             $cutom_fields_data = get_custom_table_values($student['id'], 'students');
@@ -1705,4 +1713,34 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             });
         }));
     });
+    function send_admission_details(student_id){
+        var url = "<?php echo base_url('lms/lesson/send_admission_details/'); ?>"+student_id;
+        // window.location.replace(url);
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (res) {
+                successMsg("Admission Email Sent Successfully!");
+            },
+            error: function(){
+                errorMsg("Email was not sent.");
+            }
+        });
+        
+
+    }
+    function send_login_credentials(student_id){
+        var url = "<?php echo base_url('lms/lesson/send_login_credential/'); ?>"+student_id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (res) {
+                successMsg("Login Credentials Email Sent Successfully!");
+            },
+            error: function(){
+                errorMsg("Email was not sent.");
+            }
+        });
+
+    }
 </script>

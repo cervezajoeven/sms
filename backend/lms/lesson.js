@@ -363,6 +363,12 @@ $(document).ready(function(){
                             
                             data_population[index].source = encodeURIComponent(item.link);
                         }
+                        else if(item.type=="website"){
+                            
+                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                            
+                            data_population[index].source = encodeURIComponent(item.link);
+                        }
                         
 
                     });

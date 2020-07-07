@@ -36,6 +36,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         </th>
                                         <th><?php echo $this->lang->line('date'); ?>
                                         </th>
+                                        <th>Receiver</th>
                                         <th><?php echo $this->lang->line('email'); ?>
                                         </th>
                                         <th><?php echo $this->lang->line('sms'); ?></th>
@@ -76,6 +77,9 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 $time = date('H:i:s', $date_time);
                                                 echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($date)) . " " . $time;
                                                 ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $message['receiver'] ?>
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php

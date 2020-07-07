@@ -90,6 +90,34 @@ class MY_Model extends CI_Model
             return false;
         }
     }
+    public function sms_create($table="",$data=array()){
+
+        if($table&&is_string($table)){
+
+            if(!empty($data)){
+  
+                $escaped_data = array();
+                foreach ($data as $data_key => $data_value) {
+                    $escaped_data[$data_key] = html_escape($data_value);
+                }
+                
+                $escaped_data['created_at'] = date("Y-m-d H:i:s");
+                if($this->db->insert($table, $escaped_data)){
+                    return $id;
+                }else{ 
+                    print_r($this->db->error());
+                    return false; 
+                }
+            }else{
+                exit("Data is empty");
+            }
+            
+            
+        }else{
+            echo "Table name was not declared.";
+            return false;
+        }
+    }
 
     public function lms_update($table="",$data=array(),$where="id"){
         

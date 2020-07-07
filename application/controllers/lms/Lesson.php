@@ -261,7 +261,7 @@ class Lesson extends General_Controller {
         print_r($this->lesson_model->lms_update("lms_lesson",$data));
         
 
-        //thumbnails
+        // thumbnails
         // $this->db->select("content_id");
         // $this->db->where("table_id","thumbnail_".$data['id']);
         // $query = $this->db->get("resources_queue");
@@ -401,6 +401,21 @@ class Lesson extends General_Controller {
         
     }
 
+    public function send_admission_details($id){
+
+        $student = $this->lesson_model->lms_get("students",$id,"id")[0];
+        $sender_details = array('student_id' => $student['id'], 'email' => $student['guardian_email']);
+        $this->mailsmsconf->mailsms('student_admission', $sender_details);
+    }
+
+    public function send_login_credential($id){
+
+        $student = $this->lesson_model->lms_get("students",$id,"id")[0];
+        $sender_details = array('id' => $student['id'], 'email' => $student['guardian_email'],"credential_for"=>"student","resend"=>true);
+
+        $this->mailsmsconf->mailsms('login_credential', $sender_details);
+    }
+
     public function upload($upload_type="my_resources",$lesson_id=""){
         if($upload_type=="my_resources"){
             $file = $_FILES['upload_file'];
@@ -475,6 +490,10 @@ class Lesson extends General_Controller {
                 $data['type'] = "youtube";
                 $data['image'] = "http://i.ytimg.com/vi/".explode("?v=", $_REQUEST['link'])[1]."/maxresdefault.jpg";
 
+            }else{
+
+                $data['link'] = $_REQUEST['link'];
+                $data['type'] = "website";
             }
             
             // $data['link'] = $_REQUEST['link'];
