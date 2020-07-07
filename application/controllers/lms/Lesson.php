@@ -445,7 +445,6 @@ class Lesson extends General_Controller {
                         $data['link'] =  $data['account_id']."/".$filename;
                         
                         $id = $this->lesson_model->lms_create("lms_my_resources",$data);
-                        print_r($id);
                     }
                 }
                 
@@ -466,7 +465,18 @@ class Lesson extends General_Controller {
             
             $data['name'] = $_REQUEST['name'];
             $data['type'] = $_REQUEST['type'];
-            $data['link'] = "https://player.vimeo.com/video/".explode("/", $_REQUEST['link'])[3];
+
+            if (strpos($_REQUEST['link'], 'vimeo.com') !== false) {
+                $data['link'] = "https://player.vimeo.com/video/".explode("/", $_REQUEST['link'])[3];
+                $data['type'] = "youtube";
+            }else if(strpos($_REQUEST['link'], 'youtube.com') !== false){
+
+                $data['link'] = "https://www.youtube.com/embed/".explode("?v=", $_REQUEST['link'])[1];
+                $data['type'] = "youtube";
+                $data['image'] = "http://i.ytimg.com/vi/".explode("?v=", $_REQUEST['link'])[1]."/maxresdefault.jpg";
+
+            }
+            
             // $data['link'] = $_REQUEST['link'];
             $data['description'] = $_REQUEST['description'];
             $data['account_id'] = $this->session->userdata('admin')['id'];

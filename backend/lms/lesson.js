@@ -148,7 +148,7 @@ $(document).ready(function(){
     ];
     // window.addEventListener("resize", adjust_iframe());
     function youtube_search(query,maxResults = 5){
-        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet &q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
+        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
         $.ajax({
             url: youtube_api,
             context: document.body
@@ -353,7 +353,14 @@ $(document).ready(function(){
                         }else if(item.type=="text"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
                         }else if(item.type=="youtube"){
-                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                            if(item.image){
+                                data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/'+item.image);
+                            }else{
+                                data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                            }
+                            
+
+                            
                             data_population[index].source = encodeURIComponent(item.link);
                         }
                         

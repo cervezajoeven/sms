@@ -661,7 +661,7 @@
                         <ul class="treeview-menu">
                             <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/virtual'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/virtual"><i class="fa fa-angle-double-right"></i> Virtual Class</a></li>
+                            <li class="<?php echo set_Submenu('content/virtual'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/virtual"><i class="fa fa-angle-double-right"></i> Virtual Class (Meetup)</a></li>
                             <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>lms/schedule/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
