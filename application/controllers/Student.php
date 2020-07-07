@@ -595,8 +595,11 @@ class Student extends Admin_Controller
                     // var_dump($data_insert);die;
                     $this->student_model->add($data_insert, $data_setting);
                 }                    
-                else
+                else {
+                    $data_insert["enrollment_type"] = $this->input->post('enrollment_type') == 'old_new' ? "old" : $this->input->post('enrollment_type');
                     $insert_id = $this->student_model->add($data_insert, $data_setting);
+                }
+                    
 
                 if (!empty($custom_value_array)) 
                 {
