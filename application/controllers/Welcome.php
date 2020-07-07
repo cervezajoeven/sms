@@ -401,36 +401,6 @@ class Welcome extends Front_Controller
                         $this->data['error_message'] = 'Only maximum of 5 files is allowed';
                 }
 
-                // if (isset($_FILES["document"]) && !empty($_FILES['document']['name'])) {
-                //     $file_type         = $_FILES["document"]['type'];
-                //     $file_size         = $_FILES["document"]["size"];
-                //     $file_name         = $_FILES["document"]["name"];
-                //     $allowed_extension = $file_validate['allowed_extension'];
-                //     $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
-                //     $allowed_mime_type = $file_validate['allowed_mime_type'];
-                //     // var_dump($file_type);
-                //     // var_dump($file_size);
-                //     // var_dump($file_name);
-                //     // var_dump($allowed_extension);
-                //     // var_dump($allowed_mime_type);die;
-
-                //     if ($files = filesize($_FILES['document']['tmp_name'])) {                    
-                //         if (!in_array($file_type, $allowed_mime_type)) {
-                //             $this->data['error_message'] = 'File Type Not Allowed';
-                //             $document_validate           = false;
-                //         }
-
-                //         if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
-                //             $this->data['error_message'] = 'Extension Not Allowed';
-                //             $document_validate           = false;
-                //         }
-                //         if ($file_size > $file_validate['upload_size']) {
-                //             $this->data['error_message'] = 'File should be less than' . number_format($file_validate['upload_size'] / 1048576, 2) . " MB";
-                //             $document_validate           = false;
-                //         }
-                //     }
-                // }
-
                 // var_dump($admission_docs);die;
 
                 //=====================
@@ -442,21 +412,18 @@ class Welcome extends Front_Controller
                     //--Get Class_Section_ID
                     $class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
                     $current_session = $this->setting_model->getCurrentSession();
-                    $idnum = $this->input->post('accountid');
+                    $accountID = $this->input->post('accountid');
+                    // var_dump($accountID);die;
 
                     if ($enrollment_type == 'old')
                     {
                         //$idnum = $this->input->post('studentidnumber');
                         // $old_student_data = $this->student_model->GetStudentByRollNo($this->input->post('studentidnumber'));                        
 
-                        if (!empty($idnum))
+                        if (!empty($accountID))
                         {
-                            $old_student_data = $this->student_model->GetStudentByID($idnum);
-                            // var_dump($old_student_data);die;
-                            //$old_student_data = $this->student_model->GetStudentByLRNNo($this->input->post('studentidnumber'));
-                            //var_dump($this->input->post('studentidnumber'));die;
+                            $old_student_data = $this->student_model->GetStudentByID($accountID);
                             $has_admission = $this->onlinestudent_model->HasPendingAdmission($old_student_data->firstname, $old_student_data->lastname, date('Y-m-d', strtotime($old_student_data->dob)));
-                            //var_dump($has_admission);die;
                             $datenow = date("Y-m-d");
     
                             $data = array(
@@ -610,7 +577,7 @@ class Welcome extends Front_Controller
                             $has_admission = $this->onlinestudent_model->HasPendingAdmission($this->input->post('firstname'), $this->input->post('lastname'), date('Y-m-d', strtotime($this->input->post('dob'))));
                             $datenow = date("Y-m-d");
 
-                            // $studentid = $this->onlinestudent_model->GetStudentIDNumber($idnum);
+                            // $studentid = $this->onlinestudent_model->GetStudentIDNumber($accountID);
                             // var_dump($studentid);die;
 
                             $data = array(
@@ -641,7 +608,9 @@ class Welcome extends Front_Controller
                                 'middlename'          => $this->input->post('middlename'),
                                 'email'               => $this->input->post('email'),
                                 'class_section_id'    => $class_section_id,
-                                'roll_no'             => $enrollment_type == "old_new" ? $this->onlinestudent_model->GetStudentIDNumber($idnum) : "",
+                                'roll_no'             => $enrollment_type == "old_new" ? ($accountID != null ? $this->onlinestudent_model->GetStudentIDNumber($accountID) : $this->onlinestudent_model->GetStudentIDNumberByName($this->input->post('firstname'), $this->input->post('lastname'))) : "",
+                                // 'roll_no'             => $enrollment_type == "old_new" ? $this->onlinestudent_model->GetStudentIDNumberByName($this->input->post('firstname'), $this->input->post('lastname')) : "",
+                                // 'roll_no'             => $accountID,
                                 'lrn_no'              => $this->input->post('lrn_no'),
     
                                 'father_company_name'              => $this->input->post('father_company_name'),

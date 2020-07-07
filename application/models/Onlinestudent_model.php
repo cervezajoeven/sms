@@ -165,7 +165,7 @@ class Onlinestudent_model extends MY_Model {
                     $query = $this->db->get();
                     $classs_section_result = $query->row();
                     unset($data['class_section_id']);
-                    unset($data['id']);                    
+                    unset($data['id']);        
 
                     if ($enroll_type == 'old') 
                     {
@@ -188,15 +188,14 @@ class Onlinestudent_model extends MY_Model {
                     } 
                     else if ($enroll_type == 'old_new') 
                     {
-                        $student_id = $this->GetStudentID($data['roll_no']);
+                        $student_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
+                        // $student_id = $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                         $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
                         $this->db->where('id', $student_id);
                         $this->db->update('students', $data);
                     }
                     else 
                     {
-                        // $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
-
                         $this->db->insert('students', $data);
                         $student_id = $this->db->insert_id();
                     }                    
@@ -211,10 +210,11 @@ class Onlinestudent_model extends MY_Model {
                     // $this->db->insert('student_session', $data_new);
                     // $student_session_id = $this->db->insert_id();
 
+                    // var_dump($student_session_id);die;
                     $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session                    
-                    // var_dump($feesmaster);die;
+                    
 
-                    if ($student_session_id != 0)
+                    if (isset($student_session_id))
                     {
                         //-- Assign fees master
                         if (isset($feesmaster)) 
@@ -503,6 +503,12 @@ class Onlinestudent_model extends MY_Model {
     public function GetStudentID($idnumber)
     {
         $result = $this->db->select('id')->from('students')->where('roll_no', $idnumber)->limit(1)->get()->row();
+        return $result->id;
+    }
+
+    public function GetStudentIDNumberByName($firstname, $lastname)
+    {
+        $result = $this->db->select('roll_no')->from('students')->where('firstname', $firstname)->where('lastname', $lastname)->limit(1)->get()->row();
         return $result->id;
     }
 
