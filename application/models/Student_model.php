@@ -317,6 +317,7 @@ class Student_model extends MY_Model
             $this->db->where('students.is_active', 'yes');
             $this->db->order_by('students.id', 'desc');
         }
+        // $this->db->limit(1);
         $query = $this->db->get();
 
         // echo($this->db->last_query());
@@ -2166,7 +2167,7 @@ return false;
 
     public function GetStudentInfo($id_no)
     {
-        $this->db->select('students.id, students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
+        $this->db->select('students.id, students.roll_no, students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
         $this->db->from('students');
         $this->db->where('students.lrn_no', $id_no);
         $this->db->or_where('students.roll_no', $id_no);
