@@ -153,7 +153,8 @@ class Student extends Admin_Controller
         }
 
         $data['title']         = 'Student Details';
-        $student               = $this->student_model->get($id);
+        $student               = $this->student_model->get($id); 
+        var_dump($student);die;
         $gradeList             = $this->grade_model->get();
         $studentSession        = $this->student_model->getStudentSession($id);
         $timeline              = $this->timeline_model->getStudentTimeline($id, $status = '');
