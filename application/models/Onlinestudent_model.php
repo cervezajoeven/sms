@@ -191,8 +191,16 @@ class Onlinestudent_model extends MY_Model {
                         $student_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                         // $student_id = $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                         $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
-                        $this->db->where('id', $student_id);
-                        $this->db->update('students', $data);
+
+                        if (isset($student_id)) {
+                            $this->db->where('id', $student_id);
+                            $this->db->update('students', $data);
+                        } else {
+                            //-- Treat as new student
+                            $data['roll_no'] = $data['admission_no'];
+                            $this->db->insert('students', $data);
+                            $student_id = $this->db->insert_id();
+                        }
                     }
                     else 
                     {
