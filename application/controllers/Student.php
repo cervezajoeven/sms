@@ -594,12 +594,19 @@ class Student extends Admin_Controller
                     $data_insert['id'] = $this->input->post('accountid');
                     // var_dump($data_insert);die;
                     $this->student_model->add($data_insert, $data_setting);
-                }                    
-                else {
-                    $data_insert["enrollment_type"] = $this->input->post('enrollment_type') == 'old_new' ? "old" : $this->input->post('enrollment_type');
+                } 
+                else if ($this->input->post('enrollment_type') == 'old_new') {
+                    $data_insert["enrollment_type"] = "old";
+                    $stud_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->onlinestudent_model->GetStudentID($data['roll_no']) : $this->onlinestudent_model->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
+                    
+                    if (isset($stud_id)) {
+                        $data_insert['id'] = $stud_id;
+                    }
+
                     $insert_id = $this->student_model->add($data_insert, $data_setting);
                 }
-                    
+                else 
+                    $insert_id = $this->student_model->add($data_insert, $data_setting);                    
 
                 if (!empty($custom_value_array)) 
                 {

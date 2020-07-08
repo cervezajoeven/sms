@@ -257,74 +257,50 @@ class Onlinestudent_model extends MY_Model {
                     
                     //if ($enroll_type != 'old') 
                     {
-                        // //===============Start Student ID===========
-                        // $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+                        if ($enroll_type != 'old') {
+                            if ($enroll_type != 'old_new') 
+                                $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
+                            
+                            if (!isset($isOld)) {
+                                $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
-                        //     $data_student_login = array(
-                        //     'username' => $this->student_login_prefix . $student_id, //"std" . $student_id,//
-                        //     'password' => $user_password,
-                        //     'user_id' => $student_id,
-                        //     'role' => 'student',
-                        // );
+                                $data_student_login = array(
+                                    'username' => $this->student_login_prefix . $student_id,
+                                    'password' => $user_password,
+                                    'user_id'  => $student_id,
+                                    'role'     => 'student',
+                                );
+                                $this->user_model->add($data_student_login);
 
-                        // $this->user_model->add($data_student_login);
-                        // //===============End Student ID============
-
-                        // //===============Start Parent ID===========
-                        // $parent_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-                        // $temp = $student_id;
-                        // $data_parent_login = array(
-                        //     'username' => $this->parent_login_prefix . $student_id,
-                        //     'password' => $parent_password,
-                        //     'user_id' => 0,
-                        //     'role' => 'parent',
-                        //     'childs' => $temp,
-                        // );
-                        // $ins_parent_id = $this->user_model->add($data_parent_login);
-                        // $update_student = array(
-                        //     'id' => $student_id,
-                        //     'parent_id' => $ins_parent_id,
-                        // );
-                        // $this->student_model->add($update_student);
-                        // //=============== End Parent ID ===========
-
-                        $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-
-                        $data_student_login = array(
-                            'username' => $this->student_login_prefix . $student_id,
-                            'password' => $user_password,
-                            'user_id'  => $student_id,
-                            'role'     => 'student',
-                        );
-                        $this->user_model->add($data_student_login);
-
-                        if ($sibling_id > 0) 
-                        {
-                            $student_sibling = $this->student_model->get($sibling_id);
-                            $update_student  = array(
-                                'id'        => $student_id,
-                                'parent_id' => $student_sibling['parent_id'],
-                            );
-                            $student_sibling = $this->student_model->add($update_student);
-                        } 
-                        else 
-                        {
-                            $parent_password   = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-                            $temp              = $student_id;
-                            $data_parent_login = array(
-                                'username' => $this->parent_login_prefix . $student_id,
-                                'password' => $parent_password,
-                                'user_id'  => 0,
-                                'role'     => 'parent',
-                                'childs'   => $temp,
-                            );
-                            $ins_parent_id  = $this->user_model->add($data_parent_login);
-                            $update_student = array(
-                                'id'        => $student_id,
-                                'parent_id' => $ins_parent_id,
-                            );
-                            $this->student_model->add($update_student);
-                        }
+                                if ($sibling_id > 0) 
+                                {
+                                    $student_sibling = $this->student_model->get($sibling_id);
+                                    $update_student  = array(
+                                        'id'        => $student_id,
+                                        'parent_id' => $student_sibling['parent_id'],
+                                    );
+                                    $student_sibling = $this->student_model->add($update_student);
+                                } 
+                                else 
+                                {
+                                    $parent_password   = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+                                    $temp              = $student_id;
+                                    $data_parent_login = array(
+                                        'username' => $this->parent_login_prefix . $student_id,
+                                        'password' => $parent_password,
+                                        'user_id'  => 0,
+                                        'role'     => 'parent',
+                                        'childs'   => $temp,
+                                    );
+                                    $ins_parent_id  = $this->user_model->add($data_parent_login);
+                                    $update_student = array(
+                                        'id'        => $student_id,
+                                        'parent_id' => $ins_parent_id,
+                                    );
+                                    $this->student_model->add($update_student);
+                                }
+                            }                            
+                        }                        
 
                         //============== Update setting modal =================
                         if ($sch_setting_detail->adm_auto_insert) {
