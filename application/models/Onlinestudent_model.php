@@ -258,7 +258,7 @@ class Onlinestudent_model extends MY_Model {
                     //if ($enroll_type != 'old') 
                     {
                         if ($enroll_type != 'old') {
-                            if ($enroll_type != 'old_new') 
+                            if ($enroll_type == 'old_new') 
                                 $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                             
                             if (!isset($isOld)) {
