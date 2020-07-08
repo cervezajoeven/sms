@@ -320,7 +320,7 @@ class Student_model extends MY_Model
         // $this->db->limit(1);
         $query = $this->db->get();
 
-        // echo($this->db->last_query());
+        echo($this->db->last_query());
         if ($id != null) {
             return $query->row_array();
         } else {
