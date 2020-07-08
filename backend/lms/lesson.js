@@ -138,6 +138,16 @@ $(document).ready(function(){
         "AIzaSyDb3Ct7i14iJuTnIVitiE5zAV3WpYEQOZU",
         "AIzaSyB9TfPawPi4983afD7iS4T6tLk3IX1DQRU",
         "AIzaSyBCBJ4M9e8UwwheDswtzeEzQet2NqpNqXk",
+        "AIzaSyCgCYgXFwxGQDXXJ5HQLT1-y3RHQgFeR6A",
+        "AIzaSyBdGeCpF6CKj-MV7u4Y7Y0vpPN734kEQ7Q",
+        "AIzaSyDjQcoNgTCMQ-3UNZKyKlUjvu_rTLMiGrk",
+        "AIzaSyD5XJk6zChsrNOAkNAFq03Uimzd6snZmZU",
+        "AIzaSyDprs4aO50BEfUw9JnQtCLEk2A2dwjUNU8",
+        "AIzaSyCqUeIDK547rVKmvRAqGJ9DHBGsI43geFg",
+        "AIzaSyAQXo8CIgqtXrrdPZP-JjNXHCHCwRiL5hU",
+        "AIzaSyClbNhvbQU9A8zdtXAOhOzdaQfWxG77Dpg",
+        "AIzaSyB6qupMjROOkodPGKk8cztd_I06HNP63Cc",
+        "AIzaSyBdGeCpF6CKjMV7u4Y7Y0vpPN734kEQ7Q",
     ];
 
     var google_keys = [
@@ -354,7 +364,7 @@ $(document).ready(function(){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
                         }else if(item.type=="youtube"){
                             if(item.image){
-                                data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/'+item.image);
+                                data_population[index].image = encodeURIComponent(item.image);
                             }else{
                                 data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
                             }

@@ -488,7 +488,7 @@ class Lesson extends General_Controller {
 
                 $data['link'] = "https://www.youtube.com/embed/".explode("?v=", $_REQUEST['link'])[1];
                 $data['type'] = "youtube";
-                $data['image'] = "http://i.ytimg.com/vi/".explode("?v=", $_REQUEST['link'])[1]."/maxresdefault.jpg";
+                $data['image'] = "https://i.ytimg.com/vi/".explode("?v=", $_REQUEST['link'])[1]."/maxresdefault.jpg";
 
             }else{
 
