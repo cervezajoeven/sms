@@ -267,7 +267,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleInputEmail1"><?php echo $this->lang->line('date_of_birth'); ?></label><small class="req"> *</small> 
-                <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('dob'); ?>" id="dob" name="dob" autocomplete="off"/>
+                <input  type="date" class="form-control all-fields"  value="<?php echo set_value('dob'); ?>" id="dob" name="dob" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('dob'); ?></span>
             </div>            
         </div>
@@ -389,7 +389,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="father_dob"><?php echo $this->lang->line('date_of_birth'); ?></label><small class="req"> *</small> 
-                <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('father_dob'); ?>" id="father_dob" name="father_dob" readonly="readonly" autocomplete="off"/>
+                <input  type="date" class="form-control all-fields"  value="<?php echo set_value('father_dob'); ?>" id="father_dob" name="father_dob" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('father_dob'); ?></span>
             </div>
         </div>
@@ -529,7 +529,7 @@ if (!$form_admission) {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="mother_dob"><?php echo $this->lang->line('date_of_birth'); ?></label><small class="req"> *</small> 
-                <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('mother_dob'); ?>" id="mother_dob" name="mother_dob" readonly="readonly" autocomplete="off"/>
+                <input  type="date" class="form-control all-fields"  value="<?php echo set_value('mother_dob'); ?>" id="mother_dob" name="mother_dob" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('mother_dob'); ?></span>
             </div>
         </div>
@@ -627,7 +627,7 @@ if (!$form_admission) {
         <div class="col-md-3">
             <div class="form-group">
                 <label for="dom"><?php echo $this->lang->line('dom'); ?></label>
-                <input  type="text" class="form-control all-fields date2"  value="<?php echo set_value('dom'); ?>" id="dom" name="dom" readonly="readonly" autocomplete="off"/>
+                <input  type="date" class="form-control all-fields"  value="<?php echo set_value('dom'); ?>" id="dom" name="dom" autocomplete="off"/>
                 <span class="text-danger"><?php echo form_error('dom'); ?></span>
             </div>
         </div>
