@@ -45,7 +45,7 @@
 		        		</tr>
 		        		<tr>
 		        			<td>Name :</td>
-		        			<td>John Doe</td>
+		        			<td><?php echo $student_data['firstname'] ?> <?php echo $student_data['laststname'] ?></td>
 		        			<td>Date</td>
 		        			<td><?php echo date("F d, Y"); ?></td>
 		        		</tr>

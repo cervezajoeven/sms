@@ -274,7 +274,7 @@ class Assessment extends General_Controller {
         
         $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         $data['resources'] = site_url('backend/lms/');
-            
+        $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
 
         $this->db->select("*");
         $this->db->where("account_id",$data['account_id']);
