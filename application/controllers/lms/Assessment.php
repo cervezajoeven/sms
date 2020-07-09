@@ -77,13 +77,13 @@ class Assessment extends General_Controller {
         $students = $query->result_array();
 
         // $ss = $this->db->query("SELECT `lms_assessment_sheets`.*,`lms_assessment_sheets`.date_created as final_created, `students`.`firstname`, `students`.`lastname`, `classes`.*, `sections`.*, `lms_assessment`.*, `students`.`id` as `student_id` FROM `lms_assessment_sheets` LEFT JOIN `lms_assessment` ON `lms_assessment`.`id` = `lms_assessment_sheets`.`assessment_id` LEFT JOIN `students` ON `students`.`id` = `lms_assessment_sheets`.`account_id` JOIN `student_session` ON `lms_assessment_sheets`.`account_id` = `student_session`.`student_id` LEFT JOIN `classes` ON `classes`.`id` = `student_session`.`class_id` LEFT JOIN `sections` ON `sections`.`id` = `student_session`.`section_id` WHERE `student_session`.`session_id` = '".$current_session."' AND `lms_assessment_sheets`.`assessment_id` = '".$assessment_id."' AND  ORDER BY `lms_assessment_sheets`.`date_created` DESC")->result_array();
-        echo "<pre>";
+        // echo "<pre>";
         
-        foreach ($students as $student_key => $student_value) {
-            print_r($student_value);
-        }
+        // foreach ($students as $student_key => $student_value) {
+        //     print_r($student_value);
+        // }
 
-        exit;
+        // exit;
         $data['students'] = $students;
 
         if($data['role']=='admin'){
