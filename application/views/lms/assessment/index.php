@@ -92,7 +92,7 @@
                                             </td>
                                             <td class="mailbox-name">
 
-                                                <?php print_r($list_data['student_attempt']) ?>/<?php print_r($list_data['attempts']) ?>
+                                                <?php if($role=="student"): ?><?php print_r($list_data['student_attempt']) ?>/<?php endif; ?> <?php print_r($list_data['attempts']) ?>
                                             </td>
                                             <td>
                                                 <?php print_r($list_data['name']) ?> <?php print_r($list_data['surname']) ?>
@@ -112,13 +112,16 @@
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                                    
-                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/review/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer" >
-                                                            <i class="fa fa-eye"></i>
-                                                    </a>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/answer/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" >
-                                                            <i class="fa fa-edit"></i>
-                                                    </a>
+                                                    <?php if($list_data['student_attempt']>=1): ?>
+                                                        <a data-placement="left" href="<?php echo site_url('lms/assessment/review/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer">
+                                                                <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                    <?php if($list_data['student_attempt']<$list_data['attempts']): ?>
+                                                        <span data-placement="left" href="" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" onclick="take_quiz('<?php echo site_url('lms/assessment/answer/'.$list_data['id']);?>')">
+                                                                <i class="fa fa-edit"></i>
+                                                        </span>
+                                                    <?php endif; ?>
                                                 <?php endif; ?>
                                                 
                                             </td>
@@ -253,4 +256,13 @@
             }
         });
     });
+
+    function take_quiz(url){
+
+        if(confirm("Are you sure you want to take this quiz?")){
+            window.location.replace(url);
+
+        }
+        
+    }
 </script>

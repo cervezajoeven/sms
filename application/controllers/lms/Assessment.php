@@ -63,7 +63,7 @@ class Assessment extends General_Controller {
         // ->get();
 
         $query = $this->db
-        ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id")
+        ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,(@row_number := @row_number + 1) as rn")
         ->from("lms_assessment_sheets")
         ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
         ->join("students","students.id = lms_assessment_sheets.account_id","left")
@@ -72,11 +72,16 @@ class Assessment extends General_Controller {
         ->join("sections","sections.id = student_session.section_id","left")
         ->where("student_session.session_id",$current_session)
         ->where("lms_assessment_sheets.assessment_id", $assessment_id)
+        ->order_by("lms_assessment_sheets.date_created","desc")
         ->get();
-
         $students = $query->result_array();
+
+        // $ss = $this->db->query("SELECT `lms_assessment_sheets`.*,`lms_assessment_sheets`.date_created as final_created, `students`.`firstname`, `students`.`lastname`, `classes`.*, `sections`.*, `lms_assessment`.*, `students`.`id` as `student_id` FROM `lms_assessment_sheets` LEFT JOIN `lms_assessment` ON `lms_assessment`.`id` = `lms_assessment_sheets`.`assessment_id` LEFT JOIN `students` ON `students`.`id` = `lms_assessment_sheets`.`account_id` JOIN `student_session` ON `lms_assessment_sheets`.`account_id` = `student_session`.`student_id` LEFT JOIN `classes` ON `classes`.`id` = `student_session`.`class_id` LEFT JOIN `sections` ON `sections`.`id` = `student_session`.`section_id` WHERE `student_session`.`session_id` = '".$current_session."' AND `lms_assessment_sheets`.`assessment_id` = '".$assessment_id."' AND  ORDER BY `lms_assessment_sheets`.`date_created` DESC")->result_array();
         // echo "<pre>";
-        // print_r($students);
+        
+        // foreach ($students as $student_key => $student_value) {
+        //     print_r($student_value);
+        // }
 
         // exit;
         $data['students'] = $students;
@@ -228,7 +233,6 @@ class Assessment extends General_Controller {
         
         $data['resources'] = site_url('backend/lms/');
 
-        
             
         if(count($response)>=$attempt_data['attempts']){
             echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
@@ -238,12 +242,16 @@ class Assessment extends General_Controller {
             $this->db->select("*");
             $this->db->where("account_id",$data['account_id']);
             $this->db->where("assessment_id",$id);
-            $this->db->where("response_status !=",1);
+            $this->db->where("response_status",0);
             $new_query = $this->db->get("lms_assessment_sheets");
             $new_response = $new_query->result_array();
+
+            // print_r($new_response);
+            // exit;
             if(empty($new_response)){
                 $assessment_data['assessment_id'] = $id;
                 $assessment_data['account_id'] = $data['account_id'];
+                $assessment_data['response_status'] = 0;
 
                 $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
                 $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
@@ -268,29 +276,14 @@ class Assessment extends General_Controller {
         $this->db->where("account_id", $data['account_id']);
         $this->db->where("assessment_id",$id);
         $this->db->where("response_status",1);
+        $this->db->order_by("date_created","desc");
 
         $query = $this->db->get("lms_assessment_sheets");
         $response = $query->result_array();
-        
         $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         $data['resources'] = site_url('backend/lms/');
-            
-
-        $this->db->select("*");
-        $this->db->where("account_id",$data['account_id']);
-        $this->db->where("assessment_id",$id);
-        $this->db->where("response_status",1);
-        $this->db->order_by("date_created","desc");
-        $new_query = $this->db->get("lms_assessment_sheets");
-        $new_response = $new_query->result_array();
-
-        if(empty($new_response)){
-            $assessment_data['assessment_id'] = $id;
-            $assessment_data['account_id'] = $data['account_id'];
-            $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
-            $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
-        }
-        $data['assessment_sheet'] = $new_response[0];
+        $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
+        $data['assessment_sheet'] = $response[0];
         
         $this->load->view('lms/assessment/review', $data);
         

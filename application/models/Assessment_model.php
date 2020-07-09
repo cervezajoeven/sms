@@ -38,7 +38,7 @@ class Assessment_model extends MY_Model {
 
     public function assigned_assessment($account_id){
 
-        $this->db->select('*,lms_assessment.id as id,(SELECT COUNT(lms_assessment_sheets.id) FROM lms_assessment_sheets WHERE lms_assessment_sheets.assessment_id = lms_assessment.id AND lms_assessment_sheets.account_id = '.$account_id.' ) as student_attempt');
+        $this->db->select('*,lms_assessment.id as id,(SELECT COUNT(lms_assessment_sheets.id) FROM lms_assessment_sheets WHERE lms_assessment_sheets.assessment_id = lms_assessment.id AND lms_assessment_sheets.account_id = '.$account_id.' AND lms_assessment_sheets.response_status = 1 ) as student_attempt');
         $this->db->from('lms_assessment');
         $this->db->join('staff',"staff.id = lms_assessment.account_id");
         $this->db->where("FIND_IN_SET('".$account_id."', lms_assessment.assigned) !=", 0);
