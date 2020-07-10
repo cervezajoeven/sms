@@ -63,8 +63,9 @@ class Assessment extends General_Controller {
         // ->get();
 
         $query = $this->db
-        ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,(@row_number := @row_number + 1) as rn")
-        ->from("lms_assessment_sheets")
+        ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,lms_assessment_sheets.id as id")
+        // ->from("lms_assessment_sheets")
+        ->from("(SELECT *, ROW_NUMBER() OVER (PARTITION BY account_id ORDER BY date_created DESC) as latest_record FROM lms_assessment_sheets) as lms_assessment_sheets")
         ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
         ->join("students","students.id = lms_assessment_sheets.account_id","left")
         ->join("student_session","lms_assessment_sheets.account_id = student_session.student_id")
@@ -72,10 +73,11 @@ class Assessment extends General_Controller {
         ->join("sections","sections.id = student_session.section_id","left")
         ->where("student_session.session_id",$current_session)
         ->where("lms_assessment_sheets.assessment_id", $assessment_id)
-        ->order_by("lms_assessment_sheets.date_created","desc")
+        ->group_by("lms_assessment_sheets.account_id")
+        ->order_by("lms_assessment_sheets.latest_record","desc")
         ->get();
         $students = $query->result_array();
-
+        // echo '<pre>';print_r($students);exit();
         // $ss = $this->db->query("SELECT `lms_assessment_sheets`.*,`lms_assessment_sheets`.date_created as final_created, `students`.`firstname`, `students`.`lastname`, `classes`.*, `sections`.*, `lms_assessment`.*, `students`.`id` as `student_id` FROM `lms_assessment_sheets` LEFT JOIN `lms_assessment` ON `lms_assessment`.`id` = `lms_assessment_sheets`.`assessment_id` LEFT JOIN `students` ON `students`.`id` = `lms_assessment_sheets`.`account_id` JOIN `student_session` ON `lms_assessment_sheets`.`account_id` = `student_session`.`student_id` LEFT JOIN `classes` ON `classes`.`id` = `student_session`.`class_id` LEFT JOIN `sections` ON `sections`.`id` = `student_session`.`section_id` WHERE `student_session`.`session_id` = '".$current_session."' AND `lms_assessment_sheets`.`assessment_id` = '".$assessment_id."' AND  ORDER BY `lms_assessment_sheets`.`date_created` DESC")->result_array();
         // echo "<pre>";
         
