@@ -2620,7 +2620,7 @@ class Student extends Admin_Controller
         }
         else 
         {
-            // $msg   = $idnumber.' EMN '.$enrollment_payment_status;
+            $msg   = $this->lang->line('failed_message');
             $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
             echo json_encode($array);
         }
