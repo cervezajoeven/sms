@@ -2309,17 +2309,34 @@ return false;
               'updated_at' => date("Y-m-d H:i:s"),
           );
         }
+
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+
         $this->db->where('roll_no', $idnumber);
         $update = $this->db->update('students', $data);
 
         $this->db->where('roll_no', $idnumber);
         $update = $this->db->update('online_admissions', $data);
+        
         // $this->db_exceptions->checkForError();
         // return ($update == true) ? true : false;        
 
-        if ($this->db->affected_rows() > 0) 
-            return true; 
-        else
+        $this->db->trans_complete(); # Completing transaction
+        /*Optional*/
+
+        if ($this->db->trans_status() === false) {
+            # Something went wrong.
+            $this->db->trans_rollback();
             return false;
+
+        } else {
+            return true;
+        }
+
+        // if ($this->db->affected_rows() > 0) 
+        //     return true; 
+        // else
+        //     return false;
     }
 }
