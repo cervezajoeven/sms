@@ -65,7 +65,7 @@ class Assessment extends General_Controller {
         $query = $this->db
         ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,lms_assessment_sheets.id as id")
         // ->from("lms_assessment_sheets")
-        ->from("(SELECT *, ROW_NUMBER() OVER (PARTITION BY account_id ORDER BY date_created DESC) as latest_record FROM lms_assessment_sheets) as lms_assessment_sheets")
+        ->from("(SELECT * FROM lms_assessment_sheets) as lms_assessment_sheets")
         ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
         ->join("students","students.id = lms_assessment_sheets.account_id","left")
         ->join("student_session","lms_assessment_sheets.account_id = student_session.student_id")
@@ -73,8 +73,8 @@ class Assessment extends General_Controller {
         ->join("sections","sections.id = student_session.section_id","left")
         ->where("student_session.session_id",$current_session)
         ->where("lms_assessment_sheets.assessment_id", $assessment_id)
+        ->order_by("lms_assessment_sheets.date_created","desc")
         ->group_by("lms_assessment_sheets.account_id")
-        ->order_by("lms_assessment_sheets.latest_record","desc")
         ->get();
         $students = $query->result_array();
         // echo '<pre>';print_r($students);exit();
