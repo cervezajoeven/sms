@@ -264,10 +264,10 @@ class Onlinestudent_model extends MY_Model {
                         // if (strcmp(strtoupper($enroll_type), "OLD") !== 0) {
                             $isOld = null;
 
-                            if ($enroll_type == 'old_new') 
-                                $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
+                            // if ($enroll_type == 'old_new') 
+                            //     $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                             
-                            if (!isset($isOld)) {
+                            // if (!isset($isOld)) {
                                 $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
                                 $data_student_login = array(
@@ -277,7 +277,7 @@ class Onlinestudent_model extends MY_Model {
                                     'role'     => 'student',
                                 );
                                 $this->user_model->add($data_student_login);
-                                var_dump($data_student_login);die;
+                                // var_dump($data_student_login);die;
 
                                 if ($sibling_id > 0) 
                                 {
@@ -306,7 +306,7 @@ class Onlinestudent_model extends MY_Model {
                                     );
                                     $this->student_model->add($update_student);
                                 }
-                            }
+                            // }
                         // }
 
                         //============== Update setting modal =================
