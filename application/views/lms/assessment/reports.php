@@ -37,6 +37,7 @@
                                         <th>Score</th>
                                         <th>Percentage</th>
                                         <th>Status</th>
+                                        <th>Essays</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -64,6 +65,9 @@
                                             </td>
                                             <td>
                                                 <?php echo ($current_percentage>=$assessment['percentage'])?"Pass":"Fail"; ?>
+                                            </td>
+                                            <td>
+                                                Checked
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
@@ -142,6 +146,14 @@
                                     <td>
                                         <a href="<?php echo site_url('lms/assessment/analysis/').$assessment['id'] ?>">
                                             <button class="form-control btn btn-primary">Item Analysis</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Check Essays</th>
+                                    <td>
+                                        <a href="<?php echo site_url('lms/assessment/analysis/').$assessment['id'] ?>">
+                                            <button class="form-control btn btn-primary">Check Essays</button>
                                         </a>
                                     </td>
                                 </tr>
