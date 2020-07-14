@@ -284,12 +284,9 @@
 			
 			
 		});
-		console.log(json.length);
-		console.log(completed_answer);
 
 		final_json = {survey_id:"<?php echo $survey['id'] ?>",respond:JSON.stringify(json),account_id:account_id};
 
-		console.log(completed_answer);
 		if(completed_answer >= json.length){
 			$.ajax({
 			    url: url,
