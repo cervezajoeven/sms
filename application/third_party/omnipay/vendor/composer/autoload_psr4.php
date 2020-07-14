@@ -21,6 +21,7 @@ return array(
     'Omnipay\\PaymentExpress\\' => array($vendorDir . '/omnipay/paymentexpress/src'),
     'Omnipay\\Payflow\\' => array($vendorDir . '/omnipay/payflow/src'),
     'Omnipay\\PayPal\\' => array($vendorDir . '/omnipay/paypal/src'),
+    'Omnipay\\Paymongo\\' => array($vendorDir . '/omarusman/omnipay-paymongo/src'),
     'Omnipay\\PayFast\\' => array($vendorDir . '/omnipay/payfast/src'),
     'Omnipay\\Netaxept\\' => array($vendorDir . '/omnipay/netaxept/src'),
     'Omnipay\\NetBanx\\' => array($vendorDir . '/omnipay/netbanx/src'),
@@ -36,4 +37,5 @@ return array(
     'Omnipay\\CardSave\\' => array($vendorDir . '/omnipay/cardsave/src'),
     'Omnipay\\Buckaroo\\' => array($vendorDir . '/omnipay/buckaroo/src'),
     'Omnipay\\AuthorizeNet\\' => array($vendorDir . '/omnipay/authorizenet/src'),
+    'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
 );
