@@ -146,7 +146,7 @@ class Onlinestudent_model extends MY_Model {
                     }
 
                     //-- Set id number equal to admission no for all non old students
-                    if ($enroll_type != 'old' && $enroll_type != 'old_new' ) 
+                    if ($enroll_type != 'old') 
                         $data['roll_no'] = $admission_no;
                 }                
 
@@ -165,7 +165,8 @@ class Onlinestudent_model extends MY_Model {
                     $query = $this->db->get();
                     $classs_section_result = $query->row();
                     unset($data['class_section_id']);
-                    unset($data['id']);        
+                    unset($data['id']);     
+                    $student_id = null;   
 
                     if ($enroll_type == 'old') 
                     {
@@ -189,7 +190,6 @@ class Onlinestudent_model extends MY_Model {
                     else if ($enroll_type == 'old_new') 
                     {
                         $student_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
-                        // $student_id = $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                         $data['enrollment_type'] = $data['enrollment_type'] == 'old_new' ? 'old' : $data['enrollment_type'];
 
                         if (isset($student_id)) {
@@ -201,9 +201,12 @@ class Onlinestudent_model extends MY_Model {
                             $this->db->insert('students', $data);
                             $student_id = $this->db->insert_id();
                         }
+
+                        // var_dump($student_id);die;
                     }
                     else 
                     {
+                        $data['roll_no'] = $data['admission_no'];
                         $this->db->insert('students', $data);
                         $student_id = $this->db->insert_id();
                     }                    
@@ -257,11 +260,14 @@ class Onlinestudent_model extends MY_Model {
                     
                     //if ($enroll_type != 'old') 
                     {
-                        if ($enroll_type != 'old') {
-                            if ($enroll_type == 'old_new') 
-                                $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
+                        // var_dump($enroll_type);die;
+                        // if (strcmp(strtoupper($enroll_type), "OLD") !== 0) {
+                            $isOld = null;
+
+                            // if ($enroll_type == 'old_new') 
+                            //     $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                             
-                            if (!isset($isOld)) {
+                            // if (!isset($isOld)) {
                                 $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
                                 $data_student_login = array(
@@ -271,6 +277,7 @@ class Onlinestudent_model extends MY_Model {
                                     'role'     => 'student',
                                 );
                                 $this->user_model->add($data_student_login);
+                                // var_dump($data_student_login);die;
 
                                 if ($sibling_id > 0) 
                                 {
@@ -299,8 +306,8 @@ class Onlinestudent_model extends MY_Model {
                                     );
                                     $this->student_model->add($update_student);
                                 }
-                            }                            
-                        }                        
+                            // }
+                        // }
 
                         //============== Update setting modal =================
                         if ($sch_setting_detail->adm_auto_insert) {
@@ -316,6 +323,7 @@ class Onlinestudent_model extends MY_Model {
                         //if ($action == "enroll")
                         {
                             $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                            // var_dump($sender_details);die;
                             $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
                             //if ($enroll_type != 'old')

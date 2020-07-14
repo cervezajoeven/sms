@@ -317,7 +317,7 @@ class Student_model extends MY_Model
             $this->db->where('students.is_active', 'yes');
             $this->db->order_by('students.id', 'desc');
         }
-        // $this->db->limit(1);
+        $this->db->limit(1);
         $query = $this->db->get();
 
         // echo($this->db->last_query());
