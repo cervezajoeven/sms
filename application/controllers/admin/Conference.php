@@ -505,8 +505,8 @@ class Conference extends Admin_Controller {
             $api_type = 'global';
 
             $params = array(
-                'zoom_api_key' => "",
-                'zoom_api_secret' => "",
+                'zoom_api_key' => "tMycUHRSSQqQOwsKKXpGPw",
+                'zoom_api_secret' => "gAKMu77f4k0WlG9IoOoSQ4AZ4d2TZmoqffbK",
             );
             $this->load->library('zoom_api', $params);
 
