@@ -172,6 +172,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <th><?php echo $this->lang->line('fee_type'); ?></th>
                                                     <th><?php echo $this->lang->line('collect_by'); ?></th>
                                                     <th><?php echo $this->lang->line('mode'); ?></th>
+                                                    <th>O.R.</th>
 
                                                     <th class="text text-right"><?php echo $this->lang->line('amount'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
                                                     <th class="text text-right"><?php echo $this->lang->line('discount'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
@@ -204,6 +205,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                          $student_class=array();
                                          $fees_type=array();
                                          $pay_mode=array();
+                                         $or_number=array();
                                          $collection_by=array();
                                          $amountLabel=array();
                                          $discountLabel=array();
@@ -216,6 +218,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         $student_class[]=$collect['class'] . " (" . $collect['section'] . ")";
                                         $fees_type[]=$collect['type'];
                                         $pay_mode[]=$collect['payment_mode'];
+                                        $or_number[]=$collect['or_number'];
                                         $collection_by[]=$collect['received_byname']['name']." (".$collect['received_byname']['employee_id'].")";
                                        
                                         $amountLabel[]=number_format($collect['amount'], 2, '.', '');
@@ -285,6 +288,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                         <table width="100%"><?php foreach($pay_mode as $pay_mode_val){
                                                             ?>
                                                             <tr><td><?php echo $pay_mode_val;?></td></tr>
+                                                            <?php
+                                                        } ?>
+                                                        </table>
+                                                        </td>
+                                                        <td >
+                                                        <table width="100%"><?php foreach($or_number as $or_number_val){
+                                                            ?>
+                                                            <tr><td><?php echo $or_number_val;?></td></tr>
                                                             <?php
                                                         } ?>
                                                         </table>

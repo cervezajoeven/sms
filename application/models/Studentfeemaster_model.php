@@ -354,8 +354,8 @@ class Studentfeemaster_model extends MY_Model
           
                 if (!empty($return)) {
 
-                    foreach ($return as $r_key => $r_value) {
-                      
+                    foreach ($return as $r_key => $r_value) 
+                    {                      
                         $a['id']                     = $value->id;
                         $a['student_fees_master_id'] = $value->student_fees_master_id;
                         $a['fee_groups_feetype_id']  = $value->fee_groups_feetype_id;
@@ -378,18 +378,20 @@ class Studentfeemaster_model extends MY_Model
                         $a['payment_mode']           = $r_value->payment_mode;
                         $a['inv_no']                 = $r_value->inv_no;
                         $a['received_by']            = $r_value->received_by;
-                        if(isset($r_value->received_by)){
+                        $a['or_number']            = $r_value->or_number;
+                     
+                        if(isset($r_value->received_by))
+                        {
+                            $a['received_by'] = $r_value->received_by;
+                            $a['received_byname'] = $this->staff_model->get_StaffNameById($r_value->received_by);
+                        }
+                        else
+                        {
+                            $a['received_by'] = '';
+                            $a['received_byname'] = array('name'=>'','employee_id'=>'','id'=>'');
+                        }
 
-                        $a['received_by']            = $r_value->received_by;
-                        $a['received_byname']        = $this->staff_model->get_StaffNameById($r_value->received_by);
-
-                        }else{
-
-                       $a['received_by']            = '';
-                        $a['received_byname']        = array('name'=>'','employee_id'=>'','id'=>'');
-                       }
-                       
-                        $return_array[]              = $a;
+                        $return_array[] = $a;
                       
                     }
                 }

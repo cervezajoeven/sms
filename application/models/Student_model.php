@@ -1405,7 +1405,17 @@ return false;
 
     public function getPreviousSessionStudent($previous_session_id, $class_id, $section_id)
     {
-        $sql = "SELECT student_session.student_id as student_id, student_session.id as current_student_session_id, student_session.class_id as current_session_class_id ,previous_session.id as previous_student_session_id,students.firstname,students.lastname,students.admission_no,students.roll_no,students.father_name,students.admission_date,students.mode_of_payment,students.enrollment_type FROM `student_session` left JOIN (SELECT * FROM `student_session` where session_id=$previous_session_id) as previous_session on student_session.student_id=previous_session.student_id INNER join students on students.id =student_session.student_id where student_session.session_id=$this->current_session and student_session.class_id=$class_id and student_session.section_id=$section_id and students.is_active='yes' ORDER BY students.firstname ASC";
+        $sql = "SELECT student_session.student_id as student_id, student_session.id as current_student_session_id, student_session.class_id as current_session_class_id ,
+                previous_session.id as previous_student_session_id,students.firstname,students.lastname,students.admission_no,students.roll_no,students.father_name,
+                students.admission_date,students.mode_of_payment,students.enrollment_type, students.guardian_email 
+                FROM `student_session` 
+                left JOIN (SELECT * FROM `student_session` where session_id=$previous_session_id) as previous_session on student_session.student_id=previous_session.student_id 
+                INNER join students on students.id = student_session.student_id 
+                where student_session.session_id=$this->current_session 
+                and student_session.class_id=$class_id 
+                and student_session.section_id=$section_id 
+                and students.is_active='yes' 
+                ORDER BY students.firstname ASC";
 
         $query = $this->db->query($sql);
         return $query->result();
