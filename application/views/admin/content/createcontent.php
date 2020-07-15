@@ -38,8 +38,8 @@
 
                                     <select  id="content_type" name="content_type" class="form-control" >
                                         <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                        <option value="Study Material">Modules/Activities</option>
-                                            <option value="Syllabus">Learning Plan</option>
+                                        <option value="Study Material" selected="">Modules/Activities</option>
+                                            <!-- <option value="Syllabus">Learning Plan</option> -->
                                         <?php
                                         foreach ($ght as $type) {
                                             ?>

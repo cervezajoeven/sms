@@ -103,15 +103,16 @@
 		        			Attempts
 		        			<input type="number" min="0" value="<?php echo ($assessment['attempts'])?$assessment['attempts']:1 ?>" class="form-control attempts" name="">
 		        		</div>
-
-		        		<div class = "col-sm-8">
-		        			Date Assigned
-
-		        			<input type="hidden" value="<?php echo $assessment['start_date'] ?>" class="start_date" name="">
-		        			<input type="hidden" value="<?php echo $assessment['end_date'] ?>" class="end_date" name="">
-		        			<input type="text" value="" class="form-control date_range" name="">
-		        		</div>
 		        		<div class = "col-sm-4">
+			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
+	                                
+		                        <input type="checkbox" id="email_notification" <?php echo ($assessment['email_notification']==1)?"checked = ''":""; ?> />
+		                        <div class="state p-primary">
+		                            <label>Display Results after Student Submission</label>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class = "col-sm-12">
 			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
 	                                
 		                        <input type="checkbox" id="email_notification" <?php echo ($assessment['email_notification']==1)?"checked = ''":""; ?> />
@@ -120,6 +121,16 @@
 		                        </div>
 		                    </div>
 		                </div>
+
+		        		<div class = "col-sm-12" style="margin-top:10px">
+		        			Date Assigned
+
+		        			<input type="hidden" value="<?php echo $assessment['start_date'] ?>" class="start_date" name="">
+		        			<input type="hidden" value="<?php echo $assessment['end_date'] ?>" class="end_date" name="">
+		        			<input type="text" value="" class="form-control date_range" name="">
+		        		</div>
+		        		
+		                
 		        		<div class = "col-sm-12">
 		        			Assign Students
 		        			<div id="jstree_demo_div">

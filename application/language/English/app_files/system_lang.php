@@ -1526,4 +1526,22 @@ $lang['pay_period'] = "Pay Period";
 $lang['level'] = "Level";
 
 $lang['failed_message'] = 'Record Save Failed';
+
+
+
+$lang['live_meeting'] = 'Live Meeting';
+$lang['meeting'] = 'Meeting';
+$lang['meeting_duration_minutes'] = 'Meeting Duration (Minutes)';
+$lang['host_video'] = 'Host Video';
+$lang['client_video'] = 'Client Video';
+$lang['live_class'] = 'Live Class';
+$lang['class_title'] = 'Class Title';
+$lang['class_date'] = 'Class Date';
+$lang['class_duration_minutes'] = 'Class Duration (Minutes)';
+$lang['awaited'] = 'Awaited';
+$lang['cancelled'] = 'Cancel';
+$lang['finished'] = 'Finished';
+$lang['credential'] = 'Credential';
+$lang['zoom_api_key'] = 'Zoom API Key';
+$lang['zoom_api_secret'] = 'Zoom API Secret';
 ?>
