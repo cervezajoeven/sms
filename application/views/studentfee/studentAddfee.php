@@ -183,6 +183,7 @@ $language_name = $language["short_code"];
                                         <th class="text text-left"><?php echo $this->lang->line('payment_id'); ?></th>
                                         <th class="text text-left"><?php echo $this->lang->line('mode'); ?></th>
                                         <th  class="text text-left"><?php echo $this->lang->line('date'); ?></th>
+                                        <th  class="text text-left">O.R.</th>
                                         <th class="text text-right" ><?php echo $this->lang->line('discount'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
                                         <th class="text text-right"><?php echo $this->lang->line('fine'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
                                         <th class="text text-right"><?php echo $this->lang->line('paid'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
@@ -268,6 +269,7 @@ $language_name = $language["short_code"];
                                                 <td class="text text-left"></td>
                                                 <td class="text text-left"></td>
                                                 <td class="text text-left"></td>
+                                                <td class="text text-left"></td>
                                                 <td class="text text-right"><?php
                                                     echo (number_format($fee_discount, 2, '.', ''));
                                                     ?></td>
@@ -337,6 +339,7 @@ $language_name = $language["short_code"];
                                                         </td>
                                                         <td class="text text-left"><?php echo $fee_deposits_value->payment_mode; ?></td>
                                                         <td class="text text-left"><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date)); ?></td>
+                                                        <td class="text text-left"><?php echo $fee_deposits_value->or_number; ?></td>
                                                         <td class="text text-right"><?php echo (number_format($fee_deposits_value->amount_discount, 2, '.', '')); ?></td>
                                                         <td class="text text-right"><?php echo (number_format($fee_deposits_value->amount_fine, 2, '.', '')); ?></td>
                                                         <td class="text text-right"><?php echo (number_format($fee_deposits_value->amount, 2, '.', '')); ?></td>
@@ -412,6 +415,7 @@ $language_name = $language["short_code"];
                                                 <td class="text text-left"></td>
                                                 <td class="text text-left"></td>
                                                 <td class="text text-left"></td>
+                                                <td class="text text-left"></td>
                                                 <td  class="text text-right">
                                                     <?php
                                                     $alot_fee_discount = $alot_fee_discount;
@@ -466,6 +470,7 @@ $language_name = $language["short_code"];
                                         <td class="text text-left"></td>
                                         <td class="text text-left"></td>
                                         <td class="text text-left"></td>
+                                        <td class="text text-left"></td>
 
                                         <td class="text text-right"><?php
                                             echo ($currency_symbol . number_format($total_discount_amount + $alot_fee_discount, 2, '.', ''));
@@ -513,6 +518,15 @@ $language_name = $language["short_code"];
                         <input  type="hidden" class="form-control" id="guardian_email" value="<?php echo $student['guardian_email'] ?>" readonly="readonly"/>
                         <input  type="hidden" class="form-control" id="student_fees_master_id" value="0" readonly="readonly"/>
                         <input  type="hidden" class="form-control" id="fee_groups_feetype_id" value="0" readonly="readonly"/>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-3 control-label">O.R. Number<small class="req"> </small></label>
+                            <div class="col-sm-9">
+
+                                <input type="text" autofocus="" class="form-control modal_amount" id="or_num">
+
+                                <span class="text-danger" id="amount_error"></span>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-3 control-label"><?php echo $this->lang->line('date'); ?></label>
                             <div class="col-sm-9">
@@ -768,6 +782,7 @@ $language_name = $language["short_code"];
                                 <th class="text text-left"><?php echo $this->lang->line('payment_id'); ?></th>
                                 <th class="text text-left"><?php echo $this->lang->line('mode'); ?></th>
                                 <th  class="text text-left"><?php echo $this->lang->line('date'); ?></th>
+                                <th  class="text text-left">O.R.</th>
                                 <th  class="text text-left"><?php echo "Note" ?></th>
                                 <th class="text text-right" ><?php echo $this->lang->line('discount'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
                                 <th class="text text-right"><?php echo $this->lang->line('fine'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
@@ -841,7 +856,9 @@ $language_name = $language["short_code"];
                                         <td class="text text-left"><?php echo $fee_value->student_fees_deposite_id . "/" . $fee_deposits_value->inv_no; ?></td>
                                         <td class="text text-left"><?php echo $fee_deposits_value->payment_mode; ?></td>
                                         <td class="text text-left"><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date)); ?></td>
+                                        <td class="text text-left"><?php echo $fee_deposits_value->or_number; ?></td>
                                         <?php } else {?>
+                                            <td class="text text-left"></td>
                                             <td class="text text-left"></td>
                                             <td class="text text-left"></td>
                                             <td class="text text-left"></td>
@@ -919,7 +936,7 @@ $language_name = $language["short_code"];
         var feetype = $('#feetype_').val();
         var date = $('#date').val();
         var amount = $('#amount').val();
-
+        var or_num = $('#or_num').val();
         var amount_discount = $('#amount_discount').val();
         var amount_fine = $('#amount_fine').val();
         var description = $('#description').val();
@@ -933,7 +950,7 @@ $language_name = $language["short_code"];
         $.ajax({
             url: '<?php echo site_url("studentfee/addstudentfee") ?>',
             type: 'post',
-            data: {date: date, type: feetype, amount: amount, amount_discount: amount_discount, amount_fine: amount_fine, description: description, student_fees_master_id: student_fees_master_id, fee_groups_feetype_id: fee_groups_feetype_id, payment_mode: payment_mode, guardian_phone: guardian_phone, guardian_email: guardian_email, student_fees_discount_id: student_fees_discount_id,parent_app_key:parent_app_key},
+            data: { date: date, type: feetype, amount: amount, amount_discount: amount_discount, amount_fine: amount_fine, description: description, student_fees_master_id: student_fees_master_id, fee_groups_feetype_id: fee_groups_feetype_id, payment_mode: payment_mode, guardian_phone: guardian_phone, guardian_email: guardian_email, student_fees_discount_id: student_fees_discount_id,parent_app_key:parent_app_key, or_num:or_num },
             dataType: 'json',
             success: function (response) {
                 // console.log(response);

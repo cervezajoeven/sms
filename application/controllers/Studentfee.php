@@ -18,7 +18,7 @@ class Studentfee extends Admin_Controller
 
     public function index()
     {
-        if (!$this->rbac->hasPrivilege('collect_fees', 'can_view')){
+        if (!$this->rbac->hasPrivilege('collect_fees', 'can_view')) {
             access_denied();
         }
         $this->session->set_userdata('top_menu', 'Fees Collection');
@@ -539,7 +539,8 @@ class Studentfee extends Admin_Controller
                 'amount_fine'     => $this->input->post('amount_fine'),
                 'description'     => $this->input->post('description') . $collected_by,
                 'payment_mode'    => $this->input->post('payment_mode'),
-                'received_by'    => $staff_record['id'],
+                'received_by'     => $staff_record['id'],
+                'or_number'       => $this->input->post('or_num'),
             );
             $data = array(
                 'student_fees_master_id' => $this->input->post('student_fees_master_id'),
