@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"><?php echo $this->lang->line('syllabus_list'); ?></h3>
+                        <h3 class="box-title titlefix">Modules</h3>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
