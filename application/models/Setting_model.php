@@ -275,4 +275,10 @@ class Setting_model extends MY_Model {
         echo $image['footer_content'];
     }
 
+    public function getDataPrivacyChkboxText() {
+        $query=$this->db->select('data_privacy_chkbox_text')->get('sch_settings');
+        $name=$query->row_array();
+        echo $name['data_privacy_chkbox_text'];
+    }
+
 }
