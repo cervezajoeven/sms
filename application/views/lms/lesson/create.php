@@ -102,6 +102,9 @@
               margin-top: 10px;
               margin-bottom: 10px;
             }
+            .instruction h2, h3{
+              border-radius: 10px;
+            }
         </style>
     </head>
 
@@ -236,7 +239,7 @@
                     </ul>
                 </div>
                 <div id="" class="slider close learning_plan_slider">
-                    <h2 style="margin: 5px;">Learning Competencies (MELCS) <button id="learning_plan_save"> Save </button></h2>
+                    <h2 style="margin: 5px;">Learning Outcomes <button id="learning_plan_save"> Save </button></h2>
                     <div class="slider_container">
                         <!-- <div id="learning_plan_text" style="color: black(); ">
                           
@@ -388,7 +391,8 @@
                                     <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
                                     <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
                                     <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
-                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Virtual Class</option>
+                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Google Meet Live Class</option>
+                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Zoom Live Class</option>
                                 </select>
                                 
                             </div>
@@ -637,30 +641,30 @@
                 <div class="search_container">
 
                 </div>
-                <div class="extremeright_icon icon_active" portal="youtube">
+                <div class="extremeright_icon icon_active" title="Youtube" portal="youtube" >
                     <center>
                         <img src="<?php echo $resources.'images/youtube.png' ?>">
                     </center>
                 </div>
                 
-                <div class="extremeright_icon" portal="google_image">
+                <div class="extremeright_icon" title="Google Image" portal="google_image">
                     <center>
                         <img src="<?php echo $resources.'images/google-photos.svg' ?>">
                     </center>
                 </div>
 
-                <div class="extremeright_icon" portal="google">
+                <div class="extremeright_icon" title="Google Web Search" portal="google">
                     <center>
                         <img src="<?php echo $resources.'images/google.svg' ?>">
                     </center>
                 </div>
 
-                <div class="extremeright_icon" portal="my_resources">
+                <div class="extremeright_icon" title="My Resources" portal="my_resources">
                     <center>
                         <img src="<?php echo $resources.'images/mycms.png' ?>">
                     </center>
                 </div>
-                <div class="extremeright_icon" portal="cms_resources">
+                <div class="extremeright_icon" title="CMS Resources" portal="cms_resources">
                     <center>
                         <img src="<?php echo $resources.'images/cms.png' ?>">
                     </center>

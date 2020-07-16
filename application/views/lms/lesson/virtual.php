@@ -62,6 +62,17 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
+                                    <select autofocus="" id="" name="term" placeholder="" type="text" class="form-control">
+                                        <option value="1">1st Term</option>
+                                        <option value="2">2nd Term</option>
+                                        <option value="3">3rd Term</option>
+                                        <option value="4">4th Term</option>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+
                                 
                             </div><!-- /.box-body -->
 
@@ -106,6 +117,7 @@
                                         <th><?php echo $this->lang->line('date'); ?></th>
                                         <th>Subject</th>
                                         <th>Grade</th>
+                                        <th>Term</th>
                                         <th>Education Level</th>
                                         <th>Shared</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
@@ -120,7 +132,7 @@
                                                 <?php echo $list_data['lesson_name']?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['lesson_type']?>
+                                                <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
@@ -132,7 +144,10 @@
                                                 <?php echo $list_data['class']; ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo strtoupper($list_data['education_level']); ?>
+                                                <?php echo $list_data['term']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo str_replace("_", " ", ucfirst($list_data['education_level'])); ?>
                                             </td>
                                             <td>
                                                 <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
@@ -140,14 +155,17 @@
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
-                                                            <i class="fa fa-edit"></i>
+                                                            <i class="fa fa-edit"></i> Edit
+                                                    </a>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                            <i class="fa fa-sign-in"></i> Start Class
                                                     </a>
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/delete/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Enter Class" >
                                                             <i class="fa fa-eye"></i>
                                                     </a>
                                                 <?php endif; ?>

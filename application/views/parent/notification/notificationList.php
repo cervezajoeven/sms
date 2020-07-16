@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <script src="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<style type="text/css">
+    .panel-collapse img{
+        width: 100%;
+    }
+</style>
 <div class="content-wrapper">
     <section class="content-header">
         <h1>

@@ -309,7 +309,7 @@
                             ?>
                             <li class="treeview <?php echo set_Topmenu('Downloads'); ?>">
                                 <a href="#">
-                                    <i class="fa fa-download ftlayer"></i> <span>Student Modules</span> <i class="fa fa-angle-left pull-right"></i>
+                                    <i class="fa fa-download ftlayer"></i> <span>Parents Activities</span> <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
                                     <?php

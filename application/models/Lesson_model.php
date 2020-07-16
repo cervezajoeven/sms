@@ -24,6 +24,7 @@ class Lesson_model extends MY_Model {
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
         $this->db->where("lms_lesson.account_id",$account_id);
         $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.date_created',"desc");
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();
@@ -37,6 +38,7 @@ class Lesson_model extends MY_Model {
         $this->db->where("lms_lesson.account_id",$account_id);
         $this->db->where('lms_lesson.lesson_type !=',"virtual");
         $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.date_created',"desc");
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();
@@ -51,6 +53,7 @@ class Lesson_model extends MY_Model {
         $this->db->where("lms_lesson.account_id",$account_id);
         $this->db->where('lms_lesson.lesson_type',"virtual");
         $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.date_created',"desc");
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();

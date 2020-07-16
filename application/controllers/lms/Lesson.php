@@ -100,6 +100,7 @@ class Lesson extends General_Controller {
         $data['subject_id'] = $_REQUEST['subject'];
         $data['grade_id'] = $_REQUEST['grade'];
         $data['education_level'] = $_REQUEST['education_level'];
+        $data['term'] = $_REQUEST['term'];
         $data['lesson_type'] = $lesson_type;
         $data['account_id'] = $this->general_model->get_account_id();
         $data['google_meet'] = $this->general_model->get_account_name($data['account_id'],"admin")[0]['google_meet'];
