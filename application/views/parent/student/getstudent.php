@@ -49,6 +49,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             <li class=""><a href="#fee" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('fees'); ?></a></li>
                             <li class=""><a href="#exam" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('exam'); ?></a></li>
                         <?php } ?>
+                        <li class=""><a href="#documents" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('documents'); ?></a></li>
                         <li class=""><a href="#timelineh" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('timeline'); ?></a></li>
                     </ul>
                     <div class="tab-content">
@@ -578,37 +579,79 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             ?>
 
                         </div>     
-                        <div class="tab-pane" id="timelineh">
 
+                        <div class="tab-pane" id="documents">
                             <div class="timeline-header no-border">
+                                <!-- <button type="button"  data-student-session-id="<?php //echo $student['student_session_id'] ?>" class="btn btn-xs btn-primary pull-right myTransportFeeBtn"> <i class="fa fa-upload"></i>  <?php //echo $this->lang->line('upload_documents'); ?></button> -->
+                                <div class="table-responsive" style="clear: both;">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->lang->line('title'); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->lang->line('file'); ?> <?php echo $this->lang->line('name'); ?>
+                                                </th>
+                                                <th class="mailbox-date text-right">
+                                                    <?php echo $this->lang->line('action'); ?>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <div class="row">                                     
+                                            <tbody>
+                                                <?php
+                                                if (empty($student_doc)) {
+                                                    ?>
+                                                    <tr>
+                                                        <td colspan="5" class="text-danger text-center"><?php echo $this->lang->line('no_record_found'); ?></td>
+                                                    </tr>
+                                                    <?php
+                                                } else {
+                                                    foreach ($student_doc as $value) {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php echo $value['title']; ?></td>
+                                                            <td><?php echo $value['doc']; ?></td>
+                                                            <td class="mailbox-date pull-right">
+                                                                <a href="<?php echo base_url(); ?>parent/parents/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>">
+                                                                    <i class="fa fa-download"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </tbody>
+                                    </table>
+                                </div>  
+                            </div>
+                            </table>
+                        </div>  
 
+                        <div class="tab-pane" id="timelineh">
+                            <div class="timeline-header no-border"> 
                                 <div id="timeline_list">
-
-                                    <?php
-                                    if (empty($timeline_list)) {
-                                        ?>
-
+                                    <?php if (empty($timeline_list)) { ?>
                                         <div class="alert alert-info"><?php echo $this->lang->line('no_record_found'); ?></div>
-                                    <?php } else {
-                                        ?>
-
+                                    <?php } 
+                                    else { ?>
                                         <ul class="timeline timeline-inverse">
 
                                             <?php
                                             foreach ($timeline_list as $key => $value) {
                                                 ?>      
                                                 <li class="time-label">
-                                                    <span class="bg-blue">    <?php
-                                                        echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($value['timeline_date']));
-                                                        ?></span>
+                                                    <!-- <span class="bg-blue"><?php //echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($value['timeline_date']));?></span> -->
                                                 </li> 
                                                 <li>
                                                     <i class="fa fa-list-alt bg-blue"></i>
                                                     <div class="timeline-item">
 
-                                                        <?php if (!empty($value["document"])) { ?>
+                                                        <?php //if (!empty($value["document"])) { ?>
                                                             <span class="time"><a class="defaults-c text-right" data-toggle="tooltip" title="" href="<?php echo base_url() . "parent/parents/timeline_download/" . $value["id"] . "/" . $value["document"] ?>" data-original-title="Download"><i class="fa fa-download"></i></a></span>
-                                                        <?php } ?>
+                                                        <?php //} ?>
                                                         <h3 class="timeline-header text-aqua"> <?php echo $value['title']; ?> </h3>
                                                         <div class="timeline-body">
                                                             <?php echo $value['description']; ?> 

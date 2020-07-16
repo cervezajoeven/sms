@@ -199,6 +199,9 @@ class Parents extends Parent_Controller
         $timeline                = $this->timeline_model->getStudentTimeline($student["id"], $status = 'yes');
         $data["timeline_list"]   = $timeline;
 
+        $student_doc            = $this->student_model->getstudentdoc($student_id);
+        $data['student_doc']    = $student_doc;
+
         $class_id                     = $student['class_id'];
         $section_id                   = $student['section_id'];
         $data['title']                = 'Student Details';
