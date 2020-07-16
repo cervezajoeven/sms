@@ -62,6 +62,17 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
+                                    <select autofocus="" id="" name="term" placeholder="" type="text" class="form-control">
+                                        <option value="1">1st Term</option>
+                                        <option value="2">2nd Term</option>
+                                        <option value="3">3rd Term</option>
+                                        <option value="4">4th Term</option>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+
                                 
                             </div><!-- /.box-body -->
 
@@ -106,6 +117,7 @@
                                         <th><?php echo $this->lang->line('date'); ?></th>
                                         <th>Subject</th>
                                         <th>Grade</th>
+                                        <th>Term</th>
                                         <th>Education Level</th>
                                         <th>Shared</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
@@ -130,6 +142,9 @@
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['class']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['term']; ?>
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php echo strtoupper($list_data['education_level']); ?>
