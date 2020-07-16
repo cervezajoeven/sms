@@ -133,7 +133,7 @@
                                                 <?php echo $list_data['lesson_name']?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['lesson_type']?>
+                                                <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
@@ -148,7 +148,7 @@
                                                 <?php echo $list_data['term']; ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo strtoupper($list_data['education_level']); ?>
+                                                <?php echo str_replace("_", " ", strtoupper($list_data['education_level'])); ?>
                                             </td>
                                             <td>
                                                 <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
@@ -164,7 +164,7 @@
 
                                                 <?php elseif($role=="student"): ?>
                                                     <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="google_meet_open(\''.$list_data["google_meet"].'\')"':'' ?> class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
-                                                            <i class="fa fa-eye"  ></i>
+                                                            <i class="fa fa-eye"  ></i>Enter Class
                                                     </a>
                                                 <?php endif; ?>
                                                 
