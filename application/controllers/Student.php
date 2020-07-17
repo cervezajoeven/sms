@@ -441,7 +441,7 @@ class Student extends Admin_Controller
             $house            = $this->input->post('house');
             $blood_group      = $this->input->post('blood_group');
             $measurement_date = $this->input->post('measure_date');
-            // $roll_no           = $this->input->post('roll_no');
+            $roll_no           = $this->input->post('roll_no');
             $lastname          = $this->input->post('lastname');
             $category_id       = $this->input->post('category_id');
             $religion          = $this->input->post('religion');
@@ -564,13 +564,18 @@ class Student extends Admin_Controller
                 } 
                 else 
                 {
-                    $admission_no         = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
+                    $admission_no  = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
                     $data_insert['admission_no'] = $admission_no;
                 }
 
                 //-- Set id number = admission no
-                if ($this->input->post('enrollment_type') != 'old')
-                    $data_insert['roll_no'] = $admission_no;
+                if ($this->input->post('enrollment_type') != 'old') 
+                {
+                    if (isset($roll_no) && !empty($roll_no))
+                        $data_insert['roll_no'] = $roll_no;
+                    else
+                        $data_insert['roll_no'] = $admission_no;
+                }                    
 
                 $admission_no_exists = $this->student_model->check_adm_exists($admission_no);
 
@@ -1485,7 +1490,7 @@ class Student extends Admin_Controller
                 'enrollment_type'     => $this->input->post('enrollment_type'),
                 'middlename'          => $this->input->post('middlename'),
                 'lrn_no'              => $this->input->post('lrn_no'),
-                'roll_no'              => $this->input->post('roll_no'),
+                'roll_no'             => $this->input->post('roll_no'),
 
                 'father_company_name'              => $this->input->post('father_company_name'),
                 'father_company_position'          => $this->input->post('father_company_position'),
@@ -1648,6 +1653,7 @@ class Student extends Admin_Controller
 
                 $data['admission_no'] = $this->input->post('admission_no');
             }
+
             $this->student_model->add($data);
 
             $data_new = array(
