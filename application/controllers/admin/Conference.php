@@ -330,8 +330,8 @@ class Conference extends Admin_Controller {
             $api_type = 'global';
 
             $params = array(
-                'zoom_api_key' => "tMycUHRSSQqQOwsKKXpGPw",
-                'zoom_api_secret' => "gAKMu77f4k0WlG9IoOoSQ4AZ4d2TZmoqffbK",
+                'zoom_api_key' => "aIiAONgbR6SG_A1rC4Q2zw",
+                'zoom_api_secret' => "qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N",
             );
 
             $this->load->library('zoom_api', $params);
@@ -408,8 +408,8 @@ class Conference extends Admin_Controller {
             $api_type = 'global';
 
             $params = array(
-                'zoom_api_key' => "tMycUHRSSQqQOwsKKXpGPw",
-                'zoom_api_secret' => "gAKMu77f4k0WlG9IoOoSQ4AZ4d2TZmoqffbK",
+                'zoom_api_key' => "aIiAONgbR6SG_A1rC4Q2zw",
+                'zoom_api_secret' => "qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N",
             );
             $this->load->library('zoom_api', $params);
 
@@ -505,8 +505,8 @@ class Conference extends Admin_Controller {
             $api_type = 'global';
 
             $params = array(
-                'zoom_api_key' => "tMycUHRSSQqQOwsKKXpGPw",
-                'zoom_api_secret' => "gAKMu77f4k0WlG9IoOoSQ4AZ4d2TZmoqffbK",
+                'zoom_api_key' => "aIiAONgbR6SG_A1rC4Q2zw",
+                'zoom_api_secret' => "qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N",
             );
             $this->load->library('zoom_api', $params);
 

@@ -155,7 +155,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="mailbox-name">
-                                                    <?php echo $this->customlib->dateyyyymmddToDateTimeformat($conference_value->date); ?></td>
+                                                    <?php echo date("F d, h:i A",strtotime($conference_value->date)); ?></td>
                                                 <td class="mailbox-name">
                                                     <?php echo $conference_value->api_type;
                                                     ?>
