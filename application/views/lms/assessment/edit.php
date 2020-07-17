@@ -22,6 +22,15 @@
 			.jstree-themeicon-custom{
                 background-size: 100%!important;
             }
+            .info-tab{
+            	/*border-top: 1px solid white;*/
+            	border-bottom: 1px solid white;
+            }
+            .save_status{
+            	color: white;
+            	text-align: center;
+            	background-color: black;
+            }
 		</style>
 	</head>
 	<body>
@@ -44,8 +53,8 @@
 		        	
 		        	<div class="info col-sm-5">
 		        		<div class="info-row">
-			        		<div class="info-tab info-title col-sm-2">Name :</div>
-			        		<div class="info-tab col-sm-8">John Doe</div>
+			        		<div class="info-tab info-title col-sm-2">Title :</div>
+			        		<div class="info-tab col-sm-8"><?php echo $assessment['assessment_name']?></div>
 		        		</div>
 		        		<div class="info-row">
 		        			<a href="<?php echo site_url('lms/assessment/index/'); ?>">
@@ -54,24 +63,9 @@
 		        		</div>
 
 		        		<div class="info-row">
-			        		<div class="info-tab info-title col-sm-3">Date :</div>
-			        		<div class="info-tab col-sm-9"><?php echo date('F d, Y'); ?></div>
-		        		</div>
-
-		        		<div class="info-row">
-			        		<div class="info-tab info-title col-sm-3">Title :</div>
-			        		<div class="info-tab col-sm-9"><?php echo $assessment['assessment_name']?></div>
-		        		</div>
-		        		<div class="info-row">
-			        		<div class="info-tab info-key col-sm-3" option_type="multiple_choice" title="True or False, Yes or No, Chronological Order, Matching Type">Multiple Choice</div>
-			        		<div class="tooltip">Hover over me
-							  	<span class="tooltiptext">Tooltip text</span>
-							</div>
-			        		<div class="info-tab info-key col-sm-3" title="Identification, Matching Type, Chronological Order, Fill in the Blanks" option_type="short_answer">Short Answer</div>
-
-			        		<div class="info-tab info-key col-sm-3" title="Essay" option_type="long_answer"><center>Long Answer</center></div>
-			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
-
+			        		<div class="info-tab info-title col-sm-2">Date :</div>
+			        		<div class="info-tab col-sm-7"><?php echo date('F d, Y'); ?></div>
+			        		<div class="info-tab col-sm-3 save_status">No Changes</div>
 		        		</div>
 
 		        		<div class="info-row">
@@ -86,6 +80,20 @@
 			        		</div>
 			        		
 		        		</div>
+		        		
+		        		<div class="info-row">
+			        		<div class="info-tab info-key col-sm-3" option_type="multiple_choice" title="True or False, Yes or No, Chronological Order, Matching Type">Multiple Choice</div>
+			        		<div class="tooltip">Hover over me
+							  	<span class="tooltiptext">Tooltip text</span>
+							</div>
+			        		<div class="info-tab info-key col-sm-3" title="Identification, Matching Type, Chronological Order, Fill in the Blanks" option_type="short_answer">Short Answer</div>
+
+			        		<div class="info-tab info-key col-sm-3" title="Essay" option_type="long_answer"><center>Long Answer</center></div>
+			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
+
+		        		</div>
+
+		        		
 		        		
 		        	</div>
 		        	<div class="clearfix"></div>

@@ -15,6 +15,7 @@ var end_date = $(".end_date").val();
 $(".sortable").sortable({
 	stop:function(event,ui){
 		renumbering();
+		save_no_notif();
 	}
 });
 $(".option-container-clonable").hide();
@@ -127,7 +128,7 @@ function renumbering(){
 			section_number++;
 			option_number = 0;
 		}else{
-			$(value).find(".numbering_option").text("No. "+option_number);
+			$(value).find(".numbering_option").text("#"+option_number);
 			$(value).find(".option_type").find("input").attr("name","option_"+section_number+"_"+(option_number));
 		}
 		
@@ -135,92 +136,12 @@ function renumbering(){
 	});
 	
 }
-$(document).ready(function(){
-	
-	if(stored_json){
 
-		$.each(JSON.parse(stored_json),function(key,value){
-			populate_key(value.type,value);
-			
-			var checked_ids = [];
-			if(assigned){
-
-				$.each(assigned.split(","),function(key,value){
-					checked_ids.push("student_"+value);
-				});
-				$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
-			}
-			if(value.type=="short_answer"){
-				$(".option-container-actual").eq(key).find(".option_type").find("input").val(value.correct.split(",").join(" or "));
-				// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
-				
-				// console.log(value);
-			}
-			if(value.type=="section"){
-				$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
-			}
-			$.each(value.option_labels.split(","),function(split_key,split_value){
-				
-				var last_option = $(".option-container-actual").eq(key).find(".option").length;
-				var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
-				$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
-
-			});
-
-			if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-
-				$.each(value.correct.split(","),function(correct_key,correct_value){
-
-					if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-						// $( "#x" ).prop( "checked", true );
-						if(correct_value=='1'){
-
-							$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
-						}else{
-							// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
-						}
-
-					}
-					
-
-				});
-			}
-			
-			var the_last = $(".option-container-actual").eq(key).find(".option").length;
-			$.each(value.option_labels.split(","),function(value_key,value_value){
-				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
-				
-			});
-			$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
-
-			
-		});
-		renumbering();
-	}
-	
-
-});
-$(document).on("click",".remove_option",function(){
-	$(this).parent().remove();
-	renumbering();
-
-});
-$(".info-key").click(function(){
-	var option_type = $(this).attr("option_type");
-	populate_key(option_type);
-	
-	renumbering();
-});
-$(document).on("click",".add_option",function(){
-	var last_option = $(this).parent().find(".option").length;
-	var option_clone = $(this).siblings(".option").eq(last_option-1).clone();
-	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
-
-});
-$(".true_save").click(function(){
+function save(){
 	var json = [];
 	var options = $(".option-container-actual");
-
+	$(".save_status").text("Saving...");
+	$(".save_status").css("background-color","rgb(50,50,50)");
 	$.each(options,function(key,value){
 		var the_option_type = $(value).attr("option_type");
 		
@@ -315,14 +236,211 @@ $(".true_save").click(function(){
 	    complete: function(response){
 	    	console.log(response.responseText);
 	    	alert("Quiz has been sucessfully saved!");
+	    	$(".save_status").text("Saved");
+			$(".save_status").css("background-color","green");
 	    }
 	});
+}
+
+function save_no_notif(){
+	var json = [];
+	var options = $(".option-container-actual");
+	$(".save_status").text("Saving...");
+	$(".save_status").css("background-color","rgb(50,50,50)");
+	$.each(options,function(key,value){
+		var the_option_type = $(value).attr("option_type");
+		
+		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
+			var option_val = [];
+			var answer_val = [];
+			$.each($(value).find(".option"),function(option_key,option_value){
+				 option_val.push($(option_value).find(".option_label_input").find("input").val());
+				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
+				 	answer_val.push("1");
+				 }else{
+				 	answer_val.push("0");
+				 }
+			});
+
+			option_json = {
+				"type":the_option_type,
+				"correct":answer_val.join(","),
+				"option_labels":option_val.join(","),
+			};
+
+		}else if(the_option_type=="short_answer"){
+			
+			var short_answer_val = $(value).find(".option").find("input").eq(0).val().split(" or ");
+
+			option_json = {
+				"type":the_option_type,
+				"correct": short_answer_val.join(","),
+				"option_labels":"",
+			};
+		}else if(the_option_type=="section"){
+			
+			var instruction = $(value).find(".option").find("textarea").eq(0).val();
+
+			option_json = {
+				"type":the_option_type,
+				"correct": instruction,
+				"option_labels":"",
+			};
+		}else{
+			option_json = {
+				"type":the_option_type,
+				"option_labels":"",
+			};
+		}
+		json.push(option_json);
+		
+
+	});
+
+	var student_ids = [];
+	$.each(jstree.jstree("get_checked",null,true),function(key,value){
+		
+		if(value.includes('student')){
+			student_id = value.replace('student_','');
+			
+			student_ids.push(student_id);
+		}
+	});
+
+	attempts = $(".attempts").val();
+	duration = $(".duration").val();
+	percentage = $(".percentage").val();
+	start_date = $(".date_range").data('daterangepicker').startDate.toDate();
+	end_date = $(".date_range").data('daterangepicker').endDate.toDate();
+	start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
+    end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
+    var email_notification = $("#email_notification").prop('checked');
+    if(email_notification){
+    	email_notification = 1;
+    }else{
+    	email_notification = 0;
+    }
+
+	final_json = {
+		id:$("#assessment_id").val(),
+		sheet:JSON.stringify(json),
+		assigned:student_ids.join(','),
+		duration: duration,
+		percentage: percentage,
+		attempts: attempts,
+		start_date: start_date,
+		end_date: end_date,
+		email_notification: email_notification,
+	};
+
+	$.ajax({
+	    url: url,
+	    type: "POST",
+	    data: final_json,
+	    // contentType: "application/json",
+	    complete: function(response){
+	    	console.log(response.responseText);
+
+	    	$(".save_status").text("Saved");
+			$(".save_status").css("background-color","green");
+	    }
+	});
+}
+
+
+$(document).ready(function(){
+	
+	if(stored_json){
+
+		$.each(JSON.parse(stored_json),function(key,value){
+			populate_key(value.type,value);
+			
+			var checked_ids = [];
+			if(assigned){
+
+				$.each(assigned.split(","),function(key,value){
+					checked_ids.push("student_"+value);
+				});
+				$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
+			}
+			if(value.type=="short_answer"){
+				$(".option-container-actual").eq(key).find(".option_type").find("input").val(value.correct.split(",").join(" or "));
+				// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
+				
+				// console.log(value);
+			}
+			if(value.type=="section"){
+				$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
+			}
+			$.each(value.option_labels.split(","),function(split_key,split_value){
+				
+				var last_option = $(".option-container-actual").eq(key).find(".option").length;
+				var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
+				$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
+
+			});
+
+			if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+
+				$.each(value.correct.split(","),function(correct_key,correct_value){
+
+					if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+						// $( "#x" ).prop( "checked", true );
+						if(correct_value=='1'){
+
+							$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
+						}else{
+							// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
+						}
+
+					}
+					
+
+				});
+			}
+			
+			var the_last = $(".option-container-actual").eq(key).find(".option").length;
+			$.each(value.option_labels.split(","),function(value_key,value_value){
+				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
+				
+			});
+			$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
+
+			
+		});
+		renumbering();
+	}
+	
+
+});
+$(document).on("click",".remove_option",function(){
+	$(this).parent().remove();
+	renumbering();
+	save_no_notif();
+
+});
+$(".info-key").click(function(){
+	var option_type = $(this).attr("option_type");
+	populate_key(option_type);
+	renumbering();
+	save_no_notif();
+});
+$(document).on("click",".add_option",function(){
+	var last_option = $(this).parent().find(".option").length;
+	var option_clone = $(this).siblings(".option").eq(last_option-1).clone();
+	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
+	save_no_notif();
+});
+$(".true_save").click(function(){
+	save();
 });
 $('.file').hide();
 $(".upload").click(function(){
+	save_no_notif();
 	$('.file').click();
 });
 $(".file").change(function(){
+	save_no_notif();
 	$("#upload_form").submit();
 });
 $(document).on("click",".remove_choice",function(){
@@ -333,6 +451,7 @@ $(".assign_panel").hide();
 $(".assign").click(function(){
 	$(".assign_panel").toggle();
 	$(".sortable").toggle();
+	save_no_notif();
 });
 
 $('.date_range').daterangepicker({

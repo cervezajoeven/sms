@@ -1544,4 +1544,5 @@ $lang['finished'] = 'Finished';
 $lang['credential'] = 'Credential';
 $lang['zoom_api_key'] = 'Zoom API Key';
 $lang['zoom_api_secret'] = 'Zoom API Secret';
+$lang['api_used_add'] = 'API Used';
 ?>
