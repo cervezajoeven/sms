@@ -92,6 +92,11 @@ if($HTTP_HOST=="localhost"){
   	$username = 'joeven';
   	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
+}else if(strpos($HTTP_HOST, "192.168.") !== false){
+	
+	$username = 'root';
+  	$password = '';
+  	$database = 'campus_sms';
 }else{
 
   	$username = 'joeven';

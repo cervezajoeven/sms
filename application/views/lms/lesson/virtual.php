@@ -10,81 +10,9 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <?php
-            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                ?>
-                <div class="col-md-12">
-                    <!-- Horizontal Form -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Create <?php echo $this->lang->line('lesson'); ?></h3>
-                        </div><!-- /.box-header -->
-                        <!-- form start -->
-
-                        <form id="form1" action="<?php echo site_url('lms/lesson/save/virtual') ?>"  id="lesson" name="employeeform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
-                            <div class="box-body">
-                                <?php if ($this->session->flashdata('msg')) { ?>
-                                    <?php echo $this->session->flashdata('msg') ?>
-                                <?php } ?>
-                                <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Lesson Title</label><small class="req"> *</small>
-                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
-                                    <select autofocus="" id="subject_id" name="subject" placeholder="" type="text" class="form-control">
-                                        <?php foreach ($subjects as $key => $value) : ?>
-                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Grade</label><small class="req"> *</small>
-                                    <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control">
-                                        <?php foreach ($classes as $key => $value) : ?>
-                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
-                                    <select autofocus="" id="" name="education_level" placeholder="" type="text" class="form-control">
-                                        <option value="grade_school">Grade School</option>
-                                        <option value="junior">Junior Highschool</option>
-                                        <option value="senior">Senior Highschool</option>
-                                        <option value="tertiary">Tertiary</option>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
-                                    <select autofocus="" id="" name="term" placeholder="" type="text" class="form-control">
-                                        <option value="1">1st Term</option>
-                                        <option value="2">2nd Term</option>
-                                        <option value="3">3rd Term</option>
-                                        <option value="4">4th Term</option>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-
-                                
-                            </div><!-- /.box-body -->
-
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div><!--/.col (right) -->
-                <!-- left column -->
-            <!-- <?php } ?> -->
+            <?php if ($this->rbac->hasPrivilege('upload_content', 'can_add')) : ?>
+                
+            <?php endif; ?>
             <div class="col-md-<?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
                 echo "12";
@@ -94,10 +22,9 @@
             ?>">
                 <!-- general form elements -->
                 <div class="box box-primary">
-                    <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix">View/Edit My Lesson</h3>
+                    <div class="box-header ptbnull">Google Live Classes</h3>
                         <div class="box-tools pull-right">
-
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-online-timetable"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> </button>
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">

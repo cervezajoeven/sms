@@ -1,4 +1,4 @@
-<aside class="main-sidebar" id="alert2">
+s<aside class="main-sidebar" id="alert2">
     <?php if ($this->rbac->hasPrivilege('student', 'can_view')) { ?>
         <form class="navbar-form navbar-left search-form2" role="search"  action="<?php echo site_url('admin/admin/search'); ?>" method="POST">
             <?php echo $this->customlib->getCSRF(); ?>
@@ -661,8 +661,6 @@
                         <ul class="treeview-menu">
                             <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
                             
-                            <li class="<?php echo set_Submenu('content/virtual'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/virtual"><i class="fa fa-angle-double-right"></i> Google Live Class</a></li>
-                            <li class="<?php echo set_Submenu('content/zoom'); ?>"><a href="<?php echo base_url(); ?>admin/conference/timetable"><i class="fa fa-angle-double-right"></i> Zoom Live Class</a></li>
                             <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>

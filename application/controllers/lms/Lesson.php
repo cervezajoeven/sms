@@ -12,6 +12,7 @@ class Lesson extends General_Controller {
         $this->load->model('general_model');
         $this->load->model('discussion_model');
         $this->load->library('mailsmsconf');
+        $this->load->model(array('conference_model', 'conferencehistory_model'));
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
     }
@@ -29,7 +30,7 @@ class Lesson extends General_Controller {
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
-            $data['list'] = $this->lesson_model->get_lessons_no_virtual($this->general_model->get_account_id());
+            $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
             
         }else{
 
@@ -104,6 +105,13 @@ class Lesson extends General_Controller {
         $data['lesson_type'] = $lesson_type;
         $data['account_id'] = $this->general_model->get_account_id();
         $data['google_meet'] = $this->general_model->get_account_name($data['account_id'],"admin")[0]['google_meet'];
+        $lesson_data = array(
+            "account_id" => $this->general_model->get_account_id(),
+            "name" => $_REQUEST['content_title'],
+        );
+
+        $zoom_id = $this->add_lms_lesson($lesson_data);
+        $data['zoom_id'] = $zoom_id;
 
         $id = $this->lesson_model->lms_create("lms_lesson",$data);
         
@@ -114,6 +122,8 @@ class Lesson extends General_Controller {
             mkdir(FCPATH."uploads/lms_lesson/".$id."/thumbnails/");
             mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
         }
+
+
         
         redirect(site_url()."lms/lesson/create/".$id);
     }
@@ -134,6 +144,8 @@ class Lesson extends General_Controller {
         $data['account_id'] = $this->general_model->get_account_id();
         $data['google_meet'] = $this->general_model->get_account_name($data['account_id'],"admin")[0]['google_meet'];
         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id")[0];
+        $data['conference'] = $this->lesson_model->lms_get("conferences",$data['lesson']['zoom_id'],"id")[0];
+        $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
         $data['lms_google_meet'] = $data['lesson']['google_meet'];
         if($data['google_meet']==""){
             $data['virtual_status'] = "available";
@@ -250,6 +262,7 @@ class Lesson extends General_Controller {
         $data['education_level'] = $_REQUEST['education_level'];
         $data['term'] = $_REQUEST['term'];
         $data['shared'] = $_REQUEST['shared'];
+        $data['allow_view'] = $_REQUEST['allow_view'];
         
         
         if($data['email_notification']=="1"){
@@ -543,6 +556,55 @@ class Lesson extends General_Controller {
 
         echo json_encode($discussion);
 
+    }
+
+    public function add_lms_lesson($lesson_data=array()) {
+
+        $api_type = 'global';
+
+
+        $params = array(
+            'zoom_api_key' => "aIiAONgbR6SG_A1rC4Q2zw",
+            'zoom_api_secret' => "qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N",
+        );
+        $this->load->library('zoom_api', $params);
+
+
+        $insert_array = array(
+            'staff_id' => $lesson_data['account_id'],
+            'title' => $lesson_data['name'],
+            'date' => date('Y-m-d H:i:s'),
+            'class_id' => 3,
+            'section_id' => 63,
+            'duration' => 60,
+            'password' => "cloudph",
+            'created_id' => $lesson_data['account_id'],
+            'api_type' => $api_type,
+            'host_video' => "1",
+            'client_video' => "1",
+            'description' => "Zoom Class",
+            'timezone' => $this->customlib->getTimeZone(),
+        );
+
+        $response = $this->zoom_api->createAMeeting($insert_array);
+
+        if ($response) {
+            if (isset($response->id)) {
+                $insert_array['return_response'] = json_encode($response);
+                $zoom_id = $this->conference_model->add($insert_array);
+
+                $sender_details = array('class_id' => $this->input->post('class_id'), 'section_id' => $this->input->post('section_id'), 'title' => $this->input->post('title'), 'date' => $this->input->post('date'), 'duration' => $this->input->post('duration'));
+                $this->mailsmsconf->mailsms('online_classes', $sender_details);
+
+                $response = array('status' => 1, 'message' => $this->lang->line('success_message'));
+            } else {
+                $response = array('status' => 0, 'error' => array($response->message));
+            }
+        } else {
+            $response = array('status' => 0, 'error' => array('Something went wrong.'));
+        }
+
+        return $zoom_id;
     }
 }
  

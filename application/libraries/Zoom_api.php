@@ -65,7 +65,8 @@ class Zoom_api {
     public function createAMeeting($data = array()) {
 
         $post_time = $data['date'];
-        $start_time = gmdate("Y-m-d\TH:i:s", strtotime($post_time));
+        $start_time = date("Y-m-d\TH:i:s", strtotime($post_time));
+        
         $createAMeetingArray = array();
         if (!empty($data['alternative_host_ids'])) {
             if (count($data['alternative_host_ids']) > 1) {

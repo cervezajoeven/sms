@@ -15,6 +15,7 @@ class Conference_model extends MY_Model {
         $data['session_id'] = $this->current_session;
         $this->db->insert('conferences', $data);
         $insert_id = $this->db->insert_id();
+        return $insert_id;
     }
 
     public function addmeeting($data, $staff) {
