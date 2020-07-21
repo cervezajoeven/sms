@@ -36,11 +36,32 @@ class Lesson extends General_Controller {
 
             $this->load->view('layout/student/header');
             $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+
+            foreach ($data['list'] as $key => $value) {
+                if($value['zoom_id']){
+                    $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                    $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                }
+                
+
+            }
+
         }
 
         
         $this->load->view('lms/lesson/index', $data);
         $this->load->view('layout/footer');
+    }
+
+    function get_zoom_data($id=""){
+        echo "asdasd";
+        // if($id){
+        //     return $this->lesson_model->lms_get("conferences",$id,"id")[0];
+        // }else{
+        //     return "";
+        // }
+        
     }
 
     function shared() {
