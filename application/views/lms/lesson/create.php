@@ -105,6 +105,23 @@
             .instruction h2, h3{
               border-radius: 10px;
             }
+            .actions{
+              <?php if($lesson['lesson_type']=="zoom"||$lesson['lesson_type']=="virtual"): ?>
+                width: 14%;
+              <?php else: ?>
+                width: 16.5%;
+              <?php endif; ?>
+              
+            }
+            #start_class img {
+                height: 35px;
+                width: 35px;
+                top: 10px;
+                position: absolute;
+            }
+            #start_class span{
+              margin-left: 35px;
+            }
         </style>
     </head>
 
@@ -120,6 +137,9 @@
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
         <input type="hidden" id="google_meet_id" value="<?php echo $role ?>" name="" />
         <input type="hidden" id="pdfjs" value="<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>" name="" />
+        <input type="hidden" id="image_resources" value="<?php echo $resources.'images/' ?>" name="" />
+        <input type="hidden" id="start_url" value="<?php echo $start_url ?>" name="" />
+        <input type="hidden" id="google_meet" value="<?php echo $google_meet ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -383,7 +403,7 @@
                             <input type="hidden" name="" value="<?php echo $lesson['start_date'] ?>" class="start_date">
                             <input type="hidden" name="" value="<?php echo $lesson['end_date'] ?>" class="end_date">
                             <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
-                            <h3>Lesson Type</h3>
+                            <h3>Mode of Delivery</h3>
                             <div class="select-box">
             
                                 <label for="lesson_type" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
@@ -391,22 +411,30 @@
                                     <option <?php if($lesson['lesson_type'] == "classroom"){echo "selected=''"; } ?> value="classroom">Classroom Use</option>
                                     <option <?php if($lesson['lesson_type'] == "reviewer"){echo "selected=''"; } ?> value="reviewer">Reviewer</option>
                                     <option <?php if($lesson['lesson_type'] == "assignment"){echo "selected=''"; } ?> value="assignment">Assignment</option>
-                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Google Meet Live Class</option>
-                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual">Zoom Live Class</option>
+                                    <option <?php if($lesson['lesson_type'] == "virtual"){echo "selected=''"; } ?> value="virtual"><img src="">Google Meet Live Class</option>
+                                    <option <?php if($lesson['lesson_type'] == "zoom"){echo "selected=''"; } ?> value="zoom"><img src="">Zoom Live Class</option>
                                 </select>
                                 
                             </div>
 
+                            <div class="student_view_control">
+                              <h3>Student Viewing</h3>
+
+                              <div class="pretty p-switch p-fill">
+                                
+                                  <input type="checkbox" id="allow_view" <?php if($lesson['allow_view']==""){ echo "checked"; } ?> <?php if($lesson['allow_view']=="1"){ echo "checked"; } ?> />
+                                  <div class="state p-primary">
+                                      <label>Allow</label>
+                                  </div>
+                              </div>
+
+                            </div>
+
+                            
+
                             <div class="notification_control">
                               <h3>Notification</h3>
                             
-                              <!-- <div class="pretty p-switch p-fill">
-                                  <input type="checkbox" />
-                                  <div class="state p-primary">
-                                      <label>SMS Notification</label>
-                                  </div>
-                              </div> -->
-
                               <div class="pretty p-switch p-fill">
                                 
                                   <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> />
@@ -416,6 +444,8 @@
                               </div>
 
                             </div>
+
+                            
 
                             
 
@@ -433,7 +463,11 @@
                 <div id="" class="slider close discussion_slider">
 
                     <div class="slider_container">
-                    
+                        <style type="text/css">
+                          .teacher_chat_container{
+                            height: 100%;
+                          }
+                        </style>
                         <h2>Discussion Board</h2>
                         <div class="dicussion_container teacher_chat_container">
 
@@ -514,6 +548,7 @@
                           
                     </div>
                 </div>
+               
                 <div class="footer">
 
                     <div class="actions_container">
@@ -540,18 +575,13 @@
                         <div class="actions">
                             <button id="settings" class="trigger action_button"><i class="fas fa-cogs"></i>Settings</button>
                         </div>
-                        <?php if($lesson['lesson_type'] == "virtual"): ?>
-                          <div class="actions">
-                              <?php if($lesson['google_meet'] != ""): ?>
-                                <a href="<?php echo $lesson['google_meet'] ?>" target="_blank">
-                                  <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Meetup</button>
-                                </a>
-                              <?php else: ?>
-                                <button id="campus_meetup" class="trigger action_button"><i class="fas fa-video"></i>Google ID Need to be Set</button>
-                              <?php endif; ?>
-                              
-                          </div>
-                        <?php endif; ?>
+                        <a class="virtual_link" target="_blank" href="">
+                          <div class="actions start_class" <?php if($lesson['lesson_type']=="zoom"||$lesson['lesson_type']=="virtual"): ?>
+                        style="display: block;" <?php else: ?> style="display: none;" <?php endif; ?> >
+                            <button id="start_class" class="trigger action_button"><img src=""><span>Start Class</span></button>
+                        </div>
+                        </a>
+                        
                     </div>
                     
                 </div>
@@ -570,6 +600,7 @@
                             <button class="action_button text_color" id="myBtn"><i class="fas fa-file-alt"></i>Add Text</button>
                         </div>
                     </div>
+
                     <div class="upload_actions actions_container">
                         <div class="actions">
                             <button class="action_button vimeo vimeo_color" id="vimeo_btn"><i class="fas fa-video"></i>External Link</button>
@@ -745,15 +776,14 @@
                     border-radius: 20px;
                     margin: 5px;
                     "><i class="fas fa-times-circle"></i> Close Slideshow</div>
-                    <div class="dicussion_container student_chat_container" style="width: 100%">
-
-                          adasdas
-                          
+                    <div class="dicussion_container student_chat_container" style="height:450px;width: 100%">
+                      aasdasd
                     </div>
-                    <div class="chat_discussion" style="position: relative;">
-                      <textarea class="chat_text student_chat" name="" style="bottom: 0;"></textarea>
-                      <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
+                    <div class="chat_discussion" style="position: relative;width: 100%;">
+                      <textarea class="chat_text student_chat" name="" style="bottom: 0;width: 96%;"></textarea>
+                      <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="width: 98%;">Send</button>
                     </div>
+                      <button>Full Screen</button>
 
                     
                 

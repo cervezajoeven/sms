@@ -104,6 +104,15 @@
 		        			<input type="number" min="1" value="<?php echo ($assessment['duration'])?$assessment['duration']:30 ?>" class="form-control duration" name="duration">
 		        		</div>
 		        		<div class = "col-sm-4">
+		        			Term
+		        			<select class="form-control">
+		        				<option>1st</option>
+		        				<option>2nd</option>
+		        				<option>3rd</option>
+		        				<option>4th</option>
+		        			</select>
+		        		</div>
+		        		<div class = "col-sm-4">
 		        			Passing Percentage %
 		        			<input type="number" min="0" max="100" value="<?php echo ($assessment['percentage'])?$assessment['percentage']:50 ?>" class="form-control percentage" name="">
 		        		</div>

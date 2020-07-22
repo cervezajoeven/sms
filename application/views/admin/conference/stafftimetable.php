@@ -85,14 +85,14 @@
                                                         echo $this->lang->line('self');
                                                     } else {
                                                         $name = ($conference_value->create_by_surname == "") ? $conference_value->create_by_name : $conference_value->create_by_name . " " . $conference_value->create_by_surname;
-                                                        echo $name . " (" . $conference_value->for_create_role_name . " : " . $conference_value->for_create_employee_id . ")";
+                                                        echo $name;
                                                     }
                                                     ?></td>
 
                                                 <td class="mailbox-name">
                                                     <?php
                                                     $name = ($conference_value->create_for_surname == "") ? $conference_value->create_for_name : $conference_value->create_for_name . " " . $conference_value->create_for_surname;
-                                                    echo $name . " (" . $conference_value->for_create_role_name . " : " . $conference_value->for_create_employee_id . ")";
+                                                    echo $name;
                                                     ?>
                                                 </td>
 

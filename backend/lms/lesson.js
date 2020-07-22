@@ -14,6 +14,9 @@ $(document).ready(function(){
     var main_url = $("#main_url").val();
     var assigned = $("#assigned").val();
     var education_level = $("#education_level").val();
+    var image_resources = $("#image_resources").val();
+    var start_url = $("#start_url").val();
+    var google_meet = $("#google_meet").val();
     var checked_ids = [];
     var role = $("#role").val();
     var role2 = $("#role").val();
@@ -67,12 +70,18 @@ $(document).ready(function(){
     });
 
     if($("#lesson_type").val()=="classroom"){
-        
         $(".notification_control").hide();
-    }else{
 
+    }else if($("#lesson_type").val()=="virtual"){
         $(".notification_control").show();
-
+        $(".start_class").find("span").text("Start Meet");
+        $(".start_class").find("img").attr("src",image_resources+"google_meet.png");
+        $(".virtual_link").attr("href",google_meet);
+    }else if($("#lesson_type").val()=="zoom"){
+        $(".notification_control").show();
+        $(".start_class").find("span").text("Start Zoom");
+        $(".start_class").find("img").attr("src",image_resources+"zoom.png");
+        $(".virtual_link").attr("href",start_url);
     }
 
     $.each($(".select"),function(key,value){
@@ -607,12 +616,12 @@ $(document).ready(function(){
 
     function change_detected(){
 
-        console.log();
         var title = $(".title").val();
         var update_url = $("#site_url").val();
         var id = $("#lesson_id").val();
         var lesson_type = $("#lesson_type").val();
         var email_notification = $("#email_notification").prop("checked");
+        var allow_view = $("#allow_view").prop("checked");
         var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
         var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
         // var learning_plan_text = JSON.stringify(learning_plan.getContents());
@@ -628,6 +637,11 @@ $(document).ready(function(){
             email_notification = "1";
         }else{
             email_notification = "0";
+        }
+        if(allow_view){
+            allow_view = "1";
+        }else{
+            allow_view = "0";
         }
 
         var student_ids = [];
@@ -648,6 +662,7 @@ $(document).ready(function(){
             email_notification:email_notification,
             start_date:start_date,
             end_date:end_date,
+            allow_view:allow_view,
             learning_plan:tinymce.get('the_learning_plan').getContent(),
             assigned:student_ids.join(','),
             folder_names:"Engage,Explore,Explain,Extend,LAS",
@@ -1150,9 +1165,40 @@ $(document).ready(function(){
         var the_val = $(this).val();
         if(the_val=="classroom"){
             $(".notification_control").hide();
-        }else{
+            // $(".start_class").hide("slide", {direction: "right"}, 1000);
+            $(".start_class").animate({width:"0"},400,function(){
+                $(".start_class").hide();
+                $(".actions").not(".start_class").animate({width:"16.5%"});
+            });
+            
+            
+        }else if(the_val=="virtual"){
             $(".notification_control").show();
+            $(".actions").not(".start_class").animate({width:"14%"},400,function(){
+                $(".start_class").show();
+                $(".start_class").animate({width:"14%"});
 
+            });
+
+            $(".start_class").find("span").text("Start Meet");
+            $(".start_class").find("img").attr("src",image_resources+"google_meet.png");
+            $(".virtual_link").attr("href",google_meet);
+        }else if(the_val=="zoom"){
+            $(".notification_control").show();
+            $(".actions").not(".start_class").animate({width:"14%"},400,function(){
+                $(".start_class").show();
+                $(".start_class").animate({width:"14%"});
+
+            });
+
+            $(".start_class").find("span").text("Start Zoom");
+            $(".start_class").find("img").attr("src",image_resources+"zoom.png");
+            $(".virtual_link").attr("href",start_url);
+        }else{
+            $(".start_class").animate({width:"0"},400,function(){
+                $(".start_class").hide();
+                $(".actions").not(".start_class").animate({width:"16.5%"});
+            });
         }
 
     });

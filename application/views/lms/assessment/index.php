@@ -73,6 +73,7 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>Availability</th>
+                                        <th>Term</th>
                                         <th>Attempts</th>
                                         <th>Assigned By</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
@@ -88,15 +89,20 @@
                                             </td>
 
                                             <td class="mailbox-name">
-                                               <?php echo date("F d H:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("F d H:i A", strtotime($list_data['end_date'])); ?>
+                                               <?php echo date("F d h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("F d h:i A", strtotime($list_data['end_date'])); ?>
+                                            </td>
+                                            <td>
+                                                (Term)
                                             </td>
                                             <td class="mailbox-name">
 
                                                 <?php if($role=="student"): ?><?php print_r($list_data['student_attempt']) ?>/<?php endif; ?> <?php print_r($list_data['attempts']) ?>
                                             </td>
+
                                             <td>
                                                 <?php print_r($list_data['name']) ?> <?php print_r($list_data['surname']) ?>
                                             </td>
+                                            
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
