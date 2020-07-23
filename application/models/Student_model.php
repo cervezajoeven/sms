@@ -652,6 +652,7 @@ return false;
         $this->db->or_like('students.samagra_id', $searchterm);
         $this->db->or_like('students.roll_no', $searchterm);
         $this->db->or_like('students.admission_no', $searchterm);
+        $this->db->or_like('students.preferred_education_mode', $searchterm);
         $this->db->group_end();
         $this->db->order_by('students.id');
         $query = $this->db->get();
