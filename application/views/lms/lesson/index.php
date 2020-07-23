@@ -136,7 +136,7 @@
                                                 <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
                                             </td>
                                             <td class="mailbox-name">
-                                               <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
+                                               <?php echo date("M d, h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("M d, h:i A", strtotime($list_data['end_date'])); ?>
                                             </td>
                                             <td class="mailbox-name">
                                                 <center><?php echo $list_data['term']; ?></center>
