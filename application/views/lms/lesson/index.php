@@ -115,7 +115,7 @@
                                     <tr>
                                         <th>Title</th>
                                         <th><?php echo $this->lang->line('type'); ?></th>
-                                        <th>Availability</th>
+                                        <th>Date</th>
                                         <th>Term</th>
                                         <th>Subject</th>
                                         <th>Grade</th>
