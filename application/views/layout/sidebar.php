@@ -1122,6 +1122,8 @@ s<aside class="main-sidebar" id="alert2">
                                 ?>
                                 <li class="<?php echo set_Submenu('lms/googlemeet'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet"><i class="fa fa-angle-double-right"></i> Google Meet Settings</a></li>
 
+                                <li class="<?php echo set_Submenu('lms/zoom_accounts'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet/zoom_accounts"><i class="fa fa-angle-double-right"></i> Zoom Accounts</a></li>
+                                <li class="<?php echo set_Submenu('lms/zoom_assigning'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet/zoom_assigning"><i class="fa fa-angle-double-right"></i> Zoom Assigning</a></li>
                                 <li class="<?php echo set_Submenu('schsettings/index'); ?>"><a href="<?php echo base_url(); ?>schsettings"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('general_settings'); ?></a></li>
                                 <?php
                             }

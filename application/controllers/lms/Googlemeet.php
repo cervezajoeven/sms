@@ -33,6 +33,23 @@ class Googlemeet extends General_Controller {
         $this->load->view('layout/footer');
     }
 
+    function zoom_accounts() {
+        
+        $data['title'] = 'Zoom Accounts';
+        $data['role'] = $this->general_model->get_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects();
+
+        $data['list'] = $this->general_model->get_all_staff();
+
+        // echo '<pre>';print_r($data['staff']);exit();
+
+
+        $this->load->view('layout/header');
+        $this->load->view('lms/googlemeet/zoom_accounts', $data);
+        $this->load->view('layout/footer');
+    }
+
     function google_meet_updated(){
 
         $data['id'] = $_REQUEST['account_id'];
@@ -43,6 +60,27 @@ class Googlemeet extends General_Controller {
         $lesson_data['account_id'] = $_REQUEST['account_id'];
         $lesson_data['google_meet'] = $_REQUEST['google_meet'];
         $result = $this->lesson_model->lms_update("lms_lesson",$lesson_data,"account_id");
+        if ($result)
+        {
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+            echo json_encode($array);
+        }
+        else 
+        {
+            $msg   = "There is something Wrong";
+            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+            echo json_encode($array);
+        }
+    }
+
+    function zoom_updated(){
+
+        $data['id'] = $_REQUEST['account_id'];
+        $data['zoom'] = $_REQUEST['zoom'];
+
+        $result = $this->lesson_model->lms_update("staff",$data);
+
         if ($result)
         {
             $msg   = $this->lang->line('success_message');

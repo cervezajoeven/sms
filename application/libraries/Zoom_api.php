@@ -26,9 +26,14 @@ class Zoom_api {
         }
     }
 
-    protected function sendRequest($data) {
+    protected function sendRequest($data,$zoom_email) {
+        if($zoom_email=="rmorancil01@campuscloudph.com"){
+            $request_url = 'https://api.zoom.us/v2/users/me/meetings';
+        }else{
+            $request_url = 'https://api.zoom.us/v2/users/'.$zoom_email.'/meetings';
+        }
 
-        $request_url = 'https://api.zoom.us/v2/users/me/meetings';
+
         $headers = array(
             'authorization: Bearer ' . $this->generateJWTKey(),
             'content-type: application/json',
@@ -66,8 +71,9 @@ class Zoom_api {
 
         $post_time = $data['date'];
         $start_time = date("Y-m-d\TH:i:s", strtotime($post_time));
-        
+        $data['join_before_host'] = true;
         $createAMeetingArray = array();
+
         if (!empty($data['alternative_host_ids'])) {
             if (count($data['alternative_host_ids']) > 1) {
                 $alternative_host_ids = implode(",", $data['alternative_host_ids']);
@@ -80,6 +86,7 @@ class Zoom_api {
         $createAMeetingArray['type'] = !empty($data['type']) ? $data['type'] : 2; //Scheduled
         $createAMeetingArray['start_time'] = $start_time;
         $createAMeetingArray['timezone'] = $data['timezone'];
+        $createAMeetingArray['schedule_for'] = $data['zoom_email'];
         $createAMeetingArray['password'] = !empty($data['password']) ? $data['password'] : "";
         $createAMeetingArray['duration'] = !empty($data['duration']) ? $data['duration'] : 60;
         $createAMeetingArray['settings'] = array(
@@ -91,7 +98,9 @@ class Zoom_api {
             'auto_recording' => !empty($data['option_auto_recording']) ? $data['option_auto_recording'] : "none",
             'alternative_hosts' => isset($alternative_host_ids) ? $alternative_host_ids : "",
         );
-        return $this->sendRequest($createAMeetingArray);
+        $zoom_email = $data['zoom_email'];
+
+        return $this->sendRequest($createAMeetingArray,$zoom_email);
     }
 
     public function deleteMeeting($meetingId) {

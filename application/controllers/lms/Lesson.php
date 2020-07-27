@@ -585,16 +585,22 @@ class Lesson extends General_Controller {
 
 
         $params = array(
-            'zoom_api_key' => "aIiAONgbR6SG_A1rC4Q2zw",
-            'zoom_api_secret' => "qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N",
+            'zoom_api_key' => "0NP_jYnjS5WXxW5NRTZc0g",
+            'zoom_api_secret' => "BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI",
         );
         $this->load->library('zoom_api', $params);
-
+        $account_data = $this->lesson_model->lms_get("staff",$lesson_data['account_id'],"id")[0];
+        if($account_data['zoom']){
+            $zoom_email = $account_data['zoom'];
+        }else{
+            $zoom_email = "rmorancil01@campuscloudph.com";
+        }
 
         $insert_array = array(
             'staff_id' => $lesson_data['account_id'],
             'title' => $lesson_data['name'],
             'date' => date('Y-m-d H:i:s'),
+            'zoom_email' => $zoom_email,
             'class_id' => 3,
             'section_id' => 63,
             'duration' => 60,
@@ -606,9 +612,8 @@ class Lesson extends General_Controller {
             'description' => "Zoom Class",
             'timezone' => $this->customlib->getTimeZone(),
         );
-
         $response = $this->zoom_api->createAMeeting($insert_array);
-
+        
         if ($response) {
             if (isset($response->id)) {
                 $insert_array['return_response'] = json_encode($response);
