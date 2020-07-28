@@ -393,7 +393,7 @@
                               </li>    
                           </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="margin-bottom: 400px">
 
                             <h3>Assign Date</h3>
                             <?php if($lesson['start_date'] == '0000-00-00 00:00:00'): ?>
