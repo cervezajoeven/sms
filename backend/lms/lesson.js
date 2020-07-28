@@ -1439,7 +1439,7 @@ function fetch_chat(){
 
 fetch_chat();
 setInterval(function(){
-    // fetch_chat();
+    fetch_chat();
 },5000);
 
 function send_chat(student_chat){
