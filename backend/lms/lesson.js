@@ -1403,7 +1403,6 @@ function fetch_chat(){
    
         success: function(data)
         {
-            console.log(data);
             var chats = JSON.parse(data);
             var chat_html = '';
             var user_type = '';
@@ -1441,6 +1440,7 @@ fetch_chat();
 setInterval(function(){
     fetch_chat();
 },5000);
+
 function send_chat(student_chat){
     var chat_url = $(url).val()+"send_chat";
     if(student_chat){
