@@ -31,8 +31,9 @@ $(document).ready(function(){
     }
     var the_learning_plan = tinymce.init({
         selector: '.tinymce',
-        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak paste',
         toolbar_mode: 'floating',
+        paste_data_images: true,
         height : "700",
     });
     var jstree = $('#jstree_demo_div').jstree({
