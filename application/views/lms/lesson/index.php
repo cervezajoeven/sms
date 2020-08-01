@@ -59,6 +59,7 @@
                                         <option value="junior">Junior Highschool</option>
                                         <option value="senior">Senior Highschool</option>
                                         <option value="tertiary">Tertiary</option>
+                                        <option value="all_levels">All Levels</option>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
