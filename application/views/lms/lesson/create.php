@@ -516,6 +516,7 @@
                                     <option <?php if($lesson['education_level'] == "junior"){echo "selected=''"; } ?> value="junior">Junior Highschool</option>
                                     <option <?php if($lesson['education_level'] == "senior"){echo "selected=''"; } ?> value="senior">Senior Highschool</option>
                                     <option <?php if($lesson['education_level'] == "tertiary"){echo "selected=''"; } ?> value="tertiary">Tertiary</option>
+                                    <option <?php if($lesson['education_level'] == "all"){echo "selected=''"; } ?> value="all_levels">All Levels</option>
                                 </select>
                                 
                             </div>
