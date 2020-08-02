@@ -40,9 +40,9 @@ class Googlemeet extends General_Controller {
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects();
 
-        $data['list'] = $this->general_model->get_all_staff();
-
-        // echo '<pre>';print_r($data['staff']);exit();
+        $data['list'] = $this->general_model->get_zoom_accounts();
+        
+        // echo '<pre>';print_r($data['list']);exit();
 
 
         $this->load->view('layout/header');

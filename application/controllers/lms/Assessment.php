@@ -375,7 +375,8 @@ class Assessment extends General_Controller {
 
     public function delete($id){
         $data['id'] = $id;
-        if($this->assessment_model->lms_delete("lms_assessment",$data)){
+        $data['deleted'] = 1;
+        if($this->assessment_model->lms_update("lms_assessment",$data)){
             redirect(site_url("lms/assessment/index"));
         }
     }

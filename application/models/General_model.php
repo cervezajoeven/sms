@@ -66,6 +66,25 @@ class General_model extends MY_Model {
     public function get_subjects(){
         return $this->db->select("*")->get("subjects")->result_array();   
     }
+
+    public function get_zoom_accounts(){
+
+        // $current_session = $this->setting_model->getCurrentSession();
+        // $userdata = $this->session->userdata();
+
+        // if(array_key_exists('student', $userdata)){
+        //     $account_id = $userdata['student']['student_id'];
+        // }else if(array_key_exists('admin', $userdata)){
+        //     $account_id = $userdata['admin']['id'];
+        // }else{ 
+        //     $account_id = 1;
+        // }
+        return $this->db->select("*")
+        ->order_by("date_created","desc")
+        ->get("lms_zoom_accounts")
+        ->result_array(); 
+        
+    }
         
 
 

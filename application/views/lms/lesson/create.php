@@ -140,6 +140,7 @@
         <input type="hidden" id="image_resources" value="<?php echo $resources.'images/' ?>" name="" />
         <input type="hidden" id="start_url" value="<?php echo $start_url ?>" name="" />
         <input type="hidden" id="google_meet" value="<?php echo $google_meet ?>" name="" />
+        <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
 
         <div id="myModal" class="modal">
 
@@ -403,7 +404,7 @@
                             <input type="hidden" name="" value="<?php echo $lesson['start_date'] ?>" class="start_date">
                             <input type="hidden" name="" value="<?php echo $lesson['end_date'] ?>" class="end_date">
                             <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
-                            <h3>Mode of Delivery</h3>
+                            <h3>Mode of Delivery <span class="zoom_email_used"></span></h3>
                             <div class="select-box">
             
                                 <label for="lesson_type" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
@@ -791,6 +792,54 @@
                 </div>
             </div>
             
+        </div>
+        <style type="text/css">
+          .zoom_modal_container{
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(255,255,255,.8);
+            top: 0;
+            z-index: 4;
+            transition: all 1s;
+          }
+          .zoom_modal{
+            width: 50%;
+            height: 400px;
+            /*background-color: white;*/
+            margin: 0 auto;
+            margin-top: 40px;
+            border-radius: 10px;
+          }
+          .modal_title{
+            padding: 10px;
+            text-align: center;
+          }
+          .modal_close{
+            display: none;
+            transition: all 1s;
+          }
+          .modal_open{
+            display: block;
+            transition: all 1s;
+          }
+          .zoom_modal_container h1{
+            color: black;
+            margin-top: 100px;
+            text-align: center;
+
+          }
+          .zoom_done{
+            background-color: green;
+          }
+        </style>
+        <div class="zoom_modal_container" style="display: none">
+          
+          <div class="zoom_modal">
+            <h1 class="zoom_label">Checking For Available Zoom Accounts</h1>
+            <img class="zoom_checking" style="width: 100%" src="<?php echo $resources.'images/zoom_loader.gif' ?>">
+            <button class="zoom_done">Done</button>
+          </div>
         </div>
 
         <script src="<?php echo $resources.'jquery-1.12.4.js'?>"></script>

@@ -55,7 +55,7 @@ class Lesson extends General_Controller {
     }
 
     function get_zoom_data($id=""){
-        echo "asdasd";
+
         // if($id){
         //     return $this->lesson_model->lms_get("conferences",$id,"id")[0];
         // }else{
@@ -131,8 +131,8 @@ class Lesson extends General_Controller {
             "name" => $_REQUEST['content_title'],
         );
 
-        $zoom_id = $this->add_lms_lesson($lesson_data);
-        $data['zoom_id'] = $zoom_id;
+        // $zoom_id = $this->add_lms_lesson($lesson_data);
+        // $data['zoom_id'] = $zoom_id;
 
         $id = $this->lesson_model->lms_create("lms_lesson",$data);
         
@@ -382,8 +382,8 @@ class Lesson extends General_Controller {
 
         $data['id'] = $id;
         $data['deleted'] = 1;
-
-        print_r($this->lesson_model->lms_update("lms_lesson",$data));
+        $this->lesson_model->lms_update("lms_lesson",$data);
+        // print_r();
 
         redirect(site_url()."lms/lesson/index/");
     
@@ -563,25 +563,25 @@ class Lesson extends General_Controller {
     
     public function fetch_chat(){
         
-        $lesson_id = $_REQUEST['lesson_id'];
-        $discussion = $this->discussion_model->lesson_discussion($lesson_id);
+        // $lesson_id = $_REQUEST['lesson_id'];
+        // $discussion = $this->discussion_model->lesson_discussion($lesson_id);
         
-        $new_discussion = [];
+        // $new_discussion = [];
         
-        foreach ($discussion as $key => $value) {
-            $profile = $this->general_model->get_account_name($value['account_id'],$value['account_type'])[0];
-            if($value['account_type']=="student"){
-                $discussion[$key]['firstname'] = $profile['firstname'];
-                $discussion[$key]['lastname'] = $profile['lastname'];
-            }else{
-                $discussion[$key]['firstname'] = $profile['name'];
-                $discussion[$key]['lastname'] = $profile['surname'];
-            }
+        // foreach ($discussion as $key => $value) {
+        //     $profile = $this->general_model->get_account_name($value['account_id'],$value['account_type'])[0];
+        //     if($value['account_type']=="student"){
+        //         $discussion[$key]['firstname'] = $profile['firstname'];
+        //         $discussion[$key]['lastname'] = $profile['lastname'];
+        //     }else{
+        //         $discussion[$key]['firstname'] = $profile['name'];
+        //         $discussion[$key]['lastname'] = $profile['surname'];
+        //     }
             
-            // print_r($discussion);
-        }
+        //     // print_r($discussion);
+        // }
 
-        echo json_encode($discussion);
+        // echo json_encode($discussion);
 
     }
 
@@ -591,22 +591,20 @@ class Lesson extends General_Controller {
 
 
         $params = array(
-            'zoom_api_key' => "0NP_jYnjS5WXxW5NRTZc0g",
-            'zoom_api_secret' => "BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI",
+            'zoom_api_key' => $lesson_data['zoom_api_key'],
+            'zoom_api_secret' => $lesson_data['zoom_api_secret'],
         );
         $this->load->library('zoom_api', $params);
         $account_data = $this->lesson_model->lms_get("staff",$lesson_data['account_id'],"id")[0];
-        if($account_data['zoom']){
-            $zoom_email = $account_data['zoom'];
-        }else{
-            $zoom_email = "rmorancil01@campuscloudph.com";
-        }
+        $title = $this->lesson_model->lms_get("lms_lesson",$lesson_data['lesson_id'],"id")[0]['lesson_name'];
+        $zoom_email = $lesson_data['zoom_email'];
+        
 
         $insert_array = array(
             'staff_id' => $lesson_data['account_id'],
-            'title' => $lesson_data['name'],
-            'date' => date('Y-m-d H:i:s'),
-            'zoom_email' => $zoom_email,
+            'title' => $title,
+            'date' => $lesson_data['start_date'],
+            'zoom_email' => trim($zoom_email),
             'class_id' => 3,
             'section_id' => 63,
             'duration' => 60,
@@ -618,8 +616,11 @@ class Lesson extends General_Controller {
             'description' => "Zoom Class",
             'timezone' => $this->customlib->getTimeZone(),
         );
+
         $response = $this->zoom_api->createAMeeting($insert_array);
-        
+        // print_r($insert_array);
+        // echo "response";
+        // print_r($response);
         if ($response) {
             if (isset($response->id)) {
                 $insert_array['return_response'] = json_encode($response);
@@ -637,6 +638,133 @@ class Lesson extends General_Controller {
         }
 
         return $zoom_id;
+    }
+
+    public function check_zoom_schedule(){
+
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
+        $lesson_id = $_POST['lesson_id'];
+        $account_id = $_POST['account_id'];
+
+        // $start_date = $_GET['start_date'];
+        // $end_date = $_GET['end_date'];
+        // $lesson_id = $_GET['lesson_id'];
+        $converted_start_date = date("Y-m-d",strtotime($start_date));
+        $converted_end_date = date("Y-m-d",strtotime($end_date));
+
+        $this->db->select("id,lesson_name,lesson_type,start_date,end_date,zoom_account_id");
+        $this->db->from("lms_lesson");
+        $this->db->or_where("start_date LIKE '%".$converted_start_date."%'");
+        $this->db->or_where("end_date LIKE '%".$converted_end_date."%'");
+        $this->db->where("id !=",$lesson_id);
+        $this->db->where("lesson_type","zoom");
+
+        // echo "<pre>";
+        // print_r($start_date);
+        // echo "\n";
+        // print_r($end_date);
+        // echo "\n";
+        // print_r($lesson_id);
+        // echo "\n";
+
+        $lesson_schedules = $this->db->get()->result_array();
+
+        // print_r($lesson_schedules);
+        $conflict_zoom_ids = array();
+
+        foreach ($lesson_schedules as $lesson_schedules_key => $lesson_schedules_value) {
+
+            if($lesson_id!=$lesson_schedules_value['id']){
+                if($lesson_schedules_value['lesson_type']=="zoom"){
+                    $startTime = strtotime($start_date);
+                    $endTime   = strtotime($end_date);
+                    // print_r($startTime);
+                    // echo "\n";
+                    // print_r($endTime);
+                    // echo "\n";
+                    // print_r($lesson_id);
+                    // echo "\n";
+                    $chkStartTime = strtotime($lesson_schedules_value['start_date']);
+                    $chkEndTime   = strtotime($lesson_schedules_value['end_date']);
+
+                    if($chkStartTime > $startTime && $chkEndTime < $endTime)
+                    {   #-> Check time is in between start and end time
+                        // echo "1 Time is in between start and end time";
+                        // print_r($lesson_schedules_value);
+                        // echo "<br>";
+                        if(!in_array($lesson_schedules_value['zoom_account_id'], $conflict_zoom_ids)){
+                            array_push($conflict_zoom_ids,$lesson_schedules_value['zoom_account_id']);
+                        }
+                    }elseif(($chkStartTime > $startTime && $chkStartTime < $endTime) || ($chkEndTime > $startTime && $chkEndTime < $endTime))
+                    {   #-> Check start or end time is in between start and end time
+                        // echo "2 ChK start or end Time is in between start and end time";
+                        // print_r($lesson_schedules_value);
+                        // echo "<br>";
+                        if(!in_array($lesson_schedules_value['zoom_account_id'], $conflict_zoom_ids)){
+                            array_push($conflict_zoom_ids,$lesson_schedules_value['zoom_account_id']);
+                        }
+                    }elseif($chkStartTime==$startTime || $chkEndTime==$endTime)
+                    {   #-> Check start or end time is at the border of start and end time
+                        // echo "3 ChK start or end Time is at the border of start and end time";
+                        // print_r($lesson_schedules_value);
+                        // echo "<br>";
+                        if(!in_array($lesson_schedules_value['zoom_account_id'], $conflict_zoom_ids)){
+                            array_push($conflict_zoom_ids,$lesson_schedules_value['zoom_account_id']);
+                        }
+                    }elseif($startTime < $chkStartTime && $endTime > $chkEndTime)
+                    {   #-> start and end time is in between  the check start and end time.
+                        // echo "4 start and end Time is overlapping  chk start and end time";
+                        // print_r($lesson_schedules_value);
+                        // echo "<br>";
+                        if(!in_array($lesson_schedules_value['zoom_account_id'], $conflict_zoom_ids)){
+                            array_push($conflict_zoom_ids,$lesson_schedules_value['zoom_account_id']);
+                        }
+                    }
+                }
+                
+            }
+            
+
+            
+        }
+        $this->db->select("id,email,api_key,api_secret");
+        $this->db->from("lms_zoom_accounts");
+        $this->db->where("owner","school");
+        if(!empty($conflict_zoom_ids)){
+            $this->db->where_not_in("id",$conflict_zoom_ids);
+        }
+        
+        $lms_zoom_accounts = $this->db->get()->result_array();
+
+        if(empty($lms_zoom_accounts)){
+            $json_encode = array("status"=>"full","message"=>"There is no available zoom account for this schedule.");
+            echo json_encode($json_encode);
+        }else{
+            
+            
+            $lesson_data['zoom_api_key'] = $lms_zoom_accounts[0]['api_key'];
+            $lesson_data['zoom_api_secret'] = $lms_zoom_accounts[0]['api_secret'];
+            $lesson_data['account_id'] = $account_id;
+            $lesson_data['lesson_id'] = $lesson_id;
+            $lesson_data['start_date'] = $start_date;
+            $lesson_data['zoom_email'] = $lms_zoom_accounts[0]['email'];
+            // print_r($lms_zoom_accounts);
+            $this->add_lms_lesson($lesson_data);
+            $lesson_update['id'] = $lesson_id;
+            $lesson_update['zoom_account_id'] = $lms_zoom_accounts[0]['id'];
+            $lesson_update['zoom_id'] = $this->add_lms_lesson($lesson_data);
+            $this->lesson_model->lms_update("lms_lesson",$lesson_update);
+
+            $json_encode = array("status"=>"success","message"=>"Successful! You are assigned to ".$lms_zoom_accounts[0]['email']);
+            $json_encode['zoom_email'] = $lms_zoom_accounts[0]['email'];
+            $json_encode['start_url'] = json_decode($this->lesson_model->lms_get("conferences",$lesson_update['zoom_id'],"id")[0]['return_response'])->start_url;
+            echo json_encode($json_encode);
+        }
+
+        
+        exit;
+
     }
 }
  

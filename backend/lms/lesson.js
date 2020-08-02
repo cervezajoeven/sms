@@ -15,6 +15,7 @@ $(document).ready(function(){
     var assigned = $("#assigned").val();
     var education_level = $("#education_level").val();
     var image_resources = $("#image_resources").val();
+    var account_id = $("#account_id").val();
     var start_url = $("#start_url").val();
     var google_meet = $("#google_meet").val();
     var checked_ids = [];
@@ -680,7 +681,7 @@ $(document).ready(function(){
             method:"POST",
             data: lesson_data,
         }).done(function(data) {
-            console.log(data);
+            // console.log(data);
         });
 
     }
@@ -1185,16 +1186,9 @@ $(document).ready(function(){
             $(".start_class").find("img").attr("src",image_resources+"google_meet.png");
             $(".virtual_link").attr("href",google_meet);
         }else if(the_val=="zoom"){
-            $(".notification_control").show();
-            $(".actions").not(".start_class").animate({width:"14%"},400,function(){
-                $(".start_class").show();
-                $(".start_class").animate({width:"14%"});
-
-            });
-
-            $(".start_class").find("span").text("Start Zoom");
-            $(".start_class").find("img").attr("src",image_resources+"zoom.png");
-            $(".virtual_link").attr("href",start_url);
+            $(".zoom_modal_container").show("slow","linear");
+            check_zoom_schedule();
+            
         }else{
             $(".start_class").animate({width:"0"},400,function(){
                 $(".start_class").hide();
@@ -1367,6 +1361,16 @@ $(document).ready(function(){
         change_detected();
         alert("Lesson has been assigned successfully");
     });
+
+    $(".date_range").change(function(e){
+    
+        if($("#lesson_type").val()=="zoom"){
+            if(confirm("Changing the schedule will remove you from the current slot. Are you sure you want to change the schedule?")){
+                change_detected();
+                check_zoom_schedule();
+            }
+        }
+    });
 });
 
 if($(".start_date").val()){
@@ -1382,8 +1386,8 @@ if($(".start_date").val()){
 
     $('.date_range').daterangepicker({
         timePicker: true,
-        startDate: moment().startOf('hour'),
-        endDate: moment().startOf('hour').add(24, 'hour'),
+        startDate: moment().startOf('hour').add(1, 'minute'),
+        endDate: moment().startOf('hour').add(1, 'hour'),
         locale: {
           format: 'MMMM DD hh:mm A'
         }
@@ -1438,9 +1442,9 @@ function fetch_chat(){
 
 
 fetch_chat();
-setInterval(function(){
-    fetch_chat();
-},5000);
+// setInterval(function(){
+//     fetch_chat();
+// },5000);
 
 function send_chat(student_chat){
     var chat_url = $(url).val()+"send_chat";
@@ -1469,7 +1473,50 @@ function send_chat(student_chat){
         }
     });
 }
+function check_zoom_schedule(){
+    var check_zoom_schedule_url = $(url).val()+"check_zoom_schedule";
+    var start_date = $(".date_range").data('daterangepicker').startDate.toDate();
+    var end_date = $(".date_range").data('daterangepicker').endDate.toDate();
 
+    start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
+    end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
+    $.ajax({
+        url: check_zoom_schedule_url,
+        type: "POST",
+        data: {
+            start_date:start_date,
+            end_date:end_date,
+            lesson_id:$(lesson_id).val(),
+            account_id:$(account_id).val(),
+        },
+   
+        success: function(data)
+        {
+
+            var the_data = JSON.parse(data);
+            $(".zoom_label").text(the_data.message);
+            if(the_data.status=="success"){
+                $(".zoom_email_used").text("("+the_data.zoom_email+")");
+                $(".notification_control").show();
+                $(".actions").not(".start_class").animate({width:"14%"},400,function(){
+                    $(".start_class").show();
+                    $(".start_class").animate({width:"14%"});
+
+                });
+
+                $(".start_class").find("span").text("Start Zoom");
+                $(".start_class").find("img").attr("src",$(image_resources).val()+"zoom.png");
+                $(".virtual_link").attr("href",the_data.start_url);
+            }else{
+
+            }
+            $(".zoom_modal_container").hide("slow","linear");
+        },
+        error: function(e){
+
+        }
+    });
+}
 $(".teacher_tools_button").click(function(){
     $(".teacher_tools").toggle();
     var width = document.getElementById('teacher_tools').offsetWidth;
@@ -1477,4 +1524,10 @@ $(".teacher_tools_button").click(function(){
     $(".student_view_content").toggle();
     $("#classroomscreen").css("width",width+70);
 });
+
+
+    
+
+
+
 

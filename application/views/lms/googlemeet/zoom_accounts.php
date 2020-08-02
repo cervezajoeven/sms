@@ -16,7 +16,7 @@
                     <div class="box-header ptbnull">
                         <h3 class="box-title titlefix">School Zoom Accounts API</h3>
                         <div class="box-tools pull-right">
-
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-online-timetable"><i class="fa fa-plus"></i> <?php echo $this->lang->line('add'); ?> </button>
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
@@ -32,7 +32,13 @@
                                 <thead>
                                     <tr>
                                         <th>Zoom Name</th>
-                                        <th></th>
+                                        <th>Email *</th>
+                                        <th>API KEY *</th>
+                                        <th>API SECRET *</th>
+                                        <th>Type</th>
+                                        <th>Owner</th>
+                                        <th>Times Used</th>
+                                        <th>Action</th>
 
                                     </tr>
                                 </thead>
@@ -40,10 +46,38 @@
                                     <?php foreach ($list as $list_key => $list_data): ?>
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['name']?> <?php echo $list_data['surname']?>
+                                                <?php echo $list_data['name']?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <input style="width: 100%" type="text" class="google_meet" staff_id="<?php echo $list_data['id']?>" value="<?php echo $list_data['zoom']?>" name="">
+                                                <?php echo $list_data['email']?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php if($list_data['editable']==0): ?>
+                                                    *********
+                                                <?php else: ?>
+                                                    <?php echo $list_data['api_key']?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php if($list_data['editable']==0): ?>
+                                                    *********
+                                                <?php else: ?>
+                                                    <?php echo $list_data['api_secret']?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo ucfirst($list_data['zoom_type'])?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo ucfirst($list_data['owner']) ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['usage']?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php if($list_data['editable']==1): ?>
+                                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-online-timetable">Delete <i class="fa fa-trash"></i></button>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
@@ -76,6 +110,105 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+
+<div class="modal fade" id="modal-online-timetable">
+    <div class="modal-dialog">
+        <form id="form-addconference" action="<?php echo site_url('admin/conference/addByOther'); ?>" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Zoom Account</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" id="password" name="password">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="title">Zoom Name<small class="req">*</small></label>
+                            <input type="text" class="form-control" id="title" name="title">
+                            <span class="text text-danger" id="title_error"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="zoom_email">Zoom Email <small class="req"> *</small></label>
+                            <input type="email" class="form-control" id="zoom_email" name="title">
+                            <span class="text text-danger" id="title_error"></span>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="zoom_email">API Key <small class="req"> *</small></label>
+                            <input type="email" class="form-control" id="zoom_email" name="title">
+                            <span class="text text-danger" id="title_error"></span>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="zoom_email">API Secret <small class="req"> *</small></label>
+                            <input type="email" class="form-control" id="zoom_email" name="title">
+                            <span class="text text-danger" id="title_error"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="class">Zoom Type <small class="req"> *</small></label>
+                            <select  id="class_id" name="class_id" class="form-control" >
+                                <option value="paid">Paid</option>
+                                <option value="free">Free (Meetings are 40 Minutes only)</option>
+                   
+                            </select>
+                            <span class="text text-danger" id="class_error"></span>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="class"><?php echo $this->lang->line('staff'); ?><small class="req"> *</small></label>
+                            <select  id="staff_id" name="staff_id" class="form-control" >
+                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                            </select>
+                            <span class="text text-danger" id="class_error"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="class"><?php echo $this->lang->line('class'); ?> <small class="req"> *</small></label>
+                            <select  id="class_id" name="class_id" class="form-control" >
+                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                <?php
+                                foreach ($classlist as $class) {
+                                    ?>
+                                    <option value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                            <span class="text text-danger" id="class_error"></span>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="section"><?php echo $this->lang->line('section'); ?><small class="req"> *</small></label>
+                            <select  id="section_id" name="section_id" class="form-control" >
+                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                            </select>
+                            <span class="text text-danger" id="section_error"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label for="class"><?php echo $this->lang->line('host_video'); ?><small class="req"> *</small></label>
+                            <label class="radio-inline"><input type="radio" name="host_video"  value="1" checked><?php echo $this->lang->line('enable'); ?></label>
+                            <label class="radio-inline"><input type="radio" name="host_video" value="0" ><?php echo $this->lang->line('disabled'); ?> </label>
+                            <span class="text text-danger" id="class_error"></span>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label for="class"><?php echo $this->lang->line('client_video'); ?><small class="req"> *</small></label>
+                            <label class="radio-inline"><input type="radio" name="client_video"  value="1" checked><?php echo $this->lang->line('enable'); ?></label>
+                            <label class="radio-inline"><input type="radio" name="client_video" value="0" ><?php echo $this->lang->line('disabled'); ?></label>
+                            <span class="text text-danger" id="class_error"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="description"><?php echo $this->lang->line('description') ?></label>
+                            <textarea class="form-control" name="description" id="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Saving..."><?php echo $this->lang->line('save') ?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
     function google_meet_open(url){
