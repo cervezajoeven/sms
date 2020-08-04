@@ -70,7 +70,6 @@ class Assessment_model extends MY_Model {
         $data['id'] = $id;
         $data['deleted'] = 1;
         
-        $this->db->where('id',$id);
         $this->assessment_model->update($table,$data);
         return true;
     }

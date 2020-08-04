@@ -113,7 +113,7 @@
                                                     <a data-placement="left" href="<?php echo site_url('lms/assessment/edit/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
                                                             <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a data-placement="left" href=""class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
+                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/delete/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
 
@@ -269,6 +269,10 @@
             window.location.replace(url);
 
         }
+        
+    }
+    function delete_assessment(){
+        alert("fire");
         
     }
 </script>
