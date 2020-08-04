@@ -36,13 +36,16 @@ class Lesson extends General_Controller {
 
             $this->load->view('layout/student/header');
             $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
-
+            
             foreach ($data['list'] as $key => $value) {
                 if($value['zoom_id']){
                     $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
                     $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
 
                 }
+                $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
                 
 
             }
