@@ -60,18 +60,21 @@ class Googlemeet extends General_Controller {
         $lesson_data['account_id'] = $_REQUEST['account_id'];
         $lesson_data['google_meet'] = $_REQUEST['google_meet'];
         $result = $this->lesson_model->lms_update("lms_lesson",$lesson_data,"account_id");
-        if ($result)
-        {
-            $msg   = $this->lang->line('success_message');
+
+        $msg   = $this->lang->line('success_message');
             $array = array('status' => 'success', 'error' => '', 'message' => $msg);
             echo json_encode($array);
-        }
-        else 
-        {
-            $msg   = "There is something Wrong";
-            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
-            echo json_encode($array);
-        }
+        // print_r($result);
+        // if ($result)
+        // {
+            
+        // }
+        // else 
+        // {
+        //     $msg   = "There is something Wrong";
+        //     $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+        //     echo json_encode($array);
+        // }
     }
 
     function zoom_updated(){
