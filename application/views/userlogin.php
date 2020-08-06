@@ -14,7 +14,17 @@
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/usertemplate/assets/css/style.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>backend/usertemplate/assets/css/jquery.mCustomScrollbar.min.css">
         <style type="text/css">
-            body{background:linear-gradient(to right,#676767 0,#dadada 100%);}
+            body{
+                background-image: url("<?php echo base_url(); ?>uploads/gallery/media/CampusCloudLMS.jpg");
+                background-position: center; /* Center the image */
+                  background-repeat: no-repeat; /* Do not repeat the image */
+                  background-size: cover; /* Resize the background image to cover the entire container */
+                /*background:linear-gradient(to right,#676767 0,#dadada 100%);*/
+            }
+            .logowidth img{
+                width: auto;
+                height: 65px;
+            }
             .loginbg {
             background-image: url("<?php echo base_url(); ?>uploads/gallery/media/background%20for%20stud%20parent%20login.png");
             width: 100%;

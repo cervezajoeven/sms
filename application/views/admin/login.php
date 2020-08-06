@@ -30,6 +30,17 @@
       #form-password::placeholder {
         color: black;
       }
+      body{
+            background-image: url("<?php echo base_url(); ?>uploads/gallery/media/CampusCloudLMS.jpg");
+            background-position: center; /* Center the image */
+                background-repeat: no-repeat; /* Do not repeat the image */
+                background-size: cover; /* Resize the background image to cover the entire container */
+            /*background:linear-gradient(to right,#676767 0,#dadada 100%);*/
+        }
+      .logowidth img{
+                width: auto;
+                height: 65px;
+            }
         .loginbg {
             background-image: url("<?php echo base_url(); ?>uploads/gallery/media/background%20for%20school%20staff.png");
             width: 100%;
