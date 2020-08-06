@@ -342,7 +342,7 @@
                     var filesize = fileInput.files[x].size;
                     
                     if (allowedExtensions.exec(fnamepath))
-                        if (filesize > 500000)
+                        if (filesize > 5000000)
                             errorMsg('Only files with 500kb below is allowed');
                         else
                             fd.append("files[]", fileInput.files[x]);
