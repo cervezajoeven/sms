@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>LMS Lesson Creator</title>
+
+        <title>LMS - <?php echo $lesson['lesson_name'] ?></title>
         <link rel="stylesheet" href="<?php echo $resources.'jquery-ui.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'lesson.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'jquery.magnify.css' ?>">
@@ -708,11 +709,21 @@
         
 
         <div class="student_view student_view_close">
-            
+            <style type="text/css">
+              /*.student_view_container{
+                width: 100%;
+              }
+              .button_navigation{
+                width: 10%;
+              }
+              .student_view_title{
+                width: 30%;
+              }*/
+            </style>
             <div class="student_view_container">
 
                 <div class="student_view_navigation">
-                    <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Previous</div>
+                    <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div>
                     <div class="student_view_buttons student_view_title">Title</div>
                     <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
                     

@@ -89,13 +89,27 @@ class Lesson_model extends MY_Model {
     }
 
     public function student_lessons($account_id=""){
-
+        date_default_timezone_set('Asia/Manila');
         $this->db->select("*");
-        // $this->db->join("conferences","conferences.id = lms_lesson.zoom_id");
         $this->db->where("FIND_IN_SET('".$account_id."', lms_lesson.assigned) !=", 0);
         $this->db->where('start_date <=', date('Y-m-d H:i:s'));
         $this->db->where('end_date >=', date('Y-m-d H:i:s'));
         $this->db->where('lms_lesson.deleted',0);
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+    public function upcoming_lessons($account_id=""){
+        date_default_timezone_set('Asia/Manila');
+        $this->db->select("*");
+        $this->db->where("FIND_IN_SET('".$account_id."', lms_lesson.assigned) !=", 0);
+        $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+        $this->db->or_where('start_date >', date('Y-m-d H:i:s'));
+        $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.start_date',"asc");
+
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();

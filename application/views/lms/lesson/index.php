@@ -97,7 +97,16 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix">View/Edit My Lesson</h3>
+                        <?php if($role=="student"): ?>
+                            <?php if($lesson_query=="upcoming"): ?>
+                                <h3 class="box-title titlefix">Upcoming Lessons</h3>
+                            <?php else: ?>
+                                <h3 class="box-title titlefix">Recent Lessons</h3>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <h3 class="box-title titlefix">View/Edit My Lesson</h3>
+
+                        <?php endif; ?>
                         <div class="box-tools pull-right">
 
                         </div><!-- /.box-tools -->
@@ -157,7 +166,7 @@
                                                 <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
                                             </td>
                                             <td>
-                                                <select class="lesson_status" lesson_id="<?php echo $list_data['id'] ?>">
+                                                <select class="lesson_status" lesson_id="<?php echo $list_data['id'] ?>" <?php if($role=="student"): ?> readonly="" <?php endif; ?> >
                                                     <option value="awaiting">Awaiting</option>
                                                     <option value="cancelled">Cancelled</option>
                                                     <option value="completed">Completed</option>

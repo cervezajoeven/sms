@@ -17,7 +17,7 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/lesson');
     }
 
-    function index() {
+    function index($lesson_query="upcoming") {
         
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
@@ -34,15 +34,21 @@ class Lesson extends General_Controller {
             
         }else{
 
+            $data['lesson_query'] = $lesson_query;
             $this->load->view('layout/student/header');
-            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
-            
+            if($lesson_query == "upcoming"){
+                $data['list'] = $this->lesson_model->upcoming_lessons($this->general_model->get_account_id());
+
+            }else{
+
+            }
             foreach ($data['list'] as $key => $value) {
                 if($value['zoom_id']){
                     $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
                     $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
 
                 }
+                
                 $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
                 $data['list'][$key]['teacher_name'] = $teacher_info['name'];
                 $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
@@ -839,6 +845,9 @@ class Lesson extends General_Controller {
             $lesson_data['zoom_email'] = $available_zoom[0]['email'];
             $conference_id = $this->add_lms_lesson($lesson_data);
             $conference = $this->lesson_model->lms_get("conferences",$conference_id,"id")[0];
+            $lesson_update['id'] = $lesson_id;
+            $lesson_update['zoom_id'] = $conference_id;
+            $this->lesson_model->lms_update("lms_lesson",$lesson_update);
             // print_r(json_decode($conference['return_response'])->start_url);
             $data['zoom_link'] = json_decode($conference['return_response'])->start_url;
             $data['zoom_account_status'] = "You are now assigned to ".$available_zoom[0]['email'];
