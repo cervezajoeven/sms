@@ -22,7 +22,6 @@ class Googlemeet extends General_Controller {
         $data['role'] = $this->general_model->get_role();
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects();
-
         $data['list'] = $this->general_model->get_all_staff();
 
         // echo '<pre>';print_r($data['staff']);exit();

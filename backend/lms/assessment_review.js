@@ -203,7 +203,7 @@ $(document).ready(function(){
 				// console.log(short_answer_correct_array);
 				var the_options = $(".option-container-actual").eq(key).find(".option");
 				$(the_options).find(".option_type").find("input").val(value.answer);
-				if(short_answer_correct_array.indexOf(value.answer.toLowerCase()) != -1){
+				if(short_answer_correct_array.indexOf(value.answer.toLowerCase().trim()) != -1){
 					score += 1;
 					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
 				}else{

@@ -122,6 +122,7 @@
                                         <th>Grade</th>
                                         <th>Education Level</th>
                                         <th>Shared</th>
+                                        <th>Status</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -154,6 +155,13 @@
                                             </td>
                                             <td>
                                                 <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
+                                            </td>
+                                            <td>
+                                                <select class="lesson_status" lesson_id="<?php echo $list_data['id'] ?>">
+                                                    <option value="awaiting">Awaiting</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                    <option value="completed">Completed</option>
+                                                </select>
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
@@ -230,6 +238,12 @@
             content: function () {
                 return $(this).closest('td').find('.fee_detail_popover').html();
             }
+        });
+
+        $(".lesson_status").change(function(){
+            var lesson_status_val = $(this).val();
+            
+            alert($(this).val());
         });
         
         

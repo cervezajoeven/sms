@@ -621,7 +621,8 @@ s<aside class="main-sidebar" id="alert2">
                      $this->rbac->hasPrivilege('sms', 'can_view') ||  $this->rbac->hasPrivilege('email_sms_log', 'can_view'))) { ?>
                     <li class = "treeview <?php echo set_Topmenu('Communicate'); ?>">
                         <a href = "#"><i class="fa fa-bullhorn ftlayer"></i> <span><?php echo $this->lang->line('communicate'); ?></span> <i class="fa fa-angle-left pull-right"></i></a>
-                        <ul class="treeview-menu">                            
+                        <ul class="treeview-menu">
+                            <li class="<?php echo set_Submenu('notification/index'); ?>"><a href="<?php echo base_url(); ?>admin/conference"><i class="fa fa-angle-double-right"></i> Staff Video Conference </a></li>                          
                             <?php
                             if ($this->rbac->hasPrivilege('notice_board', 'can_view')) {
                                 ?>
@@ -1123,7 +1124,6 @@ s<aside class="main-sidebar" id="alert2">
                                 <li class="<?php echo set_Submenu('lms/googlemeet'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet"><i class="fa fa-angle-double-right"></i> Google Meet Settings</a></li>
 
                                 <li class="<?php echo set_Submenu('lms/zoom_accounts'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet/zoom_accounts"><i class="fa fa-angle-double-right"></i> Zoom Accounts</a></li>
-                                <li class="<?php echo set_Submenu('lms/zoom_assigning'); ?>"><a href="<?php echo base_url('lms/'); ?>googlemeet/zoom_assigning"><i class="fa fa-angle-double-right"></i> Zoom Assigning</a></li>
                                 <li class="<?php echo set_Submenu('schsettings/index'); ?>"><a href="<?php echo base_url(); ?>schsettings"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('general_settings'); ?></a></li>
                                 <?php
                             }

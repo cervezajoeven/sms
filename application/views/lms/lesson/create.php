@@ -785,10 +785,7 @@
                       <textarea class="chat_text student_chat" name="" style="bottom: 0;width: 96%;"></textarea>
                       <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="width: 98%;">Send</button>
                     </div>
-                      <button>Full Screen</button>
-
-                    
-                
+                    <button>Full Screen</button>
                 </div>
             </div>
             
@@ -852,7 +849,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script src="<?php echo $resources.'lesson_1.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_3.js'?>"></script>
         <script type="text/javascript">
           
         </script>
