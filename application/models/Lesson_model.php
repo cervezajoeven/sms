@@ -105,7 +105,6 @@ class Lesson_model extends MY_Model {
         $this->db->select("*");
         $this->db->where("FIND_IN_SET('".$account_id."', lms_lesson.assigned) !=", 0);
         $this->db->where('start_date LIKE', date('Y-m-d'));
-        $this->db->where('end_date >=', date('Y-m-d H:i:s'));
         $this->db->where('lms_lesson.deleted',0);
         $this->db->order_by('lms_lesson.start_date',"asc");
 
