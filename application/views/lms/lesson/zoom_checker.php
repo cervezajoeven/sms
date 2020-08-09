@@ -29,14 +29,14 @@
 			
 			<h1><?php echo $zoom_email; ?></h1>
 			<p class="lead">You are now assigned to <b><?php echo $zoom_email; ?></b>. Please click "<b>Start Zoom Meeting</b>" to start class. Please refer to the <b>FAQ's</b> below of this page if any issues encountered.</p>
-
+			<p><a class="btn btn-lg btn-success" href="<?php echo $zoom_link ?>" target="_blank" role="button">Start Zoom Meeting</a></p>
 		<?php else: ?>
 			<h1><?php echo $zoom_account_status; ?></h1>
-			<a href=""><button>Refresh Page this Page.</button></a>
+			<p><a class="btn btn-lg btn-warning" href="" role="button">Refresh this Page</a></p>
 		<?php endif; ?>
 			
         
-        <p><a class="btn btn-lg btn-success" href="<?php echo $zoom_link ?>" target="_blank" role="button">Start Zoom Meeting</a></p>
+        
         <p class="lead">This is the new update for LMS Zoom Implementation. We upgraded the algorithm and User Friendliness of the interface for the teachers. There are no changes as of the method of using Zoom in the LMS please feel free to use it as the same as before.</p>
       </div>
 
