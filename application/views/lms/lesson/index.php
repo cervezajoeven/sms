@@ -124,19 +124,18 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-
                                         <th>Teacher</th>
-
                                         <th><?php echo $this->lang->line('type'); ?></th>
                                         <th>Date</th>
                                         <th>Term</th>
                                         <th>Subject</th>
                                         <th>Grade</th>
-                                        <th>Education Level</th>
+                                        <!-- Remove by JSS -->
+                                        <!-- <th>Education Level</th> -->
+                                        <!-- Remove by JSS -->
                                         <th>Shared</th>
                                         <th>Status</th>
-                                        <th class="text-right"><?php echo $this->lang->line('action'); ?>
-                                        </th>
+                                        <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -159,15 +158,15 @@
                                                 <center><?php echo $list_data['term']; ?></center>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['name']; ?>
+                                                <?php echo $list_data['subject_name']; ?>
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['class']; ?>
                                             </td>
                                             
-                                            <td class="mailbox-name">
+                                            <!-- <td class="mailbox-name">
                                                 <?php echo str_replace("_", " ", strtoupper($list_data['education_level'])); ?>
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
                                             </td>

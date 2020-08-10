@@ -33,7 +33,7 @@ class Lesson_model extends MY_Model {
 
     public function admin_lessons($account_id=""){
 
-        $this->db->select("*, lms_lesson.id as id");
+        $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
         $this->db->join("staff","staff.id = lms_lesson.account_id");
