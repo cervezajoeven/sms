@@ -401,10 +401,14 @@ class Lesson extends General_Controller {
         //contents
     }
 
-    public function send_email_notification(){
-        $student_ids = $_REQUEST['student_ids'];
-        $lesson_id = $_REQUEST['lesson_id'];
-        $email_notification = $_REQUEST['email_notification'];
+    public function send_email_notification($lesson_id,$email_notification,$student_ids){
+        if(!$lesson_id){
+            $student_ids = $_REQUEST['student_ids'];
+            $lesson_id = $_REQUEST['lesson_id'];
+            $email_notification = $_REQUEST['email_notification'];
+        }else{
+            $student_ids = explode(",",urldecode($student_ids));
+        }
 
         // $student_ids = array("852","854","863","900");
         // $lesson_id = "lms_lesson_online_159670778980833632";
@@ -435,6 +439,7 @@ class Lesson extends General_Controller {
 
                 $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
             }
+            echo "<center><h1>Success! You may exit this page now.</h1></center>";
         }
     }
 
