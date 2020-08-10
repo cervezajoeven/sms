@@ -38,7 +38,7 @@ class Lesson_model extends MY_Model {
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
         $this->db->join("staff","staff.id = lms_lesson.account_id");
         $this->db->where('lms_lesson.deleted',0);
-        $this->db->order_by('lms_lesson.date_created',"desc");
+        $this->db->order_by('lms_lesson.start_date',"desc");
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();
