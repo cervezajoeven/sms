@@ -319,11 +319,7 @@ class Lesson extends General_Controller {
         $data['allow_view'] = $_REQUEST['allow_view'];
         
         
-        if($data['email_notification']=="1"){
-            $sender_details = array('student_id' => 1, 'contact_no' => '+639953230083', 'email' => 'cervezajoeven@gmail.com');
-            $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
-
-        }
+        
 
 
         print_r($this->lesson_model->lms_update("lms_lesson",$data));
@@ -403,6 +399,31 @@ class Lesson extends General_Controller {
 
         // }
         //contents
+    }
+
+    public function send_email_notification(){
+        $student_ids = $_REQUEST['student_ids'];
+        $lesson_id = $_REQUEST['lesson_id'];
+        $email_notification = $_REQUEST['email_notification'];
+
+        $student_ids = array(852,854,863,900);
+        $lesson_id = "lms_lesson_online_159689933992554988";
+        $email_notification = "true";
+        echo "<pre>";
+
+
+
+
+        if($email_notification=="true"){
+            foreach ($student_ids as $student_id_key => $student_id_value) {
+                $students = $this->lesson_model->lms_get("students",$student_id_value,"id")[0];
+
+                $sender_details['id'] = $student_id_value;
+                $sender_details['email'] = "cervezajoeven@gmail.com";
+
+                $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+            }
+        }
     }
 
     public function delete($id){

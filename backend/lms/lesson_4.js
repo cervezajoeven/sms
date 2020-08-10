@@ -1384,6 +1384,38 @@ $(document).ready(function(){
         //     }
         // }
     });
+
+    function send_email_notification(){
+        var send_email_notification_url = $("#url").val()+"send_email_notification";
+        var student_ids = [];
+        $.each(jstree.jstree("get_checked",null,true),function(key,value){
+            
+            if(value.includes('student')){
+                student_id = value.replace('student_','');
+                
+                student_ids.push(student_id);
+            }
+        });
+        $.ajax({
+            url: send_email_notification_url,
+            type: "POST",
+            data: {
+                student_ids:student_ids,
+                lesson_id:$("#lesson_id").val(),
+                email_notification:$("#email_notification").prop("checked"),
+            },
+       
+            success: function(data)
+            {
+                console.log(data);
+                var the_data = JSON.parse(data);
+               
+            },
+            error: function(e){
+
+            }
+        });
+    }
 });
 
 if($(".start_date").val()){
@@ -1530,54 +1562,7 @@ function check_zoom_schedule(){
         }
     });
 }
-function send_email_notification(){
-    var send_email_notification_url = $(url).val()+"send_email_notification";
-    var student_ids = [];
-    $.each(jstree.jstree("get_checked",null,true),function(key,value){
-        
-        if(value.includes('student')){
-            student_id = value.replace('student_','');
-            
-            student_ids.push(student_id);
-        }
-    });
-    // $.ajax({
-    //     url: send_email_notification_url,
-    //     type: "POST",
-    //     data: {
-    //         start_date:start_date,
-    //         end_date:end_date,
-    //         lesson_id:$(lesson_id).val(),
-    //         account_id:$(account_id).val(),
-    //     },
-   
-    //     success: function(data)
-    //     {
-    //         console.log(data);
-    //         var the_data = JSON.parse(data);
-    //         $(".zoom_label").text(the_data.message);
-    //         if(the_data.status=="success"){
-    //             $(".zoom_email_used").text("("+the_data.zoom_email+")");
-    //             $(".notification_control").show();
-    //             $(".actions").not(".start_class").animate({width:"14%"},400,function(){
-    //                 $(".start_class").show();
-    //                 $(".start_class").animate({width:"14%"});
 
-    //             });
-
-    //             $(".start_class").find("span").text("Start Zoom");
-    //             $(".start_class").find("img").attr("src",$(image_resources).val()+"zoom.png");
-    //             $(".virtual_link").attr("href",the_data.start_url);
-    //         }else{
-
-    //         }
-    //         $(".zoom_modal_container").hide("slow","linear");
-    //     },
-    //     error: function(e){
-
-    //     }
-    // });
-}
 $(".teacher_tools_button").click(function(){
     $(".teacher_tools").toggle();
     var width = document.getElementById('teacher_tools').offsetWidth;

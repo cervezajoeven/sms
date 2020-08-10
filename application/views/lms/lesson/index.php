@@ -188,8 +188,17 @@
                                                     <?php if($list_data['lesson_type'] == "zoom"): ?>
                                                         <?php if($list_data['student_zoom_link']): ?>
                                                             <a data-placement="left" href="<?php echo $list_data['student_zoom_link'];?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" target="_blank">
-                                                                    <i class="fa fa-sign-in"></i> Monitor
+                                                                    <i class="fa fa-sign-in"></i> Join Class
                                                             </a>
+
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                    <?php if($list_data['lesson_type'] == "virtual"): ?>
+                                                        <?php if($list_data['student_zoom_link']): ?>
+                                                            <a data-placement="left" href="<?php echo $list_data['student_zoom_link'];?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" target="_blank">
+                                                                    <i class="fa fa-sign-in"></i> Join Class
+                                                            </a>
+                                                        
                                                         <?php endif; ?>
                                                     <?php endif; ?>
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
