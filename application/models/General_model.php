@@ -38,8 +38,8 @@ class General_model extends MY_Model {
             $account_id = $userdata['student']['student_id'];
         }else if(array_key_exists('admin', $userdata)){
             $account_id = $userdata['admin']['id'];
-        }else{ 
-            $account_id = 1;
+        }else{
+            redirect(base_url('site/userlogin'));
         }
         return $account_id;
         
