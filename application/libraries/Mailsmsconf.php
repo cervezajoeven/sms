@@ -108,9 +108,10 @@ class Mailsmsconf
             elseif ($send_for == "lesson_assigned") {
 
                 $this->console_log($chk_mail_sms['template']);
-                
-                if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") 
-                    $this->CI->mailgateway->sentRegisterMail($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template']);
+
+                if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") {
+                    $this->CI->mailgateway->send_lesson_details($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template'],$sender_details);
+                }
             }
             elseif ($send_for == "assessment_assigned") {
 

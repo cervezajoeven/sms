@@ -503,10 +503,13 @@ class Conference extends Admin_Controller {
 
 
             $api_type = 'global';
-
+            $this->db->select("id,email,api_key,api_secret");
+            $this->db->from("lms_zoom_accounts");
+            $this->db->where("owner","admin");
+            $zoom_data = $this->db->get()->result_array()[0];
             $params = array(
-                'zoom_api_key' => "aIiAONgbR6SG_A1rC4Q2zw",
-                'zoom_api_secret' => "qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N",
+                'zoom_api_key' => $zoom_data['api_key'],
+                'zoom_api_secret' => $zoom_data['api_secret'],
             );
             $this->load->library('zoom_api', $params);
 

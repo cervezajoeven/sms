@@ -67,6 +67,69 @@ class Zoom_api {
         return JWT::encode($token, $secret);
     }
 
+
+    public function checkStatus(){
+
+        $request_url = 'https://api.zoom.us/v2/metrics/meetings/94457704984/participants';
+
+
+        $headers = array(
+            'authorization: Bearer ' . $this->generateJWTKey(),
+            'content-type: application/json',
+        );
+
+        $postFields = json_encode($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $request_url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if (!$response) {
+
+            return false;
+        }
+
+        return json_decode($response);
+    }
+
+    public function check_live(){
+
+        $request_url = 'https://api.zoom.us/v2/metrics/meetings';
+
+
+        $headers = array(
+            'authorization: Bearer ' . $this->generateJWTKey(),
+            'content-type: application/json',
+        );
+
+        $postFields = json_encode($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $request_url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if (!$response) {
+
+            return false;
+        }
+
+        return json_decode($response);
+    }
+
+    public function getJWT(){
+        return $this->generateJWTKey();
+    }
+
     public function createAMeeting($data = array()) {
 
         $post_time = $data['date'];

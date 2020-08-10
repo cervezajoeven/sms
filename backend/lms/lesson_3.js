@@ -81,9 +81,10 @@ $(document).ready(function(){
         $(".virtual_link").attr("href",google_meet);
     }else if($("#lesson_type").val()=="zoom"){
         $(".notification_control").show();
+        var zoom_link = main_url+"lms/lesson/zoom_checker/"+lesson_id;
         $(".start_class").find("span").text("Start Zoom");
         $(".start_class").find("img").attr("src",image_resources+"zoom.png");
-        $(".virtual_link").attr("href",start_url);
+        $(".virtual_link").attr("href",zoom_link);
     }
 
     $.each($(".select"),function(key,value){
@@ -500,7 +501,7 @@ $(document).ready(function(){
                 default:
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
-                    $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
+                    $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
                 
                 break;
             }
@@ -1186,8 +1187,19 @@ $(document).ready(function(){
             $(".start_class").find("img").attr("src",image_resources+"google_meet.png");
             $(".virtual_link").attr("href",google_meet);
         }else if(the_val=="zoom"){
-            $(".zoom_modal_container").show("slow","linear");
-            check_zoom_schedule();
+            // $(".zoom_modal_container").show("slow","linear");
+            // check_zoom_schedule();
+            $(".notification_control").show();
+            $(".actions").not(".start_class").animate({width:"14%"},400,function(){
+                $(".start_class").show();
+                $(".start_class").animate({width:"14%"});
+
+            });
+            var zoom_link = main_url+"lms/lesson/zoom_checker/"+lesson_id;
+            console.log(zoom_link);
+            $("#start_class").find("span").text("Start Zoom");
+            $("#start_class").find("img").attr("src",$("#image_resources").val()+"zoom.png");
+            $(".virtual_link").attr("href",zoom_link);
             
         }else{
             $(".start_class").animate({width:"0"},400,function(){
@@ -1359,17 +1371,18 @@ $(document).ready(function(){
 
     $(".assign_save").click(function(){
         change_detected();
+        send_email_notification();
         alert("Lesson has been assigned successfully");
     });
 
     $(".date_range").change(function(e){
-    
-        if($("#lesson_type").val()=="zoom"){
-            if(confirm("Changing the schedule will remove you from the current slot. Are you sure you want to change the schedule?")){
-                change_detected();
-                check_zoom_schedule();
-            }
-        }
+        change_detected();
+        // if($("#lesson_type").val()=="zoom"){
+        //     if(confirm("Changing the schedule will remove you from the current slot. Are you sure you want to change the schedule?")){
+                
+        //         check_zoom_schedule();
+        //     }
+        // }
     });
 });
 
@@ -1492,7 +1505,7 @@ function check_zoom_schedule(){
    
         success: function(data)
         {
-
+            console.log(data);
             var the_data = JSON.parse(data);
             $(".zoom_label").text(the_data.message);
             if(the_data.status=="success"){
@@ -1516,6 +1529,54 @@ function check_zoom_schedule(){
 
         }
     });
+}
+function send_email_notification(){
+    var send_email_notification_url = $(url).val()+"send_email_notification";
+    var student_ids = [];
+    $.each(jstree.jstree("get_checked",null,true),function(key,value){
+        
+        if(value.includes('student')){
+            student_id = value.replace('student_','');
+            
+            student_ids.push(student_id);
+        }
+    });
+    // $.ajax({
+    //     url: send_email_notification_url,
+    //     type: "POST",
+    //     data: {
+    //         start_date:start_date,
+    //         end_date:end_date,
+    //         lesson_id:$(lesson_id).val(),
+    //         account_id:$(account_id).val(),
+    //     },
+   
+    //     success: function(data)
+    //     {
+    //         console.log(data);
+    //         var the_data = JSON.parse(data);
+    //         $(".zoom_label").text(the_data.message);
+    //         if(the_data.status=="success"){
+    //             $(".zoom_email_used").text("("+the_data.zoom_email+")");
+    //             $(".notification_control").show();
+    //             $(".actions").not(".start_class").animate({width:"14%"},400,function(){
+    //                 $(".start_class").show();
+    //                 $(".start_class").animate({width:"14%"});
+
+    //             });
+
+    //             $(".start_class").find("span").text("Start Zoom");
+    //             $(".start_class").find("img").attr("src",$(image_resources).val()+"zoom.png");
+    //             $(".virtual_link").attr("href",the_data.start_url);
+    //         }else{
+
+    //         }
+    //         $(".zoom_modal_container").hide("slow","linear");
+    //     },
+    //     error: function(e){
+
+    //     }
+    // });
 }
 $(".teacher_tools_button").click(function(){
     $(".teacher_tools").toggle();

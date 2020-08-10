@@ -30,6 +30,21 @@ class Lesson_model extends MY_Model {
         $result = $query->result_array();
         return $result;
     }
+
+    public function admin_lessons($account_id=""){
+
+        $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
+        $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.start_date',"desc");
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function get_lessons_no_virtual($account_id=""){
 
         $this->db->select("*, lms_lesson.id as id");
@@ -89,13 +104,28 @@ class Lesson_model extends MY_Model {
     }
 
     public function student_lessons($account_id=""){
-
+        date_default_timezone_set('Asia/Manila');
         $this->db->select("*");
-        // $this->db->join("conferences","conferences.id = lms_lesson.zoom_id");
         $this->db->where("FIND_IN_SET('".$account_id."', lms_lesson.assigned) !=", 0);
         $this->db->where('start_date <=', date('Y-m-d H:i:s'));
         $this->db->where('end_date >=', date('Y-m-d H:i:s'));
         $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.start_date',"asc");
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+    public function upcoming_lessons($account_id=""){
+        date_default_timezone_set('Asia/Manila');
+        $this->db->select("*");
+        $this->db->where("FIND_IN_SET('".$account_id."', lms_lesson.assigned) !=", 0);
+        $this->db->where('start_date LIKE', date('Y-m-d'));
+        $this->db->or_where('start_date >', date('Y-m-d H:i:s'));
+        $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.start_date',"asc");
+
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();

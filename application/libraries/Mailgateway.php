@@ -58,6 +58,22 @@ class Mailgateway
             }
         }
     }
+    public function send_lesson_details($id, $send_to, $template,$data)
+    {
+        if (!empty($this->_CI->mail_config) && $send_to != "") {
+            $subject = "LMS Lesson Notification";
+            $msg = $this->general_data($id, $template,$data);
+            // echo '<pre>';print_r($data);exit();
+            if ($this->_CI->mailer->send_mail($send_to, $subject, $msg)){
+                $email_log = array("title"=>"Success - Lesson Notification Email ".$data['teacher_name']." (".$data['lesson_title'].")","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
+                $this->_CI->lesson_model->sms_create("messages",$email_log);
+                // $this->_CI->my_model->log("Lesson Notification Email ".$id." sent", $id, "Email");
+            }else{
+                $email_log = array("title"=>"Not Sent - Lesson Notification Email ".$data['teacher_name']." (".$data['lesson_title'].")","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
+                $this->_CI->lesson_model->sms_create("messages",$email_log);
+            }
+        }
+    }
 
     public function sendLoginCredential($chk_mail_sms, $sender_details, $template)
     {
@@ -208,6 +224,16 @@ class Mailgateway
         $student['current_session_name'] = $session_name;
 
         foreach ($student as $key => $value) {
+            $template = str_replace('{{' . $key . '}}', $value, $template);
+        }
+
+        return $template;
+    }
+
+    public function general_data($id, $template,$data)
+    {
+
+        foreach ($data as $key => $value) {
             $template = str_replace('{{' . $key . '}}', $value, $template);
         }
 
