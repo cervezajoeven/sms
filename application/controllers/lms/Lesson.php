@@ -406,20 +406,31 @@ class Lesson extends General_Controller {
         $lesson_id = $_REQUEST['lesson_id'];
         $email_notification = $_REQUEST['email_notification'];
 
-        $student_ids = array(852,854,863,900);
-        $lesson_id = "lms_lesson_online_159689933992554988";
-        $email_notification = "true";
-        echo "<pre>";
+        // $student_ids = array("852","854","863","900");
+        // $lesson_id = "lms_lesson_online_159670778980833632";
+        // $email_notification = "true";
+        // echo "<pre>";
 
 
 
+        $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
+        $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id")[0];
 
         if($email_notification=="true"){
-            foreach ($student_ids as $student_id_key => $student_id_value) {
-                $students = $this->lesson_model->lms_get("students",$student_id_value,"id")[0];
+            foreach($student_ids as $student_id_key => $student_id_value) {
 
+                $students = $this->lesson_model->lms_get("students",$student_id_value,"id")[0];
+                $credentials = $this->lesson_model->lms_get("users",$student_id_value,"user_id")[0];
                 $sender_details['id'] = $student_id_value;
                 $sender_details['email'] = "cervezajoeven@gmail.com";
+                $sender_details['student_name'] = $students['firstname']." ".$students['lastname'];
+                $sender_details['lesson_title'] = $lesson['lesson_name'];
+                $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+                $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
+                $sender_details['teacher_name'] = $teacher['name']." ".$teacher['surname'];
+                $sender_details['school_url_login_page'] = base_url('site/userlogin');
+                $sender_details['username'] = $credentials['username'];
+                $sender_details['password'] = $credentials['password'];
 
                 $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
             }
