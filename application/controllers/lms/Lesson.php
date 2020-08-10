@@ -25,12 +25,13 @@ class Lesson extends General_Controller {
         $data['title'] = 'Lesson';
 
         $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects(); 
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
-            if($this->general_model->get_account_id()=="4"||$this->general_model->get_account_id()=="1"){
+            if($data['real_role']=="7"||$data['real_role']=="1"){
                 $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id());
             }else{
                 $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
@@ -62,7 +63,6 @@ class Lesson extends General_Controller {
             }
 
         }
-
         
         $this->load->view('lms/lesson/index', $data);
         $this->load->view('layout/footer');

@@ -36,6 +36,7 @@ class Lesson_model extends MY_Model {
         $this->db->select("*, lms_lesson.id as id");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
         $this->db->where('lms_lesson.deleted',0);
         $this->db->order_by('lms_lesson.date_created',"desc");
         $query = $this->db->get("lms_lesson");

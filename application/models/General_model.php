@@ -44,6 +44,16 @@ class General_model extends MY_Model {
         return $account_id;
         
     }
+    public function get_real_role(){
+
+        $account_id = $this->get_account_id();
+        $this->db->select("*");
+        $this->db->where("staff_id",$account_id);
+        $real_role = $this->db->get("staff_roles")->result_array()[0]['role_id'];
+
+        return $real_role;
+        
+    }
 
     public function get_account_name($account_id="",$account_type=""){
 

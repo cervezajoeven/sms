@@ -124,6 +124,9 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
+                                        <?php if($real_role==7||$real_role==1): ?>
+                                            <th>Teacher</th>
+                                        <?php endif;?>
                                         <th><?php echo $this->lang->line('type'); ?></th>
                                         <th>Date</th>
                                         <th>Term</th>
@@ -143,6 +146,11 @@
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['lesson_name']?>
                                             </td>
+                                            <?php if($real_role==7||$real_role==1): ?>
+                                                <td class="mailbox-name">
+                                                    <?php echo $list_data['name'] ?> <?php echo $list_data['surname'] ?>
+                                                </td>
+                                            <?php endif;?>
                                             <td class="mailbox-name">
                                                 <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
                                             </td>
