@@ -401,7 +401,7 @@ class Lesson extends General_Controller {
         //contents
     }
 
-    public function send_email_notification($lesson_id,$email_notification,$student_ids){
+    public function send_email_notification($lesson_id="",$email_notification="",$student_ids=""){
         if(!$lesson_id){
             $student_ids = $_REQUEST['student_ids'];
             $lesson_id = $_REQUEST['lesson_id'];
