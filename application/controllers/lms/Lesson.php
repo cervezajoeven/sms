@@ -423,11 +423,11 @@ class Lesson extends General_Controller {
         if($email_notification=="true"){
             foreach($student_ids as $student_id_key => $student_id_value) {
 
-                $students = $this->lesson_model->lms_get("students",$student_id_value,"id","firstname,lastname")[0];
+                $students = $this->lesson_model->lms_get("students",$student_id_value,"id","firstname,lastname,guardian_email")[0];
                 $credentials = $this->lesson_model->lms_get("users",$student_id_value,"user_id","username,password")[0];
 
                 $sender_details['id'] = $student_id_value;
-                $sender_details['email'] = "cervezajoeven@gmail.com";
+                $sender_details['email'] = $students['guardian_email'];
                 $sender_details['student_name'] = $students['firstname']." ".$students['lastname'];
                 $sender_details['lesson_title'] = $lesson['lesson_name'];
                 $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
