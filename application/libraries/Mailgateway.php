@@ -61,7 +61,7 @@ class Mailgateway
     public function send_lesson_details($id, $send_to, $template,$data)
     {
         if (!empty($this->_CI->mail_config) && $send_to != "") {
-            $subject = "Admission Confirm";
+            $subject = "LMS Lesson Notification";
             $msg = $this->general_data($id, $template,$data);
             // echo '<pre>';print_r($data);exit();
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg)){

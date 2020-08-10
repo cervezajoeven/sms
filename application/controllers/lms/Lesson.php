@@ -406,10 +406,10 @@ class Lesson extends General_Controller {
         $lesson_id = $_REQUEST['lesson_id'];
         $email_notification = $_REQUEST['email_notification'];
 
-        $student_ids = array("852","854","863","900");
-        $lesson_id = "lms_lesson_online_159670778980833632";
-        $email_notification = "true";
-        echo "<pre>";
+        // $student_ids = array("852","854","863","900");
+        // $lesson_id = "lms_lesson_online_159670778980833632";
+        // $email_notification = "true";
+        // echo "<pre>";
 
 
 
