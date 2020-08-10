@@ -30,6 +30,20 @@ class Lesson_model extends MY_Model {
         $result = $query->result_array();
         return $result;
     }
+
+    public function admin_lessons($account_id=""){
+
+        $this->db->select("*, lms_lesson.id as id");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.date_created',"desc");
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function get_lessons_no_virtual($account_id=""){
 
         $this->db->select("*, lms_lesson.id as id");

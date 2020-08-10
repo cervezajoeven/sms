@@ -18,7 +18,7 @@ class Lesson extends General_Controller {
     }
 
     function index($lesson_query="upcoming") {
-        
+
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
 
@@ -30,7 +30,12 @@ class Lesson extends General_Controller {
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
-            $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+            if($this->general_model->get_account_id()=="4"||$this->general_model->get_account_id()=="1"){
+                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id());
+            }else{
+                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+            }
+            
             
         }else{
 
