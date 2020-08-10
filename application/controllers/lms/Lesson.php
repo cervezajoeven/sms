@@ -37,7 +37,7 @@ class Lesson extends General_Controller {
             $data['lesson_query'] = $lesson_query;
             $this->load->view('layout/student/header');
             if($lesson_query == "upcoming"){
-                $data['list'] = $this->lesson_model->upcoming_lessons($this->general_model->get_account_id());
+                $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
 
             }else{
 
