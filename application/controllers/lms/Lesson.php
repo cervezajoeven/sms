@@ -480,10 +480,17 @@ class Lesson extends General_Controller {
         echo "<pre>";
 
 
-        $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id","lesson_name,lesson_type,account_id")[0];
-        $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id","name,surname")[0];
-        
-        $this->db->select("*");
+        // $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id","lesson_name,lesson_type,account_id")[0];
+        // $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id","name,surname")[0];
+
+        $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
+        $this->db->from("lms_lesson");
+        $this->db->join("staff","lms_lesson.account_id = staff.id");
+        $this->db->where("lms_lesson.id",$lesson_id);
+        $lesson = $this->db->get()->result_array()[0];
+
+        // echo '<pre>';print_r($lesson);exit();
+        $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password");
         $this->db->from("students");
         $this->db->join("users","users.user_id = students.id");
         $this->db->where_in("students.id",$student_ids);
@@ -499,9 +506,10 @@ class Lesson extends General_Controller {
                 $sender_details['email'] = 'erwin.nora@gmail.com';
                 $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
                 $sender_details['lesson_title'] = $lesson['lesson_name'];
-                $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+                // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+                $sender_details['start_date'] = $lesson['start_date'];
                 $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
-                $sender_details['teacher_name'] = $teacher['name']." ".$teacher['surname'];
+                $sender_details['teacher_name'] = $lesson['name']." ".$lesson['surname'];
                 $sender_details['school_url_login_page'] = base_url('site/userlogin');
                 $sender_details['username'] = $student_value['username'];
                 $sender_details['password'] = $student_value['password'];
