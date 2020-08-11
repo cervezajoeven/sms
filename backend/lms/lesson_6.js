@@ -1591,10 +1591,3 @@ $(".teacher_tools_button").click(function(){
     $(".student_view_content").toggle();
     $("#classroomscreen").css("width",width+70);
 });
-
-
-    
-
-
-
-

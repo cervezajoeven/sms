@@ -454,7 +454,7 @@
 
                             <h3>Save</h3>
                             
-                            <button class="assign_save" style="padding: 10px;width: 50%;border-radius: 10px;border: 0px;cursor: pointer;">Assign</button>
+                            <button class="assign_save" style="padding: 10px;width: 50%;border-radius: 10px;border: 0px;cursor: pointer;">Save/Assign</button>
 
                         </div>
                         
@@ -861,7 +861,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script src="<?php echo $resources.'lesson_5.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_6.js'?>"></script>
         <script type="text/javascript">
           
         </script>
