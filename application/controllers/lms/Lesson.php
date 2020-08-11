@@ -81,6 +81,70 @@ class Lesson extends General_Controller {
         $this->load->view('layout/footer');
     }
 
+    function lesson_bin($lesson_query="upcoming") {
+
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/lesson');
+
+        $data['title'] = 'Lesson';
+
+        $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+
+        if($data['role']=='admin'){
+            $this->load->view('layout/header');
+            if($data['real_role']=="7"||$data['real_role']=="1"){
+                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id());
+                foreach ($data['list'] as $key => $value) {
+                    if($value['zoom_id']){
+                        $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                        $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                    }
+                    
+                    $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                    $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                    $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                    
+
+                }
+            }else{
+                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+            }
+            
+            
+        }else{
+
+            $data['lesson_query'] = $lesson_query;
+            $this->load->view('layout/student/header');
+            if($lesson_query == "upcoming"){
+                $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+
+            }else{
+
+            }
+            foreach ($data['list'] as $key => $value) {
+                if($value['zoom_id']){
+                    $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                    $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                }
+                
+                $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                
+
+            }
+
+        }
+        
+        $this->load->view('lms/lesson/index', $data);
+        $this->load->view('layout/footer');
+    }
+
     function get_zoom_data($id=""){
 
         // if($id){
@@ -871,9 +935,9 @@ class Lesson extends General_Controller {
         $zoom_accounts = $this->db->get("lms_zoom_accounts")->result_array();
 
         $live_zoom = $this->zoom_api->check_live();
-        // echo "<pre>";
-        // print_r($live_zoom);
-        // exit;
+        echo "<pre>";
+        print_r($live_zoom);
+        exit;
         $live_zoom_accounts = array();
         foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
             array_push($live_zoom_accounts, $live_zoom_value->email);

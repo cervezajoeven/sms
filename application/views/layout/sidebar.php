@@ -661,7 +661,7 @@ s<aside class="main-sidebar" id="alert2">
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
-
+                            <li class="<?php echo set_Submenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
                             <li class="<?php echo set_Submenu('content/lms_email_logs'); ?>"><a href="<?php echo base_url(); ?>lms/email_logs/index"><i class="fa fa-angle-double-right"></i> LMS Email Logs</a></li>
                             
                             <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
