@@ -444,7 +444,7 @@
                                       <label>Email Notification</label>
                                   </div>
                               </div>
-                              <button id="send_emails_now" >Send Now</button>
+                              <!-- <button id="send_emails_now" >Send Now</button> -->
 
                             </div>
 
@@ -861,7 +861,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script src="<?php echo $resources.'lesson_4.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_5.js'?>"></script>
         <script type="text/javascript">
           
         </script>
