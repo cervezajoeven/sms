@@ -471,40 +471,46 @@ class Lesson extends General_Controller {
             $lesson_id = $_REQUEST['lesson_id'];
             $email_notification = $_REQUEST['email_notification'];
         }else{
-            $student_ids = explode(",",urldecode($student_ids));
+            $student_ids = explode(",", urldecode($student_ids));
         }
 
         // $student_ids = array("852","854","863","900");
         // $lesson_id = "lms_lesson_online_159670778980833632";
         // $email_notification = "true";
-        // echo "<pre>";
+        echo "<pre>";
 
 
+        $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id","lesson_name,lesson_type,account_id")[0];
+        $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id","name,surname")[0];
+        
+        $this->db->select("*");
+        $this->db->from("students");
+        $this->db->join("users","users.user_id = students.id");
+        $this->db->where_in("students.id",$student_ids);
+        $students = $this->db->get()->result_array();
 
-        // $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id","lesson_name,lesson_type,account_id")[0];
-        // $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id","name,surname")[0];
+        
 
-        // if($email_notification=="true"){
-        //     foreach($student_ids as $student_id_key => $student_id_value) {
+        if($email_notification=="true"){
+            foreach($students as $student_key => $student_value) {        
 
-        //         $students = $this->lesson_model->lms_get("students",$student_id_value,"id","firstname,lastname,guardian_email")[0];
-        //         $credentials = $this->lesson_model->lms_get("users",$student_id_value,"user_id","username,password")[0];
-
-        //         $sender_details['id'] = $student_id_value;
-        //         $sender_details['email'] = $students['guardian_email'];
-        //         $sender_details['student_name'] = $students['firstname']." ".$students['lastname'];
-        //         $sender_details['lesson_title'] = $lesson['lesson_name'];
-        //         $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
-        //         $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
-        //         $sender_details['teacher_name'] = $teacher['name']." ".$teacher['surname'];
-        //         $sender_details['school_url_login_page'] = base_url('site/userlogin');
-        //         $sender_details['username'] = $credentials['username'];
-        //         $sender_details['password'] = $credentials['password'];
-
-        //         $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
-        //     }
-        //     echo "<center><h1>Success! You may exit this page now.</h1></center>";
-        // }
+                $sender_details['id'] = $student_value['id'];
+                // $sender_details['email'] = $student_value['guardian_email'];
+                $sender_details['email'] = 'erwin.nora@gmail.com';
+                $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
+                $sender_details['lesson_title'] = $lesson['lesson_name'];
+                $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+                $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
+                $sender_details['teacher_name'] = $teacher['name']." ".$teacher['surname'];
+                $sender_details['school_url_login_page'] = base_url('site/userlogin');
+                $sender_details['username'] = $student_value['username'];
+                $sender_details['password'] = $student_value['password'];
+                print_r($sender_details);
+                $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+            }
+            
+            echo "<center><h1>Success! You may exit this page now.</h1></center>";
+        }
     }
 
     public function delete($id){

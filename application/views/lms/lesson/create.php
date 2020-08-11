@@ -439,12 +439,13 @@
                             
                               <div class="pretty p-switch p-fill">
                                 
-                                  <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> />
+                                  <!-- <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> /> -->
+                                  <input type="checkbox" id="email_notification" checked />
                                   <div class="state p-primary">
                                       <label>Email Notification</label>
                                   </div>
                               </div>
-                              <!-- <button id="send_emails_now" >Send Now</button> -->
+                              <button id="send_emails_now" >Send Now</button>
 
                             </div>
 

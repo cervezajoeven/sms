@@ -266,7 +266,8 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                                     <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                                 </a> 
                                 <ul class="treeview-menu">
-                                    <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
+                                    <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
+                                    <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Recent <?php echo $this->lang->line('lesson'); ?></a></li>
                                     <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
                                      <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
                                      
