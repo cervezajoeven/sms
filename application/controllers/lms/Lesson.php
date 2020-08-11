@@ -935,9 +935,9 @@ class Lesson extends General_Controller {
         $zoom_accounts = $this->db->get("lms_zoom_accounts")->result_array();
 
         $live_zoom = $this->zoom_api->check_live();
-        echo "<pre>";
-        print_r($live_zoom);
-        exit;
+        // echo "<pre>";
+        // print_r($live_zoom);
+        // exit;
         $live_zoom_accounts = array();
         foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
             array_push($live_zoom_accounts, $live_zoom_value->email);
