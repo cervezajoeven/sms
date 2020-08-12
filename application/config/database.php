@@ -101,7 +101,8 @@ if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
   	$password = 'J10o15e5V22n!4';
-  	$database = 'campus_'.$database_name;
+  	// $database = 'campus_'.$database_name;
+  	$database = 'campus_sophiameycauayan';
 }
 
 $db['default'] = array(
