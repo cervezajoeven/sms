@@ -474,7 +474,14 @@ class Lesson extends General_Controller {
             $student_ids = explode(",", urldecode($student_ids));
         }
 
+        // $student_ids = array("852","854","863","900");
+        // $lesson_id = "lms_lesson_online_159670778980833632";
+        // $email_notification = "true";
         echo "<pre>";
+
+
+        // $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id","lesson_name,lesson_type,account_id")[0];
+        // $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id","name,surname")[0];
 
         $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
         $this->db->from("lms_lesson");
@@ -494,9 +501,11 @@ class Lesson extends General_Controller {
             foreach($students as $student_key => $student_value) {        
 
                 $sender_details['id'] = $student_value['id'];
+                // $sender_details['email'] = $student_value['guardian_email'];
                 $sender_details['email'] = 'erwin.nora@gmail.com';
                 $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
                 $sender_details['lesson_title'] = $lesson['lesson_name'];
+                // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
                 $sender_details['start_date'] = $lesson['start_date'];
                 $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
                 $sender_details['teacher_name'] = $lesson['name']." ".$lesson['surname'];
