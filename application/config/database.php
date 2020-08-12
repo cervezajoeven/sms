@@ -76,17 +76,11 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
-$exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs","rcamesolgms","solls","rcamessjbcs");
 
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_sophiameycauayan';
-}else if(in_array($database_name, $exceptions)){
-
-  	$username = 'joeven';
-  	$password = 'joeven241';
-  	$database = 'cms_'.$database_name;
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
   	$username = 'joeven';
@@ -99,10 +93,10 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_sms';
 }else{
 
-  	$username = 'joeven';
-  	$password = 'joeven241';
-  	// $database = 'campus_'.$database_name;
-  	$database = 'campus_sophiameycauayan';
+  	$username = 'root';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_'.$database_name;
+  	// $database = 'campus_sophiameycauayan';
 }
 
 $db['default'] = array(
