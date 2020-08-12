@@ -80,8 +80,8 @@ $exceptions = array("isbb","baliuagu","lcc-silvercrest","rcamessjbcs","tlc-nbs",
 
 if($HTTP_HOST=="localhost"){
   	$username = 'root';
-  	$password = '';
-  	$database = 'campus_sms';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_sophiameycauayan';
 }else if(in_array($database_name, $exceptions)){
 
   	$username = 'joeven';
@@ -99,14 +99,15 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_sms';
 }else{
 
-  	$username = 'joeven';
-  	$password = 'joeven241';
+  	$username = 'root';
+  	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
 }
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '3.13.0.161',
+	// 'hostname' => 'localhost',
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
@@ -125,3 +126,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+// echo '<pre>';print_r($db);exit();
