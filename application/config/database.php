@@ -76,6 +76,7 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
+$godaddy = array("smecs","sim");
 
 if($HTTP_HOST=="localhost"){
 
@@ -89,11 +90,18 @@ if($HTTP_HOST=="localhost"){
   	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
 
+}else if(in_array($database_name, $godaddy))){
+	
+	$username = 'joeven';
+  	$password = 'joeven241';
+  	$database = 'campus_'.$database_name;
+  	
 }else if(strpos($HTTP_HOST, "192.168.") !== false){
 	
 	$username = 'root';
   	$password = '';
   	$database = 'campus_sms';
+  	
 }else{
 
   	$username = 'admin';
