@@ -99,16 +99,16 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_sms';
 }else{
 
-  	$username = 'root';
-  	$password = 'J10o15e5V22n!4';
+  	$username = 'joeven';
+  	$password = 'joeven241';
   	// $database = 'campus_'.$database_name;
   	$database = 'campus_sophiameycauayan';
 }
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '3.13.0.161',
-	// 'hostname' => 'localhost',
+	// 'hostname' => '3.13.0.161',
+	'hostname' => 'localhost',
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
