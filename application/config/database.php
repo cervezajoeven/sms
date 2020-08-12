@@ -78,14 +78,17 @@ $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 
 if($HTTP_HOST=="localhost"){
+
   	$username = 'root';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_sophiameycauayan';
+
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
   	$username = 'joeven';
   	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
+
 }else if(strpos($HTTP_HOST, "192.168.") !== false){
 	
 	$username = 'root';
@@ -93,7 +96,7 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_sms';
 }else{
 
-  	$username = 'root';
+  	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
   	// $database = 'campus_sophiameycauayan';
@@ -101,7 +104,6 @@ if($HTTP_HOST=="localhost"){
 
 $db['default'] = array(
 	'dsn'	=> '',
-	// 'hostname' => '3.13.0.161',
 	'hostname' => 'localhost',
 	'username' => $username,
 	'password' => $password,
