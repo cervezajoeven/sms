@@ -90,7 +90,7 @@ if($HTTP_HOST=="localhost"){
   	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
 
-}else if(in_array($database_name, $godaddy))){
+}else if(in_array($database_name, $godaddy)){
 	
 	$username = 'joeven';
   	$password = 'joeven241';
