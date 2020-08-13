@@ -445,7 +445,7 @@
                                       <label>Email Notification</label>
                                   </div>
                               </div>
-                              <!-- <button id="send_emails_now" >Send Now</button> -->
+                              <button id="send_emails_now" >Send Now</button>
 
                             </div>
 
