@@ -76,7 +76,7 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
-$godaddy = array("smecs","sim");
+$godaddy = array("smecs","sim","csl");
 
 if($HTTP_HOST=="localhost"){
 
