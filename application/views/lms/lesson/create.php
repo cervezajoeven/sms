@@ -756,8 +756,11 @@
                     <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div>
                     <div class="student_view_buttons student_view_title">Title</div>
                     <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
-                    <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i> CMS Teacher Tools</div>
-                    <div class="student_view_buttons navigation_tools orange teacher_tools_button"><i class="fas fa-wrench"></i> Formula Board</div>
+
+                    <?php if($role=="admin"): ?>
+                      <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i> CMS Teacher Tools</div>
+                      <div class="student_view_buttons navigation_tools orange teacher_tools_button"><i class="fas fa-wrench"></i> Formula Board</div>
+                    <?php endif; ?>
                     <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
                     
                 
