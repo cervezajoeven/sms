@@ -81,7 +81,7 @@ $godaddy = array("smecs","sim");
 if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
-  	$password = 'J10o15e5V22n!4';
+  	$password = '';
   	$database = 'campus_sophiameycauayan';
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){

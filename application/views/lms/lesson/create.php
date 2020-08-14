@@ -712,7 +712,7 @@
 
         <div class="student_view student_view_close">
             <style type="text/css">
-              /*.student_view_container{
+              .student_view_container{
                 width: 100%;
               }
               .button_navigation{
@@ -720,7 +720,35 @@
               }
               .student_view_title{
                 width: 30%;
-              }*/
+              }
+              .green{
+                background-color: rgb(0 175 30);
+              }
+              .orange{
+                background-color: rgb(195 128 5);
+              }
+              .red{
+                background-color: rgb(220 0 0);
+              }
+              .navigation_tools{
+                width: 20%;
+              }
+              .student_view_slides{
+                width: 100%;
+              }
+              .slide{
+                width: 10%;
+              }
+              .slide_active{
+                height: 100px;
+              }
+              .student_view_title {
+                  width: 30%;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  text-indent: 10px;
+              }
             </style>
             <div class="student_view_container">
 
@@ -728,6 +756,9 @@
                     <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div>
                     <div class="student_view_buttons student_view_title">Title</div>
                     <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
+                    <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i> CMS Teacher Tools</div>
+                    <div class="student_view_buttons navigation_tools orange teacher_tools_button"><i class="fas fa-wrench"></i> Formula Board</div>
+                    <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
                     
                 
                 </div>
@@ -738,14 +769,27 @@
                     </div>
                     
                 </div>
+                <style type="text/css">
+                  .html_content{
+                    background-color: rgb(210, 206, 206);
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                    padding: 50px;
+                  }
+                </style>
                 <div class="student_view_content" >
 
                     <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0" ></iframe>
                     <img class="content_type image_content" src="" data-magnify="gallery" data-caption="Image Caption 1" data-src="1.jpg" />
-                    <div class="content_type html_content" src="" style="background-color: white;"></div>
+                    <div class="content_type html_content" style="background-color: white;"></div>
                     <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
                 </div>
-
+                <style type="text/css">
+                  .teacher_tools{
+                    width: 100%;
+                  }
+                </style>
                 <div id="teacher_tools" class="teacher_tools">
                     <div class="student_view_buttons close_action teacher_tools_button" style="
                             width: 12%;
@@ -767,14 +811,14 @@
                               font-weight: bolder;
                               margin-top: 0px;"
                               >CMS Teacher Tools</h2>
-                          <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 106%;height: 90%;left: -70px;position: relative;" >
+                          <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 100%;height: 90%;position: relative;" >
                             
                           </iframe>
 
                 </div>
                 
             </div>
-            <div class="student_view_right">
+            <!-- <div class="student_view_right">
                 
                 <div class="student_view_navigation">
                   <?php if($role=="admin"): ?>
@@ -800,7 +844,7 @@
                     </div>
                     <button>Full Screen</button>
                 </div>
-            </div>
+            </div> -->
             
         </div>
         <style type="text/css">
