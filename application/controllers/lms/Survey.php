@@ -290,5 +290,110 @@ class Survey extends General_Controller {
 
         $this->load->view('lms/survey/responses', $data);
     }
+    public function individual_reports($id){
+        $this->db->where("respond !=","");
+        $survey = $this->survey_model->lms_get("lms_survey_sheets",$id,"survey_id","id");
+        $students = $this->survey_model->lms_get("students","","","firstname,lastname");
+        
+        $survey_array = array();
+        foreach ($survey as $survey_key => $survey_value) {
+            $rand_keys = array_rand($students,1);
+            $survey[$survey_key]['firstname'] = $students[$rand_keys]['firstname'];
+            $survey[$survey_key]['lastname'] = $students[$rand_keys]['lastname'];
+            // array_push($survey_array, $students[$rand_keys]);
+        }
+        $data['students'] = $survey;
+        $data['survey_id'] = $id;
+        // echo '<pre>';print_r($survey);exit();
+        $this->load->view('layout/header');
+        $this->load->view('lms/survey/individual_reports', $data);
+        $this->load->view('layout/footer');
+    }
+
+    public function individual($id,$survey_sheet_id){
+        $data['survey_id'] = $id;
+        $data['id'] = $id;
+
+        $data['survey'] = $this->survey_model->lms_get("lms_survey",$id,"id");
+        $data['survey_sheet'] = $this->survey_model->lms_get("lms_survey_sheets",$survey_sheet_id,"id")[0];
+        $data['respond'] = $data['survey_sheet']['respond'];
+
+        $data['account_id'] = $this->general_model->get_account_id();
+
+        $this->db->select("*");
+        $this->db->where("account_id", $data['account_id']);
+        $this->db->where("survey_id",$id);
+        $this->db->where("response_status",1);
+        $query = $this->db->get("lms_survey_sheets");
+        $response = $query->result_array();
+        $data['survey'] = $this->survey_model->lms_get("lms_survey",$id,"id")[0];
+        // echo "pre";
+        // print_r($data);
+        // exit();
+        $data['resources'] = site_url('backend/lms/');
+            
+
+        if(!empty($response)){
+            //http://localhost/sms/lms/survey/edit/lms_survey_offline_159146294820546101
+            if($data['survey_id'] == "lms_survey_offline_159146294820546101"){
+                $temp_id = $this->survey_model->id_generator("survey");
+                $this->db->select("*");
+                $this->db->where("account_id",$temp_id);
+                $this->db->where("survey_id",$id);
+                $new_query = $this->db->get("lms_survey_sheets");
+                $new_response = $new_query->result_array();
+
+                if(empty($new_response)){
+                    $survey_data['survey_id'] = $id;
+                    $survey_data['account_id'] = $temp_id;
+                    $this->survey_model->lms_create("lms_survey_sheets",$survey_data);
+                    
+                }
+                $data['account_id'] = $temp_id;
+                $this->load->view('lms/survey/individual', $data);
+
+            }else{
+                echo "<script>alert('Survey has already been responded Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/survey/index')."')</script>";
+
+                $this->load->view('lms/survey/individual', $data);
+            }
+            
+
+        }else{
+            if($data['survey_id'] == "lms_survey_offline_159146294820546101"){
+                $temp_id = $this->survey_model->id_generator("survey");
+                $this->db->select("*");
+                $this->db->where("account_id",$temp_id);
+                $this->db->where("survey_id",$id);
+                $new_query = $this->db->get("lms_survey_sheets");
+                $new_response = $new_query->result_array();
+
+                if(empty($new_response)){
+                    $survey_data['survey_id'] = $id;
+                    $survey_data['account_id'] = $temp_id;
+                    $this->survey_model->lms_create("lms_survey_sheets",$survey_data);
+                    
+                }
+                $data['account_id'] = $temp_id;
+                $this->load->view('lms/survey/individual', $data);
+
+            }else{
+                $this->db->select("*");
+                $this->db->where("account_id",$data['account_id']);
+                $this->db->where("survey_id",$id);
+                $new_query = $this->db->get("lms_survey_sheets");
+                $new_response = $new_query->result_array();
+                if(empty($new_response)){
+                    $survey_data['survey_id'] = $id;
+                    $survey_data['account_id'] = $data['account_id'];
+                    $this->survey_model->lms_create("lms_survey_sheets",$survey_data);
+                    
+                }
+                $this->load->view('lms/survey/individual', $data);
+            }
+            
+        }
+        
+    }
 
 }

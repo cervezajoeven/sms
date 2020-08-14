@@ -10,51 +10,11 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <?php
-            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                ?>
-                <div class="col-md-4">
-                    <!-- Horizontal Form -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Create Survey</h3>
-                        </div><!-- /.box-header -->
-                        <!-- form start -->
-
-                        <form id="form1" action="<?php echo site_url('lms/survey/save') ?>"  id="survey" name="surveyform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
-                            <div class="box-body">
-                                <?php if ($this->session->flashdata('msg')) { ?>
-                                    <?php echo $this->session->flashdata('msg') ?>
-                                <?php } ?>
-                                <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Survey Name</label><small class="req"> *</small>
-                                    <input autofocus="" id="survey_name" name="survey_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-
-                            </div><!-- /.box-body -->
-
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div><!--/.col (right) -->
-                <!-- left column -->
-            <?php } ?>
-            <div class="col-md-<?php
-            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                echo "8";
-            } else {
-                echo "12";
-            }
-            ?>">
+            <div class="col-md-12">
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix">Survey List</h3>
+                        <h3 class="box-title titlefix">Students List</h3>
                         <div class="box-tools pull-right">
 
                         </div><!-- /.box-tools -->
@@ -68,60 +28,39 @@
                         </div>
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
-                            
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th><?php echo $this->lang->line('type'); ?></th>
-                                        <th><?php echo $this->lang->line('date'); ?></th>
-                                        <th>Views</th>
-                                        <th>Assigned To</th>
+                                        <th>Name</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($list as $list_key => $list_data): ?>
+                                    <?php foreach ($students as $list_key => $list_data): ?>
 
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['survey_name']?>
+                                                <?php echo $list_data['firstname']?>
                                             </td>
-                                            <td class="mailbox-name">
-                                                
-                                            </td>
-                                            <td class="mailbox-name">
-                                               <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo rand(30,50); ?>
-                                            </td>
-                                            <td>
-                                                
-                                            </td>
-                                            <td class="mailbox-date pull-right">
-                                                <?php if($role=="admin"): ?>
 
-                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/individual_reports/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Individual Reports" >
-                                                            <i class="fa fa-user"></i>
-                                                    </a>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/responses/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Responses" >
+                                            <td class="mailbox-date pull-right">
+                                                <a data-placement="left" href="<?php echo site_url('lms/survey/individual/'.$survey_id.'/'.$list_data['id']);?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Survey Sheet" >
                                                             <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/edit/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
-                                                            <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/delete/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
+                                                <?php if($role=="admin"): ?>
+
+
+                                                    
 
                                                 <?php elseif($role=="student"): ?>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/respond/'.$list_data['id']);?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Respond" >
-                                                        <i class="fa fa-edit"></i>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/review/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer" >
+                                                            <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/answer/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" >
+                                                            <i class="fa fa-edit"></i>
                                                     </a>
                                                 <?php endif; ?>
-                                                
                                                 
                                             </td>
                                         </tr>
@@ -135,7 +74,8 @@
 
                 </div>
             </div><!--/.col (left) -->
-
+            
+            
 
             <!-- right column -->
 

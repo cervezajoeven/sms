@@ -919,7 +919,7 @@ class Lesson extends General_Controller {
             'zoom_api_secret' => $data['api_secret'],
         );
         $this->load->library('zoom_api', $params);
-        echo "<pre>";
+
         print_r($this->zoom_api->checkStatus()->participants);
     }
 
