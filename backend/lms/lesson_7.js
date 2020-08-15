@@ -445,10 +445,10 @@ $(document).ready(function(){
     function adjust_iframe(){
         switch (screen.height) {
             case 720:
-                $(".student_view_content_iframe").css("height","537px");
+                // $(".student_view_content_iframe").css("height","537px");
             break;
             case 900:
-                $(".student_view_content_iframe").css("height","717px");
+                // $(".student_view_content_iframe").css("height","717px");
             break;
         }
     }
@@ -1590,4 +1590,37 @@ $(".teacher_tools_button").click(function(){
     $(".student_view_slides").hide();
     $(".student_view_content").toggle();
     $("#classroomscreen").css("width",width+70);
+});
+
+$(".formula_board_button").click(function(){
+    $(".formula_board").toggle();
+    // var width = document.getElementById('formula_board').offsetWidth;
+    $(".student_view_slides").hide();
+    $(".student_view_content").toggle();
+    // $("#classroomscreen").css("width",width+70);
+});
+
+$(".annotate_button").click(function(){
+    var canvas = document.getElementById('canvas'),
+            context = canvas.getContext('2d');
+            
+    if($(this).hasClass("annotate_active")){
+
+        $(".annotate").css("display","none");
+        $(this).removeClass("annotate_active");
+
+        
+            canvas.width = 0;
+            canvas.height = 0;
+
+    }else{
+        $(".annotate").css("display","block");
+        $(this).addClass("annotate_active");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    // var width = document.getElementById('formula_board').offsetWidth;
+    // $(".student_view_slides").hide();
+    // $(".student_view_content").toggle();
+    // $("#classroomscreen").css("width",width+70);
 });

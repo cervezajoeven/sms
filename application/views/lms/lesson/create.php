@@ -6,7 +6,7 @@
 
         <title>LMS - <?php echo $lesson['lesson_name'] ?></title>
         <link rel="stylesheet" href="<?php echo $resources.'jquery-ui.css' ?>">
-        <link rel="stylesheet" href="<?php echo $resources.'lesson.css' ?>">
+        <link rel="stylesheet" href="<?php echo $resources.'lesson_2.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'jquery.magnify.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'fontawesome/css/all.css' ?>">
@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+        <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
         <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
         <style type="text/css">
@@ -731,7 +732,8 @@
                 background-color: rgb(220 0 0);
               }
               .navigation_tools{
-                width: 20%;
+                width: 12.5%;
+                max-height: 20px;
               }
               .student_view_slides{
                 width: 100%;
@@ -742,12 +744,19 @@
               .slide_active{
                 height: 100px;
               }
+              
+              .blue{
+                background-color: rgb(46, 117, 182);
+              }
               .student_view_title {
                   width: 30%;
                   white-space: nowrap;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   text-indent: 10px;
+              }
+              .close_student_view{
+                width: 12.5%;
               }
             </style>
             <div class="student_view_container">
@@ -758,8 +767,10 @@
                     <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
 
                     <?php if($role=="admin"): ?>
-                      <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i> CMS Teacher Tools</div>
-                      <div class="student_view_buttons navigation_tools orange teacher_tools_button"><i class="fas fa-wrench"></i> Formula Board</div>
+                      <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i>Teacher Tools</div>
+                      <div class="student_view_buttons navigation_tools orange formula_board_button"><i class="fas fa-wrench"></i> Formula Board</div>
+                      <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-wrench"></i> Annotate</div>
+                      <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
                     <?php endif; ?>
                     <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
                     
@@ -819,6 +830,16 @@
                           </iframe>
 
                 </div>
+
+                <div id="" class="formula_board">
+     
+                  <iframe id="" src="<?php echo base_url()?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;" >
+                    
+                  </iframe>
+                </div>
+                <canvas id="canvas" class="annotate" width="1000" height="1000">
+     
+                </canvas>
                 
             </div>
             <!-- <div class="student_view_right">
@@ -909,6 +930,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script src="<?php echo $resources.'drawing-table.js'?>" type="text/javascript"></script>
         <script src="<?php echo $resources.'lesson_7.js'?>"></script>
         <script type="text/javascript">
           

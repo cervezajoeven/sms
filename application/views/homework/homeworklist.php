@@ -252,7 +252,7 @@ $language_name = $language["short_code"];
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label for="pwd"><?php echo $this->lang->line('attach_document'); ?></label>
+                                        <label for="pwd"><?php echo $this->lang->line('attach_document'); ?> (Maximum file size 20MB)</label>
                                         <input type="file" id="file" name="userfile" class="form-control filestyle">
                                     </div>
                                 </div>

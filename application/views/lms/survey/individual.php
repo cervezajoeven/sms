@@ -15,7 +15,7 @@
 		<style type="text/css">
 			@media print {
 				.option-container{
-					page-break-after: avoid;
+					page-break-inside: avoid;
 				}
 			}
 		</style>

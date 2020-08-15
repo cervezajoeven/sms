@@ -66,19 +66,12 @@ $admin = $this->customlib->getLoggedInUserData();
 
 ?></label>
                         <?php if (!empty($result["document"])) {?>
-                    <label><?php echo $this->lang->line('homework') . " " . $this->lang->line('documents') ?></label>
-                    <a  class="btn btn-default btn-xs" href="<?php echo base_url() . "user/homework/download/" . $result["id"] . "/" . $result["document"] ?>" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('homework') . " " . $this->lang->line('documents') ?>"><i class="fa fa-download"></i></a>
+                    <label>Download Homework</label>
+                    <a  class="btn btn-default btn-lg" href="<?php echo base_url() . "user/homework/download/" . $result["id"] . "/" . $result["document"] ?>" data-toggle="tooltip" data-original-title="Download Homework"><i class="fa fa-download"></i></a>
 <?php }
-if (!empty($homeworkdocs[0]['docs'])) {
+
     ?>
-<label><?php echo $this->lang->line('uploaded') . " " . $this->lang->line('documents'); ?></label>
-<a href="<?php echo base_url(); ?>user/homework/assigmnetDownload/<?php echo $homeworkdocs[0]['id'] ?>/<?php echo $homeworkdocs[0]['docs'] ?>" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('uploaded') . " " . $this->lang->line('documents'); ?>">
-                                                    <i class="fa fa-download"></i></a>
-                                                <?php }?>
-            </div>
-        </div>
-    </div>
-</div>
+
 <?php
 
 function searchForId($id, $array)

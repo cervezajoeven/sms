@@ -33,7 +33,8 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
-                            </div><!-- /.box-body -->
+                            </div>
+                            <!-- /.box-body -->
 
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>

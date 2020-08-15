@@ -82,7 +82,7 @@ if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
   	$password = '';
-  	$database = 'campus_bulacanecumenical';
+  	$database = 'campus_tlc-nbs';
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
@@ -100,7 +100,7 @@ if($HTTP_HOST=="localhost"){
 	
 	$username = 'root';
   	$password = '';
-  	$database = 'campus_sms';
+  	$database = 'campus_tlc-nbs';
   	
 }else{
 

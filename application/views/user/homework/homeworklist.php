@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-flask"></i> <?php echo $this->lang->line('homework'); ?>
+            <i class="fa fa-flask"></i> <?php echo $this->lang->line('homework'); ?>/Projects
         </h1>
     </section>
     <section class="content">
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info"><div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?></h3>
+                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?>/Projects</h3>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -74,7 +74,7 @@ $status_class    = "class= 'label label-danger'";
     </td>
                                             <td class="mailbox-date pull-right">
 
-                                                <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs"    data-toggle="tooltip"  data-original-title="<?php echo $this->lang->line('homework') . " " . $this->lang->line('assignments'); ?>">
+                                                <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs"    data-toggle="tooltip"  data-original-title="Upload Homework">
                                                     <i class="fa fa-upload"></i></a>
 
 
@@ -132,7 +132,7 @@ $status_class    = "class= 'label label-danger'";
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="pwd"><?php echo $this->lang->line('attach_document'); ?></label>
+                                        <label for="pwd"><?php echo $this->lang->line('attach_document'); ?> (Maximum of 20MB only)</label>
                                         <input type="file"  id="file" name="file" class="form-control filestyle">
                                     </div>
                                 </div>

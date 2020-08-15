@@ -744,7 +744,7 @@ class Lesson extends General_Controller {
 
         $insert_array = array(
             'staff_id' => $lesson_data['account_id'],
-            'title' => $title,
+            'title' => "(".$lesson_data['name']." ".$lesson_data['surname'].") - ".$title,
             'date' => $lesson_data['start_date'],
             'zoom_email' => trim($zoom_email),
             'class_id' => 3,
@@ -937,6 +937,8 @@ class Lesson extends General_Controller {
 
         $data['api_key'] = '0NP_jYnjS5WXxW5NRTZc0g';
         $data['api_secret'] = 'BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI';
+        // $data['api_key'] = 'aIiAONgbR6SG_A1rC4Q2zw';
+        // $data['api_secret'] = 'qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N';
         $params = array(
             'zoom_api_key' => $data['api_key'],
             'zoom_api_secret' => $data['api_secret'],
@@ -951,26 +953,47 @@ class Lesson extends General_Controller {
         // echo "<pre>";
         // print_r($live_zoom);
         // exit;
+
         $live_zoom_accounts = array();
+        $zoom_array = array();
         foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
             array_push($live_zoom_accounts, $live_zoom_value->email);
-            
+            $zoom_array[$live_zoom_value->email] = $live_zoom_value;
         }
+
         $unavailable_zoom = array();
         $available_zoom = array();
+        $zoom_lister = array();
         foreach ($zoom_accounts as $zoom_accounts_key => $zoom_accounts_value) {
             
             if(in_array($zoom_accounts_value['email'], $live_zoom_accounts)){
                 
                 array_push($unavailable_zoom, $zoom_accounts_value['email']);
+                $zoom_lister[$zoom_accounts_key]['availability'] = "unavailable";
+                $zoom_lister[$zoom_accounts_key]['email'] = $zoom_accounts_value['email'];
+                $zoom_lister[$zoom_accounts_key]['lesson_title'] = $zoom_array[$zoom_accounts_value['email']]->topic;
+                $zoom_lister[$zoom_accounts_key]['id'] = $zoom_array[$zoom_accounts_value['email']]->id;
+                $meeting_data = $this->zoom_api->get_meeting($zoom_array[$zoom_accounts_value['email']]->id);
+                $zoom_lister[$zoom_accounts_key]['join_url'] = $meeting_data->join_url;
+                $zoom_lister[$zoom_accounts_key]['start_url'] = $meeting_data->start_url;
+
             }else{
+                $zoom_lister[$zoom_accounts_key]['availability'] = "available";
+                $zoom_lister[$zoom_accounts_key]['email'] = $zoom_accounts_value['email'];
+                $zoom_lister[$zoom_accounts_key]['lesson_title'] = "";
+                $zoom_lister[$zoom_accounts_key]['id'] = "";
+                $zoom_lister[$zoom_accounts_key]['join_url'] = "";
+                $zoom_lister[$zoom_accounts_key]['start_url'] = "";
                 array_push($available_zoom, $zoom_accounts_value);
             }
         }
+        $data['zoom_lister'] = $zoom_lister;
+        // echo '<pre>';print_r($zoom_lister);exit();
         
         if(!empty($available_zoom)){
             
             $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
+            $teacher_name = $this->lesson_model->lms_get("staff",$the_lesson['account_id'],"id","name,surname")[0];
 
             $lesson_data['zoom_api_key'] = $available_zoom[0]['api_key'];
             $lesson_data['zoom_api_secret'] = $available_zoom[0]['api_secret'];
@@ -978,6 +1001,8 @@ class Lesson extends General_Controller {
             $lesson_data['lesson_id'] = $lesson_id;
             $lesson_data['start_date'] = date("Y-m-d H:i:s");
             $lesson_data['zoom_email'] = $available_zoom[0]['email'];
+            $lesson_data['name'] = $teacher_name['name'];
+            $lesson_data['surname'] = $teacher_name['surname'];
             $conference_id = $this->add_lms_lesson($lesson_data);
             $conference = $this->lesson_model->lms_get("conferences",$conference_id,"id")[0];
             $lesson_update['id'] = $lesson_id;
