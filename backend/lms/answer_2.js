@@ -300,9 +300,9 @@ $(".submit").click(function(){
 		    type: "POST",
 		    data: final_json,
 		    complete: function(response){
-		    	console.log(response.responseText);
-		    	// alert("Quiz has been successfully submitted!");
-		    	// window.location.replace(site_url+'review/'+assessment_id);
+		    	// console.log(response.responseText);
+		    	alert("Quiz has been successfully submitted!");
+		    	window.location.replace(site_url+'review/'+assessment_id);
 		    }
 		});
 	}
