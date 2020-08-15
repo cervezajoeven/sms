@@ -109,6 +109,7 @@ function populate_key(option_type,data={}){
 			option_clone.find(".option_label_input").find("input").remove();
 			option_clone.find(".remove_choice").remove();
 			option_clone.find(".option_type").html('<textarea class="form-control"></textarea>');
+			option_clone.find(".score_class").remove();
 			
 			option_clone.find(".option_type").find("textarea").css("width","100%");
 			$(".sortable").append(option_clone);
@@ -138,8 +139,31 @@ function renumbering(){
 }
 
 function escape_comma(value){
-	var return_value = value.replace(",","|comma|");
+	if(!value){
+		var return_value = value;
+	}else{
+		if(value.includes(",")){
+			var return_value = value.replace(",","|comma|");
+		}else{
+			var return_value = value.trim();
+		}
+	}
+	
+	
 
+	return return_value;
+}
+function unescape_comma(value){
+	if(!value){
+		var return_value = value;
+	}else{
+		if(value.includes("|comma|")&&value!=""){
+			var return_value = value.replace("|comma|",",");
+		}else{
+			var return_value = value;
+		}
+		return return_value.trim();
+	}
 }
 
 function save(){
@@ -149,14 +173,15 @@ function save(){
 	$(".save_status").css("background-color","rgb(50,50,50)");
 	$.each(options,function(key,value){
 		var the_option_type = $(value).attr("option_type");
-		
+		var points_val = $(value).find(".points").val();
 		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
 			var option_val = [];
 			var answer_val = [];
+
 			$.each($(value).find(".option"),function(option_key,option_value){
 				var escaped_comma = escape_comma($(option_value).find(".option_label_input").find("input").val());
 				option_val.push(escaped_comma);
-				console.log(option_val);
+
 				if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
 					answer_val.push("1");
 				}else{
@@ -167,6 +192,7 @@ function save(){
 			option_json = {
 				"type":the_option_type,
 				"correct":answer_val.join(","),
+				"points":points_val,
 				"option_labels":option_val.join(","),
 			};
 
@@ -177,6 +203,7 @@ function save(){
 			option_json = {
 				"type":the_option_type,
 				"correct": short_answer_val.join(","),
+				"points":points_val,
 				"option_labels":"",
 			};
 		}else if(the_option_type=="section"){
@@ -191,6 +218,7 @@ function save(){
 		}else{
 			option_json = {
 				"type":the_option_type,
+				"points":points_val,
 				"option_labels":"",
 			};
 		}
@@ -242,7 +270,7 @@ function save(){
 	    // contentType: "application/json",
 	    complete: function(response){
 	    	console.log(response.responseText);
-	    	alert("Quiz has been sucessfully saved!");
+	    	alert("Quiz has been saved successfully!");
 	    	$(".save_status").text("Saved");
 			$(".save_status").css("background-color","green");
 	    }
@@ -372,7 +400,16 @@ $(document).ready(function(){
 				});
 				$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
 			}
+
+			if(("points" in value)){
+				$(".option-container-actual").eq(key).find(".points").val(value.points);
+			}else{
+				$(".option-container-actual").eq(key).find(".points").val("1");
+			}
+
 			if(value.type=="short_answer"){
+
+				
 				$(".option-container-actual").eq(key).find(".option_type").find("input").val(value.correct.split(",").join(" or "));
 				// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
 				
@@ -410,7 +447,8 @@ $(document).ready(function(){
 			
 			var the_last = $(".option-container-actual").eq(key).find(".option").length;
 			$.each(value.option_labels.split(","),function(value_key,value_value){
-				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
+				var unescaped_comma = unescape_comma(value_value);
+				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
 				
 			});
 			$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
@@ -425,31 +463,26 @@ $(document).ready(function(){
 $(document).on("click",".remove_option",function(){
 	$(this).parent().remove();
 	renumbering();
-	save_no_notif();
 
 });
 $(".info-key").click(function(){
 	var option_type = $(this).attr("option_type");
 	populate_key(option_type);
 	renumbering();
-	save_no_notif();
 });
 $(document).on("click",".add_option",function(){
 	var last_option = $(this).parent().find(".option").length;
 	var option_clone = $(this).siblings(".option").eq(last_option-1).clone();
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
-	save_no_notif();
 });
 $(".true_save").click(function(){
 	save();
 });
 $('.file').hide();
 $(".upload").click(function(){
-	save_no_notif();
 	$('.file').click();
 });
 $(".file").change(function(){
-	save_no_notif();
 	$("#upload_form").submit();
 });
 $(document).on("click",".remove_choice",function(){
@@ -460,7 +493,6 @@ $(".assign_panel").hide();
 $(".assign").click(function(){
 	$(".assign_panel").toggle();
 	$(".sortable").toggle();
-	save_no_notif();
 });
 
 $('.date_range').daterangepicker({

@@ -185,6 +185,7 @@
 		        	<ul class="sortable ui-sortable">
 		        		<li class="option-container option-container-clonable">
 		        			<div class="numbering_option"></div>
+		        			<label class="score_class">Score: </label> <input type="number" min="1" class="points score_class" value="1" />
 		        				<!-- <div class="copy_last" style="display: inline;">
 		        					<button class="btn btn-success">Duplicate</button>
 		        				</div> -->
@@ -245,4 +246,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_2.js'?>"></script>
