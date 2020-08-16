@@ -660,7 +660,9 @@ s<aside class="main-sidebar" id="alert2">
                             <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lesson'); ?></a></li>
+                            <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
+                            <li class="<?php echo set_Submenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
+                            <li class="<?php echo set_Submenu('content/past'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/past"><i class="fa fa-angle-double-right"></i> Past <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
                             <li class="<?php echo set_Submenu('content/lms_email_logs'); ?>"><a href="<?php echo base_url(); ?>lms/email_logs/index"><i class="fa fa-angle-double-right"></i> LMS Email Logs</a></li>
                             

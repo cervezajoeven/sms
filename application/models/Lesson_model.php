@@ -17,12 +17,21 @@ class Lesson_model extends MY_Model {
      * @return mixed
      */
 
-    public function get_lessons($account_id=""){
+    public function get_lessons($account_id="",$folder="today"){
 
-        $this->db->select("*, lms_lesson.id as id");
+        $this->db->select("*, lms_lesson.id as id,subjects.name as subject_name");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
         $this->db->where("lms_lesson.account_id",$account_id);
+        if($folder=="today"){
+            $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+            $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        }else if($folder=="upcoming"){
+            $this->db->where('start_date >', date('Y-m-d H:i:s'));
+        }else{
+            $this->db->where('end_date <', date('Y-m-d H:i:s'));
+        }
         $this->db->where('lms_lesson.deleted',0);
         $this->db->order_by('lms_lesson.date_created',"desc");
         $query = $this->db->get("lms_lesson");
@@ -31,12 +40,21 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
-    public function admin_lessons($account_id=""){
-
+    public function admin_lessons($account_id="",$folder="today"){
+        date_default_timezone_set('Asia/Manila');
         $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
         $this->db->join("staff","staff.id = lms_lesson.account_id");
+        if($folder=="today"){
+            $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+            $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        }else if($folder=="upcoming"){
+            $this->db->where('start_date >', date('Y-m-d H:i:s'));
+        }else{
+            $this->db->where('end_date <', date('Y-m-d H:i:s'));
+        }
+        
         $this->db->where('lms_lesson.deleted',0);
         $this->db->order_by('lms_lesson.start_date',"desc");
         $query = $this->db->get("lms_lesson");
@@ -103,12 +121,23 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
-    public function student_lessons($account_id=""){
+    public function student_lessons($account_id="",$folder="today"){
         date_default_timezone_set('Asia/Manila');
-        $this->db->select("*");
+        $this->db->select("*,subjects.name as subject_name,lms_lesson.id as lesson_id");
         $this->db->where("FIND_IN_SET('".$account_id."', lms_lesson.assigned) !=", 0);
-        $this->db->where('start_date <=', date('Y-m-d H:i:s'));
-        $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
+        if($folder=="today"){
+            $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+            $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        }else if($folder=="upcoming"){
+            $this->db->where('start_date >', date('Y-m-d H:i:s'));
+        }else{
+            $this->db->where('end_date <', date('Y-m-d H:i:s'));
+        }
+        // $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+        // $this->db->where('end_date >=', date('Y-m-d H:i:s'));
         $this->db->where('lms_lesson.deleted',0);
         $this->db->order_by('lms_lesson.start_date',"asc");
         $query = $this->db->get("lms_lesson");

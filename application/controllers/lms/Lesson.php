@@ -17,7 +17,7 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/lesson');
     }
 
-    function index($lesson_query="upcoming") {
+    function index($lesson_query="today") {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
@@ -28,11 +28,12 @@ class Lesson extends General_Controller {
         $data['real_role'] = $this->general_model->get_real_role();
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects(); 
-
+        $data['heading'] = "Current Lessons"; 
+        $data['lesson_sched'] = "today";
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
-                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id());
+                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"today");
                 foreach ($data['list'] as $key => $value) {
                     if($value['zoom_id']){
                         $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
@@ -47,7 +48,7 @@ class Lesson extends General_Controller {
 
                 }
             }else{
-                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id());
+                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(),"today");
             }
             
             
@@ -55,12 +56,127 @@ class Lesson extends General_Controller {
 
             $data['lesson_query'] = $lesson_query;
             $this->load->view('layout/student/header');
-            if($lesson_query == "upcoming"){
-                $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"today");
+            foreach ($data['list'] as $key => $value) {
+                if($value['zoom_id']){
+                    $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                    $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
 
-            }else{
+                }
+                
+                $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                
 
             }
+
+        }
+        
+        $this->load->view('lms/lesson/index', $data);
+        $this->load->view('layout/footer');
+    }
+
+    function upcoming($lesson_query="upcoming") {
+
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/upcoming');
+
+        $data['title'] = 'Lesson';
+
+        $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+        $data['heading'] = "Upcoming Lessons";
+        $data['lesson_sched'] = "upcoming";
+        if($data['role']=='admin'){
+            $this->load->view('layout/header');
+            if($data['real_role']=="7"||$data['real_role']=="1"){
+                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"upcoming");
+                foreach ($data['list'] as $key => $value) {
+                    if($value['zoom_id']){
+                        $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                        $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                    }
+                    
+                    $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                    $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                    $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                    
+
+                }
+            }else{
+                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(),"upcoming");
+            }
+            
+            
+        }else{
+
+            $data['lesson_query'] = $lesson_query;
+            $this->load->view('layout/student/header');
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"upcoming");
+            foreach ($data['list'] as $key => $value) {
+                if($value['zoom_id']){
+                    $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                    $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                }
+                
+                $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                
+
+            }
+
+        }
+        
+        $this->load->view('lms/lesson/index', $data);
+        $this->load->view('layout/footer');
+    }
+
+    function past($lesson_query="past") {
+
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/past');
+
+        $data['title'] = 'Lesson';
+
+        $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+        $data['heading'] = "Past Lessons";
+        $data['lesson_sched'] = "past";
+        if($data['role']=='admin'){
+            $this->load->view('layout/header');
+            if($data['real_role']=="7"||$data['real_role']=="1"){
+                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"past");
+                foreach ($data['list'] as $key => $value) {
+                    if($value['zoom_id']){
+                        $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                        $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                    }
+                    
+                    $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                    $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                    $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                    
+
+                }
+            }else{
+                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(),"past");
+            }
+            
+            
+        }else{
+
+            $data['lesson_query'] = $lesson_query;
+            $this->load->view('layout/student/header');
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"past");
             foreach ($data['list'] as $key => $value) {
                 if($value['zoom_id']){
                     $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
@@ -1158,6 +1274,48 @@ class Lesson extends General_Controller {
         $lesson_update['zoom_id'] = $conference_id;
         $this->lesson_model->lms_update("lms_lesson",$lesson_update);
         redirect(json_decode($conference['return_response'])->start_url);
+    }
+
+    public function check_class($lesson_id){
+        
+        $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
+
+        if($the_lesson['lesson_type'] == "zoom"||$the_lesson['lesson_type'] == "virtual"){
+            $start_date = strtotime($the_lesson['start_date']);
+            $end_date = strtotime($the_lesson['end_date']);
+            $current_date = strtotime(date("Y-m-d H:i:s"));
+            if($current_date>$end_date){
+                redirect(base_url('lms/lesson/create/'.$lesson_id));
+            }else{
+
+                if($the_lesson['lesson_type'] == "virtual"){
+                    $teacher = $this->lesson_model->lms_get("staff",$the_lesson['account_id'],"id","name,google_meet")[0];
+
+                    if($the_lesson['allow_view']=="1"){
+                        echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
+                        echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
+                    }else{
+                        echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
+                        echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
+                    }
+
+                }
+                if($the_lesson['lesson_type'] == "zoom"){
+                    $conference = json_decode($this->lesson_model->lms_get("conferences",$the_lesson['zoom_id'],"id","return_response")[0]['return_response'])->join_url;
+
+                    if($the_lesson['allow_view']=="1"){
+                        echo "<script>window.open('".$conference."', '_blank');</script>";
+                        echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
+                    }else{
+                        echo "<script>window.open('".$conference."', '_blank');</script>";
+                        echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
+                    }
+
+                }
+            }
+        }else{
+            redirect(base_url('lms/lesson/create/'.$lesson_id));
+        }
     }
 
 }

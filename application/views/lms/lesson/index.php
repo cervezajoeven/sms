@@ -97,16 +97,9 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <?php if($role=="student"): ?>
-                            <?php if($lesson_query=="upcoming"): ?>
-                                <h3 class="box-title titlefix">Upcoming Lessons</h3>
-                            <?php else: ?>
-                                <h3 class="box-title titlefix">Recent Lessons</h3>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <h3 class="box-title titlefix">View/Edit My Lesson</h3>
+                        
+                        <h3 class="box-title titlefix"><?php echo $heading ?></h3>
 
-                        <?php endif; ?>
                         <div class="box-tools pull-right">
 
                         </div><!-- /.box-tools -->
@@ -124,17 +117,21 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th>Teacher</th>
-                                        <th><?php echo $this->lang->line('type'); ?></th>
-                                        <th>Date</th>
-                                        <th>Term</th>
                                         <th>Subject</th>
-                                        <th>Grade</th>
+                                        <th>Teacher</th>
+                                        <th>Date</th>
+                                        <th><?php echo $this->lang->line('type'); ?></th>
+                                        <th>Term</th>
+                                        <?php if($role!="student"): ?>
+                                            <th>Grade</th>
+                                        <?php endif; ?>
                                         <!-- Remove by JSS -->
                                         <!-- <th>Education Level</th> -->
                                         <!-- Remove by JSS -->
-                                        <th>Shared</th>
-                                        <th>Status</th>
+                                        <?php if($role!="student"): ?>
+                                            <th>Shared</th>
+                                        <?php endif; ?>
+                                        <!-- <th>Status</th> -->
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
                                 </thead>
@@ -146,37 +143,44 @@
                                                 <?php echo $list_data['lesson_name']?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['name'] ?> <?php echo $list_data['surname'] ?>
+                                                <?php echo $list_data['subject_name']; ?>
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
+                                                <?php echo $list_data['name'] ?> <?php echo $list_data['surname'] ?>
                                             </td>
+
                                             <td class="mailbox-name">
                                                <?php echo date("M d, h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("M d, h:i A", strtotime($list_data['end_date'])); ?>
                                             </td>
                                             <td class="mailbox-name">
+                                                <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
+                                            </td>
+                                            
+                                            <td class="mailbox-name">
                                                 <center><?php echo $list_data['term']; ?></center>
                                             </td>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['subject_name']; ?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['class']; ?>
-                                            </td>
+                                            
+                                            <?php if($role!="student"): ?>
+                                                <td class="mailbox-name">
+                                                    <?php echo $list_data['class']; ?>
+                                                </td>
+                                            <?php endif; ?>
                                             
                                             <!-- <td class="mailbox-name">
                                                 <?php echo str_replace("_", " ", strtoupper($list_data['education_level'])); ?>
                                             </td> -->
-                                            <td>
-                                                <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
-                                            </td>
-                                            <td>
+                                            <?php if($role!="student"): ?>
+                                                <td>
+                                                    <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
+                                                </td>
+                                            <?php endif; ?>
+                                            <!-- <td>
                                                 <select class="lesson_status" lesson_id="<?php echo $list_data['id'] ?>" <?php if($role=="student"): ?> readonly="" <?php endif; ?> >
                                                     <option value="awaiting">Awaiting</option>
                                                     <option value="cancelled">Cancelled</option>
                                                     <option value="completed">Completed</option>
                                                 </select>
-                                            </td>
+                                            </td> -->
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
@@ -209,17 +213,18 @@
                                                     </a>
 
                                                 <?php elseif($role=="student"): ?>
-                                               
+                                                    <?php if($lesson_sched!="upcoming"): ?>
+                                                        <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/check_class/'.$list_data['lesson_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                                    <i class="fa fa-eye"  ></i>
+                                                                    <?php if($lesson_sched == "past"): ?>
+                                                                        View Lesson
+                                                                    <?php else: ?>
 
-                                                    <?php if($list_data["allow_view"]=="1"): ?>
-                                                        <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="google_meet_open(\''.$list_data["google_meet"].'\')"':'' ?> <?php echo ($list_data['lesson_type']=="zoom")?'onclick="google_meet_open(\''.$list_data["student_zoom_link"].'\')"':'' ?> class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
-                                                                <i class="fa fa-eye"  ></i> Enter Class
-                                                        </a>
-                                                    <?php else: ?>
-                                                        <a data-placement="left" id="student_view" <?php echo ($list_data['lesson_type']=="virtual")?'onclick="google_meet_open(\''.$list_data["google_meet"].'\')"':'' ?> <?php echo ($list_data['lesson_type']=="zoom")?'onclick="google_meet_open(\''.$list_data["student_zoom_link"].'\')"':'' ?> class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
-                                                                <i class="fa fa-eye"  ></i> Enter Class
+                                                                        Enter Class
+                                                                    <?php endif; ?>
                                                         </a>
                                                     <?php endif; ?>
+                                                  
                                                 <?php endif; ?>
                                                 
                                             </td>
