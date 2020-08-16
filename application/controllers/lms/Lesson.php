@@ -530,8 +530,8 @@ class Lesson extends General_Controller {
                 
                 $sender_details['sendees'][$student_key]['id'] = $student_value['id'];
                 $sender_details['sendees'][$student_key]['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
-                $sender_details['sendees'][$student_key]['email'] = $student_value['guardian_email'];
-                // $sender_details['sendees'][$student_key]['email'] = "cervezajoeven@gmail.com";
+                // $sender_details['sendees'][$student_key]['email'] = $student_value['guardian_email'];
+                $sender_details['sendees'][$student_key]['email'] = "cervezajoeven@gmail.com";
                 $sender_details['sendees'][$student_key]['username'] = $student_value['username'];
                 $sender_details['sendees'][$student_key]['password'] = $student_value['password'];
                 // $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
