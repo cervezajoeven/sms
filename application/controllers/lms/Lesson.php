@@ -518,6 +518,7 @@ class Lesson extends General_Controller {
             $all_emails = array();
             $sender_details['lesson_title'] = $lesson['lesson_name'];
             $sender_details['school_url_login_page'] = base_url('site/userlogin');
+            $sender_details['school_code'] = $_SERVER['HTTP_HOST'];
             // $sender_details['start_date'] = $lesson['start_date'];
             $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
             $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
@@ -530,6 +531,7 @@ class Lesson extends General_Controller {
                 $sender_details['sendees'][$student_key]['id'] = $student_value['id'];
                 $sender_details['sendees'][$student_key]['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
                 $sender_details['sendees'][$student_key]['email'] = $student_value['guardian_email'];
+                // $sender_details['sendees'][$student_key]['email'] = "cervezajoeven@gmail.com";
                 $sender_details['sendees'][$student_key]['username'] = $student_value['username'];
                 $sender_details['sendees'][$student_key]['password'] = $student_value['password'];
                 // $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
@@ -539,6 +541,7 @@ class Lesson extends General_Controller {
             $send_email['school'] = "school"; 
             $send_email['data'] = json_encode($sender_details);
             $url = "https://beta.campuscloudph.com/lms/lesson/email_api";
+            // $url = "http://localhost/sms/lms/lesson/email_api";
             print_r($this->httpPost($url,$send_email));
             // echo "<center><h1>Success! You may exit this page now.</h1></center>";
         }
@@ -547,10 +550,12 @@ class Lesson extends General_Controller {
 
     public function email_api(){
         $data = json_decode($_REQUEST['data']);
-
+        $email_logs = array();
         foreach ($data->sendees as $sendees_key => $sendees_value) {
+
             $sender_details['lesson_title'] = $data->lesson_title;
             $sender_details['school_url_login_page'] = $data->school_url_login_page;
+            $sender_details['school_code'] = $data->school_code;
             $sender_details['start_date'] = $data->start_date;
             $sender_details['lesson_type'] = $data->lesson_type;
             $sender_details['teacher_name'] = $data->teacher_name;
@@ -559,10 +564,10 @@ class Lesson extends General_Controller {
             $sender_details['email'] = $sendees_value->email;
             $sender_details['username'] = $sendees_value->username;
             $sender_details['password'] = $sendees_value->password;
-            $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+            $email_logs[$sendees_key] = $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
             
         }
-        // print_r($sender_details);
+        $this->db->insert_batch("messages",$email_logs);
 
 
     }
