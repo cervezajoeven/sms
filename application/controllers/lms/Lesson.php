@@ -1294,9 +1294,11 @@ class Lesson extends General_Controller {
                     if($the_lesson['allow_view']=="1"){
                         echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
                         echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
+                        redirect($teacher['google_meet']);
                     }else{
                         echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
                         echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
+                        redirect($teacher['google_meet']);
                     }
 
                 }
@@ -1306,9 +1308,11 @@ class Lesson extends General_Controller {
                     if($the_lesson['allow_view']=="1"){
                         echo "<script>window.open('".$conference."', '_blank');</script>";
                         echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
+                        redirect($conference);
                     }else{
                         echo "<script>window.open('".$conference."', '_blank');</script>";
                         echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
+                        redirect($conference);
                     }
 
                 }
