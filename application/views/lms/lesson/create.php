@@ -6,7 +6,7 @@
 
         <title>LMS - <?php echo $lesson['lesson_name'] ?></title>
         <link rel="stylesheet" href="<?php echo $resources.'jquery-ui.css' ?>">
-        <link rel="stylesheet" href="<?php echo $resources.'lesson.css' ?>">
+        <link rel="stylesheet" href="<?php echo $resources.'lesson_2.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'jquery.magnify.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'fontawesome/css/all.css' ?>">
@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+        <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
         <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
         <style type="text/css">
@@ -439,13 +440,13 @@
                             
                               <div class="pretty p-switch p-fill">
                                 
-                                  <!-- <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> /> -->
-                                  <input type="checkbox" id="email_notification" checked />
+                                  <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> />
+                                  <!-- <input type="checkbox" id="email_notification" /> -->
                                   <div class="state p-primary">
                                       <label>Email Notification</label>
                                   </div>
                               </div>
-                              <button id="send_emails_now" >Send Now</button>
+                              <!-- <button id="send_emails_now" >Send Now</button> -->
 
                             </div>
 
@@ -712,7 +713,7 @@
 
         <div class="student_view student_view_close">
             <style type="text/css">
-              /*.student_view_container{
+              .student_view_container{
                 width: 100%;
               }
               .button_navigation{
@@ -720,7 +721,43 @@
               }
               .student_view_title{
                 width: 30%;
-              }*/
+              }
+              .green{
+                background-color: rgb(0 175 30);
+              }
+              .orange{
+                background-color: rgb(195 128 5);
+              }
+              .red{
+                background-color: rgb(220 0 0);
+              }
+              .navigation_tools{
+                width: 12.5%;
+                max-height: 20px;
+              }
+              .student_view_slides{
+                width: 100%;
+              }
+              .slide{
+                width: 10%;
+              }
+              .slide_active{
+                height: 100px;
+              }
+              
+              .blue{
+                background-color: rgb(46, 117, 182);
+              }
+              .student_view_title {
+                  width: 30%;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  text-indent: 10px;
+              }
+              .close_student_view{
+                width: 12.5%;
+              }
             </style>
             <div class="student_view_container">
 
@@ -728,6 +765,14 @@
                     <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div>
                     <div class="student_view_buttons student_view_title">Title</div>
                     <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
+
+                    <?php if($role=="admin"): ?>
+                      <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i>Teacher Tools</div>
+                      <div class="student_view_buttons navigation_tools orange formula_board_button"><i class="fas fa-wrench"></i> Formula Board</div>
+                      <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-wrench"></i> Annotate</div>
+                      <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
+                    <?php endif; ?>
+                    <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
                     
                 
                 </div>
@@ -738,14 +783,27 @@
                     </div>
                     
                 </div>
+                <style type="text/css">
+                  .html_content{
+                    background-color: rgb(210, 206, 206);
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                    padding: 50px;
+                  }
+                </style>
                 <div class="student_view_content" >
 
                     <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0" ></iframe>
                     <img class="content_type image_content" src="" data-magnify="gallery" data-caption="Image Caption 1" data-src="1.jpg" />
-                    <div class="content_type html_content" src="" style="background-color: white;"></div>
+                    <div class="content_type html_content" style="background-color: white;"></div>
                     <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
                 </div>
-
+                <style type="text/css">
+                  .teacher_tools{
+                    width: 100%;
+                  }
+                </style>
                 <div id="teacher_tools" class="teacher_tools">
                     <div class="student_view_buttons close_action teacher_tools_button" style="
                             width: 12%;
@@ -767,14 +825,24 @@
                               font-weight: bolder;
                               margin-top: 0px;"
                               >CMS Teacher Tools</h2>
-                          <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 106%;height: 90%;left: -70px;position: relative;" >
+                          <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 100%;height: 90%;position: relative;" >
                             
                           </iframe>
 
                 </div>
+
+                <div id="" class="formula_board">
+     
+                  <iframe id="" src="<?php echo base_url()?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;" >
+                    
+                  </iframe>
+                </div>
+                <canvas id="canvas" class="annotate" width="1000" height="1000">
+     
+                </canvas>
                 
             </div>
-            <div class="student_view_right">
+            <!-- <div class="student_view_right">
                 
                 <div class="student_view_navigation">
                   <?php if($role=="admin"): ?>
@@ -800,7 +868,7 @@
                     </div>
                     <button>Full Screen</button>
                 </div>
-            </div>
+            </div> -->
             
         </div>
         <style type="text/css">
@@ -862,7 +930,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script src="<?php echo $resources.'lesson_6.js'?>"></script>
+        <script src="<?php echo $resources.'drawing-table.js'?>" type="text/javascript"></script>
+        <script src="<?php echo $resources.'lesson_7.js'?>"></script>
         <script type="text/javascript">
           
         </script>

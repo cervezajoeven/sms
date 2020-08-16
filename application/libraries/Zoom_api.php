@@ -126,6 +126,34 @@ class Zoom_api {
         return json_decode($response);
     }
 
+    public function get_meeting($meeting_id){
+
+        $request_url = 'https://api.zoom.us/v2/meetings/'.$meeting_id;
+
+
+        $headers = array(
+            'authorization: Bearer ' . $this->generateJWTKey(),
+            'content-type: application/json',
+        );
+
+        $postFields = json_encode($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $request_url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if (!$response) {
+
+            return false;
+        }
+
+        return json_decode($response);
+    }
     public function getJWT(){
         return $this->generateJWTKey();
     }

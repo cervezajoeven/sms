@@ -320,13 +320,14 @@ class Assessment extends General_Controller {
             $this->mailsmsconf->mailsms('assessment_assigned', $sender_details);
 
         }
-        print_r($data['email_notification']);
+        // print_r($data['email_notification']);
         $total_score = 0;
         //convert to array
         foreach ($sheet as $answer_key => $answer_value) {
             if($answer_value->type!="section"){
                 $sheet[$answer_key] = (array)$answer_value;
-                $total_score +=1;
+
+                $total_score +=$sheet[$answer_key]['points'];
             }
             
         }
@@ -406,11 +407,23 @@ class Assessment extends General_Controller {
             if($answer_value['type']=="multiple_choice"||$answer_value['type']=="multiple_answer"){
 
                 if($answer_value['answer'] == $assessment_value['correct']){
-                    $score += 1;
+                    if(array_key_exists("points", $assessment_value)){
+
+                        $score += $assessment_value['points'];
+                    }else{
+
+                        $score += 1;
+                    }
                 }
             }else if($answer_value['type']=="short_answer"){
-                if(in_array(strtolower($answer_value['answer']), explode(",", strtolower($assessment_value['correct'])))){
-                    $score += 1;
+                if(in_array(trim(strtolower($answer_value['answer'])), explode(",", strtolower($assessment_value['correct'])))){
+                    if(array_key_exists("points", $assessment_value)){
+
+                        $score += $assessment_value['points'];
+                    }else{
+
+                        $score += 1;
+                    }
                 }
             }else{
 

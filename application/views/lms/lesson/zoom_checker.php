@@ -25,15 +25,38 @@
 
       <div class="jumbotron">
 
-		<?php if($zoom_status=="zoom"): ?>
+		<?php if($zoom_status=="zoom"): ?>  
 			
-			<h1><?php echo $zoom_email; ?></h1>
+			<h1>Pick Zoom Meeting</h1>
 			<p class="lead">You are now assigned to <b><?php echo $zoom_email; ?></b>. Please click "<b>Start Zoom Meeting</b>" to start class. Please refer to the <b>FAQ's</b> below of this page if any issues encountered.</p>
 			<p><a class="btn btn-lg btn-success" href="<?php echo $zoom_link ?>" target="_blank" role="button">Start Zoom Meeting</a></p>
 		<?php else: ?>
 			<h1><?php echo $zoom_account_status; ?></h1>
 			<p><a class="btn btn-lg btn-warning" href="" role="button">Refresh this Page</a></p>
 		<?php endif; ?>
+
+      <table class="table">
+        <tr>
+          <th>Zoom Email</th>
+          <th>Status</th>
+          <th>Lesson</th>
+          <th>Start Class / Reconnect</th>
+          <th>Observe Class / Join Meeting</th>
+        </tr>
+        <?php foreach ($zoom_lister as $zoom_lister_key => $zoom_lister_value): ?>
+          <tr>
+            <td><?php echo $zoom_lister_value['email'] ?></td>
+            <td><?php echo $zoom_lister_value['availability'] ?></td>
+            <td><?php echo $zoom_lister_value['lesson_title'] ?></td>
+            <?php if($zoom_lister_value['start_url'] != ""): ?>
+              <td><a href="<?php echo $zoom_lister_value['start_url'] ?>" target="_blank"><button class="btn btn-success">Reconnect</button></a></td>
+            <?php else: ?>
+              <td><a href="<?php echo $zoom_lister_value['start_url'] ?>" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
+            <?php endif; ?>
+            <td><a href="<?php echo $zoom_lister_value['join_url'] ?>"><button class="btn btn-warning">Join / Observe Meeting</button></a></td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
 			
         
         
