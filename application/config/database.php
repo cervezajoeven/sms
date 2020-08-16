@@ -100,7 +100,7 @@ if($HTTP_HOST=="localhost"){
 	
 	$username = 'root';
   	$password = '';
-  	$database = 'campus_tlc-nbs';
+  	$database = 'campus_sophiameycauayan';
   	
 }else{
 

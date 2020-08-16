@@ -25,15 +25,10 @@
 
       <div class="jumbotron">
 
-		<?php if($zoom_status=="zoom"): ?>  
 			
 			<h1>Pick Zoom Meeting</h1>
-			<p class="lead">You are now assigned to <b><?php echo $zoom_email; ?></b>. Please click "<b>Start Zoom Meeting</b>" to start class. Please refer to the <b>FAQ's</b> below of this page if any issues encountered.</p>
-			<p><a class="btn btn-lg btn-success" href="<?php echo $zoom_link ?>" target="_blank" role="button">Start Zoom Meeting</a></p>
-		<?php else: ?>
-			<h1><?php echo $zoom_account_status; ?></h1>
-			<p><a class="btn btn-lg btn-warning" href="" role="button">Refresh this Page</a></p>
-		<?php endif; ?>
+			<p class="lead">Please select a zoom to start the class. If you encounter any disconnection. You can reconnect here.</p>
+			
 
       <table class="table">
         <tr>
@@ -51,7 +46,7 @@
             <?php if($zoom_lister_value['start_url'] != ""): ?>
               <td><a href="<?php echo $zoom_lister_value['start_url'] ?>" target="_blank"><button class="btn btn-success">Reconnect</button></a></td>
             <?php else: ?>
-              <td><a href="<?php echo $zoom_lister_value['start_url'] ?>" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
+              <td><a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
             <?php endif; ?>
             <td><a href="<?php echo $zoom_lister_value['join_url'] ?>"><button class="btn btn-warning">Join / Observe Meeting</button></a></td>
           </tr>
