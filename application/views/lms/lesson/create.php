@@ -767,9 +767,9 @@
                     <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
 
                     <?php if($role=="admin"): ?>
-                      <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-wrench"></i>Teacher Tools</div>
-                      <div class="student_view_buttons navigation_tools orange formula_board_button"><i class="fas fa-wrench"></i> Formula Board</div>
-                      <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-wrench"></i> Annotate</div>
+                      <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div>
+                      <div class="student_view_buttons navigation_tools orange formula_board_button"><i class="fas fa-square-root-alt"></i> Formula Board</div>
+                      <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-pen"></i> Annotate</div>
                       <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
                     <?php endif; ?>
                     <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
