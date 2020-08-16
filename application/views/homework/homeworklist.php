@@ -106,6 +106,7 @@ $language_name = $language["short_code"];
                                             <th><?php echo $this->lang->line('homework_date'); ?></th>
                                             <th><?php echo $this->lang->line('submission_date'); ?></th>
                                             <th><?php echo $this->lang->line('evaluation_date'); ?></th>
+                                            <th><?php echo "Has Submissions"; ?></th>
                                             <th><?php echo $this->lang->line('created_by'); ?></th>
                                             <th class="text-right"><?php echo $this->lang->line('action') ?></th>
                                         </tr>
@@ -131,6 +132,10 @@ $language_name = $language["short_code"];
                                                         echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateYYYYMMDDtoStrtotime($homework['evaluation_date']));
                                                     }
                                                     ?></td>
+                                                <td>
+                                                <?php if ($homework["assignments"] > 0) echo "Yes";
+                                                else echo "No";?>
+                                                </td>
                                                 <td><?php
                                                   
                                                         echo $homework["created_by"];
