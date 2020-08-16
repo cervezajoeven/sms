@@ -465,7 +465,109 @@ class Lesson extends General_Controller {
         //contents
     }
 
+    public function httpPost($url,$params){
+        $postData = '';
+       //create name value pairs seperated by &
+       foreach($params as $k => $v) 
+       { 
+          $postData .= $k . '='.$v.'&'; 
+       }
+       $postData = rtrim($postData, '&');
+     
+        $ch = curl_init();  
+     
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_HEADER, false); 
+        curl_setopt($ch, CURLOPT_POST, count($postData));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);    
+     
+        $output=curl_exec($ch);
+     
+        curl_close($ch);
+        return $output;
+    }
+
+    public function send_email_notification_godaddy($lesson_id="",$email_notification="",$student_ids=""){
+        if(!$lesson_id){
+            $student_ids = $_REQUEST['student_ids'];
+            $lesson_id = $_REQUEST['lesson_id'];
+            $email_notification = $_REQUEST['email_notification'];
+        }else{
+            $student_ids = explode(",", urldecode($student_ids));
+        }
+
+        echo "<pre>";
+
+
+        $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
+        $this->db->from("lms_lesson");
+        $this->db->join("staff","lms_lesson.account_id = staff.id");
+        $this->db->where("lms_lesson.id",$lesson_id);
+        $lesson = $this->db->get()->result_array()[0];
+
+        $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password");
+        $this->db->from("students");
+        $this->db->join("users","users.user_id = students.id");
+        $this->db->where_in("students.id",$student_ids);
+        $students = $this->db->get()->result_array();
+
+        
+
+        if($email_notification=="true"){
+            $all_emails = array();
+            $sender_details['lesson_title'] = $lesson['lesson_name'];
+            $sender_details['school_url_login_page'] = base_url('site/userlogin');
+            $sender_details['start_date'] = $lesson['start_date'];
+            $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
+            $sender_details['teacher_name'] = $lesson['name']." ".$lesson['surname'];
+
+            foreach($students as $student_key => $student_value) {        
+
+                // $sender_details['email'] = $student_value['guardian_email'];
+                
+                $sender_details['sendees'][$student_key]['id'] = $student_value['id'];
+                $sender_details['sendees'][$student_key]['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
+                $sender_details['sendees'][$student_key]['email'] = 'cervezajoeven@gmail.com';
+                $sender_details['sendees'][$student_key]['username'] = $student_value['username'];
+                $sender_details['sendees'][$student_key]['password'] = $student_value['password'];
+                // $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+                
+            }
+
+            $send_email['school'] = "school"; 
+            $send_email['data'] = json_encode($sender_details);
+            $url = "https://beta.campuscloudph.com/lms/lesson/email_api";
+            print_r($this->httpPost($url,$send_email));
+            // echo "<center><h1>Success! You may exit this page now.</h1></center>";
+        }
+    }
+
+
+    public function email_api(){
+        $data = json_decode($_REQUEST['data']);
+
+        foreach ($data->sendees as $sendees_key => $sendees_value) {
+            $sender_details['lesson_title'] = $data->lesson_title;
+            $sender_details['school_url_login_page'] = $data->school_url_login_page;
+            $sender_details['start_date'] = $data->start_date;
+            $sender_details['lesson_type'] = $data->lesson_type;
+            $sender_details['teacher_name'] = $data->teacher_name;
+            $sender_details['id'] = $sendees_value->id;
+            $sender_details['student_name'] = $sendees_value->student_name;
+            $sender_details['email'] = $sendees_value->email;
+            $sender_details['username'] = $sendees_value->username;
+            $sender_details['password'] = $sendees_value->password;
+            $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+            
+        }
+        // print_r($sender_details);
+
+
+    }
+
     public function send_email_notification($lesson_id="",$email_notification="",$student_ids=""){
+
         if(!$lesson_id){
             $student_ids = $_REQUEST['student_ids'];
             $lesson_id = $_REQUEST['lesson_id'];
