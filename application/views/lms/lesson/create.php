@@ -438,15 +438,15 @@
                             <div class="notification_control">
                               <h3>Notification</h3>
                             
-                              <div class="pretty p-switch p-fill">
-                                
-                                  <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> />
+                              <div class="pretty p-switch p-fill" style="display: none">
+                                  
+                                  <input type="checkbox" id="email_notification" <?php if($lesson['email_notification']=="1"){ echo "checked"; } ?> checked />
                                   <!-- <input type="checkbox" id="email_notification" /> -->
                                   <div class="state p-primary">
                                       <label>Email Notification</label>
                                   </div>
                               </div>
-                              <button id="send_emails_now" >Send Now</button>
+                              <button id="send_emails_now" style="padding: 10px;border-radius: 10px;border: 0px;cursor: pointer;width: 30%;background-color: #428bca;color: white;">Send Now</button>
 
                             </div>
 
@@ -456,7 +456,7 @@
 
                             <h3>Save</h3>
                             
-                            <button class="assign_save" style="padding: 10px;width: 50%;border-radius: 10px;border: 0px;cursor: pointer;">Save/Assign</button>
+                            <button class="assign_save" style="    padding: 10px;width: 30%;border-radius: 10px;border: 0px;cursor: pointer;background-color: #428bca;color: white;">Save/Assign</button>
 
                         </div>
                         
