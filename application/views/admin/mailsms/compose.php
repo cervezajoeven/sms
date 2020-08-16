@@ -76,31 +76,22 @@
 
                                         </div>
                                         <div class="col-md-4">
-
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('message_to'); ?></label><small class="req"> *</small>
                                                 <div class="well minheight303">
-                                                    <div class="checkbox mt0">
-                                                        <label><input type="checkbox" name="user[]" value="student"> <b><?php echo $this->lang->line('students'); ?></b> </label>
-                                                    </div>
+                                                    <!-- <div class="checkbox mt0">
+                                                        <label><input type="checkbox" name="user[]" value="student"> <b><?php //echo $this->lang->line('students'); ?></b> </label>
+                                                    </div> -->
                                                     <div class="checkbox">
                                                         <label><input type="checkbox" name="user[]" value="parent"> <b><?php echo $this->lang->line('guardians'); ?></b></label>
                                                     </div>
                                                     <?php
-                                                    foreach ($roles as $role_key => $role_value) {
-                                                        ?>
-
+                                                    foreach ($roles as $role_key => $role_value) {?>
                                                         <div class="checkbox">
                                                             <label><input type="checkbox" name="user[]" value="<?php echo $role_value['id']; ?>"> <b><?php echo $role_value['name']; ?></b></label>
                                                         </div>
-
-
-                                                        <?php
-                                                    }
-                                                    ?>
-
+                                                    <?php }?>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
