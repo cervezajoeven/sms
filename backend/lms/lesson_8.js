@@ -1371,7 +1371,6 @@ $(document).ready(function(){
 
     $(".assign_save").click(function(){
         change_detected();
-        send_email_notification();
         alert("Lesson has been assigned successfully");
     });
 
@@ -1401,14 +1400,32 @@ $(document).ready(function(){
         var lesson_id = $("#lesson_id").val();
         var email_notification = $("#email_notification").prop("checked");
 
-        window.open(send_email_notification_url+"/"+lesson_id+"/"+email_notification+"/"+student_ids,"_blank");
+        // window.open(send_email_notification_url+"/"+lesson_id+"/"+email_notification+"/"+student_ids,"_blank");
+        $.ajax({
+            url: send_email_notification_url+"/"+lesson_id+"/"+email_notification+"/"+student_ids,
+            type: "GET",
+            // data: {
+            //     student_ids:student_ids,
+            //     lesson_id:$("#lesson_id").val(),
+            //     email_notification:$("#email_notification").prop("checked"),
+            // },
+       
+            success: function(data)
+            {
+                alert("Email Sent Successfully!");
+               
+            },
+            error: function(e){
+
+            }
+        });
 
     }
     $("#send_emails_now").click(function(){
         send_emails_now();
     });
     function send_email_notification(){
-        var send_email_notification_url = $("#url").val()+"send_email_notification";
+        var send_email_notification_url = $("#url").val()+"send_email_notification_godaddy";
         var student_ids = [];
         $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
