@@ -695,7 +695,7 @@ class Lesson extends General_Controller {
 
             $sender_details['id'] = $data_value->id;
             $sender_details['email'] = "cervezajoeven@gmail.com";
-            $sender_details['display_name'] = $data_value->student_name;
+            $sender_details['display_name'] = $data_value->display_name;
             $sender_details['username'] = $data_value->username;
             $sender_details['password'] = $data_value->password;
             $sender_details['url'] = $data_value->url;
