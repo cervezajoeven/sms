@@ -699,7 +699,7 @@ class Lesson extends General_Controller {
             $sender_details['username'] = $data_value->username;
             $sender_details['password'] = $data_value->password;
             $sender_details['url'] = $data_value->url;
-            print_r($this->mailsmsconf->mailsms('old_student_account', $sender_details));
+            $this->mailsmsconf->mailsms('old_student_account', $sender_details);
             
         }
 

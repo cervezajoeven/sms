@@ -112,7 +112,7 @@ class Mailgateway
             $return["subject"] = $subject;
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg)){
                 
-                echo "Success";
+                echo "Success - ".$sender_details['email'];
                 $email_log = array("title"=>"Success - Resend Login Credential","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
                 $this->_CI->lesson_model->sms_create("messages",$email_log);
                 $this->_CI->my_model->log(strtoupper($sender_details['credential_for']) . " login credentials for ".$sender_details['username']." sent", $sender_details['id'], "Email");
