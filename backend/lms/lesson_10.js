@@ -161,14 +161,18 @@ $(document).ready(function(){
         "AIzaSyB6qupMjROOkodPGKk8cztd_I06HNP63Cc",
         "AIzaSyBdGeCpF6CKjMV7u4Y7Y0vpPN734kEQ7Q",
         "AIzaSyCvAvoB9qK1fvtPdJNzgqyeCgkW6oLjM88",
+        "AIzaSyCp_CsYhP6JcqhugOaGv-WpS5hYLFl4L8U",
+        "AIzaSyAGM9RzZYcqYS2-SEmn3ucy4nmZ5jHYE2Y",
     ];
 
     var google_keys = [
+        "AIzaSyAGM9RzZYcqYS2-SEmn3ucy4nmZ5jHYE2Y",
         "AIzaSyCa2SdElivdp3iAh3d25YGP5mhkYyTXgxs",
         "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI",
         "AIzaSyDixpRH3jO6vOJir4JnDA1U_8DYGfOtvHo",
         "AIzaSyCKCH9YY-tNPS_hCfjdwv2gQkbVuFL67f4",
-        "AIzaSyDg-IskVIXdIx-gx361vhaoFP3sLkFVdFs",
+        "AIzaSyCKCH9YY-tNPS_hCfjdwv2gQkbVuFL67f4",
+        "AIzaSyBpMzPcIU3EwDBF5_4Eplj5009RDCqs16k",
     ];
     // window.addEventListener("resize", adjust_iframe());
     function youtube_search(query,maxResults = 5){
@@ -178,13 +182,13 @@ $(document).ready(function(){
             context: document.body
         }).done(function(data) {
 
-            console.log(google_keys[google_looper]+" Worked");
+            console.log(youtube_keys[youtube_looper]+" For youtube Worked");
             var processed_data = process_data(data,"youtube");
             result_pool = processed_data;
             populate_search_content(processed_data);
 
         }).error(function(){
-            console.log(youtube_keys[youtube_looper]+" Did not work!");
+            console.log(youtube_keys[youtube_looper]+" For youtube did not work!");
             youtube_looper++;
             youtube_search();
 
