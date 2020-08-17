@@ -815,6 +815,7 @@ class Lesson extends General_Controller {
     public function send_email_old_accounts(){
         $this->db->select("students.id,students.guardian_email,students.firstname,students.lastname,users.username,users.password");
         $this->db->join("users","users.user_id = students.id");
+        $this->db->limit(10);
         $query = $this->db->get("students");
         $result = $query->result_array();
         $send_data['mail_type'] = "old_student_account";
@@ -832,7 +833,7 @@ class Lesson extends General_Controller {
         $send_email['data'] = json_encode($sender_details);
 
         // $send_data['receivers'] = "old_student_account";
-        $url = "http://localhost/sms/lms/lesson/general_mail_api";
+        $url = "https://beta.campuscloudph.com/sms/lms/lesson/general_mail_api";
         print_r($this->httpPost($url,$send_email));
     }
 
