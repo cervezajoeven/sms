@@ -694,7 +694,7 @@ class Lesson extends General_Controller {
         foreach ($data as $data_key => $data_value) {
 
             $sender_details['id'] = $data_value->id;
-            $sender_details['email'] = "cervezajoeven@gmail.com";
+            $sender_details['email'] = $data_value->email;
             $sender_details['display_name'] = $data_value->display_name;
             $sender_details['username'] = $data_value->username;
             $sender_details['password'] = $data_value->password;
@@ -814,7 +814,7 @@ class Lesson extends General_Controller {
     public function send_email_old_accounts(){
         $this->db->select("students.id,students.guardian_email,students.firstname,students.lastname,users.username,users.password");
         $this->db->join("users","users.user_id = students.id");
-        $this->db->limit(10);
+        // $this->db->limit(10);
         $query = $this->db->get("students");
         $result = $query->result_array();
         $send_data['mail_type'] = "old_student_account";
