@@ -1294,9 +1294,17 @@ class Lesson extends General_Controller {
                     if($the_lesson['allow_view']=="1"){
                         echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
                         echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
+<<<<<<< Updated upstream
                     }else{
                         echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
                         echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
+=======
+                        redirect($teacher['google_meet']);
+                    }else{
+                        echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
+                        echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
+                        redirect($teacher['google_meet']);
+>>>>>>> Stashed changes
                     }
 
                 }
