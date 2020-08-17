@@ -49,11 +49,11 @@ class Mailgateway
             $subject = "Admission Confirm";
             $msg = $this->getStudentRegistrationContent($id, $template);
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg)){
-                $email_log = array("title"=>"Success - Admission Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
+                return $email_log = array("title"=>"Success - Admission Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
                 $this->_CI->lesson_model->sms_create("messages",$email_log);
                 $this->_CI->my_model->log("Student admission notice for ".$id." sent", $id, "Email");
             }else{
-                $email_log = array("title"=>"Not Sent - Admission Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
+                return $email_log = array("title"=>"Not Sent - Admission Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
                 $this->_CI->lesson_model->sms_create("messages",$email_log);
             }
         }
@@ -83,7 +83,7 @@ class Mailgateway
     {
         // var_dump($sender_details);die;
 
-        $msg     = $this->getLoginCredentialContent($sender_details['credential_for'], $sender_details, $template);
+        $msg     = $this->general_data($sender_details['credential_for'], $sender_details, $template);
         $send_to = $sender_details['email'];
 
         if (!empty($this->_CI->mail_config) && $send_to != "") {
@@ -101,19 +101,27 @@ class Mailgateway
 
     public function sendLoginCredentialJoe($chk_mail_sms, $sender_details, $template)
     {
-        $msg     = $this->getLoginCredentialContentJoe($sender_details['credential_for'], $sender_details, $template);
+        $msg     = $this->general_data($sender_details['credential_for'],$template, $sender_details);
+        print_r($msg);
         $send_to = $sender_details['email'];
 
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Login Credential";
+            $return["msg"] = $msg;
+            $return["send_to"] = $send_to;
+            $return["subject"] = $subject;
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg)){
+                
+
                 $email_log = array("title"=>"Success - Resend Login Credential","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
                 $this->_CI->lesson_model->sms_create("messages",$email_log);
                 $this->_CI->my_model->log(strtoupper($sender_details['credential_for']) . " login credentials for ".$sender_details['username']." sent", $sender_details['id'], "Email");
+
             }else{
                 $email_log = array("title"=>"Not Sent - Resend Login Credential","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to);
                 $this->_CI->lesson_model->sms_create("messages",$email_log);
             }
+            return $return;
                 
         }
             

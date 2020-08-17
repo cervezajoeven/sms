@@ -77,12 +77,12 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
-
+$local_db = "campus_tlc-nbs";
 if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
   	$password = '';
-  	$database = 'campus_sophiameycauayan';
+  	$database = $local_db;
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
@@ -100,7 +100,7 @@ if($HTTP_HOST=="localhost"){
 	
 	$username = 'root';
   	$password = '';
-  	$database = 'campus_sophiameycauayan';
+  	$database = $local_db;
   	
 }else{
 

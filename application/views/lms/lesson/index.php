@@ -261,7 +261,7 @@
 
 
 <script>
-    function google_meet_open(url){
+    function check_class(url){
         window.open(url);
     }
     $(document).ready(function () {
