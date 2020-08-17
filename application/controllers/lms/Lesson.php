@@ -690,13 +690,12 @@ class Lesson extends General_Controller {
     public function general_mail_api(){
         $data = json_decode($_REQUEST['data']);
 
-        $email_logs = array();
 
         foreach ($data as $data_key => $data_value) {
 
             $sender_details['id'] = $data_value->id;
             $sender_details['email'] = "cervezajoeven@gmail.com";
-            $sender_details['student_name'] = $data_value->student_name;
+            $sender_details['display_name'] = $data_value->student_name;
             $sender_details['username'] = $data_value->username;
             $sender_details['password'] = $data_value->password;
             $sender_details['url'] = $data_value->url;
@@ -820,10 +819,12 @@ class Lesson extends General_Controller {
         $result = $query->result_array();
         $send_data['mail_type'] = "old_student_account";
         echo "<pre>";
+        // print_r($result);
+        // exit;
         foreach ($result as $key => $value) {
             $sender_details[$key]['id'] = $value['id'];
             $sender_details[$key]['email'] = $value['guardian_email'];
-            $sender_details[$key]['student_name'] = $value['firstname']." ".$value['lastname'];
+            $sender_details[$key]['display_name'] = $value['firstname']." ".$value['lastname'];
             $sender_details[$key]['username'] = $value['username'];
             $sender_details[$key]['password'] = $value['password'];
             $sender_details[$key]['url'] = base_url('site/userlogin');
@@ -831,9 +832,9 @@ class Lesson extends General_Controller {
             // print_r($this->mailsmsconf->mailsms('old_student_account', $sender_details));
         }
         $send_email['data'] = json_encode($sender_details);
-
+        print_r($send_email);
         // $send_data['receivers'] = "old_student_account";
-        $url = "https://beta.campuscloudph.com/sms/lms/lesson/general_mail_api";
+        $url = "https://beta.campuscloudph.com/lms/lesson/general_mail_api";
         print_r($this->httpPost($url,$send_email));
     }
 
