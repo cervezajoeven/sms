@@ -214,7 +214,7 @@
 
                                                 <?php elseif($role=="student"): ?>
                                                     <?php if($lesson_sched!="upcoming"): ?>
-                                                        <a data-placement="left" id="student_view" href="<?php echo site_url('lms/lesson/check_class/'.$list_data['lesson_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>" >
+                                                        <a data-placement="left" id="student_view" href="#" class="btn btn-default btn-xs"  data-toggle="tooltip" onclick="check_class('<?php echo $list_data['lesson_id'] ?>')" title="<?php echo $this->lang->line('view'); ?>" >
                                                                     <i class="fa fa-eye"  ></i>
                                                                     <?php if($lesson_sched == "past"): ?>
                                                                         View Lesson
@@ -261,8 +261,21 @@
 
 
 <script>
-    function check_class(url){
-        window.open(url);
+    function check_class(lesson_id){
+        var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id;
+
+        $.ajax({
+            url: url,
+            method:"POST",
+        }).done(function(data) {
+            var parsed_data = JSON.parse(data);
+            if(parsed_data.video!=""){
+                window.open(parsed_data.video,"_blank");
+            }
+            if(parsed_data.lms!=""){
+                window.location.href = parsed_data.lms;
+            }
+        });
     }
     $(document).ready(function () {
         $('.detail_popover').popover({

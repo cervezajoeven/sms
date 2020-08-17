@@ -1309,26 +1309,27 @@ class Lesson extends General_Controller {
     public function check_class($lesson_id){
         
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
-        echo "<center><h1>You may now close this window.</h1></center>";
+
         if($the_lesson['lesson_type'] == "zoom"||$the_lesson['lesson_type'] == "virtual"){
             $start_date = strtotime($the_lesson['start_date']);
             $end_date = strtotime($the_lesson['end_date']);
             $current_date = strtotime(date("Y-m-d H:i:s"));
             if($current_date>$end_date){
-                redirect(base_url('lms/lesson/create/'.$lesson_id));
+                $open['video'] = "";
+                $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
             }else{
 
                 if($the_lesson['lesson_type'] == "virtual"){
                     $teacher = $this->lesson_model->lms_get("staff",$the_lesson['account_id'],"id","name,google_meet")[0];
 
                     if($the_lesson['allow_view']=="1"){
-                        echo "<script>window.open('".$teacher['google_meet']."', '_blank');</script>";
-                        echo "<script>window.open('".base_url('lms/lesson/create/'.$lesson_id)."', '_blank');</script>";
-                        // echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
-                        // redirect($teacher['google_meet']);
+
+                        $open['video'] = $teacher['google_meet'];
+                        $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
+                        
                     }else{;
-                        echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
-                        redirect($teacher['google_meet']);
+                        $open['video'] = $teacher['google_meet'];
+                        $open['lms'] = "";
                     }
 
                 }
@@ -1336,21 +1337,22 @@ class Lesson extends General_Controller {
                     $conference = json_decode($this->lesson_model->lms_get("conferences",$the_lesson['zoom_id'],"id","return_response")[0]['return_response'])->join_url;
 
                     if($the_lesson['allow_view']=="1"){
-                        echo "<script>window.open('".$conference."', '_blank');</script>";
-                        echo "<script>window.open('".base_url('lms/lesson/create/'.$lesson_id)."', '_blank');</script>";
-                        // echo "<script>window.location.replace('".base_url('lms/lesson/create/'.$lesson_id)."');</script>";
-                        // redirect($conference);
+                        $open['video'] = $conference;
+                        $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
                     }else{
-                        // echo "<script>window.open('".$conference."', '_blank');</script>";
-                        // echo "<script>window.location.replace('".base_url('lms/lesson/index/')."');</script>";
-                        redirect($conference);
+
+                        $open['video'] = $conference;
+                        $open['lms'] = "";
                     }
 
                 }
             }
         }else{
-            redirect(base_url('lms/lesson/create/'.$lesson_id));
+            $open['video'] = "";
+            $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
         }
+
+        echo json_encode($open);
     }
 
 }
