@@ -107,8 +107,8 @@ if($HTTP_HOST=="localhost"){
 
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
-  	$database = 'campus_'.$database_name;
-  	// $database = 'campus_sophiameycauayan';
+  	// $database = 'campus_'.$database_name;
+  	$database = 'campus_sms';
 }
 
 $db['default'] = array(
@@ -133,4 +133,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-// echo '<pre>';print_r($database);exit();
+echo '<pre>';print_r($db);exit();
