@@ -84,6 +84,7 @@ class Mailgateway
         // var_dump($sender_details);die;
 
         $msg     = $this->getLoginCredentialContent($sender_details['credential_for'], $sender_details, $template);
+        var_dump($msg);die;
         $send_to = $sender_details['email'];
 
         if (!empty($this->_CI->mail_config) && $send_to != "") {
