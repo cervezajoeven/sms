@@ -82,10 +82,10 @@ class Mailgateway
     public function sendLoginCredential($chk_mail_sms, $sender_details, $template)
     {
         // var_dump($sender_details);die;
-        print_r($sender_details);
-        print_r($template);
+        // print_r($sender_details);
+        // print_r($template);
         $msg     = $this->getLoginCredentialContent($sender_details['credential_for'], $sender_details, $template);
-        print_r($msg);
+        // print_r($msg);
         $send_to = $sender_details['email'];
 
         if (!empty($this->_CI->mail_config) && $send_to != "") {
@@ -272,7 +272,7 @@ class Mailgateway
             $sender_details['url']          = site_url('site/login');
             $sender_details['display_name'] = $staff['name'];
         }
-        print_r($sender_details);
+        // print_r($sender_details);
         foreach ($sender_details as $key => $value) {
 
             $template = str_replace('{{' . $key . '}}', $value, $template);
