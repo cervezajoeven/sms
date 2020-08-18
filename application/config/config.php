@@ -27,6 +27,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
+print_r($REQUEST_SCHEME);
+print_r($HTTP_HOST);
+exit;
 if($HTTP_HOST=="localhost"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/sms';
 }elseif(strpos($HTTP_HOST, "192.168.") !== false){
