@@ -74,7 +74,7 @@ class Emailconfig extends Admin_Controller {
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         }else{
 
- $this->mailer->send_mail($this->input->post('email'), 'Smart School Email Test', 'Smart School Email Test Successful.');
+ $this->mailer->send_mail($this->input->post('email'), 'Campus CloudPH Email Test', 'Campus CloudPH Email Test Successful.');
 
 
 

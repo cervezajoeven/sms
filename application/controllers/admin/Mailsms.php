@@ -903,7 +903,7 @@ class Mailsms extends Admin_Controller
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         } else {
 
-            $this->smsgateway->sendSMS($this->input->post('mobile'), ('Smart School SMS Test Successful.'));
+            $this->smsgateway->sendSMS($this->input->post('mobile'), ('Campus CloudPH SMS Test Successful.'));
 
             $array = array('status' => 'success', 'error' => '', 'message' => 'Test SMS Sent Successfully. Please check your mobile if you have received.');
         }
