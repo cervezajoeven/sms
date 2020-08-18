@@ -113,7 +113,7 @@ if($HTTP_HOST=="localhost"){
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'db.campuscloudph.com',
+	'hostname' => 'localhost',
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
