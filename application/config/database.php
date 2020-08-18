@@ -78,11 +78,11 @@ $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 // $local_db = "campus_tlc-nbs";
-$local_db = "campus_sophiameycauayan";
+$local_db = "campus_sms";
 if($HTTP_HOST=="localhost"){
 
-  	$username = 'root';
-  	$password = '';
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
   	$database = $local_db;
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
@@ -113,7 +113,8 @@ if($HTTP_HOST=="localhost"){
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'db.campuscloudph.com',
+	'hostname' => '3.131.3.0',
+	// 'hostname' => 'db.campuscloudph.com',
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
