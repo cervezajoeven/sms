@@ -34,7 +34,7 @@ if($HTTP_HOST=="localhost"){
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/cms';
 }else{
-  $config['base_url'] = 'https://'.$HTTP_HOST.'/';
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/';
 }
 
 
@@ -118,7 +118,7 @@ if($HTTP_HOST=="localhost"){
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
   $config['enable_hooks'] = TRUE;
 }else{
-  $config['enable_hooks'] = FALSE;
+  $config['enable_hooks'] = TRUE;
 }
 
 /*

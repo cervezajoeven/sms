@@ -78,11 +78,11 @@ $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 // $local_db = "campus_tlc-nbs";
-$local_db = "campus_sms";
+$local_db = "campus_sophiameycauayan";
 if($HTTP_HOST=="localhost"){
 
-  	$username = 'admin';
-  	$password = 'J10o15e5V22n!4';
+  	$username = 'root';
+  	$password = '';
   	$database = $local_db;
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
@@ -107,14 +107,14 @@ if($HTTP_HOST=="localhost"){
 
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
-  	// $database = 'campus_'.$database_name;
-  	$database = 'campus_sms';
+  	$database = 'campus_'.$database_name;
+  	// $database = 'campus_sophiameycauayan';
 }
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '172.31.31.102',
-	// 'hostname' => 'db.campuscloudph.com',
+	'hostname' => 'db.campuscloudph.com',
+	// 'hostname' => '172.31.31.10',
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
@@ -133,4 +133,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-// echo '<pre>';print_r($db);exit();
+// echo '<pre>';print_r($database);exit();
