@@ -113,7 +113,7 @@ if($HTTP_HOST=="localhost"){
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '3.131.3.0',
+	'hostname' => '172.31.31.102',
 	// 'hostname' => 'db.campuscloudph.com',
 	'username' => $username,
 	'password' => $password,
@@ -133,4 +133,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-echo '<pre>';print_r($db);exit();
+// echo '<pre>';print_r($db);exit();
