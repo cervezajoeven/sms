@@ -274,12 +274,12 @@ class Mailgateway
             $sender_details['url']          = site_url('site/login');
             $sender_details['display_name'] = $staff['name'];
         }
-        print_r($sender_details);
+        // print_r($sender_details);
         foreach ($sender_details as $key => $value) {
             $template = str_replace('{{' . $key . '}}', $value, $template);
         }
 
-        print_r($template);
+        // print_r($template);
 
         return $template;
     }

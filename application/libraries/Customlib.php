@@ -1005,10 +1005,11 @@ class Customlib
         if (!empty($notifications)) {
             foreach ($notifications as $note_key => $note_value) {
                 if ($note_value->type == $find) {
-    return array('mail' => $note_value->is_mail, 'sms' => $note_value->is_sms, 'notification' => $note_value->is_notification, 'template' => $note_value->template);
+                    return array('mail' => $note_value->is_mail, 'sms' => $note_value->is_sms, 'notification' => $note_value->is_notification, 'template' => $note_value->template);
                 }
             }
         }
+        
         return false;
     }
 
