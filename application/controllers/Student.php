@@ -1085,7 +1085,6 @@ class Student extends Admin_Controller
     public function sendpassword()
     {
         $student_login_detail = array('id' => $this->input->post('student_id'), 'credential_for' => 'student', 'username' => $this->input->post('username'), 'password' => $this->input->post('password'), 'contact_no' => $this->input->post('contact_no'), 'email' => $this->input->post('email'));
-        // var_dump($student_login_detail);die;
         $msg = $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
         print_r($msg);
     }
