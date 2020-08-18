@@ -54,7 +54,7 @@ class Mailsmsconf
                     if(array_key_exists("resend", $sender_details)){
                         $this->CI->mailgateway->sendLoginCredentialJoe($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
                     }else{
-                        $this->CI->mailgateway->sendLoginCredential($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
+                        return $this->CI->mailgateway->sendLoginCredential($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
                     }
                 }
                 if ($chk_mail_sms['sms'] && $chk_mail_sms['template'] != "") {

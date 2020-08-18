@@ -1501,8 +1501,11 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             data: {student_id: student_id, username: username, password: password, contact_no: contact_no, email: email},
             // dataType: "json",
             success: function (response) {
-                successMsg('<?php echo $this->lang->line('message_successfully_sent');?>');
-            }
+                if (response == "Success")
+                    successMsg('<?php echo $this->lang->line('message_successfully_sent');?>');
+                else
+                    errorMsg('<?php echo $this->lang->line('message_send_failed');?>'); 
+            }       
         });
 
     }
@@ -1521,7 +1524,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             data: {student_id: student_id, username: username, password: password, contact_no: contact_no, email: email},
             // dataType: "json",
             success: function (response) {
-                successMsg('<?php echo $this->lang->line('message_successfully_sent');?>');
+                if (response == "Success")
+                    successMsg('<?php echo $this->lang->line('message_successfully_sent');?>');
+                else 
+                    errorMsg('<?php echo $this->lang->line('message_send_failed');?>');
             }
         });
     }

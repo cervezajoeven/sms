@@ -1135,6 +1135,7 @@ $lang['max'] = "Max.";
 $lang['may'] = "May";
 $lang['message_sent_successfully'] = "Message sent successfully";
 $lang['message_successfully_sent'] = "Message successfully sent";
+$lang['message_send_failed'] = "Message send failed";
 $lang['middle'] = "Middle";
 $lang['min'] = "Min.";
 $lang['miscellaneous'] = "Miscellaneous";
