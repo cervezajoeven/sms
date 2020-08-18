@@ -274,9 +274,10 @@ class Mailgateway
         }
         // print_r($sender_details);
         foreach ($sender_details as $key => $value) {
-
             $template = str_replace('{{' . $key . '}}', $value, $template);
         }
+
+        print_r($template);
 
         return $template;
     }
