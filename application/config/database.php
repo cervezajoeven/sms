@@ -77,8 +77,8 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
-$local_db = "campus_tlc-nbs";
-// $local_db = "campus_sophiameycauayan";
+// $local_db = "campus_tlc-nbs";
+$local_db = "campus_sophiameycauayan";
 if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
@@ -132,4 +132,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-// echo '<pre>';print_r($db);exit();
+echo '<pre>';print_r($db);exit();
