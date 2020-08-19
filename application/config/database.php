@@ -144,4 +144,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-echo '<pre>';print_r($database);exit();
+echo '<pre>';print_r($hostname);exit();
