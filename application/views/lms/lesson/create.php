@@ -839,11 +839,14 @@
                   </iframe>
                 </div>
                 <div id="" class="discussion_board">
-     
+                  <h2>Discussion: </h2>
+                  <div class="dicussion_container student_chat_container" style="height:90%;width: 100%">
+
+                  </div>
                   <div class="chat_discussion" style="">
-                    <h1>Discussion: </h1>
-                    <textarea class="chat_text student_chat" name="" style=""></textarea>
-                    <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
+                    
+                    <textarea class="chat_text student_chat" name="" style="width: 30%"></textarea>
+                    <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="position: absolute;height: 37px;width: 15%;">Send</button>
                   </div>
                 </div>
 

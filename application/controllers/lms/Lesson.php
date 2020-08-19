@@ -955,25 +955,25 @@ class Lesson extends General_Controller {
     
     public function fetch_chat(){
         
-        // $lesson_id = $_REQUEST['lesson_id'];
-        // $discussion = $this->discussion_model->lesson_discussion($lesson_id);
+        $lesson_id = $_REQUEST['lesson_id'];
+        $discussion = $this->discussion_model->lesson_discussion($lesson_id);
         
-        // $new_discussion = [];
+        $new_discussion = [];
         
-        // foreach ($discussion as $key => $value) {
-        //     $profile = $this->general_model->get_account_name($value['account_id'],$value['account_type'])[0];
-        //     if($value['account_type']=="student"){
-        //         $discussion[$key]['firstname'] = $profile['firstname'];
-        //         $discussion[$key]['lastname'] = $profile['lastname'];
-        //     }else{
-        //         $discussion[$key]['firstname'] = $profile['name'];
-        //         $discussion[$key]['lastname'] = $profile['surname'];
-        //     }
+        foreach ($discussion as $key => $value) {
+            $profile = $this->general_model->get_account_name($value['account_id'],$value['account_type'])[0];
+            if($value['account_type']=="student"){
+                $discussion[$key]['firstname'] = $profile['firstname'];
+                $discussion[$key]['lastname'] = $profile['lastname'];
+            }else{
+                $discussion[$key]['firstname'] = $profile['name'];
+                $discussion[$key]['lastname'] = $profile['surname'];
+            }
             
-        //     // print_r($discussion);
-        // }
+            // print_r($discussion);
+        }
 
-        // echo json_encode($discussion);
+        echo json_encode($discussion);
 
     }
 

@@ -636,12 +636,7 @@ html, body {
     height: 100%;
 }
 
-.dicussion_container{
-    background-color: white;
-    height: 300px;
-    color:black;
-    overflow: scroll;
-}
+
 
 .vimeo_color{
     background-color: #00ADEF;    
@@ -701,7 +696,14 @@ canvas {
 .discussion_board {
     display: none;
     background-color: white;
+    margin-top: 40px;
     width: 100%;
     height: 100%;
     position: absolute;
+}
+.dicussion_container{
+    background-color: white;
+    height: 50%!important;
+    color:black;
+    overflow: scroll;
 }
