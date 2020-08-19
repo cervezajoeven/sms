@@ -732,7 +732,7 @@
                 background-color: rgb(220 0 0);
               }
               .navigation_tools{
-                width: 12.5%;
+                width: 10%;
                 max-height: 20px;
               }
               .student_view_slides{
@@ -756,7 +756,7 @@
                   text-indent: 10px;
               }
               .close_student_view{
-                width: 12.5%;
+                width: 10%;
               }
             </style>
             <div class="student_view_container">
@@ -772,8 +772,9 @@
                       <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-pen"></i> Annotate</div>
                       <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
                     <?php endif; ?>
+                      <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div>
                     <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
-                    
+                     
                 
                 </div>
                 <div class="student_view_slides" id="student_view_slides">
@@ -837,14 +838,22 @@
                     
                   </iframe>
                 </div>
+                <div id="" class="discussion_board" style="display: none;">
+     
+                  <div class="chat_discussion" style="">
+                    <textarea class="chat_text student_chat" name="" style="bottom: 0;width: 96%;"></textarea>
+                    <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="width: 98%;">Send</button>
+                  </div>
+                </div>
+
                 <canvas id="canvas" class="annotate" width="1000" height="1000">
      
                 </canvas>
                 
             </div>
-            <!-- <div class="student_view_right">
+            <div class="student_view_right">
                 
-                <div class="student_view_navigation">
+                <!-- <div class="student_view_navigation">
                   <?php if($role=="admin"): ?>
                     <div class="student_view_buttons close_action teacher_tools_button" style="
                     width: 47%;
@@ -860,15 +869,15 @@
                     margin: 5px;
                     "><i class="fas fa-times-circle"></i> Close Slideshow</div>
                     <div class="dicussion_container student_chat_container" style="height:450px;width: 100%">
-                      aasdasd
+
                     </div>
                     <div class="chat_discussion" style="position: relative;width: 100%;">
                       <textarea class="chat_text student_chat" name="" style="bottom: 0;width: 96%;"></textarea>
                       <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="width: 98%;">Send</button>
                     </div>
                     <button>Full Screen</button>
-                </div>
-            </div> -->
+                </div> -->
+            </div>
             
         </div>
         <style type="text/css">

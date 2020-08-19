@@ -254,6 +254,7 @@
             method:"POST",
         }).done(function(data) {
             var parsed_data = JSON.parse(data);
+            alert("If the zoom or google meet wont appear please turn off the pop-up blocker on your browser.");
             if(parsed_data.video!=""){
                 window.open(parsed_data.video,"_blank");
             }

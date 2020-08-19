@@ -1657,3 +1657,12 @@ $(".annotate_button").click(function(){
     // $(".student_view_content").toggle();
     // $("#classroomscreen").css("width",width+70);
 });
+
+$(".discussion_board_button").click(function(){
+    $(".discussion_board").toggle();
+    // var width = document.getElementById('formula_board').offsetWidth;
+    $(".student_view_slides").hide();
+    $(".student_view_content").toggle();
+    // $("#classroomscreen").css("width",width+70);
+});
+
