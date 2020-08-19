@@ -838,11 +838,12 @@
                     
                   </iframe>
                 </div>
-                <div id="" class="discussion_board" style="display: none;">
+                <div id="" class="discussion_board">
      
                   <div class="chat_discussion" style="">
-                    <textarea class="chat_text student_chat" name="" style="bottom: 0;width: 96%;"></textarea>
-                    <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="width: 98%;">Send</button>
+                    <h1>Discussion: </h1>
+                    <textarea class="chat_text student_chat" name="" style=""></textarea>
+                    <button class="chat_submit" onclick="send_chat($('.student_chat').val())">Send</button>
                   </div>
                 </div>
 
@@ -851,7 +852,7 @@
                 </canvas>
                 
             </div>
-            <div class="student_view_right">
+            <!-- <div class="student_view_right"> -->
                 
                 <!-- <div class="student_view_navigation">
                   <?php if($role=="admin"): ?>
@@ -877,7 +878,7 @@
                     </div>
                     <button>Full Screen</button>
                 </div> -->
-            </div>
+            <!-- </div> -->
             
         </div>
         <style type="text/css">
