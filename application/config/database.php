@@ -78,7 +78,7 @@ $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 // $local_db = "campus_tlc-nbs";
-$local_db = "campus_sophiameycauayan";
+$local_db = "campus_tlc-nbs";
 if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
@@ -113,7 +113,7 @@ if($HTTP_HOST=="localhost"){
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'db.campuscloudph.com',
+	'hostname' => 'localhost',
 	// 'hostname' => '172.31.31.10',
 	'username' => $username,
 	'password' => $password,
