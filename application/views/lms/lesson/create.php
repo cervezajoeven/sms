@@ -6,7 +6,7 @@
 
         <title>LMS - <?php echo $lesson['lesson_name'] ?></title>
         <link rel="stylesheet" href="<?php echo $resources.'jquery-ui.css' ?>">
-        <link rel="stylesheet" href="<?php echo $resources.'lesson_2.css' ?>">
+        <link rel="stylesheet" href="<?php echo $resources.'lesson_3.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'jquery.magnify.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'font-awesome.min.css' ?>">
         <link rel="stylesheet" href="<?php echo $resources.'fontawesome/css/all.css' ?>">
@@ -944,7 +944,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="<?php echo $resources.'drawing-table.js'?>" type="text/javascript"></script>
-        <script src="<?php echo $resources.'lesson_11.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_12.js'?>"></script>
         <script type="text/javascript">
           
         </script>
