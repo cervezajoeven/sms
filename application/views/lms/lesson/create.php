@@ -381,7 +381,7 @@
                                                                       <?php foreach($students as $students_key => $students_value): ?>
                                                                           <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
                                                                               
-                                                                              <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+                                                                              <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo ucfirst(strtolower($students_value['lastname'])) ?>, <?php echo ucfirst(strtolower($students_value['firstname'])) ?></li>
                                                                           <?php endif; ?>
                                                                       <?php endforeach; ?>
                                                                   </ul>

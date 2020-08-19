@@ -77,43 +77,54 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
+$campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges",lcc-"silvercrest","htspreschool","htspg","htsmk","htslipa","dbti","c7preschool");
 // $local_db = "campus_tlc-nbs";
-$local_db = "campus_tlc-nbs";
+$local_db = "campus_sophiameycauayan";
 if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
   	$password = '';
   	$database = $local_db;
+  	$hostname = "localhost";
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
   	$username = 'joeven';
   	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
+  	$hostname = "localhost";
 
 }else if(in_array($database_name, $godaddy)){
 	
 	$username = 'joeven';
   	$password = 'joeven241';
   	$database = 'campus_'.$database_name;
+  	$hostname = "localhost";
   	
 }else if(strpos($HTTP_HOST, "192.168.") !== false){
 	
 	$username = 'root';
   	$password = '';
   	$database = $local_db;
-  	
+  	$hostname = "localhost";
+}else if(in_array($database_name, $campuscloudph)){
+	
+	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_'.$database_name;
+  	$hostname = "db.campuscloudph.com";
 }else{
 
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
+  	$hostname = "db.novocloudph.com";
   	// $database = 'campus_sophiameycauayan';
 }
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => $hostname,
 	// 'hostname' => '172.31.31.10',
 	'username' => $username,
 	'password' => $password,

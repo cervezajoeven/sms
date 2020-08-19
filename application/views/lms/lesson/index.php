@@ -119,7 +119,7 @@
                                         <th>Title</th>
                                         <th>Subject</th>
                                         <th>Teacher</th>
-                                        <th>Date</th>
+                                        <th>Duration (Start Date - End Date)</th>
                                         <th><?php echo $this->lang->line('type'); ?></th>
                                         <th>Term</th>
                                         <?php if($role!="student"): ?>
@@ -189,22 +189,7 @@
                                                                 <i class="fa fa-sign-in"></i> Start Class
                                                         </a>
                                                     <?php endif; ?>
-                                                    <?php if($list_data['lesson_type'] == "zoom"): ?>
-                                                        <?php if($list_data['student_zoom_link']): ?>
-                                                            <a data-placement="left" href="<?php echo $list_data['student_zoom_link'];?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" target="_blank">
-                                                                    <i class="fa fa-sign-in"></i> Join Class
-                                                            </a>
-
-                                                        <?php endif; ?>
-                                                    <?php endif; ?>
-                                                    <?php if($list_data['lesson_type'] == "virtual"): ?>
-                                                        <?php if($list_data['student_zoom_link']): ?>
-                                                            <a data-placement="left" href="<?php echo $list_data['student_zoom_link'];?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" target="_blank">
-                                                                    <i class="fa fa-sign-in"></i> Join Class
-                                                            </a>
-                                                        
-                                                        <?php endif; ?>
-                                                    <?php endif; ?>
+                                                    
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
                                                             <i class="fa fa-edit"></i>
                                                     </a>

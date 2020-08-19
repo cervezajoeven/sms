@@ -70,6 +70,9 @@ $(document).ready(function(){
         label.find(".label-desc").html(selection);
         change_detected();
     });
+    $("#allow_view").change(function(){
+        change_detected();
+    });
 
     if($("#lesson_type").val()=="classroom"){
         $(".notification_control").hide();

@@ -63,6 +63,20 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
+    public function admin_deleted($account_id="",$folder="today"){
+        date_default_timezone_set('Asia/Manila');
+        $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
+        $this->db->where('lms_lesson.deleted',1);
+        $this->db->order_by('lms_lesson.start_date',"desc");
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function get_lessons_no_virtual($account_id=""){
 
         $this->db->select("*, lms_lesson.id as id");
@@ -145,6 +159,7 @@ class Lesson_model extends MY_Model {
         $result = $query->result_array();
         return $result;
     }
+
     public function upcoming_lessons($account_id=""){
         date_default_timezone_set('Asia/Manila');
         $this->db->select("*");
@@ -163,9 +178,11 @@ class Lesson_model extends MY_Model {
 
     public function get_students(){
         $current_session = $this->setting_model->getCurrentSession();
-        $this->db->select("*");
+        $this->db->select("students.id,students.firstname,students.lastname,student_session.class_id,student_session.section_id,students.is_active");
         $this->db->join("students","students.id = student_session.student_id");
         $this->db->where("session_id",$current_session);
+        $this->db->where("students.is_active","yes");
+        $this->db->order_by("students.lastname","asc");
 
         $query = $this->db->get("student_session");
 
