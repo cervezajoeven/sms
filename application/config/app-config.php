@@ -17,13 +17,13 @@ $config['exam_type'] = array(
 $config['image_validate'] = array(
     'allowed_mime_type' => array('image/jpeg', 'image/jpg', 'image/png'), //mime_type
     'allowed_extension' => array('jpg', 'jpeg', 'png','gif','bmp','svg','JPG', 'JPEG', 'PNG','GIF','BMP','SVG','Jpg', 'Jpeg', 'Png','Gif','Bmp','Svg'), // image extensions
-    'upload_size'       => 20000000 //1048576, // bytes
+    'upload_size'       => 25000000 //1048576, // bytes
 );
 
 $config['csv_validate'] = array(
     'allowed_mime_type' => array('application/vnd.ms-excel','text/plain','text/csv','text/tsv'), //mime_type
     'allowed_extension' => array('csv'), // image extensions
-    'upload_size'       => 20000000, //1048576, // bytes
+    'upload_size'       => 25000000, //1048576, // bytes
 );
 
 $config['file_validate'] = array(
@@ -40,5 +40,5 @@ $config['file_validate'] = array(
         'image/jpg',
         'image/png'), //mime_type
     'allowed_extension' => array('zip','pdf','doc','xls','ppt','docx','xlsx','pptx','jpg','jpeg','png','gif','bmp','svg','ZIP','PDF','DOC','XLS','PPT','DOCX','XLSX','PPTX','JPG','JPEG','PNG','GIF','BMP','SVG','Pdf','Zip','Doc','Ppt','Xls','Docx','Xlsx','Pptx','Jpg','Jpeg','Png','Gif','Bmp','Svg'), // image extensions
-    'upload_size'       => 20000000, //1048576, // bytes
+    'upload_size'       => 25000000, //1048576, // bytes
 );
