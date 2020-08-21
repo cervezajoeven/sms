@@ -109,9 +109,11 @@
                                                 <?php if($role=="admin"): ?>
 
                                                     <?php if($list_data['lesson_type'] == "virtual"||$list_data['lesson_type'] == "zoom"): ?>
-                                                        <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
-                                                                <i class="fa fa-sign-in"></i> Start Class
-                                                        </a>
+                                                        <?php if($lesson_query=="today"): ?>
+                                                            <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                    <i class="fa fa-sign-in"></i> Start Class
+                                                            </a>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                     
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >

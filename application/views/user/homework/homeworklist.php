@@ -13,6 +13,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info"><div class="box-header ptbnull">
+
+
                         <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?></h3>
                         <div class="box-tools pull-right">
                         </div>
@@ -22,8 +24,7 @@
                             <table class="table table-hover table-striped table-bordered example">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('class') ?></th>
-                                        <th><?php echo $this->lang->line('section') ?></th>
+                                        <th>Teacher</th>
                                         <th><?php echo $this->lang->line('subject') ?></th>
                                         <th><?php echo $this->lang->line('homework_date'); ?></th>
                                         <th><?php echo $this->lang->line('submission_date'); ?></th>
@@ -43,8 +44,7 @@
                                         }
                                     ?>
                                     <tr>
-                                        <td><?php echo $homework["class"] ?></td>
-                                        <td><?php echo $homework["section"] ?></td>
+                                        <td><?php echo $homework['name']; ?> <?php echo $homework['surname']; ?></td>
                                         <td><?php echo $homework['subject_name']; ?></td>
                                         <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
                                         <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['submit_date'])); ?></td>

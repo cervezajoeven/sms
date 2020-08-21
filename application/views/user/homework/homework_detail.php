@@ -54,23 +54,22 @@ $admin = $this->customlib->getLoggedInUserData();
                 <label><span><?php echo $this->lang->line("subject") ?></span>: <?php echo $result['name']; ?></label>
                 <label><?php echo $this->lang->line("status") ?>: <?php
 
+                if ($homework_status == 1) {
+                    $status_lable=$this->lang->line("complete");
+                    $class = "class= 'label label-success'";
+                } else {
+                    $class = "class= 'label label-danger'";
+                    $status_lable=$this->lang->line("incomplete");
+                }
+                echo "<font $class >" . $status_lable. "</font>";
 
-    if ($homework_status == 1) {
-        $status_lable=$this->lang->line("complete");
-        $class = "class= 'label label-success'";
-    } else {
-        $class = "class= 'label label-danger'";
-         $status_lable=$this->lang->line("incomplete");
-    }
-    echo "<font $class >" . $status_lable. "</font>";
-
-?></label>
+                ?></label>
                         <?php if (!empty($result["document"])) {?>
                     <label>Download Homework</label>
                     <a  class="btn btn-default btn-lg" href="<?php echo base_url() . "user/homework/download/" . $result["id"] . "/" . $result["document"] ?>" data-toggle="tooltip" data-original-title="Download Homework"><i class="fa fa-download"></i></a>
-<?php }
+                <?php }
 
-    ?>
+                    ?>
 
 <?php
 
