@@ -107,7 +107,6 @@ class Zoom_api {
             'content-type: application/json',
         );
 
-        $postFields = json_encode($data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

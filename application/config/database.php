@@ -79,7 +79,7 @@ $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 $campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","lcc-silvercrest","htspreschool","htspg","htsmk","htslipa","dbti","c7preschool");
 // $local_db = "campus_tlc-nbs";
-$local_db = "campus_sophiameycauayan";
+$local_db = "campus_bulacanecumenical";
 if($HTTP_HOST=="localhost"){
 
   	$username = 'root';
@@ -131,7 +131,7 @@ $db['default'] = array(
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'development'),
+	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
