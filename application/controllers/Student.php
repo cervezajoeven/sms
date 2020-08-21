@@ -1256,19 +1256,21 @@ class Student extends Admin_Controller
                                 {
                                     if (!empty($email))
                                     {
-                                        // $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
-                                        // $this->mailsmsconf->mailsms('student_admission', $sender_details);
                                         $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
                                         $this->mailsmsconf->mailsms('student_import', $sender_details);
-
-                                        // $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
-                                        // $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
-
-                                        // $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $guardian_phone, 'email' => $email);
-                                        // $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                                     }
                                 }
-                                
+
+                                //-- Send login credentials upon import
+                                if (!empty($guardian_email))
+                                {
+                                    $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $guardian_email);
+                                    $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+
+                                    //$recipient = !empty($guardian_email) ? $guardian_email : $email;
+                                    $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $guardian_phone, 'email' => $guardian_email);
+                                    $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+                                }
 
                                 $data['csvData'] = $result;
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-center">' . $this->lang->line('students_imported_successfully') . '</div>');

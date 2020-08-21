@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-flask"></i> <?php echo $this->lang->line('homework'); ?>/Projects
+            <i class="fa fa-flask"></i> <?php echo $this->lang->line('homework'); ?>
         </h1>
     </section>
     <section class="content">
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info"><div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?>/Projects</h3>
+                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?></h3>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -34,61 +34,50 @@
                                 </thead>
                                 <tbody>
                                     <?php
-$upload_docsButton = 0;
-foreach ($homeworklist as $key => $homework) {
+                                    $upload_docsButton = 0;
 
-    $subject_group_id = $homework['subject_groups_id'];
-    if (date('Y-m-d') <= date('Y-m-d', strtotime($homework['submit_date']))) {
-        $upload_docsButton = 1;
-    }
-    ?>
-                                        <tr>
-                                            <td><?php
+                                    foreach ($homeworklist as $key => $homework) {
+                                        $subject_group_id = $homework['subject_groups_id'];
+                                        if (date('Y-m-d') <= date('Y-m-d', strtotime($homework['submit_date']))) {
+                                            $upload_docsButton = 1;
+                                        }
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $homework["class"] ?></td>
+                                        <td><?php echo $homework["section"] ?></td>
+                                        <td><?php echo $homework['subject_name']; ?></td>
+                                        <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
+                                        <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['submit_date'])); ?></td>
+                                        <td>
+                                            <?php 
+                                            $evl_date = "";
+                                            if ($homework['evaluation_date'] != "0000-00-00") {
+                                                echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateYYYYMMDDtoStrtotime($homework['evaluation_date']));
+                                            } 
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            $status_class    = "class= 'label label-danger'";
+                                            $status_homework =$this->lang->line("incomplete");
+                                            $h_status=0;
 
-    echo $homework["class"] ?></td>
-                                            <td><?php echo $homework["section"] ?></td>
-                                            <td><?php echo $homework['subject_name']; ?></td>
-                                            <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
-                                            <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['submit_date'])); ?></td>
-                                            <td><?php
-$evl_date = "";
-    if ($homework['evaluation_date'] != "0000-00-00") {
-        echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateYYYYMMDDtoStrtotime($homework['evaluation_date']));
-    }
-    ?></td>
-                                            <td>
-                                                <?php
-$status_class    = "class= 'label label-danger'";
-    $status_homework =$this->lang->line("incomplete");
-    $h_status=0;
-    if ($homework["homework_evaluation_id"] != 0) {
-        $h_status=1;
-        $status_class    = "class= 'label label-success'";
-
-        $status_homework = $this->lang->line("complete");
-    }
-    
-    ?>
-      <label <?php echo $status_class; ?>><?php echo $status_homework; ?></label>
-
-    </td>
-                                            <td class="mailbox-date pull-right">
-
-                                                <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs"    data-toggle="tooltip"  data-original-title="Upload Homework">
-                                                    <i class="fa fa-upload"></i></a>
-
-
-
-
-                                                <a class="btn btn-default btn-xs" onclick="evaluation(<?php echo $homework['id']; ?>,<?php echo $h_status; ?>);" title="" data-target="#evaluation" data-toggle="modal"  data-original-title="Evaluation">
-                                                    <i class="fa fa-reorder"></i></a>
-                                            </td>
-                                        </tr>
-                                    <?php }?>
-
+                                            if ($homework["homework_evaluation_id"] != 0) {
+                                                $h_status=1;
+                                                $status_class    = "class= 'label label-success'";
+                                                $status_homework = $this->lang->line("complete");
+                                            }                                            
+                                            ?>
+                                            <label <?php echo $status_class; ?>><?php echo $status_homework; ?></label>
+                                        </td>
+                                        <td class="mailbox-date pull-right">
+                                            <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs"    data-toggle="tooltip"  data-original-title="<?php echo $this->lang->line('homework') . " " . $this->lang->line('assignments'); ?>"><i class="fa fa-upload"></i></a>
+                                            <a class="btn btn-default btn-xs" onclick="evaluation(<?php echo $homework['id']; ?>,<?php echo $h_status; ?>);" title="" data-target="#evaluation" data-toggle="modal"  data-original-title="Evaluation"><i class="fa fa-reorder"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>
@@ -120,32 +109,28 @@ $status_class    = "class= 'label label-danger'";
             </div>
             <form id="upload" method="post" class="ptt10" enctype="multipart/form-data">
                 <div class="modal-body pt0 pb0">
-                    <div class="row">
-                        
-                                <input type="hidden" id="homework_id"  name="homework_id">
-                                <input type="hidden" id="assigment_id" name="assigment_id">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="pwd"><?php echo $this->lang->line('message'); ?></label>
-                                        <textarea type="text" id="assigment_message" name="message" class="form-control "></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="pwd"><?php echo $this->lang->line('attach_document'); ?> (Maximum of 20MB only)</label>
-                                        <input type="file"  id="file" name="file" class="form-control filestyle">
-                                    </div>
-                                </div>
-                                <p id="uploaded_docs"></p>
+                    <div class="row">                        
+                        <input type="hidden" id="homework_id"  name="homework_id">
+                        <input type="hidden" id="assigment_id" name="assigment_id">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="pwd"><?php echo $this->lang->line('message'); ?></label>
+                                <textarea type="text" id="assigment_message" name="message" class="form-control "></textarea>
                             </div>
-
-                      
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="pwd"><?php echo $this->lang->line('attach_document') . " (Maximum of " . $max_file_size . ")"; ?></label>
+                                <input type="file"  id="file" name="file" class="form-control filestyle">
+                            </div>
+                        </div>
+                        <p id="uploaded_docs"></p>
+                    </div>
                 </div>
                 <div class="box-footer">
                     <div class="col-sm-12">
                     <div class="pull-right" id="footer_area">
                         <button type="submit" class="btn btn-info" id="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save'); ?></button>
-
                     </div>
                   </div>
                 </div>
@@ -171,14 +156,11 @@ $status_class    = "class= 'label label-danger'";
 </script>
 <script>
     $(function () {
-
         $("#compose-textarea,#desc-textarea").wysihtml5();
     });
 </script>
 <script type="text/javascript">
-
     function getRecord(id) {
-
         $.ajax({
             url: "<?php echo site_url("homework/getRecord/") ?>" + id,
             type: "POST",
@@ -198,9 +180,7 @@ $status_class    = "class= 'label label-danger'";
                 $("#document").val(res.document);
             }
         });
-
     }
-
 
     function getSectionByClass(class_id, section_id) {
         if (class_id != "" && section_id != "") {
@@ -257,7 +237,6 @@ $status_class    = "class= 'label label-danger'";
     }
  
     function evaluation(id,status) {
-
         $('#evaluation_details').html("");
         $.ajax({
             url: '<?php echo base_url(); ?>user/homework/homework_detail/' + id+'/'+status,
@@ -272,7 +251,6 @@ $status_class    = "class= 'label label-danger'";
     }
 
     function addhomework() {
-
         $('iframe').contents().find('.wysihtml5-editor').html("");
     }
 
@@ -298,34 +276,24 @@ $status_class    = "class= 'label label-danger'";
                 $('#assigment_id').val(res.id);
                 $('#assigment_message').val(res.message);
             }
-
-
         });
 
         $('#homework_id').val(id);
         $('#upload_docs').modal('show');
-
-
     }
 
     $(document).ready(function (e) {
-
-
-
         $("#upload").on('submit', (function (e) {
-
             e.preventDefault();
             $.ajax({
                 url: "<?php echo site_url("user/homework/upload_docs") ?>",
                 type: "POST",
                 data: new FormData(this),
-            dataType: 'json',
+                dataType: 'json',
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function (res)
-                {
-
+                success: function (res) {
                     if (res.status == "fail") {
 
                         var message = "";
@@ -344,7 +312,6 @@ $status_class    = "class= 'label label-danger'";
                 }
             });
         }));
-
     });
 
 </script>
