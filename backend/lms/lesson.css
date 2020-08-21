@@ -674,3 +674,11 @@ html, body {
     height: 100%;
     position: absolute;
 }
+
+.discussion_board {
+    display: none;
+    background-color: rgb(22, 187, 238);
+    width: 70%;
+    height: 100%;
+    position: absolute;
+}

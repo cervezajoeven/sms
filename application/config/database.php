@@ -119,7 +119,6 @@ if($HTTP_HOST=="localhost"){
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
   	$hostname = "db.novocloudph.com";
-  	// $database = 'campus_sophiameycauayan';
 }
 
 $db['default'] = array(
