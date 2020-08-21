@@ -92,7 +92,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
                                         <span class="text-danger"><?php echo form_error('subject_group_id'); ?></span>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
@@ -120,8 +120,7 @@
 
                                 <?php
                                 $count++;
-                            }
-                            ?>
+                            } ?>
                         </ul>
                         <div class="tab-content">
                             <?php
@@ -132,12 +131,7 @@
                                     //   $cls="class='tab-pane active'";
                                 }
                                 ?>
-                                <div <?php echo $cls; ?> id="tab_<?php echo $count; ?>">
-
-
-
-
-                                </div>
+                                <div <?php echo $cls; ?> id="tab_<?php echo $count; ?>"></div>
 
                                 <?php
                                 $count++;
@@ -328,12 +322,10 @@
                         var newRow = $("<tr>");
                         var cols = "";
                         cols += '<td class="relative"><input type="hidden" name="total_row[]" value="' + tot_count + '"><input type="hidden" name="prev_id_' + tot_count + '" value="0"><select class="form-control subject" id="subject_id_' + tot_count + '" name="subject_' + tot_count + '">' + $("#subject_dropdown").text() + '</select></td>';
+                        cols += '<td class="relative"><select class="form-control" id="mode_id_' + tot_count + '" name="mode_' + tot_count + '">' + $("#mode_dropdown").text() + '</select></td>';
                         cols += '<td class="relative"><select class="form-control staff" id="staff_id_' + tot_count + '" name="staff_' + tot_count + '">' + $("#staff_dropdown").text() + '</select></td>';
-
                         cols += '<td><div class="input-group"><input type="text" name="time_from_' + tot_count + '" class="form-control time_from time" id="time_from_' + tot_count + '"  aria-invalid="false"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td>';
-
                         cols += '<td><div class="input-group"><input type="text" name="time_to_' + tot_count + '" class="form-control time_to time" id="time_to_' + tot_count + '"  aria-invalid="false"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td>';
-
                         cols += '<td><input type="text" class="form-control room_no" name="room_no_' + tot_count + '" id="room_no_' + tot_count + '"/></td>';
                         cols += '<td class="text-right"><button type="button" class="ibtnDel btn btn-danger btn-sm btn-danger"><i class="fa fa-trash"></i></button></td>';
                         newRow.append(cols);
@@ -375,6 +367,12 @@
 
 
 
+            </script>
+
+            <script type="text/template" id="mode_dropdown">
+                <option value=""><?php echo $this->lang->line('select')?></option>
+                <option value="Asynchronous">Asynchronous</option>
+                <option value="Synchronous">Synchronous</option>
             </script>
 
 

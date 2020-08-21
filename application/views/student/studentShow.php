@@ -1741,10 +1741,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             url: url,
             type: "POST",
             success: function (res) {
-                successMsg("Login Credentials Email Sent Successfully!");
+                // successMsg("Login Credentials Email Sent Successfully!");
+                if (res == "Success")
+                    successMsg('<?php echo $this->lang->line('message_successfully_sent');?>');
+                else
+                    errorMsg('<?php echo $this->lang->line('message_send_failed');?>'); 
             },
             error: function(){
-                errorMsg("Email was not sent.");
+                errorMsg('<?php echo $this->lang->line('message_send_failed');?>'); 
             }
         });
 

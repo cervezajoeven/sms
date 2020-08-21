@@ -32,7 +32,7 @@ if (!empty($timetable)) {
                                 ?>
                                 <div class="attachment-block clearfix">
                                     <strong class="text-green"><?php echo $this->lang->line('class') ?>: <?php echo $tm_kue->class . "(" . $tm_kue->section . ")"; ?></strong><br>
-                                    <b class="text-green"><?php echo $this->lang->line('subject') ?>: <?php echo $tm_kue->subject_name . " (" . $tm_kue->subject_code . ")"; ?>
+                                    <b class="text-green"><?php echo $this->lang->line('subject') ?>: <?php echo $tm_kue->subject_name . ($tm_kue->mode == '' || $tm_kue->mode == null ? '' : " ($tm_kue->mode)"); ?>
 
                                     </b><br>
 

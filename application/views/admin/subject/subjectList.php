@@ -34,23 +34,21 @@
                                     <input autofocus="" id="category" name="name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('name'); ?>" />
                                     <span class="text-danger"><?php echo form_error('name'); ?></span>
                                 </div>
-                                   <?php 
-                                    foreach ($subject_types as $subject_type_key => $subject_type_value) {
-                                    ?>
-
+                                <?php foreach ($subject_types as $subject_type_key => $subject_type_value) { ?>
                                     <label class="radio-inline">
                                     <input type="radio" value="<?php echo $subject_type_key?>" name="type" <?php echo set_radio('type', $subject_type_key, set_value('type')); ?> ><?php echo $subject_type_value; ?> 
-                                                                    </label>
-                                    <?php 
-                                    }
-                             ?>
-                                       <span class="text-danger"><?php echo form_error('type'); ?></span>
+                                    </label>
+                                <?php } ?>
+                                <span class="text-danger"><?php echo form_error('type'); ?></span>
                                
                                 <div class="form-group"><br>
                                     <label for="exampleInputEmail1"><?php echo $this->lang->line('subject_code'); ?></label>
                                     <input id="category" name="code" placeholder="" type="text" class="form-control"  value="<?php echo set_value('code'); ?>" />
                                     <span class="text-danger"><?php echo form_error('code'); ?></span>
                                 </div>
+
+                                <!-- <label class="radio-inline"><input type="radio" value="Synchronous" name="type">Synchronous</label>
+                                <label class="radio-inline"><input type="radio" value="Asynchronous" name="type">Asynchronous</label> -->
                             </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>

@@ -18,8 +18,11 @@
                             <?php echo $this->lang->line('subject') ?>
                         </th>
                         <th>
-                            <?php echo $this->lang->line('teacher'); ?>
+                            Mode
                         </th>
+                        <th>
+                            <?php echo $this->lang->line('teacher'); ?>
+                        </th>                        
                         <th>
                             <?php echo $this->lang->line('time') . " " . $this->lang->line('from') ?>
                         </th>
@@ -58,6 +61,13 @@
                                         <?php
                                     }
                                     ?>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control staff" id="mode_<?php echo $counter; ?>" name="mode_<?php echo $counter; ?>">
+                                    <option value=""><?php echo $this->lang->line('select') ?></option>
+                                    <option value="Asynchronous" <?php echo($prev_rec_value->mode == 'Asynchronous' ? 'SELECTED' : ''); ?>>Asynchronous</option>
+                                    <option value="Synchronous" <?php echo($prev_rec_value->mode == 'Synchronous' ? 'SELECTED' : ''); ?>>Synchronous</option>
                                 </select>
                             </td>
                             <td>
@@ -119,6 +129,13 @@
                                     <?php
                                 }
                                 ?>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control staff" id="mode_<?php echo $counter; ?>" name="mode_<?php echo $counter; ?>">
+                                <option value=""><?php echo $this->lang->line('select') ?></option>
+                                <option value="Asynchronous">Asynchronous</option>
+                                <option value="Synchronous">Synchronous</option>
                             </select>
                         </td>
                         <td>
@@ -253,8 +270,6 @@
 
                     },
                     success: function (data) {
-
-
                         $(target).html(data.html);
                         if (data.status == 1) {
 

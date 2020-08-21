@@ -373,6 +373,7 @@ class Timetable extends Admin_Controller
                             'time_to'                  => $this->input->post('time_to_' . $total_value),
                             'room_no'                  => $this->input->post('room_no_' . $total_value),
                             'session_id'               => $session,
+                            'mode'                     => $this->input->post('mode_' . $total_value),
                         );
                     } else {
                         $preserve_array[] = $prev_id;
@@ -388,11 +389,12 @@ class Timetable extends Admin_Controller
                             'time_to'                  => $this->input->post('time_to_' . $total_value),
                             'room_no'                  => $this->input->post('room_no_' . $total_value),
                             'session_id'               => $session,
+                            'mode'                     => $this->input->post('mode_' . $total_value),
                         );
                     }
                 }
             }
-           // echo "<pre>"; print_r($insert_array); echo "<pre>";die;
+            // echo "<pre>"; print_r($insert_array); echo "<pre>";die;
             $delete_array = array_diff($old_input, $preserve_array);
             $result       = $this->subjecttimetable_model->add($delete_array, $insert_array, $update_array);
             if ($result) {
