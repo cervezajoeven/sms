@@ -30,6 +30,7 @@ class Lesson extends General_Controller {
         $data['subjects'] = $this->general_model->get_subjects(); 
         $data['heading'] = "Current Lessons"; 
         $data['lesson_sched'] = "today";
+        $data['lesson_query'] = $lesson_query;
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
@@ -54,7 +55,7 @@ class Lesson extends General_Controller {
             
         }else{
 
-            $data['lesson_query'] = $lesson_query;
+            
             $this->load->view('layout/student/header');
             $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"today");
             foreach ($data['list'] as $key => $value) {
@@ -90,6 +91,7 @@ class Lesson extends General_Controller {
         $data['subjects'] = $this->general_model->get_subjects(); 
         $data['heading'] = "Current Lessons"; 
         $data['lesson_sched'] = "today";
+        $data['lesson_query'] = $lesson_query;
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
@@ -114,7 +116,7 @@ class Lesson extends General_Controller {
             
         }else{
 
-            $data['lesson_query'] = $lesson_query;
+            
             $this->load->view('layout/student/header');
             $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"today");
             foreach ($data['list'] as $key => $value) {
@@ -150,6 +152,7 @@ class Lesson extends General_Controller {
         $data['subjects'] = $this->general_model->get_subjects(); 
         $data['heading'] = "Upcoming Lessons";
         $data['lesson_sched'] = "upcoming";
+        $data['lesson_query'] = $lesson_query;
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
@@ -174,7 +177,7 @@ class Lesson extends General_Controller {
             
         }else{
 
-            $data['lesson_query'] = $lesson_query;
+            
             $this->load->view('layout/student/header');
             $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"upcoming");
             foreach ($data['list'] as $key => $value) {
@@ -210,6 +213,7 @@ class Lesson extends General_Controller {
         $data['subjects'] = $this->general_model->get_subjects(); 
         $data['heading'] = "Past Lessons";
         $data['lesson_sched'] = "past";
+        $data['lesson_query'] = $lesson_query;
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
@@ -234,7 +238,7 @@ class Lesson extends General_Controller {
             
         }else{
 
-            $data['lesson_query'] = $lesson_query;
+            
             $this->load->view('layout/student/header');
             $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"past");
             foreach ($data['list'] as $key => $value) {
@@ -312,7 +316,7 @@ class Lesson extends General_Controller {
 
         }
         
-        $this->load->view('lms/lesson/index', $data);
+        $this->load->view('lms/lesson/lesson_bin', $data);
         $this->load->view('layout/footer');
     }
 

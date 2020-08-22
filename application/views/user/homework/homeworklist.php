@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <script src="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -13,8 +14,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info"><div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?></h3>
+
+                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('homework'); ?> </h3>
                         <div class="box-tools pull-right">
+                            <a href="https://forms.gle/gpv6WJXZRbEataxJA" target="_blank"><button class="btn btn-success">Report An Issue</button></a>
                         </div>
                     </div>
                     <div class="box-body table-responsive">
@@ -22,8 +25,7 @@
                             <table class="table table-hover table-striped table-bordered example">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('class') ?></th>
-                                        <th><?php echo $this->lang->line('section') ?></th>
+                                        <th>Teacher</th>
                                         <th><?php echo $this->lang->line('subject') ?></th>
                                         <th><?php echo $this->lang->line('homework_date'); ?></th>
                                         <th><?php echo $this->lang->line('submission_date'); ?></th>
@@ -43,8 +45,7 @@
                                         }
                                     ?>
                                     <tr>
-                                        <td><?php echo $homework["class"] ?></td>
-                                        <td><?php echo $homework["section"] ?></td>
+                                        <td><?php echo $homework['name']; ?> <?php echo $homework['surname']; ?></td>
                                         <td><?php echo $homework['subject_name']; ?></td>
                                         <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
                                         <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['submit_date'])); ?></td>
@@ -92,7 +93,20 @@
     </section>
 </div>
 
-
+<div class="modal fade" id="initial" tabindex="-1" role="dialog" aria-labelledby="initial" style="padding-left: 0 !important">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="box-title">System Notification</h4>
+            </div>
+            <div class="modal-body pt0 pb0" id="">
+                <h4> If you have encountered any issues in homeworks/projects please click the Report An Issue button. </h4>
+                <img class="img-responsive" src="<?php echo base_url('backend/lms/images/report_issue.png');?>">
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="evaluation" tabindex="-1" role="dialog" aria-labelledby="evaluation" style="padding-left: 0 !important">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content modal-media-content">
@@ -147,6 +161,8 @@
 <!-- -->
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $('#initial').modal('show');
         var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy']) ?>';
         $('#homework_date,#submit_date,#homeworkdate,#submitdate').datepicker({
             format: date_format,

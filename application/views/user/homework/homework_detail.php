@@ -71,9 +71,9 @@ $admin = $this->customlib->getLoggedInUserData();
                         <?php if (!empty($result["document"])) {?>
                     <label>Download Homework</label>
                     <a  class="btn btn-default btn-lg" href="<?php echo base_url() . "user/homework/download/" . $result["id"] . "/" . $result["document"] ?>" data-toggle="tooltip" data-original-title="Download Homework"><i class="fa fa-download"></i></a>
-<?php }
+                <?php }
 
-    ?>
+                    ?>
 
 <?php
 
