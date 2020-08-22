@@ -29,6 +29,7 @@ class Homework extends Student_Controller
         $section_id   = $student_current_class->section_id;
         $homeworklist = $this->homework_model->getStudentHomeworkWithStatus($class_id, $section_id,$student_current_class->student_session_id);
         $data["homeworklist"] = $homeworklist;
+        // var_dump($homeworklist);die();
         $image_validate = $this->config->item('file_validate');
         $data["max_file_size"] = number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
         $this->load->view("layout/student/header");

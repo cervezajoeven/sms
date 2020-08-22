@@ -293,11 +293,44 @@ class Homework_model extends MY_model
 
     public function getStudentHomeworkWithStatus($class_id, $section_id, $student_session_id)
     {
-        $sql   = "SELECT `homework`.*,IFNULL(homework_evaluation.id,0) as homework_evaluation_id, `classes`.`class`, `sections`.`section`, `subject_group_subjects`.`subject_id`, `subject_group_subjects`.`id` as `subject_group_subject_id`, `subjects`.`name` as `subject_name`, `subject_groups`.`id` as `subject_groups_id`, `subject_groups`.`name` FROM `homework` LEFT JOIN homework_evaluation on homework_evaluation.homework_id=homework.id and homework_evaluation.student_session_id=" . $this->db->escape($student_session_id) . "  JOIN `classes` ON `classes`.`id` = `homework`.`class_id` JOIN `sections` ON `sections`.`id` = `homework`.`section_id` JOIN `subject_group_subjects` ON `subject_group_subjects`.`id` = `homework`.`subject_group_subject_id` JOIN `subjects` ON `subjects`.`id` = `subject_group_subjects`.`subject_id` JOIN `subject_groups` ON `subject_group_subjects`.`subject_group_id`=`subject_groups`.`id` WHERE `homework`.`class_id` = " . $this->db->escape($class_id) . " AND `homework`.`section_id` = " . $this->db->escape($section_id) . " AND `homework`.`session_id` = ".$this->current_session." order by homework.homework_date desc";
+        $sql   = "SELECT DISTINCT(homework.id), `homework`.*,IFNULL(homework_evaluation.id,0) as homework_evaluation_id, `classes`.`class`, `sections`.`section`, `subject_group_subjects`.`subject_id`, 
+                  `subject_group_subjects`.`id` as `subject_group_subject_id`, `subjects`.`name` as `subject_name`, `subject_groups`.`id` as `subject_groups_id`, `subject_groups`.`name`, submit_assignment.id AS submit_id, 
+                  CASE WHEN ISNULL(submit_assignment.id) THEN 'No' ELSE 'Yes' END AS submitted
+                  FROM `homework` 
+                  LEFT JOIN homework_evaluation on homework_evaluation.homework_id=homework.id and homework_evaluation.student_session_id=" . $this->db->escape($student_session_id) . 
+                  " LEFT JOIN submit_assignment ON homework.id = submit_assignment.homework_id AND submit_assignment.student_id = (SELECT student_id FROM student_session WHERE id = ". $this->db->escape($student_session_id) .") 
+                  JOIN `classes` ON `classes`.`id` = `homework`.`class_id` 
+                  JOIN `sections` ON `sections`.`id` = `homework`.`section_id` 
+                  JOIN `subject_group_subjects` ON `subject_group_subjects`.`id` = `homework`.`subject_group_subject_id` 
+                  JOIN `subjects` ON `subjects`.`id` = `subject_group_subjects`.`subject_id` 
+                  JOIN `subject_groups` ON `subject_group_subjects`.`subject_group_id`=`subject_groups`.`id` 
+                  WHERE `homework`.`class_id` = " . $this->db->escape($class_id) . " AND `homework`.`section_id` = " . $this->db->escape($section_id) . " AND `homework`.`session_id` = ".$this->current_session." order by homework.homework_date desc";
+        // print_r($sql);
+        // var_dump($sql);die();
         $query = $this->db->query($sql);
         return $query->result_array();
 
     }
+
+    // public function getStudentHomeworkWithStatusEMN($class_id, $section_id, $student_session_id)
+    // {
+    //     $sql   = "SELECT DISTINCT(homework.id), `homework`.*,IFNULL(homework_evaluation.id,0) as homework_evaluation_id, `classes`.`class`, `sections`.`section`, `subject_group_subjects`.`subject_id`, 
+    //               `subject_group_subjects`.`id` as `subject_group_subject_id`, `subjects`.`name` as `subject_name`, `subject_groups`.`id` as `subject_groups_id`, `subject_groups`.`name`, submit_assignment.id as submit_id
+    //               FROM `homework` 
+    //               LEFT JOIN homework_evaluation on homework_evaluation.homework_id=homework.id and homework_evaluation.student_session_id=" . $this->db->escape($student_session_id) . 
+    //               " LEFT JOIN submit_assignment ON homework.id = submit_assignment.homework_id 
+    //               JOIN `classes` ON `classes`.`id` = `homework`.`class_id` 
+    //               JOIN `sections` ON `sections`.`id` = `homework`.`section_id` 
+    //               JOIN `subject_group_subjects` ON `subject_group_subjects`.`id` = `homework`.`subject_group_subject_id` 
+    //               JOIN `subjects` ON `subjects`.`id` = `subject_group_subjects`.`subject_id` 
+    //               JOIN `subject_groups` ON `subject_group_subjects`.`subject_group_id`=`subject_groups`.`id` 
+    //               WHERE `homework`.`class_id` = " . $this->db->escape($class_id) . " AND `homework`.`section_id` = " . $this->db->escape($section_id) . " AND `homework`.`session_id` = ".$this->current_session." order by homework.homework_date desc";
+    //     // print_r($sql);
+    //     var_dump($sql);die();
+    //     $query = $this->db->query($sql);
+    //     return $query->result_array();
+    // }
+
     public function getStudentHomework($class_id, $section_id)
     {
 

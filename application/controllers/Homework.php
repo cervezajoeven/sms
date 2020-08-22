@@ -45,6 +45,8 @@ class Homework extends Admin_Controller
         $homeworklist             = $this->homework_model->get();
 
         $data["homeworklist"]=array();
+        $image_validate = $this->config->item('file_validate');
+        $data["max_file_size"] = number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
         
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
 
@@ -62,15 +64,16 @@ class Homework extends Admin_Controller
             $data['subject_id']       = $subject_id;
             $homeworklist             = $this->homework_model->search_homework($class_id, $section_id, $subject_group_id, $subject_id);
           
-          $data["homeworklist"] = $homeworklist;
+          $data["homeworklist"] = $homeworklist;         
        
           foreach ($data["homeworklist"] as $key => $value) {
             $report                                     = $this->homework_model->getEvaluationReport($value["id"]);
             $data["homeworklist"][$key]["report"]       = $report;
             $create_data                                = $this->staff_model->get($value["created_by"]);
             $eval_data                                  = $this->staff_model->get($value["evaluated_by"]);
-            $created_by                                 = $create_data["name"] . " " . $create_data["surname"];
-            $evaluated_by                               = $eval_data["name"] . " " . $create_data["surname"];
+            $created_by                                 = $create_data["name"] . " " . $create_data["surname"];            
+            $evaluated_by                               = $eval_data["name"] == null ||  $create_data["surname"] == null ? "" : $eval_data["name"] . " " . $create_data["surname"];
+            
             $data["homeworklist"][$key]["created_by"]   = $created_by;
             $data["homeworklist"][$key]["evaluated_by"] = $evaluated_by;
         }

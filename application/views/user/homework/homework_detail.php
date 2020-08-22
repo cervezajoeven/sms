@@ -58,6 +58,9 @@ $admin = $this->customlib->getLoggedInUserData();
     if ($homework_status == 1) {
         $status_lable=$this->lang->line("complete");
         $class = "class= 'label label-success'";
+    } else if ($homework_status == 2) {
+        $status_lable="Submitted";
+        $class = "class= 'label label-info'";
     } else {
         $class = "class= 'label label-danger'";
          $status_lable=$this->lang->line("incomplete");
