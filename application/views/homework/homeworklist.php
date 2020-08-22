@@ -227,9 +227,6 @@ $language_name = $language["short_code"];
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
-
-
-
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="pwd"><?php echo $this->lang->line('subject') ?></label><small class="req"> *</small>
@@ -270,26 +267,14 @@ $language_name = $language["short_code"];
                                         </textarea>
                                     </div>
                                 </div>
-
-
-
-
-
-
                             </div><!--./row-->
-
                         </div><!--./col-md-12-->
-
                     </div><!--./row-->
-
                 </div>
                 <div class="box-footer">
-
                     <div class="pull-right paddA10">
                         <button type="submit" class="btn btn-info pull-right" id="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save') ?></button>
-
                     </div>
-
                 </div>
             </form>
         </div>
