@@ -802,8 +802,8 @@ class Lesson extends General_Controller {
             foreach($students as $student_key => $student_value) {        
 
                 $sender_details['id'] = $student_value['id'];
-                // $sender_details['email'] = $student_value['guardian_email'];
-                $sender_details['email'] = 'cervezajoeven@gmail.com';
+                $sender_details['email'] = $student_value['guardian_email'];
+                // $sender_details['email'] = 'cervezajoeven@gmail.com';
                 $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
                 $sender_details['lesson_title'] = $lesson['lesson_name'];
                 // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
