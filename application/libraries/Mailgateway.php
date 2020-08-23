@@ -65,16 +65,16 @@ class Mailgateway
             $msg = $this->general_data($id, $template,$data);
             // echo '<pre>';print_r($data);exit();
             if ($this->_CI->mailer->send_mail($send_to, $subject, $msg)){
-                // echo "Sent - ".$data['email']." - ".$data['student_name']."<br>";
+                echo "Sent - ".$data['email']." - ".$data['student_name']."<br>";
                 $email_log = array("title"=>"Success - ".$data['school_code']." - Lesson Notification Email - ".$data['teacher_name']." (".$data['lesson_title'].")","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to,"created_at"=>date("Y-m-d H:i:s"));
                 return $email_log;
-                // $this->_CI->lesson_model->sms_create("messages",$email_log);
-                // $this->_CI->my_model->log("Lesson Notification Email ".$id." sent", $id, "Email");
+                $this->_CI->lesson_model->sms_create("messages",$email_log);
+                $this->_CI->my_model->log("Lesson Notification Email ".$id." sent", $id, "Email");
             }else{
-                // echo "Not Sent - ".$data['email']." - ".$data['student_name']."<br>";
+                echo "Not Sent - ".$data['email']." - ".$data['student_name']."<br>";
                 $email_log = array("title"=>"Not Sent - ".$data['school_code']." - Lesson Notification Email - ".$data['teacher_name']." (".$data['lesson_title'].")","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$send_to,"created_at"=>date("Y-m-d H:i:s"));
                 return $email_log;
-                // $this->_CI->lesson_model->sms_create("messages",$email_log);
+                $this->_CI->lesson_model->sms_create("messages",$email_log);
             }
         }
     }
