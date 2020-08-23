@@ -790,7 +790,7 @@ class Lesson extends General_Controller {
         $this->db->where("lms_lesson.id",$lesson_id);
         $lesson = $this->db->get()->result_array()[0];
 
-        $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password");
+        $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password,students.guardian_email");
         $this->db->from("students");
         $this->db->join("users","users.user_id = students.id");
         $this->db->where_in("students.id",$student_ids);
