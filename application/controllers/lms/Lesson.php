@@ -277,7 +277,7 @@ class Lesson extends General_Controller {
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
-                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"past");
+                $data['list'] = $this->lesson_model->admin_deleted($this->general_model->get_account_id(),"past");
                 foreach ($data['list'] as $key => $value) {
                     if($value['zoom_id']){
                         $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
@@ -291,7 +291,7 @@ class Lesson extends General_Controller {
 
                 }
             }else{
-                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(),"past");
+                $data['list'] = $this->lesson_model->deleted_lessons($this->general_model->get_account_id(),"past");
             }
             
             
@@ -825,8 +825,18 @@ class Lesson extends General_Controller {
         $data['id'] = $id;
         $data['deleted'] = 1;
         $this->lesson_model->lms_update("lms_lesson",$data);
-        // print_r();
 
+
+        redirect(site_url()."lms/lesson/index/");
+    
+    }
+
+    public function retrieve($id){
+
+        $data['id'] = $id;
+        $data['deleted'] = 0;
+        $this->lesson_model->lms_update("lms_lesson",$data);
+        echo "<script>alert();</script>";
         redirect(site_url()."lms/lesson/index/");
     
     }
@@ -870,32 +880,32 @@ class Lesson extends General_Controller {
         
     }
 
-    public function send_email_old_accounts(){
-        $this->db->select("students.id,students.guardian_email,students.firstname,students.lastname,users.username,users.password");
-        $this->db->join("users","users.user_id = students.id");
-        // $this->db->limit(10);
-        $query = $this->db->get("students");
-        $result = $query->result_array();
-        $send_data['mail_type'] = "old_student_account";
-        echo "<pre>";
-        // print_r($result);
-        // exit;
-        foreach ($result as $key => $value) {
-            $sender_details[$key]['id'] = $value['id'];
-            $sender_details[$key]['email'] = $value['guardian_email'];
-            $sender_details[$key]['display_name'] = $value['firstname']." ".$value['lastname'];
-            $sender_details[$key]['username'] = $value['username'];
-            $sender_details[$key]['password'] = $value['password'];
-            $sender_details[$key]['url'] = base_url('site/userlogin');
+    // public function send_email_old_accounts(){
+    //     $this->db->select("students.id,students.guardian_email,students.firstname,students.lastname,users.username,users.password");
+    //     $this->db->join("users","users.user_id = students.id");
+    //     // $this->db->limit(10);
+    //     $query = $this->db->get("students");
+    //     $result = $query->result_array();
+    //     $send_data['mail_type'] = "old_student_account";
+    //     echo "<pre>";
+    //     // print_r($result);
+    //     // exit;
+    //     foreach ($result as $key => $value) {
+    //         $sender_details[$key]['id'] = $value['id'];
+    //         $sender_details[$key]['email'] = $value['guardian_email'];
+    //         $sender_details[$key]['display_name'] = $value['firstname']." ".$value['lastname'];
+    //         $sender_details[$key]['username'] = $value['username'];
+    //         $sender_details[$key]['password'] = $value['password'];
+    //         $sender_details[$key]['url'] = base_url('site/userlogin');
             
-            // print_r($this->mailsmsconf->mailsms('old_student_account', $sender_details));
-        }
-        $send_email['data'] = json_encode($sender_details);
-        print_r($send_email);
-        // $send_data['receivers'] = "old_student_account";
-        $url = "https://beta.campuscloudph.com/lms/lesson/general_mail_api";
-        print_r($this->httpPost($url,$send_email));
-    }
+    //         // print_r($this->mailsmsconf->mailsms('old_student_account', $sender_details));
+    //     }
+    //     $send_email['data'] = json_encode($sender_details);
+    //     print_r($send_email);
+    //     // $send_data['receivers'] = "old_student_account";
+    //     $url = "https://beta.campuscloudph.com/lms/lesson/general_mail_api";
+    //     print_r($this->httpPost($url,$send_email));
+    // }
 
     public function send_admission_details($id){
 
