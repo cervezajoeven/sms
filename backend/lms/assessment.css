@@ -23,6 +23,11 @@ li {
 	overflow-y: scroll;
 	padding: 0;
 }
+.middle{
+  	height: 100%;
+  	overflow-y: scroll;
+  	padding: 0;
+}
 
 .right{
   	height: 100%;

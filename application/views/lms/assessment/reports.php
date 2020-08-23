@@ -152,7 +152,7 @@
                                 <tr>
                                     <th>Check Essays</th>
                                     <td>
-                                        <a href="<?php echo site_url('lms/assessment/analysis/').$assessment['id'] ?>">
+                                        <a href="<?php echo site_url('lms/assessment/check_essays/').$assessment['id'] ?>">
                                             <button class="form-control btn btn-primary">Check Essays</button>
                                         </a>
                                     </td>

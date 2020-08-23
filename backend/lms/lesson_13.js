@@ -1441,7 +1441,8 @@ $(document).ready(function(){
         send_email_notification();
     });
     function send_email_notification(){
-        var send_email_notification_url = $("#url").val()+"send_email_notification_godaddy";
+        alert("send_email_notification triggered 2");
+        var send_email_notification_url = $("#url").val()+"send_email_notification";
         var student_ids = [];
         $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
@@ -1463,7 +1464,7 @@ $(document).ready(function(){
             success: function(data)
             {
                 console.log(data);
-                var the_data = JSON.parse(data);
+                // var the_data = JSON.parse(data);
                
             },
             error: function(e){
