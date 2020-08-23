@@ -345,10 +345,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <td>Resend Admission Details</td>
                                                 <td><button onclick="send_admission_details(<?php echo $student['id'] ?>)">Admission Details</button></td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>Resend Login Credential</td>
-                                                <td><button onclick="send_login_credentials(<?php echo $student['id'] ?>)">Login Credentials</button></td>
-                                            </tr>
+                                                <td><button onclick="send_login_credentials(<?php //echo $student['id'] ?>)">Login Credentials</button></td>
+                                            </tr> -->
                                             <?php } ?>
                                             <?php
                                             $cutom_fields_data = get_custom_table_values($student['id'], 'students');
