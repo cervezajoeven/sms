@@ -1441,7 +1441,7 @@ $(document).ready(function(){
         send_email_notification();
     });
     function send_email_notification(){
-        alert("send_email_notification triggered 2");
+        alert("send_email_notification triggered 3");
         var send_email_notification_url = $("#url").val()+"send_email_notification";
         var student_ids = [];
         $.each(jstree.jstree("get_checked",null,true),function(key,value){

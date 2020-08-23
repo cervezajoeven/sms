@@ -807,7 +807,7 @@ class Lesson extends General_Controller {
                 $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
                 $sender_details['lesson_title'] = $lesson['lesson_name'];
                 // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
-                $sender_details['start_date'] = $lesson['start_date'];
+                $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
                 $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
                 $sender_details['teacher_name'] = $lesson['name']." ".$lesson['surname'];
                 $sender_details['school_url_login_page'] = base_url('site/userlogin');
