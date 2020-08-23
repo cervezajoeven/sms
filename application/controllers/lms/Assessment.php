@@ -22,13 +22,18 @@ class Assessment extends General_Controller {
         $this->session->set_userdata('sub_menu', 'content/assessment');
 
         $data['role'] = $this->general_model->get_role();
-
-        
+        $data['real_role'] = $this->general_model->get_real_role();
 
 
         if($data['role']=='admin'){
+
             $this->load->view('layout/header');
-            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
+            if($data['real_role']==7){
+                $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id());
+            }else{
+                $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
+            }
+            
         }else{
 
             $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
@@ -50,21 +55,10 @@ class Assessment extends General_Controller {
 
         $data['assessment'] = $this->assessment_model->lms_get('lms_assessment',$assessment_id,"id")[0];
 
-        // $query = $this->db
-        // ->select("*,lms_a.id as id")
-        // ->from("lms_assessment AS lms_a")
-        // ->join("students AS s","find_in_set(s.id,lms_a.assigned) <> 0","left")
-        // ->join("lms_assessment_sheets AS lms_as","lms_as.account_id = s.id","left")
-        // ->join("student_session AS ss","s.id = ss.student_id","left")
-        // ->join("classes AS c","c.id = ss.class_id","left")
-        // ->join("sections AS sc","sc.id = ss.section_id","left")
-        // ->where("ss.session_id",$current_session)
-        // ->where("lms_a.id", $assessment_id)
-        // ->get();
 
         $query = $this->db
         ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
-        // ->from("lms_assessment_sheets")
+
         ->from("lms_assessment_sheets")
         ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
         ->join("students","students.id = lms_assessment_sheets.account_id","left")
@@ -216,15 +210,14 @@ class Assessment extends General_Controller {
             $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
             $data['classes'] = $this->class_model->getAll();
             $data['class_sections'] = $this->lesson_model->get_class_sections();
-            
 
             $this->load->view('lms/assessment/edit', $data);
-            
         }
         
     }
 
     public function answer($id){
+        date_default_timezone_set('Asia/Manila');
         $data['id'] = $id;
         $data['account_id'] = $this->general_model->get_account_id();
         $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
@@ -259,12 +252,12 @@ class Assessment extends General_Controller {
             $new_query = $this->db->get("lms_assessment_sheets");
             $new_response = $new_query->result_array();
 
-            // print_r($new_response);
-            // exit;
+            // echo '<pre>';print_r(strtotime("+10 minutes",strtotime(date("Y-m-d H:i:s"))));exit();
             if(empty($new_response)){
                 $assessment_data['assessment_id'] = $id;
                 $assessment_data['account_id'] = $data['account_id'];
                 $assessment_data['response_status'] = 0;
+                $assessment_data['expiration'] = date("Y-m-d H:i:s",strtotime("+".$data['assessment']['duration']." minutes",strtotime(date("Y-m-d H:i:s"))));
 
                 $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
                 $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id");
@@ -437,8 +430,77 @@ class Assessment extends General_Controller {
         print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
     }
 
-    public function check_answers($assessment_id){
-        
+    public function check_essays($id){
+        if($id){
+            $data['id'] = $id;
+            $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+            $data['resources'] = site_url('backend/lms/');
+
+            $this->db->select("id,firstname,lastname");
+            $this->db->where_in("id",explode(",", $data['assessment']['assigned']));
+            $students = $this->db->get("students")->result_array();
+
+            $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$id,"assessment_id");
+
+            foreach ($students as $student_key => $student_value) {
+
+                foreach ($student_answers as $student_answers_key => $student_answers_value) {
+                    if($student_value['id'] == $student_answers_value['account_id']){
+
+                        $students[$student_key]['has_answered'] = 1;
+                        $students[$student_key]['answer'] = $student_answers_value['answer'];
+
+                    }
+                }
+                
+            }
+
+            // echo '<pre>';print_r($students);exit();
+            $data['students'] = $students;
+            $data['classes'] = $this->class_model->getAll();
+            $data['class_sections'] = $this->lesson_model->get_class_sections();
+
+            $this->load->view('lms/assessment/check_essays', $data);
+        }
+    }
+
+    public function fetch_essays($id,$account_id){
+        if($id){
+
+            $data['id'] = $id;
+            $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+            // $students = $this->lesson_model->get_students("lms_lesson",$id,"id");
+            // $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$id,"assessment_id");
+            $this->db->select("MAX(date_created) as max_date");
+            $this->db->where("assessment_id",$id);
+            $this->db->where("account_id",$account_id);
+            $this->db->where("response_status",1);
+            $max_date = $this->db->get("lms_assessment_sheets")->result_array()[0]['max_date'];
+            
+            $this->db->select("*");
+            $this->db->where("assessment_id",$id);
+            $this->db->where("account_id",$account_id);
+            $this->db->where("response_status",1);
+            $this->db->where("date_created", $max_date);
+
+            $student_answers = $this->db->get("lms_assessment_sheets")->result_array()[0];
+
+            // foreach ($students as $student_key => $student_value) {
+
+            //     foreach ($student_answers as $student_answers_key => $student_answers_value) {
+            //         if($student_value['id'] == $student_answers_value['account_id']){
+
+            //             $students[$student_key]['has_answered'] = 1;
+            //             $students[$student_key]['answer'] = $student_answers_value['answer'];
+
+            //         }
+            //     }
+                
+            // }
+
+            echo json_encode($student_answers);
+
+        }
     }
 
     public function analysis($id){

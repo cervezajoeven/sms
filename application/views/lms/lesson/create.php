@@ -944,7 +944,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="<?php echo $resources.'drawing-table.js'?>" type="text/javascript"></script>
-        <script src="<?php echo $resources.'lesson_12.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_13.js'?>"></script>
         <script type="text/javascript">
           
         </script>

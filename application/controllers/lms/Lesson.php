@@ -817,7 +817,6 @@ class Lesson extends General_Controller {
                 $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
             }
             
-            echo "<center><h1>Success! You may exit this page now.</h1></center>";
         }
     }
 
