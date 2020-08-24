@@ -37,6 +37,7 @@
                         </div>
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
+
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
@@ -60,6 +61,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     <?php foreach ($list as $list_key => $list_data): ?>
 
                                         <tr>
@@ -112,6 +114,16 @@
                                                         <?php if($lesson_query=="today"): ?>
                                                             <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
                                                                     <i class="fa fa-sign-in"></i> Start Class
+                                                            </a>
+                                                        <?php endif; ?>
+                                                        <?php if($list_data['lesson_type'] == "virtual"): ?>
+                                                            <a data-placement="left" href="<?php echo $list_data['teacher_google_meet'];?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                    <i class="fa fa-sign-in"></i> Join Google Meet Class
+                                                            </a>
+                                                        <?php endif; ?>
+                                                        <?php if($list_data['lesson_type'] == "zoom"): ?>
+                                                            <a data-placement="left" href="<?php echo base_url('lms/lesson/zoom_checker') ;?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                    <i class="fa fa-sign-in"></i> Join Zoom Class
                                                             </a>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
