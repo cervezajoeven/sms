@@ -114,11 +114,11 @@ $config['charset'] = 'UTF-8';
   |
  */
 if($HTTP_HOST=="localhost"){
-  $config['enable_hooks'] = FALSE;
+  $config['enable_hooks'] = TRUE;
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
   $config['enable_hooks'] = TRUE;
 }else{
-  $config['enable_hooks'] = FALSE;
+  $config['enable_hooks'] = TRUE;
 }
 
 /*
