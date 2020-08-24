@@ -116,15 +116,17 @@
                                                                     <i class="fa fa-sign-in"></i> Start Class
                                                             </a>
                                                         <?php endif; ?>
-                                                        <?php if($list_data['lesson_type'] == "virtual"): ?>
-                                                            <a data-placement="left" href="<?php echo $list_data['teacher_google_meet'];?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
-                                                                    <i class="fa fa-sign-in"></i> Join Google Meet Class
-                                                            </a>
-                                                        <?php endif; ?>
-                                                        <?php if($list_data['lesson_type'] == "zoom"): ?>
-                                                            <a data-placement="left" href="<?php echo base_url('lms/lesson/zoom_checker') ;?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
-                                                                    <i class="fa fa-sign-in"></i> Join Zoom Class
-                                                            </a>
+                                                        <?php if($real_role=="7"||$real_role=="1"): ?>
+                                                            <?php if($list_data['lesson_type'] == "virtual"): ?>
+                                                                <a data-placement="left" href="<?php echo $list_data['teacher_google_meet'];?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                        <i class="fa fa-sign-in"></i> Join Google Meet Class
+                                                                </a>
+                                                            <?php endif; ?>
+                                                            <?php if($list_data['lesson_type'] == "zoom"): ?>
+                                                                <a data-placement="left" href="<?php echo base_url('lms/lesson/zoom_checker') ;?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                        <i class="fa fa-editsign-in"></i> Join Zoom Class
+                                                                </a>
+                                                            <?php endif; ?>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
                                                     
