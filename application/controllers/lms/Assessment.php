@@ -409,7 +409,7 @@ class Assessment extends General_Controller {
                     }
                 }
             }else if($answer_value['type']=="short_answer"){
-                if(in_array(trim(strtolower($answer_value['answer'])), explode(",", strtolower($assessment_value['correct'])))){
+                if(in_array(trim(strtolower($answer_value['answer'])), explode(",", trim(strtolower($assessment_value['correct']))))){
                     if(array_key_exists("points", $assessment_value)){
 
                         $score += $assessment_value['points'];
@@ -428,6 +428,81 @@ class Assessment extends General_Controller {
         $data['response_status'] = "1";
 
         print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
+    }
+
+    public function recheck_answers($id){
+
+        $assessment = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+        $students = explode(",", $assessment['assigned']);
+        echo "<pre>";
+
+
+        foreach ($students as $student_key => $student_value) {
+            $this->db->select("MAX(date_created) as max_date");
+            $this->db->where("assessment_id",$id);
+            $this->db->where("account_id",$student_value);
+            $this->db->where("response_status",1);
+            $max_date = $this->db->get("lms_assessment_sheets")->result_array()[0]['max_date'];
+
+            $this->db->select("id,answer");
+            $this->db->where("assessment_id",$id);
+            $this->db->where("account_id",$student_value);
+            $this->db->where("response_status",1);
+            $this->db->where("date_created", $max_date);
+            $student_answer = $this->db->get("lms_assessment_sheets")->result_array()[0];
+            $data['id'] = $student_answer['id'];
+            $data['assessment_id'] = $assessment['id'];
+            $data['answer'] = $student_answer['answer'];
+            $answer = (array)json_decode($data['answer']);
+            $assessment_answer = (array)json_decode($assessment['sheet']);
+
+            //convert to array
+            foreach ($answer as $answer_key => $answer_value) {
+                $answer[$answer_key] = (array)$answer_value;
+            }
+            foreach ($assessment_answer as $answer_key => $answer_value) {
+                $assessment_answer[$answer_key] = (array)$answer_value;
+            }
+            //convert to array
+            $score = 0;
+            $total_score = 0;
+            foreach ($answer as $answer_key => $answer_value) {
+                $total_score += 1;
+                $assessment_value = $assessment_answer[$answer_key];
+                if($answer_value['type']=="multiple_choice"||$answer_value['type']=="multiple_answer"){
+
+                    if($answer_value['answer'] == $assessment_value['correct']){
+                        if(array_key_exists("points", $assessment_value)){
+
+                            $score += $assessment_value['points'];
+                        }else{
+
+                            $score += 1;
+                        }
+                    }
+                }else if($answer_value['type']=="short_answer"){
+                    if(in_array(trim(strtolower($answer_value['answer'])), explode(",", trim(strtolower($assessment_value['correct']))))){
+                        if(array_key_exists("points", $assessment_value)){
+
+                            $score += $assessment_value['points'];
+                        }else{
+
+                            $score += 1;
+                        }
+                    }
+                }else{
+
+                }
+
+            }
+
+            $data['score'] = $score;
+            $data['response_status'] = "1";
+
+            $this->assessment_model->lms_update("lms_assessment_sheets",$data);
+        }
+        
+        redirect(base_url('lms/assessment/reports/').$assessment['id']);
     }
 
     public function check_essays($id){
@@ -469,8 +544,6 @@ class Assessment extends General_Controller {
 
             $data['id'] = $id;
             $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
-            // $students = $this->lesson_model->get_students("lms_lesson",$id,"id");
-            // $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$id,"assessment_id");
             $this->db->select("MAX(date_created) as max_date");
             $this->db->where("assessment_id",$id);
             $this->db->where("account_id",$account_id);

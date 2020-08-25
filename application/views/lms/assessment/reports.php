@@ -157,6 +157,14 @@
                                         </a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Recheck Answers</th>
+                                    <td>
+                                        <a href="<?php echo site_url('lms/assessment/recheck_answers/').$assessment['id'] ?>">
+                                            <button class="form-control btn btn-primary">Recheck Answers</button>
+                                        </a>
+                                    </td>
+                                </tr>
                             </table>
                         </div><!-- /.mail-box-messages -->
 

@@ -1271,7 +1271,7 @@ class Lesson extends General_Controller {
 
         $this->db->select("*");
         $zoom_accounts = $this->db->get("lms_zoom_accounts")->result_array();
-
+        
         $live_zoom = $this->zoom_api->check_live();
         // echo "<pre>";
         // print_r($live_zoom);
