@@ -41,6 +41,7 @@
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
+                                        <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                         <th>Title</th>
                                         <th>Subject</th>
                                         <th>Teacher</th>
@@ -57,7 +58,7 @@
                                             <th>Shared</th>
                                         <?php endif; ?>
                                         <!-- <th>Status</th> -->
-                                        <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,48 +66,6 @@
                                     <?php foreach ($list as $list_key => $list_data): ?>
 
                                         <tr>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['lesson_name']?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['subject_name']; ?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['name'] ?> <?php echo $list_data['surname'] ?>
-                                            </td>
-
-                                            <td class="mailbox-name">
-                                               <?php echo date("M d, h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("M d, h:i A", strtotime($list_data['end_date'])); ?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
-                                            </td>
-                                            
-                                            <td class="mailbox-name">
-                                                <center><?php echo $list_data['term']; ?></center>
-                                            </td>
-                                            
-                                            <?php if($role!="student"): ?>
-                                                <td class="mailbox-name">
-                                                    <?php echo $list_data['class']; ?>
-                                                </td>
-                                            <?php endif; ?>
-                                            
-                                            <!-- <td class="mailbox-name">
-                                                <?php echo str_replace("_", " ", strtoupper($list_data['education_level'])); ?>
-                                            </td> -->
-                                            <?php if($role!="student"): ?>
-                                                <td>
-                                                    <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
-                                                </td>
-                                            <?php endif; ?>
-                                            <!-- <td>
-                                                <select class="lesson_status" lesson_id="<?php echo $list_data['id'] ?>" <?php if($role=="student"): ?> readonly="" <?php endif; ?> >
-                                                    <option value="awaiting">Awaiting</option>
-                                                    <option value="cancelled">Cancelled</option>
-                                                    <option value="completed">Completed</option>
-                                                </select>
-                                            </td> -->
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
@@ -153,6 +112,49 @@
                                                 <?php endif; ?>
                                                 
                                             </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['lesson_name']?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['subject_name']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['name'] ?> <?php echo $list_data['surname'] ?>
+                                            </td>
+
+                                            <td class="mailbox-name">
+                                               <?php echo date("M d, h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("M d, h:i A", strtotime($list_data['end_date'])); ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo ($list_data['lesson_type']=="virtual")?"Google Meet":$list_data['lesson_type']; ?>
+                                            </td>
+                                            
+                                            <td class="mailbox-name">
+                                                <center><?php echo $list_data['term']; ?></center>
+                                            </td>
+                                            
+                                            <?php if($role!="student"): ?>
+                                                <td class="mailbox-name">
+                                                    <?php echo $list_data['class']; ?>
+                                                </td>
+                                            <?php endif; ?>
+                                            
+                                            <!-- <td class="mailbox-name">
+                                                <?php echo str_replace("_", " ", strtoupper($list_data['education_level'])); ?>
+                                            </td> -->
+                                            <?php if($role!="student"): ?>
+                                                <td>
+                                                    <?php echo ($list_data['shared'] == 1)?"Yes":"No" ; ?>
+                                                </td>
+                                            <?php endif; ?>
+                                            <!-- <td>
+                                                <select class="lesson_status" lesson_id="<?php echo $list_data['id'] ?>" <?php if($role=="student"): ?> readonly="" <?php endif; ?> >
+                                                    <option value="awaiting">Awaiting</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                    <option value="completed">Completed</option>
+                                                </select>
+                                            </td> -->
+                                            
                                         </tr>
                                         <?php endforeach; ?>
 
@@ -183,7 +185,37 @@
         </div>   <!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+<div class="modal fade" id="initial" tabindex="-1" role="dialog" aria-labelledby="initial" style="padding-left: 0 !important">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="box-title">Enter Class.</h4>
+            </div>
+            <div class="modal-body pt0 pb0" id="">
+                <!-- <div class="container"> -->
 
+                        <table class="table table-responsive">
+                            <tr>
+                                
+                                <th colspan="2"><center><h4> Please click which will you open</center></h4></th>
+                            </tr>
+                            <tr>
+                                <td><center><a href="" id="view_lesson" target="_blank"><button class="btn btn-success">View Lesson</button></a></center></td>
+                                <td><center><a href="" id="enter_video" target="_blank"><button class="btn btn-primary">Enter Zoom</button></a></center></td>
+                            </tr>
+                        </table>
+                        
+                        
+                        
+
+                    
+                <!-- </div> -->
+                
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function check_class(lesson_id){
@@ -194,12 +226,15 @@
             method:"POST",
         }).done(function(data) {
             var parsed_data = JSON.parse(data);
-            alert("If the zoom or google meet wont appear please turn off the pop-up blocker on your browser.");
+            $('#initial').modal('show');
             if(parsed_data.video!=""){
-                window.open(parsed_data.video,"_blank");
+
+                $("#enter_video").attr("href",parsed_data.video);
             }
             if(parsed_data.lms!=""){
-                window.location.href = parsed_data.lms;
+
+                $("#view_lesson").attr("href",parsed_data.lms);
+
             }
         });
     }
