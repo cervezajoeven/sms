@@ -854,9 +854,33 @@ class Lesson extends General_Controller {
                 $sender_details['school_url_login_page'] = base_url('site/userlogin');
                 $sender_details['username'] = $student_value['username'];
                 $sender_details['password'] = $student_value['password'];
-                print_r($sender_details);
-                // $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
-                var_dump($this->mailer->send_mail("cervezajoeven@gmail.com", "hoho", "hahah gana"));
+
+
+                $msg = "<p>Good Day Parent,</p>
+
+                        <p><strong>".$sender_details['student_name']." </strong>was assigned to a lesson on the LMS.</p>
+
+                        <p>Title: <strong>".$sender_details['lesson_title']."</strong></p>
+
+                        <p>Date: <strong>".$sender_details['start_date']."</strong></p>
+
+                        <p>Teacher: <strong>".$sender_details['teacher_name']."</strong></p>
+
+                        <p>Type: <strong>".$sender_details['lesson_type']."</strong></p>
+
+                        <p>Click here to access the system <strong>".$sender_details['school_url_login_page']."</strong></p>
+
+                        <p>In case you can&rsquo;t login your account here is the student&rsquo;s login credential.</p>
+
+                        <p>Username: <strong>".$sender_details['username']."</strong></p>
+
+                        <p>Password: <strong>".$sender_details['password']."</strong></p>
+
+                        <p><strong>Please be on time and take care.&nbsp;</strong></p>";
+
+                if($this->mailer->send_mail("cervezajoeven@gmail.com", "Lesson Notification", $msg)){
+                    echo "Sent - cervezajoeven@gmail.com ".$sender_details['student_name'];
+                }
             }
             
         }
