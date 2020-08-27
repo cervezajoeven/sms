@@ -41,7 +41,7 @@
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
-                                        
+                                        <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                         <th>Title</th>
                                         <th>Subject</th>
                                         <th>Teacher</th>
@@ -58,7 +58,7 @@
                                             <th>Shared</th>
                                         <?php endif; ?>
                                         <!-- <th>Status</th> -->
-                                        <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
