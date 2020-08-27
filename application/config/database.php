@@ -118,7 +118,7 @@ if($HTTP_HOST=="localhost"){
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
-  	$hostname = "db.novocloudph.com";
+  	$hostname = "campusnovo-db.cuam6akcxov9.us-east-2.rds.amazonaws.com";
 }
 
 $db['default'] = array(
