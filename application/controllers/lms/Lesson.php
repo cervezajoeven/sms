@@ -92,7 +92,7 @@ class Lesson extends General_Controller {
         $this->db->select("students.firstname,students.lastname,lms_lesson_logs.date_created as timestamp");
         $this->db->join("students","lms_lesson_logs.account_id = students.id");
         $this->db->where("lms_lesson_logs.lesson_id",$lesson_id);
-        $this->db->group_by("students.firstname");
+        $this->db->group_by("students.id");
         $this->db->order_by("students.firstname","desc");
         $return_data = $this->db->get("lms_lesson_logs")->result_array();
         echo json_encode($return_data);
