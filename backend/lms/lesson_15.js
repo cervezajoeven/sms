@@ -1446,7 +1446,7 @@ $(document).ready(function(){
         var send_email_notification_url = $("#url").val()+"new_send_email_notification";
         var student_ids = [];
 
-        alert("Sending Email Notifications");
+        alert("Sending Email Notifications. You can check the logs on the action button on the lesson lists.");
         $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
             if(value.includes('student')){
@@ -1468,7 +1468,7 @@ $(document).ready(function(){
             success: function(data)
             {
                 console.log(data);
-
+                alert("Emails sent successfully. Emails sent to the guardians may be found in their inboxes or spam folders.");
                 // var the_data = JSON.parse(data);
                
             },
