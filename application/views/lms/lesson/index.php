@@ -1,3 +1,5 @@
+<script type="text/javascript" src="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -77,22 +79,22 @@
                                                         <?php endif; ?>
                                                         <?php if($real_role=="7"||$real_role=="1"): ?>
                                                             <?php if($list_data['lesson_type'] == "virtual"): ?>
-                                                                <a data-placement="left" href="<?php echo $list_data['teacher_google_meet'];?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                <a data-placement="left" href="<?php echo $list_data['teacher_google_meet'];?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Join Meet" >
                                                                         <i class="fa fa-sign-in"></i> Join Meet
                                                                 </a>
                                                             <?php endif; ?>
                                                             <?php if($list_data['lesson_type'] == "zoom"): ?>
-                                                                <a data-placement="left" href="<?php echo base_url('lms/lesson/zoom_checker') ;?>" target="_blank" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Start Class" >
+                                                                <a data-placement="left" href="<?php echo base_url('lms/lesson/zoom_checker') ;?>" target="_blank" class="btn btn-default btn-xs" data-toggle="tooltip" title="Join Zoom" >
                                                                         <i class="fa fa-sign-in"></i> Join Zoom
                                                                 </a>
                                                             <?php endif; ?>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/attendance/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Lesson Attendance" >
-                                                                    <i class="fa fa-users"></i> Attendance
+                                                    <a data-placement="left" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Attendance (See students who attended the class)" >
+                                                                    <i class="fa fa-users"></i>
                                                     </a>
-                                                    <a data-placement="left" href="<?php echo site_url('lms/lesson/attendance/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Lesson Attendance" >
-                                                                    <i class="fa fa-envelope"></i> Emails
+                                                    <a data-placement="left" href="#" class="btn btn-default btn-xs"  data-toggle="tooltip" onclick="email_logs('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" title="Email Logs(See if the notification was sent to parents)" >
+                                                                    <i class="fa fa-envelope"></i>
                                                     </a>
                                                     <a data-placement="left" href="<?php echo site_url('lms/lesson/create/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>" >
                                                             <i class="fa fa-edit"></i>
@@ -222,7 +224,96 @@
     </div>
 </div>
 
+<div class="modal fade" id="email_logs" tabindex="-1" role="dialog" aria-labelledby="email_logs" style="padding-left: 0 !important">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="box-title">Email Logs for <span class="lesson_title_email_log"><span></h4>
+            </div>
+            <div class="modal-body" id="">
+
+                <table class="table table-responsive" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Receiver</th>
+                            <th>Status</th>
+                            <th>Username Sent</th>
+                            <th>Password Sent</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr>
+                            <td>Joeven Cerveza</td>
+                            <td>cervezajoeven@gmail.com</td>
+                            <td>Sent</td>
+                            <td>student</td>
+                            <td>student</td>
+                            <td>August 28, 2020 2:00 AM</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Receiver</th>
+                            <th>Status</th>
+                            <th>Username Sent</th>
+                            <th>Password Sent</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </tfoot>
+                    
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="attendance" tabindex="-1" role="dialog" aria-labelledby="email_logs" style="padding-left: 0 !important">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-media-content">
+            <div class="modal-header modal-media-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="box-title">Attendance for <span class="lesson_title_attendance"><span></h4>
+            </div>
+            <div class="modal-body" id="">
+
+                <table class="table table-responsive" id="attendance_table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr>
+                            <td>Joeven Cerveza</td>
+                            <td>August 28, 2020 2:00 AM</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </tfoot>
+                    
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    var table = $('#myTable').DataTable();
+    var attendance_table = $('#attendance_table').DataTable();
+
     function check_class(lesson_id){
         var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id;
 
@@ -247,6 +338,39 @@
             }else{
                 $("#view_lesson").hide();
             }
+        });
+    }
+    function email_logs(lesson_id,lesson_name){
+        var url = "<?php echo base_url('lms/lesson/emails/');?>"+lesson_id;
+        $.ajax({
+            url: url,
+            method:"POST",
+        }).done(function(data) {
+            var parsed_data = JSON.parse(data);
+            $('#email_logs').modal('show');
+            table.clear().draw();
+            $(".lesson_title_email_log").text(lesson_name);
+            $.each(parsed_data,function(key,value){
+                table.row.add([value.firstname+" "+value.lastname,value.receiver,value.email_status,value.username_sent,value.password_sent,value.date_created]).draw().node();
+            });
+            
+        });
+    }
+
+    function attendance(lesson_id,lesson_name){
+        var url = "<?php echo base_url('lms/lesson/attendance/');?>"+lesson_id;
+        $.ajax({
+            url: url,
+            method:"POST",
+        }).done(function(data) {
+            var parsed_data = JSON.parse(data);
+            $('#attendance').modal('show');
+            attendance_table.clear().draw();
+            $(".lesson_title_attendance").text(lesson_name);
+            $.each(parsed_data,function(key,value){
+                attendance_table.row.add([value.firstname+" "+value.lastname,value.timestamp]).draw().node();
+            });
+            
         });
     }
     $(document).ready(function () {

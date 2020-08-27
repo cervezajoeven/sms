@@ -79,6 +79,26 @@ class Lesson extends General_Controller {
         $this->load->view('layout/footer');
     }
 
+    function emails($lesson_id) {
+        $this->db->select("lms_lesson_email_logs.*,students.firstname,students.lastname");
+        $this->db->join("students","lms_lesson_email_logs.student_id = students.id");
+        $this->db->where("lms_lesson_email_logs.lesson_id",$lesson_id);
+        $this->db->order_by("lms_lesson_email_logs.date_created","desc");
+        $return_data = $this->db->get("lms_lesson_email_logs")->result_array();
+        echo json_encode($return_data);
+        
+    }
+    function attendance($lesson_id) {
+        $this->db->select("students.firstname,students.lastname,lms_lesson_logs.date_created as timestamp");
+        $this->db->join("students","lms_lesson_logs.account_id = students.id");
+        $this->db->where("lms_lesson_logs.lesson_id",$lesson_id);
+        $this->db->group_by("students.firstname");
+        $this->db->order_by("students.firstname","desc");
+        $return_data = $this->db->get("lms_lesson_logs")->result_array();
+        echo json_encode($return_data);
+        
+    }
+
     function index_create($lesson_query="today") {
 
         $this->session->set_userdata('top_menu', 'Download Center');
@@ -823,8 +843,6 @@ class Lesson extends General_Controller {
             $student_ids = explode(",", urldecode($student_ids));
         }
 
-        echo "<pre>";
-
         $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
         $this->db->from("lms_lesson");
         $this->db->join("staff","lms_lesson.account_id = staff.id");
@@ -843,8 +861,8 @@ class Lesson extends General_Controller {
             foreach($students as $student_key => $student_value) {        
 
                 $sender_details['id'] = $student_value['id'];
-                // $sender_details['email'] = $student_value['guardian_email'];
-                $sender_details['email'] = 'cervezajoeven@gmail.com';
+                $sender_details['email'] = $student_value['guardian_email'];
+                // $sender_details['email'] = 'cervezajoeven@gmail.com';
                 $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
                 $sender_details['lesson_title'] = $lesson['lesson_name'];
                 // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
@@ -885,13 +903,13 @@ class Lesson extends General_Controller {
                 $lesson_email_log['password_sent'] = $sender_details['password'];
 
                 if($this->mailer->send_mail($sender_details['email'], "Lesson Notification", $msg)){
-
-                    echo "Sent - cervezajoeven@gmail.com ".$sender_details['student_name'];
                     
                     $lesson_email_log['email_status'] = "Sent";
+
                 }else{
 
                     $lesson_email_log['email_status'] = "Not Sent";
+
                 }
                 $this->lesson_model->lms_create("lms_lesson_email_logs",$lesson_email_log);
             }
