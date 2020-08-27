@@ -878,9 +878,22 @@ class Lesson extends General_Controller {
 
                         <p><strong>Please be on time and take care.&nbsp;</strong></p>";
 
-                if($this->mailer->send_mail("cervezajoeven@gmail.com", "Lesson Notification", $msg)){
+                $lesson_email_log['lesson_id'] = $lesson_id;
+                $lesson_email_log['student_id'] = $sender_details['id'];
+                $lesson_email_log['receiver'] = $sender_details['email'];
+                $lesson_email_log['username_sent'] = $sender_details['username'];
+                $lesson_email_log['password_sent'] = $sender_details['password'];
+
+                if($this->mailer->send_mail($sender_details['email'], "Lesson Notification", $msg)){
+
                     echo "Sent - cervezajoeven@gmail.com ".$sender_details['student_name'];
+                    
+                    $lesson_email_log['email_status'] = "Sent";
+                }else{
+
+                    $lesson_email_log['email_status'] = "Not Sent";
                 }
+                $this->lesson_model->lms_create("lms_lesson_email_logs",$lesson_email_log);
             }
             
         }
