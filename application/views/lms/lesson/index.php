@@ -229,12 +229,18 @@
             $('#initial').modal('show');
             if(parsed_data.video!=""){
 
+                $("#enter_video").show();
                 $("#enter_video").attr("href",parsed_data.video);
+            }else{
+                $("#enter_video").hide();
             }
             if(parsed_data.lms!=""){
 
+                $("#view_lesson").show();
                 $("#view_lesson").attr("href",parsed_data.lms);
 
+            }else{
+                $("#view_lesson").hide();
             }
         });
     }
