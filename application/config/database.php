@@ -112,13 +112,15 @@ if($HTTP_HOST=="localhost"){
 	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
-  	$hostname = "campusnovo-db.cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname = "campusnovo-db.cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 }else{
 
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
-  	$hostname = "campusnovo-db.cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname = "campusnovo-db.cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 }
 
 $db['default'] = array(
