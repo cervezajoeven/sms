@@ -25,10 +25,12 @@
                         <div class="dualbg">
 
                             <ul multiple=""  class="list-group" id="slist">
+                                <!-- <pre> -->
                                 <?php
                                // print_r($studentlist);
                                // exit();
                                 foreach ($studentlist as $key => $value) {
+
                                     $active_status = false;
                                     if ($value["homework_evaluation_id"] != 0) {
                                         $active_status = true;
@@ -40,6 +42,12 @@
                                             <label><input type="checkBox" <?php echo ($active_status) ? "checked='checked'" : "" ?>name="student_list[<?php echo $value["id"] ?>]" value="<?php echo $value["homework_evaluation_id"] ?>"><?php echo $value["firstname"]." ".$value["lastname"]." (".$value['admission_no'].")"; ?></label>
                                         </div>
 
+                                        <div>
+                                            <input type="number" class="form-control" name="score[<?php echo $value["id"] ?>]" placeholder="Score" value="<?php echo ($value['homework_evaluation_score']) ? $value['homework_evaluation_score']:''; ?>">
+                                        </div>
+                                        <div>
+                                            <textarea class="form-control" name="remarks[<?php echo $value["id"] ?>]" placeholder="Remarks"><?php echo ($value['homework_evaluation_remarks']) ? $value['homework_evaluation_remarks']:''; ?></textarea>
+                                        </div>
 
                                     </li>
 
@@ -242,7 +250,7 @@
                 processData: false,
                 success: function (res)
                 {
-
+                    console.log(res);
                     if (res.status == "fail") {
 
                         var message = "";

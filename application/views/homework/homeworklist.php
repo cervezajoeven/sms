@@ -99,6 +99,7 @@ $language_name = $language["short_code"];
                                 <table class="table table-hover table-striped table-bordered example">
                                     <thead>
                                         <tr>
+                                            <th><?php echo $this->lang->line('title') ?></th>
                                             <th><?php echo $this->lang->line('class') ?></th>
                                             <th><?php echo $this->lang->line('section') ?></th>
                                             <th><?php echo $this->lang->line('subject') . " " . $this->lang->line('group'); ?></th>
@@ -118,6 +119,7 @@ $language_name = $language["short_code"];
                                         foreach ($homeworklist as $key => $homework) {
                                             ?>
                                             <tr>
+                                                <td><?php echo $homework["title"] ?></td>
                                                 <td><?php echo $homework["class"] ?></td>
 
                                                 <td><?php echo $homework["section"] ?></td>
@@ -192,6 +194,16 @@ $language_name = $language["short_code"];
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="row">
                                 <input type="hidden" id="modal_record_id" value="0" name="record_id">
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="spwd">Title</label><small class="req"> *</small>
+                                        
+                                        <input type="text" class="form-control modal_homework_title" name="homework_title">
+                                        <span id="name_add_error" class="text-danger"></span>
+                                    </div>
+
+                                </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="pwd"><?php echo $this->lang->line('class') ?></label><small class="req"> *</small>
@@ -798,12 +810,13 @@ $language_name = $language["short_code"];
                 },
                 success: function (res)
                 {
-                    console.log(res);
+
                     $('#modal_record_id').val(res.id);
 
                     $('#submit_date').val(new Date(res.submit_date).toString(date_format));
                     $('#homework_date').val(new Date(res.homework_date).toString(date_format));
                     $('.modal_class_id').val(res.class_id);
+                    $('.modal_homework_title').val(res.title);
                     $('.wysihtml5-sandbox').contents().find('.wysihtml5-editor').html(res.description);
                     $('.modal_class_id option[value=' + res.class_id + ']').attr('selected', 'selected');
                     getSectionByClass(res.class_id, res.section_id, 'modal_section_id');
