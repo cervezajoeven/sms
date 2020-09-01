@@ -46,7 +46,7 @@
             <td><?php echo $zoom_lister_value['name'] ?></td>
             <?php if($zoom_lister_value['account_id']==""): ?>
 
-              <td><a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
+              <td><a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" onclick="page_refresh()" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
 
             <?php else: ?>
               <?php if($zoom_lister_value['account_id']==$account_id): ?>
@@ -173,7 +173,12 @@
             }
 
         }
-
+        function page_refresh(){
+            setTimeout(function(){
+                location.reload();
+            },5000);
+            
+        }
     </script>
 	
 </body>
