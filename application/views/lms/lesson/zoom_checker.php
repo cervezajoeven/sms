@@ -30,11 +30,7 @@
 			<h1>Pick Zoom Meeting</h1>
 			<p class="lead">Please select a zoom to start the class. If you encounter any disconnection. You can reconnect here.</p>
 			<div class="alert alert-info">
-              <strong>Update!</strong> After you have finished your lesson or video conference. Please click the <button class="btn btn-danger">End Class. </button>. To update the zoom picker list. Thank you.
-            </div>
-            <div class="alert alert-success">
-              <strong>Instructions!</strong> Here is the instruction how to use the updated Zoom Picker: 
-              <button class="btn btn-info">Teachers Instructions. </button> <button class="btn btn-primary">Admin Instructions. </button>
+              <strong>Update!</strong> After you have finished your lesson or video conference. Please click the <button class="btn btn-danger">End Class. </button>. To update the zoom picker list and to let other teachers use the zoom account. Thank you.
             </div>
 
       <table class="table">
