@@ -37,7 +37,11 @@
 		        		<tr>
 		        			
 		        			<td colspan="4" style="padding: 0;cursor: pointer;">
-		        				<a href="<?php echo site_url('lms/assessment/index/'); ?>">
+		        				<?php if($teacher_review): ?>
+		        					<a href="<?php echo site_url('lms/assessment/reports/'.$id); ?>">
+		        				<?php else: ?>
+		        					<a href="<?php echo site_url('lms/assessment/index/'); ?>">
+		        				<?php endif; ?>
 		        					<div class="info-tab info-title the_close">X Close</div>
 		        				</a>
 		        			</td>
