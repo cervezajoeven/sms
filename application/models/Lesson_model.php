@@ -115,6 +115,7 @@ class Lesson_model extends MY_Model {
         $this->db->join("classes","classes.id = lms_lesson.grade_id");
         $this->db->where("lms_lesson.shared","1");
         $this->db->where('deleted',0);
+        $this->db->order_by('lms_lesson.date_created','asc');
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();
