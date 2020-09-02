@@ -1465,7 +1465,7 @@ class Lesson extends General_Controller {
         
     }
 
-    public function end_zoom($lesson_id,$zoom_id){
+    public function end_zoom($zoom_id){
         
         $zoom_data = $this->lesson_model->lms_get("lms_zoom_accounts",$zoom_id,"email")[0];
         $lms_zoom_accounts['email'] = $zoom_id;

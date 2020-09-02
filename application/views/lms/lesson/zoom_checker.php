@@ -51,13 +51,13 @@
             <?php else: ?>
               <?php if($zoom_lister_value['account_id']==$account_id): ?>
                 <td>
-                  <a href="#" onclick="end_class('<?php echo base_url('lms/lesson/end_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>')"><button class="btn btn-danger end_class">End Class</button></a>
+                  <a href="#" onclick="end_class('<?php echo base_url('lms/lesson/end_zoom/'.$zoom_lister_value['email']); ?>')"><button class="btn btn-danger end_class">End Class</button></a>
                   <a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" target="_blank"><button class="btn btn-primary">Reconnect</button></a>
                 </td>
               <?php else: ?>
                 <?php if($real_role==1||$real_role==7): ?>
                   <td>
-                    <a href="#" onclick="end_class('<?php echo base_url('lms/lesson/end_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>')"><button class="btn btn-danger end_class">End Class</button></a>
+                    <a href="#" onclick="end_class('<?php echo base_url('lms/lesson/end_zoom/'.$zoom_lister_value['email']); ?>')"><button class="btn btn-danger end_class">End Class</button></a>
 
                     <a href="#" target="_blank"><button disabled="" class="btn btn-warning">In Progress</button></a>
                   </td>
