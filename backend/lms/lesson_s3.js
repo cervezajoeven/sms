@@ -12,7 +12,7 @@ $(document).ready(function(){
     var blackboard_id = $("#blackboard_id").val();
     var lesson_id = $("#lesson_id").val();
     var main_url = $("#main_url").val();
-    var s3_url = "http://media.campuscloudph.com/"+$("#school_code").val()+"/";
+    var s3_url = "https://media.campuscloudph.com/"+$("#school_code").val()+"/";
 
     var assigned = $("#assigned").val();
     var education_level = $("#education_level").val();
