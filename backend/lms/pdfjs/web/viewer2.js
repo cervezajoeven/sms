@@ -1848,13 +1848,14 @@ var PDFViewerApplication = {
 };
 var validateFileURL = void 0;
 {
-  var HOSTED_VIEWER_ORIGINS = ['null', 'http://mozilla.github.io', 'https://mozilla.github.io' , 'https://media.campuscloudph.com'];
+  var HOSTED_VIEWER_ORIGINS = ['null', 'http://mozilla.github.io', 'https://mozilla.github.io' , 'http://media.campuscloudph.com' , 'https://media.campuscloudph.com' , 'http://localhost'];
   validateFileURL = function validateFileURL(file) {
     if (file === undefined) {
       return;
     }
     try {
       var viewerOrigin = new URL(window.location.href).origin || 'null';
+      
       if (HOSTED_VIEWER_ORIGINS.indexOf(viewerOrigin) >= 0) {
         return;
       }
