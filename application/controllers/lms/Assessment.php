@@ -498,12 +498,20 @@ class Assessment extends General_Controller {
                     }
                 }else{
 
+                    
+                    if(array_key_exists("score", $answer_value)){
+
+                        $score += $answer_value['score'];
+                    }else{
+                        $score += 0;
+                    }
                 }
 
             }
 
             $data['score'] = $score;
             $data['response_status'] = "1";
+
 
             $this->assessment_model->lms_update("lms_assessment_sheets",$data);
         }
@@ -531,6 +539,7 @@ class Assessment extends General_Controller {
 
                         $students[$student_key]['has_answered'] = 1;
                         $students[$student_key]['answer'] = $student_answers_value['answer'];
+                        $students[$student_key]['assessment_sheet_id'] = $student_answers_value['id'];
 
                     }
                 }
@@ -581,6 +590,12 @@ class Assessment extends General_Controller {
             echo json_encode($student_answers);
 
         }
+    }
+
+    public function update_essay(){
+        $data['id'] = $_REQUEST['assessment_sheet_id'];
+        $data['answer'] = json_encode($_REQUEST['updated_answer']);
+        $this->lesson_model->lms_update("lms_assessment_sheets",$data,"id");
     }
 
     public function analysis($id){
