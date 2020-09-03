@@ -439,6 +439,13 @@ class Lesson extends General_Controller {
     function create($id){
 
         $data['id'] = $id;
+        $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
+        $HTTP_HOST = $_SERVER['HTTP_HOST'];
+        
+        $data['school_code'] = explode('.', $HTTP_HOST)[0];
+        if(explode('.', $HTTP_HOST)[0]=="localhost"){
+            $data['school_code'] = "bulacanecumenical";
+        }
 
         $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
         $current_session = $this->setting_model->getCurrentSession();
