@@ -14,6 +14,7 @@ class Assessment extends General_Controller {
         $this->load->library('mailsmsconf');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
+        date_default_timezone_set('Asia/Manila');
     }
 
     public function index(){

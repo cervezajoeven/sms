@@ -89,7 +89,7 @@
 			        	
 			        <?php endforeach; ?>
 		        	
-		        	<div class=""><a href="<?php echo base_url('lms/assessment/recheck_answers/'.$id) ?>"><button class="btn btn-success form-control">Save & Close</button></a></div>
+		        	<div class=""><a href="<?php echo base_url('lms/assessment/recheck_answers/'.$id) ?>"><button class="btn btn-danger form-control">Save & Close</button></a></div>
 		        </div>
 
 		        <div class="col-sm-8 right">
