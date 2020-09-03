@@ -21,7 +21,7 @@ class Lesson_model extends MY_Model {
 
         $this->db->select("*, lms_lesson.id as id,subjects.name as subject_name");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
-        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id","left");
         $this->db->join("staff","staff.id = lms_lesson.account_id");
         $this->db->where("lms_lesson.account_id",$account_id);
         if($folder=="today"){
@@ -42,9 +42,10 @@ class Lesson_model extends MY_Model {
 
     public function admin_lessons($account_id="",$folder="today"){
         date_default_timezone_set('Asia/Manila');
+
         $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name,staff.google_meet as teacher_google_meet");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
-        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id","left");
         $this->db->join("staff","staff.id = lms_lesson.account_id");
         if($folder=="today"){
             $this->db->where('start_date <=', date('Y-m-d H:i:s'));
@@ -67,7 +68,7 @@ class Lesson_model extends MY_Model {
         date_default_timezone_set('Asia/Manila');
         $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
-        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id","left");
         $this->db->join("staff","staff.id = lms_lesson.account_id");
         $this->db->where('lms_lesson.deleted',1);
         $this->db->order_by('lms_lesson.start_date',"desc");
@@ -112,9 +113,10 @@ class Lesson_model extends MY_Model {
 
         $this->db->select("*, lms_lesson.id as id");
         $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
-        $this->db->join("classes","classes.id = lms_lesson.grade_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id","left");
         $this->db->where("lms_lesson.shared","1");
         $this->db->where('deleted',0);
+        $this->db->order_by('lms_lesson.date_created','asc');
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();

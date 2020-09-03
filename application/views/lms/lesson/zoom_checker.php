@@ -9,7 +9,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 	
@@ -28,27 +29,57 @@
 			
 			<h1>Pick Zoom Meeting</h1>
 			<p class="lead">Please select a zoom to start the class. If you encounter any disconnection. You can reconnect here.</p>
-			
+			<div class="alert alert-info">
+              <strong>Update!</strong> After you have finished your lesson or video conference. Please click the <button class="btn btn-danger">End Class. </button>. To update the zoom picker list and to let other teachers use the zoom account. Thank you.
+            </div>
 
       <table class="table">
         <tr>
           <th>Zoom Email</th>
-          <th>Status</th>
-          <th>Lesson</th>
           <th>Start Class / Reconnect</th>
+          <th>Teacher</th>
+          <th>Lesson</th>
           <th>Observe Class / Join Meeting</th>
         </tr>
-        <?php foreach ($zoom_lister as $zoom_lister_key => $zoom_lister_value): ?>
+        <?php foreach ($zoom_accounts as $zoom_lister_key => $zoom_lister_value): ?>
           <tr>
-            <td><?php echo $zoom_lister_value['email'] ?></td>
-            <td><?php echo $zoom_lister_value['availability'] ?></td>
-            <td><?php echo $zoom_lister_value['lesson_title'] ?></td>
-            <?php if($zoom_lister_value['start_url'] != ""): ?>
-              <td><a href="<?php echo $zoom_lister_value['start_url'] ?>" target="_blank"><button class="btn btn-success">Reconnect</button></a></td>
+            <td><?php echo $zoom_lister_value['name'] ?></td>
+            <?php if($zoom_lister_value['account_id']==""): ?>
+
+                <?php if($lesson_id==""): ?>
+
+                <?php else: ?>
+                    <td><a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" onclick="page_refresh()" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
+                <?php endif; ?>
             <?php else: ?>
-              <td><a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" target="_blank"><button class="btn btn-success">Start Class</button></a></td>
+              <?php if($zoom_lister_value['account_id']==$account_id): ?>
+                <td>
+                  <a href="#" onclick="end_class('<?php echo base_url('lms/lesson/end_zoom/'.$zoom_lister_value['email']); ?>')"><button class="btn btn-danger end_class">End Class</button></a>
+                  <a href="<?php echo base_url('lms/lesson/start_zoom/'.$lesson_id.'/'.$zoom_lister_value['email']); ?>" target="_blank"><button class="btn btn-primary">Reconnect</button></a>
+                </td>
+              <?php else: ?>
+                <?php if($real_role==1||$real_role==7): ?>
+                  <td>
+                    <a href="#" onclick="end_class('<?php echo base_url('lms/lesson/end_zoom/'.$zoom_lister_value['email']); ?>')"><button class="btn btn-danger end_class">End Class</button></a>
+
+                    <a href="#" target="_blank"><button disabled="" class="btn btn-warning">In Progress</button></a>
+                  </td>
+                <?php else: ?>
+                  <td>
+                    <a href="#" target="_blank"><button disabled="" class="btn btn-warning">In Progress</button></a>
+                  </td>
+                <?php endif; ?>
+                
+              <?php endif; ?>
             <?php endif; ?>
-            <td><a href="<?php echo $zoom_lister_value['join_url'] ?>"><button class="btn btn-warning">Join / Observe Meeting</button></a></td>
+            <td><?php echo $zoom_lister_value['teacher_name'] ?></td>
+            <td><?php echo $zoom_lister_value['lesson_name'] ?></td>
+            
+            <td>
+              <?php if($zoom_lister_value['conference_id']): ?>
+                <a href="<?php echo $zoom_lister_value['join_url'] ?>" target="_blank"><button class="btn btn-default">Join / Observe Meeting</button></a>
+              <?php endif; ?>
+            </td>
           </tr>
         <?php endforeach; ?>
       </table>
@@ -84,6 +115,74 @@
       </footer>
 
     </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade " role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Zoom Picker Update</h4>
+          </div>
+          <div class="modal-body">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img src="la.jpg" alt="Los Angeles">
+                  </div>
+
+                  <div class="item">
+                    <img src="chicago.jpg" alt="Chicago">
+                  </div>
+
+                  <div class="item">
+                    <img src="ny.jpg" alt="New York">
+                  </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script type="text/javascript">
+
+        function end_class(url){
+            if(confirm("Are you sure you want to end class?")){
+                window.location.replace(url);
+            }
+
+        }
+        function page_refresh(){
+            setTimeout(function(){
+                location.reload();
+            },5000);
+            
+        }
+    </script>
 	
 </body>
 </html>

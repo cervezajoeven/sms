@@ -57,7 +57,7 @@ class Assessment extends General_Controller {
 
 
         $query = $this->db
-        ->select("lms_assessment_sheets.*,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
+        ->select("lms_assessment_sheets.*,lms_assessment_sheets.account_id as student_id,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
 
         ->from("lms_assessment_sheets")
         ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
@@ -67,10 +67,13 @@ class Assessment extends General_Controller {
         ->join("sections","sections.id = student_session.section_id","left")
         ->where("student_session.session_id",$current_session)
         ->where("lms_assessment_sheets.assessment_id", $assessment_id)
+        ->where("lms_assessment_sheets.response_status", 1)
         ->order_by("lms_assessment_sheets.date_created","desc")
         // ->group_by("lms_assessment_sheets.account_id")
         ->get();
         $students = $query->result_array();
+
+        // echo '<pre>';print_r($students);exit();
         $student_ids = array();
         $filtered_students = array();
         // echo '<pre>';
@@ -273,8 +276,11 @@ class Assessment extends General_Controller {
         $data['id'] = $id;
         if($account_id){
             $data['account_id'] = $account_id;
+            $data['teacher_review'] = TRUE;
         }else{
             $data['account_id'] = $this->general_model->get_account_id();
+            $data['teacher_review'] = FALSE;
+
         }
         
 
@@ -434,8 +440,8 @@ class Assessment extends General_Controller {
 
         $assessment = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         $students = explode(",", $assessment['assigned']);
-        echo "<pre>";
 
+        echo "<pre>";
 
         foreach ($students as $student_key => $student_value) {
             $this->db->select("MAX(date_created) as max_date");
@@ -444,7 +450,7 @@ class Assessment extends General_Controller {
             $this->db->where("response_status",1);
             $max_date = $this->db->get("lms_assessment_sheets")->result_array()[0]['max_date'];
 
-            $this->db->select("id,answer");
+            $this->db->select("id,answer,account_id");
             $this->db->where("assessment_id",$id);
             $this->db->where("account_id",$student_value);
             $this->db->where("response_status",1);
@@ -492,6 +498,13 @@ class Assessment extends General_Controller {
                     }
                 }else{
 
+                    
+                    if(array_key_exists("score", $answer_value)){
+
+                        $score += $answer_value['score'];
+                    }else{
+                        $score += 0;
+                    }
                 }
 
             }
@@ -499,8 +512,10 @@ class Assessment extends General_Controller {
             $data['score'] = $score;
             $data['response_status'] = "1";
 
+
             $this->assessment_model->lms_update("lms_assessment_sheets",$data);
         }
+
         
         redirect(base_url('lms/assessment/reports/').$assessment['id']);
     }
@@ -524,6 +539,7 @@ class Assessment extends General_Controller {
 
                         $students[$student_key]['has_answered'] = 1;
                         $students[$student_key]['answer'] = $student_answers_value['answer'];
+                        $students[$student_key]['assessment_sheet_id'] = $student_answers_value['id'];
 
                     }
                 }
@@ -574,6 +590,12 @@ class Assessment extends General_Controller {
             echo json_encode($student_answers);
 
         }
+    }
+
+    public function update_essay(){
+        $data['id'] = $_REQUEST['assessment_sheet_id'];
+        $data['answer'] = json_encode($_REQUEST['updated_answer']);
+        $this->lesson_model->lms_update("lms_assessment_sheets",$data,"id");
     }
 
     public function analysis($id){

@@ -135,6 +135,7 @@
         <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
         <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
         <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
+        <input type="hidden" id="school_code" value="<?php echo $school_code; ?>" name="">
         <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
         <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
         <input type="hidden" id="google_meet_id" value="<?php echo $role ?>" name="" />
@@ -363,7 +364,7 @@
                 </div> -->
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="margin-bottom: 1000px;">
                             <h2>Assign to Students</h2>
                             <div id="jstree_demo_div">
                               <ul>
@@ -944,7 +945,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="<?php echo $resources.'drawing-table.js'?>" type="text/javascript"></script>
-        <script src="<?php echo $resources.'lesson_13.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_s3.js'?>"></script>
         <script type="text/javascript">
           
         </script>

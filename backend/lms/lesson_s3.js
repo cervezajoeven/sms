@@ -12,6 +12,8 @@ $(document).ready(function(){
     var blackboard_id = $("#blackboard_id").val();
     var lesson_id = $("#lesson_id").val();
     var main_url = $("#main_url").val();
+    var s3_url = "http://media.campuscloudph.com/"+$("#school_code").val()+"/";
+
     var assigned = $("#assigned").val();
     var education_level = $("#education_level").val();
     var image_resources = $("#image_resources").val();
@@ -375,7 +377,7 @@ $(document).ready(function(){
                             description:item.description,
                             text_value:item.text_value,
                             type:item.type,
-                            source:encodeURIComponent(main_url+'uploads/lms_my_resources/'+item.link),
+                            source:encodeURIComponent(s3_url+'uploads/lms_my_resources/'+item.link),
                         };
                         if(item.type=="csv"||item.type=="xlsx"||item.type=="xls"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/excel.png');
@@ -384,11 +386,13 @@ $(document).ready(function(){
                         }else if(item.type=="docx"||item.type=="doc"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/word.svg');
                         }else if(item.type=="image"){
-                            data_population[index].image = encodeURIComponent(main_url+'uploads/lms_my_resources/'+item.link);
+                            data_population[index].image = encodeURIComponent(s3_url+'uploads/lms_my_resources/'+item.link);
                         }else if(item.type=="video"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
                         }else if(item.type=="text"){
                             data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.png');
+                        }else if(item.type=="pdf"){
+                            data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/pdf.webp');
                         }else if(item.type=="youtube"){
                             if(item.image){
                                 data_population[index].image = encodeURIComponent(item.image);
@@ -1446,7 +1450,7 @@ $(document).ready(function(){
         var send_email_notification_url = $("#url").val()+"new_send_email_notification";
         var student_ids = [];
 
-        alert("New Send Email Notification 4");
+        alert("Sending Email Notifications. You can check the logs on the action button on the lesson lists.");
         $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
             if(value.includes('student')){
@@ -1468,7 +1472,7 @@ $(document).ready(function(){
             success: function(data)
             {
                 console.log(data);
-
+                alert("Emails sent successfully. Emails sent to the guardians may be found in their inboxes or spam folders.");
                 // var the_data = JSON.parse(data);
                
             },

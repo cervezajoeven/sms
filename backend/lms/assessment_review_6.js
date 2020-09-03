@@ -233,8 +233,6 @@ $(document).ready(function(){
 
 				var the_options = $(".option-container-actual").eq(key).find(".option");
 				$(the_options).find(".option_type").find("input").val(value.answer);
-				console.log("short_answer_correct_array: ");
-				console.log(short_answer_correct_array);
 				var student_short_answer = escape_comma(value.answer.toLowerCase().trim());
 				if(short_answer_correct_array.indexOf(student_short_answer) != -1){
 					score += parseInt(stored_json_parsed[key].points);
@@ -248,8 +246,18 @@ $(document).ready(function(){
 
 			}else if(value.type=="long_answer"){
 				total_score += parseInt(stored_json_parsed[key].points);
+				var essay_score = "No Score yet";
+
+				if('score' in value){
+					score += parseInt(value.score);
+					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
+					essay_score = value.score;
+				}else{
+					score += 0;
+				}
 				var the_options = $(".option-container-actual").eq(key).find(".option");
 				$(the_options).find(".option_type").find("textarea").text(value.answer);
+				$(the_options).find(".option_type").find("textarea").after("<p>Essay score: "+essay_score+"</p>");
 			}	
 			
 

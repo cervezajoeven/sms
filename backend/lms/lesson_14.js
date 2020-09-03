@@ -1446,7 +1446,7 @@ $(document).ready(function(){
         var send_email_notification_url = $("#url").val()+"new_send_email_notification";
         var student_ids = [];
 
-        alert("New Send Email Notification 4");
+        alert("Sending Email Notifications");
         $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
             if(value.includes('student')){

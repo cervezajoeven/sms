@@ -12,6 +12,7 @@ class Lesson extends General_Controller {
         $this->load->model('general_model');
         $this->load->model('discussion_model');
         $this->load->library('mailsmsconf');
+        $this->mailer;
         $this->load->model(array('conference_model', 'conferencehistory_model'));
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
@@ -76,6 +77,26 @@ class Lesson extends General_Controller {
         
         $this->load->view('lms/lesson/index', $data);
         $this->load->view('layout/footer');
+    }
+
+    function emails($lesson_id) {
+        $this->db->select("lms_lesson_email_logs.*,students.firstname,students.lastname");
+        $this->db->join("students","lms_lesson_email_logs.student_id = students.id");
+        $this->db->where("lms_lesson_email_logs.lesson_id",$lesson_id);
+        $this->db->order_by("lms_lesson_email_logs.date_created","desc");
+        $return_data = $this->db->get("lms_lesson_email_logs")->result_array();
+        echo json_encode($return_data);
+        
+    }
+    function attendance($lesson_id) {
+        $this->db->select("students.firstname,students.lastname,lms_lesson_logs.date_created as timestamp");
+        $this->db->join("students","lms_lesson_logs.account_id = students.id");
+        $this->db->where("lms_lesson_logs.lesson_id",$lesson_id);
+        $this->db->group_by("students.id");
+        $this->db->order_by("students.firstname","desc");
+        $return_data = $this->db->get("lms_lesson_logs")->result_array();
+        echo json_encode($return_data);
+        
     }
 
     function index_create($lesson_query="today") {
@@ -418,6 +439,13 @@ class Lesson extends General_Controller {
     function create($id){
 
         $data['id'] = $id;
+        $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
+        $HTTP_HOST = $_SERVER['HTTP_HOST'];
+        
+        $data['school_code'] = explode('.', $HTTP_HOST)[0];
+        if(explode('.', $HTTP_HOST)[0]=="localhost"){
+            $data['school_code'] = "bulacanecumenical";
+        }
 
         $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
         $current_session = $this->setting_model->getCurrentSession();
@@ -775,14 +803,7 @@ class Lesson extends General_Controller {
             $student_ids = explode(",", urldecode($student_ids));
         }
 
-        // $student_ids = array("852","854","863","900");
-        // $lesson_id = "lms_lesson_online_159670778980833632";
-        // $email_notification = "true";
         echo "<pre>";
-
-
-        // $lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id","lesson_name,lesson_type,account_id")[0];
-        // $teacher = $this->lesson_model->lms_get("staff",$lesson['account_id'],"id","name,surname")[0];
 
         $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
         $this->db->from("lms_lesson");
@@ -796,8 +817,53 @@ class Lesson extends General_Controller {
         $this->db->where_in("students.id",$student_ids);
         $students = $this->db->get()->result_array();
 
-        
+        if($email_notification=="true"){
+            foreach($students as $student_key => $student_value) {        
 
+                $sender_details['id'] = $student_value['id'];
+                // $sender_details['email'] = $student_value['guardian_email'];
+                $sender_details['email'] = 'cervezajoeven@gmail.com';
+                $sender_details['student_name'] = $student_value['firstname']." ".$student_value['lastname'];
+                $sender_details['lesson_title'] = $lesson['lesson_name'];
+                // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+                $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+                $sender_details['lesson_type'] = ($lesson['lesson_type']=="virtual")?"Google Meet":ucfirst($lesson['lesson_type']);
+                $sender_details['teacher_name'] = $lesson['name']." ".$lesson['surname'];
+                $sender_details['school_url_login_page'] = base_url('site/userlogin');
+                $sender_details['username'] = $student_value['username'];
+                $sender_details['password'] = $student_value['password'];
+                print_r($sender_details);
+                $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+            }
+            
+        }
+    }
+
+
+    public function new_send_email_notification($lesson_id="",$email_notification="",$student_ids=""){
+
+        if(!$lesson_id){
+            $student_ids = $_REQUEST['student_ids'];
+            $lesson_id = $_REQUEST['lesson_id'];
+            $email_notification = $_REQUEST['email_notification'];
+        }else{
+            $student_ids = explode(",", urldecode($student_ids));
+        }
+
+        $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
+        $this->db->from("lms_lesson");
+        $this->db->join("staff","lms_lesson.account_id = staff.id");
+        $this->db->where("lms_lesson.id",$lesson_id);
+        $lesson = $this->db->get()->result_array()[0];
+
+        $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password,students.guardian_email");
+        $this->db->from("students");
+        $this->db->join("users","users.user_id = students.id");
+        $this->db->where_in("students.id",$student_ids);
+        $this->db->where("users.role","student");
+        $this->db->group_by("users.username");
+        $students = $this->db->get()->result_array();
+        // print_r($students);
         if($email_notification=="true"){
             foreach($students as $student_key => $student_value) {        
 
@@ -813,8 +879,46 @@ class Lesson extends General_Controller {
                 $sender_details['school_url_login_page'] = base_url('site/userlogin');
                 $sender_details['username'] = $student_value['username'];
                 $sender_details['password'] = $student_value['password'];
-                print_r($sender_details);
-                $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+
+
+                $msg = "<p>Good Day Parent,</p>
+
+                        <p><strong>".$sender_details['student_name']." </strong>was assigned to a lesson on the LMS.</p>
+
+                        <p>Title: <strong>".$sender_details['lesson_title']."</strong></p>
+
+                        <p>Date: <strong>".$sender_details['start_date']."</strong></p>
+
+                        <p>Teacher: <strong>".$sender_details['teacher_name']."</strong></p>
+
+                        <p>Type: <strong>".$sender_details['lesson_type']."</strong></p>
+
+                        <p>Click here to access the system <strong>".$sender_details['school_url_login_page']."</strong></p>
+
+                        <p>In case you can&rsquo;t login your account here is the student&rsquo;s login credential.</p>
+
+                        <p>Username: <strong>".$sender_details['username']."</strong></p>
+
+                        <p>Password: <strong>".$sender_details['password']."</strong></p>
+
+                        <p><strong>Please be on time and take care.&nbsp;</strong></p>";
+
+                $lesson_email_log['lesson_id'] = $lesson_id;
+                $lesson_email_log['student_id'] = $sender_details['id'];
+                $lesson_email_log['receiver'] = $sender_details['email'];
+                $lesson_email_log['username_sent'] = $sender_details['username'];
+                $lesson_email_log['password_sent'] = $sender_details['password'];
+
+                if($this->mailer->send_mail($sender_details['email'], "Lesson Notification", $msg)){
+                    
+                    $lesson_email_log['email_status'] = "Sent";
+
+                }else{
+
+                    $lesson_email_log['email_status'] = "Not Sent";
+
+                }
+                $this->lesson_model->lms_create("lms_lesson_email_logs",$lesson_email_log);
             }
             
         }
@@ -1270,76 +1374,26 @@ class Lesson extends General_Controller {
         $data['lesson_id'] = $lesson_id;
 
         $this->db->select("*");
-        $zoom_accounts = $this->db->get("lms_zoom_accounts")->result_array();
-        
-        $live_zoom = $this->zoom_api->check_live();
-        // echo "<pre>";
-        // print_r($live_zoom);
-        // exit;
+        $this->db->order_by("id");
+        $data['zoom_accounts'] = $this->db->get("lms_zoom_accounts")->result_array();
+        $data['account_id'] = $this->general_model->get_account_id();
+        $data['real_role'] = $this->general_model->get_real_role();
 
-        $live_zoom_accounts = array();
-        $zoom_array = array();
-        foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
-            array_push($live_zoom_accounts, $live_zoom_value->email);
-            $zoom_array[$live_zoom_value->email] = $live_zoom_value;
-        }
-
-        $unavailable_zoom = array();
-        $available_zoom = array();
-        $zoom_lister = array();
-        foreach ($zoom_accounts as $zoom_accounts_key => $zoom_accounts_value) {
-            
-            if(in_array($zoom_accounts_value['email'], $live_zoom_accounts)){
-                
-                array_push($unavailable_zoom, $zoom_accounts_value['email']);
-                $zoom_lister[$zoom_accounts_key]['availability'] = "unavailable";
-                $zoom_lister[$zoom_accounts_key]['email'] = $zoom_accounts_value['email'];
-                $zoom_lister[$zoom_accounts_key]['lesson_title'] = $zoom_array[$zoom_accounts_value['email']]->topic;
-                $zoom_lister[$zoom_accounts_key]['id'] = $zoom_array[$zoom_accounts_value['email']]->id;
-                $meeting_data = $this->zoom_api->get_meeting($zoom_array[$zoom_accounts_value['email']]->id);
-                $zoom_lister[$zoom_accounts_key]['join_url'] = $meeting_data->join_url;
-                $zoom_lister[$zoom_accounts_key]['start_url'] = $meeting_data->start_url;
-
+        foreach ($data['zoom_accounts'] as $key => $value) {
+            if($value['conference_id']){
+                $conference = $this->lesson_model->lms_get("conferences",$value['conference_id'],"id","return_response")[0];
+                $lesson = $this->lesson_model->lms_get("lms_lesson",$value['lesson_id'],"id","lesson_name")[0];
+                $staff = $this->lesson_model->lms_get("staff",$value['account_id'],"id","CONCAT(name,' ',surname) as teacher_name")[0];
+                $data['zoom_accounts'][$key]['join_url'] = json_decode($conference['return_response'])->join_url;
+                $data['zoom_accounts'][$key]['lesson_name'] = $lesson['lesson_name'];
+                $data['zoom_accounts'][$key]['teacher_name'] = $staff['teacher_name'];
             }else{
-                $zoom_lister[$zoom_accounts_key]['availability'] = "available";
-                $zoom_lister[$zoom_accounts_key]['email'] = $zoom_accounts_value['email'];
-                $zoom_lister[$zoom_accounts_key]['lesson_title'] = "";
-                $zoom_lister[$zoom_accounts_key]['id'] = $zoom_array[$zoom_accounts_value['email']]->id;
-                $zoom_lister[$zoom_accounts_key]['join_url'] = "";
-                $zoom_lister[$zoom_accounts_key]['start_url'] = "";
-                array_push($available_zoom, $zoom_accounts_value);
+                $data['zoom_accounts'][$key]['join_url'] = "";
+                $data['zoom_accounts'][$key]['lesson_name'] = "";
+                $data['zoom_accounts'][$key]['teacher_name'] = "";
+
             }
         }
-        $data['zoom_lister'] = $zoom_lister;
-        // echo '<pre>';print_r($zoom_lister);exit();
-        
-        // if(!empty($available_zoom)){
-            
-            
-
-            // $lesson_data['zoom_api_key'] = $available_zoom[0]['api_key'];
-            // $lesson_data['zoom_api_secret'] = $available_zoom[0]['api_secret'];
-            // $lesson_data['account_id'] = $the_lesson['account_id'];
-            // $lesson_data['lesson_id'] = $lesson_id;
-            // $lesson_data['start_date'] = date("Y-m-d H:i:s");
-            // $lesson_data['zoom_email'] = $available_zoom[0]['email'];
-            // $lesson_data['name'] = $teacher_name['name'];
-            // $lesson_data['surname'] = $teacher_name['surname'];
-            // $conference_id = $this->add_lms_lesson($lesson_data);
-            // $conference = $this->lesson_model->lms_get("conferences",$conference_id,"id")[0];
-            // $lesson_update['id'] = $lesson_id;
-            // $lesson_update['zoom_id'] = $conference_id;
-            // $this->lesson_model->lms_update("lms_lesson",$lesson_update);
-            // // print_r(json_decode($conference['return_response'])->start_url);
-            // $data['zoom_link'] = json_decode($conference['return_response'])->start_url;
-            // $data['zoom_account_status'] = "You are now assigned to ".$available_zoom[0]['email'];
-            // $data['zoom_email'] = $available_zoom[0]['email'];
-            // $data['zoom_status'] = "zoom";
-        // }else{
-        //     $data['zoom_status'] = "no_zoom";
-        //     $data['zoom_account_status'] = "No Zoom Accounts Available at this time. Please refresh this page to check again.";
-        // }
-        
         $this->load->view('lms/lesson/zoom_checker', $data);
 
     }
@@ -1349,6 +1403,7 @@ class Lesson extends General_Controller {
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
         $teacher_name = $this->lesson_model->lms_get("staff",$the_lesson['account_id'],"id","name,surname")[0];
         $zoom_data = $this->lesson_model->lms_get("lms_zoom_accounts",$zoom_id,"email")[0];
+        $teacher_account_id = $this->general_model->get_account_id();
 
         // $data['api_key'] = '0NP_jYnjS5WXxW5NRTZc0g';
         // $data['api_secret'] = 'BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI';
@@ -1361,13 +1416,20 @@ class Lesson extends General_Controller {
             'zoom_api_secret' => $data['api_secret'],
         );
         $this->load->library('zoom_api', $params);
-        $live_zoom_accounts = array();
-        $live_zoom = $this->zoom_api->check_live();
 
-        foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
-            array_push($live_zoom_accounts, $live_zoom_value->email);
-        }
-        if(!in_array($zoom_id, $live_zoom_accounts)){
+
+
+        if($zoom_data['account_id']){
+            if($zoom_data['account_id'] == $teacher_account_id){
+                $conference = $this->lesson_model->lms_get("conferences",$zoom_data['conference_id'],"id")[0];
+                $start_url = json_decode($conference['return_response'])->start_url;
+                redirect($start_url);
+            }else{
+
+                echo "<h1>You can close this window.</h1>";
+            }
+        }else{
+            
             $lesson_data['zoom_api_key'] = $data['api_key'];
             $lesson_data['zoom_api_secret'] = $data['api_secret'];
             $lesson_data['account_id'] = $the_lesson['account_id'];
@@ -1377,15 +1439,50 @@ class Lesson extends General_Controller {
             $lesson_data['name'] = $teacher_name['name'];
             $lesson_data['surname'] = $teacher_name['surname'];
             $conference_id = $this->add_lms_lesson($lesson_data);
+
             $conference = $this->lesson_model->lms_get("conferences",$conference_id,"id")[0];
+            $start_url = json_decode($conference['return_response'])->start_url;
+
+            $lms_zoom_accounts['email'] = $zoom_id;
+            $lms_zoom_accounts['account_id'] = $teacher_account_id;
+            $lms_zoom_accounts['conference_id'] = $conference_id;
+            $lms_zoom_accounts['lesson_id'] = $lesson_id;
+
+            $this->lesson_model->lms_update("lms_zoom_accounts",$lms_zoom_accounts,"email");
+
             $lesson_update['id'] = $lesson_id;
             $lesson_update['zoom_id'] = $conference_id;
             $this->lesson_model->lms_update("lms_lesson",$lesson_update);
-            redirect(json_decode($conference['return_response'])->start_url);
-        }else{
-            echo "<script>alert('This zoom is already being used by other teachers. Please refresh the Zoom checker and pick another one.')</script>";
+            redirect($start_url);
+            // redirect(base_url('lms/lesson/zoom_checker/'.$lesson_id));
         }
+        // $live_zoom_accounts = array();
+        // $live_zoom = $this->zoom_api->check_live();
+
+        // foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
+        //     array_push($live_zoom_accounts, $live_zoom_value->email);
+        // }
+        // if(!in_array($zoom_id, $live_zoom_accounts)){
+            
+        //     redirect(json_decode($conference['return_response'])->start_url);
+        // }else{
+        //     echo "<script>alert('This zoom is already being used by other teachers. Please refresh the Zoom checker and pick another one.')</script>";
+        // }
         
+        
+    }
+
+    public function end_zoom($zoom_id){
+        
+        $zoom_data = $this->lesson_model->lms_get("lms_zoom_accounts",$zoom_id,"email")[0];
+        $lms_zoom_accounts['email'] = $zoom_id;
+        $lms_zoom_accounts['account_id'] = "";
+        $lms_zoom_accounts['conference_id'] = "";
+        $lms_zoom_accounts['lesson_id'] = "";
+
+        $this->lesson_model->lms_update("lms_zoom_accounts",$lms_zoom_accounts,"email");
+
+        redirect(base_url('lms/lesson/zoom_checker/'.$lesson_id));
         
     }
 
@@ -1434,6 +1531,11 @@ class Lesson extends General_Controller {
             $open['video'] = "";
             $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
         }
+
+        $lesson_log_data['lesson_id'] = $lesson_id;
+        $lesson_log_data['account_id'] = $this->general_model->get_account_id();
+        $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+        $this->lesson_model->lms_create("lms_lesson_logs",$lesson_log_data);
 
         echo json_encode($open);
     }

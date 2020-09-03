@@ -54,6 +54,13 @@
 			.has_answer:hover{
 				background-color: rgb(103 255 122);
 			}
+			.active_students {
+				background-color: green!important;
+			}
+			.display_name {
+				background-color: rgb(103 255 122);
+				padding: 15px;
+			}
 		</style>
 	</head>
 	<body>
@@ -76,14 +83,17 @@
 		        	<?php foreach ($students as $students_key => $students_value): ?>
 		        		<!-- <pre> -->
 		        		<?php //print_r($students_value) ?>
-			        	<div class="student_name_container <?php if($students_value['has_answered']){ echo 'has_answer'; } ?>" account_id="<?php echo $students_value['id']?>">
+			        	<div class="student_name_container <?php if($students_value['has_answered']){ echo 'has_answer'; } ?>" student_name="<?php echo ucfirst((strtolower($students_value['lastname']))) ?>, <?php echo ucfirst((strtolower($students_value['firstname']))) ?>" account_id="<?php echo $students_value['id']?>">
 			        		<p><?php echo ucfirst((strtolower($students_value['lastname']))) ?>, <?php echo ucfirst((strtolower($students_value['firstname']))) ?></p>
 			        	</div>
 			        	
 			        <?php endforeach; ?>
+		        	
+		        	<div class=""><a href="<?php echo base_url('lms/assessment/recheck_answers/'.$id) ?>"><button class="btn btn-success form-control">Save & Close</button></a></div>
 		        </div>
 
 		        <div class="col-sm-8 right">
+		        	<div class="display_name">Student Name: <span class="student_name"></span></div>
 		        	<ul class="sortable ui-sortable">
 		        		<li class="option-container option-container-clonable">
 		        			<div class="numbering_option"></div>
@@ -149,4 +159,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'check_essays.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'check_essays_2.js'?>"></script>
