@@ -441,9 +441,14 @@ class Assessment extends General_Controller {
 
         $assessment = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
         $students = explode(",", $assessment['assigned']);
-
-        echo "<pre>";
-
+        $this->db->select("account_id");
+        $this->db->where("assessment_id",$id);
+        $students = $this->db->get("lms_assessment_sheets")->result_array();
+        // $students = $this->assessment_model->lms_get("lms_assessment_sheets",$id,"assessment_id");
+        foreach ($students as $key => $value) {
+            $students[$key] = $value['account_id'];
+        }
+        
         foreach ($students as $student_key => $student_value) {
             $this->db->select("MAX(date_created) as max_date");
             $this->db->where("assessment_id",$id);
@@ -473,6 +478,7 @@ class Assessment extends General_Controller {
             //convert to array
             $score = 0;
             $total_score = 0;
+
             foreach ($answer as $answer_key => $answer_value) {
                 $total_score += 1;
                 $assessment_value = $assessment_answer[$answer_key];
@@ -513,10 +519,10 @@ class Assessment extends General_Controller {
             $data['score'] = $score;
             $data['response_status'] = "1";
 
-
             $this->assessment_model->lms_update("lms_assessment_sheets",$data);
         }
 
+        // echo '<pre>';print_r($data);exit();
         
         redirect(base_url('lms/assessment/reports/').$assessment['id']);
     }
