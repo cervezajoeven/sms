@@ -123,7 +123,7 @@
 		        		<div class = "col-sm-4">
 			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
 	                                
-		                        <input type="checkbox" id="email_notification" <?php echo ($assessment['email_notification']==1)?"checked = ''":""; ?> />
+		                        <input type="checkbox" id="allow_result_viewing" <?php echo ($assessment['allow_result_viewing']==1)?"checked = ''":""; ?> />
 		                        <div class="state p-primary">
 		                            <label>Display Results after Student Submission</label>
 		                        </div>
@@ -246,4 +246,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_3.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_4.js'?>"></script>

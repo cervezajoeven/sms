@@ -323,6 +323,7 @@ class Assessment extends General_Controller {
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
         $data['email_notification'] = $_REQUEST['email_notification'];
+        $data['allow_result_viewing'] = $_REQUEST['allow_result_viewing'];
         $sheet = (array)json_decode($data['sheet']);
 
         if($data['email_notification']=="1"){

@@ -92,7 +92,7 @@ if($HTTP_HOST=="localhost"){
   	$username = 'joeven';
   	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
-  	$hostname = "localhost";
+  	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else if(in_array($database_name, $godaddy)){
 	
