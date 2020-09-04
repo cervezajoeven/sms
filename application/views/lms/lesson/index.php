@@ -90,7 +90,7 @@
                                                             <?php endif; ?>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
-                                                    <a data-placement="right" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Attendance (See students who attended the class)" >
+                                                    <a data-placement="right" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Lesson Student Logs (See students who accessed the lessons)" >
                                                                     <i class="fa fa-users"></i>
                                                     </a>
                                                     <a data-placement="right" href="#" class="btn btn-default btn-xs"  data-toggle="tooltip" onclick="email_logs('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" title="Email Logs(See if the notification was sent to parents)" >
@@ -212,11 +212,6 @@
                                 <td><center><a href="" id="enter_video" target="_blank"><button class="btn btn-primary">Enter Video Conference</button></a></center></td>
                             </tr>
                         </table>
-                        
-                        
-                        
-
-                    
                 <!-- </div> -->
                 
             </div>

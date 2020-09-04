@@ -1367,76 +1367,26 @@ class Lesson extends General_Controller {
         $data['lesson_id'] = $lesson_id;
 
         $this->db->select("*");
-        $zoom_accounts = $this->db->get("lms_zoom_accounts")->result_array();
-        
-        $live_zoom = $this->zoom_api->check_live();
-        // echo "<pre>";
-        // print_r($live_zoom);
-        // exit;
+        $this->db->order_by("id");
+        $data['zoom_accounts'] = $this->db->get("lms_zoom_accounts")->result_array();
+        $data['account_id'] = $this->general_model->get_account_id();
+        $data['real_role'] = $this->general_model->get_real_role();
 
-        $live_zoom_accounts = array();
-        $zoom_array = array();
-        foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
-            array_push($live_zoom_accounts, $live_zoom_value->email);
-            $zoom_array[$live_zoom_value->email] = $live_zoom_value;
-        }
-
-        $unavailable_zoom = array();
-        $available_zoom = array();
-        $zoom_lister = array();
-        foreach ($zoom_accounts as $zoom_accounts_key => $zoom_accounts_value) {
-            
-            if(in_array($zoom_accounts_value['email'], $live_zoom_accounts)){
-                
-                array_push($unavailable_zoom, $zoom_accounts_value['email']);
-                $zoom_lister[$zoom_accounts_key]['availability'] = "unavailable";
-                $zoom_lister[$zoom_accounts_key]['email'] = $zoom_accounts_value['email'];
-                $zoom_lister[$zoom_accounts_key]['lesson_title'] = $zoom_array[$zoom_accounts_value['email']]->topic;
-                $zoom_lister[$zoom_accounts_key]['id'] = $zoom_array[$zoom_accounts_value['email']]->id;
-                $meeting_data = $this->zoom_api->get_meeting($zoom_array[$zoom_accounts_value['email']]->id);
-                $zoom_lister[$zoom_accounts_key]['join_url'] = $meeting_data->join_url;
-                $zoom_lister[$zoom_accounts_key]['start_url'] = $meeting_data->start_url;
-
+        foreach ($data['zoom_accounts'] as $key => $value) {
+            if($value['conference_id']){
+                $conference = $this->lesson_model->lms_get("conferences",$value['conference_id'],"id","return_response")[0];
+                $lesson = $this->lesson_model->lms_get("lms_lesson",$value['lesson_id'],"id","lesson_name")[0];
+                $staff = $this->lesson_model->lms_get("staff",$value['account_id'],"id","CONCAT(name,' ',surname) as teacher_name")[0];
+                $data['zoom_accounts'][$key]['join_url'] = json_decode($conference['return_response'])->join_url;
+                $data['zoom_accounts'][$key]['lesson_name'] = $lesson['lesson_name'];
+                $data['zoom_accounts'][$key]['teacher_name'] = $staff['teacher_name'];
             }else{
-                $zoom_lister[$zoom_accounts_key]['availability'] = "available";
-                $zoom_lister[$zoom_accounts_key]['email'] = $zoom_accounts_value['email'];
-                $zoom_lister[$zoom_accounts_key]['lesson_title'] = "";
-                $zoom_lister[$zoom_accounts_key]['id'] = $zoom_array[$zoom_accounts_value['email']]->id;
-                $zoom_lister[$zoom_accounts_key]['join_url'] = "";
-                $zoom_lister[$zoom_accounts_key]['start_url'] = "";
-                array_push($available_zoom, $zoom_accounts_value);
+                $data['zoom_accounts'][$key]['join_url'] = "";
+                $data['zoom_accounts'][$key]['lesson_name'] = "";
+                $data['zoom_accounts'][$key]['teacher_name'] = "";
+
             }
         }
-        $data['zoom_lister'] = $zoom_lister;
-        // echo '<pre>';print_r($zoom_lister);exit();
-        
-        // if(!empty($available_zoom)){
-            
-            
-
-            // $lesson_data['zoom_api_key'] = $available_zoom[0]['api_key'];
-            // $lesson_data['zoom_api_secret'] = $available_zoom[0]['api_secret'];
-            // $lesson_data['account_id'] = $the_lesson['account_id'];
-            // $lesson_data['lesson_id'] = $lesson_id;
-            // $lesson_data['start_date'] = date("Y-m-d H:i:s");
-            // $lesson_data['zoom_email'] = $available_zoom[0]['email'];
-            // $lesson_data['name'] = $teacher_name['name'];
-            // $lesson_data['surname'] = $teacher_name['surname'];
-            // $conference_id = $this->add_lms_lesson($lesson_data);
-            // $conference = $this->lesson_model->lms_get("conferences",$conference_id,"id")[0];
-            // $lesson_update['id'] = $lesson_id;
-            // $lesson_update['zoom_id'] = $conference_id;
-            // $this->lesson_model->lms_update("lms_lesson",$lesson_update);
-            // // print_r(json_decode($conference['return_response'])->start_url);
-            // $data['zoom_link'] = json_decode($conference['return_response'])->start_url;
-            // $data['zoom_account_status'] = "You are now assigned to ".$available_zoom[0]['email'];
-            // $data['zoom_email'] = $available_zoom[0]['email'];
-            // $data['zoom_status'] = "zoom";
-        // }else{
-        //     $data['zoom_status'] = "no_zoom";
-        //     $data['zoom_account_status'] = "No Zoom Accounts Available at this time. Please refresh this page to check again.";
-        // }
-        
         $this->load->view('lms/lesson/zoom_checker', $data);
 
     }
@@ -1446,6 +1396,7 @@ class Lesson extends General_Controller {
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
         $teacher_name = $this->lesson_model->lms_get("staff",$the_lesson['account_id'],"id","name,surname")[0];
         $zoom_data = $this->lesson_model->lms_get("lms_zoom_accounts",$zoom_id,"email")[0];
+        $teacher_account_id = $this->general_model->get_account_id();
 
         // $data['api_key'] = '0NP_jYnjS5WXxW5NRTZc0g';
         // $data['api_secret'] = 'BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI';
@@ -1458,13 +1409,20 @@ class Lesson extends General_Controller {
             'zoom_api_secret' => $data['api_secret'],
         );
         $this->load->library('zoom_api', $params);
-        $live_zoom_accounts = array();
-        $live_zoom = $this->zoom_api->check_live();
 
-        foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
-            array_push($live_zoom_accounts, $live_zoom_value->email);
-        }
-        if(!in_array($zoom_id, $live_zoom_accounts)){
+
+
+        if($zoom_data['account_id']){
+            if($zoom_data['account_id'] == $teacher_account_id){
+                $conference = $this->lesson_model->lms_get("conferences",$zoom_data['conference_id'],"id")[0];
+                $start_url = json_decode($conference['return_response'])->start_url;
+                redirect($start_url);
+            }else{
+
+                echo "<h1>You can close this window.</h1>";
+            }
+        }else{
+            
             $lesson_data['zoom_api_key'] = $data['api_key'];
             $lesson_data['zoom_api_secret'] = $data['api_secret'];
             $lesson_data['account_id'] = $the_lesson['account_id'];
@@ -1474,15 +1432,50 @@ class Lesson extends General_Controller {
             $lesson_data['name'] = $teacher_name['name'];
             $lesson_data['surname'] = $teacher_name['surname'];
             $conference_id = $this->add_lms_lesson($lesson_data);
+
             $conference = $this->lesson_model->lms_get("conferences",$conference_id,"id")[0];
+            $start_url = json_decode($conference['return_response'])->start_url;
+
+            $lms_zoom_accounts['email'] = $zoom_id;
+            $lms_zoom_accounts['account_id'] = $teacher_account_id;
+            $lms_zoom_accounts['conference_id'] = $conference_id;
+            $lms_zoom_accounts['lesson_id'] = $lesson_id;
+
+            $this->lesson_model->lms_update("lms_zoom_accounts",$lms_zoom_accounts,"email");
+
             $lesson_update['id'] = $lesson_id;
             $lesson_update['zoom_id'] = $conference_id;
             $this->lesson_model->lms_update("lms_lesson",$lesson_update);
-            redirect(json_decode($conference['return_response'])->start_url);
-        }else{
-            echo "<script>alert('This zoom is already being used by other teachers. Please refresh the Zoom checker and pick another one.')</script>";
+            redirect($start_url);
+            // redirect(base_url('lms/lesson/zoom_checker/'.$lesson_id));
         }
+        // $live_zoom_accounts = array();
+        // $live_zoom = $this->zoom_api->check_live();
+
+        // foreach ($live_zoom->meetings as $live_zoom_key => $live_zoom_value) {
+        //     array_push($live_zoom_accounts, $live_zoom_value->email);
+        // }
+        // if(!in_array($zoom_id, $live_zoom_accounts)){
+            
+        //     redirect(json_decode($conference['return_response'])->start_url);
+        // }else{
+        //     echo "<script>alert('This zoom is already being used by other teachers. Please refresh the Zoom checker and pick another one.')</script>";
+        // }
         
+        
+    }
+
+    public function end_zoom($zoom_id){
+        
+        $zoom_data = $this->lesson_model->lms_get("lms_zoom_accounts",$zoom_id,"email")[0];
+        $lms_zoom_accounts['email'] = $zoom_id;
+        $lms_zoom_accounts['account_id'] = "";
+        $lms_zoom_accounts['conference_id'] = "";
+        $lms_zoom_accounts['lesson_id'] = "";
+
+        $this->lesson_model->lms_update("lms_zoom_accounts",$lms_zoom_accounts,"email");
+
+        redirect(base_url('lms/lesson/zoom_checker/'.$lesson_id));
         
     }
 
@@ -1531,6 +1524,11 @@ class Lesson extends General_Controller {
             $open['video'] = "";
             $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
         }
+
+        $lesson_log_data['lesson_id'] = $lesson_id;
+        $lesson_log_data['account_id'] = $this->general_model->get_account_id();
+        $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+        $this->lesson_model->lms_create("lms_lesson_logs",$lesson_log_data);
 
         echo json_encode($open);
     }

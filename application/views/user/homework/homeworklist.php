@@ -22,15 +22,19 @@
                     </div>
                     <div class="box-body table-responsive">
                         <div > <div class="download_label"><?php echo $this->lang->line('homework'); ?></div>
+
                             <table class="table table-hover table-striped table-bordered example">
                                 <thead>
                                     <tr>
+                                        <th>Title</th>
                                         <th>Teacher</th>
                                         <th><?php echo $this->lang->line('subject') ?></th>
                                         <th><?php echo $this->lang->line('homework_date'); ?></th>
                                         <th><?php echo $this->lang->line('submission_date'); ?></th>
                                         <th><?php echo $this->lang->line('evaluation_date'); ?></th>
                                         <th><?php echo $this->lang->line('status'); ?></th>
+                                        <th>Score</th>
+                                        <th>Remarks</th>
                                         <th class="text-right"><?php echo $this->lang->line('action') ?></th>
                                     </tr>
                                 </thead>
@@ -45,6 +49,7 @@
                                         }
                                     ?>
                                     <tr>
+                                        <td><?php echo $homework['title']; ?></td>
                                         <td><?php echo $homework['name']; ?> <?php echo $homework['surname']; ?></td>
                                         <td><?php echo $homework['subject_name']; ?></td>
                                         <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
@@ -76,6 +81,12 @@
                                             }
                                             ?>
                                             <label <?php echo $status_class; ?>><?php echo $status_homework; ?></label>
+                                        </td>
+                                        <td>
+                                            <?php echo $homework['homework_evaluation_score'] ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $homework['homework_evaluation_remarks'] ?>
                                         </td>
                                         <td class="mailbox-date pull-right">
                                             <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs"    data-toggle="tooltip"  data-original-title="<?php echo $this->lang->line('homework') . " " . $this->lang->line('assignments'); ?>"><i class="fa fa-upload"></i></a>

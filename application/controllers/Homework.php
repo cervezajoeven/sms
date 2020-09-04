@@ -43,7 +43,7 @@ class Homework extends Admin_Controller
         $data['subject_id']       = "";
 
         $homeworklist             = $this->homework_model->get();
-
+        
         $data["homeworklist"]=array();
         $image_validate = $this->config->item('file_validate');
         $data["max_file_size"] = number_format($image_validate['upload_size'] / 1048576, 2) . " MB";
@@ -79,9 +79,6 @@ class Homework extends Admin_Controller
         }
 
         }
-
-        
-       
 
         $this->load->view("layout/header", $data);
         $this->load->view("homework/homeworklist", $data);
@@ -140,6 +137,7 @@ class Homework extends Admin_Controller
             $data      = array(
                 'id'                       => $record_id,
                 'session_id'               => $session_id,
+                'title'                    => $this->input->post("homework_title"),
                 'class_id'                 => $this->input->post("modal_class_id"),
                 'section_id'               => $this->input->post("modal_section_id"),
                 'homework_date'            => date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('homework_date'))),
@@ -297,6 +295,7 @@ class Homework extends Admin_Controller
             }
             $data = array(
                 'id'            => $id,
+                'title'         => $this->input->post("homework_title"),
                 'class_id'      => $this->input->post("class_id"),
                 'section_id'    => $this->input->post("section_id"),
                 'subject_id'    => $this->input->post("subject_id"),
@@ -389,16 +388,19 @@ class Homework extends Admin_Controller
             $homework_id  = $this->input->post("homework_id");
             $students     = $this->input->post("student_list");
             $home_id      = $this->input->post("homework_id");
+            $score_array  = $this->input->post("score");
+            $remarks_array  = $this->input->post("remarks");
             foreach ($students as $std_key => $std_value) {
                 if ($std_value == 0) {
                     $insert_array[] = $std_key;
                 } else {
                     $insert_prev[] = $std_value;
                 }
-            } 
+            }
+            // print_r($this->input->post("score"));
             $evaluation_date = $this->customlib->dateFormatToYYYYMMDD($this->input->post('evaluation_date'));
             $evaluated_by    = $this->customlib->getStaffID();
-            $this->homework_model->addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by);
+            $this->homework_model->addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by,$score_array,$remarks_array);
             $msg   = $this->lang->line('evaluation_completed_message');
             $array = array('status' => 'success', 'error' => '', 'message' => $msg);
         }

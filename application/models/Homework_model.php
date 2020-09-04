@@ -144,7 +144,7 @@ class Homework_model extends MY_model
 
     public function getStudents($id)
     {
-        $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,student_session.*,students.firstname,students.lastname,students.admission_no from student_session inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($id) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id inner join students on students.id=student_session.student_id and students.is_active='yes' left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($id) . "   order by students.id desc";
+        $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,IFNULL(homework_evaluation.score,0) as homework_evaluation_score,IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks,student_session.*,students.firstname,students.lastname,students.admission_no from student_session inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($id) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id inner join students on students.id=student_session.student_id and students.is_active='yes' left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($id) . "   order by students.id desc";
 
         // $sql = "select students.id,students.firstname,students.lastname,students.admission_no from students where students.id in (select student_session.student_id from student_session where student_session.class_id = " . $this->db->escape($class_id) . " and student_session.section_id = " . $this->db->escape($section_id) . " GROUP by student_session.student_id and student_session.session_id=$this->current_session) and students.is_active = 'yes'";
         $query = $this->db->query($sql);
@@ -177,7 +177,7 @@ class Homework_model extends MY_model
         }
     }
 
-    public function addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by)
+    public function addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by,$score_array=array(),$remarks_array=array())
     {
         $this->db->trans_start(); # Starting Transaction
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
@@ -189,6 +189,8 @@ class Homework_model extends MY_model
                 $insert_student = array(
                     'homework_id'        => $homework_id,
                     'student_session_id' => $insert_student_value,
+                    'score' =>  $score_array[$insert_student_value],
+                    'remarks' => $remarks_array[$insert_student_value],
                     'status'             => 'Complete',
                 );
                 $this->db->insert("homework_evaluation", $insert_student);
@@ -293,7 +295,7 @@ class Homework_model extends MY_model
 
     public function getStudentHomeworkWithStatus($class_id, $section_id, $student_session_id)
     {
-        $sql   = "SELECT DISTINCT(homework.id), `homework`.*,IFNULL(homework_evaluation.id,0) as homework_evaluation_id, `classes`.`class`, `sections`.`section`, `subject_group_subjects`.`subject_id`, 
+        $sql   = "SELECT DISTINCT(homework.id), `homework`.*,IFNULL(homework_evaluation.id,0) as homework_evaluation_id,IFNULL(homework_evaluation.score,0) as homework_evaluation_score,IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks, `classes`.`class`, `sections`.`section`, `subject_group_subjects`.`subject_id`, 
                   `subject_group_subjects`.`id` as `subject_group_subject_id`, `subjects`.`name` as `subject_name`, `subject_groups`.`id` as `subject_groups_id`, `subject_groups`.`name`, 
                   `staff`.`name`, `staff`.`surname`, submit_assignment.id AS submit_id, CASE WHEN ISNULL(submit_assignment.id) THEN 'No' ELSE 'Yes' END AS submitted
                   FROM `homework` 

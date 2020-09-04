@@ -37,7 +37,11 @@
 		        		<tr>
 		        			
 		        			<td colspan="4" style="padding: 0;cursor: pointer;">
-		        				<a href="<?php echo site_url('lms/assessment/index/'); ?>">
+		        				<?php if($teacher_review): ?>
+		        					<a href="<?php echo site_url('lms/assessment/reports/'.$id); ?>">
+		        				<?php else: ?>
+		        					<a href="<?php echo site_url('lms/assessment/index/'); ?>">
+		        				<?php endif; ?>
 		        					<div class="info-tab info-title the_close">X Close</div>
 		        				</a>
 		        			</td>
@@ -123,4 +127,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_review_4.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_review_6.js'?>"></script>
