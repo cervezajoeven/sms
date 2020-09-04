@@ -293,7 +293,17 @@ class Assessment extends General_Controller {
 
         $query = $this->db->get("lms_assessment_sheets");
         $response = $query->result_array();
+
         $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+
+        if(!$data['assessment']['allow_result_viewing']||$data['assessment']['allow_result_viewing']==0){
+            if($account_id){
+                
+            }else{
+                redirect(site_url('lms/assessment/index'));
+            }
+        }
+
         $data['resources'] = site_url('backend/lms/');
         $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
         $data['assessment_sheet'] = $response[0];
