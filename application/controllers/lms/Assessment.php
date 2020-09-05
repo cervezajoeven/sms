@@ -448,6 +448,61 @@ class Assessment extends General_Controller {
         print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
     }
 
+    public function auto_save(){
+        
+        $data['id'] = $_REQUEST['id'];
+        $data['assessment_id'] = $_REQUEST['assessment_id'];
+        $data['answer'] = $_REQUEST['answer'];
+        $answer = (array)json_decode($data['answer']);
+        $assessment = $this->assessment_model->lms_get("lms_assessment",$data['assessment_id'],"id")[0];
+        $assessment_answer = (array)json_decode($assessment['sheet']);
+        
+        //convert to array
+        foreach ($answer as $answer_key => $answer_value) {
+            $answer[$answer_key] = (array)$answer_value;
+        }
+        foreach ($assessment_answer as $answer_key => $answer_value) {
+            $assessment_answer[$answer_key] = (array)$answer_value;
+        }
+        //convert to array
+        $score = 0;
+        $total_score = 0;
+        foreach ($answer as $answer_key => $answer_value) {
+            $total_score += 1;
+            $assessment_value = $assessment_answer[$answer_key];
+            if($answer_value['type']=="multiple_choice"||$answer_value['type']=="multiple_answer"){
+
+                if($answer_value['answer'] == $assessment_value['correct']){
+                    if(array_key_exists("points", $assessment_value)){
+
+                        $score += $assessment_value['points'];
+                    }else{
+
+                        $score += 1;
+                    }
+                }
+            }else if($answer_value['type']=="short_answer"){
+                if(in_array(trim(strtolower($answer_value['answer'])), explode(",", trim(strtolower($assessment_value['correct']))))){
+                    if(array_key_exists("points", $assessment_value)){
+
+                        $score += $assessment_value['points'];
+                    }else{
+
+                        $score += 1;
+                    }
+                }
+            }else{
+
+            }
+
+        }
+
+        $data['score'] = $score;
+        $data['response_status'] = "0";
+
+        print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
+    }
+
     public function recheck_answers($id){
 
         $assessment = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
