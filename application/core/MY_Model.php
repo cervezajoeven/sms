@@ -7,6 +7,7 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
         $this->load->library('user_agent');
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function log($message=NULL,$record_id= NULL,$action= NULL)
@@ -74,10 +75,10 @@ class MY_Model extends CI_Model
                 }
                 
                 $escaped_data['date_created'] = date("Y-m-d H:i:s");
-                if($this->db->insert($table, $escaped_data)){
+                if($this->writedb->insert($table, $escaped_data)){
                     return $id;
                 }else{ 
-                    print_r($this->db->error());
+                    print_r($this->writedb->error());
                     return false; 
                 }
             }else{
@@ -102,10 +103,10 @@ class MY_Model extends CI_Model
                 }
                 
                 $escaped_data['created_at'] = date("Y-m-d H:i:s");
-                if($this->db->insert($table, $escaped_data)){
+                if($this->writedb->insert($table, $escaped_data)){
                     return $id;
                 }else{ 
-                    print_r($this->db->error());
+                    print_r($this->writedb->error());
                     return false; 
                 }
             }else{
@@ -122,11 +123,11 @@ class MY_Model extends CI_Model
     public function lms_update($table="",$data=array(),$where="id"){
         
         if($table&&is_string($table)){
-            $this->db->where($where, $data[$where]);
+            $this->writedb->where($where, $data[$where]);
             $data['date_updated'] = date("Y-m-d H:i:s");
-            if($this->db->update($table, $data)){
-                $this->db->where($where, $data[$where]);
-                $query = $this->db->get($table);
+            if($this->writedb->update($table, $data)){
+                $this->writedb->where($where, $data[$where]);
+                $query = $this->writedb->get($table);
                 $return = $query->result_array()[0];
                 return $return;
             }else{
@@ -143,12 +144,12 @@ class MY_Model extends CI_Model
     public function lms_delete($table="",$data=array()){
         
         if($table&&is_string($table)){
-            $this->db->where("id", $data["id"]);
+            $this->writedb->where("id", $data["id"]);
             $data['date_deleted'] = date("Y-m-d H:i:s");
             $data['deleted'] = 1;
-            if($this->db->update($table, $data)){
-                $this->db->where("id", $data["id"]);
-                $query = $this->db->get($table);
+            if($this->writedb->update($table, $data)){
+                $this->writedb->where("id", $data["id"]);
+                $query = $this->writedb->get($table);
                 $return = $query->result_array()[0];
                 return $return;
             }else{
