@@ -7,9 +7,6 @@ class Attendencetype_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -66,10 +63,10 @@ class Attendencetype_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('attendence_type', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('attendence_type', $data);
         } else {
-            $this->writedb->insert('attendence_type', $data);
+            $this->db->insert('attendence_type', $data);
         }
     }
 

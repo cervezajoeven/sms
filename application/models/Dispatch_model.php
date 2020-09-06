@@ -10,8 +10,6 @@ class Dispatch_model extends MY_Model {
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
         $this->start_month = $this->setting_model->getStartMonth();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 	public function insert($table, $data) {
       
@@ -21,12 +19,12 @@ class Dispatch_model extends MY_Model {
         {
             $title="Postal Receive";
         }
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->insert($table, $data);
+        $this->db->insert($table, $data);
       
-        $return_value = $this->writedb->insert_id();
+        $return_value = $this->db->insert_id();
         $message      = INSERT_RECORD_CONSTANT." On  Admission Enquiry  ".$title." id ".$return_value;
         $action       = "Insert";
         $record_id    = $return_value;
@@ -34,12 +32,12 @@ class Dispatch_model extends MY_Model {
 		//echo $this->db->last_query();die;
         //======================Code End==============================
 
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
 
         } else {
@@ -51,9 +49,9 @@ class Dispatch_model extends MY_Model {
 
     public function image_add($type, $dispatch_id, $image) {
         $array = array('id' => $dispatch_id, 'type' => $type);
-        $this->writedb->set('image', $image);
-        $this->writedb->where($array);
-        $this->writedb->update('dispatch_receive');
+        $this->db->set('image', $image);
+        $this->db->where($array);
+        $this->db->update('dispatch_receive');
     }
 
     public function dispatch_list() {
@@ -84,8 +82,8 @@ class Dispatch_model extends MY_Model {
     }
 
     public function update_dispatch($table, $id, $type, $data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
 		if($data['type']=='dispatch'){
             $title="Postal Dispatch";
@@ -93,20 +91,20 @@ class Dispatch_model extends MY_Model {
         {
             $title="Postal Receive";
         }
-        $this->writedb->where('id', $id);
-        $this->writedb->where('type', $type);
-        $this->writedb->update($table, $data);
+        $this->db->where('id', $id);
+        $this->db->where('type', $type);
+        $this->db->update($table, $data);
 		$message      = UPDATE_RECORD_CONSTANT." On Admission Enquiry $title  id ".$id;
         $action       = "Update";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
 
         } else {
@@ -116,38 +114,38 @@ class Dispatch_model extends MY_Model {
     }
 
     public function image_update($type, $id, $img_name) {
-        $this->writedb->set('image', $img_name);
-        $this->writedb->where('id', $id);
-        $this->writedb->where('type', $type);
-        $this->writedb->update('dispatch_receive');
+        $this->db->set('image', $img_name);
+        $this->db->where('id', $id);
+        $this->db->where('type', $type);
+        $this->db->update('dispatch_receive');
     }
 
     public function image_delete($id, $img_name) {
         $file = "./uploads/front_office/dispatch_receive/" . $img_name;
         unlink($file);
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('dispatch_receive');
+        $this->db->where('id', $id);
+        $this->db->delete('dispatch_receive');
         $controller_name = $this->uri->segment(2);
         $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('delete_message').'</div>');
         redirect('admin/' . $controller_name);
     }
 
     public function delete($id) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('dispatch_receive');
+        $this->db->where('id', $id);
+        $this->db->delete('dispatch_receive');
 		$message      = DELETE_RECORD_CONSTANT." On Postal Dispatch id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;

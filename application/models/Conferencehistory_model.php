@@ -9,13 +9,11 @@ class Conferencehistory_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function updatehistory($data, $type) {
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
 
         $this->db->where('conference_id', $data['conference_id']);
         if ($type == "student") {
@@ -30,16 +28,16 @@ class Conferencehistory_model extends MY_Model {
             $row = $q->row();
             $total_hit = $row->total_hit + 1;
             $data['total_hit'] = $total_hit;
-            $this->writedb->where('id', $row->id);
-            $this->writedb->update('conferences_history', $data);
+            $this->db->where('id', $row->id);
+            $this->db->update('conferences_history', $data);
         } else {
 
-            $this->writedb->insert('conferences_history', $data);
+            $this->db->insert('conferences_history', $data);
         }
 
-        $this->writedb->trans_complete();
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
             return false;
         } else {
             return true;

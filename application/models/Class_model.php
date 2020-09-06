@@ -11,8 +11,6 @@ class Class_model extends MY_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -78,25 +76,25 @@ class Class_model extends MY_Model
      */
     public function remove($id)
     {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('classes'); //class record delete.
+        $this->db->where('id', $id);
+        $this->db->delete('classes'); //class record delete.
 
-        $this->writedb->where('class_id', $id);
-        $this->writedb->delete('class_sections'); //class_sections record delete.
+        $this->db->where('class_id', $id);
+        $this->db->delete('class_sections'); //class_sections record delete.
 
         $message   = DELETE_RECORD_CONSTANT . " On classes id " . $id;
         $action    = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
             //return $return_value;
@@ -112,10 +110,10 @@ class Class_model extends MY_Model
     public function add($data)
     {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('classes', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('classes', $data);
         } else {
-            $this->writedb->insert('classes', $data);
+            $this->db->insert('classes', $data);
         }
     }
 

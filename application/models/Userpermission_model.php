@@ -8,8 +8,6 @@ class Userpermission_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getUserPermission($user_id = null) {
@@ -23,30 +21,30 @@ class Userpermission_model extends CI_Model {
 
     public function getInsertBatch($insert_array, $staff_id, $delete_arrary = array()) {
         print_r($insert_array);
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(FALSE);
+        $this->db->trans_start();
+        $this->db->trans_strict(FALSE);
 
         if (!empty($insert_array)) {
-            $this->writedb->insert_batch('user_permissions', $insert_array);
+            $this->db->insert_batch('user_permissions', $insert_array);
         }
         if (!empty($delete_arrary)) {
 
-            $this->writedb->where('staff_id', $staff_id);
-            $this->writedb->where_in('permission_id', $delete_arrary);
-            $this->writedb->delete('user_permissions');
+            $this->db->where('staff_id', $staff_id);
+            $this->db->where_in('permission_id', $delete_arrary);
+            $this->db->delete('user_permissions');
         }
 
 
-        $this->writedb->trans_complete();
+        $this->db->trans_complete();
 
 
-        if ($this->writedb->trans_status() === FALSE) {
+        if ($this->db->trans_status() === FALSE) {
 
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return FALSE;
         } else {
 
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return $staff_id;
         }
     }

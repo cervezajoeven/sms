@@ -7,8 +7,6 @@ class Smsconfig_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null) {
@@ -28,28 +26,28 @@ class Smsconfig_model extends MY_Model {
 
     public function changeStatus($type) {
         $data = array('is_active' => 'disabled');
-        $this->writedb->where('type !=', $type);
-        $this->writedb->update('sms_config', $data);
+        $this->db->where('type !=', $type);
+        $this->db->update('sms_config', $data);
     }
 
     public function add($data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('type', $data['type']);
         $q = $this->db->get('sms_config');
 
         if ($q->num_rows() > 0) {
-            $this->writedb->where('type', $data['type']);
-            $this->writedb->update('sms_config', $data);
+            $this->db->where('type', $data['type']);
+            $this->db->update('sms_config', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On sms config id ".$data['type'];
 			$action       = "Update";
 			$record_id    = $data['type'];
 			$this->log($message, $record_id, $action);
 			
         } else {
-            $this->writedb->insert('sms_config', $data);
-			$insert_id = $this->writedb->insert_id();
+            $this->db->insert('sms_config', $data);
+			$insert_id = $this->db->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On sms config id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
@@ -62,12 +60,12 @@ class Smsconfig_model extends MY_Model {
 		
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {

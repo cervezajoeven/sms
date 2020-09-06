@@ -10,8 +10,6 @@ class Classsection_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -35,20 +33,20 @@ class Classsection_model extends MY_Model
     {
 
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('classes', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('classes', $data);
         }
     }
 
     public function add($data, $sections)
     {
 		
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('classes', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('classes', $data);
             $class_id = $data['id'];
 			$message      = UPDATE_RECORD_CONSTANT." On classes id ".$data['id'];
 			$action       = "Update";
@@ -56,20 +54,20 @@ class Classsection_model extends MY_Model
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->writedb->insert('classes', $data);
-            $class_id = $this->writedb->insert_id();
+            $this->db->insert('classes', $data);
+            $class_id = $this->db->insert_id();
 							
 			$message      = INSERT_RECORD_CONSTANT." On subject groups id ".$class_id;
 			$action       = "Insert";
@@ -77,12 +75,12 @@ class Classsection_model extends MY_Model
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
@@ -100,11 +98,11 @@ class Classsection_model extends MY_Model
 
             $sections_array[] = $vehicle_array;
         }
-        $this->writedb->insert_batch('class_sections', $sections_array);
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        $this->db->insert_batch('class_sections', $sections_array);
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
         }
     }
 
@@ -191,9 +189,9 @@ class Classsection_model extends MY_Model
     public function remove($class_id, $array)
     {
 	
-        $this->writedb->where('class_id', $class_id);
-        $this->writedb->where_in('section_id', $array);
-        $this->writedb->delete('class_sections');
+        $this->db->where('class_id', $class_id);
+        $this->db->where_in('section_id', $array);
+        $this->db->delete('class_sections');
     }
     public function allClassSections()
     {

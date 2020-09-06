@@ -2,21 +2,15 @@
 
 class Timeline_model extends CI_Model {
 
-    public function __construct() {
-        parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
-    }
-
     public function add($data) {
 
         if (isset($data["id"])) {
 
-            $this->writedb->where("id", $data["id"])->update("student_timeline", $data);
+            $this->db->where("id", $data["id"])->update("student_timeline", $data);
         } else {
 
-            $this->writedb->insert("student_timeline", $data);
-            return $this->writedb->insert_id();
+            $this->db->insert("student_timeline", $data);
+            return $this->db->insert_id();
         }
     }
 
@@ -24,11 +18,11 @@ class Timeline_model extends CI_Model {
 
         if (isset($data["id"])) {
 
-            $this->writedb->where("id", $data["id"])->update("staff_timeline", $data);
+            $this->db->where("id", $data["id"])->update("staff_timeline", $data);
         } else {
 
-            $this->writedb->insert("staff_timeline", $data);
-            return $this->writedb->insert_id();
+            $this->db->insert("staff_timeline", $data);
+            return $this->db->insert_id();
         }
     }
 
@@ -55,12 +49,12 @@ class Timeline_model extends CI_Model {
 
     public function delete_timeline($id) {
 
-        $this->writedb->where("id", $id)->delete("student_timeline");
+        $this->db->where("id", $id)->delete("student_timeline");
     }
 
     public function delete_staff_timeline($id) {
 
-        $this->writedb->where("id", $id)->delete("staff_timeline");
+        $this->db->where("id", $id)->delete("staff_timeline");
     }
 
 }

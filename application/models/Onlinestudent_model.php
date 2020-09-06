@@ -11,8 +11,6 @@ class Onlinestudent_model extends MY_Model {
         // $this->load->library('mailsmsconf');
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($data) {    
@@ -25,24 +23,24 @@ class Onlinestudent_model extends MY_Model {
             if ($rec['is_enroll'] == 0)
             {
                 $rec = $q->row_array();
-                $this->writedb->where('id', $rec['id']);
-                $this->writedb->update('online_admissions', $data);
+                $this->db->where('id', $rec['id']);
+                $this->db->update('online_admissions', $data);
                 $message   = UPDATE_RECORD_CONSTANT . " On online_admissions id " . $rec['id'];
                 $action    = "Update";
                 $record_id = $rec['id'];
                 $this->log($message, $record_id, $action);
             }
         } else {
-            $this->writedb->insert('online_admissions', $data);
-            $insert_id = $this->writedb->insert_id();
+            $this->db->insert('online_admissions', $data);
+            $insert_id = $this->db->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On online_admissions id " . $session_id;
             $action    = "Insert";
             $record_id = $insert_id;
             $this->log($message, $record_id, $action);
         }
 
-        // $this->writedb->insert('online_admissions', $data);
-        // return $this->writedb->insert_id();       
+        // $this->db->insert('online_admissions', $data);
+        // return $this->db->insert_id();       
 
         return $record_id;
     }
@@ -113,8 +111,7 @@ class Onlinestudent_model extends MY_Model {
         // var_dump($data);die;
 
         if (isset($data['id'])) {
-            $this->writedb->trans_begin();
-
+            $this->db->trans_begin();
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
             $enroll_type = $data['enrollment_type'];
@@ -187,8 +184,8 @@ class Onlinestudent_model extends MY_Model {
                             'preferred_education_mode' => $data['preferred_education_mode'],
                         );
                         
-                        $this->writedb->where('id', $student_id);
-                        $this->writedb->update('students', $old_data);                        
+                        $this->db->where('id', $student_id);
+                        $this->db->update('students', $old_data);                        
                     } 
                     else if ($enroll_type == 'old_new') 
                     {
@@ -196,13 +193,13 @@ class Onlinestudent_model extends MY_Model {
                         $data['enrollment_type'] = 'old';
 
                         if (isset($student_id)) {
-                            $this->writedb->where('id', $student_id);
-                            $this->writedb->update('students', $data);
+                            $this->db->where('id', $student_id);
+                            $this->db->update('students', $data);
                         } else {
                             //-- Treat as new student
                             $data['roll_no'] = $data['admission_no'];
-                            $this->writedb->insert('students', $data);
-                            $student_id = $this->writedb->insert_id();
+                            $this->db->insert('students', $data);
+                            $student_id = $this->db->insert_id();
                         }
 
                         // var_dump($student_id);die;
@@ -210,8 +207,8 @@ class Onlinestudent_model extends MY_Model {
                     else 
                     {
                         $data['roll_no'] = $data['admission_no'];
-                        $this->writedb->insert('students', $data);
-                        $student_id = $this->writedb->insert_id();
+                        $this->db->insert('students', $data);
+                        $student_id = $this->db->insert_id();
                     }                    
                    
                     $data_new = array(
@@ -347,18 +344,18 @@ class Onlinestudent_model extends MY_Model {
 
             //var_dump($data);die;
 
-            $this->writedb->where('id', $data_id);
-            $this->writedb->update('online_admissions', $data);
+            $this->db->where('id', $data_id);
+            $this->db->update('online_admissions', $data);
 			
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";
 			$record_id    = $data_id;
             $this->log($message, $record_id, $action);
 			
-            if ($this->writedb->trans_status() === false) {
-                $this->writedb->trans_rollback();
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
             } else {
-                $this->writedb->trans_commit();
+                $this->db->trans_commit();
             }
         }
 
@@ -366,21 +363,21 @@ class Onlinestudent_model extends MY_Model {
     }
 
      public function remove($id) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('online_admissions');
+        $this->db->where('id', $id);
+        $this->db->delete('online_admissions');
 		$message      = DELETE_RECORD_CONSTANT." On online admissions id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;

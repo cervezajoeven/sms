@@ -5,12 +5,6 @@
  */
 class Leaverequest_model extends MY_model {
 
-    public function __construct() {
-        parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
-    }
-
     public function staff_leave_request($id = null) {
 
         if ($id != null) {
@@ -44,22 +38,22 @@ class Leaverequest_model extends MY_model {
     }
 
     public function changeLeaveStatus($data, $staff_id) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where("id", $staff_id)->update("staff_leave_request", $data);
+        $this->db->where("id", $staff_id)->update("staff_leave_request", $data);
 		$message      = UPDATE_RECORD_CONSTANT." On staff leave request id ".$staff_id;
 			$action       = "Update";
 			$record_id    = $staff_id;
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
@@ -75,25 +69,25 @@ class Leaverequest_model extends MY_model {
     }
 
     function addLeaveRequest($data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
 
-            $this->writedb->where("id", $data["id"]);
-            $this->writedb->update("staff_leave_request", $data);
+            $this->db->where("id", $data["id"]);
+            $this->db->update("staff_leave_request", $data);
 			$message      = UPDATE_RECORD_CONSTANT." On staff leave request id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
@@ -101,21 +95,21 @@ class Leaverequest_model extends MY_model {
 			}
         } else {
 
-            $this->writedb->insert("staff_leave_request", $data);
-			$id = $this->writedb->insert_id();		
+            $this->db->insert("staff_leave_request", $data);
+			$id = $this->db->insert_id();		
 			$message      = INSERT_RECORD_CONSTANT." On staff leave request id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
-			//echo $this->writedb->last_query();die;
+			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {

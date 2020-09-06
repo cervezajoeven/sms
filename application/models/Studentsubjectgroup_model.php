@@ -12,8 +12,6 @@ class Studentsubjectgroup_model extends CI_Model {
         $this->load->config('ci-blog');
         
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function searchAssignGroupByClassSection($class_id = null, $section_id = null, $subject_group_id = null, $category = null, $gender = null, $rte = null) {
@@ -72,16 +70,16 @@ class Studentsubjectgroup_model extends CI_Model {
         if ($q->num_rows() > 0) {
             return $q->row()->id;
         } else {
-            $this->writedb->insert('student_subject_groups', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('student_subject_groups', $data);
+            return $this->db->insert_id();
         }
     }
 
        public function delete($fee_session_groups, $array) {
 
-        $this->writedb->where('subject_group_id', $fee_session_groups);
-        $this->writedb->where_in('student_session_id', $array);
-        $this->writedb->delete('student_subject_groups');
+        $this->db->where('subject_group_id', $fee_session_groups);
+        $this->db->where_in('student_session_id', $array);
+        $this->db->delete('student_subject_groups');
     }
 
 

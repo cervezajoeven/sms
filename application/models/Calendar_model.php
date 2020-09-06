@@ -2,20 +2,13 @@
 
 class Calendar_model extends CI_Model {
 
-    public function __construct()
-    {
-        parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
-    }
-
     public function saveEvent($data) {
         if (isset($data["id"])) {
 
-            $this->writedb->where("id", $data["id"])->update("events", $data);
+            $this->db->where("id", $data["id"])->update("events", $data);
         } else {
 
-            $this->writedb->insert("events", $data);
+            $this->db->insert("events", $data);
         }
     }
 
@@ -40,7 +33,7 @@ class Calendar_model extends CI_Model {
 
     public function deleteEvent($id) {
 
-        $this->writedb->where("id", $id)->delete("events");
+        $this->db->where("id", $id)->delete("events");
     }
 
     public function getTask($limit = null, $offset = null, $id,$role_id) {
