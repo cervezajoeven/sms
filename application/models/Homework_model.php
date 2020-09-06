@@ -11,15 +11,16 @@ class Homework_model extends MY_model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($data)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data["id"]) && $data["id"] > 0) {
-            $this->db->where("id", $data["id"])->update("homework", $data);
+            $this->writedb->where("id", $data["id"])->update("homework", $data);
             $message   = UPDATE_RECORD_CONSTANT . " On homework id " . $data['id'];
             $action    = "Update";
             $record_id = $insert_id = $data['id'];
@@ -27,8 +28,8 @@ class Homework_model extends MY_model
 
         } else {
 
-            $this->db->insert("homework", $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert("homework", $data);
+            $insert_id = $this->writedb->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On homework id " . $insert_id;
             $action    = "Insert";
             $record_id = $insert_id;
@@ -38,12 +39,12 @@ class Homework_model extends MY_model
         //echo $this->db->last_query();die;
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /* Optional */
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
             return $insert_id;
@@ -153,24 +154,24 @@ class Homework_model extends MY_model
 
     public function delete($id)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where("id", $id)->delete("homework");
+        $this->writedb->where("id", $id)->delete("homework");
 
-        $this->db->where("homework_id", $id)->delete("homework_evaluation");
-        $this->db->where("homework_id", $id)->delete("submit_assignment");
+        $this->writedb->where("homework_id", $id)->delete("homework_evaluation");
+        $this->writedb->where("homework_id", $id)->delete("submit_assignment");
 
         $message   = DELETE_RECORD_CONSTANT . " On homework id " . $id;
         $action    = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /* Optional */
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
             //return $return_value;
@@ -179,11 +180,11 @@ class Homework_model extends MY_model
 
     public function addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by,$score_array=array(),$remarks_array=array())
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $homework = array('evaluation_date' => $evaluation_date, 'evaluated_by' => $evaluated_by);
-        $this->db->where("id", $homework_id)->update("homework", $homework);
+        $this->writedb->where("id", $homework_id)->update("homework", $homework);
         if (!empty($insert_array)) {
             foreach ($insert_array as $insert_student_key => $insert_student_value) {
                 $insert_student = array(
@@ -193,20 +194,20 @@ class Homework_model extends MY_model
                     'remarks' => $remarks_array[$insert_student_value],
                     'status'             => 'Complete',
                 );
-                $this->db->insert("homework_evaluation", $insert_student);
+                $this->writedb->insert("homework_evaluation", $insert_student);
                 $insert_prev[] = $this->db->insert_id();
             }
 
         }
-        $this->db->where('homework_id', $homework_id);
-        $this->db->where_not_in('id', $insert_prev);
-        $this->db->delete('homework_evaluation');
+        $this->writedb->where('homework_id', $homework_id);
+        $this->writedb->where_not_in('id', $insert_prev);
+        $this->writedb->delete('homework_evaluation');
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /* Optional */
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
             return true;
@@ -259,7 +260,7 @@ class Homework_model extends MY_model
 
         if (!empty($prev_students)) {
 
-            $this->db->where_in("id", $prev_students)->delete("homework_evaluation");
+            $this->writedb->where_in("id", $prev_students)->delete("homework_evaluation");
         }
     }
 
@@ -368,12 +369,12 @@ class Homework_model extends MY_model
 
    if ( $q->num_rows() > 0 ) 
    {
-      $this->db->where('homework_id',$data['homework_id']);
-       $this->db->where('student_id',$data['student_id']);
-      $this->db->update('submit_assignment',$data);
+      $this->writedb->where('homework_id',$data['homework_id']);
+       $this->writedb->where('student_id',$data['student_id']);
+      $this->writedb->update('submit_assignment',$data);
    } else {
     
-      $this->db->insert('submit_assignment',$data);
+      $this->writedb->insert('submit_assignment',$data);
    }
 
     }
