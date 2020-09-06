@@ -8,25 +8,26 @@ class Common extends Public_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function parents() {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         $sql = "SELECT * FROM `users` WHERE role='parent'";
         $query = $this->db->query($sql);
         $par_result = $query->result();
         foreach ($par_result as $res_key => $res_value) {
             $ids = explode(",", $res_value->childs);
-            $this->db->where_in('id', $ids);
-            $this->db->update('students', array('parent_id' => $res_value->id));
+            $this->writedb->where_in('id', $ids);
+            $this->writedb->update('students', array('parent_id' => $res_value->id));
         }
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return true;
         }
     }

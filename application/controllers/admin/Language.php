@@ -7,6 +7,7 @@ class Language extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     function index() {
@@ -254,7 +255,7 @@ class Language extends Admin_Controller {
         }
         print_r($array);
         exit();
-        $this->db->insert_batch('lang_pharses', $array);
+        $this->writedb->insert_batch('lang_pharses', $array);
         echo "Record Inserted successfully";
         exit();
     }
@@ -328,9 +329,9 @@ class Language extends Admin_Controller {
 
     function defoult_language($language_id) {
 
-        $this->db->set('lang_id', $language_id);//if 2 columns
+        $this->writedb->set('lang_id', $language_id);//if 2 columns
         
-        $this->db->update('sch_settings');
+        $this->writedb->update('sch_settings');
         
        $this->load->view('admin/language/languageSwitcher');
        $session=$this->session->userdata('admin');

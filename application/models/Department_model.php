@@ -5,6 +5,13 @@
  */
 class Department_model extends MY_model {
 
+    public function __construct()
+    {
+        parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
+    }
+
     public function valid_department($str) {
         $type = $this->input->post('type');
         $id = $this->input->post('departmenttypeid');
@@ -42,20 +49,20 @@ class Department_model extends MY_model {
     }
 
     function deleteDepartment($id) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where("id", $id)->delete("department");
+        $this->writedb->where("id", $id)->delete("department");
 		$message      = DELETE_RECORD_CONSTANT." On department id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -76,45 +83,45 @@ class Department_model extends MY_model {
     }
 
     public function addDepartmentType($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('department', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('department', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On department id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->insert('department', $data);
-            $id = $this->db->insert_id();
+            $this->writedb->insert('department', $data);
+            $id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On department id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
-			//echo $this->db->last_query();die;
+			//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {

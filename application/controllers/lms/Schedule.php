@@ -12,6 +12,7 @@ class Schedule extends General_Controller {
         $this->load->model('lesson_model');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function index(){
@@ -320,7 +321,7 @@ class Schedule extends General_Controller {
         $this->db->where("survey_id", $data["survey_id"]);
         $this->db->where("account_id", $data["account_id"]);
         $data['date_updated'] = date("Y-m-d H:i:s");
-        $this->db->update("survey_sheets", $data);
+        $this->writedb->update("survey_sheets", $data);
     }
 
     public function upload($id){

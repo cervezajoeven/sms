@@ -12,6 +12,8 @@ class Student_model extends MY_Model
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date    = $this->setting_model->getDateYmd();
         $this->schoolname = $this->setting_model->getCurrentSchoolName(); 
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getBirthDayStudents($date, $email = false, $contact_no = false)
@@ -740,13 +742,14 @@ return false;
     {
         $this->db->select("*");
         $this->db->where($condition);
-        $this->db->where('online_admissions.session_id',$this->current_session);
+        $this->db->where('student_session.session_id', $this->current_session);
+
         if(array_key_exists("gender", $other_variables)){
           if($other_variables['gender']=="male"){
-            $this->db->where('online_admissions.gender',"male");
+            $this->db->where('students.gender',"male");
 
           }else if($other_variables['gender']=="female"){
-            $this->db->where('online_admissions.gender',"female");
+            $this->db->where('students.gender',"female");
 
           }
 
@@ -754,10 +757,10 @@ return false;
         if(array_key_exists("enrollment_payment_status", $other_variables)){
           
           if($other_variables['enrollment_payment_status']=="paid"){
-            $this->db->where('online_admissions.enrollment_payment_status',"paid");
+            $this->db->where('students.enrollment_payment_status',"paid");
 
           }else if($other_variables['enrollment_payment_status']=="unpaid"){
-            $this->db->where('online_admissions.enrollment_payment_status',"unpaid");
+            $this->db->where('students.enrollment_payment_status',"unpaid");
 
           }
 
@@ -772,14 +775,58 @@ return false;
 
         }
 
-
-        $this->db->join('class_sections','online_admissions.class_section_id = class_sections.id');
-        $this->db->join('classes','class_sections.class_id = classes.id');
-        $this->db->join('sections','class_sections.section_id = sections.id');
-        $data = $this->db->get("online_admissions")->result_array();
+        $this->db->join('student_session', 'student_session.student_id = students.id');
+        $this->db->join('classes', 'student_session.class_id = classes.id','left');
+        $this->db->join('sections', 'sections.id = student_session.section_id','left');
+        $data = $this->db->get("students")->result_array();
         // echo '<pre>';print_r($data);exit();
         return $data;
     }
+
+    // public function admission_report_joe($searchterm, $carray = null, $condition = null,$other_variables=array("gender"=>"all","enrollment_payment_status"=>"all","class"=>"all"))
+    // {
+    //     $this->db->select("*");
+    //     $this->db->where($condition);
+    //     $this->db->where('online_admissions.session_id',$this->current_session);
+    //     if(array_key_exists("gender", $other_variables)){
+    //       if($other_variables['gender']=="male"){
+    //         $this->db->where('online_admissions.gender',"male");
+
+    //       }else if($other_variables['gender']=="female"){
+    //         $this->db->where('online_admissions.gender',"female");
+
+    //       }
+
+    //     }
+    //     if(array_key_exists("enrollment_payment_status", $other_variables)){
+          
+    //       if($other_variables['enrollment_payment_status']=="paid"){
+    //         $this->db->where('online_admissions.enrollment_payment_status',"paid");
+
+    //       }else if($other_variables['enrollment_payment_status']=="unpaid"){
+    //         $this->db->where('online_admissions.enrollment_payment_status',"unpaid");
+
+    //       }
+
+    //     }
+
+    //     if(array_key_exists("class", $other_variables)){
+
+    //       if($other_variables['class']!="all"){
+    //         $this->db->where('class_sections.class_id',$other_variables['class']);
+
+    //       }
+
+    //     }
+
+
+    //     $this->db->join('class_sections','online_admissions.class_section_id = class_sections.id');
+    //     $this->db->join('classes','class_sections.class_id = classes.id');
+    //     $this->db->join('sections','class_sections.section_id = sections.id');
+    //     $data = $this->db->get("online_admissions")->result_array();
+    //     // echo '<pre>';print_r($data);exit();
+    //     return $data;
+    // }
 
     public function enrollment_report_joe($searchterm, $carray = null, $condition = null,$other_variables=array("gender"=>"all","enrollment_payment_status"=>"all","class"=>"all"))
     {
@@ -1000,7 +1047,7 @@ return false;
 
     public function remove($id)
     {
-        $this->db->trans_start();
+        $this->writedb->trans_start();
 
         $sql   = "SELECT * FROM `users` WHERE childs LIKE '%," . $id . ",%' OR childs LIKE '" . $id . ",%' OR childs LIKE '%," . $id . "' OR childs = " . $id;
         $query = $this->db->query($sql);
@@ -1013,26 +1060,26 @@ return false;
                 $update = implode(",", $arr);
                 $data   = array('childs' => $update);
 
-                $this->db->where('id', $result->id);
-                $this->db->update('users', $data);
+                $this->writedb->where('id', $result->id);
+                $this->writedb->update('users', $data);
             } else {
-                $this->db->where('id', $result->id);
-                $this->db->delete('users');
+                $this->writedb->where('id', $result->id);
+                $this->writedb->delete('users');
             }
         }
 
-        $this->db->where('id', $id);
-        $this->db->delete('students');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('students');
 
-        $this->db->where('student_id', $id);
-        $this->db->delete('student_session');
+        $this->writedb->where('student_id', $id);
+        $this->writedb->delete('student_session');
 
-        $this->db->where('user_id', $id);
-        $this->db->where('role', 'student');
-        $this->db->delete('users');
-        $this->db->trans_complete();
+        $this->writedb->where('user_id', $id);
+        $this->writedb->where('role', 'student');
+        $this->writedb->delete('users');
+        $this->writedb->trans_complete();
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             return false;
         } else {
             return true;
@@ -1041,15 +1088,15 @@ return false;
 
     public function doc_delete($id)
     {
-        $this->db->where('id', $id);
-        $this->db->delete('student_doc');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('student_doc');
     }
 
     public function add($data, $data_setting = array())
     {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('students', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('students', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On students id " . $data['id'];
             $action    = "Update";
             $record_id = $insert_id = $data['id'];
@@ -1063,8 +1110,8 @@ return false;
                         $this->setting_model->add($data_setting);
                     }
                 }
-                $this->db->insert('students', $data);
-                $insert_id = $this->db->insert_id();
+                $this->writedb->insert('students', $data);
+                $insert_id = $this->writedb->insert_id();
                 $message   = INSERT_RECORD_CONSTANT . " On students id " . $insert_id;
                 $action    = "Insert";
                 $record_id = $insert_id;
@@ -1077,20 +1124,20 @@ return false;
 
     public function add_student_sibling($data_sibling)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('student_sibling', $data_sibling);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('student_sibling', $data_sibling);
             $message   = UPDATE_RECORD_CONSTANT . " On  student sibling id " . $data['id'];
             $action    = "Update";
             $record_id = $insert_id = $data['id'];
             $this->log($message, $record_id, $action);
             
         } else {
-            $this->db->insert('student_sibling', $data_sibling);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('student_sibling', $data_sibling);
+            $insert_id = $this->writedb->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On student sibling id " . $insert_id;
             $action    = "Insert";
             $record_id = $insert_id;
@@ -1098,15 +1145,15 @@ return false;
             
             //return $insert_id;
         }
-		//echo $this->db->last_query();die;
+		//echo $this->writedb->last_query();die;
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
+            $this->writedb->trans_complete(); # Completing transaction
             /*Optional*/
 
-            if ($this->db->trans_status() === false) {
+            if ($this->writedb->trans_status() === false) {
                 # Something went wrong.
-                $this->db->trans_rollback();
+                $this->writedb->trans_rollback();
                 return false;
 
             } else {
@@ -1116,8 +1163,8 @@ return false;
 
     public function add_student_session($data)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         $session_id=0;
         //=======================Code Start===========================
         $this->db->where('session_id', $data['session_id']);
@@ -1126,8 +1173,8 @@ return false;
 
         if ($q->num_rows() > 0) {
             $rec = $q->row_array();
-            $this->db->where('id', $rec['id']);
-            $this->db->update('student_session', $data);
+            $this->writedb->where('id', $rec['id']);
+            $this->writedb->update('student_session', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On  student session id " . $rec['id'];
             $action    = "Update";
             $record_id = $rec['id'];
@@ -1135,8 +1182,8 @@ return false;
             // $session_id = $record_id;
 
         } else {
-            $this->db->insert('student_session', $data);
-            $session_id        = $this->db->insert_id();
+            $this->writedb->insert('student_session', $data);
+            $session_id        = $this->writedb->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On  student session id " . $session_id;
             $action    = "Insert";
             $record_id = $session_id;
@@ -1146,12 +1193,12 @@ return false;
 		//echo $this->db->last_query();die;
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return 0;
 
         } else {
@@ -1164,18 +1211,18 @@ return false;
         $this->db->where('session_id', $data['session_id']);
         $q = $this->db->get('student_session');
         if ($q->num_rows() > 0) {
-            $this->db->where('session_id', $student_session);
-            $this->db->update('student_session', $data);
+            $this->writedb->where('session_id', $student_session);
+            $this->writedb->update('student_session', $data);
         } else {
-            $this->db->insert('student_session', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('student_session', $data);
+            return $this->writedb->insert_id();
         }
     }
 
     public function adddoc($data)
     {
-        $this->db->insert('student_doc', $data);
-        return $this->db->insert_id();
+        $this->writedb->insert('student_doc', $data);
+        return $this->writedb->insert_id();
     }
 
     public function read_siblings_students($parent_id)
@@ -1937,28 +1984,28 @@ return false;
     { 
         if (!empty($students)) {
 
-            $this->db->trans_start();
+            $this->writedb->trans_start();
             $student_comma_seprate = implode(', ', $students);
 			//delete from students
-            $this->db->where_in('id', $students);
-            $this->db->delete('students');
+            $this->writedb->where_in('id', $students);
+            $this->writedb->delete('students');
 			
 			//delete from users
-            $this->db->where_in('user_id', $students);
-            $this->db->where_in('role', 'student');
-            $this->db->delete('users');
+            $this->writedb->where_in('user_id', $students);
+            $this->writedb->where_in('role', 'student');
+            $this->writedb->delete('users');
             //delete from custom_field_value
 			
             $sql = "DELETE FROM custom_field_values WHERE id IN (select * from (SELECT t2.id as `id` FROM `custom_fields` INNER JOIN custom_field_values as t2 on t2.custom_field_id=custom_fields.id WHERE custom_fields.belong_to='students' and t2.belong_table_id IN (" . implode(', ', $students) . ")) as m2)";
 
-            $query = $this->db->query($sql);
+            $query = $this->writedb->query($sql);
 
             $sql_parent = "DELETE from users WHERE id in (SELECT id from (SELECT users.*,students.id as `student_id` FROM `users` LEFT JOIN students on users.id= students.parent_id WHERE role ='parent') as a WHERE a.student_id IS NULL)";
-            $query      = $this->db->query($sql_parent);
+            $query      = $this->writedb->query($sql_parent);
 
-            $this->db->trans_complete();
+            $this->writedb->trans_complete();
 
-            if ($this->db->trans_status() === false) {
+            if ($this->writedb->trans_status() === false) {
                 return false;
             } else {
                 return true;
@@ -2321,24 +2368,24 @@ return false;
           );
         }
 
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
 
-        $this->db->where('roll_no', $idnumber);
-        $update = $this->db->update('students', $data);
+        $this->writedb->where('roll_no', $idnumber);
+        $update = $this->writedb->update('students', $data);
 
-        $this->db->where('roll_no', $idnumber);
-        $update = $this->db->update('online_admissions', $data);
+        $this->writedb->where('roll_no', $idnumber);
+        $update = $this->writedb->update('online_admissions', $data);
         
         // $this->db_exceptions->checkForError();
         // return ($update == true) ? true : false;        
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
 
         } else {

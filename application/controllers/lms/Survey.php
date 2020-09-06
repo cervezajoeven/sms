@@ -13,6 +13,7 @@ class Survey extends General_Controller {
         $this->load->model('lesson_model');
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/survey');
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function index(){
@@ -167,7 +168,7 @@ class Survey extends General_Controller {
         $this->db->where("survey_id", $data["survey_id"]);
         $this->db->where("account_id", $data["account_id"]);
         $data['date_updated'] = date("Y-m-d H:i:s");
-        $this->db->update("lms_survey_sheets", $data);
+        $this->writedb->update("lms_survey_sheets", $data);
         $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
     }
 

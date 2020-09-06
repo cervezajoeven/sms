@@ -10,6 +10,8 @@ class enquiry_model extends MY_Model {
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
         $this->start_month = $this->setting_model->getStartMonth();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getclasses($id = null) {
@@ -57,24 +59,24 @@ class enquiry_model extends MY_Model {
     }
 
     public function add($data) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->insert('enquiry', $data);
-        $id=$this->db->insert_id();
+        $this->writedb->insert('enquiry', $data);
+        $id=$this->writedb->insert_id();
         $message      = INSERT_RECORD_CONSTANT." On  enquiry id ".$id;
         $action       = "Insert";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
-		//echo $this->db->last_query();die;
+		//echo $this->writedb->last_query();die;
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
 
         } else {
@@ -131,34 +133,34 @@ class enquiry_model extends MY_Model {
     }
 
     public function add_follow_up($data) {
-        $this->db->insert('follow_up', $data);
+        $this->writedb->insert('follow_up', $data);
     }
 
     public function follow_up_update($enquiry_id, $follow_up_id, $data) {
-        $this->db->where('id', $follow_up_id);
-        $this->db->where('enquiry_id', $enquiry_id);
-        $this->db->update('follow_up', $data);
+        $this->writedb->where('id', $follow_up_id);
+        $this->writedb->where('enquiry_id', $enquiry_id);
+        $this->writedb->update('follow_up', $data);
         redirect('admin/enquiry/follow_up_edit/' . $enquiry_id . '/' . $follow_up_id . '');
     }
 
     public function enquiry_update($id, $data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->update('enquiry', $data);
+        $this->writedb->where('id', $id);
+        $this->writedb->update('enquiry', $data);
 		$message      = UPDATE_RECORD_CONSTANT." On  enquiry id ".$id;
         $action       = "Update";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
 
         } else {
@@ -168,21 +170,21 @@ class enquiry_model extends MY_Model {
     }
 
     public function enquiry_delete($id) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->delete('enquiry');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('enquiry');
 		$message      = DELETE_RECORD_CONSTANT." On  enquiry id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -190,8 +192,8 @@ class enquiry_model extends MY_Model {
     }
 
     public function delete_follow_up($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('follow_up');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('follow_up');
     }
 
     public function next_follow_up_date($enquiry_id) {
@@ -210,7 +212,7 @@ class enquiry_model extends MY_Model {
 
     public function changeStatus($data) {
 
-        $this->db->where("id", $data["id"])->update("enquiry", $data);
+        $this->writedb->where("id", $data["id"])->update("enquiry", $data);
     }
 
     public function searchEnquiry($source, $status='active', $date_from, $date_to) {

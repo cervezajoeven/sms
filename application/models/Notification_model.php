@@ -9,6 +9,8 @@ class Notification_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -107,21 +109,21 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
      * @param $id
      */
     public function remove($id) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->delete('send_notification');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('send_notification');
 		$message      = DELETE_RECORD_CONSTANT." On send notification id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -135,45 +137,45 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
      * @param $data
      */
     public function add($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('send_notification', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('send_notification', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  send notification id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->insert('send_notification', $data);
-            $id=$this->db->insert_id();
+            $this->writedb->insert('send_notification', $data);
+            $id=$this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On  send notification id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
-			//echo $this->db->last_query();die;
+			//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -185,47 +187,47 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
 
     public function insertBatch($data, $staff_roles, $delete_array = array()) {
 
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
 
         if (isset($data['id'])) {
             $insert_id = $data['id'];
-            $this->db->where('id', $data['id']);
-            $this->db->update('send_notification', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('send_notification', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  send notification id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->insert('send_notification', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('send_notification', $data);
+            $insert_id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On send notification id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
 			$this->log($message, $record_id, $action);
-			//echo $this->db->last_query();die;
+			//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -239,25 +241,25 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
                 $staff_roles[$stf_role_key]['send_notification_id'] = $insert_id;
             }
 
-            $this->db->insert_batch('notification_roles', $staff_roles);
+            $this->writedb->insert_batch('notification_roles', $staff_roles);
         }
         if (!empty($delete_array)) {
 
-            $this->db->where('send_notification_id', $insert_id);
-            $this->db->where_in('role_id', $delete_array);
-            $this->db->delete('notification_roles');
+            $this->writedb->where('send_notification_id', $insert_id);
+            $this->writedb->where_in('role_id', $delete_array);
+            $this->writedb->delete('notification_roles');
         }
 
 
-        $this->db->trans_complete();
+        $this->writedb->trans_complete();
 
-        if ($this->db->trans_status() === FALSE) {
+        if ($this->writedb->trans_status() === FALSE) {
 
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return FALSE;
         } else {
 
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return TRUE;
         }
     }
@@ -273,7 +275,7 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
                 'notification_id' => $notification_id,
                 'student_id' => $studentid
             );
-            $this->db->insert('read_notification', $data);
+            $this->writedb->insert('read_notification', $data);
         }
     }
 
@@ -303,7 +305,7 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
                 'notification_id' => $notification_id,
                 'parent_id' => $parentid
             );
-            $this->db->insert('read_notification', $data);
+            $this->writedb->insert('read_notification', $data);
         }
     }
 
@@ -318,7 +320,7 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
                 'notification_id' => $notification_id,
                 'student_id' => $studentid
             );
-            $this->db->insert('read_notification', $data);
+            $this->writedb->insert('read_notification', $data);
         }
     }
 
@@ -328,10 +330,10 @@ LEFT JOIN read_notification ON send_notification.id = read_notification.notifica
         $q = $this->db->get('exam_schedules');
         if ($q->num_rows() > 0) {
             $result = $q->row_array();
-            $this->db->where('id', $result['id']);
-            $this->db->update('exam_schedules', $data);
+            $this->writedb->where('id', $result['id']);
+            $this->writedb->update('exam_schedules', $data);
         } else {
-            $this->db->insert('exam_schedules', $data);
+            $this->writedb->insert('exam_schedules', $data);
         }
     }
 

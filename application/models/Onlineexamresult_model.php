@@ -11,23 +11,25 @@ class Onlineexamresult_model extends CI_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($data_insert)
     {
 
-        $this->db->trans_begin();
+        $this->writedb->trans_begin();
 
         if (!empty($data_insert)) {
 
-            $this->db->insert_batch('onlineexam_student_results', $data_insert);
+            $this->writedb->insert_batch('onlineexam_student_results', $data_insert);
         }
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return true;
         }
     }

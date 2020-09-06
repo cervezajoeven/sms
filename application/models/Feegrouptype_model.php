@@ -8,6 +8,8 @@ class Feegrouptype_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -88,11 +90,11 @@ class Feegrouptype_model extends CI_Model {
         $this->db->where('fee_session_group_id', $fee_session_group_id);
         $num_rows = $this->db->count_all_results('fee_groups_feetype');
         if ($num_rows == 1) {
-            $this->db->where('id', $fee_session_group_id);
-            $this->db->delete('fee_session_groups');
+            $this->writedb->where('id', $fee_session_group_id);
+            $this->writedb->delete('fee_session_groups');
         }
-        $this->db->where('id', $id);
-        $this->db->delete('fee_groups_feetype');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('fee_groups_feetype');
 		
     }
 
@@ -106,37 +108,37 @@ class Feegrouptype_model extends CI_Model {
 
         $class_section = $this->input->post('cls_sec');
 
-        $this->db->trans_begin();
+        $this->writedb->trans_begin();
         $data_insert = array(
             'fee_groups_id' => $this->input->post('fee_groups_id'),
             'feetype_id' => $this->input->post('feetype_id'),
             'amount' => $this->input->post('amount'),
             'session_id' => $this->current_session
         );
-        $this->db->insert('fee_groups_feetype', $data_insert);
-        $fee_group_type_id = $this->db->insert_id();
+        $this->writedb->insert('fee_groups_feetype', $data_insert);
+        $fee_group_type_id = $this->writedb->insert_id();
         $array = array();
         foreach ($class_section as $clssec_key => $clssec_value) {
             $sub_array = array('fee_groups_feetype' => $fee_group_type_id, 'class_section_id' => $clssec_value);
             $array[] = $sub_array;
         }
 
-        $this->db->insert_batch('fee_class_section_group', $array);
+        $this->writedb->insert_batch('fee_class_section_group', $array);
 
-        if ($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
+        if ($this->writedb->trans_status() === FALSE) {
+            $this->writedb->trans_rollback();
         } else {
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
         }
     }
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('fee_groups_feetype', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('fee_groups_feetype', $data);
         } else {
-            $this->db->insert('fee_groups_feetype', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('fee_groups_feetype', $data);
+            return $this->writedb->insert_id();
         }
     }
 
