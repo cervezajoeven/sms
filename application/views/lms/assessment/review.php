@@ -116,6 +116,7 @@
 
 	    <input type="hidden" id="url" value="<?php echo site_url('lms/assessment/update'); ?>" name="" />
 	    <input type="hidden" id="site_url" value="<?php echo site_url('lms/assessment/'); ?>" name="" />
+	    <input type="hidden" id="base_url" value="<?php echo site_url('lms/assessment/'); ?>" name="" />
 	    <input type="hidden" id="stored_json" value='<?php echo $assessment['sheet']; ?>' name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assessment_sheet_id" value="<?php echo $assessment_sheet['id'] ?>" name="" />
@@ -127,4 +128,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_review_7.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_review_8.js'?>"></script>

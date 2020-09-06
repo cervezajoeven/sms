@@ -232,6 +232,7 @@
 	    </div>
 
 	    <input type="hidden" id="url" value="<?php echo site_url('lms/assessment/update'); ?>" name="" />
+	    <input type="hidden" id="base_url" value="<?php echo site_url('lms/assessment/'); ?>" name="" />
 	    <input type="hidden" id="stored_json" value='<?php echo $assessment['sheet']; ?>' name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assigned" value="<?php echo $assessment['assigned'] ?>" name="" />
@@ -246,4 +247,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_5.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_6.js'?>"></script>

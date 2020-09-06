@@ -1,6 +1,7 @@
 var url = $("#url").val();
-var stored_json = $("#stored_json").val();
 var base_url = $("#base_url").val();
+var assessment_id = $("#assessment_id").val();
+var assessment_sheet_id = $("#assessment_sheet_id").val();
 var answer = $("#answer").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
@@ -156,130 +157,155 @@ function unescape_comma(value){
 }
 
 $(document).ready(function(){
-	
-	if(stored_json){
 
-		$.each(JSON.parse(stored_json),function(key,value){
-			populate_key(value.type,value);
-			
-			
-			$.each(value.option_labels.split(","),function(split_key,split_value){
-				
-				var last_option = $(".option-container-actual").eq(key).find(".option").length;
-				var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
-				$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
+	$.ajax({
+	    url: base_url+'/stored_json',
+	    type: "POST",
+	    data: {assessment_id:assessment_id},
+	    // contentType: "application/json",
+	    complete: function(response){
+			var stored_json = response.responseText;
+			console.log(stored_json);
+			if(stored_json){
 
-			});
+				$.each(JSON.parse(stored_json),function(key,value){
+					populate_key(value.type,value);
+					
+					
+					$.each(value.option_labels.split(","),function(split_key,split_value){
+						
+						var last_option = $(".option-container-actual").eq(key).find(".option").length;
+						var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
+						$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
 
-			if(value.type=="section"){
-				$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
-				$(".option-container-actual").eq(key).find(".option_type").find("textarea").attr("readonly","readonly");
-			}
-			
-			var the_last = $(".option-container-actual").eq(key).find(".option").length;
-			$.each(value.option_labels.split(","),function(value_key,value_value){
-				var unescaped_comma = unescape_comma(value_value);
-				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
-				
-			});
-			$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
+					});
 
-
-			
-		});
-		renumbering();
-		$(document).find(".option_label_input").find("input").attr("readonly","readonly");
-		$(document).find(".option_type").find("input").attr("readonly","readonly");
-		$(document).find(".option_type").find("textarea").attr("readonly","readonly");
-	}
-	
-
-});
-//fill answers
-$(document).ready(function(){
-	// #52b152
-	if(answer){
-		answer = JSON.parse(answer);
-		stored_json_parsed = JSON.parse(stored_json);
-		$.each(answer,function(key,value){
-
-			if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-				var correct_answer = stored_json_parsed[key].correct.split(",");
-				var student_answer = value.answer.split(",");
-				var the_options = $(".option-container-actual").eq(key).find(".option");
-				var correct_label = [];
-				total_score += parseInt(stored_json_parsed[key].points);
-				$.each(the_options,function(the_option_key,the_option_value){
-					// console.log(student_answer[the_option_key]);
-					if(student_answer[the_option_key] == "1"){
-						$(the_option_value).find(".option_type").find("input").prop("checked",true);
+					if(value.type=="section"){
+						$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
+						$(".option-container-actual").eq(key).find(".option_type").find("textarea").attr("readonly","readonly");
 					}
-					if(correct_answer[the_option_key] == "1"){
+					
+					var the_last = $(".option-container-actual").eq(key).find(".option").length;
+					$.each(value.option_labels.split(","),function(value_key,value_value){
+						var unescaped_comma = unescape_comma(value_value);
+						$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
+						
+					});
+					$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
 
-						correct_label.push(stored_json_parsed[key].option_labels.split(",")[the_option_key]);
-					}
+
+					
 				});
+				renumbering();
+				$(document).find(".option_label_input").find("input").attr("readonly","readonly");
+				$(document).find(".option_type").find("input").attr("readonly","readonly");
+				$(document).find(".option_type").find("textarea").attr("readonly","readonly");
+			}
 
-				if(value.answer == stored_json_parsed[key].correct){
-					score += parseInt(stored_json_parsed[key].points);
-					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
-				}else{
-					$(".option-container-actual").eq(key).css("background-color","rgb(255, 108, 108)");
-					$(the_options).last().after("<div>Correct : "+unescape_comma(correct_label.join(" , "))+"</div>");
+
+
+
+
+
+
+
+			$.ajax({
+			    url: base_url+'/stored_answer',
+			    type: "POST",
+			    data: {assessment_sheet_id:assessment_sheet_id},
+			    // contentType: "application/json",
+			    complete: function(stored_answer){
+
+			    	var answer = stored_answer.responseText;
+
+
+					if(answer){
+						answer = JSON.parse(answer);
+						stored_json_parsed = JSON.parse(stored_json);
+						$.each(answer,function(key,value){
+
+							if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+								var correct_answer = stored_json_parsed[key].correct.split(",");
+								var student_answer = value.answer.split(",");
+								var the_options = $(".option-container-actual").eq(key).find(".option");
+								var correct_label = [];
+								total_score += parseInt(stored_json_parsed[key].points);
+								$.each(the_options,function(the_option_key,the_option_value){
+									// console.log(student_answer[the_option_key]);
+									if(student_answer[the_option_key] == "1"){
+										$(the_option_value).find(".option_type").find("input").prop("checked",true);
+									}
+									if(correct_answer[the_option_key] == "1"){
+
+										correct_label.push(stored_json_parsed[key].option_labels.split(",")[the_option_key]);
+									}
+								});
+
+								if(value.answer == stored_json_parsed[key].correct){
+									score += parseInt(stored_json_parsed[key].points);
+									$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
+								}else{
+									$(".option-container-actual").eq(key).css("background-color","rgb(255, 108, 108)");
+									$(the_options).last().after("<div>Correct : "+unescape_comma(correct_label.join(" , "))+"</div>");
+								}
+								
+							}else if(value.type=="short_answer"){
+
+								var short_answer_correct_array =stored_json_parsed[key].correct.split(' OR ').join(",");
+								short_answer_correct_array = short_answer_correct_array.toLowerCase().trim().split(",");
+								
+								total_score += parseInt(stored_json_parsed[key].points);
+
+								var the_options = $(".option-container-actual").eq(key).find(".option");
+								$(the_options).find(".option_type").find("input").val(value.answer);
+								var student_short_answer = escape_comma(value.answer.toLowerCase().trim());
+								if(short_answer_correct_array.indexOf(student_short_answer) != -1){
+									score += parseInt(stored_json_parsed[key].points);
+									$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
+								}else{
+									$(".option-container-actual").eq(key).css("background-color","rgb(255, 108, 108)");
+									$(the_options).last().after("<div>Correct : "+unescape_comma(short_answer_correct_array.join(" or "))+"</div>");
+								}
+								
+								
+
+							}else if(value.type=="long_answer"){
+								total_score += parseInt(stored_json_parsed[key].points);
+								var essay_score = "No Score yet";
+
+								if('score' in value){
+									score += parseInt(value.score);
+									$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
+									essay_score = value.score;
+								}else{
+									score += 0;
+								}
+								var the_options = $(".option-container-actual").eq(key).find(".option");
+								$(the_options).find(".option_type").find("textarea").text(value.answer);
+								$(the_options).find(".option_type").find("textarea").after("<p>Essay score: "+essay_score+"</p>");
+							}	
+							
+
+							
+
+						});
+
+					}
+
+					$(".score").text(score+"/"+total_score);
+					$(document).find(".option_label_input").find("input").attr("readonly","readonly");
+					$(document).find(".option_type").find("input").attr("disabled","disabled");
+					$(document).find(".option_type").find("textarea").attr("readonly","readonly");
+
 				}
-				
-			}else if(value.type=="short_answer"){
 
-				var short_answer_correct_array =stored_json_parsed[key].correct.split(' OR ').join(",");
-				short_answer_correct_array = short_answer_correct_array.toLowerCase().trim().split(",");
-				
-				total_score += parseInt(stored_json_parsed[key].points);
-
-				var the_options = $(".option-container-actual").eq(key).find(".option");
-				$(the_options).find(".option_type").find("input").val(value.answer);
-				var student_short_answer = escape_comma(value.answer.toLowerCase().trim());
-				if(short_answer_correct_array.indexOf(student_short_answer) != -1){
-					score += parseInt(stored_json_parsed[key].points);
-					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
-				}else{
-					$(".option-container-actual").eq(key).css("background-color","rgb(255, 108, 108)");
-					$(the_options).last().after("<div>Correct : "+unescape_comma(short_answer_correct_array.join(" or "))+"</div>");
-				}
-				
-				
-
-			}else if(value.type=="long_answer"){
-				total_score += parseInt(stored_json_parsed[key].points);
-				var essay_score = "No Score yet";
-
-				if('score' in value){
-					score += parseInt(value.score);
-					$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
-					essay_score = value.score;
-				}else{
-					score += 0;
-				}
-				var the_options = $(".option-container-actual").eq(key).find(".option");
-				$(the_options).find(".option_type").find("textarea").text(value.answer);
-				$(the_options).find(".option_type").find("textarea").after("<p>Essay score: "+essay_score+"</p>");
-			}	
+			});
 			
-
-			
-
-		});
-
-	}
-	console.log(score);
-	$(".score").text(score+"/"+total_score);
-	$(document).find(".option_label_input").find("input").attr("readonly","readonly");
-		$(document).find(".option_type").find("input").attr("disabled","disabled");
-		$(document).find(".option_type").find("textarea").attr("readonly","readonly");
+		}
+	});
 	
 
 });
-
-//fill answers
 
 $(document).on("click",".remove_option",function(){
 	$(this).parent().remove();

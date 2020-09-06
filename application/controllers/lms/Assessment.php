@@ -15,6 +15,7 @@ class Assessment extends General_Controller {
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
         date_default_timezone_set('Asia/Manila');
+
         $this->writedb = $this->load->database('write_db', TRUE);
     }
 
@@ -683,5 +684,16 @@ class Assessment extends General_Controller {
         $data['resources'] = site_url('backend/lms/');
 
         $this->load->view('lms/assessment/analysis', $data);
+    }
+
+    public function stored_json(){
+        $id = $_REQUEST['assessment_id'];
+        $sheet = $this->assessment_model->lms_get('lms_assessment',$id,"id","sheet")[0]['sheet'];
+        echo $sheet;
+    }
+    public function stored_answer(){
+        $id = $_REQUEST['assessment_sheet_id'];
+        $answer = $this->assessment_model->lms_get('lms_assessment_sheets',$id,"id","answer")[0]['answer'];
+        echo $answer;
     }
 }
