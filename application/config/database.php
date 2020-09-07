@@ -89,8 +89,8 @@ if($HTTP_HOST=="localhost"){
 
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
-  	$username = 'admin';
-  	$password = 'J10o15e5V22n!4';
+  	$username = 'joeven';
+  	$password = 'joeven241';
   	$database = 'stepsmandaluyong';
   	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
