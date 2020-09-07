@@ -8,6 +8,8 @@ class Cms_menu_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -33,11 +35,11 @@ class Cms_menu_model extends CI_Model {
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('front_cms_menus', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('front_cms_menus', $data);
         } else {
-            $this->db->insert('front_cms_menus', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('front_cms_menus', $data);
+            return $this->writedb->insert_id();
         }
     }
 
@@ -90,8 +92,8 @@ class Cms_menu_model extends CI_Model {
 
     public function removeBySlug($slug) {
 
-        $this->db->where('slug', $slug);
-        $this->db->delete('front_cms_menus');
+        $this->writedb->where('slug', $slug);
+        $this->writedb->delete('front_cms_menus');
     }
 
 }

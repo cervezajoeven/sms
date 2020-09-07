@@ -9,6 +9,8 @@ class Subjectgroup_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -30,8 +32,8 @@ class Subjectgroup_model extends MY_Model {
     public function update($data) {
 
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('subject_group_subjects', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('subject_group_subjects', $data);
         }
     }
 
@@ -67,10 +69,10 @@ class Subjectgroup_model extends MY_Model {
     }
 
     public function edit($data, $delete_sections, $add_sections, $delete_subjects, $add_subjects) {
-        $this->db->trans_begin();
+        $this->writedb->trans_begin();
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('subject_groups', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('subject_groups', $data);
             $subject_group_id = $data['id'];
         }
 
@@ -86,7 +88,7 @@ class Subjectgroup_model extends MY_Model {
 
                 $section_group_array[] = $sections_array;
             }
-            $this->db->insert_batch('subject_group_class_sections', $section_group_array);
+            $this->writedb->insert_batch('subject_group_class_sections', $section_group_array);
         }
         if (!empty($add_subjects)) {
             $subject_group_subject_Array = array();
@@ -100,17 +102,17 @@ class Subjectgroup_model extends MY_Model {
 
                 $subject_group_subject_Array[] = $vehicle_array;
             }
-            $this->db->insert_batch('subject_group_subjects', $subject_group_subject_Array);
+            $this->writedb->insert_batch('subject_group_subjects', $subject_group_subject_Array);
         }
         if (!empty($delete_sections)) {
-            $this->db->where('subject_group_id', $data['id']);
-            $this->db->where_in('class_section_id', $delete_sections);
-            $this->db->delete('subject_group_class_sections');
+            $this->writedb->where('subject_group_id', $data['id']);
+            $this->writedb->where_in('class_section_id', $delete_sections);
+            $this->writedb->delete('subject_group_class_sections');
         }
         if (!empty($delete_subjects)) {
-            $this->db->where('subject_group_id', $data['id']);
-            $this->db->where_in('subject_id', $delete_subjects);
-            $this->db->delete('subject_group_subjects');
+            $this->writedb->where('subject_group_id', $data['id']);
+            $this->writedb->where_in('subject_id', $delete_subjects);
+            $this->writedb->delete('subject_group_subjects');
         }
 
         // $section_group_array = array();
@@ -123,20 +125,20 @@ class Subjectgroup_model extends MY_Model {
         //     $section_group_array[] = $sections_array;
         // }
         // $this->db->insert_batch('subject_group_class_sections', $section_group_array);
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
         } else {
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
         }
     }
 
     public function add($data, $subject_group, $section_group) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('subject_groups', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('subject_groups', $data);
             $subject_group_id = $data['id']; 
 			 
 			$message      = UPDATE_RECORD_CONSTANT." On subject groups id ".$data['id'];
@@ -145,20 +147,20 @@ class Subjectgroup_model extends MY_Model {
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
 		} else {
-            $this->db->insert('subject_groups', $data);
-            $subject_group_id = $this->db->insert_id();
+            $this->writedb->insert('subject_groups', $data);
+            $subject_group_id = $this->writedb->insert_id();
 					
 			$message      = INSERT_RECORD_CONSTANT." On subject groups id ".$subject_group_id;
 			$action       = "Insert";
@@ -166,12 +168,12 @@ class Subjectgroup_model extends MY_Model {
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -190,7 +192,7 @@ class Subjectgroup_model extends MY_Model {
 
             $subject_group_subject_Array[] = $vehicle_array;
         }
-        $this->db->insert_batch('subject_group_subjects', $subject_group_subject_Array);
+        $this->writedb->insert_batch('subject_group_subjects', $subject_group_subject_Array);
 
         $section_group_array = array();
         foreach ($section_group as $section_group_key => $section_group_value) {
@@ -203,7 +205,7 @@ class Subjectgroup_model extends MY_Model {
 
             $section_group_array[] = $sections_array;
         }
-        $this->db->insert_batch('subject_group_class_sections', $section_group_array);
+        $this->writedb->insert_batch('subject_group_class_sections', $section_group_array);
 		
 			
     }
@@ -291,17 +293,17 @@ class Subjectgroup_model extends MY_Model {
     }
 
     public function remove($id) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);       
-        $this->db->delete('subject_groups');
+        $this->writedb->where('id', $id);       
+        $this->writedb->delete('subject_groups');
 		$message      = DELETE_RECORD_CONSTANT." On subject groups id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
             return false;
         } else {
             return true;

@@ -7,38 +7,40 @@ class User_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('users', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('users', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  users id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			
         } else {
-            $this->db->insert('users', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('users', $data);
+            $insert_id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On users id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
 			$this->log($message, $record_id, $action);
 			
 			// return $insert_id;
-        }//echo $this->db->last_query();die;
+        }//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -47,20 +49,20 @@ class User_model extends MY_Model {
     }
 
     public function addNewParent($data_parent_login, $student_data) {
-        $this->db->trans_start();
-        $this->db->trans_strict(FALSE);
-        $this->db->insert('users', $data_parent_login);
-        $insert_id = $this->db->insert_id();
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(FALSE);
+        $this->writedb->insert('users', $data_parent_login);
+        $insert_id = $this->writedb->insert_id();
         $student_data['parent_id'] = $insert_id;
         $this->student_model->add($student_data);
-        $this->db->trans_complete(); 
-        if ($this->db->trans_status() === FALSE) {
+        $this->writedb->trans_complete(); 
+        if ($this->writedb->trans_status() === FALSE) {
 
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return FALSE;
         } else {
 
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return TRUE;
         }
     }
@@ -182,8 +184,8 @@ class User_model extends MY_Model {
     }
 
     public function saveNewPass($data) {
-        $this->db->where('id', $data['id']);
-        $query = $this->db->update('users', $data);
+        $this->writedb->where('id', $data['id']);
+        $query = $this->writedb->update('users', $data);
         if ($query) {
             return true;
         } else {
@@ -192,16 +194,16 @@ class User_model extends MY_Model {
     }
 
     public function changeStatus($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $data['id']);
-        $query = $this->db->update('users', $data);
+        $this->writedb->where('id', $data['id']);
+        $query = $this->writedb->update('users', $data);
 		$message      = UPDATE_RECORD_CONSTANT." On users id ". $data['id'];
 		$action       = "Update";
 		$record_id    =  $data['id'];
 		$this->log($message, $record_id, $action);
-		$this->db->trans_complete(); # Completing transaction
+		$this->writedb->trans_complete(); # Completing transaction
         if ($query) {
             return true;
         } else {
@@ -210,8 +212,8 @@ class User_model extends MY_Model {
     }
 
     public function saveNewUsername($data) {
-        $this->db->where('id', $data['id']);
-        $query = $this->db->update('users', $data);
+        $this->writedb->where('id', $data['id']);
+        $query = $this->writedb->update('users', $data);
         if ($query) {
             return true;
         } else {
@@ -295,8 +297,8 @@ class User_model extends MY_Model {
     }
 
     public function updateVerCode($data) {
-        $this->db->where('id', $data['id']);
-        $query = $this->db->update('users', $data);
+        $this->writedb->where('id', $data['id']);
+        $query = $this->writedb->update('users', $data);
         if ($query) {
             return true;
         } else {

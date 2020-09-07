@@ -9,6 +9,8 @@ class Payroll_model extends MY_Model {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     // function searchEmployee($month, $year, $emp_name, $role) {
@@ -56,33 +58,33 @@ class Payroll_model extends MY_Model {
     function createPayslip($data) {
 		
         if (isset($data['id'])) {
-            $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+            $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-            $this->db->where('id', $data['id']);
-            $this->db->update('staff_payslip', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('staff_payslip', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On staff payslip id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
-        //=======================Code Start===========================
-            $this->db->insert('staff_payslip', $data);
+            $this->writedb->trans_start(); # Starting Transaction
+            $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+            //=======================Code Start===========================
+            $this->writedb->insert('staff_payslip', $data);
             $id = $this->db->insert_id();
 			
 			$message      = INSERT_RECORD_CONSTANT." On staff payslip id ".$id;
@@ -92,12 +94,12 @@ class Payroll_model extends MY_Model {
 			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -131,45 +133,45 @@ class Payroll_model extends MY_Model {
     // }
 
     function add_allowance($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('payslip_allowance', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('payslip_allowance', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On payslip allowance id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->insert('payslip_allowance', $data);
-            return $id = $this->db->insert_id();
+            $this->writedb->insert('payslip_allowance', $data);
+            return $id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On payslip allowance id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
-			//echo $this->db->last_query();die;
+			//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -203,7 +205,7 @@ class Payroll_model extends MY_Model {
     function updatePaymentStatus($status, $id) {
 
         $data = array('status' => $status);
-        $this->db->where("id", $id)->update("staff_payslip", $data);
+        $this->writedb->where("id", $id)->update("staff_payslip", $data);
     }
 
     function searchEmployeeById($id) {
@@ -220,22 +222,22 @@ class Payroll_model extends MY_Model {
     }
 
     function paymentSuccess($data, $payslipid) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where("id", $payslipid)->update("staff_payslip", $data);
+        $this->writedb->where("id", $payslipid)->update("staff_payslip", $data);
 		$message      = UPDATE_RECORD_CONSTANT." On staff payslip id ".$payslipid;
 			$action       = "Update";
 			$record_id    = $payslipid;
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -293,15 +295,15 @@ class Payroll_model extends MY_Model {
 
     public function deletePayslip($payslipid) {
 
-        $this->db->where("id", $payslipid)->delete("staff_payslip");
-        $this->db->where("payslip_id", $payslipid)->delete("payslip_allowance");
+        $this->writedb->where("id", $payslipid)->delete("staff_payslip");
+        $this->writedb->where("payslip_id", $payslipid)->delete("payslip_allowance");
     }
 
     public function revertPayslipStatus($payslipid) {
 
         $data = array('status' => "generated");
 
-        $this->db->where("id", $payslipid)->update("staff_payslip", $data);
+        $this->writedb->where("id", $payslipid)->update("staff_payslip", $data);
     }
 
      function payrollYearCount() {

@@ -9,6 +9,8 @@ class Examresult_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -37,8 +39,8 @@ class Examresult_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('exam_results');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('exam_results');
     }
 
     /**
@@ -49,11 +51,11 @@ class Examresult_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('exam_results', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('exam_results', $data);
         } else {
-            $this->db->insert('exam_results', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('exam_results', $data);
+            return $this->writedb->insert_id();
         }
     }
 
@@ -63,14 +65,14 @@ class Examresult_model extends CI_Model {
         $q = $this->db->get('exam_results');
         $result = $q->row();
         if ($q->num_rows() > 0) {
-            $this->db->where('id', $result->id);
-            $this->db->update('exam_results', $data);
+            $this->writedb->where('id', $result->id);
+            $this->writedb->update('exam_results', $data);
             if ($result->get_marks != $data['get_marks']) {
                 return $result->id;
             }
         } else {
-            $this->db->insert('exam_results', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('exam_results', $data);
+            $insert_id = $this->writedb->insert_id();
             return $insert_id;
         }
         return false;

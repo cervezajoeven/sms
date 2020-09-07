@@ -7,6 +7,8 @@ class langpharses_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id) {
@@ -22,22 +24,22 @@ class langpharses_model extends CI_Model {
     }
 
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('lang_pharses');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('lang_pharses');
     }
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('lang_pharses', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('lang_pharses', $data);
         } else {
-            $this->db->insert('lang_pharses', $data);
+            $this->writedb->insert('lang_pharses', $data);
         }
     }
 
     public function deletepharses($lang_id) {
-        $this->db->where('lang_id', $lang_id);
-        $this->db->delete('lang_pharses');
+        $this->writedb->where('lang_id', $lang_id);
+        $this->writedb->delete('lang_pharses');
     }
 
 }

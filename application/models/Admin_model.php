@@ -10,6 +10,10 @@ class Admin_model extends CI_Model {
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
         $this->start_month = $this->setting_model->getStartMonth();
+
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
+
     }
 
     /**
@@ -38,8 +42,8 @@ class Admin_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('admin');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('admin');
     }
 
     /**
@@ -50,10 +54,10 @@ class Admin_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('admin', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('admin', $data);
         } else {
-            $this->db->insert('admin', $data);
+            $this->writedb->insert('admin', $data);
         }
     }
 
@@ -100,8 +104,8 @@ class Admin_model extends CI_Model {
     }
 
     public function updateVerCode($data) {
-        $this->db->where('id', $data['id']);
-        $query = $this->db->update('admin', $data);
+        $this->writedb->where('id', $data['id']);
+        $query = $this->writedb->update('admin', $data);
         if ($query) {
             return true;
         } else {
@@ -150,8 +154,8 @@ class Admin_model extends CI_Model {
     }
 
     public function saveNewPass($data) {
-        $this->db->where('id', $data['id']);
-        $query = $this->db->update('staff', $data);
+        $this->writedb->where('id', $data['id']);
+        $query = $this->writedb->update('staff', $data);
         if ($query) {
             return true;
         } else {
@@ -160,8 +164,8 @@ class Admin_model extends CI_Model {
     }
 
     public function saveForgotPass($data) {
-        $this->db->where('email', $data['email']);
-        $query = $this->db->update('admin', $data);
+        $this->writedb->where('email', $data['email']);
+        $query = $this->writedb->update('admin', $data);
         if ($query) {
             return true;
         } else {
@@ -171,11 +175,11 @@ class Admin_model extends CI_Model {
 
     public function addReceipt($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('fee_receipt_no', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('fee_receipt_no', $data);
         } else {
-            $this->db->insert('fee_receipt_no', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('fee_receipt_no', $data);
+            $insert_id = $this->writedb->insert_id();
             return $insert_id;
         }
     }
