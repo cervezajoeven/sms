@@ -17,8 +17,6 @@ class Studentfeemaster_model extends MY_Model
         $this->balance_group   = $this->config->item('ci_balance_group');
         $this->balance_type    = $this->config->item('ci_balance_type');
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function searchAssignFeeByClassSection($class_id = null, $section_id = null, $fee_session_group_id = null, $category = null, $gender = null, $rte = null)
@@ -78,29 +76,29 @@ class Studentfeemaster_model extends MY_Model
         if ($q->num_rows() > 0) {
             return $q->row()->id;
         } else {
-            $this->writedb->insert('student_fees_master', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('student_fees_master', $data);
+            return $this->db->insert_id();
         }
     }
 
     public function addPreviousBal($student_data, $due_date)
     {
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
         $fee_group_exists = $this->feegroup_model->checkGroupExistsByName($this->balance_group);
         $fee_type_exists  = $this->feetype_model->checkFeetypeByName($this->balance_type);
         $fee_group_id     = 0;
         $fee_type_id      = 0;
         if (!$fee_group_exists) {
-            $this->writedb->insert('fee_groups', array('name' => $this->balance_group, 'is_system' => 1));
-            $fee_group_id = $this->writedb->insert_id();
+            $this->db->insert('fee_groups', array('name' => $this->balance_group, 'is_system' => 1));
+            $fee_group_id = $this->db->insert_id();
         } else {
             $fee_group_id = $fee_group_exists->id;
         }
 
         if (!$fee_type_exists) {
-            $this->writedb->insert('feetype', array('type' => $this->balance_type, 'code' => $this->balance_type, 'is_system' => 1));
-            $fee_type_id = $this->writedb->insert_id();
+            $this->db->insert('feetype', array('type' => $this->balance_type, 'code' => $this->balance_type, 'is_system' => 1));
+            $fee_type_id = $this->db->insert_id();
         } else {
             $fee_type_id = $fee_type_exists->id;
         }
@@ -117,10 +115,10 @@ class Studentfeemaster_model extends MY_Model
 
         $session_group_exists = $this->feesessiongroup_model->checkExists($to_be_insert);
         if (!$session_group_exists) {
-            $this->writedb->insert('fee_groups_feetype', $to_be_insert);
+            $this->db->insert('fee_groups_feetype', $to_be_insert);
         } else {
-            $this->writedb->where('id', $session_group_exists);
-            $this->writedb->update('fee_groups_feetype', $to_be_insert);
+            $this->db->where('id', $session_group_exists);
+            $this->db->update('fee_groups_feetype', $to_be_insert);
         }
         $student_list = array();
         if (isset($student_data) && !empty($student_data)) {
@@ -143,19 +141,19 @@ class Studentfeemaster_model extends MY_Model
                 }
 
                 if (!empty($insert_new_student)) {
-                    $this->writedb->insert_batch('student_fees_master', $insert_new_student);
+                    $this->db->insert_batch('student_fees_master', $insert_new_student);
                 }
-                $this->writedb->update_batch('student_fees_master', $student_data, 'id');
+                $this->db->update_batch('student_fees_master', $student_data, 'id');
             } else {
-                $this->writedb->insert_batch('student_fees_master', $student_data);
+                $this->db->insert_batch('student_fees_master', $student_data);
             }
         }
-        $this->writedb->trans_complete();
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
             return false;
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }
@@ -184,22 +182,22 @@ class Studentfeemaster_model extends MY_Model
 
     public function delete($fee_session_groups, $array)
     {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('fee_session_group_id', $fee_session_groups);
-        $this->writedb->where_in('student_session_id', $array);
-        $this->writedb->delete('student_fees_master');
+        $this->db->where('fee_session_group_id', $fee_session_groups);
+        $this->db->where_in('student_session_id', $array);
+        $this->db->delete('student_fees_master');
 		$message      = DELETE_RECORD_CONSTANT." On  student fees master ".$fee_session_groups;
         $action       = "Delete";
         $record_id    = $fee_session_groups;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -261,51 +259,51 @@ class Studentfeemaster_model extends MY_Model
         $q = $this->db->get('student_fees_deposite');
         if ($q->num_rows() > 0) {
             $desc = $data['amount_detail']['description'];
-            $this->writedb->trans_start(); // Query will be rolled back
+            $this->db->trans_start(); // Query will be rolled back
             $row = $q->row();
-            $this->writedb->where('id', $row->id);
+            $this->db->where('id', $row->id);
             $a                               = json_decode($row->amount_detail, true);
             $inv_no                          = max(array_keys($a)) + 1;
             $data['amount_detail']['inv_no'] = $inv_no;
             $a[$inv_no]                      = $data['amount_detail'];
             $data['amount_detail']           = json_encode($a);
-            $this->writedb->update('student_fees_deposite', $data);
+            $this->db->update('student_fees_deposite', $data);
 
             if ($student_fees_discount_id != null) {
-                $this->writedb->where('id', $student_fees_discount_id);
-                $this->writedb->update('student_fees_discounts', array('status' => 'applied', 'description' => $desc, 'payment_id' => $row->id . "/" . $inv_no));
+                $this->db->where('id', $student_fees_discount_id);
+                $this->db->update('student_fees_discounts', array('status' => 'applied', 'description' => $desc, 'payment_id' => $row->id . "/" . $inv_no));
             }
 
-            $this->writedb->trans_complete();
-            if ($this->writedb->trans_status() === false) {
-                $this->writedb->trans_rollback();
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
 
                 return false;
             } else {
-                $this->writedb->trans_commit();
+                $this->db->trans_commit();
                 return json_encode(array('invoice_id' => $row->id, 'sub_invoice_id' => $inv_no));
             }
         } else {
 
-            $this->writedb->trans_start(); // Query will be rolled back
+            $this->db->trans_start(); // Query will be rolled back
             $data['amount_detail']['inv_no'] = 1;
             $desc                            = $data['amount_detail']['description'];
             $data['amount_detail']           = json_encode(array('1' => $data['amount_detail']));
-            $this->writedb->insert('student_fees_deposite', $data);
-            $inserted_id = $this->writedb->insert_id();
+            $this->db->insert('student_fees_deposite', $data);
+            $inserted_id = $this->db->insert_id();
             if ($student_fees_discount_id != null) {
-                $this->writedb->where('id', $student_fees_discount_id);
-                $this->writedb->update('student_fees_discounts', array('status' => 'applied', 'description' => $desc, 'payment_id' => $inserted_id . "/" . "1"));
+                $this->db->where('id', $student_fees_discount_id);
+                $this->db->update('student_fees_discounts', array('status' => 'applied', 'description' => $desc, 'payment_id' => $inserted_id . "/" . "1"));
             }
 
-            $this->writedb->trans_complete(); # Completing transaction
+            $this->db->trans_complete(); # Completing transaction
 
-            if ($this->writedb->trans_status() === false) {
+            if ($this->db->trans_status() === false) {
 
-                $this->writedb->trans_rollback();
+                $this->db->trans_rollback();
                 return false;
             } else {
-                $this->writedb->trans_commit();
+                $this->db->trans_commit();
                 return json_encode(array('invoice_id' => $inserted_id, 'sub_invoice_id' => 1));
             }
         }

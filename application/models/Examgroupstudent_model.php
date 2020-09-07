@@ -11,8 +11,6 @@ class Examgroupstudent_model extends CI_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function searchExamGroupStudentAttempted1($exam_group_id, $class_id, $batch_id)
@@ -57,7 +55,7 @@ class Examgroupstudent_model extends CI_Model
     public function add($data_insert, $data_delete, $exam_group_id)
     {
 
-        $this->writedb->trans_begin();
+        $this->db->trans_begin();
 
         if (!empty($data_insert)) {
 
@@ -68,22 +66,22 @@ class Examgroupstudent_model extends CI_Model
 
                 if ($q->num_rows() == 0) {
 
-                    $this->writedb->insert('exam_group_students', $data_insert[$student_key]);
+                    $this->db->insert('exam_group_students', $data_insert[$student_key]);
                 }
             }
         }
         if (!empty($data_delete)) {
 
-            $this->writedb->where('exam_group_id', $exam_group_id);
-            $this->writedb->where_in('student_id', $data_delete);
-            $this->writedb->delete('exam_group_students');
+            $this->db->where('exam_group_id', $exam_group_id);
+            $this->db->where_in('student_id', $data_delete);
+            $this->db->delete('exam_group_students');
         }
 
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
             return false;
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }
@@ -99,8 +97,8 @@ class Examgroupstudent_model extends CI_Model
     public function add_result($insert_array)
     {
 
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
 
         if (!empty($insert_array)) {
             foreach ($insert_array as $student_key => $student_value) {
@@ -114,27 +112,27 @@ class Examgroupstudent_model extends CI_Model
 
                 if ($q->num_rows() > 0) {
                     $update_result = $q->row();
-                    $this->writedb->where('id', $update_result->id);
-                    $this->writedb->update('exam_group_exam_results', $student_value);
+                    $this->db->where('id', $update_result->id);
+                    $this->db->update('exam_group_exam_results', $student_value);
                 } else {
 
-                    $this->writedb->insert('exam_group_exam_results', $student_value);
+                    $this->db->insert('exam_group_exam_results', $student_value);
                 }
             }
         }
 
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
 
         /* Optional */
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
             # Everything is Perfect.
             # Committing data to the database.
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }

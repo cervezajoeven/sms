@@ -8,8 +8,6 @@ class Chat_model extends Admin_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -19,11 +17,11 @@ class Chat_model extends Admin_Model {
      * @return mixed
      */
     public function seen($sender_id,$receiver_id,$sender_type,$receiver_type,$data) {
-        $this->writedb->where('sender_id', $sender_id);
-        $this->writedb->where('receiver_id', $receiver_id);
-        $this->writedb->where('sender_type', $sender_type);
-        $this->writedb->where('receiver_type', $receiver_type);
-        $this->writedb->update('chat', $data);
+        $this->db->where('sender_id', $sender_id);
+        $this->db->where('receiver_id', $receiver_id);
+        $this->db->where('sender_type', $sender_type);
+        $this->db->where('receiver_type', $receiver_type);
+        $this->db->update('chat', $data);
     }
 
         public function get_chat($sender_id,$receiver_id){
@@ -48,11 +46,11 @@ class Chat_model extends Admin_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('chat', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('chat', $data);
         } else {
-            $this->writedb->insert('chat', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('chat', $data);
+            return $this->db->insert_id();
         }
     }
 

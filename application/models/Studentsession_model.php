@@ -11,8 +11,6 @@ class Studentsession_model extends CI_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function searchStudents($class_id = null, $section_id = null, $key = null)
@@ -87,8 +85,8 @@ class Studentsession_model extends CI_Model
     public function add($insert_array, $student_id)
     {
         $not_delarray = array();
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
         if (!empty($insert_array)) {
             foreach ($insert_array as $insert_array_key => $insert_array_value) {
                 $this->db->where('session_id', $insert_array_value['session_id']);
@@ -100,30 +98,30 @@ class Studentsession_model extends CI_Model
                     $result         = $q->row();
                     $not_delarray[] = $result->id;
                 } else {
-                    $this->writedb->insert('student_session', $insert_array[$insert_array_key]);
-                    $not_delarray[] = $this->writedb->insert_id();
+                    $this->db->insert('student_session', $insert_array[$insert_array_key]);
+                    $not_delarray[] = $this->db->insert_id();
                 }
 
             }
             // $this->db->insert_batch('student_session', $insert_array);
         }
         if (!empty($not_delarray)) {
-            $this->writedb->where('session_id', $this->current_session);
-            $this->writedb->where('student_id', $student_id);
-            $this->writedb->where_not_in('id', $not_delarray);
-            $this->writedb->delete('student_session');
+            $this->db->where('session_id', $this->current_session);
+            $this->db->where('student_id', $student_id);
+            $this->db->where_not_in('id', $not_delarray);
+            $this->db->delete('student_session');
         }
 
         // print_r($insert_array);
-        $this->writedb->trans_complete();
+        $this->db->trans_complete();
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
 
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
 
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }

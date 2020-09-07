@@ -11,8 +11,6 @@ class Grade_model extends MY_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -79,21 +77,21 @@ class Grade_model extends MY_Model
      */
     public function remove($id)
     {	
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('grades');
+        $this->db->where('id', $id);
+        $this->db->delete('grades');
 		$message      = DELETE_RECORD_CONSTANT." On grades id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -108,20 +106,20 @@ class Grade_model extends MY_Model
      */
     public function add($data)
     {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('grades', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('grades', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On grades id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $id = $data['id'];
 			$this->log($message, $record_id, $action);
 			
         } else {
-            $this->writedb->insert('grades', $data);
-            $id = $this->writedb->insert_id();
+            $this->db->insert('grades', $data);
+            $id = $this->db->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On grades id ".$id;
 			$action       = "Update";
 			$record_id    = $id;
@@ -129,11 +127,11 @@ class Grade_model extends MY_Model
 			 
         }
 		//======================Code End==============================
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 			} else {
 				return $id;

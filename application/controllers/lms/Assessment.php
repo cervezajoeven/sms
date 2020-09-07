@@ -15,7 +15,6 @@ class Assessment extends General_Controller {
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
         date_default_timezone_set('Asia/Manila');
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function index(){
@@ -357,7 +356,7 @@ class Assessment extends General_Controller {
         $this->db->where("survey_id", $data["survey_id"]);
         $this->db->where("account_id", $data["account_id"]);
         $data['date_updated'] = date("Y-m-d H:i:s");
-        $this->writedb->update("survey_sheets", $data);
+        $this->db->update("survey_sheets", $data);
     }
 
     public function upload($id){

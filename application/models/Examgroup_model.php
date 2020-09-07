@@ -10,8 +10,6 @@ class Examgroup_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -53,17 +51,17 @@ class Examgroup_model extends MY_Model
      */
     public function remove($id)
     {
-        $this->writedb->trans_begin();
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('exam_groups'); //class record delete.
+        $this->db->trans_begin();
+        $this->db->where('id', $id);
+        $this->db->delete('exam_groups'); //class record delete.
         $message   = DELETE_RECORD_CONSTANT . " On exam groups id " . $id;
         $action    = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
         }
         return true;
     }
@@ -76,19 +74,19 @@ class Examgroup_model extends MY_Model
      */
     public function add($data)
     {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('exam_groups', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('exam_groups', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On  exam groups id " . $data['id'];
             $action    = "Update";
             $record_id = $data['id'];
             $this->log($message, $record_id, $action);
         } else {
-            $this->writedb->insert('exam_groups', $data);
-            $id        = $this->writedb->insert_id();
+            $this->db->insert('exam_groups', $data);
+            $id        = $this->db->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On exam groups id " . $id;
             $action    = "Insert";
             $record_id = $id;
@@ -96,12 +94,12 @@ class Examgroup_model extends MY_Model
         }
 
         //======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
             //return $return_value;
@@ -110,15 +108,15 @@ class Examgroup_model extends MY_Model
 
     public function delete_exam($id)
     {
-        $this->writedb->trans_start();
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('exam_group_class_batch_exams');
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->delete('exam_group_class_batch_exams');
         $message   = DELETE_RECORD_CONSTANT . " On exam groups exams name id " . $id;
         $action    = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
-        $this->writedb->trans_complete();
-        if ($this->writedb->trans_status() === false) {
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false) {
             return false;
         } else {
             return true;
@@ -128,20 +126,20 @@ class Examgroup_model extends MY_Model
     public function add_exam($data)
     {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('exam_group_class_batch_exams', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('exam_group_class_batch_exams', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On  exam group exams name id " . $data['id'];
             $action    = "Update";
             $record_id = $data['id'];
             $this->log($message, $record_id, $action);
 
         } else {
-            $this->writedb->trans_start(); # Starting Transaction
-            $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+            $this->db->trans_start(); # Starting Transaction
+            $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
 
             $exam_group = $this->examgroup_model->get($data['exam_group_id']);
-            $this->writedb->insert('exam_group_class_batch_exams', $data);
-            $insert_id = $this->writedb->insert_id();
+            $this->db->insert('exam_group_class_batch_exams', $data);
+            $insert_id = $this->db->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On exam group exams name id " . $insert_id;
             $action    = "Insert";
             $record_id = $insert_id;
@@ -161,18 +159,18 @@ class Examgroup_model extends MY_Model
             //         }
             //     }
             // }
-            $this->writedb->trans_complete(); # Completing transaction
+            $this->db->trans_complete(); # Completing transaction
 
             /* Optional */
 
-            if ($this->writedb->trans_status() === false) {
+            if ($this->db->trans_status() === false) {
                 # Something went wrong.
-                $this->writedb->trans_rollback();
+                $this->db->trans_rollback();
                 return false;
             } else {
                 # Everything is Perfect.
                 # Committing data to the database.
-                $this->writedb->trans_commit();
+                $this->db->trans_commit();
                 return true;
             }
         }
@@ -273,13 +271,13 @@ class Examgroup_model extends MY_Model
 
                 if ($q->num_rows() == 0) {
 
-                    $this->writedb->insert('exam_group_exam_connections', $insert_array[$array_key]);
+                    $this->db->insert('exam_group_exam_connections', $insert_array[$array_key]);
                     $not_be_delted[] = $array_value['exam_group_class_batch_exams_id'];
                 } else {
                     $id                              = $q->row()->id;
                     $exam_group_class_batch_exams_id = $q->row()->exam_group_class_batch_exams_id;
-                    $this->writedb->where('id', $id);
-                    $this->writedb->update('exam_group_exam_connections', $insert_array[$array_key]);
+                    $this->db->where('id', $id);
+                    $this->db->update('exam_group_exam_connections', $insert_array[$array_key]);
                     $not_be_delted[] = $exam_group_class_batch_exams_id;
                 }
             }
@@ -287,18 +285,18 @@ class Examgroup_model extends MY_Model
 
         if (!empty($not_be_delted)) {
 
-            $this->writedb->where('exam_group_id', $exam_group_id);
-            $this->writedb->where_not_in('exam_group_class_batch_exams_id', $not_be_delted);
-            $this->writedb->delete('exam_group_exam_connections');
+            $this->db->where('exam_group_id', $exam_group_id);
+            $this->db->where_not_in('exam_group_class_batch_exams_id', $not_be_delted);
+            $this->db->delete('exam_group_exam_connections');
         } else {
-            $this->writedb->where('exam_group_id', $exam_group_id);
-            $this->writedb->delete('exam_group_exam_connections');
+            $this->db->where('exam_group_id', $exam_group_id);
+            $this->db->delete('exam_group_exam_connections');
         }
     }
     public function deleteExamGroupConnection($exam_group_id)
     {
-        $this->writedb->where('exam_group_id', $exam_group_id);
-        $this->writedb->delete('exam_group_exam_connections');
+        $this->db->where('exam_group_id', $exam_group_id);
+        $this->db->delete('exam_group_exam_connections');
     }
 
     public function getExamGroupByStudent($student_id, $active = 1)

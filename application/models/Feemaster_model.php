@@ -8,8 +8,6 @@ class Feemaster_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -41,8 +39,8 @@ class Feemaster_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('feemasters');
+        $this->db->where('id', $id);
+        $this->db->delete('feemasters');
     }
 
     /**
@@ -53,12 +51,12 @@ class Feemaster_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('feemasters', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('feemasters', $data);
         } else {
             $data['session_id'] = $this->current_session;
-            $this->writedb->insert('feemasters', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('feemasters', $data);
+            return $this->db->insert_id();
         }
     }
 

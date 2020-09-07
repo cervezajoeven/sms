@@ -9,8 +9,6 @@ class Chatuser_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -83,9 +81,9 @@ students.image as `image` FROM students WHERE students.id=chat_users.student_id)
 
     public function myChatAndUpdate($chat_connection_id, $chat_user_id) {
         $update_read = array('is_read' => 1);
-        $this->writedb->where('chat_connection_id', $chat_connection_id);
-        $this->writedb->where('chat_user_id', $chat_user_id);
-        $this->writedb->update('chat_messages', $update_read);
+        $this->db->where('chat_connection_id', $chat_connection_id);
+        $this->db->where('chat_user_id', $chat_user_id);
+        $this->db->update('chat_messages', $update_read);
         $sql = "SELECT * FROM `chat_messages` WHERE chat_connection_id=" . $chat_connection_id;
         $query = $this->db->query($sql);
         $chat_messages = $query->result();
@@ -129,9 +127,9 @@ students.image as `image` FROM students WHERE students.id=chat_users.student_id)
 
     public function getUpdatedchat($chat_connection_id, $last_chat_id, $chat_user_id) {
         $update_read = array('is_read' => 1);
-        $this->writedb->where('chat_connection_id', $chat_connection_id);
-        $this->writedb->where('chat_user_id', $chat_user_id);
-        $this->writedb->update('chat_messages', $update_read);
+        $this->db->where('chat_connection_id', $chat_connection_id);
+        $this->db->where('chat_user_id', $chat_user_id);
+        $this->db->update('chat_messages', $update_read);
 
         $sql = "SELECT * FROM `chat_messages` WHERE chat_connection_id=" . $chat_connection_id . " and id > " . $last_chat_id . " ORDER BY `chat_messages`.`chat_connection_id` ASC";
         $query = $this->db->query($sql);
@@ -158,22 +156,22 @@ students.image as `image` FROM students WHERE students.id=chat_users.student_id)
         if ($q->num_rows() > 0 && $q1->num_rows() > 0) {
             $chat_connections['chat_user_one'] = $q->row()->id;
             $chat_connections['chat_user_two'] = $q1->row()->id;
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         } else if ($q->num_rows() == 0 && $q1->num_rows() > 0) {
 
-            $this->writedb->insert('chat_users', $first_entry);
-            $chat_connections['chat_user_one'] = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $first_entry);
+            $chat_connections['chat_user_one'] = $this->db->insert_id();
             $chat_connections['chat_user_two'] = $q1->row()->id;
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
 
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         } else if ($q->num_rows() > 0 && $q1->num_rows() == 0) {
@@ -181,28 +179,28 @@ students.image as `image` FROM students WHERE students.id=chat_users.student_id)
             if ($panel == "staff") {
                 $insert_data['create_staff_id'] = $id;
             }
-            $this->writedb->insert('chat_users', $insert_data);
-            $chat_connections['chat_user_two'] = $this->writedb->insert_id();
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $insert_data);
+            $chat_connections['chat_user_two'] = $this->db->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         } else {
-            $this->writedb->insert('chat_users', $first_entry);
-            $chat_connections['chat_user_one'] = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $first_entry);
+            $chat_connections['chat_user_one'] = $this->db->insert_id();
             if ($panel == "staff") {
                 $insert_data['create_staff_id'] = $id;
             }
-            $this->writedb->insert('chat_users', $insert_data);
-            $chat_connections['chat_user_two'] = $this->writedb->insert_id();
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $insert_data);
+            $chat_connections['chat_user_two'] = $this->db->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
 
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
 
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         }
@@ -219,49 +217,49 @@ students.image as `image` FROM students WHERE students.id=chat_users.student_id)
         if ($q->num_rows() > 0 && $q1->num_rows() > 0) {
             $chat_connections['chat_user_one'] = $q->row()->id;
             $chat_connections['chat_user_two'] = $q1->row()->id;
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         } else if ($q->num_rows() > 0 && $q1->num_rows() == 0) {
             $chat_connections['chat_user_one'] = $q->row()->id;
             if ($panel == "student") {
                 $insert_data['create_student_id'] = $id;
             }
-            $this->writedb->insert('chat_users', $insert_data);
-            $chat_connections['chat_user_two'] = $this->writedb->insert_id();
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $insert_data);
+            $chat_connections['chat_user_two'] = $this->db->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         } else if ($q->num_rows() == 0 && $q1->num_rows() > 0) {
 
             $chat_connections['chat_user_two'] = $q1->row()->id;
-            $this->writedb->insert('chat_users', $first_entry);
-            $chat_connections['chat_user_one'] = $this->writedb->insert_id();
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $first_entry);
+            $chat_connections['chat_user_one'] = $this->db->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         } else {
-            $this->writedb->insert('chat_users', $first_entry);
-            $chat_connections['chat_user_one'] = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $first_entry);
+            $chat_connections['chat_user_one'] = $this->db->insert_id();
             if ($panel == "student") {
                 $insert_data['create_student_id'] = $id;
             }
-            $this->writedb->insert('chat_users', $insert_data);
-            $chat_connections['chat_user_two'] = $this->writedb->insert_id();
-            $this->writedb->insert('chat_connections', $chat_connections);
-            $new_user_chat_connection_id = $this->writedb->insert_id();
+            $this->db->insert('chat_users', $insert_data);
+            $chat_connections['chat_user_two'] = $this->db->insert_id();
+            $this->db->insert('chat_connections', $chat_connections);
+            $new_user_chat_connection_id = $this->db->insert_id();
             $insert_message['chat_user_id'] = $chat_connections['chat_user_two'];
             $insert_message['chat_connection_id'] = $new_user_chat_connection_id;
-            $this->writedb->insert('chat_messages', $insert_message);
+            $this->db->insert('chat_messages', $insert_message);
             return json_encode(array('new_user_id' => $chat_connections['chat_user_two'], 'new_user_chat_connection_id' => $new_user_chat_connection_id));
         }
     }

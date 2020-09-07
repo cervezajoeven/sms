@@ -7,8 +7,6 @@ class FeeCategory_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -53,8 +51,8 @@ class FeeCategory_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('feecategory');
+        $this->db->where('id', $id);
+        $this->db->delete('feecategory');
     }
 
     /**
@@ -65,11 +63,11 @@ class FeeCategory_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('feecategory', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('feecategory', $data);
         } else {
-            $this->writedb->insert('feecategory', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('feecategory', $data);
+            return $this->db->insert_id();
         }
     }
 

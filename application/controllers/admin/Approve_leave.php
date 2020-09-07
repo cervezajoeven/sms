@@ -6,7 +6,6 @@ if (!defined('BASEPATH'))
 class approve_leave extends Admin_Controller {
     function __construct() {
         parent::__construct();
-        $this->writedb = $this->load->database('write_db', TRUE);
           }
 
     function unauthorized() {
@@ -129,8 +128,8 @@ class approve_leave extends Admin_Controller {
 		}
 	
 		$data['status']=$status;    
-		$this->writedb->where('id', $id);
-		$this->writedb->update('student_applyleave',$data);
+		$this->db->where('id', $id);
+		$this->db->update('student_applyleave',$data);
  
 		redirect('admin/approve_leave');
    }

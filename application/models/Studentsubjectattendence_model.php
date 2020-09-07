@@ -10,30 +10,28 @@ class Studentsubjectattendence_model extends CI_Model {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($insert_array, $update_array) {
 
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
         if (!empty($insert_array)) {
 
-            $this->writedb->insert_batch('student_subject_attendances', $insert_array);
+            $this->db->insert_batch('student_subject_attendances', $insert_array);
         }
         if (!empty($update_array)) {
-            $this->writedb->update_batch('student_subject_attendances', $update_array, 'id');
+            $this->db->update_batch('student_subject_attendances', $update_array, 'id');
         }
-        $this->writedb->trans_complete();
+        $this->db->trans_complete();
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
 
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
 
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }

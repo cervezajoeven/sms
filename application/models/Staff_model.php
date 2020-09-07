@@ -6,8 +6,6 @@ class Staff_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null)
@@ -135,20 +133,20 @@ class Staff_model extends MY_Model
 
     public function add($data)
     {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('staff', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('staff', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On staff id " . $data['id'];
             $action    = "Update";
             $record_id = $id = $data['id'];
             $this->log($message, $record_id, $action);
 
         } else {
-            $this->writedb->insert('staff', $data);
-            $id        = $this->writedb->insert_id();
+            $this->db->insert('staff', $data);
+            $id        = $this->db->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On staff id " . $id;
             $action    = "Insert";
             $record_id = $id;
@@ -158,12 +156,12 @@ class Staff_model extends MY_Model
         //echo $this->db->last_query();die;
         //======================Code End==============================
 
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
 
         } else {
@@ -173,23 +171,23 @@ class Staff_model extends MY_Model
 
     public function update($data)
     {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $data['id']);
-        $query     = $this->writedb->update('staff', $data);
+        $this->db->where('id', $data['id']);
+        $query     = $this->db->update('staff', $data);
         $message   = UPDATE_RECORD_CONSTANT . " On staff id " . $data['id'];
         $action    = "Update";
         $record_id = $data['id'];
         $this->log($message, $record_id, $action);
         //======================Code End==============================
 
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
 
         } else {
@@ -220,13 +218,13 @@ class Staff_model extends MY_Model
     public function batchInsert($data, $roles = array(), $leave_array = array(), $data_setting = array())
     {
 
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
 
-        $this->writedb->insert('staff', $data);
-        $staff_id          = $this->writedb->insert_id();
+        $this->db->insert('staff', $data);
+        $staff_id          = $this->db->insert_id();
         $roles['staff_id'] = $staff_id;
-        $this->writedb->insert_batch('staff_roles', array($roles));
+        $this->db->insert_batch('staff_roles', array($roles));
         if (!empty($data_setting)) {
             if ($data_setting['staffid_auto_insert']) {
                 if ($data_setting['staffid_update_status'] == 0) {
@@ -241,17 +239,17 @@ class Staff_model extends MY_Model
                 $leave_array[$key]['staff_id'] = $staff_id;
             }
 
-            $this->writedb->insert_batch('staff_leave_details', $leave_array);
+            $this->db->insert_batch('staff_leave_details', $leave_array);
         }
-        $this->writedb->trans_complete();
+        $this->db->trans_complete();
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
 
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
 
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return $staff_id;
         }
     }
@@ -260,34 +258,34 @@ class Staff_model extends MY_Model
     {
 
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('staff_documents', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('staff_documents', $data);
         } else {
-            $this->writedb->insert('staff_documents', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('staff_documents', $data);
+            return $this->db->insert_id();
         }
     }
 
     public function remove($id)
     {
 
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
         $sql   = "DELETE FROM custom_field_values WHERE id IN (select * from (SELECT t2.id as `id` FROM `custom_fields` INNER JOIN custom_field_values as t2 on t2.custom_field_id=custom_fields.id WHERE custom_fields.belong_to='staff' and t2.belong_table_id IN (" . $id . ")) as m2)";
-        $query = $this->writedb->query($sql);
+        $query = $this->db->query($sql);
 
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('staff');
+        $this->db->where('id', $id);
+        $this->db->delete('staff');
 
-        $this->writedb->trans_complete();
+        $this->db->trans_complete();
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
 
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
 
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return $staff_id;
         }
 
@@ -297,11 +295,11 @@ class Staff_model extends MY_Model
     {
 
         if (isset($data2['id'])) {
-            $this->writedb->where('id', $data2['id']);
-            $this->writedb->update('staff_leave_details', $data2);
+            $this->db->where('id', $data2['id']);
+            $this->db->update('staff_leave_details', $data2);
         } else {
-            $this->writedb->insert('staff_leave_details', $data2);
-            return $this->writedb->insert_id();
+            $this->db->insert('staff_leave_details', $data2);
+            return $this->db->insert_id();
         }
     }
 
@@ -735,7 +733,7 @@ class Staff_model extends MY_Model
             $data = array('other_document_name' => '', 'other_document_file' => '');
         }
         unlink(BASEPATH . "uploads/staff_documents/" . $file);
-        $this->writedb->where('id', $id)->update("staff", $data);
+        $this->db->where('id', $id)->update("staff", $data);
     }
 
     public function getLeaveDetails($id)
@@ -751,7 +749,7 @@ class Staff_model extends MY_Model
 
         $data = array('is_active' => 0);
 
-        $query = $this->writedb->where("id", $id)->update("staff", $data);
+        $query = $this->db->where("id", $id)->update("staff", $data);
     }
 
     public function enablestaff($id)
@@ -759,7 +757,7 @@ class Staff_model extends MY_Model
 
         $data = array('is_active' => 1);
 
-        $query = $this->writedb->where("id", $id)->update("staff", $data);
+        $query = $this->db->where("id", $id)->update("staff", $data);
     }
 
     public function getByEmail($email)
@@ -847,22 +845,22 @@ class Staff_model extends MY_Model
 
     public function ratingapr($id, $approve)
     {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where("id", $id)->update("staff_rating", $approve);
+        $this->db->where("id", $id)->update("staff_rating", $approve);
         $message   = UPDATE_RECORD_CONSTANT . " On staff rating id " . $id;
         $action    = "Update";
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
 
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
 
         } else {
@@ -872,21 +870,21 @@ class Staff_model extends MY_Model
 
     public function rating_remove($id)
     {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('staff_rating');
+        $this->db->where('id', $id);
+        $this->db->delete('staff_rating');
         $message   = DELETE_RECORD_CONSTANT . " On staff rating id " . $id;
         $action    = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
             //return $return_value;

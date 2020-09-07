@@ -9,26 +9,24 @@ class Subjecttimetable_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($delete_array, $insert_array, $update_array) {
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
         if (!empty($delete_array)) {
-            $this->writedb->where_in('id', $delete_array);
-            $this->writedb->delete('subject_timetable');
+            $this->db->where_in('id', $delete_array);
+            $this->db->delete('subject_timetable');
         }
 
         if (isset($update_array) && !empty($update_array)) {
-            $this->writedb->update_batch('subject_timetable', $update_array, 'id');
+            $this->db->update_batch('subject_timetable', $update_array, 'id');
         }
 
         if (isset($insert_array) && !empty($insert_array)) {
-            $this->writedb->insert_batch('subject_timetable', $insert_array);
+            $this->db->insert_batch('subject_timetable', $insert_array);
             $count = count($insert_array);
-            $id = $this->writedb->insert_id();
+            $id = $this->db->insert_id();
             $loop = $id - $count;
             for ($x = $id; $x > $loop; $x--) {
                 $message = INSERT_RECORD_CONSTANT . " On  subject timetable id " . $x;
@@ -38,13 +36,13 @@ class Subjecttimetable_model extends MY_Model {
             }
         }
 
-        $this->writedb->trans_complete();
+        $this->db->trans_complete();
 
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
             return false;
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }

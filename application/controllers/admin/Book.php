@@ -7,8 +7,7 @@ class Book extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->library('encoding_lib');
-        $this->writedb = $this->load->database('write_db', TRUE);
+            $this->load->library('encoding_lib');
     }
 
     public function index() {
@@ -180,7 +179,7 @@ class Book extends Admin_Controller {
                      $rowcount++;
                      }
                     
-                    $this->writedb->insert_batch('books', $result);
+                    $this->db->insert_batch('books', $result);
               
                     }
                     $array=array('status'=>'success','error'=>'','message'=>$this->lang->line('records_found_in_CSV_file_total').' '. $rowcount . ' '.$this->lang->line('records_imported_successfully'));
@@ -228,7 +227,7 @@ class Book extends Admin_Controller {
                      $rowcount++;
                      }
                     
-                    $this->writedb->insert_batch('books', $result);
+                    $this->db->insert_batch('books', $result);
               
                     }
                     $array=array('status'=>'success','error'=>'','message'=>'records found in CSV file. Total ' . $rowcount . 'records imported successfully.');
