@@ -316,7 +316,6 @@
             url: url,
             method:"POST",
         }).done(function(data) {
-            console.log(data);
             var parsed_data = JSON.parse(data);
             $('#initial').modal('show');
             if(parsed_data.video!=""){
