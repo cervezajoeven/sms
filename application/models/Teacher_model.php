@@ -10,6 +10,8 @@ class Teacher_model extends CI_Model {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date    = $this->setting_model->getDateYmd();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null) {
@@ -66,17 +68,17 @@ class Teacher_model extends CI_Model {
     }
 
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('teachers');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('teachers');
     }
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('teachers', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('teachers', $data);
         } else {
-            $this->db->insert('teachers', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('teachers', $data);
+            return $this->writedb->insert_id();
         }
     }
 
@@ -99,11 +101,11 @@ class Teacher_model extends CI_Model {
 
     public function rating($data){
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('staff_rating', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('staff_rating', $data);
         } else {
-            $this->db->insert('staff_rating', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('staff_rating', $data);
+            return $this->writedb->insert_id();
         }
     }
   

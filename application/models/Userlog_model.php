@@ -7,6 +7,8 @@ class Userlog_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null) {
@@ -44,10 +46,10 @@ class Userlog_model extends CI_Model {
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('userlog', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('userlog', $data);
         } else {
-            $this->db->insert('userlog', $data);
+            $this->writedb->insert('userlog', $data);
         }
     }
 

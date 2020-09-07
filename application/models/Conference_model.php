@@ -9,6 +9,8 @@ class Conference_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function add($data) {
@@ -19,20 +21,20 @@ class Conference_model extends MY_Model {
     }
 
     public function addmeeting($data, $staff) {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
-        $this->db->insert('conferences', $data);
-        $insert_id = $this->db->insert_id();
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(false);
+        $this->writedb->insert('conferences', $data);
+        $insert_id = $this->writedb->insert_id();
         if (!empty($staff)) {
             $staff_list = array();
             foreach ($staff as $staff_key => $staff_value) {
                 $staff_list[] = array('conference_id' => $insert_id, 'staff_id' => $staff_value);
             }
-            $this->db->insert_batch('conference_staff', $staff_list);
+            $this->writedb->insert_batch('conference_staff', $staff_list);
         }
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
             return true;
@@ -102,13 +104,13 @@ class Conference_model extends MY_Model {
     }
 
     public function remove($id) {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
-        $this->db->where('id', $id);
-        $this->db->delete('conferences');
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(false);
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('conferences');
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
             return true;
@@ -132,13 +134,13 @@ class Conference_model extends MY_Model {
     }
 
     public function update($id, $data) {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
-        $this->db->where('id', $id);
-        $query = $this->db->update("conferences", $data);
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(false);
+        $this->writedb->where('id', $id);
+        $query = $this->writedb->update("conferences", $data);
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
             return true;

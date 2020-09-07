@@ -86,7 +86,7 @@ class Assessment_model extends MY_Model {
         $data['id'] = $id;
         $data['deleted'] = 1;
         
-        $this->assessment_model->update($table,$data);
+        $this->assessment_model->lms_update($table,$data);
         return true;
     }
 	

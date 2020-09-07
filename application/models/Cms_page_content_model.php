@@ -9,6 +9,8 @@ class Cms_page_content_model extends CI_Model {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->load->config('ci-blog');
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -44,8 +46,8 @@ class Cms_page_content_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('front_cms_page_contents');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('front_cms_page_contents');
     }
 
     /**
@@ -56,17 +58,17 @@ class Cms_page_content_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('front_cms_page_contents', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('front_cms_page_contents', $data);
         } else {
-            $this->db->insert('front_cms_page_contents', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('front_cms_page_contents', $data);
+            return $this->writedb->insert_id();
         }
     }
 
     public function batch_insert($data) {
 
-        $this->db->insert_batch('front_cms_page_contents', $data);
+        $this->writedb->insert_batch('front_cms_page_contents', $data);
     }
 
     public function insertOrUpdate($data) {
@@ -74,17 +76,17 @@ class Cms_page_content_model extends CI_Model {
         $q = $this->db->get('front_cms_page_contents');
 
         if ($q->num_rows() > 0) {
-            $this->db->where('page_id', $data['page_id']);
-            $this->db->update('front_cms_page_contents', $data);
+            $this->writedb->where('page_id', $data['page_id']);
+            $this->writedb->update('front_cms_page_contents', $data);
         } else {
 
-            $this->db->insert('front_cms_page_contents', $data);
+            $this->writedb->insert('front_cms_page_contents', $data);
         }
     }
 
     public function deleteByPageID($page_id) {
-        $this->db->where('page_id', $page_id);
-        $this->db->delete('front_cms_page_contents');
+        $this->writedb->where('page_id', $page_id);
+        $this->writedb->delete('front_cms_page_contents');
     }
 
 }

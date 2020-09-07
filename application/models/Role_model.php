@@ -8,6 +8,8 @@ class Role_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -42,21 +44,21 @@ class Role_model extends MY_Model {
      * @param $id
      */
     public function remove($id) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->delete('roles');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('roles');
 		$message      = DELETE_RECORD_CONSTANT." On roles id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -70,45 +72,45 @@ class Role_model extends MY_Model {
      * @param $data
      */
     public function add($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('roles', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('roles', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On roles id ". $data['id'];
 			$action       = "Update";
 			$record_id    =  $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->insert('roles', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('roles', $data);
+            $insert_id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On roles id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
 			$this->log($message, $record_id, $action);
-			//echo $this->db->last_query();die;
+			//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -168,32 +170,32 @@ class Role_model extends MY_Model {
     }
 
     public function getInsertBatch($role_id, $to_be_insert = array(), $to_be_update = array(), $to_be_delete = array()) {
-        $this->db->trans_start();
-        $this->db->trans_strict(FALSE);
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(FALSE);
         if (!empty($to_be_insert)) {
-            $this->db->insert_batch('roles_permissions', $to_be_insert);
+            $this->writedb->insert_batch('roles_permissions', $to_be_insert);
         }
         if (!empty($to_be_update)) {
 
-            $this->db->update_batch('roles_permissions', $to_be_update, 'id');
+            $this->writedb->update_batch('roles_permissions', $to_be_update, 'id');
         }
 
 
 // # Updating data
         if (!empty($to_be_delete)) {
-            $this->db->where('role_id', $role_id);
-            $this->db->where_in('id', $to_be_delete);
-            $this->db->delete('roles_permissions');
+            $this->writedb->where('role_id', $role_id);
+            $this->writedb->where_in('id', $to_be_delete);
+            $this->writedb->delete('roles_permissions');
         }
-        $this->db->trans_complete();
+        $this->writedb->trans_complete();
 
-        if ($this->db->trans_status() === FALSE) {
+        if ($this->writedb->trans_status() === FALSE) {
 
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return FALSE;
         } else {
 
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return TRUE;
         }
     }

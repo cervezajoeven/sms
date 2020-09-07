@@ -7,6 +7,8 @@ class Incomehead_model extends My_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -36,11 +38,11 @@ class Incomehead_model extends My_Model {
      */
     public function remove($id) {
         
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->delete('income_head');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('income_head');
       
         //$return_value = $this->db->insert_id();
         $message      = DELETE_RECORD_CONSTANT." On  income head   id ".$id;
@@ -50,12 +52,12 @@ class Incomehead_model extends My_Model {
 
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
 
         } else {
@@ -73,18 +75,18 @@ class Incomehead_model extends My_Model {
      */
     public function add($data) {
        
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
          if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('income_head', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('income_head', $data);
             $message      = UPDATE_RECORD_CONSTANT." On  income head   id ".$data['id'];
         $action       = "Update";
         $record_id    = $return_value = $data['id'];
         } else {
-            $this->db->insert('income_head', $data);
-            $return_value = $this->db->insert_id();
+            $this->writedb->insert('income_head', $data);
+            $return_value = $this->writedb->insert_id();
             $message      = INSERT_RECORD_CONSTANT." On  income head   id ".$return_value;
 			$action       = "Insert";
 			$record_id    = $return_value;
@@ -93,12 +95,12 @@ class Incomehead_model extends My_Model {
 
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
 
         } else {

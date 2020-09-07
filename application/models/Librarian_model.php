@@ -7,6 +7,8 @@ class Librarian_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -38,8 +40,8 @@ class Librarian_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('librarians');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('librarians');
     }
 
     /**
@@ -50,11 +52,11 @@ class Librarian_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('librarians', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('librarians', $data);
         } else {
-            $this->db->insert('librarians', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('librarians', $data);
+            return $this->writedb->insert_id();
         }
     }
 

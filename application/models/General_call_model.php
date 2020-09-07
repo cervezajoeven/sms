@@ -10,25 +10,27 @@ class general_call_model extends MY_Model {
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
         $this->start_month = $this->setting_model->getStartMonth();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     function add($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->insert('general_calls', $data);
-		$id=$this->db->insert_id();
+        $this->writedb->insert('general_calls', $data);
+		$id=$this->writedb->insert_id();
         $message      = INSERT_RECORD_CONSTANT." On  Phone Call Log id ".$id;
         $action       = "Insert";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//echo $this->db->last_query();die;
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -51,21 +53,21 @@ class general_call_model extends MY_Model {
     }
 
     function delete($id) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->delete('general_calls');  
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('general_calls');  
 		$message      = DELETE_RECORD_CONSTANT." On Phone Call Log id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -73,22 +75,22 @@ class general_call_model extends MY_Model {
     }
 
     public function call_update($id, $data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->update('general_calls', $data);
+        $this->writedb->where('id', $id);
+        $this->writedb->update('general_calls', $data);
 		$message      = UPDATE_RECORD_CONSTANT." On Phone Call Log id ".$id;
         $action       = "Update";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
 
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
 
         } else {
