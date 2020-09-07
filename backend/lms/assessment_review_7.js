@@ -1,6 +1,5 @@
 var url = $("#url").val();
 var stored_json = $("#stored_json").val();
-var base_url = $("#base_url").val();
 var answer = $("#answer").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
