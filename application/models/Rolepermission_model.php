@@ -7,6 +7,8 @@ class Rolepermission_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -28,28 +30,28 @@ class Rolepermission_model extends CI_Model {
     public function getInsertBatch($insert_array, $role_id, $delete_array) {
 
 
-        $this->db->trans_start();
-        $this->db->trans_strict(FALSE);
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(FALSE);
         if (!empty($insert_array)) {
 
-            $this->db->insert_batch('role_permissions', $insert_array);
+            $this->writedb->insert_batch('role_permissions', $insert_array);
         }
 
 # Updating data
         if (!empty($delete_array)) {
-            $this->db->where('role_id', $role_id);
-            $this->db->where_in('permission_id', $delete_array);
-            $this->db->delete('role_permissions');
+            $this->writedb->where('role_id', $role_id);
+            $this->writedb->where_in('permission_id', $delete_array);
+            $this->writedb->delete('role_permissions');
         }
-        $this->db->trans_complete();
+        $this->writedb->trans_complete();
 
-        if ($this->db->trans_status() === FALSE) {
+        if ($this->writedb->trans_status() === FALSE) {
 
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return FALSE;
         } else {
 
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return TRUE;
         }
     }

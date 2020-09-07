@@ -8,6 +8,8 @@ class Exam_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -36,8 +38,8 @@ class Exam_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('exams');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('exams');
     }
 
     /**
@@ -48,11 +50,11 @@ class Exam_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('exams', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('exams', $data);
         } else {
-            $this->db->insert('exams', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('exams', $data);
+            return $this->writedb->insert_id();
         }
     }
 
@@ -62,10 +64,10 @@ class Exam_model extends CI_Model {
         $q = $this->db->get('exam_schedules');
         if ($q->num_rows() > 0) {
             $result = $q->row_array();
-            $this->db->where('id', $result['id']);
-            $this->db->update('exam_schedules', $data);
+            $this->writedb->where('id', $result['id']);
+            $this->writedb->update('exam_schedules', $data);
         } else {
-            $this->db->insert('exam_schedules', $data);
+            $this->writedb->insert('exam_schedules', $data);
         }
     }
 

@@ -7,20 +7,22 @@ class Timetable_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('timetables');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('timetables');
     }
 
     public function add($data) {
         if (($data['id']) != 0) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('timetables', $data); 
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('timetables', $data); 
         } else {
-            $this->db->insert('timetables', $data); 
-            return $this->db->insert_id();
+            $this->writedb->insert('timetables', $data); 
+            return $this->writedb->insert_id();
         }
     }
 

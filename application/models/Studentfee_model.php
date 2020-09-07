@@ -9,6 +9,8 @@ class Studentfee_model extends CI_Model {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getStudentFeesArray($ids = null, $student_session_id) {
@@ -84,11 +86,11 @@ class Studentfee_model extends CI_Model {
             unset($a[$sub_invoice]);
             if (!empty($a)) {
                 $data['amount_detail'] = json_encode($a);
-                $this->db->where('id', $id);
-                $this->db->update('student_fees_deposite', $data);
+                $this->writedb->where('id', $id);
+                $this->writedb->update('student_fees_deposite', $data);
             } else {
-                $this->db->where('id', $id);
-                $this->db->delete('student_fees_deposite');
+                $this->writedb->where('id', $id);
+                $this->writedb->delete('student_fees_deposite');
             }
         }
     }
@@ -96,11 +98,11 @@ class Studentfee_model extends CI_Model {
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('student_fees', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('student_fees', $data);
         } else {
-            $this->db->insert('student_fees', $data);
-            return $this->db->insert_id();
+            $this->writedb->insert('student_fees', $data);
+            return $this->writedb->insert_id();
         }
     }
 

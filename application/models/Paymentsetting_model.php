@@ -7,6 +7,8 @@ class Paymentsetting_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -29,28 +31,28 @@ class Paymentsetting_model extends MY_Model {
     }
 
     public function add($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('payment_type', $data['payment_type']);
-        $q = $this->db->get('payment_settings');
+        $this->writedb->where('payment_type', $data['payment_type']);
+        $q = $this->writedb->get('payment_settings');
 
         if ($q->num_rows() > 0) {
 
-            $this->db->where('id', $q->row()->id);
-            $this->db->update('payment_settings', $data);
+            $this->writedb->where('id', $q->row()->id);
+            $this->writedb->update('payment_settings', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On payment settings id ". $q->row()->id;
 			$action       = "Update";
 			$record_id    =  $q->row()->id;
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -58,8 +60,8 @@ class Paymentsetting_model extends MY_Model {
 			}
         } else {
 
-            $this->db->insert('payment_settings', $data);
-			$insert_id = $this->db->insert_id();
+            $this->writedb->insert('payment_settings', $data);
+			$insert_id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On payment settings id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
@@ -67,12 +69,12 @@ class Paymentsetting_model extends MY_Model {
 			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -109,16 +111,16 @@ class Paymentsetting_model extends MY_Model {
 
 
         if (!$other) {
-            $this->db->where('payment_type', $data['payment_type']);
-            $this->db->update('payment_settings', $data);            
+            $this->writedb->where('payment_type', $data['payment_type']);
+            $this->writedb->update('payment_settings', $data);            
             $data['is_active'] = "no";
             $payment_type = $data['payment_type'];
             unset($data['payment_type']);
-            $this->db->where('payment_type !=', $payment_type);
-            $this->db->update('payment_settings', $data);
+            $this->writedb->where('payment_type !=', $payment_type);
+            $this->writedb->update('payment_settings', $data);
         } else {
 
-            $this->db->update('payment_settings', $data);
+            $this->writedb->update('payment_settings', $data);
         }
     }
 

@@ -7,6 +7,8 @@ class Language_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -51,8 +53,8 @@ class Language_model extends CI_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('languages');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('languages');
     }
 
     /**
@@ -63,28 +65,28 @@ class Language_model extends CI_Model {
      */
     public function add($data) {
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('languages', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('languages', $data);
         } else {
-            $this->db->insert('languages', $data);
+            $this->writedb->insert('languages', $data);
         }
     }
 
     function set_userlang($id,$data){
 
-            $this->db->where('id', $id);          
-            $this->db->update('staff', $data);
+            $this->writedb->where('id', $id);          
+            $this->writedb->update('staff', $data);
     }
     function set_studentlang($id,$data){
-        $this->db->where('user_id', $id);          
-            $this->db->update('users', $data);
+        $this->writedb->where('user_id', $id);          
+            $this->writedb->update('users', $data);
     }
 
     
     function set_parentlang($id,$data){
        
-        $this->db->where('id', $id);          
-            $this->db->update('users', $data);
+        $this->writedb->where('id', $id);          
+            $this->writedb->update('users', $data);
     }
     public function valid_check_exists($str) {
         $language = $this->input->post('language');
