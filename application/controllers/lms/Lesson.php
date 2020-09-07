@@ -16,7 +16,6 @@ class Lesson extends General_Controller {
         $this->load->model(array('conference_model', 'conferencehistory_model'));
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     function index($lesson_query="today") {
@@ -765,7 +764,7 @@ class Lesson extends General_Controller {
             $email_logs[$sendees_key] = $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
             
         }
-        $this->writedb->insert_batch("messages",$email_logs);
+        $this->db->insert_batch("messages",$email_logs);
 
     }
 

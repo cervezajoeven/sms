@@ -8,8 +8,6 @@ class Feediscount_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -54,21 +52,21 @@ class Feediscount_model extends MY_Model {
      * @param $id
      */
     public function remove($id) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('fees_discounts');
+        $this->db->where('id', $id);
+        $this->db->delete('fees_discounts');
 		$message      = DELETE_RECORD_CONSTANT." On  fees discounts id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -82,24 +80,24 @@ class Feediscount_model extends MY_Model {
      * @param $data
      */
     public function add($data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('fees_discounts', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('fees_discounts', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  fees discounts id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
@@ -107,8 +105,8 @@ class Feediscount_model extends MY_Model {
 			}
         } else {
             $data['session_id'] = $this->current_session;
-            $this->writedb->insert('fees_discounts', $data);
-            $id=$this->writedb->insert_id();
+            $this->db->insert('fees_discounts', $data);
+            $id=$this->db->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On  fees discounts id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
@@ -116,12 +114,12 @@ class Feediscount_model extends MY_Model {
 			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
@@ -133,8 +131,8 @@ class Feediscount_model extends MY_Model {
 
     public function updateStudentDiscount($data) {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('student_fees_discounts', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('student_fees_discounts', $data);
         }
     }
 
@@ -147,8 +145,8 @@ class Feediscount_model extends MY_Model {
         if ($q->num_rows() > 0) {
             return $q->row()->id;
         } else {
-            $this->writedb->insert('student_fees_discounts', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('student_fees_discounts', $data);
+            return $this->db->insert_id();
         }
     }
 
@@ -200,9 +198,9 @@ class Feediscount_model extends MY_Model {
     }
 
     public function deletedisstd($fees_discount_id, $array) {
-        $this->writedb->where('fees_discount_id', $fees_discount_id);
-        $this->writedb->where_in('student_session_id', $array);
-        $this->writedb->delete('student_fees_discounts');
+        $this->db->where('fees_discount_id', $fees_discount_id);
+        $this->db->where_in('student_session_id', $array);
+        $this->db->delete('student_fees_discounts');
     }
 
     public function getStudentFeesDiscount($student_session_id = null) {

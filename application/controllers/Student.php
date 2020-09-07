@@ -629,8 +629,9 @@ class Student extends Admin_Controller
                     'session_id'    => $session,
                     'fees_discount' => $fees_discount,
                 );
-                
                 $student_session_id = $this->student_model->add_student_session($data_new);
+                // $student_session_id = $this->db->insert_id();
+
                 $feesmaster = $this->input->post('feesmaster[]');
                 $feesdiscount = $this->input->post('discount[]');
 

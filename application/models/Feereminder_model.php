@@ -10,8 +10,6 @@ class Feereminder_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null,$active=null)
@@ -41,11 +39,11 @@ class Feereminder_model extends CI_Model
         if ($q->num_rows() > 0) {
             $result = $q->row();
 
-            $this->writedb->where('id', $result->id);
-            $this->writedb->update('fees_reminder', $data);
+            $this->db->where('id', $result->id);
+            $this->db->update('fees_reminder', $data);
         } else {
-            $this->writedb->insert('fees_reminder', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('fees_reminder', $data);
+            return $this->db->insert_id();
         }
     }
 
@@ -53,29 +51,29 @@ class Feereminder_model extends CI_Model
     {
         
 
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('fees_reminder', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('fees_reminder', $data);
       
     }
 
     public function updatebatch($update_array)
     {
 
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
 
         if (isset($update_array) && !empty($update_array)) {
 
-            $this->writedb->update_batch('fees_reminder', $update_array, 'id');
+            $this->db->update_batch('fees_reminder', $update_array, 'id');
         }
 
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
 
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
             return false;
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
 

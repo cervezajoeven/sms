@@ -8,8 +8,6 @@ class Feegroup_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null) {
@@ -45,22 +43,22 @@ class Feegroup_model extends MY_Model {
      * @param $id
      */
     public function remove($id) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->where('is_system', 0);
-        $this->writedb->delete('fee_groups');
+        $this->db->where('id', $id);
+        $this->db->where('is_system', 0);
+        $this->db->delete('fee_groups');
 		$message      = DELETE_RECORD_CONSTANT." On  fee groups id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -74,20 +72,20 @@ class Feegroup_model extends MY_Model {
      * @param $data
      */
     public function add($data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('fee_groups', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('fee_groups', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  fee groups id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $id = $data['id'];
 			$this->log($message, $record_id, $action);
 			
         } else {
-            $this->writedb->insert('fee_groups', $data);
-            $id= $this->writedb->insert_id();
+            $this->db->insert('fee_groups', $data);
+            $id= $this->db->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On  fee groups id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
@@ -95,15 +93,15 @@ class Feegroup_model extends MY_Model {
 			
 			//return $id;
         }
-		//echo $this->writedb->last_query();die;
+		//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {

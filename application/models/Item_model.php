@@ -8,8 +8,6 @@ class Item_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getItemByCategory($item_category_id) {
@@ -93,21 +91,21 @@ class Item_model extends MY_Model {
      * @param $id
      */
     public function remove($id) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('item');
+        $this->db->where('id', $id);
+        $this->db->delete('item');
 		$message      = DELETE_RECORD_CONSTANT." On item id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -121,32 +119,32 @@ class Item_model extends MY_Model {
      * @param $data
      */
     public function add($data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('item', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('item', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  item id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->writedb->insert('item', $data);
-            $insert_id = $this->writedb->insert_id();
+            $this->db->insert('item', $data);
+            $insert_id = $this->db->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On item id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
@@ -154,12 +152,12 @@ class Item_model extends MY_Model {
 			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {

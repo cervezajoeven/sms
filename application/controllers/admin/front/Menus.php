@@ -16,7 +16,6 @@ class Menus extends Admin_Controller {
         // $this->load->library('slug', $config);
 
         $this->load->library('imageResize');
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     function index() {
@@ -192,7 +191,7 @@ class Menus extends Admin_Controller {
             $weight++;
         }
 
-        $this->writedb->update_batch('front_cms_menu_items', $array, 'id');
+        $this->db->update_batch('front_cms_menu_items', $array, 'id');
     }
 
     function delete_image() {

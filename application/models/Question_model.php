@@ -2,52 +2,46 @@
 
 class Question_model extends MY_model {
 
-    function __construct() {
-        parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
-    }
-
 	 public function add($data) {
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('questions', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('questions', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  questions id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $data['id'];
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->writedb->insert('questions', $data);          
-			$id=$this->writedb->insert_id();
+            $this->db->insert('questions', $data);          
+			$id=$this->db->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On  questions id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
-			//echo $this->writedb->last_query();die;
+			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->writedb->trans_complete(); # Completing transaction
+			$this->db->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->writedb->trans_status() === false) {
+			if ($this->db->trans_status() === false) {
 				# Something went wrong.
-				$this->writedb->trans_rollback();
+				$this->db->trans_rollback();
 				return false;
 
 			} else {
@@ -75,21 +69,21 @@ class Question_model extends MY_model {
     }
 
     public function remove($id){
-		$this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('questions');
+        $this->db->where('id', $id);
+        $this->db->delete('questions');
 		$message      = DELETE_RECORD_CONSTANT." On questions id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->writedb->trans_complete(); # Completing transaction
+        $this->db->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->writedb->trans_status() === false) {
+        if ($this->db->trans_status() === false) {
             # Something went wrong.
-            $this->writedb->trans_rollback();
+            $this->db->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -98,28 +92,28 @@ class Question_model extends MY_model {
 
     public function image_add($id,$image){
 
-        $this->writedb->where('id', $id);
-        $this->writedb->update('questions', $image);
+        $this->db->where('id', $id);
+        $this->db->update('questions', $image);
 
     }
 
     public function add_option($data){
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('question_options', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('question_options', $data);
         } else {
-            $this->writedb->insert('question_options', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('question_options', $data);
+            return $this->db->insert_id();
         }
     }
 
     public function add_question_answers($data){
  if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('question_answers', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('question_answers', $data);
         } else {
-            $this->writedb->insert('question_answers', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('question_answers', $data);
+            return $this->db->insert_id();
         }
     }
 

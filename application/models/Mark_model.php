@@ -7,8 +7,6 @@ class Mark_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null) {
@@ -27,17 +25,17 @@ class Mark_model extends CI_Model {
     }
 
     public function remove($id) {
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('exam_results');
+        $this->db->where('id', $id);
+        $this->db->delete('exam_results');
     }
 
     public function add($data) {
         if (isset($data['id'])) {
-            $this->writedb->where('id', $data['id']);
-            $this->writedb->update('exam_results', $data);
+            $this->db->where('id', $data['id']);
+            $this->db->update('exam_results', $data);
         } else {
-            $this->writedb->insert('exam_results', $data);
-            return $this->writedb->insert_id();
+            $this->db->insert('exam_results', $data);
+            return $this->db->insert_id();
         }
     }
 

@@ -10,8 +10,6 @@ class Batchsubject_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        //-- Load database for writing
-        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -185,47 +183,47 @@ class Batchsubject_model extends CI_Model
      */
     public function remove($id)
     {
-        $this->writedb->trans_begin();
+        $this->db->trans_begin();
         $record         = $this->getByID($id);
         $class_batch_id = $record->class_batch_id;
 
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('class_batch_subjects'); //class record delete.
+        $this->db->where('id', $id);
+        $this->db->delete('class_batch_subjects'); //class record delete.
 
         $this->db->select('*');
         $this->db->where('class_batch_subjects.class_batch_id', $class_batch_id);
         $query = $this->db->get('class_batch_subjects');
-
         if ($query->num_rows() <= 0) {
-            $this->writedb->where('id', $class_batch_id);
-            $this->writedb->delete('class_batches'); //class record delete.
+
+            $this->db->where('id', $class_batch_id);
+            $this->db->delete('class_batches'); //class record delete.
         }
 
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
         }
         return true;
     }
     public function removeGroup($id)
     {
-        $this->writedb->trans_begin();
-        $this->writedb->where('id', $id);
-        $this->writedb->delete('class_batches'); //class record delete.
+        $this->db->trans_begin();
+        $this->db->where('id', $id);
+        $this->db->delete('class_batches'); //class record delete.
 
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
         }
         return true;
     }
 
     public function add($data)
     {
-        $this->writedb->trans_start();
-        $this->writedb->trans_strict(false);
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
         $insert_id       = "";
         $subject_id      = $data['subject_id'];
         $is_exam         = $data['is_exam'];
@@ -235,9 +233,9 @@ class Batchsubject_model extends CI_Model
             unset($data['subject_id']);
             unset($data['is_exam']);
 
-            $this->writedb->insert('class_batches', $data);
+            $this->db->insert('class_batches', $data);
 
-            $insert_id = $this->writedb->insert_id();
+            $insert_id = $this->db->insert_id();
         } else {
 
             $insert_id = $batchsubject_id;
@@ -253,8 +251,8 @@ class Batchsubject_model extends CI_Model
                 'is_exam'        => $is_exam,
 
             );
-            $this->writedb->where('id', $data['id']);
-            $insert_id = $this->writedb->update('class_batch_subjects', $subject_array);
+            $this->db->where('id', $data['id']);
+            $insert_id = $this->db->update('class_batch_subjects', $subject_array);
 
         } else {
             $subject_array = array(
@@ -264,16 +262,16 @@ class Batchsubject_model extends CI_Model
                 'is_exam'        => $is_exam,
 
             );
-            $insert_id = $this->writedb->insert('class_batch_subjects', $subject_array);
+            $insert_id = $this->db->insert('class_batch_subjects', $subject_array);
 
         }
 
-        $this->writedb->trans_complete();
-        if ($this->writedb->trans_status() === false) {
-            $this->writedb->trans_rollback();
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
             return false;
         } else {
-            $this->writedb->trans_commit();
+            $this->db->trans_commit();
             return true;
         }
     }
