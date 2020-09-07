@@ -87,7 +87,7 @@ if($HTTP_HOST=="localhost"){
   	$database = $local_db;
   	$hostname = "localhost";
 
-}else if($HTTP_HOST=="www.stepsmandaluyong.com"){
+}else if($HTTP_HOST=="stepsmandaluyong.com"){
 
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
