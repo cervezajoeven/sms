@@ -1,6 +1,5 @@
 var url = $("#url").val();
-var base_url = $("#base_url").val();
-var assessment_id = $("#assessment_id").val();
+var stored_json = $("#stored_json").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
 var assigned = $("#assigned").val();
@@ -400,90 +399,90 @@ function save_no_notif(){
 
 
 $(document).ready(function(){
-	$.ajax({
-	    url: base_url+'/stored_json',
-	    type: "POST",
-	    data: {assessment_id:assessment_id},
-	    // contentType: "application/json",
-	    complete: function(response){
+	
+	if(stored_json){
 
-	    	var stored_json = response.responseText;
+		$.each(JSON.parse(stored_json),function(key,value){
+			populate_key(value.type,value);
+			
+			var checked_ids = [];
+			if(assigned){
 
-
-	    	if(stored_json){
-				
-				$.each(JSON.parse(stored_json),function(key,value){
-					populate_key(value.type,value);
-					
-					var checked_ids = [];
-					if(assigned){
-
-						$.each(assigned.split(","),function(key,value){
-							checked_ids.push("student_"+value);
-						});
-						$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
-					}
-
-					if(("points" in value)){
-						$(".option-container-actual").eq(key).find(".points").val(value.points);
-					}else{
-						$(".option-container-actual").eq(key).find(".points").val("1");
-					}
-
-					if(value.type=="short_answer"){
-
-						
-						$(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")));
-						// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
-						
-						// console.log(value);
-					}
-					if(value.type=="section"){
-						$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
-					}
-					$.each(value.option_labels.split(","),function(split_key,split_value){
-						
-						var last_option = $(".option-container-actual").eq(key).find(".option").length;
-						var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
-						$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
-
-					});
-
-					if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-
-						$.each(value.correct.split(","),function(correct_key,correct_value){
-
-							if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-								// $( "#x" ).prop( "checked", true );
-								if(correct_value=='1'){
-
-									$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
-								}else{
-									// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
-								}
-
-							}
-							
-
-						});
-					}
-					
-					var the_last = $(".option-container-actual").eq(key).find(".option").length;
-					$.each(value.option_labels.split(","),function(value_key,value_value){
-						var unescaped_comma = unescape_comma(value_value);
-						$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
-						
-					});
-					$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
-
-					
+				$.each(assigned.split(","),function(key,value){
+					checked_ids.push("student_"+value);
 				});
-				renumbering();
+				$.jstree.reference('#jstree_demo_div').select_node(checked_ids);
 			}
 
+			if(("points" in value)){
+				$(".option-container-actual").eq(key).find(".points").val(value.points);
+			}else{
+				$(".option-container-actual").eq(key).find(".points").val("1");
+			}
+
+			if(value.type=="short_answer"){
+
+				
+				$(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")));
+				// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
+				
+				// console.log(value);
+			}
+			if(value.type=="section"){
+				$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
+			}
+			$.each(value.option_labels.split(","),function(split_key,split_value){
+				
+				var last_option = $(".option-container-actual").eq(key).find(".option").length;
+				var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
+				$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
+
+			});
+
+			if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+
+				$.each(value.correct.split(","),function(correct_key,correct_value){
+
+					if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+						// $( "#x" ).prop( "checked", true );
+						if(correct_value=='1'){
+
+							$(".option-container-actual").eq(key).find(".option_type").eq(correct_key).find("input").prop("checked",true);
+						}else{
+							// $(".option-container-actual").eq(key).find(".option_type").find("input").prop("checked",false);
+						}
+
+					}
+					
+
+				});
+			}
+			
+			var the_last = $(".option-container-actual").eq(key).find(".option").length;
+			$.each(value.option_labels.split(","),function(value_key,value_value){
+				var unescaped_comma = unescape_comma(value_value);
+				$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
+				
+			});
+			$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
+
+			
+		});
+		renumbering();
+	}
+
+	$.ajax({
+	    url: url,
+	    type: "POST",
+	    data: final_json,
+	    // contentType: "application/json",
+	    complete: function(response){
+	    	console.log(response.responseText);
+	    	alert("Quiz has been saved successfully!");
+	    	$(".save_status").text("Saved");
+			$(".save_status").css("background-color","green");
 	    }
 	});
-	
 	
 
 });

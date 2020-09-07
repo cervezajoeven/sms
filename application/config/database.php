@@ -78,7 +78,7 @@ $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 $campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","lcc-silvercrest","htspreschool","htspg","htsmk","htslipa","dbti","c7preschool","lccsilvercrest");
-$local_db = "csl";
+$local_db = "smsbs";
 // $local_db = "optimized_db";
 if($HTTP_HOST=="localhost"){
 
@@ -86,7 +86,6 @@ if($HTTP_HOST=="localhost"){
   	$password = '';
   	$database = $local_db;
   	$hostname = "localhost";
-  	$hostname_write = "localhost";
 
 }else if($HTTP_HOST=="www.stepsmandaluyong.com"){
 
