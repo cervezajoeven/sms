@@ -94,6 +94,13 @@ if($HTTP_HOST=="localhost"){
   	$database = 'stepsmandaluyong';
   	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
+}else if($HTTP_HOST=="stepsmandaluyong.com"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'stepsmandaluyong';
+  	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
 }else if(in_array($database_name, $godaddy)){
 	
 	$username = 'joeven';
