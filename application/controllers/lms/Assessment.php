@@ -562,7 +562,14 @@ class Assessment extends General_Controller {
                         }
                     }
                 }else if($answer_value['type']=="short_answer"){
-                    if(in_array(trim(strtolower($answer_value['answer'])), explode(",", trim(strtolower($assessment_value['correct']))))){
+
+                    echo "<pre>";
+                    // print_r(explode(",",$assessment_value['correct']));
+                    $student_answer = implode("|comma|",explode(",",trim(strtolower($answer_value['answer']))));
+
+                    if(in_array($student_answer, explode(",", trim(strtolower($assessment_value['correct']))))){
+
+
                         if(array_key_exists("points", $assessment_value)){
 
                             $score += $assessment_value['points'];
@@ -591,7 +598,7 @@ class Assessment extends General_Controller {
         }
 
         // echo '<pre>';print_r($data);exit();
-        
+
         redirect(base_url('lms/assessment/reports/').$assessment['id']);
     }
 
