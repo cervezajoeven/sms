@@ -493,8 +493,11 @@ class Lesson extends General_Controller {
             mkdir(FCPATH."uploads/lms_lesson/".$id."/thumbnails/");
             mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
         }
-        $this->load->view('lms/lesson/create', $data);
-        
+        if($data['role']!="student"){
+            $this->load->view('lms/lesson/create', $data);
+        }else{
+            $this->load->view('lms/lesson/student_view', $data);
+        }
     }
 
     function show($id){
