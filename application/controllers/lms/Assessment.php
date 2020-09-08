@@ -563,8 +563,6 @@ class Assessment extends General_Controller {
                     }
                 }else if($answer_value['type']=="short_answer"){
 
-                    echo "<pre>";
-                    // print_r(explode(",",$assessment_value['correct']));
                     $student_answer = implode("|comma|",explode(",",trim(strtolower($answer_value['answer']))));
 
                     if(in_array($student_answer, explode(",", trim(strtolower($assessment_value['correct']))))){
