@@ -17,6 +17,7 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
         $this->writedb = $this->load->database('write_db', TRUE);
+        date_default_timezone_set('Asia/Manila');
     }
 
     function index($lesson_query="today") {
