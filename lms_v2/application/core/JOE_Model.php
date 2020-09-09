@@ -27,6 +27,6 @@ class JOE_Model extends CI_Model
         }else{
             die("Table name was not defined.");
         }
-        
+
     }
 }
