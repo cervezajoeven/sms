@@ -138,7 +138,7 @@ if($HTTP_HOST=="localhost"){
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_'.$database_name;
 
-  	$hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.comcom";
+  	$hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 
@@ -153,7 +153,7 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_'.$database_name;
 
 
-  	$hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.comcom";
+  	$hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
   	//read and write
