@@ -448,7 +448,6 @@ class Lesson extends General_Controller {
             $data['school_code'] = "bulacanecumenical";
         }
 
-        $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
         $current_session = $this->setting_model->getCurrentSession();
         $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
         // echo '<pre>';print_r($data['students']);exit();

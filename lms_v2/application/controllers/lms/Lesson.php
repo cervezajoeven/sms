@@ -19,7 +19,7 @@ class Lesson extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	function __construct() {
-        
+
         parent::__construct();
         $this->load->model('lesson_model');
     }
@@ -27,10 +27,16 @@ class Lesson extends CI_Controller {
 	{
 		// print_r($this->db->lms_get("lms_lesson",'lms_lesson_online_159931671568269744',"id"));
 	}
-	public function create()
+	public function create($id)
 	{
-		echo "bilatibay mo";
-		// echo "bilatibay mo";
-		print_r($this->lesson_model->lms_get("lms_lesson",'lms_lesson_online_159931671568269744',"id"));
+		echo "<pre>";
+		$data['id'] = $id;
+		$data['lesson'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
+		$data['classes'] = $this->lesson_model->lms_get("classes",'','','id,class');
+		$data['class_section'] = $this->lesson_model->lms_get("class_sections",'','','id,class_id,section_id');
+		$data['role'] = $this->lesson_model->lms_get("class_sections",'','','id,class_id,section_id');
+		print_r($data['class_section']);
+
+
 	}
 }
