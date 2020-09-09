@@ -39,8 +39,8 @@ class General_model extends MY_Model {
         }else if(array_key_exists('admin', $userdata)){
             $account_id = $userdata['admin']['id'];
         }else{
-            // redirect(base_url('site/userlogin'));
-            $account_id = 1;
+            redirect(base_url('site/userlogin'));
+            // $account_id = 1;
         }
         return $account_id;
         
