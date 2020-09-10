@@ -5,6 +5,8 @@ class Classteacher_model extends MY_Model {
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getClassTeacher($id = null) {
@@ -23,12 +25,12 @@ class Classteacher_model extends MY_Model {
     }
 
     public function addClassTeacher($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data["id"])) {
 
-            $this->db->where("id", $data["id"])->update("class_teacher", $data);
+            $this->writedb->where("id", $data["id"])->update("class_teacher", $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  class teacher id ".$data["id"];
 			$action       = "Update";
 			$record_id    = $data["id"];
@@ -37,23 +39,23 @@ class Classteacher_model extends MY_Model {
 			
         } else {
 
-            $this->db->insert("class_teacher", $data);
-			$id=$this->db->insert_id();
+            $this->writedb->insert("class_teacher", $data);
+			$id=$this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On class teacher id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
 			
         }
-		//echo $this->db->last_query();die;
+		//echo $this->writedb->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -71,10 +73,10 @@ class Classteacher_model extends MY_Model {
 
       function updateTeacher($previd,$class_id,$section_id) {
         $data=array('class_id'=>$class_id,'section_id'=>$section_id);
-        $this->db->set('class_id','class_id',false);
-        $this->db->set('section_id','section_id',false);
-        $this->db->where_in('id', $previd);
-        $this->db->update('class_teacher',$data);
+        $this->writedb->set('class_id','class_id',false);
+        $this->writedb->set('section_id','section_id',false);
+        $this->writedb->where_in('id', $previd);
+        $this->writedb->update('class_teacher',$data);
         
         
     }
@@ -101,13 +103,13 @@ class Classteacher_model extends MY_Model {
 
     public function delete($class_id, $section_id, $array) {
 		
-        $this->db->where('class_id', $class_id);
-        $this->db->where('section_id', $section_id);
+        $this->writedb->where('class_id', $class_id);
+        $this->writedb->where('section_id', $section_id);
         if (!empty($array)) {
-            $this->db->where_in('staff_id', $array);
+            $this->writedb->where_in('staff_id', $array);
 			
         }
-        $this->db->delete('class_teacher');
+        $this->writedb->delete('class_teacher');
     }
 
     public function getsubjectbyteacher($id) {

@@ -448,7 +448,6 @@ class Lesson extends General_Controller {
             $data['school_code'] = "bulacanecumenical";
         }
 
-        $data['link'] = $this->lesson_model->lms_get("lms_lesson",$id,"id");
         $current_session = $this->setting_model->getCurrentSession();
         $data['students'] = $this->lesson_model->get_students("lms_lesson",$id,"id");
         // echo '<pre>';print_r($data['students']);exit();
@@ -493,8 +492,11 @@ class Lesson extends General_Controller {
             mkdir(FCPATH."uploads/lms_lesson/".$id."/thumbnails/");
             mkdir(FCPATH."uploads/lms_lesson/".$id."/contents/");
         }
-        $this->load->view('lms/lesson/create', $data);
-        
+        if($data['role']!="student"){
+            $this->load->view('lms/lesson/create', $data);
+        }else{
+            $this->load->view('lms/lesson/student_view', $data);
+        }
     }
 
     function show($id){

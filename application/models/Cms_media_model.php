@@ -8,6 +8,8 @@ class Cms_media_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     /**
@@ -18,16 +20,16 @@ class Cms_media_model extends CI_Model {
      */
     public function bulk_add($data = null) {
 
-        $this->db->insert_batch('front_cms_media_gallery', $data);
-        if ($this->db->affected_rows() > 0)
+        $this->writedb->insert_batch('front_cms_media_gallery', $data);
+        if ($this->writedb->affected_rows() > 0)
             return true;
         else
             return false;
     }
 
     public function add($data) {
-        $this->db->insert('front_cms_media_gallery', $data);
-        return $this->db->insert_id();
+        $this->writedb->insert('front_cms_media_gallery', $data);
+        return $this->writedb->insert_id();
     }
 
     public function get($id = null) {
@@ -52,9 +54,9 @@ class Cms_media_model extends CI_Model {
     }
 
     public function remove($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('front_cms_media_gallery');
-        if ($this->db->affected_rows() > 0)
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('front_cms_media_gallery');
+        if ($this->writedb->affected_rows() > 0)
             return true;
         else
             return false;

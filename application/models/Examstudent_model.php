@@ -11,6 +11,8 @@ class Examstudent_model extends CI_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function searchExamStudents($class_id, $section_id, $exam_id)
@@ -42,14 +44,14 @@ class Examstudent_model extends CI_Model
         $q      = $this->db->get('exam_results');
         $result = $q->row();
         if ($q->num_rows() > 0) {
-            $this->db->where('id', $result->id);
-            $this->db->update('exam_results', $data);
+            $this->writedb->where('id', $result->id);
+            $this->writedb->update('exam_results', $data);
             if ($result->get_marks != $data['get_marks']) {
                 return $result->id;
             }
         } else {
-            $this->db->insert('exam_results', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('exam_results', $data);
+            $insert_id = $this->writedb->insert_id();
             return $insert_id;
         }
         return false;
@@ -60,7 +62,7 @@ class Examstudent_model extends CI_Model
 
         $delete_array   = array();
         $inserted_array = array();
-        $this->db->trans_begin();
+        $this->writedb->trans_begin();
         if (!empty($insert_array)) {
             foreach ($insert_array as $insert_key => $insert_value) {
                 $this->insert($insert_value);
@@ -72,16 +74,16 @@ class Examstudent_model extends CI_Model
         $delete_array = array_diff($all_students, $inserted_array);
 
         if (!empty($delete_array)) {
-            $this->db->where('exam_group_class_batch_exam_id', $exam_group_class_batch_exam_id);
-            $this->db->where_in('student_session_id', $delete_array);
-            $this->db->delete('exam_group_class_batch_exam_students');
+            $this->writedb->where('exam_group_class_batch_exam_id', $exam_group_class_batch_exam_id);
+            $this->writedb->where_in('student_session_id', $delete_array);
+            $this->writedb->delete('exam_group_class_batch_exam_students');
         }
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return true;
         }
     }
@@ -102,7 +104,7 @@ class Examstudent_model extends CI_Model
 
         if ($q->num_rows() == 0) {
 
-            $this->db->insert('exam_group_class_batch_exam_students', $insert_value);
+            $this->writedb->insert('exam_group_class_batch_exam_students', $insert_value);
         }
         return true;
     }
@@ -148,7 +150,7 @@ class Examstudent_model extends CI_Model
                 $update_student[] = array('id' => $res_value->id, 'roll_no' => $update_roll_no);
                 $update_roll_no++;
             }
-            $this->db->update_batch('exam_group_class_batch_exam_students', $update_student, 'id');
+            $this->writedb->update_batch('exam_group_class_batch_exam_students', $update_student, 'id');
         }
 
         $student_details = array();

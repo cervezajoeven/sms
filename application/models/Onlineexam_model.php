@@ -5,23 +5,25 @@ class Onlineexam_model extends MY_model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
     public function add($data)
     {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('onlineexam', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('onlineexam', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  online exam id ".$data['id'];
 			$action       = "Update";
 			$record_id    = $id = $data['id'];
 			$this->log($message, $record_id, $action);
 			
         } else {
-            $this->db->insert('onlineexam', $data);
-            $id=$this->db->insert_id();
+            $this->writedb->insert('onlineexam', $data);
+            $id=$this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On  online exam id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
@@ -32,12 +34,12 @@ class Onlineexam_model extends MY_model
 		//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
@@ -69,8 +71,8 @@ class Onlineexam_model extends MY_model
 
     public function insertExamQuestion($insert_data)
     {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('question_id', $insert_data['question_id']);
         $this->db->where('onlineexam_id', $insert_data['onlineexam_id']);
@@ -78,29 +80,29 @@ class Onlineexam_model extends MY_model
 
         if ($q->num_rows() > 0) {
             $result = $q->row();
-            $this->db->where('id', $result->id);
-            $this->db->delete('onlineexam_questions');
+            $this->writedb->where('id', $result->id);
+            $this->writedb->delete('onlineexam_questions');
 			$message      = DELETE_RECORD_CONSTANT." On  onlineexam questions id ".$result->id;
 			$action       = "Delete";
 			$record_id    = $result->id;
 			$this->log($message, $record_id, $action);
 			
         } else {
-            $this->db->insert('onlineexam_questions', $insert_data);
-			$id=$this->db->insert_id();
+            $this->writedb->insert('onlineexam_questions', $insert_data);
+			$id=$this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On  onlineexam questions id ".$id;
 			$action       = "Insert";
 			$record_id    = $id;
 			$this->log($message, $record_id, $action);
 			
         }
-		//echo $this->db->last_query();die;
+		//echo $this->writedb->last_query();die;
 			//======================Code End==============================
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 			} else {
 				//return $return_value;
@@ -109,21 +111,21 @@ class Onlineexam_model extends MY_model
 
     public function remove($id)
     {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        $this->db->where('id', $id);
-        $this->db->delete('onlineexam');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('onlineexam');
 		$message      = DELETE_RECORD_CONSTANT." On  online exam id ".$id;
         $action       = "Delete";
         $record_id    = $id;
         $this->log($message, $record_id, $action);
 		//======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
-        if ($this->db->trans_status() === false) {
+        if ($this->writedb->trans_status() === false) {
             # Something went wrong.
-            $this->db->trans_rollback();
+            $this->writedb->trans_rollback();
             return false;
         } else {
         //return $return_value;
@@ -155,24 +157,24 @@ class Onlineexam_model extends MY_model
     public function addStudents($data_insert, $data_delete, $onlineexam_id)
     {
 
-        $this->db->trans_begin();
+        $this->writedb->trans_begin();
 
         if (!empty($data_insert)) {
 
-            $this->db->insert_batch('onlineexam_students', $data_insert);
+            $this->writedb->insert_batch('onlineexam_students', $data_insert);
         }
         if (!empty($data_delete)) {
 
-            $this->db->where('onlineexam_id', $onlineexam_id);
-            $this->db->where_in('student_session_id', $data_delete);
-            $this->db->delete('onlineexam_students');
+            $this->writedb->where('onlineexam_id', $onlineexam_id);
+            $this->writedb->where_in('student_session_id', $data_delete);
+            $this->writedb->delete('onlineexam_students');
         }
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
-            $this->db->trans_commit();
+            $this->writedb->trans_commit();
             return true;
         }
     }
@@ -188,7 +190,7 @@ class Onlineexam_model extends MY_model
   public function addStudentAttemts($data)
     {
     $this->db->insert('onlineexam_attempts', $data);
-            return $this->db->insert_id();
+            return $this->writedb->insert_id();
     }
 
     public function examstudentsID($student_session_id, $onlineexam_id)

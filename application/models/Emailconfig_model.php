@@ -7,6 +7,8 @@ class Emailconfig_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function get($id = null) {
@@ -29,40 +31,40 @@ class Emailconfig_model extends MY_Model {
             'smtp_password' => $this->input->post('smtp_password')
         );
 
-        $this->db->where('email_type', $email_type);
-        $this->db->update('email_config', $data);
+        $this->writedb->where('email_type', $email_type);
+        $this->writedb->update('email_config', $data);
     }
 
     public function add($data) {
-		$this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+		$this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->select()->from('email_config');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
             $result = $q->row();
-            $this->db->where('id', $result->id);
-            $this->db->update('email_config', $data);
+            $this->writedb->where('id', $result->id);
+            $this->writedb->update('email_config', $data);
 			$message      = UPDATE_RECORD_CONSTANT." On  email config id ".$result->id;
 			$action       = "Update";
 			$record_id    = $result->id;
 			$this->log($message, $record_id, $action);
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {
 				//return $return_value;
 			}
         } else {
-            $this->db->insert('email_config', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('email_config', $data);
+            $insert_id = $this->writedb->insert_id();
 			$message      = INSERT_RECORD_CONSTANT." On email config id ".$insert_id;
 			$action       = "Insert";
 			$record_id    = $insert_id;
@@ -70,12 +72,12 @@ class Emailconfig_model extends MY_Model {
 			//echo $this->db->last_query();die;
 			//======================Code End==============================
 
-			$this->db->trans_complete(); # Completing transaction
+			$this->writedb->trans_complete(); # Completing transaction
 			/*Optional*/
 
-			if ($this->db->trans_status() === false) {
+			if ($this->writedb->trans_status() === false) {
 				# Something went wrong.
-				$this->db->trans_rollback();
+				$this->writedb->trans_rollback();
 				return false;
 
 			} else {

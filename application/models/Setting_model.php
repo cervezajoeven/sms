@@ -7,6 +7,8 @@ class Setting_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getMysqlVersion() {
@@ -100,17 +102,17 @@ class Setting_model extends MY_Model {
     }
 
     public function remove($id) {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
-        $this->db->where('id', $id);
-        $this->db->delete('sch_settings');
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(false);
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('sch_settings');
         $message = DELETE_RECORD_CONSTANT . " On settings id " . $id;
         $action = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
             
@@ -118,26 +120,26 @@ class Setting_model extends MY_Model {
     }
 
     public function add($data) {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
+        $this->writedb->trans_start();
+        $this->writedb->trans_strict(false);
         if (isset($data['id'])) {
-            $this->db->where('id', $data['id']);
-            $this->db->update('sch_settings', $data);
+            $this->writedb->where('id', $data['id']);
+            $this->writedb->update('sch_settings', $data);
             $message = UPDATE_RECORD_CONSTANT . " On settings id " . $data['id'];
             $action = "Update";
             $record_id = $insert_id = $data['id'];
             $this->log($message, $record_id, $action);
         } else {
-            $this->db->insert('sch_settings', $data);
-            $insert_id = $this->db->insert_id();
+            $this->writedb->insert('sch_settings', $data);
+            $insert_id = $this->writedb->insert_id();
             $message = INSERT_RECORD_CONSTANT . " On settings id " . $insert_id;
             $action = "Insert";
             $record_id = $insert_id;
             $this->log($message, $record_id, $action);
         }
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
+        $this->writedb->trans_complete();
+        if ($this->writedb->trans_status() === false) {
+            $this->writedb->trans_rollback();
             return false;
         } else {
             return $insert_id;
@@ -199,7 +201,7 @@ class Setting_model extends MY_Model {
 
     public function add_cronsecretkey($data, $id) {
 
-        $this->db->where("id", $id)->update("sch_settings", $data);
+        $this->writedb->where("id", $id)->update("sch_settings", $data);
     }
 
     public function getLanguage() {
@@ -237,8 +239,8 @@ class Setting_model extends MY_Model {
     }
 
     public function add_printheader($data) {
-        $this->db->where('print_type', $data['print_type']);
-        $this->db->update('print_headerfooter', $data);
+        $this->writedb->where('print_type', $data['print_type']);
+        $this->writedb->update('print_headerfooter', $data);
     }
 
     public function get_printheader() {

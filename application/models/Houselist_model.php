@@ -10,7 +10,8 @@ class Houselist_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-
+        //-- Load database for writing
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
 
@@ -37,8 +38,8 @@ class Houselist_model extends CI_Model
 
     public function remove($id)
     {
-        $this->db->where('id', $id);
-        $this->db->delete('school_houses');
+        $this->writedb->where('id', $id);
+        $this->writedb->delete('school_houses');
     }
 
 }
