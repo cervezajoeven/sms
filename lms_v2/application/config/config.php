@@ -23,7 +23,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/sms/lms_v2/index.php?';
+$REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
+$HTTP_HOST = $_SERVER['HTTP_HOST'];
+if($HTTP_HOST=="localhost"){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/index.php?';
+}elseif(strpos($HTTP_HOST, "192.168.") !== false){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/index.php?';
+}elseif($HTTP_HOST=="stepsmandaluyong.com"){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/index.php?';
+}else{
+  $config['base_url'] = 'https://'.$HTTP_HOST.'/lms_v2/index.php?';
+}
 
 /*
 |--------------------------------------------------------------------------

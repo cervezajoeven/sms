@@ -27,7 +27,7 @@ class Lesson extends CI_Controller {
 	{
 		// print_r($this->db->lms_get("lms_lesson",'lms_lesson_online_159931671568269744',"id"));
 	}
-	public function create($id)
+	public function create($id,$staff_id)
 	{
 		echo "<pre>";
 		$data['id'] = $id;
