@@ -169,12 +169,12 @@ class Homework extends Admin_Controller
                 $img_name = $id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $img_name);
             } else {
-
                 $document = "";
             }
 
-            $upload_data = array('id' => $id, 'document' => $document);
+            $upload_data = array('id' => $id, 'document' => $document);            
             $this->homework_model->add($upload_data);
+
             if ($record_id == 0) {
                 $homework_detail = $this->homework_model->get($id);
 
@@ -210,7 +210,6 @@ class Homework extends Admin_Controller
             $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
             $allowed_mime_type = $image_validate['allowed_mime_type'];
             if ($files = filesize($_FILES['userfile']['tmp_name'])) {
-
                 if (!in_array($file_type, $allowed_mime_type)) {
                     $this->form_validation->set_message('handle_upload', $this->lang->line('file_type_not_allowed'));
                     return false;
@@ -221,6 +220,10 @@ class Homework extends Admin_Controller
                 }
                 if ($file_size > $image_validate['upload_size']) {
                     $this->form_validation->set_message('handle_upload', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                    return false;
+                }
+                if ($file_size == 0) {
+                    $this->form_validation->set_message('handle_upload', "File size is zero byte.");
                     return false;
                 }
             } else {
