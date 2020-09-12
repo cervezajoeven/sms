@@ -32,7 +32,7 @@ if($HTTP_HOST=="localhost"){
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
 }else{
-  $config['base_url'] = 'https://'.$HTTP_HOST.'/';
+  $config['base_url'] = 'https://'.$HTTP_HOST.'/lms_v2/';
 }
 
 /*
