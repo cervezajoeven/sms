@@ -29,23 +29,5 @@ class JOE_Model extends CI_Model
         }
     }
 
-    public function get_staff_role($staff_id) {
 
-        if($staff_id){
-            $this->db->select('Staff');
-            if($value){
-                if($where){
-                    $this->db->where($where,$value);
-                }else{
-                    die("Where is not defined!");
-                }
-            }
-            $query = $this->db->get($table);
-            $return = $query->result_array();
-            return $return;
-        }else{
-            die("Staff ID not declared");
-        }
-
-    }
 }

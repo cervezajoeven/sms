@@ -308,9 +308,9 @@
 <script>
     var table = $('#myTable').DataTable();
     var attendance_table = $('#attendance_table').DataTable();
-
+    var user_id = '<?php echo $user_id ?>';
     function check_class(lesson_id){
-        var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id;
+        var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id+'/'+user_id;
 
         $.ajax({
             url: url,

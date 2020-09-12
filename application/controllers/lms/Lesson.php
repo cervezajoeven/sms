@@ -17,6 +17,10 @@ class Lesson extends General_Controller {
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
         $this->writedb = $this->load->database('write_db', TRUE);
+
+        // $url = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$this->general_model->get_account_id().'/'.$this->general_model->get_role());
+
+    
     }
 
     function index($lesson_query="today") {
@@ -33,6 +37,7 @@ class Lesson extends General_Controller {
         $data['heading'] = "Current Lessons"; 
         $data['lesson_sched'] = "today";
         $data['lesson_query'] = $lesson_query;
+        $data['user_id'] = $this->general_model->get_account_id();
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
@@ -1456,17 +1461,17 @@ class Lesson extends General_Controller {
         
     }
 
-    public function check_class($lesson_id){
+    public function check_class($lesson_id,$user_id){
         
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
-
+        $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
         if($the_lesson['lesson_type'] == "zoom"||$the_lesson['lesson_type'] == "virtual"){
             $start_date = strtotime($the_lesson['start_date']);
             $end_date = strtotime($the_lesson['end_date']);
             $current_date = strtotime(date("Y-m-d H:i:s"));
             if($current_date>$end_date){
                 $open['video'] = "";
-                $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
+                $open['lms'] = $lms2_link;
             }else{
 
                 if($the_lesson['lesson_type'] == "virtual"){
@@ -1475,7 +1480,7 @@ class Lesson extends General_Controller {
                     if($the_lesson['allow_view']=="1"){
 
                         $open['video'] = $teacher['google_meet'];
-                        $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
+                        $open['lms'] = $lms2_link;
                         
                     }else{;
                         $open['video'] = $teacher['google_meet'];
@@ -1488,7 +1493,7 @@ class Lesson extends General_Controller {
 
                     if($the_lesson['allow_view']=="1"){
                         $open['video'] = $conference;
-                        $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
+                        $open['lms'] = $lms2_link;
                     }else{
 
                         $open['video'] = $conference;

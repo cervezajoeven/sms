@@ -73,12 +73,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+$REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
+$HTTP_HOST = $_SERVER['HTTP_HOST'];
+$database_name = explode('.', $HTTP_HOST)[0];
+$local_db = "csl";
+
+if($HTTP_HOST=="localhost"){
+
+  	$username = 'root';
+  	$password = '';
+  	$database = $local_db;
+  	$hostname_read = "localhost";
+  	$hostname = "localhost";
+
+}else if(strpos($HTTP_HOST, "192.168.") !== false){
+
+		$username = 'root';
+  	$password = '';
+  	$database = $local_db;
+  	$hostname_read = "localhost";
+		$hostname = "localhost";
+
+}else{
+		$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_'.$database_name;
+
+  	$hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+}
+
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'csl',
+	'hostname' => $hostname,
+	'username' => $username,
+	'password' => $password,
+	'database' => $database,
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+$db['read'] = array(
+	'dsn'	=> '',
+	'hostname' => $hostname_read,
+	'username' => $username,
+	'password' => $password,
+	'database' => $database,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
