@@ -26,13 +26,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 if($HTTP_HOST=="localhost"){
-  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/index.php?';
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/sms/lms_v2/';
 }elseif(strpos($HTTP_HOST, "192.168.") !== false){
-  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/index.php?';
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
-  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/index.php?';
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
 }else{
-  $config['base_url'] = 'https://'.$HTTP_HOST.'/lms_v2/index.php?';
+  $config['base_url'] = 'https://'.$HTTP_HOST.'/lms_v2/';
 }
 
 /*
