@@ -1,6 +1,7 @@
 var url = $("#url").val();
 var site_url = $("#site_url").val();
 var base_url = $("#base_url").val();
+var old_url = $("#old_url").val();
 var assessment_id = $("#assessment_id").val();
 var assessment_sheet_id = $("#assessment_sheet_id").val();
 var account_id = $("#account_id").val();
@@ -383,7 +384,7 @@ $(".submit").click(function(){
 		    complete: function(response){
 		    	// console.log(response.responseText);
 		    	alert("Quiz has been successfully submitted!");
-		    	window.location.replace(site_url+'review/'+assessment_id);
+		    	window.location.replace(old_url+'review/'+assessment_id);
 		    }
 		});
 	}
@@ -414,9 +415,10 @@ var time_now = parseInt($("#time_now").val());
 // console.log(time_now);
 $(document).ready(function(){
 	startTime();
-  setInterval(function() {
+
+  $(document).on("change","input",function(){
     auto_save();
-  },10000);
+  });
 });
 
 

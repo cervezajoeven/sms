@@ -42,7 +42,6 @@ class Assessment extends JOE_Controller {
 
 	public function answer($id,$tester='false'){
 
-
 			// echo "<pre>";
 			$data['role'] = "student";
 

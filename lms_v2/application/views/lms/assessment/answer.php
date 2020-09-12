@@ -125,6 +125,7 @@
 	    <input type="hidden" id="url" value="<?php echo site_url('lms/assessment/update'); ?>" name="" />
 	    <input type="hidden" id="site_url" value="<?php echo site_url('lms/assessment/'); ?>" name="" />
 	    <input type="hidden" id="base_url" value="<?php echo site_url('lms/assessment/'); ?>" name="" />
+	    <input type="hidden" id="old_url" value="<?php echo old_url('lms/assessment/'); ?>" name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assessment_sheet_id" value="<?php echo $assessment_sheet['id'] ?>" name="" />
 	    <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
