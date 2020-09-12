@@ -318,6 +318,9 @@
     $(document).ready(function (e) {
         $("#upload").on('submit', (function (e) {
             e.preventDefault();
+
+            var $this = $(this).find("button[type=submit]:focus");
+
             $.ajax({
                 url: "<?php echo site_url("user/homework/upload_docs") ?>",
                 type: "POST",
