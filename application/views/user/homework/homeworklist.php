@@ -326,6 +326,9 @@
                 contentType: false,
                 cache: false,
                 processData: false,
+                beforeSend: function () {
+                    $this.button('loading');
+                },
                 success: function (res) {
                     if (res.status == "fail") {
 
@@ -342,6 +345,13 @@
 
                        window.location.reload(true);
                     }
+                },
+                error: function (xhr) { // if error occured
+                    alert("Error occured.please try again");
+                    $this.button('reset');
+                },
+                complete: function () {
+                    $this.button('reset');
                 }
             });
         }));

@@ -218,6 +218,12 @@ class Homework extends Admin_Controller
                     $this->form_validation->set_message('handle_upload', $this->lang->line('file_type_not_allowed'));
                     return false;
                 }
+
+                // if (!in_array($ext, $allowed_extension)) {
+                //     $this->form_validation->set_message('handle_upload', 'Extension Not Allowed');
+                //     return false;
+                // }
+
                 if ($file_size > $image_validate['upload_size']) {
                     $this->form_validation->set_message('handle_upload', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
                     return false;
