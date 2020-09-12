@@ -27,12 +27,15 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 if($HTTP_HOST=="localhost"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/sms/lms_v2/';
+  $save_path = str_replace("\\lms_v2\\","",FCPATH)."\\sessions\\";
 }elseif(strpos($HTTP_HOST, "192.168.") !== false){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
+  $save_path = str_replace("/lms_v2/","",FCPATH)."/sessions/";
 }elseif($HTTP_HOST=="stepsmandaluyong.com"){
   $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
 }else{
   $config['base_url'] = 'https://'.$HTTP_HOST.'/lms_v2/';
+  $save_path = str_replace("/lms_v2/","",FCPATH)."/sessions/";
 }
 
 /*
@@ -390,7 +393,7 @@ $config['encryption_key'] = '';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'lms_session';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = str_replace("/lms_v2/","",FCPATH)."/sessions/";
+$config['sess_save_path'] = $save_path;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
