@@ -28,7 +28,7 @@ function isEmpty(obj) {
 
 function populate_key(option_type,data={}){
 	var option_clone = $(".option-container-clonable").clone();
-	
+
 	switch (option_type){
 		case "multiple_choice":
 			option_clone.removeClass("option-container-clonable");
@@ -36,9 +36,9 @@ function populate_key(option_type,data={}){
 			option_clone.addClass("multiple_choice");
 			option_clone.attr("option_type","multiple_choice");
 			option_clone.show();
-			
+
 			if(!isEmpty(data)){
-				
+
 			}
 
 			$(".sortable").append(option_clone);
@@ -82,7 +82,7 @@ function populate_key(option_type,data={}){
 			$(".sortable").append(option_clone);
 		break;
 		case "section":
-			
+
 			option_clone.removeClass("option-container-clonable");
 			option_clone.addClass("option-container-actual");
 			option_clone.addClass("option-container-section");
@@ -95,7 +95,7 @@ function populate_key(option_type,data={}){
 			option_clone.find(".option_label_input").find("input").remove();
 			option_clone.find(".remove_choice").remove();
 			option_clone.find(".option_type").html('<textarea class="form-control"></textarea>');
-			
+
 			option_clone.find(".option_type").find("textarea").css("width","100%");
 			$(".sortable").append(option_clone);
 		break;
@@ -117,10 +117,10 @@ function renumbering(){
 			$(value).find(".numbering_option").text("No. "+option_number);
 			$(value).find(".option_type").find("input").attr("name","option_"+section_number+"_"+(option_number));
 		}
-		
+
 		option_number++;
 	});
-	
+
 }
 
 function escape_comma(value){
@@ -133,8 +133,8 @@ function escape_comma(value){
 			var return_value = value.trim();
 		}
 	}
-	
-	
+
+
 
 	return return_value;
 }
@@ -156,7 +156,7 @@ $(document).ready(function(){
 
 
 	$.ajax({
-	    url: base_url+'/stored_json',
+	    url: base_url+'stored_json',
 	    type: "POST",
 	    data: {assessment_id:assessment_id},
 	    // contentType: "application/json",
@@ -170,7 +170,7 @@ $(document).ready(function(){
 					populate_key(value.type,value);
 					// console.log(value.correct);
 					$.each(value.option_labels.split(","),function(split_key,split_value){
-						
+
 						var last_option = $(".option-container-actual").eq(key).find(".option").length;
 						var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
 						$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
@@ -186,19 +186,19 @@ $(document).ready(function(){
 					$.each(value.option_labels.split(","),function(value_key,value_value){
 						var unescaped_comma = unescape_comma(value_value);
 						$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
-						
+
 					});
 					$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
 
 
-					
+
 				});
 				renumbering();
 				$(document).find(".option_label_input").find("input").attr("readonly","readonly");
 			}
-			
+
 			$.ajax({
-			    url: base_url+'/stored_answer',
+			    url: base_url+'stored_answer',
 			    type: "POST",
 			    data: {assessment_sheet_id:assessment_sheet_id},
 			    // contentType: "application/json",
@@ -214,30 +214,30 @@ $(document).ready(function(){
 							if(value.type=="multiple_choice"||value.type=="multiple_answer"){
 								var student_answer = value.answer.split(",");
 								var the_options = $(".option-container-actual").eq(key).find(".option");
-								
+
 								$.each(the_options,function(the_option_key,the_option_value){
 									if(student_answer[the_option_key] == "1"){
 										$(the_option_value).find(".option_type").find("input").prop("checked",true);
 									}
-									
+
 								});
 
-								
+
 							}else if(value.type=="short_answer"){
 								var short_answer_correct_array = stored_json_parsed[key].correct.split(",");
 
 								var the_options = $(".option-container-actual").eq(key).find(".option");
 								$(the_options).find(".option_type").find("input").val(value.answer);
-								
-								
+
+
 							}else if(value.type=="long_answer"){
 
 								var the_options = $(".option-container-actual").eq(key).find(".option");
 								$(the_options).find(".option_type").find("textarea").text(value.answer);
-							}	
-							
+							}
 
-							
+
+
 
 						});
 
@@ -247,18 +247,13 @@ $(document).ready(function(){
 
 	    },
 	});
-	
-	
+
+
 
 });
 
 //fill answers
-$(document).ready(function(){
-	
-	
-	
 
-});
 
 //fill answers
 $(document).on("click",".remove_option",function(){
@@ -269,7 +264,7 @@ $(document).on("click",".remove_option",function(){
 $(".info-key").click(function(){
 	var option_type = $(this).attr("option_type");
 	populate_key(option_type);
-	
+
 	renumbering();
 });
 $(document).on("click",".add_option",function(){
@@ -278,18 +273,15 @@ $(document).on("click",".add_option",function(){
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
 
 });
-	
-$(document).on("change","input",function(){
 
-	setInterval(auto_save(),10000);
-});
+
 
 function auto_save(){
 	var json = [];
 		var options = $(".option-container-actual");
 		$.each(options,function(key,value){
 			var the_option_type = $(value).attr("option_type");
-			
+
 			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
 				var answer_val = [];
 				$.each($(value).find(".option"),function(option_key,option_value){
@@ -307,7 +299,7 @@ function auto_save(){
 				};
 
 			}else if(the_option_type=="short_answer"){
-				
+
 				var short_answer_val = $(value).find(".option").find("input").eq(0).val();
 
 				option_json = {
@@ -322,19 +314,19 @@ function auto_save(){
 				};
 			}
 			json.push(option_json);
-			
-			
-			
+
+
+
 		});
 		final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
-		
+
 
 		$.ajax({
-		    url: site_url+'/auto_save',
+		    url: site_url+'auto_save',
 		    type: "POST",
 		    data: final_json,
 		    complete: function(response){
-
+          console.log("auto saved!");
 		    }
 		});
 }
@@ -344,7 +336,7 @@ $(".submit").click(function(){
 		var options = $(".option-container-actual");
 		$.each(options,function(key,value){
 			var the_option_type = $(value).attr("option_type");
-			
+
 			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
 				var answer_val = [];
 				$.each($(value).find(".option"),function(option_key,option_value){
@@ -362,7 +354,7 @@ $(".submit").click(function(){
 				};
 
 			}else if(the_option_type=="short_answer"){
-				
+
 				var short_answer_val = $(value).find(".option").find("input").eq(0).val();
 
 				option_json = {
@@ -377,15 +369,15 @@ $(".submit").click(function(){
 				};
 			}
 			json.push(option_json);
-			
-			
-			
+
+
+
 		});
 		final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
-		
+
 
 		$.ajax({
-		    url: site_url+'/answer_submit',
+		    url: site_url+'answer_submit',
 		    type: "POST",
 		    data: final_json,
 		    complete: function(response){
@@ -409,7 +401,12 @@ $(document).on("click",".remove_choice",function(){
 	$(this).parent().parent().remove();
 });
 
+$(document).ready(function(){
 
+
+
+
+});
 var expiration_date = $("#expiration_value").val();
 
 var time_now = parseInt($("#time_now").val());
@@ -417,6 +414,9 @@ var time_now = parseInt($("#time_now").val());
 // console.log(time_now);
 $(document).ready(function(){
 	startTime();
+  setInterval(function() {
+    auto_save();
+  },10000);
 });
 
 
@@ -424,7 +424,7 @@ $(document).ready(function(){
 function startTime() {
 	// Set the date we're counting down to
 	var countDownDate = new Date(expiration_date).getTime();
-	
+
 	// Update the count down every 1 second
 	var x = setInterval(function() {
 
@@ -453,7 +453,7 @@ function startTime() {
 		document.getElementById("time").innerHTML = hours + ":"
 		+ minutes + ":" + seconds;
 
-		// If the count down is finished, write some text 
+		// If the count down is finished, write some text
 		if (distance < 0) {
 			clearInterval(x);
 			document.getElementById("time").innerHTML = "Time's Up!";

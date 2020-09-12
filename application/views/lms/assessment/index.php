@@ -124,7 +124,7 @@
                                                         </a>
                                                     <?php endif; ?>
                                                     <?php if($list_data['student_attempt']<$list_data['attempts']): ?>
-                                                        <span data-placement="left" href="" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" onclick="take_quiz('<?php echo site_url('lms/assessment/answer/'.$list_data['id']);?>')">
+                                                        <span data-placement="left" href="" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Answer" onclick="take_quiz('<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$user_id.'/student/'.$list_data['id']);?>')">
                                                                 <i class="fa fa-edit"></i>
                                                         </span>
                                                     <?php endif; ?>

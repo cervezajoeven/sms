@@ -23,7 +23,7 @@ class Assessment extends General_Controller {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/assessment');
-
+        $data['user_id'] = $this->general_model->get_account_id();
         $data['role'] = $this->general_model->get_role();
         $data['real_role'] = $this->general_model->get_real_role();
 

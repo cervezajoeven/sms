@@ -10,5 +10,4 @@ class Lesson_model extends JOE_Model {
 
     }
 
-    
 }
