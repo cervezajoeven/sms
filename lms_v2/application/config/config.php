@@ -394,6 +394,7 @@ $config['sess_save_path'] = str_replace("\\lms_v2\\","",FCPATH)."sessions\\";
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
+print_r($config['sess_save_path']);
 /*
 |--------------------------------------------------------------------------
 | Cookie Related Variables
