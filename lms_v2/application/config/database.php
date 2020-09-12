@@ -94,6 +94,14 @@ if($HTTP_HOST=="localhost"){
   	$hostname_read = "localhost";
 		$hostname = "localhost";
 
+}else if(strpos($HTTP_HOST, "sim.campuscloudph.com") !== false){
+
+		$username = 'joeven';
+  	$password = 'joeven241';
+  	$database = 'campus_sim';
+  	$hostname_read = "localhost";
+		$hostname = "localhost";
+
 }else{
 		$username = 'admin';
   	$password = 'J10o15e5V22n!4';
