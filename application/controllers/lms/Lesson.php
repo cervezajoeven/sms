@@ -1519,7 +1519,7 @@ class Lesson extends General_Controller {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lesson/attendance');
-
+        date_default_timezone_set('Asia/Manila');
         $data['title'] = 'Lesson Attendance';
 
         $data['role'] = $this->general_model->get_role();

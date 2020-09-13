@@ -77,6 +77,12 @@ class CI_Controller {
 
 		$this->load =& load_class('Loader', 'core');
 		$this->load->initialize();
+		$CI = & get_instance();
+		echo "<pre>";
+		echo "Controller";
+		
+		print_r($CI->db->queries);
+		exit();
 		log_message('info', 'Controller Class Initialized');
 	}
 

@@ -11,7 +11,8 @@ class Welcome extends Front_Controller
         $this->load->config('app-config');
         $this->load->library(array('mailer', 'form_builder'));
         $this->load->helper(array('directory', 'customfield', 'custom', 'email'));
-        $this->load->model(array('frontcms_setting_model', 'complaint_Model', 'Visitors_model', 'onlinestudent_model', 'customfield_model'));
+        $this->load->model(array('frontcms_setting_model', 'complaint_Model', 'Visitors_model', 'onlinestudent_model', 'customfield_model',"Module_model",'cms_program_model','cms_page_model','cms_page_content_model','cms_menu_model','cms_menuitems_model'));
+
         $this->blood_group = $this->config->item('bloodgroup');
         $this->load->library('Ajax_pagination');
         $this->load->library('module_lib');
