@@ -11,12 +11,25 @@ class Lesson extends General_Controller {
         $this->load->model('lesson_model');
         $this->load->model('general_model');
         $this->load->model('discussion_model');
+
+
+        //kabilatibay
+        // $this->load->model('paymentsetting_model');
+        // $this->load->model('grade_model');
+        // $this->load->model('feediscount_model');
+        // $this->load->model('timeline_model');
+        // $this->load->model('category_model');
+        $this->load->model('notification_model');
+        //kabilatibay
+
+
         $this->load->library('mailsmsconf');
         $this->mailer;
         $this->load->model(array('conference_model', 'conferencehistory_model','class_model'));
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
         $this->writedb = $this->load->database('write_db', TRUE);
+
         date_default_timezone_set('Asia/Manila');
         // $url = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$this->general_model->get_account_id().'/'.$this->general_model->get_role());
 

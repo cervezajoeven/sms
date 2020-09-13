@@ -21,6 +21,8 @@ class Site extends Public_Controller {
         $this->load->model('cms_program_model');
         $this->load->model('staffroles_model');
         $this->load->model('userlog_model');
+        $this->load->model('user_model');
+        $this->load->model('studentsession_model');
 
         $this->mailer;
     }

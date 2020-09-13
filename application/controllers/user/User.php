@@ -15,6 +15,12 @@ class User extends Student_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('paymentsetting_model');
+        $this->load->model('grade_model');
+        $this->load->model('feediscount_model');
+        $this->load->model('timeline_model');
+        $this->load->model('category_model');
+        $this->load->model('notification_model');
         $this->payment_method     = $this->paymentsetting_model->getActiveMethod();
         $this->sch_setting_detail = $this->setting_model->getSetting();
     }
