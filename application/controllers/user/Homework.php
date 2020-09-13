@@ -14,6 +14,7 @@ class Homework extends Student_Controller
         $this->load->model("homework_model");
         $this->load->model("staff_model");
         $this->load->model("student_model");
+        $this->load->model('notification_model');
     }
 
     public function index()

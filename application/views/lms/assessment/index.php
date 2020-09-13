@@ -10,6 +10,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
+                <?php echo "real role: ".$real_role ?>
                 <?php if($real_role!=2): ?>
                     <div class="col-md-4">
                         <!-- Horizontal Form -->
