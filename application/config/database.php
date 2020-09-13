@@ -77,7 +77,7 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
-$campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","lcc-silvercrest","htspreschool","htspg","htsmk","htslipa","dbti","c7preschool","lccsilvercrest");
+$campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","htspreschool","htspg","htsmk","htslipa","dbti","c7preschool","lccsilvercrest");
 $local_db = "csl";
 // $local_db = "optimized_db";
 if($HTTP_HOST=="localhost"){
