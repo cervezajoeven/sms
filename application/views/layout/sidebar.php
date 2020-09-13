@@ -665,7 +665,6 @@ s<aside class="main-sidebar" id="alert2">
                             <li class="<?php echo set_Submenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/past'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/past"><i class="fa fa-angle-double-right"></i> Past <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
-                            <li class="<?php echo set_Submenu('content/lms_email_logs'); ?>"><a href="<?php echo base_url(); ?>lms/email_logs/index"><i class="fa fa-angle-double-right"></i> LMS Email Logs</a></li>
                             
                             <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
                             <li class="<?php echo set_Submenu('lms/assessment/create'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/create_index"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('assessment'); ?></a></li>
