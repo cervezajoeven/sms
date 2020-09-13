@@ -5,6 +5,7 @@ class studentidcard extends Admin_Controller {
         parent::__construct();
 
         $this->load->library('Customlib');
+        $this->load->model('Student_id_card_model');
     }
 
     public function index() {
