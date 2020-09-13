@@ -10,39 +10,40 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
+                <?php if($real_role!=2): ?>
+                    <div class="col-md-4">
+                        <!-- Horizontal Form -->
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Create Assessment</h3>
+                            </div><!-- /.box-header -->
+                            <!-- form start -->
 
-                <div class="col-md-4">
-                    <!-- Horizontal Form -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Create Assessment</h3>
-                        </div><!-- /.box-header -->
-                        <!-- form start -->
+                            <form id="form1" action="<?php echo site_url('lms/assessment/save') ?>"  id="assessment" name="assessmentform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
+                                <div class="box-body">
+                                    <?php if ($this->session->flashdata('msg')) { ?>
+                                        <?php echo $this->session->flashdata('msg') ?>
+                                    <?php } ?>
+                                    <?php echo $this->customlib->getCSRF(); ?>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Assessment Name</label><small class="req"> *</small>
+                                        <input autofocus="" id="assessment_name" name="assessment_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
+                                        <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                    </div>
 
-                        <form id="form1" action="<?php echo site_url('lms/assessment/save') ?>"  id="assessment" name="assessmentform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
-                            <div class="box-body">
-                                <?php if ($this->session->flashdata('msg')) { ?>
-                                    <?php echo $this->session->flashdata('msg') ?>
-                                <?php } ?>
-                                <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Assessment Name</label><small class="req"> *</small>
-                                    <input autofocus="" id="assessment_name" name="assessment_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div><!-- /.box-body -->
+
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
                                 </div>
+                            </form>
+                        </div>
 
-                            </div><!-- /.box-body -->
-
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
-                            </div>
-                        </form>
                     </div>
+                <?php endif; ?>
+            <?php if($real_role!=2): ?><div class="col-md-8"><?php else: ?><div class="col-md-12"><?php endif; ?>
+            
 
-                </div><!--/.col (right) -->
-                <!-- left column -->
-
-            <div class="col-md-12">
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">

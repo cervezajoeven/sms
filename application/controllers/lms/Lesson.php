@@ -11,17 +11,8 @@ class Lesson extends General_Controller {
         $this->load->model('lesson_model');
         $this->load->model('general_model');
         $this->load->model('discussion_model');
-
-
-        //kabilatibay
-        // $this->load->model('paymentsetting_model');
-        // $this->load->model('grade_model');
-        // $this->load->model('feediscount_model');
-        // $this->load->model('timeline_model');
-        // $this->load->model('category_model');
+        
         $this->load->model('notification_model');
-        //kabilatibay
-
 
         $this->load->library('mailsmsconf');
         $this->mailer;

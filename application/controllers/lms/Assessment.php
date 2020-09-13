@@ -10,8 +10,10 @@ class Assessment extends General_Controller {
         $this->load->model('general_model');
         $this->load->model('class_model');
         $this->load->model('lesson_model');
+        $this->load->model('notification_model');
         $this->load->library('customlib');
         $this->load->library('mailsmsconf');
+
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'lms/assessment');
         date_default_timezone_set('Asia/Manila');
