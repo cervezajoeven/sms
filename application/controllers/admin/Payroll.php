@@ -17,6 +17,8 @@ class Payroll extends Admin_Controller {
         $this->load->model("payroll_model");
         $this->load->model("staff_model");
         $this->load->model('staffattendancemodel');
+        $this->load->model('setting_model');
+
         $this->payroll_status = $this->config->item('payroll_status');
 		$this->sch_setting_detail = $this->setting_model->getSetting();
     }

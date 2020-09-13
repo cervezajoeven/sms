@@ -7,6 +7,7 @@ class Sections extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->model('section_model');
     }
 
     function index() {

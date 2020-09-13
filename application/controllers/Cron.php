@@ -15,6 +15,7 @@ class Cron extends CI_Controller
         $setting_result = $this->setting_model->getSetting();
         $this->cron_key = $setting_result->cron_secret_key;
         $this->load->model('feereminder_model');
+        $this->load->model('feegrouptype_model');
     }
 
     public function index($key = '')

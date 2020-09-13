@@ -7,6 +7,8 @@ class Feecategory extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+
+        $this->load->model('feecategory_model');
     }
 
     function delete($id) {

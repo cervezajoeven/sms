@@ -7,6 +7,11 @@ class Feemaster extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+
+        $this->load->model('feemaster_model');
+        $this->load->model('class_model');
+        $this->load->model('feecategory_model');
+        $this->load->model('feetype_model');
     }
 
     function index() {

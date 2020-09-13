@@ -16,6 +16,10 @@ class Page extends Admin_Controller {
         $this->load->library('slug', $config);
         $this->load->config('ci-blog');
         $this->load->library('imageResize');
+
+        $this->load->model('cms_page_model');
+        $this->load->model('cms_page_content_model');
+        $this->load->model('book_model');
     }
 
     function index() {

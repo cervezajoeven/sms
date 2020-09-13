@@ -14,8 +14,9 @@ class Events extends Admin_Controller {
             'id' => 'id',
         );
         $this->load->library('slug', $config);
-
         $this->load->library('imageResize');
+        $this->load->model('cms_program_model');
+        $this->load->model('book_model');
     }
 
     function index() {

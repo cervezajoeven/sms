@@ -8,6 +8,8 @@ class Item extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helper('form');
+        $this->load->model('item_model');
+        $this->load->model('itemcategory_model');
     }
 
     function index() {

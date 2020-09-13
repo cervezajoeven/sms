@@ -7,11 +7,12 @@ class Print_headerfooter extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('setting_model');
     }
 
     public function index(){
     	$this->session->set_userdata('top_menu', 'System Settings');
-        $this->session->set_userdata('sub_menu', 'admin/print_headerfooter');
+        $this->session->set_userdata('sub_menu', 'admin/print_headerfooter');        
         $data['title'] = 'SMS Config List';
         $data['result']=$this->setting_model->get_printheader();
         $this->load->view('layout/header', $data);

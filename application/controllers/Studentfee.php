@@ -12,6 +12,22 @@ class Studentfee extends Admin_Controller
         parent::__construct();
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
+
+        $this->load->model('setting_model');
+        $this->load->model('class_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('class_model');
+        $this->load->model('student_model');
+        $this->load->model('feesessiongroup_model');
+        $this->load->model('studentfee_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('feediscount_model');
+        $this->load->model('category_model');
+        $this->load->model('studenttransportfee_model');
+        $this->load->model('staff_model');
+        $this->load->model('feegrouptype_model');
+        $this->load->model('studentsession_model');
+
         $this->search_type = $this->config->item('search_type');
 		$this->sch_setting_detail = $this->setting_model->getSetting();
     }

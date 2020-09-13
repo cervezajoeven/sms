@@ -9,6 +9,7 @@ class Enquiry extends Admin_Controller {
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model("enquiry_model");
+        $this->load->model('class_model');
         $this->config->load("payroll");
         $this->enquiry_status = $this->config->item('enquiry_status');
     }

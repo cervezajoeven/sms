@@ -9,6 +9,7 @@ class Itemsupplier extends Admin_Controller {
         parent::__construct();
 
         $this->load->helper('url');
+        $this->load->model('itemsupplier_model');
     }
 
     function index() {

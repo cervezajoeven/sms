@@ -8,6 +8,11 @@ class Itemstock extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helper('form');
+        $this->load->model('itemstock_model');
+        $this->load->model('itemcategory_model');
+        $this->load->model('itemstore_model');
+        $this->load->model('item_model');
+        $this->load->model('itemsupplier_model');        
     }
 
     function index() {

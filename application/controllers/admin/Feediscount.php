@@ -7,6 +7,9 @@ class Feediscount extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('feediscount_model');
+        $this->load->model('class_model');
+        $this->load->model('category_model');
     }
 
     function delete($id) {

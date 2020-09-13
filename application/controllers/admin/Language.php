@@ -8,6 +8,10 @@ class Language extends Admin_Controller {
     public function __construct() {
         parent::__construct();
         $this->writedb = $this->load->database('write_db', TRUE);
+        $this->load->model('language_model');
+        $this->load->model('setting_model');
+        $this->load->model('staff_model');
+        $this->load->model('langpharses_model');
     }
 
     function index() {

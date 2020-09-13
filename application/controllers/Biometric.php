@@ -13,7 +13,7 @@ class Biometric extends CI_Controller
         $this->load->helper('json_output');
         $this->load->model('setting_model');
         $this->load->model('student_model');
-        $this->load->model('stuattendence_model');
+        $this->load->model('stuattendence_model'); 
 
     }
 

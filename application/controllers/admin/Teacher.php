@@ -11,6 +11,16 @@ class Teacher extends Admin_Controller
         parent::__construct();
         $this->load->library('mailsmsconf');
         $this->load->model("classteacher_model");
+        $this->load->model('setting_model');
+        $this->load->model('teacher_model');
+        $this->load->model('teachersubject_model');
+        $this->load->model('staff_model');
+        $this->load->model('subject_model');
+        $this->load->model('class_model');
+        $this->load->model('classsection_model');
+        $this->load->model('user_model');
+        $this->load->model('classteacher_model');
+        $this->load->model('section_model');
         $this->role;
         $this->current_session = $this->setting_model->getCurrentSession();
     }

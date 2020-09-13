@@ -9,7 +9,7 @@ class App extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('setting_model');
+        $this->load->model('setting_model'); 
         
     }
 

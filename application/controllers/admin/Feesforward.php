@@ -14,6 +14,12 @@ class Feesforward extends Admin_Controller {
         $this->load->config('ci-blog');
         $this->balance_group = $this->config->item('ci_balance_group');
         $this->balance_type = $this->config->item('ci_balance_type');
+
+        $this->load->model('setting_model');
+        $this->load->model('class_model');
+        $this->load->model('session_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('student_model');
         
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->load->library('mailsmsconf');

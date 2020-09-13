@@ -17,6 +17,9 @@ class Menus extends Admin_Controller {
 
         $this->load->library('imageResize');
         $this->writedb = $this->load->database('write_db', TRUE);
+        $this->load->model('cms_menu_model');
+        $this->load->model('cms_menuitems_model');
+        $this->load->model('cms_page_model');
     }
 
     function index() {

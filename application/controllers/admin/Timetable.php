@@ -12,6 +12,17 @@ class Timetable extends Admin_Controller
         parent::__construct();
         $this->load->model("staff_model");
         $this->load->model("classteacher_model");
+        $this->load->model('setting_model');
+        $this->load->model('class_model');
+        $this->load->model('teachersubject_model');
+        $this->load->model('timetable_model');
+        $this->load->model('staff_model');
+        $this->load->model('subjecttimetable_model');
+        $this->load->model('mark_model');
+        $this->load->model('exam_model');
+        $this->load->model('feecategory_model');
+        $this->load->model('subjectgroup_model');
+        $this->load->model('feecategory_model');
     }
 
     public function index()

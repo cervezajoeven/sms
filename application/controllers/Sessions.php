@@ -7,6 +7,7 @@ class Sessions extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('session_model');
     }
 
     function index() {

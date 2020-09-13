@@ -7,6 +7,7 @@ class Paymentsettings extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('paymentsetting_model');
     }
 
     function index() {

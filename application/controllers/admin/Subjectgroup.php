@@ -10,6 +10,12 @@ class Subjectgroup extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('class_model');
+        $this->load->model('subjectgroup_model');
+        $this->load->model('setting_model');
+        $this->load->model('subject_model');
+        $this->load->model('studentsubjectgroup_model');
+        $this->load->model('subjecttimetable_model');
     }
 
     public function index()

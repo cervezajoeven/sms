@@ -7,6 +7,7 @@ class Feetype extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('feetype_model');
     }
 
     function index() {

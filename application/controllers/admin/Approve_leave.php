@@ -7,7 +7,10 @@ class approve_leave extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->writedb = $this->load->database('write_db', TRUE);
-          }
+        $this->load->model('class_model');
+        $this->load->model('apply_leave_model');
+        $this->load->model('student_model');
+    }
 
     function unauthorized() {
         $data = array();

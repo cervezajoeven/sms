@@ -14,6 +14,13 @@ class Mailsms extends Admin_Controller
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
         $this->load->model("classteacher_model");
+        $this->load->model('messages_model');
+        $this->load->model('student_model');
+        $this->load->model('class_model');
+        $this->load->model('staff_model');
+        $this->load->model('role_model');
+        $this->load->model('vehicle_model');
+
         $this->mailer;
     }
 

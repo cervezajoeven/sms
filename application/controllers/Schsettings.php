@@ -11,6 +11,9 @@ class Schsettings extends Admin_Controller
     {
         parent::__construct();
         $this->load->library('upload');
+        $this->load->model('setting_model');
+        $this->load->model('session_model');
+        $this->load->model('language_model');
     }
 
     public function index_old()

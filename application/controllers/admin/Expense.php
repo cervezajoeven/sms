@@ -8,7 +8,10 @@ class Expense extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->library('Customlib');
-		$this->config->load('app-config');
+        $this->config->load('app-config');
+        $this->load->model('expense_model');
+        $this->load->model('expensehead_model');
+        $this->load->model('feetype_model');
     }
 
     function index() {

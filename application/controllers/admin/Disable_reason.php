@@ -6,8 +6,9 @@ if (!defined('BASEPATH'))
 class Disable_reason extends Admin_Controller {
 
     function __construct() {
-       	 parent::__construct();
-          }
+        parent::__construct();
+        $this->load->model('disable_reason_model');
+    }
 
           public function index(){
             if (!$this->rbac->hasPrivilege('disable_reason', 'can_view')) {

@@ -12,6 +12,12 @@ class Stuattendence extends Admin_Controller {
         $this->load->library('mailsmsconf');
         $this->config_attendance = $this->config->item('attendence');
         $this->load->model("classteacher_model");
+        $this->load->model('setting_model');
+        $this->load->model('class_model');
+        $this->load->model('teacher_model');
+        $this->load->model('stuattendence_model');
+        $this->load->model('attendencetype_model');
+
     }
  
     function index() {

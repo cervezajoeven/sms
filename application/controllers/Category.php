@@ -7,6 +7,7 @@ class Category extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('category_model');
     }
 
     function index() {

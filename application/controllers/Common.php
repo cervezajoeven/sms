@@ -9,6 +9,9 @@ class Common extends Public_Controller {
     public function __construct() {
         parent::__construct();
         $this->writedb = $this->load->database('write_db', TRUE);
+        $this->load->model('session_model');
+        $this->load->model('studentsession_model');
+        $this->load->model('setting_model');
     }
 
     public function parents() {

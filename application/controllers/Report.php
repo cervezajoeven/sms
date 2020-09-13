@@ -10,10 +10,42 @@ class Report extends Admin_Controller {
 
         $this->time = strtotime(date('d-m-Y H:i:s'));
      
-      $this->payment_mode= $this->customlib->payment_mode();
+      $this->payment_mode= $this->customlib->payment_mode();        
+        $this->load->model('general_model');
+        $this->load->model('setting_model');
+        $this->load->model('student_model');
+        $this->load->model('studentfee_model');
+        $this->load->model('feecategory_model');
+        $this->load->model('feetype_model');
+        $this->load->model('exam_model');
+        $this->load->model('section_model');
+        $this->load->model('examschedule_model');
+        $this->load->model('class_model');
+        $this->load->model('category_model');
+        $this->load->model('expense_model');
+        $this->load->model('examresult_model');
+        $this->load->model('subjecttimetable_model');
+        $this->load->model('onlineexam_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('bookissue_model');
+        $this->load->model('book_model');
+        $this->load->model('onlineexamresult_model');
+        $this->load->model('itemstock_model');
+        $this->load->model('itemissue_model');
+        $this->load->model('income_model');
+        $this->load->model('expense_model');
+        $this->load->model('incomehead_model');
+        $this->load->model('payroll_model');
+        $this->load->model('expensehead_model');
+        $this->load->model('staff_model');
+        $this->load->model('leavetypes_model');
+        $this->load->model('role_model');
+        $this->load->model('designation_model');
+        $this->load->model('customfield_model');
+        $this->load->model('stuattendence_model');
+        
         $this->search_type=$this->customlib->get_searchtype();
 		$this->sch_setting_detail = $this->setting_model->getSetting();
-        $this->load->model('general_model');
     }
 
     function pdfStudentFeeRecord() {

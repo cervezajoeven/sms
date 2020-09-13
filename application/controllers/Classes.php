@@ -7,6 +7,11 @@ class Classes extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+
+        $this->load->model('classsection_model');
+        $this->load->model('section_model');
+        $this->load->model('class_model');
+        $this->load->model('route_model');        
     }
 
     function index() {

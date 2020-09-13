@@ -9,6 +9,7 @@ class Banner extends Admin_Controller {
         parent::__construct();
         $this->load->config('ci-blog');
         $this->banner_content = $this->config->item('ci_front_banner_content');
+        $this->load->model('cms_program_model');
     }
 
     function index() {

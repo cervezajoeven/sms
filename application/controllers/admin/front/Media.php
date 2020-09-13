@@ -8,6 +8,7 @@ class Media extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->library('imageResize');
+        $this->load->model('cms_media_model');
     }
 
     function index() {

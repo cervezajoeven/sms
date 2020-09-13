@@ -8,7 +8,12 @@ class Users extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model("classteacher_model");
-		$this->sch_setting_detail = $this->setting_model->getSetting();
+        $this->sch_setting_detail = $this->setting_model->getSetting();
+        $this->load->model('student_model');
+        $this->load->model('staff_model');
+        $this->load->model('parent_model');
+        $this->load->model('user_model');
+        $this->load->model('class_model');
     }
 
     function index() {

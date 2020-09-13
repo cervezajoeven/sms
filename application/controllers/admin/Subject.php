@@ -8,7 +8,7 @@ class Subject extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helper('file');
-       
+        $this->load->model('subject_model');
     }
 
     function index() {

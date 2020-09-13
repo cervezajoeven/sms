@@ -19,6 +19,8 @@ class Staffattendance extends Admin_Controller {
         $this->load->model("staffattendancemodel");
         $this->load->model("staff_model");
         $this->load->model("payroll_model");
+        $this->load->model('attendencetype_model');
+        $this->load->model('setting_model');
     }
 
     function index() {

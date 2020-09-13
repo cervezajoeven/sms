@@ -16,6 +16,7 @@ class Gallery extends Admin_Controller {
         $this->load->library('slug', $config);
         $this->load->config('ci-blog');
         $this->load->library('imageResize');
+        $this->load->model('cms_program_model');
     }
 
     function index() {

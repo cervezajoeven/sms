@@ -9,6 +9,7 @@ class Emailconfig extends Admin_Controller {
         parent::__construct();
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
+        $this->load->model('emailconfig_model');
     }
 
     function index() {

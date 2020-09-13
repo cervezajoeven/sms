@@ -8,6 +8,12 @@ class Issueitem extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helper('form');
+        $this->load->model('itemissue_model');
+        $this->load->model('role_model');
+        $this->load->model('itemcategory_model');
+        $this->load->model('staff_model');
+        $this->load->model('item_model');
+        $this->load->model('staff_model');
     }
 
     public function index() {

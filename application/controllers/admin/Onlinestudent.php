@@ -18,6 +18,18 @@ class Onlinestudent extends Admin_Controller
         $this->load->model("classteacher_model");
         $this->load->model("timeline_model");
         $this->load->model("feesessiongroup_model");
+        $this->load->model('setting_model');
+        $this->load->model('class_model');
+        $this->load->model('onlinestudent_model');
+        $this->load->model('vehroute_model');
+        $this->load->model('hostel_model');
+        $this->load->model('student_model');
+        $this->load->model('feegroup_model');
+        $this->load->model('feediscount_model');
+        $this->load->model('section_model');
+        $this->load->model('houselist_model');
+        $this->load->model('category_model');
+
         $this->blood_group        = $this->config->item('bloodgroup');
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->role;

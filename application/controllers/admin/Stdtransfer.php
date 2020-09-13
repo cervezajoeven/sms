@@ -7,7 +7,11 @@ class Stdtransfer extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model("classteacher_model");
+        // $this->load->model("classteacher_model");
+        $this->load->model('class_model');
+        $this->load->model('feecategory_model');
+        $this->load->model('session_model');
+        $this->load->model('student_model');
     }
 
     function index() {

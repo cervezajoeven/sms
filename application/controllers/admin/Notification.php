@@ -10,6 +10,10 @@ class Notification extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('notification_model');
+        $this->load->model('role_model');
+        $this->load->model('exam_model');
+        $this->load->model('notificationsetting_model');
     }
 
     public function index()

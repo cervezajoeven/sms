@@ -7,6 +7,7 @@ class FeeGroup extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('feegroup_model');
     }
 
     function index() {

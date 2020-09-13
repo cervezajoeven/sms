@@ -7,6 +7,15 @@ class Feemaster extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('setting_model');
+        $this->load->model('feegroup_model');
+        $this->load->model('feesessiongroup_model');
+        $this->load->model('feegrouptype_model');
+        $this->load->model('class_model');
+        $this->load->model('category_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('feetype_model');
+
 		$this->sch_setting_detail = $this->setting_model->getSetting();
     }
 
