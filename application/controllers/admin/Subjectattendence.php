@@ -13,7 +13,11 @@ class Subjectattendence extends Admin_Controller
         $this->config->load("mailsms");
         $this->load->library('mailsmsconf');
         $this->config_attendance = $this->config->item('attendence');
-        $this->load->model("classteacher_model");
+        // $this->load->model("classteacher_model");
+
+        $this->load->model('class_model');
+        $this->load->model('studentsubjectattendence_model');
+        $this->load->model('attendencetype_model');
     }
 
     public function reportbymonthstudent()
