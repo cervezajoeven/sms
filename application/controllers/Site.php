@@ -18,6 +18,10 @@ class Site extends Public_Controller {
         $this->load->library('customlib');
         $this->load->library('mailer');
         $this->load->config('ci-blog');
+        $this->load->model('cms_program_model');
+        $this->load->model('staffroles_model');
+        $this->load->model('userlog_model');
+
         $this->mailer;
     }
 
@@ -37,8 +41,8 @@ class Site extends Public_Controller {
 
     function login() {
 
-$app_name=$this->setting_model->get();
-$app_name=$app_name[0]['name'];
+        $app_name=$this->setting_model->get();
+        $app_name=$app_name[0]['name'];
 
         if ($this->auth->logged_in()) {
             $this->auth->is_logged_in(true);
@@ -334,6 +338,7 @@ $data['name']=$app_name[0]['name'];
         if ($this->auth->user_logged_in()) {
             $this->auth->user_redirect();
         }
+
         $data = array();
         $data['title'] = 'Login';
         $school = $this->setting_model->get();

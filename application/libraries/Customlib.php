@@ -18,6 +18,8 @@ class Customlib
         $this->CI->load->model('Notification_model', '', true);
         $this->CI->load->model('Setting_model', '', true);
         $this->CI->load->model('Notificationsetting_model', '', true);
+        $this->CI->load->model('calendar_model', '', true);
+        $this->CI->load->model('staff_model', '', true);
     }
 
     public function getCSRF()

@@ -12,6 +12,17 @@ class Admin extends Admin_Controller
         parent::__construct();
         $this->load->model("classteacher_model");
         $this->load->model("Staff_model");
+        $this->load->model("notification_model");
+        $this->load->model("expense_model");
+        $this->load->model("studentsession_model");
+        $this->load->model("role_model");
+        $this->load->model("staff_model");
+        $this->load->model("admin_model");
+        $this->load->model("studentfee_model");
+        $this->load->model("income_model");
+        $this->load->model("book_model");
+        $this->load->model("bookissue_model");
+        $this->load->model("stuattendence_model");
         $this->load->library('Enc_lib');
         $this->sch_setting_detail = $this->setting_model->getSetting();
 

@@ -11,6 +11,7 @@ class Module_lib {
     function __construct() {
         $this->CI = & get_instance();
         $this->modules = array();
+        $this->CI->load->model("Module_model");
         self::loadModule(); //Initiate the userroles
     }
 
@@ -31,7 +32,7 @@ class Module_lib {
     }
 
     function hasActive($module = null) {
-
+        
         if ($this->modules[$module]) {
             return true;
         }

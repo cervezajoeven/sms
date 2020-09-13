@@ -13,6 +13,7 @@ class Rbac {
         $this->CI = & get_instance();
         $this->permissions = array();
         $this->CI->config->load('mailsms');
+        $this->CI->load->model('rolepermission_model');
         $this->perm_category = $this->CI->config->item('perm_category');
         self::loadPermission(); //Initiate the userroles
     }

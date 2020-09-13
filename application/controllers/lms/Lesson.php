@@ -13,7 +13,7 @@ class Lesson extends General_Controller {
         $this->load->model('discussion_model');
         $this->load->library('mailsmsconf');
         $this->mailer;
-        $this->load->model(array('conference_model', 'conferencehistory_model'));
+        $this->load->model(array('conference_model', 'conferencehistory_model','class_model'));
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/lesson');
         $this->writedb = $this->load->database('write_db', TRUE);
