@@ -7,6 +7,9 @@ class Subject extends Student_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('student_model');
+        $this->load->model('teachersubject_model');
+        $this->load->model('subject_model');
     }
 
     function index() {

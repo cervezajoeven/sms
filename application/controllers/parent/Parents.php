@@ -11,6 +11,33 @@ class Parents extends Parent_Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->load->model('paymentsetting_model');
+        $this->load->model('student_model');
+        $this->load->model('notification_model');
+        $this->load->model('language_model');
+        $this->load->model('user_model');
+        $this->load->model('paymentsetting_model');
+        $this->load->model('category_model');
+        $this->load->model('timeline_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('examschedule_model');
+        $this->load->model('grade_model');
+        $this->load->model('examgroupstudent_model');
+        $this->load->model('category_model');
+        $this->load->model('feediscount_model');
+        $this->load->model('subjecttimetable_model');
+        $this->load->model('teachersubject_model');
+        $this->load->model('setting_model');
+        $this->load->model('attendencetype_model');
+        $this->load->model('exam_model');
+        $this->load->model('examschedule_model');
+        $this->load->model('content_model');
+        $this->load->model('staff_model');
+        $this->load->model('studentsubjectattendence_model');
+        $this->load->model('class_model');
+        $this->load->model('apply_leave_model');
+
         $this->payment_method = $this->paymentsetting_model->getActiveMethod();
 
     }

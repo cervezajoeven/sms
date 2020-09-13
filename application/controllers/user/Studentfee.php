@@ -8,6 +8,14 @@ class Studentfee extends Student_Controller {
     function __construct() {
         parent::__construct();
         $this->load->library('smsgateway');
+        $this->load->model('class_model');
+        $this->load->model('student_model');
+        $this->load->model('feecategory_model');
+        $this->load->model('studentfee_model');
+        $this->load->model('studenttransportfee_model');
+        $this->load->model('admin_model');
+        $this->load->model('setting_model');
+        $this->load->model('studentsession_model');
     }
 
     function index() {

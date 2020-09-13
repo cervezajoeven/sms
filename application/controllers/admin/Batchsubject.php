@@ -9,6 +9,9 @@ class Batchsubject extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('class_model');
+        $this->load->model('subject_model');
+        $this->load->model('batchsubject_model');
     }
 
     public function index()

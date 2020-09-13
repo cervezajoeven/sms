@@ -10,6 +10,8 @@ class ExamSchedule extends Student_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('examgroupstudent_model');
+        $this->load->model('batchsubject_model');
     }
 
     public function index()

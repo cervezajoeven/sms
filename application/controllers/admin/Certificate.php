@@ -9,6 +9,7 @@ class Certificate extends Admin_Controller {
 
         $this->load->library('Customlib');
         $this->load->model('certificate_model');
+        $this->load->model('customfield_model');
     }
 
     public function index() {

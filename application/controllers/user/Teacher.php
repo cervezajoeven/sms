@@ -8,6 +8,16 @@ class Teacher extends Student_Controller {
     function __construct() {
         parent::__construct();
         $this->current_classSection=$this->customlib->getStudentCurrentClsSection();
+
+        $this->load->model('subjecttimetable_model');
+        $this->load->model('staff_model');
+        $this->load->model('teachersubject_model');
+        $this->load->model('teacher_model');
+        $this->load->model('subject_model');
+        $this->load->model('class_model');
+        $this->load->model('setting_model');
+        $this->load->model('classsection_model');
+        $this->load->model('student_model');
     }
 
     function index() {

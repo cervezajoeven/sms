@@ -7,6 +7,7 @@ class Book extends Student_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('book_model');
     }
 
     public function index() {

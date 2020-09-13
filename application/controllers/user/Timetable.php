@@ -10,6 +10,8 @@ class Timetable extends Student_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('student_model');
+        $this->load->model('subjecttimetable_model');
     }
     public function index()
     {

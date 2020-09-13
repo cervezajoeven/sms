@@ -10,6 +10,12 @@ class Exam extends Student_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('exam_model');
+        $this->load->model('student_model');
+        $this->load->model('examschedule_model');
+        $this->load->model('feetype_model');
+        $this->load->model('examgroupstudent_model');
+        $this->load->model('grade_model');
     }
 
     public function index()

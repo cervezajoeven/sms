@@ -10,6 +10,11 @@ class Conference extends Admin_Controller {
         parent::__construct();
         $this->load->library('mailsmsconf');
         $this->load->model(array('conference_model', 'conferencehistory_model'));
+        $this->load->model('setting_model');
+        $this->load->model('class_model');
+        $this->load->model('staff_model');
+        $this->load->model('subjecttimetable_model');
+        $this->load->model('role_model');
     }
 
     public function index() {

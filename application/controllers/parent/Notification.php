@@ -7,6 +7,7 @@ class Notification extends Parent_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('notification_model');
     }
 
     function index() {

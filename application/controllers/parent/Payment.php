@@ -22,6 +22,12 @@ class Payment extends Parent_Controller {
         $this->load->library('Stripe_payment');
         $this->load->library('Twocheckout_payment');
 
+        $this->load->model('setting_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('student_model');
+        $this->load->model('paymentsetting_model');
+        $this->load->model('feegrouptype_model');
+
         $this->payment_method = $this->paymentsetting_model->get();
         $this->school_name = $this->customlib->getAppName();
         $this->school_setting = $this->setting_model->get();

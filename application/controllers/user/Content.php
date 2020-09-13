@@ -7,6 +7,8 @@ class Content extends Student_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('content_model');
+        $this->load->model('student_model');
     }
 
     public function index() {

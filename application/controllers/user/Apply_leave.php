@@ -5,6 +5,13 @@ if (!defined('BASEPATH'))
 
 class Apply_leave extends Student_Controller {
 
+    function __construct() {
+        parent::__construct();
+        $this->load->model('student_model');
+        $this->load->model('apply_leave_model');
+        $this->load->model('studentsession_model');
+    }
+
 	public function index(){
          $this->session->set_userdata('top_menu', 'apply_leave');
          $student_session_id=$this->session->userdata['current_class']['student_session_id'];

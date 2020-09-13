@@ -7,7 +7,8 @@ class Audit extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
-          }
+        $this->load->model('audit_model');
+    }
 
     function unauthorized() {
         $data = array();

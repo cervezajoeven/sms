@@ -8,6 +8,8 @@ class Timeline extends Student_Controller {
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
+
+        $this->load->model('timeline_model');
     }
 
     public function add() {

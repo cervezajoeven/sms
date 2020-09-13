@@ -9,7 +9,7 @@ class Admitcard extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->load->model('admitcard_model');
     }
 
     public function index()
