@@ -23,6 +23,8 @@ class Admin extends Admin_Controller
         $this->load->model("book_model");
         $this->load->model("bookissue_model");
         $this->load->model("stuattendence_model");
+        $this->load->model('student_model');
+        $this->load->model('setting_model');
         $this->load->library('Enc_lib');
         $this->sch_setting_detail = $this->setting_model->getSetting();
 
