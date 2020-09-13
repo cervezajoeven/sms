@@ -49,6 +49,34 @@ class Assessment extends General_Controller {
         $this->load->view('layout/footer');
     }
 
+    public function create_index(){
+
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/assessment');
+        $data['user_id'] = $this->general_model->get_account_id();
+        $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
+
+
+        if($data['role']=='admin'){
+
+            $this->load->view('layout/header');
+            if($data['real_role']==7){
+                $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id());
+            }else{
+                $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
+            }
+            
+        }else{
+
+            $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
+            $this->load->view('layout/student/header');
+        }
+
+        $this->load->view('lms/assessment/create_index', $data);
+        $this->load->view('layout/footer');
+    }
+
     public function reports($assessment_id){
 
         $this->session->set_userdata('top_menu', 'Download Center');
