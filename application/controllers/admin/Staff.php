@@ -18,6 +18,16 @@ class Staff extends Admin_Controller {
         $this->load->model("staff_model");
         $this->load->library('encoding_lib');
         $this->load->model("leaverequest_model");
+        
+        $this->load->model('setting_model');
+        $this->load->model('customfield_model');
+        $this->load->model('payroll_model');
+        $this->load->model('attendencetype_model');
+        $this->load->model('role_model');
+        $this->load->model('session_model');
+        $this->load->model('userpermission_model');
+        $this->load->model('admin_model');
+
         $this->contract_type = $this->config->item('contracttype');
         $this->marital_status = $this->config->item('marital_status');
         $this->staff_attendance = $this->config->item('staffattendance');
