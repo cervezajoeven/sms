@@ -16,6 +16,7 @@ class Homework extends Admin_Controller
         $this->load->model("classteacher_model");
         $this->load->model('class_model');
         $this->load->model('setting_model');
+        $this->load->model('section_model');
 
         $this->config->load("app-config");
         $this->load->library('mailsmsconf');

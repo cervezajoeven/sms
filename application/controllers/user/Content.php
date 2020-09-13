@@ -9,6 +9,7 @@ class Content extends Student_Controller {
         parent::__construct();
         $this->load->model('content_model');
         $this->load->model('student_model');
+        $this->load->model('notification_model');
     }
 
     public function index() {
