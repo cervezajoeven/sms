@@ -20,6 +20,12 @@ class Customlib
         $this->CI->load->model('Notificationsetting_model', '', true);
         $this->CI->load->model('calendar_model', '', true);
         $this->CI->load->model('staff_model', '', true);
+        $this->CI->load->model('paymentsetting_model', '', true);
+        $this->CI->load->model('userlog_model', '', true);
+        $this->CI->load->model('staff_model', '', true);
+        $this->CI->load->model('classteacher_model', '', true);
+        $this->CI->load->model('messages_model', '', true);
+        $this->CI->load->model('studentsubjectattendence_model', '', true);
     }
 
     public function getCSRF()
