@@ -76,6 +76,7 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
+$hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 $local_db = "csl";
 
 if($HTTP_HOST=="localhost"){
@@ -101,6 +102,62 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_sim';
   	$hostname_read = "localhost";
 		$hostname = "localhost";
+
+}else if(in_array($database_name, $hts_array)){
+    $username = 'admin';
+    $password = 'J10o15e5V22n!4';
+    $database = 'campus_'.$database_name;
+
+    $hostname = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_write = "db-hts-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($database_name=="lcc-silvercrest"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_lcc-silvercrest';
+
+  	$hostname = "db-lcc-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname_write = "db-lcc-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+  	// $hostname = "campusnovodb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname_write = "campusnovodb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($HTTP_HOST=="stepsmandaluyong.com"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'stepsmandaluyong';
+
+    $hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+  	// $hostname = "campusnovodb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname_write = "campusnovodb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($HTTP_HOST=="www.stepsmandaluyong.com"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+    $database = 'stepsmandaluyong';
+
+    $hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+  	// $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	// $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	//$hostname = "campusnovodb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	//$hostname_write = "campusnovodb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if(in_array($database_name, $hts_array)){
+    $username = 'admin';
+    $password = 'J10o15e5V22n!4';
+    $database = 'campus_'.$database_name;
+
+    $hostname = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_write = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else{
 		$username = 'admin';

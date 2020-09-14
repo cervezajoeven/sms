@@ -13,6 +13,7 @@ class Lesson extends General_Controller {
         $this->load->model('discussion_model');
         
         $this->load->model('notification_model');
+        $this->load->model('notificationsetting_model');
 
         $this->load->library('mailsmsconf');
         $this->mailer;
