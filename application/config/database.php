@@ -79,6 +79,7 @@ $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 $campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","dbti","c7preschool","lccsilvercrest");
 $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
+$novo_array = array("gifted");
 $local_db = "csl";
 // $local_db = "optimized_db";
 if($HTTP_HOST=="localhost"){
@@ -135,7 +136,15 @@ if($HTTP_HOST=="localhost"){
     $database = 'campus_'.$database_name;
 
     $hostname = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-    $hostname_write = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_write = "db-hts-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if(in_array($database_name, $novo_array)){
+    $username = 'admin';
+    $password = 'J10o15e5V22n!4';
+    $database = 'campus_'.$database_name;
+
+    $hostname = "db-novocloud-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_write = "db-novocloud-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else if(in_array($database_name, $godaddy)){
 	
