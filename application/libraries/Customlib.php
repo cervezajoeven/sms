@@ -15,9 +15,9 @@ class Customlib
         $this->CI->load->helper('url');
         $this->CI->load->library('session');
         $this->CI->load->library('user_agent');
-        $this->CI->load->model('Notification_model', '', true);
-        $this->CI->load->model('Setting_model', '', true);
-        $this->CI->load->model('Notificationsetting_model', '', true);
+        $this->CI->load->model('notification_model', '', true);
+        $this->CI->load->model('setting_model', '', true);
+        $this->CI->load->model('notificationsetting_model', '', true);
         $this->CI->load->model('calendar_model', '', true);
         $this->CI->load->model('staff_model', '', true);
         $this->CI->load->model('paymentsetting_model', '', true);
@@ -663,7 +663,7 @@ class Customlib
 
     public function getSchoolName()
     {
-        $admin = $this->CI->Setting_model->getSetting();
+        $admin = $this->CI->setting_model->getSetting();
         return $admin->name;
     }
 
@@ -909,7 +909,7 @@ class Customlib
 
     public function dateFront()
     {
-        $admin = $this->CI->Setting_model->getSetting();
+        $admin = $this->CI->setting_model->getSetting();
         return $admin->date_format;
     }
 
