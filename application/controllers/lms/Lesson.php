@@ -243,6 +243,7 @@ class Lesson extends General_Controller {
         $data['real_role'] = $this->general_model->get_real_role();
         $data['classes'] = $this->general_model->get_classes();
         $data['subjects'] = $this->general_model->get_subjects(); 
+        $data['user_id'] = $this->general_model->get_account_id(); 
         $data['heading'] = "Past Lessons";
         $data['lesson_sched'] = "past";
         $data['lesson_query'] = $lesson_query;
@@ -1387,6 +1388,7 @@ class Lesson extends General_Controller {
 
         // $data['api_key'] = '0NP_jYnjS5WXxW5NRTZc0g';
         // $data['api_secret'] = 'BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI';
+        
         $data['api_key'] = $zoom_data['api_key'];
         $data['api_secret'] = $zoom_data['api_secret'];
 
@@ -1469,7 +1471,8 @@ class Lesson extends General_Controller {
     public function check_class($lesson_id,$user_id){
         
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
-        $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
+        // $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
+        $lms2_link = base_url('lms/lesson/create/'.$lesson_id);
         if($the_lesson['lesson_type'] == "zoom"||$the_lesson['lesson_type'] == "virtual"){
             $start_date = strtotime($the_lesson['start_date']);
             $end_date = strtotime($the_lesson['end_date']);
