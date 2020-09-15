@@ -10,6 +10,13 @@ class Member extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('librarymember_model');
+        $this->load->model('bookissue_model');
+        $this->load->model('book_model');
+        $this->load->model('class_model');
+        $this->load->model('student_model');
+        $this->load->model('librarymanagement_model');
+        $this->load->model('teacher_model');
     }
 
     public function index()

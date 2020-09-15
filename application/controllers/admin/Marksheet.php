@@ -9,7 +9,7 @@ class Marksheet extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->load->model('marksheet_model');
     }
 
     public function index()

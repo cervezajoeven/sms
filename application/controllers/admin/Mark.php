@@ -11,6 +11,14 @@ class Mark extends Admin_Controller {
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
         $this->load->model("classteacher_model");
+        $this->load->model('setting_model');
+        $this->load->model('exam_model');
+        $this->load->model('class_model');
+        $this->load->model('feecategory_model');
+        $this->load->model('examschedule_model');
+        $this->load->model('student_model');
+        $this->load->model('mark_model');
+        $this->load->model('examresult_model');
     }
 
     function index() {

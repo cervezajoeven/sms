@@ -5,7 +5,7 @@ class studentidcard extends Admin_Controller {
         parent::__construct();
 
         $this->load->library('Customlib');
-        $this->load->model('Student_id_card_model');
+        $this->load->model('student_id_card_model');
     }
 
     public function index() {
@@ -15,7 +15,7 @@ class studentidcard extends Admin_Controller {
         }
         $this->session->set_userdata('top_menu', 'Certificate');
         $this->session->set_userdata('sub_menu', 'admin/studentidcard');
-        $this->data['idcardlist'] = $this->Student_id_card_model->idcardlist();
+        $this->data['idcardlist'] = $this->student_id_card_model->idcardlist();
         $this->load->view('layout/header');
         $this->load->view('admin/certificate/createidcard', $this->data);
         $this->load->view('layout/footer');
@@ -37,7 +37,7 @@ class studentidcard extends Admin_Controller {
         
         if ($this->form_validation->run() == FALSE) {
             
-            $this->data['idcardlist'] = $this->Student_id_card_model->idcardlist();
+            $this->data['idcardlist'] = $this->student_id_card_model->idcardlist();
             $this->load->view('layout/header');
             $this->load->view('admin/certificate/createidcard', $this->data);
             $this->load->view('layout/footer');
@@ -96,7 +96,7 @@ class studentidcard extends Admin_Controller {
                 'enable_blood_group' => $bloodgroup,
                 'status' => 1,
             );
-            $insert_id = $this->Student_id_card_model->addidcard($data);
+            $insert_id = $this->student_id_card_model->addidcard($data);
 
             if (!empty($_FILES['background_image']['name'])) {
                 $config['upload_path'] = 'uploads/student_id_card/background/';
@@ -162,7 +162,7 @@ class studentidcard extends Admin_Controller {
             }
 
             $upload_data = array('id' => $insert_id, 'logo' => $logo_img, 'background' => $background, 'sign_image' => $sign_image);
-            $this->Student_id_card_model->addidcard($upload_data);
+            $this->student_id_card_model->addidcard($upload_data);
 
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('success_message').'</div>');
             redirect('admin/studentidcard/index');
@@ -176,13 +176,13 @@ class studentidcard extends Admin_Controller {
        
         $data['title'] = 'Edit ID Card';
         $data['id'] = $id;
-        $editidcard = $this->Student_id_card_model->get($id);
+        $editidcard = $this->student_id_card_model->get($id);
         $this->data['editidcard'] = $editidcard;
         $this->form_validation->set_rules('school_name', $this->lang->line('school_name'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('address', $this->lang->line('address_phone_email'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('title', $this->lang->line('id_card_title'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == FALSE) {
-            $this->data['idcardlist'] = $this->Student_id_card_model->idcardlist();
+            $this->data['idcardlist'] = $this->student_id_card_model->idcardlist();
             $this->load->view('layout/header');
             $this->load->view('admin/certificate/studentidcardedit', $this->data);
             $this->load->view('layout/footer');
@@ -309,7 +309,7 @@ class studentidcard extends Admin_Controller {
                 'status' => 1,
             );
 
-            $this->Student_id_card_model->addidcard($data);
+            $this->student_id_card_model->addidcard($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('update_message').'</div>');
             redirect('admin/studentidcard');
         }
@@ -317,7 +317,7 @@ class studentidcard extends Admin_Controller {
 
     function delete($id) {
         $data['title'] = 'Certificate List';
-        $this->Student_id_card_model->remove($id);
+        $this->student_id_card_model->remove($id);
         $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('delete_message').'</div>');
         redirect('admin/studentidcard/index');
     }
@@ -325,7 +325,7 @@ class studentidcard extends Admin_Controller {
     public function view() {
         $id = $this->input->post('certificateid');
         $output = '';
-        $idcard = $this->Student_id_card_model->idcardbyid($id);
+        $idcard = $this->student_id_card_model->idcardbyid($id);
       //  print_r($idcard);die;
         ?>
         <style type="text/css">

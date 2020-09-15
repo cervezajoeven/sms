@@ -7,6 +7,14 @@ class Transaction extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('setting_model');
+        $this->load->model('expense_model');
+        $this->load->model('payroll_model');
+        $this->load->model('income_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('class_model');
+        $this->load->model('section_model');
+        $this->load->model('student_model');
 		 $this->sch_setting_detail = $this->setting_model->getSetting();
     }
 

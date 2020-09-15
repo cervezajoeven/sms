@@ -7,6 +7,8 @@ class Userlog extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
+
+        $this->load->model('userlog_model');
     }
 
     function index() {

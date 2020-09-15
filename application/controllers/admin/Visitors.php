@@ -8,7 +8,7 @@ class Visitors extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model("Visitors_model");
+        $this->load->model("visitors_model");
     }
 
     function index() {
@@ -24,8 +24,8 @@ class Visitors extends Admin_Controller {
        
         if ($this->form_validation->run() == FALSE) {
            
-            $data['visitor_list'] = $this->Visitors_model->visitors_list();
-            $data['Purpose'] = $this->Visitors_model->getPurpose();
+            $data['visitor_list'] = $this->visitors_model->visitors_list();
+            $data['Purpose'] = $this->visitors_model->getPurpose();
             $this->load->view('layout/header');
             $this->load->view('admin/frontoffice/visitorview', $data);
             $this->load->view('layout/footer');
@@ -42,12 +42,12 @@ class Visitors extends Admin_Controller {
                 'note' => $this->input->post('note')
             );
             
-            $visitor_id = $this->Visitors_model->add($visitors);
+            $visitor_id = $this->visitors_model->add($visitors);
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
                 $img_name = 'id' . $visitor_id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/front_office/visitors/" . $img_name);
-                $this->Visitors_model->image_add($visitor_id, $img_name);
+                $this->visitors_model->image_add($visitor_id, $img_name);
             }
 
             $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('success_message').'</div>');
@@ -60,7 +60,7 @@ class Visitors extends Admin_Controller {
             access_denied();
         }
        
-        $this->Visitors_model->delete($id);
+        $this->visitors_model->delete($id);
     }
 
     public function edit($id) {
@@ -73,9 +73,9 @@ class Visitors extends Admin_Controller {
         $this->form_validation->set_rules('name', $this->lang->line('name'), 'required');
         if ($this->form_validation->run() == FALSE) {
             
-            $data['Purpose'] = $this->Visitors_model->getPurpose();
-            $data['visitor_list'] = $this->Visitors_model->visitors_list();
-            $data['visitor_data'] = $this->Visitors_model->visitors_list($id);
+            $data['Purpose'] = $this->visitors_model->getPurpose();
+            $data['visitor_list'] = $this->visitors_model->visitors_list();
+            $data['visitor_data'] = $this->visitors_model->visitors_list($id);
             $this->load->view('layout/header');
             $this->load->view('admin/frontoffice/visitoreditview', $data);
             $this->load->view('layout/footer');
@@ -97,9 +97,9 @@ class Visitors extends Admin_Controller {
               
                 $img_name = 'id' . $id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/front_office/visitors/" . $img_name);
-                $this->Visitors_model->image_update($id, $img_name);
+                $this->visitors_model->image_update($id, $img_name);
             }
-            $this->Visitors_model->update($id, $visitors);
+            $this->visitors_model->update($id, $visitors);
              redirect('admin/visitors');
         }
     }
@@ -109,7 +109,7 @@ class Visitors extends Admin_Controller {
             access_denied();
         }
        
-        $data['data'] = $this->Visitors_model->visitors_list($id);
+        $data['data'] = $this->visitors_model->visitors_list($id);
         $this->load->view('admin/frontoffice/Visitormodelview', $data);
     }
 
@@ -125,7 +125,7 @@ class Visitors extends Admin_Controller {
         if (!$this->rbac->hasPrivilege('visitor_book', 'can_delete')) {
             access_denied();
         }
-        $this->Visitors_model->image_delete($id, $image);
+        $this->visitors_model->image_delete($id, $image);
     }
 
     public function check_default($post_string) {

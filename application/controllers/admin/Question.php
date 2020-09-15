@@ -9,7 +9,8 @@ class Question extends Admin_Controller
 
     function __construct() {
         parent::__construct();
-        
+        $this->load->model('question_model');
+        $this->load->model('subject_model');
     }
 
 

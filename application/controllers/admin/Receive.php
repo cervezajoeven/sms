@@ -9,7 +9,7 @@ class Receive extends Admin_Controller {
         parent::__construct();
         $this->load->library('form_validation');
        
-        $this->load->model("Dispatch_model");
+        $this->load->model("dispatch_model");
     }
 
     public function index() {
@@ -20,7 +20,7 @@ class Receive extends Admin_Controller {
         $this->session->set_userdata('sub_menu', 'admin/receive');
         $this->form_validation->set_rules('from_title',$this->lang->line('from_title'), 'required');
         if ($this->form_validation->run() == FALSE) {
-            $data['ReceiveList'] = $this->Dispatch_model->receive_list();
+            $data['ReceiveList'] = $this->dispatch_model->receive_list();
             $this->load->view('layout/header');
             $this->load->view('admin/frontoffice/receiveview', $data);
             $this->load->view('layout/footer');
@@ -36,12 +36,12 @@ class Receive extends Admin_Controller {
                 'type' => 'receive'
             );
 
-            $dispatch_id = $this->Dispatch_model->insert('dispatch_receive', $dispatch);
+            $dispatch_id = $this->dispatch_model->insert('dispatch_receive', $dispatch);
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
                 $img_name = 'id' . $dispatch_id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/front_office/dispatch_receive/" . $img_name);
-                $this->Dispatch_model->image_add('receive', $dispatch_id, $img_name);
+                $this->dispatch_model->image_add('receive', $dispatch_id, $img_name);
             }
 
             $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('success_message').'</div>');
@@ -56,8 +56,8 @@ class Receive extends Admin_Controller {
 
         $this->form_validation->set_rules('from_title',$this->lang->line('from_title'), 'required');
         if ($this->form_validation->run() == FALSE) {
-            $data['receiveList'] = $this->Dispatch_model->receive_list();
-            $data['receiveData'] = $this->Dispatch_model->dis_rec_data($id, 'receive');
+            $data['receiveList'] = $this->dispatch_model->receive_list();
+            $data['receiveData'] = $this->dispatch_model->dis_rec_data($id, 'receive');
             $this->load->view('layout/header');
             $this->load->view('admin/frontoffice/receiveedit', $data);
             $this->load->view('layout/footer');
@@ -74,13 +74,13 @@ class Receive extends Admin_Controller {
             );
           
 
-            $this->Dispatch_model->update_dispatch('dispatch_receive', $id, 'receive', $receive);
+            $this->dispatch_model->update_dispatch('dispatch_receive', $id, 'receive', $receive);
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
                 $img_name = 'id' . $id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/front_office/dispatch_receive/" . $img_name);
-                $this->Dispatch_model->image_update('dispatch', $id, $img_name);
+                $this->dispatch_model->image_update('dispatch', $id, $img_name);
             }
             $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('success_message').'</div>');
             redirect('admin/receive');
@@ -92,14 +92,14 @@ class Receive extends Admin_Controller {
             access_denied();
         }
       
-        $this->Dispatch_model->delete($id);
+        $this->dispatch_model->delete($id);
     }
 
     public function imagedelete($id, $image) {
         if (!$this->rbac->hasPrivilege('postal_receive', 'can_delete')) {
             access_denied();
         }
-        $this->Dispatch_model->image_delete($id, $image);
+        $this->dispatch_model->image_delete($id, $image);
     }
 
 }
