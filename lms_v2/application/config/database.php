@@ -77,7 +77,7 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
-$novo_array = array("gifted","tlc-nbs","sophia","smecs","smsbs","rainbow","nicosat","cicosat");
+$novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
 $local_db = "csl";
 
 if($HTTP_HOST=="localhost"){
