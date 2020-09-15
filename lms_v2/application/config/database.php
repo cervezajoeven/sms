@@ -108,8 +108,8 @@ if($HTTP_HOST=="localhost"){
     $password = 'J10o15e5V22n!4';
     $database = 'campus_'.$database_name;
 
-    $hostname = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-    $hostname_write = "db-hts-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_read = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname = "db-hts-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else if($database_name=="lcc-silvercrest"){
 
@@ -117,8 +117,8 @@ if($HTTP_HOST=="localhost"){
   	$password = 'J10o15e5V22n!4';
   	$database = 'campus_lcc-silvercrest';
 
-  	$hostname = "db-lcc-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-  	$hostname_write = "db-lcc-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname_read = "db-lcc-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname = "db-lcc-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
   	// $hostname = "campusnovodb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	// $hostname_write = "campusnovodb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
@@ -129,8 +129,9 @@ if($HTTP_HOST=="localhost"){
   	$password = 'J10o15e5V22n!4';
   	$database = 'stepsmandaluyong';
 
-    $hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-  	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_read = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
   	// $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	// $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
@@ -143,8 +144,8 @@ if($HTTP_HOST=="localhost"){
   	$password = 'J10o15e5V22n!4';
     $database = 'stepsmandaluyong';
 
-    $hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-  	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_read = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
   	// $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	// $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
@@ -156,8 +157,8 @@ if($HTTP_HOST=="localhost"){
     $password = 'J10o15e5V22n!4';
     $database = 'campus_'.$database_name;
 
-    $hostname = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-    $hostname_write = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_read = "db-hts-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname = "db-hts-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else{
 		$username = 'admin';
