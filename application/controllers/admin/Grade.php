@@ -11,6 +11,7 @@ class Grade extends Admin_Controller
     {
         parent::__construct();
         $this->exam_type = $this->config->item('exam_type');
+        $this->load->model('grade_model');
     }
 
    

@@ -12,6 +12,10 @@ class Income extends Admin_Controller
         parent::__construct();
         $this->load->helper('form');
         $this->config->load('app-config');
+
+        $this->load->model('income_model');
+        $this->load->model('feetype_model');
+        $this->load->model('incomehead_model');
     }
 
     public function index()

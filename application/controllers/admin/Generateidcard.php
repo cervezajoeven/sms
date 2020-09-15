@@ -12,6 +12,13 @@ class Generateidcard extends Admin_Controller {
         parent::__construct();
 
         $this->load->library('Customlib');
+
+        $this->load->model('setting_model');
+        $this->load->model('generateidcard_model');
+        $this->load->model('class_model');
+        $this->load->model('student_model');
+        $this->load->model('classsection_model');
+
 		 $this->sch_setting_detail = $this->setting_model->getSetting();
     }
 
@@ -23,7 +30,7 @@ class Generateidcard extends Admin_Controller {
         $this->session->set_userdata('top_menu', 'Certificate');
         $this->session->set_userdata('sub_menu', 'admin/generateidcard');
         
-        $idcardlist = $this->Generateidcard_model->getstudentidcard();
+        $idcardlist = $this->generateidcard_model->getstudentidcard();
         $data['idcardlist'] = $idcardlist;
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -40,7 +47,7 @@ class Generateidcard extends Admin_Controller {
         $data['classlist'] = $class;
 		$data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
 		$data['sch_setting']        = $this->sch_setting_detail;
-        $idcardlist = $this->Generateidcard_model->getstudentidcard();
+        $idcardlist = $this->generateidcard_model->getstudentidcard();
         $data['idcardlist'] = $idcardlist;
         $button = $this->input->post('search');
         if ($this->input->server('REQUEST_METHOD') == "GET") {
@@ -63,7 +70,7 @@ class Generateidcard extends Admin_Controller {
                     $data['class_id'] = $this->input->post('class_id');
                     $data['section_id'] = $this->input->post('section_id');
                     $id_card = $this->input->post('id_card');
-                    $idcardResult = $this->Generateidcard_model->getidcardbyid($id_card);
+                    $idcardResult = $this->generateidcard_model->getidcardbyid($id_card);
                     $data['idcardResult'] = $idcardResult;
                     $resultlist = $this->student_model->searchByClassSection($class, $section);
                     $data['resultlist'] = $resultlist;
@@ -80,7 +87,7 @@ class Generateidcard extends Admin_Controller {
 
     public function generate($student, $class, $idcard) {
        
-        $idcardlist = $this->Generateidcard_model->getidcardbyid($idcard);
+        $idcardlist = $this->generateidcard_model->getidcardbyid($idcard);
         $data['idcardlist'] = $idcardlist;
         $resultlist = $this->student_model->searchByClassStudent($class, $student);
         $data['resultlist'] = $resultlist;
@@ -99,7 +106,7 @@ class Generateidcard extends Admin_Controller {
         $results = array();
         $std_arr = array();
         $data['sch_setting'] = $this->setting_model->get();
-        $data['id_card'] = $this->Generateidcard_model->getidcardbyid($idcard);
+        $data['id_card'] = $this->generateidcard_model->getidcardbyid($idcard);
 
         foreach ($student_array as $key => $value) {
             $std_arr[] = $value->student_id;

@@ -15,6 +15,13 @@ class Generatecertificate extends Admin_Controller
         parent::__construct();
 
         $this->load->library('Customlib');
+
+        $this->load->model('certificate_model');
+        $this->load->model('class_model');
+        $this->load->model('generatecertificate_model');
+        $this->load->model('student_model');
+        $this->load->model('classsection_model');
+        $this->load->model('setting_model');
     }
 
     public function index()
@@ -25,7 +32,7 @@ class Generatecertificate extends Admin_Controller
         $this->session->set_userdata('top_menu', 'Certificate');
         $this->session->set_userdata('sub_menu', 'admin/generatecertificate');
 
-        $certificateList         = $this->Certificate_model->getstudentcertificate();
+        $certificateList         = $this->certificate_model->getstudentcertificate();
         $data['certificateList'] = $certificateList;
         $class                   = $this->class_model->get();
         $data['classlist']       = $class;
@@ -41,7 +48,7 @@ class Generatecertificate extends Admin_Controller
 
         $class                   = $this->class_model->get();
         $data['classlist']       = $class;
-        $certificateList         = $this->Certificate_model->getstudentcertificate();
+        $certificateList         = $this->certificate_model->getstudentcertificate();
         $data['certificateList'] = $certificateList;
         $button                  = $this->input->post('search');
         if ($this->input->server('REQUEST_METHOD') == "GET") {
@@ -64,7 +71,7 @@ class Generatecertificate extends Admin_Controller
                     $data['class_id']          = $this->input->post('class_id');
                     $data['section_id']        = $this->input->post('section_id');
                     $certificate               = $this->input->post('certificate_id');
-                    $certificateResult         = $this->Generatecertificate_model->getcertificatebyid($certificate);
+                    $certificateResult         = $this->generatecertificate_model->getcertificatebyid($certificate);
                     $data['certificateResult'] = $certificateResult;
                     $resultlist                = $this->student_model->searchByClassSection($class, $section);
                     $data['resultlist']        = $resultlist;
@@ -80,7 +87,7 @@ class Generatecertificate extends Admin_Controller
 
     public function generate($student, $class, $certificate)
     {
-        $certificateResult         = $this->Generatecertificate_model->getcertificatebyid($certificate);
+        $certificateResult         = $this->generatecertificate_model->getcertificatebyid($certificate);
         $data['certificateResult'] = $certificateResult;
         $resultlist                = $this->student_model->searchByClassStudent($class, $student);
         $data['resultlist']        = $resultlist;
@@ -119,7 +126,7 @@ class Generatecertificate extends Admin_Controller
         $results             = array();
         $std_arr             = array();
         $data['sch_setting'] = $this->setting_model->get();
-        $data['certificate'] = $this->Generatecertificate_model->getcertificatebyid($certificate_id);
+        $data['certificate'] = $this->generatecertificate_model->getcertificatebyid($certificate_id);
 
         foreach ($student_array as $key => $value) {
             $std_arr[] = $value->student_id;

@@ -10,6 +10,8 @@ class Book extends Admin_Controller {
         $this->load->library('encoding_lib');
         $this->writedb = $this->load->database('write_db', TRUE);
         $this->load->model('book_model');
+        $this->load->model('bookissue_model');
+        $this->load->model('teacher_model');
     }
 
     public function index() {

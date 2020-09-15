@@ -13,6 +13,8 @@ class Customfield extends Admin_Controller
         $this->load->library('encoding_lib');
         $this->custom_fields_list = $this->config->item('custom_fields');
         $this->custom_field_table = $this->config->item('custom_field_table');
+
+        $this->load->model('customfield_model');
     }
 
     public function index()

@@ -9,7 +9,7 @@ class Dispatch extends Admin_Controller {
         parent::__construct();
         $this->load->library('form_validation');
        
-        $this->load->model("Dispatch_model");
+        $this->load->model("dispatch_model");
     }
 
     public function index() {
@@ -21,7 +21,7 @@ class Dispatch extends Admin_Controller {
         $this->session->set_userdata('sub_menu', 'admin/dispatch');
         $this->form_validation->set_rules('to_title', $this->lang->line('to')." ".$this->lang->line('title'), 'required');
         if ($this->form_validation->run() == FALSE) {
-            $data['DispatchList'] = $this->Dispatch_model->dispatch_list();
+            $data['DispatchList'] = $this->dispatch_model->dispatch_list();
             $this->load->view('layout/header');
             $this->load->view('admin/frontoffice/dispatchview', $data);
             $this->load->view('layout/footer');
@@ -37,12 +37,12 @@ class Dispatch extends Admin_Controller {
                 'type' => 'dispatch'
             );
 
-            $dispatch_id = $this->Dispatch_model->insert('dispatch_receive', $dispatch);
+            $dispatch_id = $this->dispatch_model->insert('dispatch_receive', $dispatch);
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
                 $img_name = 'id' . $dispatch_id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/front_office/dispatch_receive/" . $img_name);
-                $this->Dispatch_model->image_add('dispatch', $dispatch_id, $img_name);
+                $this->dispatch_model->image_add('dispatch', $dispatch_id, $img_name);
             }
 
             $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('success_message').'</div>');
@@ -57,8 +57,8 @@ class Dispatch extends Admin_Controller {
 
         $this->form_validation->set_rules('to_title', 'To Title', 'required');
         if ($this->form_validation->run() == FALSE) {
-            $data['DispatchList'] = $this->Dispatch_model->dispatch_list();
-            $data['Dispatch_data'] = $this->Dispatch_model->dis_rec_data($id, 'dispatch');
+            $data['DispatchList'] = $this->dispatch_model->dispatch_list();
+            $data['Dispatch_data'] = $this->dispatch_model->dis_rec_data($id, 'dispatch');
             $this->load->view('layout/header');
             $this->load->view('admin/frontoffice/dispatchedit', $data);
             $this->load->view('layout/footer');
@@ -76,13 +76,13 @@ class Dispatch extends Admin_Controller {
             );
            
 
-            $this->Dispatch_model->update_dispatch('dispatch_receive', $id, 'dispatch', $dispatch);
+            $this->dispatch_model->update_dispatch('dispatch_receive', $id, 'dispatch', $dispatch);
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
                 $img_name = 'id' . $id . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/front_office/dispatch_receive/" . $img_name);
-                $this->Dispatch_model->image_update('dispatch', $id, $img_name);
+                $this->dispatch_model->image_update('dispatch', $id, $img_name);
             }
 
             $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('update_message').'</div>');
@@ -105,11 +105,11 @@ class Dispatch extends Admin_Controller {
             access_denied();
         }
         
-        $this->Dispatch_model->delete($id);
+        $this->dispatch_model->delete($id);
     }
 
     public function imagedelete($id, $image) {
-        $this->Dispatch_model->image_delete($id, $image);
+        $this->dispatch_model->image_delete($id, $image);
         $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$this->lang->line('delete_message').'</div>');
         redirect('admin/dispatch');
     }
@@ -119,7 +119,7 @@ class Dispatch extends Admin_Controller {
         if (!$this->rbac->hasPrivilege('postal_dispatch', 'can_view')) {
             access_denied();
         }
-        $data['data'] = $this->Dispatch_model->dis_rec_data($id, $type);
+        $data['data'] = $this->dispatch_model->dis_rec_data($id, $type);
         
         $this->load->view('admin/frontoffice/dispacthreceviemodel', $data);
     }
