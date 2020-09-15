@@ -14,11 +14,11 @@ class Staff extends Admin_Controller {
         $this->config->load("payroll");
         $this->config->load("app-config");
         $this->load->library('Enc_lib');
-        $this->load->library('mailsmsconf');
-        $this->load->model("staff_model");
+        $this->load->library('mailsmsconf');        
         $this->load->library('encoding_lib');
-        $this->load->model("leaverequest_model");
-        
+
+        $this->load->model("staff_model");
+        $this->load->model("leaverequest_model");        
         $this->load->model('setting_model');
         $this->load->model('customfield_model');
         $this->load->model('payroll_model');
@@ -27,6 +27,7 @@ class Staff extends Admin_Controller {
         $this->load->model('session_model');
         $this->load->model('userpermission_model');
         $this->load->model('admin_model');
+        $this->load->model('timeline_model');
 
         $this->contract_type = $this->config->item('contracttype');
         $this->marital_status = $this->config->item('marital_status');
