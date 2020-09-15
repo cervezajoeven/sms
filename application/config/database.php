@@ -79,7 +79,7 @@ $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("sim","beta");
 $campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","dbti","c7preschool","lccsilvercrest");
 $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
-$novo_array = array("gifted");
+$novo_array = array("gifted","tlc-nbs","sophia","smecs","smsbs","rainbow","nicosat","cicosat");
 $local_db = "csl";
 // $local_db = "optimized_db";
 if($HTTP_HOST=="localhost"){
