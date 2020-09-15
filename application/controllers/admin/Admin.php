@@ -27,6 +27,7 @@ class Admin extends Admin_Controller
         $this->load->model('setting_model');
         $this->load->model('customfield_model');
         $this->load->model('class_model');
+        $this->load->model('studentfeemaster_model');        
         
         $this->load->library('Enc_lib');
         $this->sch_setting_detail = $this->setting_model->getSetting();
@@ -191,14 +192,13 @@ class Admin extends Admin_Controller
  
     public function dashboard()
     {
-
+        
         $role          = $this->customlib->getStaffRole();
         $role_id       = json_decode($role)->id;
         $staffid       = $this->customlib->getStaffID();
         $notifications = $this->notification_model->getUnreadStaffNotification($staffid, $role_id);
-
         $data['notifications'] = $notifications;
-        $input                 = $this->setting_model->getCurrentSessionName();
+        $input                 = $this->setting_model->getCurrentSessionName();        
 
         list($a, $b)  = explode('-', $input);
         $Current_year = $a;
@@ -484,7 +484,7 @@ class Admin extends Admin_Controller
       
         $data['attendence_data'] = $Attendence;
 
-        $Staffattendence              = $this->Staff_model->getTodayDayAttendance();
+        $Staffattendence              = $this->staff_model->getTodayDayAttendance();
         $data['Staffattendence_data'] = $Staffattendence;
 
         $getTotalStaff              = $this->Staff_model->getTotalStaff();

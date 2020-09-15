@@ -21,6 +21,17 @@ class User extends Student_Controller
         $this->load->model('timeline_model');
         $this->load->model('category_model');
         $this->load->model('notification_model');
+        $this->load->model('user_model');
+        $this->load->model('setting_model');
+        $this->load->model('student_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('feediscount_model');
+        $this->load->model('timeline_model');
+        $this->load->model('category_model');
+        $this->load->model('language_model');
+        $this->load->model('studentfee_model');
+        $this->load->model('studenttransportfee_model');
+        $this->load->model('examschedule_model');
         $this->payment_method     = $this->paymentsetting_model->getActiveMethod();
         $this->sch_setting_detail = $this->setting_model->getSetting();
     }
