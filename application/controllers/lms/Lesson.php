@@ -1471,7 +1471,8 @@ class Lesson extends General_Controller {
     public function check_class($lesson_id,$user_id){
         
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
-        $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
+        // $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
+        $lms2_link = base_url('lms/lesson/create/'.$lesson_id);
         if($the_lesson['lesson_type'] == "zoom"||$the_lesson['lesson_type'] == "virtual"){
             $start_date = strtotime($the_lesson['start_date']);
             $end_date = strtotime($the_lesson['end_date']);
