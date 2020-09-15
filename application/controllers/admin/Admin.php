@@ -25,6 +25,9 @@ class Admin extends Admin_Controller
         $this->load->model("stuattendence_model");
         $this->load->model('student_model');
         $this->load->model('setting_model');
+        $this->load->model('customfield_model');
+        $this->load->model('class_model');
+        
         $this->load->library('Enc_lib');
         $this->sch_setting_detail = $this->setting_model->getSetting();
 
@@ -774,13 +777,13 @@ class Admin extends Admin_Controller
         $search_text             = $this->input->post('search_text');
         $data['sch_setting']     = $this->sch_setting_detail;
         $data['search_text']     = trim($this->input->post('search_text'));
-        $userdata                = $this->customlib->getUserData();
+        // // $userdata                = $this->customlib->getUserData();
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $carray                  = array();
         $class                   = $this->class_model->get();
         $data['classlist']       = $class;
         $data['fields']          = $this->customfield_model->get_custom_fields('students', 1);
-        $userdata                = $this->customlib->getUserData();
+        // $userdata                = $this->customlib->getUserData();
         $carray                  = array();
 
         if (!empty($data["classlist"])) {
@@ -797,6 +800,8 @@ class Admin extends Admin_Controller
         $this->load->view('layout/header', $data);
         $this->load->view('admin/search', $data);
         $this->load->view('layout/footer', $data);
+
+        // print_r("EMN Test");
     }
 
     public function getCollectionbymonth()
