@@ -215,9 +215,7 @@ if($HTTP_HOST=="localhost"){
   	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }
-print_r($hostname);
-echo "<br/>";
-print_r($hostname_write);
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => $hostname,
