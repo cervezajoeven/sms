@@ -157,7 +157,7 @@ if($HTTP_HOST=="localhost"){
 
   	$username = 'admin';
   	$password = 'J10o15e5V22n!4';
-  	$database = 'campus_isbb';
+  	$database = 'campus_phsi';
 
   	$hostname = "db-phsi-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 	$hostname_write = "db-phsi-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
