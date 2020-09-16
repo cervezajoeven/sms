@@ -117,6 +117,15 @@ if($HTTP_HOST=="localhost"){
   	$hostname = "db-lcc-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	$hostname_write = "db-lcc-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
+}else if($database_name=="csl"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_lcc-silvercrest';
+
+  	$hostname = "db-csl-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  	$hostname_write = "db-csl-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
 }else if(in_array($database_name, $hts_array)){
     $username = 'admin';
     $password = 'J10o15e5V22n!4';
