@@ -132,6 +132,15 @@ if($HTTP_HOST=="localhost"){
   	// $hostname = "campusnovodb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	// $hostname_write = "campusnovodb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
+}else if($database_name=="csl"){
+
+    $username = 'admin';
+    $password = 'J10o15e5V22n!4';
+    $database = 'campus_csl';
+
+    $hostname = "csl-db-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_write = "csl-db-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
   	$username = 'admin';
