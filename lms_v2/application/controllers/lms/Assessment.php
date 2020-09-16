@@ -73,10 +73,10 @@ class Assessment extends JOE_Controller {
 
 			$response = $this->assessment_model->response($id,$data['account_id'],1);
 
-			// if(count($response)>=$data['assessment']['attempts']){
-	  //       echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
-	  //       $this->load->view('lms/assessment/answer', $data);
-	  //   }else{
+			if(count($response)>=$data['assessment']['attempts']){
+	        echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";
+	        $this->load->view('lms/assessment/answer', $data);
+	    }else{
 
 					$new_response = $this->assessment_model->response($id,$data['account_id'],0);
 
@@ -93,7 +93,7 @@ class Assessment extends JOE_Controller {
 	        $data['assessment_sheet'] = $new_response[0];
 
 	        $this->load->view('lms/assessment/answer', $data);
-	    // }
+	    }
 
 	}
 
