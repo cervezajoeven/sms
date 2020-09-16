@@ -168,6 +168,15 @@ if($HTTP_HOST=="localhost"){
     $hostname_read = "isbb-db-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
     $hostname = "isbb-db-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
+}else if($database_name=="phsi"){
+
+    $username = 'admin';
+    $password = 'J10o15e5V22n!4';
+    $database = 'campus_phsi';
+
+    $hostname = "db-phsi-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+  $hostname_write = "db-phsi-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
 }else if($HTTP_HOST=="stepsmandaluyong.com"){
 
   	$username = 'admin';
