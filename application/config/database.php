@@ -124,7 +124,7 @@ if($HTTP_HOST=="localhost"){
   	$database = 'campus_csl';
 
   	$hostname = "csl-db-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-  	$hostname_write = "csl-db-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "csl-db-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else if($database_name=="baliuagu"){
 
@@ -134,6 +134,33 @@ if($HTTP_HOST=="localhost"){
 
   	$hostname = "db-baliuagu-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	$hostname_write = "db-baliuagu-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($database_name=="bulacanecumenical"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_bulacanecumenical';
+
+  	$hostname = "campusnovodb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "campusnovodb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($database_name=="isbb"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_isbb';
+
+  	$hostname = "isbb-db-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "isbb-db-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($database_name=="phsi"){
+
+  	$username = 'admin';
+  	$password = 'J10o15e5V22n!4';
+  	$database = 'campus_isbb';
+
+  	$hostname = "db-phsi-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "db-phsi-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else if(in_array($database_name, $hts_array)){
     $username = 'admin';
@@ -188,6 +215,9 @@ if($HTTP_HOST=="localhost"){
   	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }
+print_r($hostname);
+echo "<br/>";
+print_r($hostname_write);
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => $hostname,
