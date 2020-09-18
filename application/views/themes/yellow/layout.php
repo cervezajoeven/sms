@@ -52,22 +52,30 @@
 
             // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
             function myFunction() {
-                if (browser.name !== 'Chrome' && browser.name !== 'Firefox' && browser.name !== 'Opera') {
-                // if ($("#dialog").attr('style', 'display:block')) {
+                // if (browser.name !== 'Chrome' && browser.name !== 'Firefox' && browser.name !== 'Opera') {
+                if ($('#dialog').css('display') == 'block') {
                     $("#dialog").dialog({		
                         position: {my: 'right bottom', at: 'right bottom', of: window}
                     });
-                // }                    
-                }
+                }                    
+                // }
             }
 
             $( function() {	
-                if (browser.name !== 'Chrome' && browser.name !== 'Firefox' && browser.name !== 'Opera') {
+                // if (browser.name !== 'Chrome' && browser.name !== 'Firefox' && browser.name !== 'Opera') {
                     $( "#dialog" ).dialog({		
                         position: {my: 'right bottom', at: 'right bottom', of: window}
                     });
-                }
+                // }
+
+                // $( "#dialog" ).on( "dialogclose", function( event, ui ) { $("#dialog").attr('style', 'display:none') } );
             });
+
+            $(document).on('click','.ui-dialog-titlebar-close',function(){
+                $("#dialog").attr('style', 'display:none');
+            });
+
+            
         </script>
         <?php
         //$this->load->view('layout/theme');
