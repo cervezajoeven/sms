@@ -9,6 +9,12 @@ class Onlinestudent_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         // $this->load->library('mailsmsconf');
+        $this->load->model('setting_model');
+        $this->load->model('student_model');
+        $this->load->model('studentfeemaster_model');
+        $this->load->model('user_model');
+        $this->load->model('feediscount_model');        
+
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
         //-- Load database for writing

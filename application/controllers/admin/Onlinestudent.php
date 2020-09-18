@@ -84,7 +84,7 @@ class Onlinestudent extends Admin_Controller
     {
         if (!$this->rbac->hasPrivilege('online_admission', 'can_edit')) {
             access_denied();
-        }
+        }        
 
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['title']           = 'Edit Student';
@@ -273,6 +273,7 @@ class Onlinestudent extends Admin_Controller
             );
 
             // var_dump($data);die;
+            // print_r("EMN Debug Mode");die();
 
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
           
