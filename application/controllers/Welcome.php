@@ -28,6 +28,7 @@ class Welcome extends Front_Controller
         $this->load->model('onlinestudent_model');
         $this->load->model('class_model');
         $this->load->model('student_model');
+        $this->load->model('category_model');        
 
         $this->blood_group = $this->config->item('bloodgroup');
         $this->load->library('Ajax_pagination');
@@ -234,6 +235,7 @@ class Welcome extends Front_Controller
 
     public function admission()
     {
+        
         //joeven
         $exceptions = array("tlc-nbs");
         $school_code = explode('.', $HTTP_HOST)[0];
@@ -265,6 +267,7 @@ class Welcome extends Front_Controller
             $class = $this->class_model->getAll();
             $this->data['classlist'] = $class;
             $userdata = $this->customlib->getUserData();
+            // print_r("EMN Debug Mode");die();
 
             $category = $this->category_model->get();
             $this->data['categorylist'] = $category;        
