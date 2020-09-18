@@ -71,7 +71,7 @@ class Assessment extends JOE_Controller {
 			$data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id","id,attempts,duration,assessment_file,assessment_name")[0];
 
 
-			$response = $this->assessment_model->response($id,$data['account_id']);
+			$response = $this->assessment_model->response($id,$data['account_id'],1);
 
 			if(count($response)>=$data['assessment']['attempts']){
 	        echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".site_url('lms/assessment/index')."')</script>";

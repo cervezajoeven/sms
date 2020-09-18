@@ -8,6 +8,7 @@ class Chat extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->model('Admin_model');
         $this->load->model('Chat_model');
         $this->load->model('audit_model');
         $this->load->model('chatuser_model');
