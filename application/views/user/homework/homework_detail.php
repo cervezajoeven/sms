@@ -65,16 +65,13 @@ $admin = $this->customlib->getLoggedInUserData();
         $class = "class= 'label label-danger'";
          $status_lable=$this->lang->line("incomplete");
     }
-    echo "<font $class >" . $status_lable. "</font>";
-
-?></label>
-                        <?php if (!empty($result["document"])) {?>
-                    <label>Download Homework</label>
-                    <a  class="btn btn-default btn-lg" href="<?php echo base_url() . "user/homework/download/" . $result["id"] . "/" . $result["document"] ?>" data-toggle="tooltip" data-original-title="Download Homework"><i class="fa fa-download"></i></a>
-                <?php }
-
-                    ?>
-
+    echo "<font $class >" . $status_lable. "</font>";?>
+    </label>
+    
+    <?php if (!empty($result["document"])) {?>
+        <label>Download Homework</label>
+        <a  class="btn btn-default btn-lg" href="<?php echo base_url() . "user/homework/download/" . $result["id"] . "/" . $result["document"] ?>" data-toggle="tooltip" data-original-title="Download Homework"><i class="fa fa-download"></i></a>
+    <?php } ?>
 <?php
 
 function searchForId($id, $array)

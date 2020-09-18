@@ -117,7 +117,7 @@ class Homework extends Admin_Controller
 
         $this->form_validation->set_rules('modal_subject_id', $this->lang->line('subject'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('homework_date', $this->lang->line('homework_date'), 'trim|required|xss_clean');
-     $this->form_validation->set_rules('submit_date', $this->lang->line('submission_date'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('submit_date', $this->lang->line('submission_date'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('description', $this->lang->line('description'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('userfile', $this->lang->line('image'), 'callback_handle_upload');
         if ($this->form_validation->run() == false) {
@@ -167,11 +167,15 @@ class Homework extends Admin_Controller
                 if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                     die("Error creating folder $uploaddir");
                 }
+
+                $time     = md5($_FILES["userfile"]['name'] . microtime());
                 $fileInfo = pathinfo($_FILES["userfile"]["name"]);
-                $document = basename($_FILES['userfile']['name']);
+                // $document = basename($_FILES['userfile']['name']);      
+                
+                $document = $time . "." . $fileInfo['extension'];
 
                 $img_name = $id . '.' . $fileInfo['extension'];
-                move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $img_name);
+                move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $document);
             } else {
                 $document = "";
             }
@@ -298,13 +302,17 @@ class Homework extends Admin_Controller
                 if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                     die("Error creating folder $uploaddir");
                 }
+
+                $time     = md5($_FILES["userfile"]['name'] . microtime());
                 $fileInfo = pathinfo($_FILES["userfile"]["name"]);
-                $document = basename($_FILES['userfile']['name']);
+                // $document = basename($_FILES['userfile']['name']);
+                $document = $time . "." . $fileInfo['extension'];
                 $img_name = $id . '.' . $fileInfo['extension'];
-                move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $img_name);
+                move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $document);
             } else {
 
-                $document = $this->input->post("document");
+                // $document = $this->input->post("document");
+                $document = $time . "." . $fileInfo['extension'];
             }
             $data = array(
                 'id'            => $id,
@@ -344,9 +352,10 @@ class Homework extends Admin_Controller
     public function download($id, $doc)
     {
         $this->load->helper('download');
-        $name     = $this->uri->segment(4);
+        $name     = $doc; //$this->uri->segment(4);
         $ext      = explode(".", $name);
-        $filepath = "./uploads/homework/" . $id . "." . $ext[1];
+        // $filepath = "./uploads/homework/" . $id . "." . $ext[1];
+        $filepath = "./uploads/homework/" . $doc;
         $data     = file_get_contents($filepath);
         force_download($name, $data);
     }
