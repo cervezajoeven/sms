@@ -89,8 +89,8 @@
                                             <?php echo $homework['homework_evaluation_remarks'] ?>
                                         </td>
                                         <td class="mailbox-date pull-right">
-                                            <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs"    data-toggle="tooltip"  data-original-title="<?php echo $this->lang->line('homework') . " " . $this->lang->line('assignments'); ?>"><i class="fa fa-upload"></i></a>
-                                            <a class="btn btn-default btn-xs" onclick="evaluation(<?php echo $homework['id']; ?>,<?php echo $h_status; ?>);" title="" data-target="#evaluation" data-toggle="modal"  data-original-title="Evaluation"><i class="fa fa-reorder"></i></a>
+                                            <a onclick="upload_docs('<?php echo $homework['id']; ?>', '<?php echo $upload_docsButton; ?>');" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="<?php echo ("Upload " . $this->lang->line('homework')); ?>"><i class="fa fa-upload"></i></a>
+                                            <a class="btn btn-default btn-xs" onclick="evaluation(<?php echo $homework['id']; ?>,<?php echo $h_status; ?>);" title="Check Homework" data-target="#evaluation" data-toggle="modal"  data-original-title="Evaluation"><i class="fa fa-reorder"></i></a>
                                         </td>
                                     </tr>
                                     <?php } ?>
@@ -288,10 +288,10 @@
     }
 
     function upload_docs(id, button) {
-        $("#footer_area").attr('style', 'display:block');
-        if (button == 0) {
-            $("#footer_area").attr('style', 'display:none');
-        }
+        // $("#footer_area").attr('style', 'display:block');
+        // if (button == 0) {
+        //     $("#footer_area").attr('style', 'display:none');
+        // }
 
         $('#uploaded_docs').html('');
         $.ajax({

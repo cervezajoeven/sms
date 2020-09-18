@@ -10,6 +10,7 @@ class Chat extends Admin_Controller {
         parent::__construct();
         $this->load->model('Chat_model');
         $this->load->model('audit_model');
+        $this->load->model('chatuser_model');
     }
 
     public function unauthorized() {
@@ -20,9 +21,12 @@ class Chat extends Admin_Controller {
     }
 
     public function index() {
+        // print_r("EMN Debug Mode");die();
         $data = array();
         $this->session->set_userdata('top_menu', 'Communicate');
         $this->session->set_userdata('sub_menu', 'Communicate/chat');
+
+        
 
         $this->load->view('layout/header');
         $this->load->view('admin/chat/chat', $data);
@@ -46,20 +50,20 @@ class Chat extends Admin_Controller {
         $type = $_REQUEST['type'];
         $data['sender_id'] = $sender_id;
         $data['conversation'] = $type;
-        $data['conversation_staff'] = $this->Chat_model->conversation_staff($sender_id);
-        $data['conversation_parent'] = $this->Chat_model->conversation_parent($sender_id);
-        $data['conversation_student'] = $this->Chat_model->conversation_student($sender_id);
+        $data['conversation_staff'] = $this->chat_model->conversation_staff($sender_id);
+        $data['conversation_parent'] = $this->chat_model->conversation_parent($sender_id);
+        $data['conversation_student'] = $this->chat_model->conversation_student($sender_id);
         $data['onload_conversation'] = $receiver_id;
 
         $listaudit = $this->audit_model->get();
         $data['resultlist'] = $listaudit;
-        $result = $this->Chat_model->get_chat($_POST['sender_id'], $_POST['receiver_id']);
+        $result = $this->chat_model->get_chat($_POST['sender_id'], $_POST['receiver_id']);
        
         $data['result'] = $result;
         $data['receiver_id'] = $_POST['receiver_id'];
         $data['type'] = $type;
 
-        $data['recever_name'] = $this->Chat_model->receiver_name($_POST['receiver_id'], $type);
+        $data['recever_name'] = $this->chat_model->receiver_name($_POST['receiver_id'], $type);
 
         $this->load->view('admin/chat/chats', $data);
     }
@@ -84,12 +88,12 @@ class Chat extends Admin_Controller {
         $data['sender_type'] = 1;
         $data['receiver_type'] = $_POST['type'];
         $data['message'] = $_POST['message'];
-        $inserted_id = $this->Chat_model->add($data);
-        $result = $this->Chat_model->get_chat($_POST['sender_id'], $_POST['receiver_id']);
+        $inserted_id = $this->chat_model->add($data);
+        $result = $this->chat_model->get_chat($_POST['sender_id'], $_POST['receiver_id']);
 
         $data['result'] = $result;
-        $data['recever_name'] = $this->Chat_model->receiver_name($_POST['receiver_id'], $_POST['type']);
-        $data['conversation'] = $this->Chat_model->conversation($_POST['sender_id']);
+        $data['recever_name'] = $this->chat_model->receiver_name($_POST['receiver_id'], $_POST['type']);
+        $data['conversation'] = $this->chat_model->conversation($_POST['sender_id']);
         $status = count($data['conversation']);
 
         if ($status == 1) {
@@ -104,13 +108,13 @@ class Chat extends Admin_Controller {
 
     public function load_message() {
 
-        $result = $this->Chat_model->get_chat($_POST['sender_id'], $_POST['receiver_id']);
+        $result = $this->chat_model->get_chat($_POST['sender_id'], $_POST['receiver_id']);
 
         $data['sender_id'] = $_POST['sender_id'];
         $data['result'] = $result;
         $data['receiver_id'] = $_POST['receiver_id'];
         $data['type'] = 'staff';
-        $data['recever_name'] = $this->Chat_model->receiver_name($_POST['receiver_id'], '1');
+        $data['recever_name'] = $this->chat_model->receiver_name($_POST['receiver_id'], '1');
     }
 
     public function user_list() {
@@ -121,9 +125,9 @@ class Chat extends Admin_Controller {
             $name .= $_REQUEST['user_name'];
         }
 
-        $staff = $this->Chat_model->get_staff($name);
-        $student = $this->Chat_model->get_student($name);
-        $parent = $this->Chat_model->get_parent($name);
+        $staff = $this->chat_model->get_staff($name);
+        $student = $this->chat_model->get_student($name);
+        $parent = $this->chat_model->get_parent($name);
         $userdata = $this->customlib->getUserData();
 
         $data['sender_id'] = $userdata['id'];
@@ -143,7 +147,7 @@ class Chat extends Admin_Controller {
     public function delete_message($id, $sender_id) {
 
         $this->db->where('id', $id)->delete('chat');
-        $data['conversation'] = $this->Chat_model->conversation($sender_id);
+        $data['conversation'] = $this->chat_model->conversation($sender_id);
 
         if (empty($data['conversation'])) {
 
@@ -161,7 +165,7 @@ class Chat extends Admin_Controller {
         $receiver_type = $_REQUEST['type'];
         $sender_type = 1;
         $data['seen'] = '1';
-        $this->Chat_model->seen($sender_id, $receiver_id, $sender_type, $receiver_type, $data);
+        $this->chat_model->seen($sender_id, $receiver_id, $sender_type, $receiver_type, $data);
     }
 
 //=====================rahul====================

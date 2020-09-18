@@ -22,7 +22,7 @@ class Timetable_model extends CI_Model {
             $this->writedb->update('timetables', $data); 
         } else {
             $this->writedb->insert('timetables', $data); 
-            return $this->writedb->insert_id();
+            return $this->writedb->insert_id(); 
         }
     }
 

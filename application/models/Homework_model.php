@@ -195,7 +195,7 @@ class Homework_model extends MY_model
                     'status'             => 'Complete',
                 );
                 $this->writedb->insert("homework_evaluation", $insert_student);
-                $insert_prev[] = $this->db->insert_id();
+                $insert_prev[] = $this->writedb->insert_id();
             }
 
         }

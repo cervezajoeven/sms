@@ -15,8 +15,57 @@
         <link href="<?php echo $base_assets_url; ?>css/style.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo $base_assets_url; ?>datepicker/bootstrap-datepicker3.css"/>
         <script src="<?php echo $base_assets_url; ?>js/jquery.min.js"></script>
-             <script type="text/javascript">
-            var base_url = "<?php echo base_url() ?>";
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+        
+        
+        <script type="text/javascript">
+            var base_url = "<?php echo base_url() ?>";            
+        
+            // When the user scrolls the page, execute myFunction
+            window.onscroll = function() {myFunction()};
+
+            $(window).resize(function(){
+                myFunction();
+            });
+
+            function get_browser() {
+                var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+                if(/trident/i.test(M[1])){
+                    tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
+                    return {name:'IE',version:(tem[1]||'')};
+                    }   
+                if(M[1]==='Chrome'){
+                    tem=ua.match(/\bOPR|Edge\/(\d+)/)
+                    if(tem!=null)   {return {name:'Opera', version:tem[1]};}
+                    }   
+                M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+                if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+                return {
+                name: M[0],
+                version: M[1]
+                };
+            }
+
+            var browser = get_browser();
+            console.log(browser);
+
+            // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+            function myFunction() {
+                //if (browser.name !== 'Chrome' && browser.name !== 'Firefox' && browser.name !== 'Opera') {
+                    $("#dialog").dialog({		
+                        position: {my: 'right bottom', at: 'right bottom', of: window}
+                    });
+                //}
+            }
+
+            $( function() {	
+                //if (browser.name !== 'Chrome' && browser.name !== 'Firefox' && browser.name !== 'Opera') {
+                    $( "#dialog" ).dialog({		
+                        position: {my: 'right bottom', at: 'right bottom', of: window}
+                    });
+                //}
+            });
         </script>
         <?php
         //$this->load->view('layout/theme');
@@ -32,6 +81,15 @@
 
     </head>
     <body>
+    <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
+        <p>This Application is best viewed in any of the following browsers:</p>
+        <ul>
+        <li><a target="_blank" href="https://www.google.com/chrome/thank-you.html?brand=CHBD&statcb=1&installdataindex=empty&defaultbrowser=0"><img src="<?php echo base_url('icons/chrome.jpg') ?>" alt="" width="16" height="16">&nbsp;Google Chrome</a></li>
+        <li><a target="_blank" href="https://www.mozilla.org/en-US/firefox/download/thanks/"><img src="<?php echo base_url('icons/firefox.jpg') ?>" alt="" width="16" height="16">&nbsp;Firefox</a></li>
+        <li><a target="_blank" href="https://www.opera.com/computer/thanks?ni=stable&os=windows"><img src="<?php echo base_url('icons/opera.jpg') ?>" alt="" width="16" height="16">&nbsp;Opera</a></li>
+        </ul>
+        <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
+    </div>
         <div class="toparea">
             <div class="container">
                 <div class="row">
@@ -151,6 +209,7 @@
         <script src="<?php echo $base_assets_url; ?>js/custom.js"></script>
         <!-- Include Date Range Picker -->
         <script type="text/javascript" src="<?php echo $base_assets_url; ?>datepicker/bootstrap-datepicker.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script type="text/javascript">
             $(function(){
     jQuery('img.svg').each(function(){

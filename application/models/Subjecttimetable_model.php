@@ -26,7 +26,7 @@ class Subjecttimetable_model extends MY_Model {
         }
 
         if (isset($insert_array) && !empty($insert_array)) {
-            $this->writedb->insert_batch('subject_timetable', $insert_array);
+            $this->writedb->insert_batch('subject_timetable', $insert_array); 
             $count = count($insert_array);
             $id = $this->writedb->insert_id();
             $loop = $id - $count;

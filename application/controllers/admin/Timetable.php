@@ -415,9 +415,7 @@ class Timetable extends Admin_Controller
             }
         }
 
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json_array));
+        $this->output->set_content_type('application/json')->set_output(json_encode($json_array));
     }
 
     public function getteachertimetable()
