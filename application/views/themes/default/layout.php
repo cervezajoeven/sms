@@ -14,14 +14,11 @@
         <link href="<?php echo $base_assets_url; ?>css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo $base_assets_url; ?>css/style.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo $base_assets_url; ?>datepicker/bootstrap-datepicker3.css"/>
-        <script src="<?php echo $base_assets_url; ?>js/jquery.min.js"></script>
-
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-        
-        
-        <script type="text/javascript">
-            var base_url = "<?php echo base_url() ?>";            
-        
+        <script src="<?php echo $base_assets_url; ?>js/jquery.min.js"></script>
+             <script type="text/javascript">
+            var base_url = "<?php echo base_url() ?>";
+
             // When the user scrolls the page, execute myFunction
             window.onscroll = function() {myFunction()};
 
@@ -74,8 +71,6 @@
             $(document).on('click','.ui-dialog-titlebar-close',function(){
                 $("#dialog").attr('style', 'display:none');
             });
-
-            
         </script>
         <?php
         //$this->load->view('layout/theme');
@@ -91,86 +86,39 @@
 
     </head>
     <body>
-    <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
-        <p>This Application is best viewed in any of the following browsers:</p>
-        <ul>
-        <li><a target="_blank" href="https://www.google.com/chrome/thank-you.html?brand=CHBD&statcb=1&installdataindex=empty&defaultbrowser=0"><img src="<?php echo base_url('snoci/chrome.jpg') ?>" alt="" width="16" height="16">&nbsp;Google Chrome</a></li>
-        <li><a target="_blank" href="https://www.mozilla.org/en-US/firefox/download/thanks/"><img src="<?php echo base_url('snoci/firefox.jpg') ?>" alt="" width="16" height="16">&nbsp;Firefox</a></li>
-        <li><a target="_blank" href="https://www.opera.com/computer/thanks?ni=stable&os=windows"><img src="<?php echo base_url('snoci/opera.jpg') ?>" alt="" width="16" height="16">&nbsp;Opera</a></li>
-        </ul>
-        <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
-    </div>
-    <section class="newsarea">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="newscontent">
-                            <?php
-                            if (in_array('news', json_decode($front_setting->sidebar_options))) {
-                                ?>
-                                <div class="newstab">Latest News</div>
-                                <div class="newscontent">
-                                    <marquee class="" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                                        <ul id="" class="" >
-                                            <?php
-                                            if (!empty($banner_notices)) {
-
-                                                foreach ($banner_notices as $banner_notice_key => $banner_notice_value) {
-                                                    ?>
-                                                    <li><a href="<?php echo site_url('read/' . $banner_notice_value['slug']) ?>">
-                                                            <div class="datenews">
-                                                                <?php echo date('d F Y', strtotime($banner_notice_value['date'])); ?>
-                                                                <span>
-
-
-                                                                </span>
-                                                            </div><?php echo $banner_notice_value['title']; ?>
-                                                        </a></li>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </ul>
-
-                                    </marquee>
-                                </div><!--./newscontent-->
-
-                                <?php
-                            }
-                            ?>
-
-
-
-
-                        </div><!--./sidebar-->
-
-                    </div><!--./col-md-12-->
-                </div>
-            </div>
-        </section>
+        <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
+            <p>This Application is best viewed in any of the following browsers:</p>
+            <ul>
+            <li><a target="_blank" href="https://www.google.com/chrome/thank-you.html?brand=CHBD&statcb=1&installdataindex=empty&defaultbrowser=0"><img src="<?php echo base_url('snoci/chrome.jpg') ?>" alt="" width="16" height="16">&nbsp;Google Chrome</a></li>
+            <li><a target="_blank" href="https://www.mozilla.org/en-US/firefox/download/thanks/"><img src="<?php echo base_url('snoci/firefox.jpg') ?>" alt="" width="16" height="16">&nbsp;Firefox</a></li>
+            <li><a target="_blank" href="https://www.opera.com/computer/thanks?ni=stable&os=windows"><img src="<?php echo base_url('snoci/opera.jpg') ?>" alt="" width="16" height="16">&nbsp;Opera</a></li>
+            </ul>
+            <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
+        </div>
         <div class="toparea">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <ul class="toplist">
-                            <li>
-                                <a href="mailto:<?php echo $school_setting->email; ?>"><i class="fa fa-envelope-o"></i><?php echo $school_setting->email; ?></a>
+                    <div class="col-md-4 col-sm-4">
+                        <ul class="social">
+                            <?php $this->view('/themes/default/social_media'); ?>
+
                         </ul>
-                        <!-- <ul class="top-right">
-                            <li><a href="<?php //echo site_url('site/userlogin')  ?>"><i class="fa fa-user"></i>Login</a></li>
-                        </ul> -->
+                    </div><!--./col-md-3-->
+                    <div class="col-md-5 col-sm-5">
+                        <ul class="top-list">
+                            <li><a href="mailto:<?php echo $school_setting->email; ?>"><i class="fa fa-envelope-o"></i><?php echo $school_setting->email; ?></a></li>
+                            <li><i class="fa fa-phone"></i><?php echo $school_setting->phone; ?></li>
+                        </ul>
                     </div><!--./col-md-5-->
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <ul class="topicon">
-                            <li>Follow Us</li>
-                            <?php $this->view('/themes/darkgray/social_media'); ?>
+                    <div class="col-md-3 col-sm-3">
+                        <ul class="top-right">
+                            <li><a href="<?php echo site_url('site/userlogin') ?>"><i class="fa fa-user"></i><?php echo $this->lang->line('login'); ?></a></li>
+
                         </ul>
-                    </div><!--./col-md-6-->
-
-
+                    </div><!--./col-md-5-->
                 </div>
             </div>
-        </div><!--./toparea-->
+        </div><!--./toparea--> 
 
         <?php echo $header; ?>
 

@@ -9,19 +9,16 @@
         <meta name="description" content="<?php echo $page['meta_description']; ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="<?php echo base_url($front_setting->fav_icon); ?>" type="image/x-icon">
-        <link href="<?php echo $base_assets_url; ?>css/owl.carousel.css" rel="stylesheet">  
-        <link href="<?php echo $base_assets_url; ?>css/font-awesome.min.css" rel="stylesheet">
         <link href="<?php echo $base_assets_url; ?>css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?php echo $base_assets_url; ?>css/style.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?php echo $base_assets_url; ?>datepicker/bootstrap-datepicker3.css"/>
-        <script src="<?php echo $base_assets_url; ?>js/jquery.min.js"></script>
-
+        <link href="<?php echo $base_assets_url; ?>css/owl.carousel.css" rel="stylesheet">
+        <link href="<?php echo $base_assets_url; ?>css/font-awesome.min.css" rel="stylesheet">
+        <link href="<?php echo $base_assets_url; ?>css/style.css" rel="stylesheet">  
+        <link rel="stylesheet" href="<?php echo $base_assets_url; ?>datepicker/bootstrap-datepicker3.css"/> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-        
-        
-        <script type="text/javascript">
-            var base_url = "<?php echo base_url() ?>";            
-        
+        <script src="<?php echo $base_assets_url; ?>js/jquery.min.js"></script> 
+             <script type="text/javascript">
+            var base_url = "<?php echo base_url() ?>";
+
             // When the user scrolls the page, execute myFunction
             window.onscroll = function() {myFunction()};
 
@@ -74,9 +71,7 @@
             $(document).on('click','.ui-dialog-titlebar-close',function(){
                 $("#dialog").attr('style', 'display:none');
             });
-
-            
-        </script>
+        </script>  
         <?php
         //$this->load->view('layout/theme');
 
@@ -87,90 +82,37 @@
             <?php
         }
         ?>
-        <?php echo $front_setting->google_analytics; ?>
-
+        <?php echo $front_setting->google_analytics; ?>  
     </head>
     <body>
-    <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
-        <p>This Application is best viewed in any of the following browsers:</p>
-        <ul>
-        <li><a target="_blank" href="https://www.google.com/chrome/thank-you.html?brand=CHBD&statcb=1&installdataindex=empty&defaultbrowser=0"><img src="<?php echo base_url('snoci/chrome.jpg') ?>" alt="" width="16" height="16">&nbsp;Google Chrome</a></li>
-        <li><a target="_blank" href="https://www.mozilla.org/en-US/firefox/download/thanks/"><img src="<?php echo base_url('snoci/firefox.jpg') ?>" alt="" width="16" height="16">&nbsp;Firefox</a></li>
-        <li><a target="_blank" href="https://www.opera.com/computer/thanks?ni=stable&os=windows"><img src="<?php echo base_url('snoci/opera.jpg') ?>" alt="" width="16" height="16">&nbsp;Opera</a></li>
-        </ul>
-        <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
-    </div>
-    <section class="newsarea">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="newscontent">
-                            <?php
-                            if (in_array('news', json_decode($front_setting->sidebar_options))) {
-                                ?>
-                                <div class="newstab">Latest News</div>
-                                <div class="newscontent">
-                                    <marquee class="" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                                        <ul id="" class="" >
-                                            <?php
-                                            if (!empty($banner_notices)) {
-
-                                                foreach ($banner_notices as $banner_notice_key => $banner_notice_value) {
-                                                    ?>
-                                                    <li><a href="<?php echo site_url('read/' . $banner_notice_value['slug']) ?>">
-                                                            <div class="datenews">
-                                                                <?php echo date('d F Y', strtotime($banner_notice_value['date'])); ?>
-                                                                <span>
-
-
-                                                                </span>
-                                                            </div><?php echo $banner_notice_value['title']; ?>
-                                                        </a></li>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </ul>
-
-                                    </marquee>
-                                </div><!--./newscontent-->
-
-                                <?php
-                            }
-                            ?>
-
-
-
-
-                        </div><!--./sidebar-->
-
-                    </div><!--./col-md-12-->
-                </div>
-            </div>
-        </section>
+        <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
+            <p>This Application is best viewed in any of the following browsers:</p>
+            <ul>
+            <li><a target="_blank" href="https://www.google.com/chrome/thank-you.html?brand=CHBD&statcb=1&installdataindex=empty&defaultbrowser=0"><img src="<?php echo base_url('snoci/chrome.jpg') ?>" alt="" width="16" height="16">&nbsp;Google Chrome</a></li>
+            <li><a target="_blank" href="https://www.mozilla.org/en-US/firefox/download/thanks/"><img src="<?php echo base_url('snoci/firefox.jpg') ?>" alt="" width="16" height="16">&nbsp;Firefox</a></li>
+            <li><a target="_blank" href="https://www.opera.com/computer/thanks?ni=stable&os=windows"><img src="<?php echo base_url('snoci/opera.jpg') ?>" alt="" width="16" height="16">&nbsp;Opera</a></li>
+            </ul>
+            <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
+        </div>
         <div class="toparea">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <ul class="toplist">
-                            <li>
-                                <a href="mailto:<?php echo $school_setting->email; ?>"><i class="fa fa-envelope-o"></i><?php echo $school_setting->email; ?></a>
-                        </ul>
-                        <!-- <ul class="top-right">
-                            <li><a href="<?php //echo site_url('site/userlogin')  ?>"><i class="fa fa-user"></i>Login</a></li>
-                        </ul> -->
-                    </div><!--./col-md-5-->
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <ul class="topicon">
-                            <li>Follow Us</li>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <ul class="social">
                             <?php $this->view('/themes/darkgray/social_media'); ?>
+
                         </ul>
-                    </div><!--./col-md-6-->
+                    </div><!--./col-md-3-->
 
+                    <div class="col-lg-9 col-md-8 col-sm-6">
+                        <ul class="top-right">
+                            <li><a href="<?php echo site_url('site/userlogin') ?>"><i class="fa fa-user"></i>Login</a></li>
 
+                        </ul>
+                    </div><!--./col-md-5-->
                 </div>
             </div>
-        </div><!--./toparea-->
+        </div><!--./toparea--> 
 
         <?php echo $header; ?>
 
@@ -178,8 +120,6 @@
 
         <?php if (isset($featured_image) && $featured_image != "") {
             ?>
-
-
             <?php
         }
         ?> 
@@ -204,8 +144,6 @@
                     <div class="col-md-3 col-sm-3">
                         <div class="sidebar">
                             <?php
-                       
-                       
                             if (in_array('news', json_decode($front_setting->sidebar_options))) {
                                 ?>
                                 <div class="catetab"><?php echo $this->lang->line('latest_news'); ?></div>
@@ -213,10 +151,8 @@
                                     <div class="tickercontainer"><div class="mask"><ul id="ticker01" class="newsticker" style="height: 666px; top: 124.54px;">
                                                 <?php
                                                 if (!empty($banner_notices)) {
-                                                
 
                                                     foreach ($banner_notices as $banner_notice_key => $banner_notice_value) {
-                                                      
                                                         ?>
                                                         <li><a href="<?php echo site_url('read/' . $banner_notice_value['slug']) ?>"><div class="date"><?php echo date('d', strtotime($banner_notice_value['date'])); ?><span><?php echo date('F', strtotime($banner_notice_value['date'])); ?></span></div><?php echo $banner_notice_value['title']; ?>
                                                             </a></li>
@@ -234,16 +170,7 @@
                             ?>
 
 
-                            <?php
-                            if (in_array('complain', json_decode($front_setting->sidebar_options))) {
-                                ?>
-                                <div class="complain">
-                                    <a href="<?php echo site_url('page/complain') ?>"><i class="fa fa-pencil-square"></i><?php echo $this->lang->line('complain'); ?></a>
-                                </div><!--./complain-->
 
-                                <?php
-                            }
-                            ?>
 
 
                         </div><!--./sidebar-->  
@@ -259,15 +186,14 @@
         <?php echo $footer; ?>
         
         <script src="<?php echo $base_assets_url; ?>js/bootstrap.min.js"></script>
-        <script src="<?php echo $base_assets_url; ?>js/owl.carousel.min.js"></script>
          <script type="text/javascript" src="<?php echo $base_assets_url; ?>js/jquery.waypoints.min.js"></script>
         <script type="text/javascript" src="<?php echo $base_assets_url; ?>js/jquery.counterup.min.js"></script>
+        <script src="<?php echo $base_assets_url; ?>js/owl.carousel.min.js"></script>
         <script src="<?php echo $base_assets_url; ?>js/ss-lightbox.js"></script>
         <script src="<?php echo $base_assets_url; ?>js/custom.js"></script>
-        <!-- Include Date Range Picker -->
         <script type="text/javascript" src="<?php echo $base_assets_url; ?>datepicker/bootstrap-datepicker.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-        <script type="text/javascript">
+  <script type="text/javascript">
             $(function(){
     jQuery('img.svg').each(function(){
         var $img = jQuery(this);
