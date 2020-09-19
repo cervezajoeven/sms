@@ -129,6 +129,7 @@
 	    <input type="hidden" id="answer" value='<?php echo $assessment_sheet['answer']; ?>' name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assessment_sheet_id" value="<?php echo $assessment_sheet['id'] ?>" name="" />
+	    <input type="hidden" id="enable_timer" value="<?php echo $assessment['enable_timer'] ?>" name="" />
 	    <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
 	    <input type="hidden" id="expiration_value" value="<?php echo $assessment_sheet['expiration'] ?>" name="" />
 	    <input type="hidden" id="time_now" value="<?php echo time(); ?>" name="" />
@@ -138,4 +139,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'answer_4.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'answer_5.js'?>"></script>

@@ -1,3 +1,5 @@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -15,15 +17,34 @@
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
                         <h3 class="box-title titlefix">Students List</h3>
+                        <style type="text/css">
+                            .filter{
+                                width: 150px;
+                                display: inline;
+                            }
+                        </style>
                         <div class="box-tools pull-right">
 
+                            Filters:
+                            <select class="form-control filter section">
+                                <option value="all">All Section</option>
+                                <?php foreach ($sections as $section_key => $section_value) : ?>
+                                    <option value="<?php echo $section_value['id'] ?>"><?php echo $section_value['section'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <select class="form-control filter gender">
+                                <option <?php echo ($gender=="all")?"selected":""; ?> value="all">All Gender</option>
+                                <option <?php echo ($gender=="male")?"selected":""; ?> value="male">Male</option>
+                                <option <?php echo ($gender=="female")?"selected":""; ?> value="female">Female</option>
+                            </select>
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="mailbox-controls">
                             <!-- Check all button -->
                             <div class="pull-right">
-
+                                
                             </div><!-- /.pull-right -->
                         </div>
                         <div class="mailbox-messages table-responsive">
@@ -32,12 +53,13 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Gender</th>
                                         <th>Grade</th>
                                         <th>Section</th>
                                         <th>Score</th>
                                         <th>Percentage</th>
                                         <th>Status</th>
-                                        <th>Essays</th>
+                                        <!-- <th>Essays</th> -->
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -47,9 +69,11 @@
 
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['firstname']?>
+                                                <?php echo $list_data['lastname']?>, <?php echo $list_data['firstname']?>
                                             </td>
-
+                                            <td class="mailbox-name">
+                                               <?php echo $list_data['gender']?>
+                                            </td>
                                             <td class="mailbox-name">
                                                <?php echo $list_data['class']?>
                                             </td>
@@ -66,9 +90,9 @@
                                             <td>
                                                 <?php echo ($current_percentage>=$assessment['percentage'])?"Pass":"Fail"; ?>
                                             </td>
-                                            <td>
+                                            <!-- <td>
                                                 Checked
-                                            </td>
+                                            </td> -->
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
@@ -177,24 +201,24 @@
             <!-- right column -->
 
         </div>
-        <div class="row">
-            <!-- left column -->
-
-            <!-- right column -->
-            <div class="col-md-12">
-
-                <!-- Horizontal Form -->
-
-                <!-- general form elements disabled -->
-
-            </div><!--/.col (right) -->
-        </div>   <!-- /.row -->
+        <input type="hidden" id="url" value="<?php echo site_url() ?>" name="">
+        <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="">
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <script type="text/javascript">
     $(document).ready(function () {
-      
-        
+        var url = $("#url").val();
+        var assessment_id = $("#assessment_id").val();
+        $('.filter').select2();
+        $(".filter").change(function() {
+            
+            var filter_redirect = url+'lms/assessment/reports/'+assessment_id;
+            var section = $(".section").val();
+            var gender = $(".gender").val();
+            var filter_url = filter_redirect+'/'+section+'/'+gender;
+            window.location.href = filter_url;
+
+        });
         $("#btnreset").click(function () {
 
             $("#form1")[0].reset();

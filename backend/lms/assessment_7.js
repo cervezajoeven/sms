@@ -2,7 +2,7 @@ var url = $("#url").val();
 var base_url = $("#base_url").val();
 var assessment_id = $("#assessment_id").val();
 var final_json = {};
-var letters_array = ["A","B","C","D"];
+var letters_array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 var assigned = $("#assigned").val();
 
 var duration = $(".duration").val();
@@ -169,7 +169,8 @@ function unescape_comma(value){
 	}
 }
 
-function save(){
+
+function assessment_update(){
 	var json = [];
 	var options = $(".option-container-actual");
 	$(".save_status").text("Saving...");
@@ -256,6 +257,7 @@ function save(){
     var email_notification = $("#email_notification").prop('checked');
     var allow_result_viewing = $("#allow_result_viewing").prop('checked');
     var enable_timer = $("#enable_timer").prop('checked');
+    var assessment_name = $("#assessment_name").val();
     if(email_notification){
     	email_notification = 1;
     }else{
@@ -272,7 +274,7 @@ function save(){
     	enable_timer = 0;
     }
 
-	final_json = {
+	return final_json = {
 		id:$("#assessment_id").val(),
 		sheet:JSON.stringify(json),
 		assigned:student_ids.join(','),
@@ -284,13 +286,17 @@ function save(){
 		email_notification: email_notification,
 		allow_result_viewing: allow_result_viewing,
 		enable_timer: enable_timer,
+		assessment_name: assessment_name,
 	};
+}
 
-	console.log(url);
+function save(){
+	
+	var save_json = assessment_update();
 	$.ajax({
 	    url: url,
 	    type: "POST",
-	    data: final_json,
+	    data: save_json,
 	    // contentType: "application/json",
 	    complete: function(response){
 	    	console.log(response.responseText);
@@ -302,102 +308,12 @@ function save(){
 }
 
 function save_no_notif(){
-	var json = [];
-	var options = $(".option-container-actual");
-	$(".save_status").text("Saving...");
-	$(".save_status").css("background-color","rgb(50,50,50)");
-	$.each(options,function(key,value){
-		var the_option_type = $(value).attr("option_type");
-		
-		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
-			var option_val = [];
-			var answer_val = [];
-			$.each($(value).find(".option"),function(option_key,option_value){
-				 var escaped_comma = escape_comma($(option_value).find(".option_label_input").find("input").val());
-					option_val.push(escaped_comma);
-					console.log(option_val);
-				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
-				 	answer_val.push("1");
-				 }else{
-				 	answer_val.push("0");
-				 }
-			});
-
-			option_json = {
-				"type":the_option_type,
-				"correct":answer_val.join(","),
-				"option_labels":option_val.join(","),
-			};
-
-		}else if(the_option_type=="short_answer"){
-			
-			var short_answer_val = $(value).find(".option").find("input").eq(0).val().toLowerCase().split(" or ");
-			
-			option_json = {
-				"type":the_option_type,
-				"correct": short_answer_val.join(","),
-				"option_labels":"",
-			};
-		}else if(the_option_type=="section"){
-			
-			var instruction = $(value).find(".option").find("textarea").eq(0).val();
-
-			option_json = {
-				"type":the_option_type,
-				"correct": instruction,
-				"option_labels":"",
-			};
-		}else{
-			option_json = {
-				"type":the_option_type,
-				"option_labels":"",
-			};
-		}
-		json.push(option_json);
-		
-
-	});
-
-	var student_ids = [];
-	$.each(jstree.jstree("get_checked",null,true),function(key,value){
-		
-		if(value.includes('student')){
-			student_id = value.replace('student_','');
-			
-			student_ids.push(student_id);
-		}
-	});
-
-	attempts = $(".attempts").val();
-	duration = $(".duration").val();
-	percentage = $(".percentage").val();
-	start_date = $(".date_range").data('daterangepicker').startDate.toDate();
-	end_date = $(".date_range").data('daterangepicker').endDate.toDate();
-	start_date = moment(start_date).format("YYYY-MM-DD HH:mm:ss");
-    end_date = moment(end_date).format("YYYY-MM-DD HH:mm:ss");
-    var email_notification = $("#email_notification").prop('checked');
-    if(email_notification){
-    	email_notification = 1;
-    }else{
-    	email_notification = 0;
-    }
-
-	final_json = {
-		id:$("#assessment_id").val(),
-		sheet:JSON.stringify(json),
-		assigned:student_ids.join(','),
-		duration: duration,
-		percentage: percentage,
-		attempts: attempts,
-		start_date: start_date,
-		end_date: end_date,
-		email_notification: email_notification,
-	};
+	var save_json = assessment_update();
 
 	$.ajax({
 	    url: url,
 	    type: "POST",
-	    data: final_json,
+	    data: save_json,
 	    // contentType: "application/json",
 	    complete: function(response){
 	    	console.log(response.responseText);
@@ -410,6 +326,7 @@ function save_no_notif(){
 
 
 $(document).ready(function(){
+
 	$.ajax({
 	    url: base_url+'/stored_json',
 	    type: "POST",
@@ -507,9 +424,24 @@ $(".info-key").click(function(){
 	populate_key(option_type);
 	renumbering();
 });
+$(document).on("click",".copy_bottom",function(){
+	var copy_answer_key = $(this).parent().clone();
+
+	copy_answer_key.find("input[type='radio']").prop("checked",false);
+	copy_answer_key.find("input[type='checkbox']").prop("checked",false);
+	$(".sortable").append(copy_answer_key);
+	renumbering();
+
+});
 $(document).on("click",".add_option",function(){
 	var last_option = $(this).parent().find(".option").length;
+
 	var option_clone = $(this).siblings(".option").eq(last_option-1).clone();
+	option_clone.find("input[type='radio']").prop("checked",false);
+	option_clone.find("input[type='checkbox']").prop("checked",false);
+	option_clone.find(".option_label_input").find("input").val(letters_array[last_option]);
+
+
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
 });
 $(".true_save").click(function(){
@@ -561,3 +493,7 @@ if($(".start_date").val()){
         }
     });
 }
+
+$("#assessment_title").change(function(){
+	save();
+});

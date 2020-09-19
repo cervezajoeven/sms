@@ -31,6 +31,9 @@
             	text-align: center;
             	background-color: black;
             }
+            .score_class{
+            	width: 45px;
+            }
 		</style>
 	</head>
 	<body>
@@ -54,7 +57,7 @@
 		        	<div class="info col-sm-5">
 		        		<div class="info-row">
 			        		<div class="info-tab info-title col-sm-2">Title :</div>
-			        		<div class="info-tab col-sm-8"><?php echo $assessment['assessment_name']?></div>
+			        		<div class="info-tab col-sm-8"><input type="text" id="assessment_name" value="<?php echo $assessment['assessment_name']?>" style="width: 100%;padding: 0px;margin: 0px;border: 0px;background: transparent;"></div>
 		        		</div>
 		        		<div class="info-row">
 		        			<a href="<?php echo site_url('lms/assessment/index/'); ?>">
@@ -88,8 +91,9 @@
 							</div>
 			        		<div class="info-tab info-key col-sm-3" title="Identification, Matching Type, Chronological Order, Fill in the Blanks" option_type="short_answer">Short Answer</div>
 
-			        		<div class="info-tab info-key col-sm-3" title="Essay" option_type="long_answer"><center>Long Answer</center></div>
 			        		<div class="info-tab info-key col-sm-3" title="Multiple Answer" option_type="multiple_answer">Multiple Answer</div>
+
+			        		<div class="info-tab info-key col-sm-3" title="Essay" option_type="long_answer"><center>Essay</center></div>
 
 		        		</div>
 
@@ -129,12 +133,21 @@
 		                        </div>
 		                    </div>
 		                </div>
-		                <div class = "col-sm-12">
+		                <!-- <div class = "col-sm-12">
 			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
 	                                
 		                        <input type="checkbox" id="email_notification" <?php echo ($assessment['email_notification']==1)?"checked = ''":""; ?> />
 		                        <div class="state p-primary">
 		                            <label>Email Notification</label>
+		                        </div>
+		                    </div>
+		                </div> -->
+		                <div class = "col-sm-12">
+			        		<div class="pretty p-switch p-fill" style="margin-top: 30px;">
+	                                
+		                        <input type="checkbox" id="enable_timer" <?php echo ($assessment['enable_timer']==1)?"checked = ''":""; ?> />
+		                        <div class="state p-primary">
+		                            <label>Enable Timer</label>
 		                        </div>
 		                    </div>
 		                </div>
@@ -151,34 +164,30 @@
 		        		<div class = "col-sm-12">
 		        			Assign Students
 		        			<div id="jstree_demo_div">
-	                            <ul>
-	                                <li class="jstree-open" data-jstree='{
-	                                    "icon":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/1200px-Round_Landmark_School_Icon_-_Transparent.svg.png"
-	                                }'>All
-	                                    <ul>
-	                                        <?php foreach($classes as $classes_key => $classes_value): ?>
-	                                            <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
-	                                                <ul>
-	                                                    <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
-	                                                        <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
-	                                                            <li id="section_<?php echo $class_sections_value['class_id']?>_<?php echo $class_sections_value['section_id']?>" data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
-	                                                                <ul>
-	                                                                    <?php foreach($students as $students_key => $students_value): ?>
-	                                                                        <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
-	                                                                            
-	                                                                            <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
-	                                                                        <?php endif; ?>
-	                                                                    <?php endforeach; ?>
-	                                                                </ul>
-	                                                            </li>
-	                                                        <?php endif; ?>
-	                                                    <?php endforeach;?>
-	                                                </ul>
-	                                            </li>
-	                                        <?php endforeach;?>
-	                                    </ul>
-	                                </ul>
-	                            </li>    
+	                            
+                                <ul>
+                                    <?php foreach($classes as $classes_key => $classes_value): ?>
+                                        <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
+                                            <ul>
+                                                <?php foreach($class_sections as $class_sections_key => $class_sections_value): ?>
+                                                    <?php if($class_sections_value['class_id']==$classes_value['id']): ?>
+                                                        <li id="section_<?php echo $class_sections_value['class_id']?>_<?php echo $class_sections_value['section_id']?>" data-jstree='{"icon":"https://img.icons8.com/clouds/2x/child-safe-zone.png"}'><?php echo $class_sections_value['section'] ?>
+                                                            <ul>
+                                                                <?php foreach($students as $students_key => $students_value): ?>
+                                                                    <?php if($students_value['class_id']==$class_sections_value['class_id']&&$students_value['section_id']==$class_sections_value['section_id']): ?>
+                                                                        
+                                                                        <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo $students_value['firstname'] ?> <?php echo $students_value['lastname'] ?></li>
+                                                                    <?php endif; ?>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                <?php endforeach;?>
+                                            </ul>
+                                        </li>
+                                    <?php endforeach;?>
+                                </ul>
+	                          
 	                        </div>
 	                    </div>
 	        		</div>
@@ -186,11 +195,11 @@
 		        		<li class="option-container option-container-clonable">
 		        			<div class="numbering_option"></div>
 		        			<label class="score_class">Score: </label> <input type="number" min="1" class="points score_class" value="1" />
-		        				<!-- <div class="copy_last" style="display: inline;">
-		        					<button class="btn btn-success">Duplicate</button>
-		        				</div> -->
+		        				<div class="copy_bottom" style="display: inline;">
+		        					<button class="btn btn-success" title="Copy" data-toggle="tooltip">Copy <i class="fa fa-files-o"></i><span></span></button>
+		        				</div>
 		        				<!-- <div class="copy_bottom" style="display: inline;">
-		        					<button class="btn btn-warning">Duplicate To No. 2</button>
+		        					<button class="btn btn-warning">Copy To No. <span></span></button>
 		        				</div> -->
 		        			
 		        			<div class="remove_option float-right">X</div>
@@ -247,4 +256,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_6.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_7.js'?>"></script>

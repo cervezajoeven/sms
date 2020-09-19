@@ -60,7 +60,7 @@ class MY_Model extends CI_Model
         }
         
     }
-    public function lms_create($table="",$data=array()){
+    public function lms_create($table="",$data=array(),$escape=TRUE){
 
         if($table&&is_string($table)){
 
@@ -70,8 +70,14 @@ class MY_Model extends CI_Model
                 $data['id'] = $id;
                 
                 $escaped_data = array();
+
                 foreach ($data as $data_key => $data_value) {
-                    $escaped_data[$data_key] = html_escape($data_value);
+                    if($escape){
+                        $escaped_data[$data_key] = html_escape($data_value);
+                    }else{
+                        $escaped_data[$data_key] = $data_value;
+                    }
+                    
                 }
                 
                 $escaped_data['date_created'] = date("Y-m-d H:i:s");
