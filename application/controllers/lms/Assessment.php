@@ -77,7 +77,7 @@ class Assessment extends General_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function reports($assessment_id){
+    public function reports($assessment_id,$section="all",$gender="all"){
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/assessment');
@@ -87,10 +87,13 @@ class Assessment extends General_Controller {
         $current_session = $this->setting_model->getCurrentSession();
 
         $data['assessment'] = $this->assessment_model->lms_get('lms_assessment',$assessment_id,"id")[0];
+        $data['sections'] = $this->assessment_model->lms_get('sections',"","","id,section");
+        $data['section'] = $section;
+        $data['gender'] = $gender;
 
 
         $query = $this->db
-        ->select("lms_assessment_sheets.*,lms_assessment_sheets.account_id as student_id,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
+        ->select("lms_assessment_sheets.*,lms_assessment_sheets.account_id as student_id,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,students.gender as gender,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
 
         ->from("lms_assessment_sheets")
         ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
@@ -100,11 +103,16 @@ class Assessment extends General_Controller {
         ->join("sections","sections.id = student_session.section_id","left")
         ->where("student_session.session_id",$current_session)
         ->where("lms_assessment_sheets.assessment_id", $assessment_id)
-        ->where("lms_assessment_sheets.response_status", 1)
-        ->order_by("lms_assessment_sheets.date_created","desc")
-        // ->group_by("lms_assessment_sheets.account_id")
-        ->get();
-        $students = $query->result_array();
+        ->where("lms_assessment_sheets.response_status", 1);
+        if($section!="all"){
+            $this->db->where("sections.id", $section);
+        }
+        if($gender!="all"){
+            $this->db->where("students.gender", $gender);
+        }
+        $this->db->order_by("lms_assessment_sheets.date_created","desc");
+        
+        $students = $query->get()->result_array();
 
         // echo '<pre>';print_r($students);exit();
         $student_ids = array();
@@ -214,6 +222,24 @@ class Assessment extends General_Controller {
 
             //var_dump($responses['data']);
             echo json_encode($responses['data']);
+        }
+        
+    }
+
+    public function duplicate($id) {
+        if($id){
+            $assessment = $this->assessment_model->lms_get('lms_assessment',$id,"id")[0];
+            $duplicated = $assessment;
+            $duplicated['assessment_name'] = $assessment['assessment_name']." (".date("F d, Y h:i A").")";
+            $duplicated['assigned'] = "";
+            unset($duplicated['id']);
+            unset($duplicated['date_created']);
+            unset($duplicated['date_updated']);
+            unset($duplicated['date_read']);
+            unset($duplicated['date_deleted']);
+            
+            $this->assessment_model->lms_create('lms_assessment',$duplicated,FALSE);
+            redirect(site_url('lms/assessment/index'));
         }
         
     }
@@ -356,6 +382,8 @@ class Assessment extends General_Controller {
         $data['end_date'] = $_REQUEST['end_date'];
         $data['email_notification'] = $_REQUEST['email_notification'];
         $data['allow_result_viewing'] = $_REQUEST['allow_result_viewing'];
+        $data['enable_timer'] = $_REQUEST['enable_timer'];
+        $data['assessment_name'] = $_REQUEST['assessment_name'];
         $sheet = (array)json_decode($data['sheet']);
 
         if($data['email_notification']=="1"){

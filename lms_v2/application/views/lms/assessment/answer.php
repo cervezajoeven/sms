@@ -38,7 +38,7 @@
 		        		<tr>
 
 		        			<td colspan="4" style="padding: 0;cursor: pointer;">
-		        				<a href="<?php echo site_url('lms/assessment/index/'); ?>">
+		        				<a href="<?php echo old_url('lms/assessment/index/'); ?>">
 		        					<div class="info-tab info-title the_close">X Close</div>
 		        				</a>
 		        			</td>
@@ -128,6 +128,7 @@
 	    <input type="hidden" id="old_url" value="<?php echo old_url('lms/assessment/'); ?>" name="" />
 	    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
 	    <input type="hidden" id="assessment_sheet_id" value="<?php echo $assessment_sheet['id'] ?>" name="" />
+	    <input type="hidden" id="enable_timer" value="<?php echo $assessment['enable_timer'] ?>" name="" />
 	    <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
 	    <input type="hidden" id="expiration_value" value="<?php echo $assessment_sheet['expiration'] ?>" name="" />
 	    <input type="hidden" id="time_now" value="<?php echo time(); ?>" name="" />
@@ -137,4 +138,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'answer_4.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'answer_5.js'?>"></script>

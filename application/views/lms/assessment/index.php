@@ -34,12 +34,12 @@
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
+                                        <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         <th>Title</th>
                                         <th>Availability</th>
                                         <th>Term</th>
                                         <th>Attempts</th>
                                         <th>Assigned By</th>
-                                        <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -47,29 +47,14 @@
                                     <?php foreach ($list as $list_key => $list_data): ?>
 
                                         <tr>
-                                            <td class="mailbox-name">
-                                                <?php echo $list_data['assessment_name']?>
-                                            </td>
-
-                                            <td class="mailbox-name">
-                                               <?php echo date("F d h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("F d h:i A", strtotime($list_data['end_date'])); ?>
-                                            </td>
-                                            <td>
-                                                (Term)
-                                            </td>
-                                            <td class="mailbox-name">
-
-                                                <?php if($role=="student"): ?><?php print_r($list_data['student_attempt']) ?>/<?php endif; ?> <?php print_r($list_data['attempts']) ?>
-                                            </td>
-
-                                            <td>
-                                                <?php print_r($list_data['name']) ?> <?php print_r($list_data['surname']) ?>
-                                            </td>
-                                            
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
-                                                    <a data-placement="left" href="<?php echo site_url('lms/assessment/reports/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Reports" >
+                                                    <a data-placement="right" href="#" class="btn btn-default btn-xs duplicate" onclick="duplicate_confirm('<?php echo site_url('lms/assessment/duplicate/'.$list_data['id']) ?>')"  data-toggle="tooltip" title="Duplicate">
+                                                        <i class="fa fa-files-o"></i>
+                                                    </a>
+
+                                                    <a data-placement="right" href="<?php echo site_url('lms/assessment/reports/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Reports" >
                                                             <i class="fa fa-file"></i>
                                                     </a>
 
@@ -94,6 +79,27 @@
                                                 <?php endif; ?>
                                                 
                                             </td>
+
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['assessment_name']?>
+                                            </td>
+
+                                            <td class="mailbox-name">
+                                               <?php echo date("F d h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("F d h:i A", strtotime($list_data['end_date'])); ?>
+                                            </td>
+                                            <td>
+                                                (Term)
+                                            </td>
+                                            <td class="mailbox-name">
+
+                                                <?php if($role=="student"): ?><?php print_r($list_data['student_attempt']) ?>/<?php endif; ?> <?php print_r($list_data['attempts']) ?>
+                                            </td>
+
+                                            <td>
+                                                <?php print_r($list_data['name']) ?> <?php print_r($list_data['surname']) ?>
+                                            </td>
+                                            
+                                            
                                         </tr>
                                         <?php endforeach; ?>
 
@@ -125,6 +131,12 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <script type="text/javascript">
+    function duplicate_confirm(url){
+
+        if(confirm("Are you sure you want to duplicate this assessment?")){
+            window.location.href = url;
+        }
+    }
     $(document).ready(function () {
       
         
@@ -132,6 +144,9 @@
 
             $("#form1")[0].reset();
         });
+
+        
+
         var class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
         getSectionByClass(class_id, section_id);

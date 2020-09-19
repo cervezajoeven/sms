@@ -68,7 +68,7 @@ class Assessment extends JOE_Controller {
 
 	    $data['student_data'] = $this->assessment_model->lms_get("students",$data['account_id'],"id","firstname,lastname")[0];
 	    $data['student_name'] = $data['student_data']['firstname']." ".$data['student_data']['lastname'];
-			$data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id","id,attempts,duration,assessment_file,assessment_name")[0];
+			$data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id","id,attempts,duration,assessment_file,assessment_name,enable_timer")[0];
 
 
 			$response = $this->assessment_model->response($id,$data['account_id'],1);
@@ -86,6 +86,7 @@ class Assessment extends JOE_Controller {
 	            $assessment_data['account_id'] = $data['account_id'];
 	            $assessment_data['response_status'] = 0;
 	            $assessment_data['expiration'] = date("Y-m-d H:i:s",strtotime("+".$data['assessment']['duration']." minutes",strtotime(date("Y-m-d H:i:s"))));
+              $assessment_data['start_date'] = date("Y-m-d H:i:s");
 
 	            $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
 	            $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id","id,expiration");
@@ -215,6 +216,7 @@ class Assessment extends JOE_Controller {
 
         $data['score'] = $score;
         $data['response_status'] = "1";
+        $data['end_date'] = date("Y-m-d H:i:s");
 
         print_r($this->assessment_model->lms_update("lms_assessment_sheets",$data));
     }
