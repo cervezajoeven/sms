@@ -118,9 +118,12 @@ class Homework extends Student_Controller
     public function download($id, $doc)
     {
         $this->load->helper('download');
-        $name     = $this->uri->segment(5);
+        // $name     = $this->uri->segment(5);
+        // $ext      = explode(".", $name);
+        // $filepath = "./uploads/homework/" . $id . "." . $ext[1];
+        $name     = $doc; 
         $ext      = explode(".", $name);
-        $filepath = "./uploads/homework/" . $id . "." . $ext[1];
+        $filepath = "./uploads/homework/" . $doc;
         $data     = file_get_contents($filepath);
         force_download($name, $data);
     }
