@@ -100,30 +100,77 @@
         </ul>
         <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
     </div>
+    <section class="newsarea">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="newscontent">
+                            <?php
+                            if (in_array('news', json_decode($front_setting->sidebar_options))) {
+                                ?>
+                                <div class="newstab">Latest News</div>
+                                <div class="newscontent">
+                                    <marquee class="" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+                                        <ul id="" class="" >
+                                            <?php
+                                            if (!empty($banner_notices)) {
+
+                                                foreach ($banner_notices as $banner_notice_key => $banner_notice_value) {
+                                                    ?>
+                                                    <li><a href="<?php echo site_url('read/' . $banner_notice_value['slug']) ?>">
+                                                            <div class="datenews">
+                                                                <?php echo date('d F Y', strtotime($banner_notice_value['date'])); ?>
+                                                                <span>
+
+
+                                                                </span>
+                                                            </div><?php echo $banner_notice_value['title']; ?>
+                                                        </a></li>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </ul>
+
+                                    </marquee>
+                                </div><!--./newscontent-->
+
+                                <?php
+                            }
+                            ?>
+
+
+
+
+                        </div><!--./sidebar-->
+
+                    </div><!--./col-md-12-->
+                </div>
+            </div>
+        </section>
         <div class="toparea">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4 col-sm-4">
-                        <ul class="social">
-                            <?php $this->view('/themes/default/social_media'); ?>
-
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <ul class="toplist">
+                            <li>
+                                <a href="mailto:<?php echo $school_setting->email; ?>"><i class="fa fa-envelope-o"></i><?php echo $school_setting->email; ?></a>
                         </ul>
-                    </div><!--./col-md-3-->
-                    <div class="col-md-5 col-sm-5">
-                        <ul class="top-list">
-                            <li><a href="mailto:<?php echo $school_setting->email; ?>"><i class="fa fa-envelope-o"></i><?php echo $school_setting->email; ?></a></li>
-                            <li><i class="fa fa-phone"></i><?php echo $school_setting->phone; ?></li>
-                        </ul>
+                        <!-- <ul class="top-right">
+                            <li><a href="<?php //echo site_url('site/userlogin')  ?>"><i class="fa fa-user"></i>Login</a></li>
+                        </ul> -->
                     </div><!--./col-md-5-->
-                    <div class="col-md-3 col-sm-3">
-                        <ul class="top-right">
-                            <li><a href="<?php echo site_url('site/userlogin') ?>"><i class="fa fa-user"></i><?php echo $this->lang->line('login'); ?></a></li>
-
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <ul class="topicon">
+                            <li>Follow Us</li>
+                            <?php $this->view('/themes/darkgray/social_media'); ?>
                         </ul>
-                    </div><!--./col-md-5-->
+                    </div><!--./col-md-6-->
+
+
                 </div>
             </div>
-        </div><!--./toparea--> 
+        </div><!--./toparea-->
 
         <?php echo $header; ?>
 
