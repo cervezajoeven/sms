@@ -123,7 +123,7 @@ class Homework extends Student_Controller
         // $filepath = "./uploads/homework/" . $id . "." . $ext[1];
         $name     = $doc; 
         $ext      = explode(".", $name);
-        $filepath = "./uploads/homework/" . $doc;
+        $filepath = "./uploads/homework/" . $doc; 
         $data     = file_get_contents($filepath);
         force_download($name, $data);
     }
