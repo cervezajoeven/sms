@@ -666,6 +666,7 @@ class Assessment extends General_Controller {
 
             $this->db->select("id,firstname,lastname");
             $this->db->where_in("id",explode(",", $data['assessment']['assigned']));
+            $this->db->order_by("lastname");
             $students = $this->db->get("students")->result_array();
 
             $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$id,"assessment_id");
