@@ -217,7 +217,7 @@ $(document).ready(function(){
 			    complete: function(stored_answer){
 
 			    	var answer = stored_answer.responseText;
-			    	
+
 
 					if(answer){
 						answer = JSON.parse(answer);

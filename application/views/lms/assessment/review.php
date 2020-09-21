@@ -128,4 +128,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_review_8.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_review_9.js'?>"></script>

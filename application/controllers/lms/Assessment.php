@@ -759,6 +759,7 @@ class Assessment extends General_Controller {
     public function stored_answer(){
         $id = $_REQUEST['assessment_sheet_id'];
         $answer = $this->assessment_model->lms_get('lms_assessment_sheets',$id,"id","answer")[0]['answer'];
+        // echo '<pre>';print_r($answer);exit();
         echo $answer;
     }
 }
