@@ -155,7 +155,7 @@ class Lesson_model extends MY_Model {
         // $this->db->where('start_date <=', date('Y-m-d H:i:s'));
         // $this->db->where('end_date >=', date('Y-m-d H:i:s'));
         $this->db->where('lms_lesson.deleted',0);
-        $this->db->order_by('lms_lesson.start_date',"asc");
+        $this->db->order_by('lms_lesson.start_date',"desc");
         $query = $this->db->get("lms_lesson");
 
         $result = $query->result_array();
