@@ -555,7 +555,6 @@ function populate_answer(data) {
 	var the_answers = JSON.parse(data.answer);
 	active_answer = the_answers;
 	active_assessment_sheet = data.id;
-	console.log(the_answers);
 	$.each(the_answers,function(key,value){
 		if(value.type=="long_answer"){
 			if(value.score){
@@ -608,7 +607,7 @@ $(".student_name_container").click(function(){
 	var student_name = $(this).attr("student_name");
 
 	$(".student_name_container").attr("style","");
-	$(this).css("background-color","rgb(103 255 122)");
+	$(this).css("background-color","rgb(103,255,122)");
 	$(".student_name").text(student_name);
 
 	$.ajax({

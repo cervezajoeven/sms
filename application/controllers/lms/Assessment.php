@@ -676,7 +676,8 @@ class Assessment extends General_Controller {
                 foreach ($student_answers as $student_answers_key => $student_answers_value) {
                     if($student_value['id'] == $student_answers_value['account_id']){
 
-                        $students[$student_key]['has_answered'] = 1;
+                        
+                        $students[$student_key]['has_answered'] = $student_answers_value['response_status'];
                         $students[$student_key]['answer'] = $student_answers_value['answer'];
                         $students[$student_key]['assessment_sheet_id'] = $student_answers_value['id'];
 
@@ -685,7 +686,7 @@ class Assessment extends General_Controller {
                 
             }
 
-            // echo '<pre>';print_r($students);exit();
+
             $data['students'] = $students;
             $data['classes'] = $this->class_model->getAll();
             $data['class_sections'] = $this->lesson_model->get_class_sections();
