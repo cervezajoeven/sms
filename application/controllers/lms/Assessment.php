@@ -84,6 +84,7 @@ class Assessment extends General_Controller {
         $data['list'] = $this->assessment_model->all_assessment();
 
         $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
         $current_session = $this->setting_model->getCurrentSession();
 
         $data['assessment'] = $this->assessment_model->lms_get('lms_assessment',$assessment_id,"id")[0];
@@ -152,9 +153,9 @@ class Assessment extends General_Controller {
                     $students[$student_key]['total_score'] = $data['assessment']['total_score'];
                     $students[$student_key]['browser'] = $assessment_sheet_data['browser'];
                     $students[$student_key]['browser_version'] = $assessment_sheet_data['browser_version'];
+                    $students[$student_key]['device'] = $assessment_sheet_data['device'];
                     $students[$student_key]['os_platform'] = $assessment_sheet_data['os_platform'];
                     $students[$student_key]['assessment_id'] = $data['assessment']['id'];
-                    $students[$student_key]['shoot'] = "kokoak";
                 }else{
 
                 }
