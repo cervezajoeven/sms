@@ -205,7 +205,7 @@
                         <table class="table table-responsive">
                             <tr>
                                 
-                                <th colspan="2"><center><h4> Please click which will you open</center></h4></th>
+                                <th colspan="2"><center><h4 class="note"> Please click which will you open</center></h4></th>
                             </tr>
                             <tr>
                                 <td><center><a href="" id="view_lesson" target="_blank"><button class="btn btn-success">View Lesson</button></a></center></td>
@@ -311,7 +311,7 @@
     var user_id = '<?php echo $user_id ?>';
     function check_class(lesson_id){
         var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id+'/'+user_id;
-
+        console.log(url);
         $.ajax({
             url: url,
             method:"POST",
@@ -325,15 +325,33 @@
                 $("#enter_video").attr("href",parsed_data.video);
             }else{
                 $("#enter_video").hide();
+                $(".note").text("The teacher have not started the zoom class yet.");
             }
             if(parsed_data.lms!=""){
 
                 $("#view_lesson").show();
                 $("#view_lesson").attr("href",parsed_data.lms);
+                if(parsed_data.video==""){
+                    if(parsed_data.lesson_type=="others"){
+                        $(".note").text("You are only allowed to view lesson. Since its not a zoom or google meet class.");
+                    }else{
+                        $(".note").text("The teacher haven't started the class yet. But you are allowed to view the lesson");
+                    }
+                    
+                }else{
+                    $(".note").text("Please select an action.");
+                }
+                
 
             }else{
                 $("#view_lesson").hide();
+                $(".note").text("The teacher have not allowed the viewing of lesson yet. Only the video conference.");
             }
+
+            if(parsed_data.lms==""&&parsed_data.video==""){
+                $(".note").text("The teacher may have not allowed viewing of lesson and haven't started the class yet. Please wait for the teacher to start.");
+            }
+
         });
     }
     function email_logs(lesson_id,lesson_name){

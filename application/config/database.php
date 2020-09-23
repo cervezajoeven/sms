@@ -80,7 +80,7 @@ $godaddy = array("sim","beta");
 $campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","dbti","c7preschool","lccsilvercrest");
 $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
-$local_db = "campus_tlc-nbs";
+$local_db = "phsi";
 // $local_db = "optimized_db";
 if($HTTP_HOST=="localhost"){
 
@@ -107,6 +107,15 @@ if($HTTP_HOST=="localhost"){
 
     $hostname = "stepsdb-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	$hostname_write = "stepsdb-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+
+}else if($database_name=="elim"){
+
+    $username = 'admin';
+    $password = 'J10o15e5V22n!4';
+    $database = 'campus_baliuagu';
+
+    $hostname = "db-baliuagu-cluster.cluster-ro-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+    $hostname_write = "db-baliuagu-cluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 
 }else if($database_name=="lcc-silvercrest"){
 

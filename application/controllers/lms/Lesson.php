@@ -1473,10 +1473,12 @@ class Lesson extends General_Controller {
         $the_lesson = $this->lesson_model->lms_get("lms_lesson",$lesson_id,"id")[0];
         // $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
         $lms2_link = base_url('lms/lesson/create/'.$lesson_id);
+
         if($the_lesson['lesson_type'] == "zoom"||$the_lesson['lesson_type'] == "virtual"){
             $start_date = strtotime($the_lesson['start_date']);
             $end_date = strtotime($the_lesson['end_date']);
             $current_date = strtotime(date("Y-m-d H:i:s"));
+            $open['lesson_type'] = "zoom_google";
             if($current_date>$end_date){
                 $open['video'] = "";
                 $open['lms'] = $lms2_link;
@@ -1497,20 +1499,34 @@ class Lesson extends General_Controller {
 
                 }
                 if($the_lesson['lesson_type'] == "zoom"){
-                    $conference = json_decode($this->lesson_model->lms_get("conferences",$the_lesson['zoom_id'],"id","return_response")[0]['return_response'])->join_url;
+                    if($the_lesson['zoom_id']){
+                        $conference = json_decode($this->lesson_model->lms_get("conferences",$the_lesson['zoom_id'],"id","return_response")[0]['return_response'])->join_url;
+                        if($the_lesson['allow_view']=="1"){
+                            $open['video'] = $conference;
+                            $open['lms'] = $lms2_link;
+                        }else{
 
-                    if($the_lesson['allow_view']=="1"){
-                        $open['video'] = $conference;
-                        $open['lms'] = $lms2_link;
+                            $open['video'] = $conference;
+                            $open['lms'] = "";
+                        }
                     }else{
+                        if($the_lesson['allow_view']=="1"){
+                            $open['video'] = "";
+                            $open['lms'] = $lms2_link;
+                        }else{
 
-                        $open['video'] = $conference;
-                        $open['lms'] = "";
+                            $open['video'] = "";
+                            $open['lms'] = "";
+                        }
                     }
+                    
+
+                    // print_r($the_lesson['zoom_id']);
 
                 }
             }
         }else{
+            $open['lesson_type'] = "others";
             $open['video'] = "";
             $open['lms'] = base_url('lms/lesson/create/'.$lesson_id);
         }
