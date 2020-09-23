@@ -93,20 +93,6 @@ class Assessment extends General_Controller {
         $data['gender'] = $gender;
 
 
-        // $query = $this->db
-        // ->select("lms_assessment_sheets.*,lms_assessment_sheets.account_id as student_id,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,students.gender as gender,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
-
-        // ->from("lms_assessment_sheets")
-        // ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
-        // ->join("students","students.id = lms_assessment_sheets.account_id","left")
-        // ->join("student_session","lms_assessment_sheets.account_id = student_session.student_id")
-        // ->join("classes","classes.id = student_session.class_id","left")
-        // ->join("sections","sections.id = student_session.section_id","left")
-        // ->where("student_session.session_id",$current_session)
-        // ->where("lms_assessment_sheets.assessment_id", $assessment_id)
-        // ->where("lms_assessment_sheets.response_status", 1);
-
-        // $this->db->select("*,students.id as id");
         $this->db->select("students.id as id,students.id as student_id,students.firstname,students.lastname,classes.class,sections.section,students.gender");
 
         $this->db->join("student_session","students.id = student_session.student_id","left");
@@ -114,35 +100,38 @@ class Assessment extends General_Controller {
         $this->db->join("sections","sections.id = student_session.section_id","left");
 
         $this->db->where_in("students.id",explode(",", $data['assessment']['assigned']));
+        if($gender!="all"){
+            $this->db->where("students.gender",$gender);
+        }
+        if($section!="all"){
+            $this->db->where("sections.id",$section);
+        }
+        
+        
         $this->db->group_by("students.id");
         $this->db->order_by("lastname");
         $students = $this->db->get("students")->result_array();
-        // echo '<pre>';print_r($students);exit();
-        // $last_query = $this->db->last_query();
-        // if($section!="all"){
-        //     $this->db->where("sections.id", $section);
-        // }
-        // if($gender!="all"){
-        //     $this->db->where("students.gender", $gender);
-        // }
-        // $this->db->order_by("lms_assessment_sheets.date_created","desc");
-        
+
         $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$assessment_id,"assessment_id");
-        // echo "<pre>";
+        // echo '<pre>';
         foreach ($students as $student_key => $student_value) {
 
-
-            $this->db->select("MAX(date_created) as max_date");
+            $this->db->select("id,response_status");
             $this->db->from("lms_assessment_sheets");
-            $this->db->where("response_status",1);
             $this->db->where("account_id",$student_value['id']);
-            $max_date = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0]['max_date'];
+            $exist = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
+            if($exist){
 
-            if($max_date){
+                $this->db->select("MAX(date_created) as max_date");
+                $this->db->from("lms_assessment_sheets");
+                $this->db->where("response_status",$exist['response_status']);
+                $this->db->where("account_id",$student_value['id']);
+                $max_date = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0]['max_date'];
+
                 $this->db->select("*");
                 $this->db->from("lms_assessment_sheets");
                 $this->db->where("account_id",$student_value['id']);
-                $this->db->where("response_status",1);
+                $this->db->where("response_status",$exist['response_status']);
                 $this->db->where("date_created",$max_date);
                 $assessment_sheet_data = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
                 if(!empty($assessment_sheet_data)){
@@ -163,6 +152,7 @@ class Assessment extends General_Controller {
 
 
             }else{
+                
                 $students[$student_key]['response_status'] = 0;
                 $students[$student_key]['assessment_sheet_id'] = "";
                 $students[$student_key]['student_activity'] = "not_yet";
@@ -177,7 +167,7 @@ class Assessment extends General_Controller {
 
 
         }
-        
+        // echo '<pre>';print_r($students);exit();
     
         $data['students'] = $students;
 
