@@ -49,7 +49,7 @@
 		        		</tr>
 		        		<tr>
 		        			<td>Name :</td>
-		        			<td><?php echo $student_data['firstname'] ?> <?php echo $student_data['laststname'] ?></td>
+		        			<td><?php echo $student_data['firstname'] ?> <?php echo $student_data['lastname'] ?></td>
 		        			<td>Date</td>
 		        			<td><?php echo date("F d, Y"); ?></td>
 		        		</tr>

@@ -92,50 +92,92 @@ class Assessment extends General_Controller {
         $data['gender'] = $gender;
 
 
-        $query = $this->db
-        ->select("lms_assessment_sheets.*,lms_assessment_sheets.account_id as student_id,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,students.gender as gender,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
+        // $query = $this->db
+        // ->select("lms_assessment_sheets.*,lms_assessment_sheets.account_id as student_id,students.firstname,students.lastname,classes.*,sections.*,lms_assessment.*,students.id as student_id,students.gender as gender,lms_assessment_sheets.id as id,lms_assessment_sheets.date_created as date_created")
 
-        ->from("lms_assessment_sheets")
-        ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
-        ->join("students","students.id = lms_assessment_sheets.account_id","left")
-        ->join("student_session","lms_assessment_sheets.account_id = student_session.student_id")
-        ->join("classes","classes.id = student_session.class_id","left")
-        ->join("sections","sections.id = student_session.section_id","left")
-        ->where("student_session.session_id",$current_session)
-        ->where("lms_assessment_sheets.assessment_id", $assessment_id)
-        ->where("lms_assessment_sheets.response_status", 1);
-        if($section!="all"){
-            $this->db->where("sections.id", $section);
-        }
-        if($gender!="all"){
-            $this->db->where("students.gender", $gender);
-        }
-        $this->db->order_by("lms_assessment_sheets.date_created","desc");
-        
-        $students = $query->get()->result_array();
+        // ->from("lms_assessment_sheets")
+        // ->join("lms_assessment","lms_assessment.id = lms_assessment_sheets.assessment_id","left")
+        // ->join("students","students.id = lms_assessment_sheets.account_id","left")
+        // ->join("student_session","lms_assessment_sheets.account_id = student_session.student_id")
+        // ->join("classes","classes.id = student_session.class_id","left")
+        // ->join("sections","sections.id = student_session.section_id","left")
+        // ->where("student_session.session_id",$current_session)
+        // ->where("lms_assessment_sheets.assessment_id", $assessment_id)
+        // ->where("lms_assessment_sheets.response_status", 1);
 
+        // $this->db->select("*,students.id as id");
+        $this->db->select("students.id as id,students.id as student_id,students.firstname,students.lastname,classes.class,sections.section,students.gender");
+
+        $this->db->join("student_session","students.id = student_session.student_id","left");
+        $this->db->join("classes","classes.id = student_session.class_id","left");
+        $this->db->join("sections","sections.id = student_session.section_id","left");
+
+        $this->db->where_in("students.id",explode(",", $data['assessment']['assigned']));
+        $this->db->group_by("students.id");
+        $this->db->order_by("lastname");
+        $students = $this->db->get("students")->result_array();
         // echo '<pre>';print_r($students);exit();
-        $student_ids = array();
-        $filtered_students = array();
-        // echo '<pre>';
+        // $last_query = $this->db->last_query();
+        // if($section!="all"){
+        //     $this->db->where("sections.id", $section);
+        // }
+        // if($gender!="all"){
+        //     $this->db->where("students.gender", $gender);
+        // }
+        // $this->db->order_by("lms_assessment_sheets.date_created","desc");
+        
+        $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$assessment_id,"assessment_id");
+        // echo "<pre>";
         foreach ($students as $student_key => $student_value) {
-            if(array_key_exists($student_value['student_id'], $student_ids)){
-                // echo "<pre>";
-                if($student_ids[$student_value['student_id']]>strtotime($student_value['date_created'])){
 
-                    $student_ids[$student_value['student_id']] = $student_value;
-                    $filtered_students[$student_value['student_id']] = $student_value;
-                    
+
+            $this->db->select("MAX(date_created) as max_date");
+            $this->db->from("lms_assessment_sheets");
+            $this->db->where("response_status",1);
+            $this->db->where("account_id",$student_value['id']);
+            $max_date = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0]['max_date'];
+
+            if($max_date){
+                $this->db->select("*");
+                $this->db->from("lms_assessment_sheets");
+                $this->db->where("account_id",$student_value['id']);
+                $this->db->where("response_status",1);
+                $this->db->where("date_created",$max_date);
+                $assessment_sheet_data = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
+                if(!empty($assessment_sheet_data)){
+                    $students[$student_key]['response_status'] = $assessment_sheet_data['response_status'];
+                    $students[$student_key]['student_activity'] = ($assessment_sheet_data['response_status']==1)?"submitted":"answering";
+                    $students[$student_key]['assessment_sheet_id'] = $assessment_sheet_data['id'];
+                    $students[$student_key]['score'] = ($assessment_sheet_data['score'])?$assessment_sheet_data['score']:0;
+                    $students[$student_key]['total_score'] = $data['assessment']['total_score'];
+                    $students[$student_key]['browser'] = $assessment_sheet_data['browser'];
+                    $students[$student_key]['browser_version'] = $assessment_sheet_data['browser_version'];
+                    $students[$student_key]['os_platform'] = $assessment_sheet_data['os_platform'];
+                    $students[$student_key]['assessment_id'] = $data['assessment']['id'];
+                    $students[$student_key]['shoot'] = "kokoak";
+                }else{
+
                 }
-                
+
+
             }else{
-                $student_ids[$student_value['student_id']] = $student_value['id'];
-                $filtered_students[$student_value['student_id']] = $student_value;
+                $students[$student_key]['response_status'] = 0;
+                $students[$student_key]['assessment_sheet_id'] = "";
+                $students[$student_key]['student_activity'] = "not_yet";
+                $students[$student_key]['score'] = ($student_answers_value['score'])?$student_answers_value['score']:0;
+                $students[$student_key]['total_score'] = $data['assessment']['total_score'];
+                $students[$student_key]['browser'] = "";
+                $students[$student_key]['browser_version'] = "";
+                $students[$student_key]['os_platform'] = "";
+                $students[$student_key]['assessment_id'] = $data['assessment']['id'];
             }
-            
+
+
+
         }
+        
     
-        $data['students'] = $filtered_students;
+        $data['students'] = $students;
 
         if($data['role']=='admin'){
             $this->load->view('layout/header');
