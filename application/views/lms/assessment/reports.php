@@ -202,6 +202,11 @@
                                                             <i class="fa fa-play"></i>
                                                         </a>
                                                     <?php endif; ?>
+                                                    <?php if($real_role==7): ?>
+                                                        <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Check Answer Sheet (To login as this student. This can fix issues on students who can't submit their assessment due to browser issue)" >
+                                                            <i class="fa fa-play"></i>
+                                                        </a>
+                                                    <?php endif; ?>
                                                     <?php if($list_data['student_activity']=="submitted"): ?>
                                                         <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Allow Reanswer" >
                                                             <i class="fa fa-pencil"></i>
