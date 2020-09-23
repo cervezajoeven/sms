@@ -146,6 +146,7 @@ class Assessment extends General_Controller {
                 $this->db->where("date_created",$max_date);
                 $assessment_sheet_data = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
                 if(!empty($assessment_sheet_data)){
+                    $students[$student_key]['assessment_sheet_id'] = $assessment_sheet_data['id'];
                     $students[$student_key]['response_status'] = $assessment_sheet_data['response_status'];
                     $students[$student_key]['student_activity'] = ($assessment_sheet_data['response_status']==1)?"submitted":"answering";
                     $students[$student_key]['assessment_sheet_id'] = $assessment_sheet_data['id'];
@@ -412,6 +413,13 @@ class Assessment extends General_Controller {
         $this->load->view('lms/assessment/review', $data);
         
         
+    }
+
+    public function allow_reanswer($assessment_sheet_id,$account_id=""){
+        $data['id'] = $assessment_sheet_id;
+        $data['response_status'] = 0;
+        $assessment_sheet = $this->assessment_model->lms_update("lms_assessment_sheets",$data);
+        redirect(site_url('lms/assessment/reports/'.$assessment_sheet['assessment_id']));
     }
 
     public function update(){

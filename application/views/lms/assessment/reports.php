@@ -157,6 +157,9 @@
                                                         <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Check Answer Sheet" >
                                                             <i class="fa fa-play"></i>
                                                         </a>
+                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Allow Reanswer" >
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
                                                     <?php endif; ?>
                                                 </center>
                                                 
