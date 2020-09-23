@@ -152,12 +152,9 @@
                                                     <a data-placement="right" href="<?php echo site_url('lms/assessment/review/'.$list_data['assessment_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer Sheet" >
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-
-                                                    <?php if($real_role == 7): ?>
-                                                        <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Check Answer Sheet" >
-                                                            <i class="fa fa-play"></i>
-                                                        </a>
-                                                    <?php endif; ?>
+                                                    <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Check Answer Sheet" >
+                                                        <i class="fa fa-play"></i>
+                                                    </a>
                                                 </center>
                                                 
 
