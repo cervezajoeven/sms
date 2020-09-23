@@ -1165,22 +1165,23 @@ return false;
     }
 
     public function add_student_session($data)
-    {
+    {        
         $this->writedb->trans_start(); # Starting Transaction
         $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         $session_id=0;
         //=======================Code Start===========================
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
-        $q = $this->db->get('student_session');
+        $q = $this->db->get('student_session');        
 
-        if ($q->num_rows() > 0) {
+        if ($q->num_rows() > 0) {            
             $rec = $q->row_array();
             $this->writedb->where('id', $rec['id']);
             $this->writedb->update('student_session', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On  student session id " . $rec['id'];
             $action    = "Update";
             $record_id = $rec['id'];
+            
             $this->log($message, $record_id, $action);
             // $session_id = $record_id;
 
@@ -1190,6 +1191,7 @@ return false;
             $message   = INSERT_RECORD_CONSTANT . " On  student session id " . $session_id;
             $action    = "Insert";
             $record_id = $session_id;
+            
             $this->log($message, $record_id, $action);
             
         }

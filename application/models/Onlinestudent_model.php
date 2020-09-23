@@ -117,6 +117,7 @@ class Onlinestudent_model extends MY_Model {
     public function update($data, $action = "save") {
         $record_update_status = true;
         // var_dump($data);die;
+        // print_r($data);die();
 
         if (isset($data['id'])) {
             $this->writedb->trans_begin();
@@ -192,6 +193,8 @@ class Onlinestudent_model extends MY_Model {
                             'payment_scheme' => $data['payment_scheme'],
                             'preferred_education_mode' => $data['preferred_education_mode'],
                         );
+
+                        //print_r($data);die();
                         
                         $this->writedb->where('id', $student_id);
                         $this->writedb->update('students', $old_data);                        
@@ -200,6 +203,8 @@ class Onlinestudent_model extends MY_Model {
                     {
                         $student_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                         $data['enrollment_type'] = 'old';
+
+                        // print_r($data);die();
 
                         if (isset($student_id)) {
                             $this->writedb->where('id', $student_id);
@@ -215,9 +220,10 @@ class Onlinestudent_model extends MY_Model {
                     }
                     else 
                     {
+                        // print_r($data);die();
                         $data['roll_no'] = $data['admission_no'];
                         $this->writedb->insert('students', $data);
-                        $student_id = $this->writedb->insert_id();
+                        $student_id = $this->writedb->insert_id();                        
                     }                    
                    
                     $data_new = array(
@@ -226,13 +232,34 @@ class Onlinestudent_model extends MY_Model {
                         'section_id' => $classs_section_result->section_id,
                         'session_id' => $this->current_session,
                     );
-
-                    // $this->db->insert('student_session', $data_new);
-                    // $student_session_id = $this->db->insert_id();
-
-                    // var_dump($student_session_id);die;
-                    $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session                    
                     
+                    //-- Add to student_session table
+                    // $this->db->where('session_id', $this->current_session);
+                    // $this->db->where('student_id', $student_id);
+                    // $q = $this->db->get('student_session');
+
+                    // if ($q->num_rows() > 0) {            
+                    //     $rec = $q->row_array();
+                    //     $this->writedb->where('id', $rec['id']);
+                    //     $this->writedb->update('student_session', $data_new);
+                    //     $message   = UPDATE_RECORD_CONSTANT . " On  student session id " . $rec['id'];
+                    //     $action    = "Update";
+                    //     $record_id = $rec['id'];
+                        
+                    //     $this->log($message, $record_id, $action);
+                    //     // $session_id = $record_id;
+
+                    // } else {
+                        $this->writedb->insert('student_session', $data_new);
+                        $student_session_id = $this->writedb->insert_id();
+                        $message = INSERT_RECORD_CONSTANT . " On  student session id " . $session_id;
+                        $action = "Insert";
+                        $record_id = $session_id;
+                        
+                        $this->log($message, $record_id, $action);          
+                    // }
+
+                    // $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session        
 
                     if (isset($student_session_id))
                     {
@@ -327,7 +354,7 @@ class Onlinestudent_model extends MY_Model {
                                 $this->setting_model->add($data_setting);
                             }
                         }
-                        //===================================================
+                        //===================================================                        
 
                         //if ($action == "enroll")
                         {
@@ -343,7 +370,7 @@ class Onlinestudent_model extends MY_Model {
                                 $parent_login_detail = array('id' => $student_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $student_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                                 $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                             }
-                        }
+                        }                        
                     }
 
                     $data['is_enroll'] = 1;
