@@ -41,7 +41,7 @@ class Assessment extends JOE_Controller {
 
 
 	public function answer($id,$tester='false'){
-      header('Access-Control-Allow-Origin: *');
+      
 			// echo "<pre>";
 			$data['role'] = "student";
       $data['mode'] = $this->mode;

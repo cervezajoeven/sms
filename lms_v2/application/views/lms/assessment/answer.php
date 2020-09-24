@@ -22,8 +22,7 @@
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
 		        <div class = "col-sm-7 left">
-		        	<?php print_r($school_code); ?>
-		        	
+
 		        	<form enctype="multipart/form-data" id="upload_form" method="POST" action="<?php echo site_url('lms/assessment/upload/'.$assessment['id']); ?>" style="top: 0;position: absolute; width: 100%;">
 		        		<input type="file" required="" class="form-control file" accept="application/pdf" name="assessment_form">
 		        		<!-- <input type="button" value="Upload" class="form-control btn btn-success upload"> -->
