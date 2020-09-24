@@ -7,6 +7,7 @@ class Studentfee_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        $this->load->model('setting_model');
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
         //-- Load database for writing

@@ -10,6 +10,8 @@ class Studentsession_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('setting_model');
+        $this->load->model('student_model');
         $this->current_session = $this->setting_model->getCurrentSession();
         //-- Load database for writing
         $this->writedb = $this->load->database('write_db', TRUE);
