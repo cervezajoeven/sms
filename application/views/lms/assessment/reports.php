@@ -93,19 +93,25 @@
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
                         <h3 class="box-title titlefix">Students List</h3>
+
+                        
                         <style type="text/css">
                             .filter{
                                 width: 150px;
                                 display: inline;
                             }
+                            .legend{
+                                height: 20px;
+                                width: 20px;
+                            }
                         </style>
                         <div class="box-tools pull-right">
-
+                            
                             Filters:
                             <select class="form-control filter section">
                                 <option value="all">All Section</option>
                                 <?php foreach ($sections as $section_key => $section_value) : ?>
-                                    <option value="<?php echo $section_value['id'] ?>"><?php echo $section_value['section'] ?></option>
+                                    <option value="<?php echo $section_value['id'] ?>" <?php echo ($section==$section_value['id'])?"selected":""; ?> ><?php echo $section_value['section'] ?></option>
                                 <?php endforeach; ?>
                             </select>
 
@@ -125,17 +131,46 @@
                         </div>
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
+                            <style type="text/css">
+                                .red{
+                                    background-color: #f6c3c3!important;
+                                }
+                                .green{
+                                    background-color: #c3f6c9!important;
+                                }
+                                .yellow{
+                                    background-color: #f6f2c3!important;
+                                }
+                            </style>
+                            <table class="table">
+                                <tr>
+                                    <th width="100px">Legend</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>Submitted</td>
+                                    <td><div class="legend green"></div> </td>
+                                </tr>
+                                <tr>
+                                    <td>Answering</td>
+                                    <td><div class="legend yellow"></div> </td>
+                                </tr>
+                                <tr>
+                                    <td>Not Started</td>
+                                    <td><div class="legend red"></div> </td>
+                                </tr>
+                            </table>
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?></th>
                                         <th>Name</th>
-                                        <th>Gender</th>
                                         <th>Grade</th>
                                         <th>Section</th>
                                         <th>Score</th>
                                         <th>Percentage</th>
                                         <th>Status</th>
+                                        <th>Gender</th>
                                         <th>Browser</th>
                                         <th>Device</th>
                                         <th>Version</th>
@@ -145,19 +180,35 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($students as $list_key => $list_data): ?>
+                                        <?php if($list_data['student_activity']=="submitted"): ?>
+                                            <?php $row_color = "green"; ?>
+                                        <?php elseif($list_data['student_activity']=="answering"): ?>
+                                            <?php $row_color = "yellow"; ?>
+                                        <?php else: ?>
+                                            <?php $row_color = "red"; ?>
 
-                                        <tr>
+                                        <?php endif; ?>
+                                        <tr class="<?php echo $row_color ?>">
                                             <td class="mailbox-date pull-right">
                                                 <center>
-                                                    <a data-placement="right" href="<?php echo site_url('lms/assessment/review/'.$list_data['assessment_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Answer Sheet" >
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
+                                                    <?php if($list_data['student_activity']=="submitted"): ?>
+                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/review/'.$list_data['assessment_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="View Answer Sheet" >
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    <?php endif; ?>
 
-                                                    <?php if($real_role == 7): ?>
-                                                        <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Check Answer Sheet" >
+                                                    <?php if($list_data['student_activity']=="answering"): ?>
+                                                        <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Check Answer Sheet (To login as this student. This can fix issues on students who can't submit their assessment due to browser issue)" >
                                                             <i class="fa fa-play"></i>
                                                         </a>
-                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Allow Reanswer" >
+                                                    <?php endif; ?>
+                                                    <?php if($real_role==7): ?>
+                                                        <a data-placement="right" href="<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/'.$list_data['student_id'].'/student/'.$list_data['assessment_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Check Answer Sheet (To login as this student. This can fix issues on students who can't submit their assessment due to browser issue)" >
+                                                            <i class="fa fa-play"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                    <?php if($list_data['student_activity']=="submitted"): ?>
+                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Allow Reanswer" >
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
                                                     <?php endif; ?>
@@ -169,9 +220,7 @@
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['lastname']?>, <?php echo $list_data['firstname']?>
                                             </td>
-                                            <td class="mailbox-name">
-                                               <?php echo $list_data['gender']?>
-                                            </td>
+                                            
                                             <td class="mailbox-name">
                                                <?php echo $list_data['class']?>
                                             </td>
@@ -186,7 +235,12 @@
                                                 <?php $current_percentage = round(($list_data['score']/$list_data['total_score'])*100) ?>
                                             </td>
                                             <td>
-                                                <?php echo ($current_percentage>=$assessment['percentage'])?"Pass":"Fail"; ?>
+                                                <?php if($list_data['student_activity']=="submitted"): ?>
+                                                    <?php echo ($current_percentage>=$assessment['percentage'])?"Pass":"Fail"; ?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                               <?php echo $list_data['gender']?>
                                             </td>
                                             <td>
                                                 <?php echo $list_data['browser']?>
