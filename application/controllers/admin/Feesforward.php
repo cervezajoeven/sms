@@ -99,7 +99,10 @@ class Feesforward extends Admin_Controller {
 
                     foreach ($counter as $count_key => $count_value) 
                     {
-                        if (!empty($this->input->post('amount[' . $count_value . ']')) && $this->input->post('amount[' . $count_value . ']') != "0") {
+                        $amount = empty($this->input->post('amount[' . $count_value . ']')) ? 0 : floatval($this->input->post('amount[' . $count_value . ']'));
+
+                        // if (!empty($this->input->post('amount[' . $count_value . ']')) && $this->input->post('amount[' . $count_value . ']') != "0") {
+                        if ($amount >= 0) {
                             $student_array = array();
                             $student_array['student_session_id'] = $this->input->post('student_sesion[' . $count_value . ']');
                             $student_array['amount'] = $this->input->post('amount[' . $count_value . ']');
