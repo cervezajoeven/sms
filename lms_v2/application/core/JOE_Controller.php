@@ -9,8 +9,11 @@ class JOE_Controller extends CI_Controller
         $this->load->helper('general');
         date_default_timezone_set('Asia/Manila');
 
-        $url = $_SERVER['SERVER_NAME'];
 
+        $url = $_SERVER['SERVER_NAME'];
+        $HTTP_HOST = $_SERVER['HTTP_HOST'];
+        $database_name = explode('.', $HTTP_HOST)[0];
+        $this->school_code = $database_name;
         if (strpos($url,'localhost') !== false) {
             $this->mode = "offline";
         }elseif(strpos($url,'192.') !== false||strpos($url,'172.') !== false) {
@@ -18,5 +21,6 @@ class JOE_Controller extends CI_Controller
         }else{
             $this->mode = "online";
         }
+
     }
 }

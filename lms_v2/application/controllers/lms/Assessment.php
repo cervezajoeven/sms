@@ -44,6 +44,8 @@ class Assessment extends JOE_Controller {
 
 			// echo "<pre>";
 			$data['role'] = "student";
+      $data['mode'] = $this->mode;
+      $data['school_code'] = $this->school_code;
 
 			if($tester=='false'){
 				if(!array_key_exists('user_id',$this->session->userdata())){
