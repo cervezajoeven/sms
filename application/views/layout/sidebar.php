@@ -303,14 +303,14 @@ s<aside class="main-sidebar" id="alert2">
                     ?>
                     <li class="treeview <?php echo set_Topmenu('Attendance'); ?>">
                         <a href="#">
-                            <i class="fa fa-calendar-check-o ftlayer"></i> <span><?php echo $this->lang->line('attendance'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-calendar-check-o ftlayer"></i> <span><?php echo $this->lang->line('student_attendance'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <?php
                             if (!is_subAttendence()) {
                                 if ($this->rbac->hasPrivilege('student_attendance', 'can_view')) {
                                     ?>
-                                    <li class="<?php echo set_Submenu('stuattendence/index'); ?>"><a href="<?php echo base_url(); ?>admin/stuattendence"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_attendance'); ?></a></li>
+                                    <li class="<?php echo set_Submenu('stuattendence/index'); ?>"><a href="<?php echo base_url(); ?>admin/stuattendence"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('attendance'); ?></a></li>
                                     <?php
                                 }
                                 if ($this->rbac->hasPrivilege('attendance_by_date', 'can_view')) {
