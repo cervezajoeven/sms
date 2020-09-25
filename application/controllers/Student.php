@@ -25,12 +25,9 @@ class Student extends Admin_Controller
         $this->load->model('studentsession_model');
         $this->load->model('category_model');
         $this->load->model('grade_model');
-        $this->load->model('timeline_model');
         $this->load->model('studentfeemaster_model');
         $this->load->model('setting_model');
         $this->load->model('disable_reason_model');
-        $this->load->model('setting_model');
-        $this->load->model('category_model');
         $this->load->model('hostel_model');
         $this->load->model('vehroute_model');
         $this->load->model('customfield_model');
@@ -38,7 +35,6 @@ class Student extends Admin_Controller
         $this->load->model('feegroup_model');
         $this->load->model('feediscount_model');
         $this->load->model('user_model');
-        $this->load->model('studentsession_model');
 
         $this->blood_group        = $this->config->item('bloodgroup');
         $this->sch_setting_detail = $this->setting_model->getSetting();
