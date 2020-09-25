@@ -114,6 +114,9 @@ class Assessment extends General_Controller {
 
         $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$assessment_id,"assessment_id");
         // echo '<pre>';
+        $not_yet = 0;
+        $answering = 0;
+        $submitted = 0;
         foreach ($students as $student_key => $student_value) {
 
             $this->db->select("id,response_status");
@@ -121,6 +124,13 @@ class Assessment extends General_Controller {
             $this->db->where("account_id",$student_value['id']);
             $exist = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
             if($exist){
+
+                if($assessment_sheet_data['response_status']==1){
+                    $submitted += 1;
+                }else{
+
+                    $answering += 1;
+                }
 
                 $this->db->select("MAX(date_created) as max_date");
                 $this->db->from("lms_assessment_sheets");
@@ -152,7 +162,7 @@ class Assessment extends General_Controller {
 
 
             }else{
-                
+                $not_yet += 1;
                 $students[$student_key]['response_status'] = 0;
                 $students[$student_key]['assessment_sheet_id'] = "";
                 $students[$student_key]['student_activity'] = "not_yet";
@@ -169,6 +179,9 @@ class Assessment extends General_Controller {
         }
         // echo '<pre>';print_r($students);exit();
     
+        $data['answering'] = $answering;
+        $data['submitted'] = $submitted;
+        $data['not_yet'] = $not_yet;
         $data['students'] = $students;
 
         if($data['role']=='admin'){

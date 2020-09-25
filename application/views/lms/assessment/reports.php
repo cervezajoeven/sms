@@ -101,8 +101,12 @@
                                 display: inline;
                             }
                             .legend{
-                                height: 20px;
-                                width: 20px;
+                                height: 35px;
+                                width: 40px;
+                                padding-top: 8px;
+                                text-align: center;
+                                border-radius: 50%;
+                                font-weight: bold;
                             }
                         </style>
                         <div class="box-tools pull-right">
@@ -149,15 +153,15 @@
                                 </tr>
                                 <tr>
                                     <td>Submitted</td>
-                                    <td><div class="legend green"></div> </td>
+                                    <td><div class="legend green"><?php echo $submitted ?></div></td>
                                 </tr>
                                 <tr>
-                                    <td>Answering</td>
-                                    <td><div class="legend yellow"></div> </td>
+                                    <td>Pending</td>
+                                    <td><div class="legend yellow"><?php echo $answering ?></div> </td>
                                 </tr>
                                 <tr>
                                     <td>Not Started</td>
-                                    <td><div class="legend red"></div> </td>
+                                    <td><div class="legend red"><?php echo $not_yet ?></div> </td>
                                 </tr>
                             </table>
                             <table class="table table-striped table-bordered table-hover example nowrap">
@@ -173,8 +177,10 @@
                                         <th>Gender</th>
                                         <th>Browser</th>
                                         <th>Device</th>
-                                        <th>Version</th>
-                                        <th>OS</th>
+                                        <?php if($real_role==7): ?>
+                                            <th>Version</th>
+                                            <th>OS</th>
+                                        <?php endif; ?>
                                         <!-- <th>Essays</th> -->
                                     </tr>
                                 </thead>
@@ -208,15 +214,15 @@
                                                         </a>
                                                     <?php endif; ?>
                                                     <?php if($list_data['student_activity']=="submitted"): ?>
-                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Allow Reanswer" >
+                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Allow Retake" >
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
                                                     <?php endif; ?>
                                                 </center>
                                                 
-
                                                
                                             </td>
+
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['lastname']?>, <?php echo $list_data['firstname']?>
                                             </td>
@@ -248,12 +254,14 @@
                                             <td>
                                                 <?php echo $list_data['device']?>
                                             </td>
-                                            <td>
-                                                <?php echo $list_data['browser_version']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $list_data['os_platform']?>
-                                            </td>
+                                            <?php if($real_role==7): ?>
+                                                <td>
+                                                    <?php echo $list_data['browser_version']?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $list_data['os_platform']?>
+                                                </td>
+                                            <?php endif; ?>
                                         </tr>
                                         <?php endforeach; ?>
 
