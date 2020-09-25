@@ -1,3 +1,5 @@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -34,7 +36,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
-                                    <select autofocus="" id="subject_id" name="subject" placeholder="" type="text" class="form-control">
+                                    <select autofocus="" id="subject_id" name="subject" placeholder="" type="text" class="form-control filter">
                                         <?php foreach ($subjects as $key => $value) : ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
                                         <?php endforeach; ?>
@@ -43,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Grade/Level</label><small class="req"> *</small>
-                                    <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control">
+                                    <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control filter">
                                         <?php foreach ($classes as $key => $value) : ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
                                         <?php endforeach; ?>
@@ -110,6 +112,8 @@
 
 
 <script>
+
+    $('.filter').select2();
     function check_class(lesson_id){
         var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id;
 

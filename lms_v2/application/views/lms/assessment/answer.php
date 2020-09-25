@@ -22,12 +22,17 @@
 		<div class = "container-fluid">
 	      	<div class = "row row-height">
 		        <div class = "col-sm-7 left">
+
 		        	<form enctype="multipart/form-data" id="upload_form" method="POST" action="<?php echo site_url('lms/assessment/upload/'.$assessment['id']); ?>" style="top: 0;position: absolute; width: 100%;">
 		        		<input type="file" required="" class="form-control file" accept="application/pdf" name="assessment_form">
 		        		<!-- <input type="button" value="Upload" class="form-control btn btn-success upload"> -->
 		        	</form>
-		        	<?php if($assessment['assessment_file']): ?>
-	            		<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode(old_url('uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file'])); ?>"></iframe>
+		        	<?php if($assessment['assessment_file']||$school_code=="sim"): ?>
+		        		<?php if($mode=="offline"): ?>
+	            			<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode(old_url('uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file'])); ?>"></iframe>
+	            		<?php else: ?>
+	            			<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode('https://media.campuscloudph.com/'.$school_code.'/uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file']); ?>"></iframe>
+	            		<?php endif ?>
 	            	<?php else: ?>
 	            		<h1 style="text-align: center;">Upload a PDF File Here</h1>
 		            <?php endif; ?>
