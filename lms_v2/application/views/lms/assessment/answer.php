@@ -27,7 +27,7 @@
 		        		<input type="file" required="" class="form-control file" accept="application/pdf" name="assessment_form">
 		        		<!-- <input type="button" value="Upload" class="form-control btn btn-success upload"> -->
 		        	</form>
-		        	<?php if($assessment['assessment_file']): ?>
+		        	<?php if($assessment['assessment_file']||$school_code=="sim"): ?>
 		        		<?php if($mode=="offline"): ?>
 	            			<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode(old_url('uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file'])); ?>"></iframe>
 	            		<?php else: ?>

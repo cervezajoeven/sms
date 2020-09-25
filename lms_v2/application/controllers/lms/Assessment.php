@@ -36,12 +36,17 @@ class Assessment extends JOE_Controller {
 		);
 
 		$this->session->set_userdata($userdata);
-		redirect(site_url('lms/assessment/answer/'.$id));
+    if($role=="student"){
+      redirect(site_url('lms/assessment/answer/'.$id));
+    }else{
+      redirect(site_url('lms/assessment/answer/'.$id.'/false/teacher'));
+    }
+		
 	}
 
 
-	public function answer($id,$tester='false'){
-      
+	public function answer($id,$tester='false',$role="student"){
+
 			// echo "<pre>";
 			$data['role'] = "student";
       $data['mode'] = $this->mode;
