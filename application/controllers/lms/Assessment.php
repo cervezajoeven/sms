@@ -412,7 +412,7 @@ class Assessment extends General_Controller {
         $data['resources'] = site_url('backend/lms/');
         $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
         $data['assessment_sheet'] = $response[0];
-        
+        $data['role'] = $this->general_model->get_role();
         $this->load->view('lms/assessment/review', $data);
         
         
@@ -790,6 +790,33 @@ class Assessment extends General_Controller {
         $data['id'] = $_REQUEST['assessment_sheet_id'];
         $data['answer'] = json_encode($_REQUEST['updated_answer']);
         $this->lesson_model->lms_update("lms_assessment_sheets",$data,"id");
+    }
+
+    public function consider_answer(){
+        $data['id'] = $_REQUEST['assessment_id'];
+        $data['considered_answer'] = $_REQUEST['considered_answer'];
+        $data['considered_answer_order'] = $_REQUEST['considered_answer_order'];
+        $update_sheet = $this->assessment_model->lms_get("lms_assessment",$data['id'],"id","assessment_name,sheet")[0];
+        $decoded_update_sheet = json_decode($update_sheet['sheet']);
+        $exploded_correct = explode(",", $decoded_update_sheet[$data['considered_answer_order']]->correct);
+        array_push($exploded_correct,implode("|comma|",explode(",", $data['considered_answer'])));
+        $with_considered_answer = implode(",", $exploded_correct);
+        $decoded_update_sheet[$data['considered_answer_order']]->correct = $with_considered_answer;
+
+        $backup_data['id'] = $data['id'];
+        $backup_data['backup_sheet'] = $update_sheet['sheet'];
+
+        $new_data['id'] = $data['id'];
+        $new_data['sheet'] = json_encode($decoded_update_sheet);
+
+        $this->assessment_model->lms_update("lms_assessment",$backup_data);
+        if($this->assessment_model->lms_update("lms_assessment",$new_data)){
+            echo "true";
+        }else{
+            echo "false";
+        }
+
+
     }
 
     public function analysis($id){
