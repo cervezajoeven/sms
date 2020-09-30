@@ -1883,6 +1883,7 @@ var validateFileURL = void 0;
     'https://rcamessjbcs.campuscloudph.com',
     'https://sim.campuscloudph.com',
     'https://stepsmandaluyong.com',
+    'https://www.stepsmandaluyong.com',
     'http://baliuagu.campuscloudph.com',
     'http://bulacanecumenical.campuscloudph.com',
     'http://cicosat.novocloudph.com',
@@ -1912,6 +1913,7 @@ var validateFileURL = void 0;
     'http://rcamessjbcs.campuscloudph.com',
     'http://sim.campuscloudph.com',
     'http://stepsmandaluyong.com',
+    'http://www.stepsmandaluyong.com',
   ];
   validateFileURL = function validateFileURL(file) {
     if (file === undefined) {
