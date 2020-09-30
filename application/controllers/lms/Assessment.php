@@ -151,6 +151,7 @@ class Assessment extends General_Controller {
                     $students[$student_key]['assessment_sheet_id'] = $assessment_sheet_data['id'];
                     $students[$student_key]['score'] = ($assessment_sheet_data['score'])?$assessment_sheet_data['score']:0;
                     $students[$student_key]['total_score'] = $data['assessment']['total_score'];
+                    $students[$student_key]['start_date'] = date("M d, Y h:i A",strtotime($assessment_sheet_data['start_date']));
                     $students[$student_key]['browser'] = $assessment_sheet_data['browser'];
                     $students[$student_key]['browser_version'] = $assessment_sheet_data['browser_version'];
                     $students[$student_key]['device'] = $assessment_sheet_data['device'];
@@ -421,8 +422,23 @@ class Assessment extends General_Controller {
     public function allow_reanswer($assessment_sheet_id,$account_id=""){
         $data['id'] = $assessment_sheet_id;
         $data['response_status'] = 0;
+
+        $assessment_sheet_data = $this->assessment_model->lms_get("lms_assessment_sheets",$assessment_sheet_id,"id","assessment_id")[0];
+        $assessment_data = $this->assessment_model->lms_get("lms_assessment",$assessment_sheet_data['assessment_id'],"id","duration")[0];
+        
+        $data['expiration'] = date("Y-m-d H:i:s",strtotime("+".$assessment_data['duration']." minutes",strtotime(date("Y-m-d H:i:s"))));
+
         $assessment_sheet = $this->assessment_model->lms_update("lms_assessment_sheets",$data);
         redirect(site_url('lms/assessment/reports/'.$assessment_sheet['assessment_id']));
+    }
+
+    public function allow_reanswer_delete($assessment_sheet_id,$account_id=""){
+        $data['id'] = $assessment_sheet_id;
+        $assessment_sheet_data = $this->assessment_model->lms_get("lms_assessment_sheets",$assessment_sheet_id,"id","assessment_id")[0];
+        $this->db->where("id",$assessment_sheet_id);
+        $this->db->delete("lms_assessment_sheets");
+
+        redirect(site_url('lms/assessment/reports/'.$assessment_sheet_data['assessment_id']));
     }
 
     public function update(){

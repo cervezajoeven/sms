@@ -15,12 +15,12 @@ var end_date = $(".end_date").val();
 
 
 
-$(".sortable").sortable({
-	stop:function(event,ui){
-		renumbering();
-		save_no_notif();
-	}
-});
+// $(".sortable").sortable({
+// 	stop:function(event,ui){
+// 		renumbering();
+// 		save_no_notif();
+// 	}
+// });
 $(".option-container-clonable").hide();
 
 var jstree = $('#jstree_demo_div').jstree({
@@ -582,8 +582,8 @@ function essay_save(){
 	});
 }
 
-$(document).on("focus",".score_class",function(){
-	alert("holy");
+$(document).on("focusin focusout change",".score_class",function(){
+	console.log("whisper");
 	var essay_number = $(this).attr("essay_number");
 	var score_input = $(this).val();
 	

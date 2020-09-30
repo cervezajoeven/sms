@@ -174,6 +174,7 @@
                                         <th>Score</th>
                                         <th>Percentage</th>
                                         <th>Status</th>
+                                        <th>Start Date</th>
                                         <th>Gender</th>
                                         <th>Browser</th>
                                         <th>Device</th>
@@ -214,7 +215,7 @@
                                                         </a>
                                                     <?php endif; ?>
                                                     <?php if($list_data['student_activity']=="submitted"): ?>
-                                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/allow_reanswer/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Allow Retake" >
+                                                        <a data-placement="right" href="#" onclick="allow_reanswer('<?php echo site_url('lms/assessment/allow_reanswer_delete/'.$list_data['assessment_sheet_id'].'/'.$list_data['student_id']);?>')" class="btn btn-default btn-xs <?php echo $row_color ?>"  data-toggle="tooltip" title="Allow Retake" >
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
                                                     <?php endif; ?>
@@ -244,6 +245,9 @@
                                                 <?php if($list_data['student_activity']=="submitted"): ?>
                                                     <?php echo ($current_percentage>=$assessment['percentage'])?"Pass":"Fail"; ?>
                                                 <?php endif; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                               <?php echo $list_data['start_date']?>
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo $list_data['gender']?>
@@ -285,7 +289,16 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <script type="text/javascript">
+
+    function allow_reanswer(url){
+        if(confirm("Are you sure you want this student to retake the assessment? This will reset his answers and timer on the latest attempt.")){
+            window.location.href = url;
+        }
+    }
     $(document).ready(function () {
+
+
+
         var url = $("#url").val();
         var assessment_id = $("#assessment_id").val();
         $('.filter').select2();
@@ -302,6 +315,9 @@
 
             $("#form1")[0].reset();
         });
+
+
+
         var class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
         getSectionByClass(class_id, section_id);

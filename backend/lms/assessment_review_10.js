@@ -295,12 +295,17 @@ $(document).ready(function(){
 								var essay_score = "No Score yet";
 
 								if('score' in value){
+
 									score += parseInt(value.score);
 									$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
 									essay_score = value.score;
+
 								}else{
+									
 									score += 0;
+
 								}
+
 								var the_options = $(".option-container-actual").eq(key).find(".option");
 								$(the_options).find(".option_type").find("textarea").text(value.answer);
 								$(the_options).find(".option_type").find("textarea").after("<p>Essay score: "+essay_score+"</p>");
