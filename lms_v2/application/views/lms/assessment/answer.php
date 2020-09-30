@@ -34,7 +34,11 @@
 		        			<?php if($school_code=="sim"): ?>
 	            				<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode(old_url('uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file'])); ?>"></iframe>
 	            			<?php else: ?>
-	            				<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode('https://media.campuscloudph.com/'.$school_code.'/uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file']); ?>"></iframe>
+	            				<?php if($_SERVER['HTTP_HOST']=="www.stepsmandaluyong.com") ?>
+	            					<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode('https://media.campuscloudph.com/stepsmandaluyong/uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file']); ?>"></iframe>
+	            				<?php else: ?>
+	            					<iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $old_resources.'pdfjs/web/viewer.html?file='.urlencode('https://media.campuscloudph.com/'.$school_code.'/uploads/lms_assessment/'.$assessment['id'].'/'.$assessment['assessment_file']); ?>"></iframe>
+	            				<?php endif; ?>
 	            			<?php endif; ?>
 	            		<?php endif ?>
 	            	<?php else: ?>
