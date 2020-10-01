@@ -30,7 +30,7 @@
                                         <input autofocus="" id="assessment_name" name="assessment_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
                                         <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
                                         <input autofocus="" id="assessment_name" name="assessment_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
                                         <span class="text-danger"><?php echo form_error('content_title'); ?></span>
@@ -44,7 +44,7 @@
                                         <label for="exampleInputEmail1">Section</label><small class="req"> *</small>
                                         <input autofocus="" id="assessment_name" name="assessment_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
                                         <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                    </div>
+                                    </div> -->
                                 </div><!-- /.box-body -->
 
                                 <div class="box-footer">
