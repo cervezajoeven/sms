@@ -180,7 +180,7 @@ class Zoom_api {
         $createAMeetingArray['password'] = !empty($data['password']) ? $data['password'] : "";
         $createAMeetingArray['duration'] = !empty($data['duration']) ? $data['duration'] : 60;
         $createAMeetingArray['settings'] = array(
-            'join_before_host' => !empty($data['join_before_host']) ? true : false,
+            'join_before_host' => false,
             'host_video' => !empty($data['host_video']) ? true : false,
             'participant_video' => !empty($data['client_video']) ? true : false,
             'mute_upon_entry' => !empty($data['option_mute_participants']) ? true : false,
