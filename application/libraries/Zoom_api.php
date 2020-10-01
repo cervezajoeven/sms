@@ -161,7 +161,7 @@ class Zoom_api {
 
         $post_time = $data['date'];
         $start_time = date("Y-m-d\TH:i:s", strtotime($post_time));
-        $data['join_before_host'] = true;
+        $data['join_before_host'] = false;
         $createAMeetingArray = array();
 
         if (!empty($data['alternative_host_ids'])) {
