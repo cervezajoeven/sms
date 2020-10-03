@@ -208,7 +208,8 @@ if($HTTP_HOST=="localhost"){
   	$hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
   	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 }
-
+echo $hostname_read;
+exit;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => $hostname,
