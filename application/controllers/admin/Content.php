@@ -92,8 +92,11 @@ class Content extends Admin_Controller {
             
             $insert_id = $this->content_model->add($data, $content_for);
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+                // $fileInfo = pathinfo($_FILES["file"]["name"]);
+                // $img_name = $insert_id . '.' . $fileInfo['extension'];
+                $time     = md5($_FILES["file"]['name'] . microtime());
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
-                $img_name = $insert_id . '.' . $fileInfo['extension'];
+                $img_name = $time . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/school_content/material/" . $img_name);
                 $data_img = array('id' => $insert_id, 'file' => 'uploads/school_content/material/' . $img_name);
                 $this->content_model->add($data_img);
@@ -172,8 +175,11 @@ class Content extends Admin_Controller {
 
             $insert_id = $this->content_model->add($data, $content_for);
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+                // $fileInfo = pathinfo($_FILES["file"]["name"]);
+                // $img_name = $insert_id . '.' . $fileInfo['extension'];
+                $time     = md5($_FILES["file"]['name'] . microtime());
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
-                $img_name = $insert_id . '.' . $fileInfo['extension'];
+                $img_name = $time . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/school_content/material/" . $img_name);
                 $data_img = array('id' => $insert_id, 'file' => 'uploads/school_content/material/' . $img_name);
                 $this->content_model->add($data_img);
@@ -185,26 +191,68 @@ class Content extends Admin_Controller {
 
     function handle_upload() {
 
-        if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
-            $allowedExts = array('jpg', 'jpeg', 'png', "pdf", "doc", "docx", "rar", "zip");
-            $temp = explode(".", $_FILES["file"]["name"]);
-            $extension = end($temp);
+        // if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+        //     $allowedExts = array('jpg', 'jpeg', 'png', "pdf", "doc", "docx", "rar", "zip");
+        //     $temp = explode(".", $_FILES["file"]["name"]);
+        //     $extension = end($temp);
             
-            if ($_FILES["file"]["error"] > 0) {
-                $error .= "Error opening the file<br />";
-            }
-            if (($_FILES["file"]["type"] != "application/pdf") && ($_FILES["file"]["type"] != "image/gif") && ($_FILES["file"]["type"] != "image/jpeg") && ($_FILES["file"]["type"] != "image/jpg") && ($_FILES["file"]["type"] != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") && ($_FILES["file"]["type"] != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") && ($_FILES["file"]["type"] != "image/pjpeg") && ($_FILES["file"]["type"] != "image/x-png") && ($_FILES["file"]["type"] != "application/x-rar-compressed") && ($_FILES["file"]["type"] != "application/octet-stream") && ($_FILES["file"]["type"] != "application/zip") && ($_FILES["file"]["type"] != "application/octet-stream") && ($_FILES["file"]["type"] != "image/png")) {
-                $this->form_validation->set_message('handle_upload', $this->lang->line('file_type_not_allowed'));
+        //     if ($_FILES["file"]["error"] > 0) {
+        //         $error .= "Error opening the file<br />";
+        //     }
+        //     if (($_FILES["file"]["type"] != "application/pdf") && ($_FILES["file"]["type"] != "image/gif") && ($_FILES["file"]["type"] != "image/jpeg") && ($_FILES["file"]["type"] != "image/jpg") && ($_FILES["file"]["type"] != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") && ($_FILES["file"]["type"] != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") && ($_FILES["file"]["type"] != "image/pjpeg") && ($_FILES["file"]["type"] != "image/x-png") && ($_FILES["file"]["type"] != "application/x-rar-compressed") && ($_FILES["file"]["type"] != "application/octet-stream") && ($_FILES["file"]["type"] != "application/zip") && ($_FILES["file"]["type"] != "application/octet-stream") && ($_FILES["file"]["type"] != "image/png")) {
+        //         $this->form_validation->set_message('handle_upload', $this->lang->line('file_type_not_allowed'));
+        //         return false;
+        //     }
+        //     if (!in_array($extension, $allowedExts)) {
+        //         $this->form_validation->set_message('handle_upload', $this->lang->line('extension_not_allowed'));
+        //         return false;
+        //     }
+        //     return true;
+        // } else {
+        //     $this->form_validation->set_message('handle_upload', $this->lang->line('the_file_field_is_required'));
+        //     return false;
+        // }
+
+        $image_validate = $this->config->item('file_validate');
+
+        if (isset($_FILES["file"]) && !empty($_FILES['file']['name']) && $_FILES["file"]["size"] > 0) {
+
+            $file_type         = $_FILES["file"]['type'];
+            $file_size         = $_FILES["file"]["size"];
+            $file_name         = $_FILES["file"]["name"];
+            $allowed_extension = $image_validate['allowed_extension'];
+            $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+
+            $allowed_mime_type = $image_validate['allowed_mime_type'];
+
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mtype = finfo_file($finfo, $_FILES['file']['tmp_name']);
+            finfo_close($finfo);
+
+            if (!in_array($mtype, $allowed_mime_type)) {
+                $this->form_validation->set_message('handle_upload', 'File Type Not Allowed');
                 return false;
             }
-            if (!in_array($extension, $allowedExts)) {
-                $this->form_validation->set_message('handle_upload', $this->lang->line('extension_not_allowed'));
+
+            if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
+                $this->form_validation->set_message('handle_upload', 'Extension Not Allowed');
                 return false;
             }
+
+            if ($file_size > $image_validate['upload_size']) {
+                $this->form_validation->set_message('handle_upload', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                return false;
+            }
+
             return true;
         } else {
-            $this->form_validation->set_message('handle_upload', $this->lang->line('the_file_field_is_required'));
+          if($is_required==0){
+             $this->form_validation->set_message('handle_upload', 'Please choose a file to upload.');
             return false;
+          }else{
+             return true;
+          }
+           
         }
     } 
 
@@ -246,9 +294,13 @@ class Content extends Admin_Controller {
                 'file_uploaded' => $this->input->file['file']['name']
             );
             $this->content_model->addcontentpost($data);
+
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+                // $fileInfo = pathinfo($_FILES["file"]["name"]);
+                // $img_name = $id . '.' . $fileInfo['extension'];
+                $time     = md5($_FILES["file"]['name'] . microtime());
                 $fileInfo = pathinfo($_FILES["file"]["name"]);
-                $img_name = $id . '.' . $fileInfo['extension'];
+                $img_name = $time . '.' . $fileInfo['extension'];
                 move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
                 $data_img = array('id' => $id, 'file_uploaded' => 'uploads/student_images/' . $img_name);
                 $this->content_model->addcontentpost($data_img);
