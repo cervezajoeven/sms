@@ -113,7 +113,7 @@ class Assessment extends General_Controller {
         $students = $this->db->get("students")->result_array();
 
         $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$assessment_id,"assessment_id");
-        // echo '<pre>';
+
         $not_yet = 0;
         $answering = 0;
         $submitted = 0;
@@ -152,6 +152,7 @@ class Assessment extends General_Controller {
                     $students[$student_key]['score'] = ($assessment_sheet_data['score'])?$assessment_sheet_data['score']:0;
                     $students[$student_key]['total_score'] = $data['assessment']['total_score'];
                     $students[$student_key]['start_date'] = date("M d, Y h:i A",strtotime($assessment_sheet_data['start_date']));
+                    $students[$student_key]['end_date'] = date("M d, Y h:i A",strtotime($assessment_sheet_data['end_date']));
                     $students[$student_key]['browser'] = $assessment_sheet_data['browser'];
                     $students[$student_key]['browser_version'] = $assessment_sheet_data['browser_version'];
                     $students[$student_key]['device'] = $assessment_sheet_data['device'];
