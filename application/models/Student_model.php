@@ -753,36 +753,34 @@ return false;
 
           }else if($other_variables['gender']=="female"){
             $this->db->where('students.gender',"female");
-
           }
 
         }
-        if(array_key_exists("enrollment_payment_status", $other_variables)){
-          
-          if($other_variables['enrollment_payment_status']=="paid"){
+        if(array_key_exists("enrollment_payment_status", $other_variables)) {          
+          if($other_variables['enrollment_payment_status']=="paid") {
             $this->db->where('students.enrollment_payment_status',"paid");
 
-          }else if($other_variables['enrollment_payment_status']=="unpaid"){
+          } else if($other_variables['enrollment_payment_status']=="unpaid") {
             $this->db->where('students.enrollment_payment_status',"unpaid");
-
           }
-
         }
 
-        if(array_key_exists("class", $other_variables)){
-
-          if($other_variables['class']!="all"){
+        if(array_key_exists("class", $other_variables)) {
+          if($other_variables['class']!="all") {
             $this->db->where('class_sections.class_id',$other_variables['class']);
-
           }
-
         }
 
+        $this->db->join('online_admissions', 'online_admissions.admission_no = students.admission_no','left');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id','left');
         $this->db->join('sections', 'sections.id = student_session.section_id','left');
+        // $sql = $this->db->get_compiled_select();
+        // print_r($sql);die();
         $data = $this->db->get("students")->result_array();
         // echo '<pre>';print_r($data);exit();
+        // print_r('EMN Debug Mode');die();
+        
         return $data;
     }
 
