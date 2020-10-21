@@ -381,6 +381,7 @@ class Assessment extends General_Controller {
     }
 
     public function review($id,$account_id=""){
+
         $data['id'] = $id;
         if($account_id){
             $data['account_id'] = $account_id;
@@ -414,6 +415,10 @@ class Assessment extends General_Controller {
         $data['resources'] = site_url('backend/lms/');
         $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
         $data['assessment_sheet'] = $response[0];
+
+        // if(!$data['assessment_sheet']){
+        //     echo "<script>alert('This quiz has not been submitted yet');</script>";
+        // }
         $data['role'] = $this->general_model->get_role();
         $this->load->view('lms/assessment/review', $data);
         

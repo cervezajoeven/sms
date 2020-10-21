@@ -1046,6 +1046,8 @@ class Lesson extends General_Controller {
                         }
                     }
                     $filename = $this->lesson_model->filename_generator().".".$extension;
+                    echo "uploaded file: ";
+                    var_dump(move_uploaded_file($file['tmp_name'][$key], FCPATH."uploads/lms_my_resources/".$data['account_id']."/".$filename));
                     if(move_uploaded_file($file['tmp_name'][$key], FCPATH."uploads/lms_my_resources/".$data['account_id']."/".$filename)){
                         $data['filename'] = $filename;
                         $data['link'] =  $data['account_id']."/".$filename;
