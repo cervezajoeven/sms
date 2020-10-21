@@ -41,11 +41,11 @@
                                 </tr>
                                 <tr>
                                     <th>Start Date</th>
-                                    <td><?php echo date("F d, Y",strtotime($assessment['start_date'])) ?></td>
+                                    <td><?php echo date("F d, Y H:i:s",strtotime($assessment['start_date'])) ?></td>
                                 </tr>
                                 <tr>
                                     <th>End Date</th>
-                                    <td><?php echo date("F d, Y",strtotime($assessment['end_date'])) ?></td>
+                                    <td><?php echo date("F d, Y H:i:s",strtotime($assessment['end_date'])) ?></td>
                                 </tr>
                                 <tr>
                                     <th>Duration</th>
@@ -175,6 +175,7 @@
                                         <th>Percentage</th>
                                         <th>Status</th>
                                         <th>Start Date</th>
+                                        <th>Submitted Date</th>
                                         <th>Gender</th>
                                         <th>Browser</th>
                                         <th>Device</th>
@@ -248,6 +249,9 @@
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo $list_data['start_date']?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                               <?php echo ($list_data['end_date']!=="0000-00-00")?"":$list_data['end_date'];?>
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo $list_data['gender']?>
