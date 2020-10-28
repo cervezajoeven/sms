@@ -251,7 +251,7 @@
                                                <?php echo $list_data['start_date']?>
                                             </td>
                                             <td class="mailbox-name">
-                                               <?php echo ($list_data['end_date']!=="0000-00-00")?"":$list_data['end_date'];?>
+                                               <?php echo $list_data['end_date']; ?>
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo $list_data['gender']?>
