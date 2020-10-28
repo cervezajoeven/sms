@@ -12,7 +12,7 @@ class Userlog_model extends CI_Model {
     }
 
     public function get($id = null) {
-        $this->db->select()->from('userlog');
+        $this->db->select()->from('userlog')->limit(1000, 0);
         if ($id != null) {
             $this->db->where('id', $id);
         } else {
