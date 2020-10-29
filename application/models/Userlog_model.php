@@ -12,7 +12,7 @@ class Userlog_model extends CI_Model {
     }
 
     public function get($id = null) {
-        $this->db->select()->from('userlog')->limit(1000, 0);
+        $this->db->select()->from('userlog')->limit(2000, 0);
         if ($id != null) {
             $this->db->where('id', $id);
         } else {
@@ -27,7 +27,7 @@ class Userlog_model extends CI_Model {
     }
 
     public function getByRole($role) {
-        $this->db->select()->from('userlog');
+        $this->db->select()->from('userlog')->limit(2000, 0);
         $this->db->where('role', $role);
         $this->db->order_by('login_datetime', 'desc');
         $query = $this->db->get();
@@ -35,7 +35,7 @@ class Userlog_model extends CI_Model {
     }
 
     public function getByRoleStaff() {
-        $this->db->select()->from('userlog');
+        $this->db->select()->from('userlog')->limit(2000, 0);
         $this->db->where('role!=', 'Parent');
         $this->db->where('role!=', 'Student');
         $this->db->order_by('login_datetime', 'desc');

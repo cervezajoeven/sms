@@ -15,14 +15,14 @@
                         <li><a href="#tab_parent" data-toggle="tab"><?php echo $this->lang->line('parent'); ?></a></li>
                         <li><a href="#tab_student" data-toggle="tab"><?php echo $this->lang->line('students'); ?></a></li>
 
-                        <li><a href="#tab_staff" data-toggle="tab"><?php echo $this->lang->line('staff') ?></a></li>
-                        <li class="active"><a href="#tab_allusers" data-toggle="tab"><?php echo $this->lang->line('all_users'); ?></a></li>
+                        <li class="active"><a href="#tab_staff" data-toggle="tab"><?php echo $this->lang->line('staff') ?></a></li>
+                        <!-- <li class="active"><a href="#tab_allusers" data-toggle="tab"><?php //echo $this->lang->line('all_users'); ?></a></li> -->
 
                         <li class="pull-left header"><i class="fa fa-sign-in"></i> <?php echo $this->lang->line('user_log'); ?></li>
                     </ul>
                     <div class="tab-content">
 
-                        <div class="tab-pane active table-responsive" id="tab_allusers">
+                        <!-- <div class="tab-pane active table-responsive" id="tab_allusers">
                             <div class="download_label"><?php echo $this->lang->line('user_log'); ?></div>
                             <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                 <thead>
@@ -62,11 +62,11 @@
                                     ?>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> -->
 
 
                         <!-- /.tab-pane -->
-                        <div class="tab-pane table-responsive" id="tab_staff">
+                        <div class="tab-pane active table-responsive" id="tab_staff">
                             <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
