@@ -19,20 +19,31 @@ class Survey extends General_Controller {
     public function index(){
         $this->page_title = "Survey Lists";
         $this->session->set_userdata('top_menu', 'Download Center');
-        $this->session->set_userdata('sub_menu', 'content/lesson');
+        $this->session->set_userdata('sub_menu', 'content/survey');
 
         
         $data['role'] = $this->general_model->get_role();
         
-
+        
         if($data['role']=='admin'){
-            $data['list'] = $this->survey_model->all_survey($this->general_model->get_account_id());
-            $this->load->view('layout/header');
+            $data['real_role'] = $this->general_model->get_real_role();
+            if($data['real_role']==7||$data['real_role']==1){
+                $data['list'] = $this->survey_model->all_survey($this->general_model->get_account_id());
+                $this->load->view('layout/header');
+            }else{
+                $data['list'] = $this->survey_model->teacher_survey($this->general_model->get_account_id());
+                $this->load->view('layout/header');
+            }
+            
 
         }else{
             $data['list'] = $this->survey_model->assigned_survey($this->general_model->get_account_id());
             $this->load->view('layout/student/header');
         }
+
+        // echo '<pre>';
+        // print_r($data);
+        // exit;
 
         $this->load->view('lms/survey/index', $data);
         $this->load->view('layout/footer');

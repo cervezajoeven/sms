@@ -76,8 +76,6 @@
                                         <th>Title</th>
                                         <th><?php echo $this->lang->line('type'); ?></th>
                                         <th><?php echo $this->lang->line('date'); ?></th>
-                                        <th>Views</th>
-                                        <th>Assigned To</th>
                                         <th class="text-right"><?php echo $this->lang->line('action'); ?>
                                         </th>
                                     </tr>
@@ -94,12 +92,6 @@
                                             </td>
                                             <td class="mailbox-name">
                                                <?php echo date("F d Y", strtotime($list_data['date_created'])); ?>
-                                            </td>
-                                            <td class="mailbox-name">
-                                                <?php echo rand(30,50); ?>
-                                            </td>
-                                            <td>
-                                                
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>

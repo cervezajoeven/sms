@@ -9,6 +9,20 @@ class Survey_model extends MY_Model {
         $this->db->from('lms_survey');
         $this->db->join('staff', 'staff.employee_id = lms_survey.account_id','left');
         $this->db->where('lms_survey.deleted',0);
+        $this->db->order_by('lms_survey.date_created',"desc");
+
+        $query = $this->db->get();
+
+        $return = $query->result_array();
+        return $return;
+    }
+
+    public function teacher_survey($account_id=1){
+
+        $this->db->select('*,lms_survey.date_created as date_created, lms_survey.id as id');
+        $this->db->from('lms_survey');
+        $this->db->join('staff', 'staff.employee_id = lms_survey.account_id','left');
+        $this->db->where('lms_survey.deleted',0);
         $this->db->where('lms_survey.account_id',$account_id);
         $this->db->order_by('lms_survey.date_created',"desc");
 
