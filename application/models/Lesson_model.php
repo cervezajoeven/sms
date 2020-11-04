@@ -180,7 +180,7 @@ class Lesson_model extends MY_Model {
 
     public function get_students(){
         $current_session = $this->setting_model->getCurrentSession();
-        $this->db->select("students.id,students.firstname,students.lastname,student_session.class_id,student_session.section_id,students.is_active");
+        $this->db->select("students.id,students.firstname,students.lastname,students.middlename,student_session.class_id,student_session.section_id,students.is_active");
         $this->db->join("students","students.id = student_session.student_id");
         $this->db->where("session_id",$current_session);
         $this->db->where("students.is_active","yes");
