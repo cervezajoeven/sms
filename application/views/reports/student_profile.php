@@ -143,10 +143,12 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                 }
                                 if ($sch_setting->roll_no) {  ?>			
                                 <th><?php echo $this->lang->line('roll_no'); ?></th>
-                            <?php } ?>
+                                <?php } ?>
+                                <th><?php echo $this->lang->line('lrn'); ?></th>
                                 <th><?php echo $this->lang->line('class'); ?></th>
                                 <th><?php echo $this->lang->line('section'); ?></th>
                                 <th><?php echo $this->lang->line('first_name'); ?></th>
+                                <th><?php echo $this->lang->line('middle_name'); ?></th>
                                 <?php if($sch_setting->lastname){?>
                                 <th><?php echo $this->lang->line('last_name'); ?></th>
                             <?php } ?>
@@ -156,8 +158,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                 <th><?php echo $this->lang->line('category'); ?></th>
                             <?php } if($sch_setting->religion){?>
                                 <th><?php echo $this->lang->line('religion'); ?></th>
-                            <?php } if($sch_setting->cast){?>
-                                <th><?php echo $this->lang->line('cast'); ?></th>
                             <?php } if($sch_setting->mobile_no){?>
                                 <th><?php echo $this->lang->line('mobile_no'); ?></th>
                             <?php } if($sch_setting->student_email){?>
@@ -166,8 +166,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                 <th><?php echo $this->lang->line('admission_date'); ?></th>
                             <?php } if($sch_setting->is_blood_group){ ?>
                                 <th><?php echo $this->lang->line('blood_group'); ?></th>
-                            <?php } if($sch_setting->is_student_house){ ?>
-                                <th><?php echo $this->lang->line('house') ?></th>
                             <?php } if ($sch_setting->student_height) {  ?>
                                 <th><?php echo $this->lang->line('height'); ?></th>
                                 <?php } if ($sch_setting->student_weight) { ?>
@@ -204,25 +202,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                 <th><?php echo $this->lang->line('current_address'); ?></th>
                            <?php } if ($sch_setting->permanent_address) { ?>
                                 <th><?php echo $this->lang->line('permanent_address'); ?></th>
-                           <?php } if ($sch_setting->route_list) { ?>
-                                <th><?php echo $this->lang->line('route_list'); ?></th>
-                            <?php } if ($sch_setting->hostel_id) {  ?>
-                                <th><?php echo $this->lang->line('hostel')." ".$this->lang->line('details'); ?></th>
-                            <?php } ?>
-                                <th><?php echo $this->lang->line('room_no'); ?></th>
-                                <?php if ($sch_setting->bank_account_no) { ?>
-                                <th><?php echo $this->lang->line('bank_account_no'); ?></th>
-                            <?php }  if ($sch_setting->national_identification_no) { ?>
-                                <th><?php echo $this->lang->line('bank_name'); ?></th>
-                            <?php } ?>
-                                <th><?php echo $this->lang->line('ifsc_code'); ?></th>
-                                <?php if ($sch_setting->national_identification_no) { ?>
-                                <th><?php echo $this->lang->line('national_identification_no'); ?></th>
-                                <?php } if ($sch_setting->local_identification_no) { ?>
-                                <th><?php echo $this->lang->line('local_identification_no'); ?></th>
-                                <?php } if ($sch_setting->rte) { ?>
-                                <th><?php echo $this->lang->line('rte'); ?></th>
-                                <?php } if ($sch_setting->previous_school_details) {  ?>
+                           <?php }  if ($sch_setting->previous_school_details) {  ?>
                                 <th><?php echo $this->lang->line('previous_school_details'); ?></th>
                                 <?php } if ($sch_setting->student_note) {  ?>
                                 <th><?php echo $this->lang->line('note'); ?></th>
@@ -242,20 +222,20 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                      <?php }  if ($sch_setting->roll_no) {  ?>
                                          <td><?php echo $value['roll_no']?></td>
                                      <?php } ?>
+                                        <td><?php echo $value['lrn_no'];?></td>
                                          <td><?php echo $value['class'];?></td>
                                          <td><?php echo $value['section']?></td>
                                          <td><?php echo $value['firstname']?></td>
+                                         <td><?php echo $value['middlename']?></td>
                                          <?php if ($sch_setting->lastname) {  ?>
                                          <td><?php echo $value['lastname']?></td>
-                                     <?php } ?>
+                                         <?php } ?>
                                          <td><?php echo $value['gender']?></td>
                                          <td><?php echo date($this->customlib->getSchoolDateFormat(),strtotime($value['dob']));?></td>
                                           <?php if($sch_setting->category){?>
                                          <td><?php echo $value['category']; ?></td>
                                           <?php } if($sch_setting->religion){ ?>
-                                         <td><?php echo $value['religion'];?></td>
-                                          <?php } if($sch_setting->cast){?>
-                                         <td><?php echo $value['cast'];?></td>
+                                         <td><?php echo $value['religion'];?></td>                                          
                                           <?php } if($sch_setting->mobile_no){?>
                                          <td><?php echo $value['mobileno'];?></td>
                                      <?php } if($sch_setting->student_email){?>
@@ -263,9 +243,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                       <?php } if($sch_setting->admission_date){ ?>
                                          <td><?php echo date($this->customlib->getSchoolDateFormat(),strtotime($value['admission_date']));?></td>
                                           <?php } if($sch_setting->is_blood_group){ ?>
-                                         <td><?php echo $value['blood_group'];?></td>
-                                          <?php } if($sch_setting->is_student_house){ ?>
-                                         <td><?php echo $value['house_name']; ?></td>
+                                         <td><?php echo $value['blood_group'];?></td>                                          
                                          <?php } if ($sch_setting->student_height) {  ?>
                                          <td><?php echo $value['height'];?></td>
                                          <?php } if ($sch_setting->student_weight) { ?>
@@ -300,23 +278,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                          <td><?php echo $value['current_address'];?></td>
                                          <?php } if ($sch_setting->permanent_address) { ?>
                                          <td><?php echo $value['permanent_address'];?></td>
-                                           <?php } if ($sch_setting->route_list) { ?>
-                                         <td><?php echo $value['route_title'];?></td>
-                                           <?php } if ($sch_setting->hostel_id) {  ?>
-                                         <td><?php echo $value['hostel_name'];?></td>
-                                     <?php } ?>
-                                         <td><?php echo $value['room_no']; ?></td>
-                                         <?php if ($sch_setting->bank_account_no) { ?>
-                                         <td><?php echo $value['bank_account_no']; ?></td>
-                                     <?php } ?>
-                                         <td><?php echo $value['bank_name']; ?></td>
-                                         <td><?php echo $value['ifsc_code']; ?></td>
-                                          <?php if ($sch_setting->national_identification_no) { ?>
-                                         <td><?php echo $value['samagra_id']; ?></td>
-                                           <?php } if ($sch_setting->local_identification_no) { ?>
-                                         <td><?php echo $value['adhar_no']; ?></td>
-                                          <?php } if ($sch_setting->rte) { ?>
-                                       <td><?php echo $value['rte']; ?></td>
+                                           
                                         <?php } if ($sch_setting->previous_school_details) {  ?>
                                          <td><?php echo $value['previous_school'];?></td>
                                           <?php } if ($sch_setting->student_note) {  ?>

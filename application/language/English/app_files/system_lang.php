@@ -1549,4 +1549,5 @@ $lang['api_used_add'] = 'API Used';
 $lang['created_for'] = 'Created For';
 $lang['Asynchronous'] = 'Async';
 $lang['Synchronous'] = 'Sync';
+$lang['lrn'] = 'LRN';
 ?>
