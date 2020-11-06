@@ -105,7 +105,7 @@
                                             <td class="mailbox-name"> <?php echo $subject['name'] ?></td>
                                             <td class="mailbox-name"><?php echo $subject['code'] ?></td>
                                             <td class="mailbox-name"><?php echo ucfirst($subject['type']) ?></td>
-                                            <td class="mailbox-name"><?php echo $subject['graded'] == 1 ? 'YES' : 'NO' ?></td>
+                                            <td class="mailbox-name"><?php echo $subject['graded'] == 1 ? 'Yes' : 'No' ?></td>
                                             <td class="mailbox-date pull-right no-print">
                                                 <?php
                                                 if ($this->rbac->hasPrivilege('subject', 'can_edit')) {
