@@ -10,7 +10,7 @@ class Report extends Admin_Controller {
 
         $this->time = strtotime(date('d-m-Y H:i:s'));
      
-      $this->payment_mode= $this->customlib->payment_mode();        
+        $this->payment_mode= $this->customlib->payment_mode();        
         $this->load->model('general_model');
         $this->load->model('setting_model');
         $this->load->model('student_model');
@@ -43,6 +43,9 @@ class Report extends Admin_Controller {
         $this->load->model('designation_model');
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
+        $this->load->model('session_model');
+        $this->load->model('general_model');
+        $this->load->model('classrecord_model');        
         
         $this->search_type=$this->customlib->get_searchtype();
 		$this->sch_setting_detail = $this->setting_model->getSetting();
@@ -1679,15 +1682,68 @@ $attd=array();
         $this->load->view('layout/footer',$data); 
     }
 
+    public function class_record_summary() {
+        // print_r('Erwin Pogi!');die();
+        if (!$this->rbac->hasPrivilege('class_record_summary', 'can_view')) {
+            access_denied();
+        }
+        
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'Reports/student_information');
+        $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_summary');
+        
+        $data['title'] = 'Class Record Summary';
+        $class = $this->class_model->get();
+        $data['classlist'] = $class;
+        $data['sch_setting'] = $this->sch_setting_detail;
+        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+        $data['session_list'] = $this->session_model->getAllSession();
+        $data['quarter_list'] = $this->general_model->get_quarter_list();        
+        // $carray = array();
 
-    
+        // if (!empty($data["classlist"])) { $sch_setting->session_id
+        //     foreach ($data["classlist"] as $ckey => $cvalue) {
+        //         $carray[] = $cvalue["id"];
+        //     }
+        // }
+        
+        $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('quarter_id', $this->lang->line('quarter'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
 
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/class_record_summary', $data);
+            $this->load->view('layout/footer', $data);
+        } else {
+            if ($this->form_validation->run() == false) {
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/class_record_summary', $data);
+                $this->load->view('layout/footer', $data);
+            } 
+            else {
+                $session = $this->input->post('session_id');
+                $quarter = $this->input->post('quarter_id');
+                $grade_level = $this->input->post('class_id');
+                $section = $this->input->post('section_id');
 
-   
+                $class_record = "";
+                $class_record = $this->classrecord_model->get_class_record($session, $quarter, $grade_level, $section);
+                $data['resultlist'] = $class_record;
+                $data['session_id'] = $session;
+                $data['quarter_id'] = $quarter;
+                $data['class_id'] = $grade_level;
+                $data['section_id']  = $section;
+                $data['subject_list'] = $this->classrecord_model->get_subject_list($grade_level);
+                // print_r(json_encode($class_record));
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/class_record_summary', $data);
+                $this->load->view('layout/footer', $data);
+            }
+        }
 
+        
+    }
 }
-
- 
-
-
 ?>

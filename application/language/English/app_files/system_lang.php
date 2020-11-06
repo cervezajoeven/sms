@@ -1550,4 +1550,5 @@ $lang['created_for'] = 'Created For';
 $lang['Asynchronous'] = 'Async';
 $lang['Synchronous'] = 'Sync';
 $lang['lrn'] = 'LRN';
+$lang['class_record_summary'] = 'Class Record Summary';
 ?>

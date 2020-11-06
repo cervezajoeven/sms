@@ -50,6 +50,9 @@
                        <?php }  ?>
                         <li class="col-lg-4 col-md-4 col-sm-6 <?php echo set_SubSubmenu('Reports/student_information/enrollment_report'); ?>"><a href="<?php echo base_url(); ?>report/enrollment_report"><i class="fa fa-file-text-o"></i> Enrollment Report</a></li>
                         <li class="col-lg-4 col-md-4 col-sm-6 <?php echo set_SubSubmenu('Reports/student_information/enrollment_summary_report'); ?>"><a href="<?php echo base_url(); ?>report/enrollment_summary_report"><i class="fa fa-file-text-o"></i> Enrollment Summary Report</a></li>
+                        <?php if ($this->rbac->hasPrivilege('student_report', 'can_view')) { ?>
+                            <li class="col-lg-4 col-md-4 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_summary'); ?>"><a href="<?php echo base_url(); ?>report/class_record_summary"><i class="fa fa-file-text-o"></i> Class Record Summary Report</a></li>
+                        <?php } ?>
                         </ul>
                     </div>
                 </div>

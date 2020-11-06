@@ -98,5 +98,8 @@ class General_model extends MY_Model {
     }
         
 
-
+    public function get_quarter_list()
+    {
+        return $this->db->select("*")->get("grading_quarter")->result_array();
+    }
 }

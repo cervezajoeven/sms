@@ -51,6 +51,16 @@
                                     <input id="category" name="code" placeholder="" type="text" class="form-control"  value="<?php echo set_value('code', $subject['code']); ?>" />
                                     <span class="text-danger"><?php echo form_error('code'); ?></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="isgraded" value="<?php echo $subject['graded'] ?>" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?> >Graded                                                
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('isgraded'); ?></span>
+                                </div>
                             </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>

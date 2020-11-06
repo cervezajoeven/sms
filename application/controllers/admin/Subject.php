@@ -35,6 +35,7 @@ class Subject extends Admin_Controller {
                 'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
+                'graded' => $this->input->post('isgraded'),
             );
             $this->subject_model->add($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('success_message').'</div>');
@@ -94,6 +95,7 @@ class Subject extends Admin_Controller {
         $data['title'] = 'Edit Subject';
         $data['id'] = $id;
         $subject = $this->subject_model->get($id);
+        // print_r($subject);die();
         $data['subject'] = $subject;
         $data['subject_types']=$this->customlib->subjectType();
         $this->form_validation->set_rules('name', $this->lang->line('subject'), 'trim|required|xss_clean');
@@ -108,6 +110,7 @@ class Subject extends Admin_Controller {
                 'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
+                'graded' => $this->input->post('isgraded'),
             );
             $this->subject_model->add($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('success_message').'</div>');

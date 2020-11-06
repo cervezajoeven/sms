@@ -280,6 +280,8 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                                     <!-- <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>user/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li> -->
                                 </ul>
                             </li>
+
+                            <li class="<?php echo set_Topmenu('Class_Record'); ?>"><a href="<?php echo base_url(); ?>user/class_record"><i class="fa fa-file ftlayer"></i> <span><?php echo $this->lang->line('class_record'); ?></span></a></li>
                             <?php
                         }
                         if ($this->studentmodule_lib->hasActive('attendance')) {

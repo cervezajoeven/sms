@@ -97,7 +97,6 @@ class Student extends Admin_Controller
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/student_report');
 
         $data['title']           = 'student fee';
-        $data['title']           = 'student fee';
         $genderList              = $this->customlib->getGender();
         $data['genderList']      = $genderList;
         $RTEstatusList           = $this->customlib->getRteStatus();

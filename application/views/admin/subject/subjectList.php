@@ -47,6 +47,16 @@
                                     <span class="text-danger"><?php echo form_error('code'); ?></span>
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="isgraded" value="<?php echo $subject['graded'] ?>" <?php echo set_checkbox('isgraded', $subject['graded']); ?> >Graded                                                
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('isgraded'); ?></span>
+                                </div>
+
                                 <!-- <label class="radio-inline"><input type="radio" value="Synchronous" name="type">Synchronous</label>
                                 <label class="radio-inline"><input type="radio" value="Asynchronous" name="type">Asynchronous</label> -->
                             </div>
