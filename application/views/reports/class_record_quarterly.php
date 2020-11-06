@@ -15,10 +15,10 @@
                     </div>
 
                     <div class="box-body">    
-                        <form role="form" action="<?php echo site_url('report/class_record_summary') ?>" method="post" class="">
+                        <form role="form" action="<?php echo site_url('report/class_record_quarterly') ?>" method="post" class="">
                             <div class="row">
                                 <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="col-sm-6 col-md-3">
+                                <div class="col-sm-6 col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('current_session'); ?></label><small class="req"> *</small>
                                         <select autofocus="" id="session_id" name="session_id" class="form-control" >
@@ -34,27 +34,9 @@
                                         </select>
                                         <span class="text-danger"><?php echo form_error('session_id'); ?></span>
                                     </div>
-                                </div> 
+                                </div>                                 
 
-                                <div class="col-sm-6 col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo $this->lang->line('quarter'); ?></label><small class="req"> *</small>
-                                        <select autofocus="" id="quarter_id" name="quarter_id" class="form-control" >
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php
-                                            foreach ($quarter_list as $quarter) {
-                                                ?>
-                                                <option value="<?php echo $quarter['id'] ?>" <?php if (set_value('quarter_id') == $quarter['id']) echo "selected=selected" ?>><?php echo $quarter['description'] ?></option>
-                                                <?php
-                                                //$count++;
-                                            }
-                                            ?>
-                                        </select>
-                                        <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
-                                    </div>
-                                </div> 
-
-                                <div class="col-sm-6 col-md-3">
+                                <div class="col-sm-6 col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
                                         <select autofocus="" id="class_id" name="class_id" class="form-control" >
@@ -71,7 +53,8 @@
                                         <span class="text-danger"><?php echo form_error('class_id'); ?></span>
                                     </div>
                                 </div> 
-                                <div class="col-sm-6 col-md-3">
+
+                                <div class="col-sm-6 col-md-2">
                                     <div class="form-group">  
                                         <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
                                         <select  id="section_id" name="section_id" class="form-control" >
@@ -80,6 +63,34 @@
                                         <span class="text-danger"><?php echo form_error('section_id'); ?></span>
                                     </div>  
                                 </div>
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
+                                        <select autofocus="" id="subject_id" name="subject_id" class="form-control" >
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('subject_id'); ?></span>
+                                    </div>
+                                </div> 
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('teacher'); ?></label><small class="req"> *</small>
+                                        <select autofocus="" id="teacher_id" name="teacher_id" class="form-control" >
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            <?php
+                                            foreach ($teacher_list as $teacher) {
+                                                ?>
+                                                <option value="<?php echo $teacher['id'] ?>" <?php if (set_value('teacher_id') == $teacher['id']) echo "selected=selected" ?>><?php echo $teacher['teacher'] ?></option>
+                                                <?php
+                                                //$count++;
+                                            }
+                                            ?>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('teacher_id'); ?></span>
+                                    </div>
+                                </div>                                 
                                 
                                 <div class="form-group">
                                     <div class="col-sm-12">
@@ -93,7 +104,7 @@
                     <div class="">
                         <div class="box-header ptbnull"></div> 
                         <div class="box-header ptbnull">
-                            <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_summary'); ?> Summary of Consolidated Grades<?php //echo $this->lang->line('class_record_summary') ; ?></h3>
+                            <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Summary of Quarterly Grades<?php //echo $this->lang->line('class_record_summary') ; ?></h3>
                         </div>
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) {?>
@@ -101,14 +112,21 @@
                                 <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Learner Names</th>
-                                            <th>Gender</th>
+                                            <th rowspan=2>Learner Names</th>
+                                            <th rowspan=2>Gender</th>
                                             <?php
-                                                foreach($subject_list as $row) {
-                                                    echo "<th>".$row->subject."</th>\r\n";
+                                                foreach($quarter_list as $row) {
+                                                    echo "<th class=\"text-center\">".$subject_name."</th>\r\n";
                                                 }
                                             ?>
-                                            <th>Average</th>
+                                        </tr>
+                                        <tr>
+                                            <?php
+                                                foreach($quarter_list as $row) {
+                                                    echo "<th class=\"text-center\">".$row->description."</th>\r\n";
+                                                }
+                                            ?>
+                                            <!-- <th>Average</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,10 +157,12 @@
 </div>
 
 <script type="text/javascript">
+var class_id;
+var base_url = '<?php echo base_url() ?>';
+
     function getSectionByClass(class_id, section_id) {
         if (class_id != "" && section_id != "") {
             $('#section_id').html("");
-            var base_url = '<?php echo base_url() ?>';
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
             $.ajax({
                 type: "GET",
@@ -170,16 +190,47 @@
         }
     }
 
+    function getSubjectsByClass(class_id, subject_id) {
+        if (class_id != "") {
+            $('#subject_id').html("");
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+                type: "GET",
+                url: base_url + "admin/subject/get_subject_list",
+                data: {'class_id': class_id },
+                dataType: "json",
+                beforeSend: function () {
+                    $('#subject_id').addClass('dropdownloading');
+                },
+                success: function (data) {
+                    $.each(data, function (i, obj)
+                    {
+                        var sel = "";
+                        if (subject_id == obj.subject_id) {
+                            sel = "selected";
+                        }
+                        div_data += "<option value=" + obj.subject_id + " " + sel + ">" + obj.subject + "</option>";
+                    });
+                    $('#subject_id').append(div_data);
+                },
+                complete: function () {
+                    $('#subject_id').removeClass('dropdownloading');
+                }
+            });
+        }
+    }
+
     $(document).ready(function () {
-        var class_id = $('#class_id').val();
+        class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
+        var subject_id = '<?php echo set_value('subject_id') ?>';
         getSectionByClass(class_id, section_id);
+        getSubjectsByClass(class_id, subject_id);
 
         $(document).on('change', '#class_id', function (e) {
             $('#section_id').html("");
-            var class_id = $(this).val();
-            var base_url = '<?php echo base_url() ?>';
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            class_id = $(this).val();
             $.ajax({
                 type: "GET",
                 url: base_url + "sections/getByClass",
@@ -197,6 +248,28 @@
                 },
                 complete: function () {
                     $('#section_id').removeClass('dropdownloading');
+                }
+            });
+
+            $('#subject_id').html("");
+            var div_data2 = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+                type: "GET",
+                url: base_url + "admin/subject/get_subject_list",
+                data: {'class_id': class_id },
+                dataType: "json",
+                beforeSend: function () {
+                    $('#subject_id').addClass('dropdownloading');
+                },
+                success: function (data) {
+                    $.each(data, function (i, obj)
+                    {                        
+                        div_data2 += "<option value=" + obj.subject_id + ">" + obj.subject + "</option>";
+                    });
+                    $('#subject_id').append(div_data2);
+                },
+                complete: function () {
+                    $('#subject_id').removeClass('dropdownloading');
                 }
             });
         });

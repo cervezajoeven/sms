@@ -148,4 +148,27 @@ class Subject_model extends MY_Model {
         }
     }
 
+    public function get_subject_list($gradelevel) {
+        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id 
+                FROM subject_groups
+                LEFT JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+                LEFT JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+                LEFT JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                LEFT JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+                LEFT JOIN classes ON classes.id = class_sections.class_id
+                WHERE classes.id = ".$gradelevel." 
+                AND subjects.graded = TRUE 
+                GROUP BY classes.id, subjects.name
+                ORDER BY subject_groups.name, subjects.name ASC";
+
+        // print_r($sql);die();
+
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function get_subject_name($id) {
+        $result = $this->db->select('name')->from('subjects')->where('id', $id)->limit(1)->get()->row();
+        return $result->name;
+    }
 }

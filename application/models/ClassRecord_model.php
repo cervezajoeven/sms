@@ -190,4 +190,60 @@ class ClassRecord_model extends MY_Model
         $query = $this->db->query($sql);
         return $query->result();
     }
+
+    public function get_class_record_quarterly($schoolyear, $gradelevel, $section, $subject, $teacher) {
+        $quarter_columns = "";        
+        $resultdata = $this->get_quarter_list();
+
+        foreach($resultdata as $row) {
+            if (!empty($quarter_columns)) {
+                $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+            }
+            else {
+                $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+            }
+
+            $subquery .= " LEFT JOIN 
+                         (
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, fn_transmuted_grade(SUM((total_scores*wspercent))) AS quarterly_grade
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              FROM vw_class_record
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            LEFT JOIN student_session ON student_session.student_id = tbl.student_id 
+                            WHERE quarter = ".$row->id." 
+                            AND student_session.session_id = ".$schoolyear." 
+                            AND student_session.section_id = ".$section." 
+                            AND subject_id = ".$subject." 
+                            AND teacher_id = ".$teacher." 
+                            GROUP BY school_year, quarter, student_id
+                         ) tbl".$row->id." ON tbl".$row->id.".student_id = students.id ";
+
+            $colcount++;
+        }
+
+        $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender) AS Gender, ".$quarter_columns." 
+                FROM students 
+                LEFT JOIN student_session ON student_session.student_id = students.id 
+                ".$subquery." 
+                WHERE student_session.class_id = ".$gradelevel." 
+                AND student_session.section_id = ".$section." 
+                AND student_session.session_id = ".$schoolyear." 
+                ORDER BY gender DESC, student_name ASC";
+
+        // return $sql;
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function get_teacher_list() {
+        $sql = "SELECT id, CONCAT(TRIM(NAME), ' ', TRIM(surname)) AS teacher 
+                FROM staff
+                WHERE id IN (SELECT staff_id FROM staff_roles WHERE role_id = 2)
+                ORDER BY teacher ASC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 }

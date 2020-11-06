@@ -281,7 +281,7 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                                 </ul>
                             </li>
 
-                            <li class="<?php echo set_Topmenu('Class_Record'); ?>"><a href="<?php echo base_url(); ?>user/class_record"><i class="fa fa-file ftlayer"></i> <span><?php echo $this->lang->line('class_record'); ?></span></a></li>
+                            <!-- <li class="<?php //echo set_Topmenu('Class_Record'); ?>"><a href="<?php //echo base_url(); ?>user/class_record"><i class="fa fa-file ftlayer"></i> <span><?php //echo $this->lang->line('class_record'); ?></span></a></li> -->
                             <?php
                         }
                         if ($this->studentmodule_lib->hasActive('attendance')) {

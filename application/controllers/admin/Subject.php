@@ -131,6 +131,13 @@ class Subject extends Admin_Controller {
         echo json_encode($data);
     }
 
+    public function get_subject_list() {
+        $gradelevel = $this->input->get('class_id');
+        // echo json_encode($gradelevel);die();
+
+        $subject_list = $this->subject_model->get_subject_list($gradelevel);
+        echo json_encode($subject_list);
+    }    
 }
 
 ?>
