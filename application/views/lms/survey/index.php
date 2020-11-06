@@ -96,9 +96,7 @@
                                             <td class="mailbox-date pull-right">
                                                 <?php if($role=="admin"): ?>
 
-                                                    <a data-placement="left" href="<?php echo site_url('lms/survey/individual_reports/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="Individual Reports" >
-                                                            <i class="fa fa-user"></i>
-                                                    </a>
+                                                    
                                                     <a data-placement="left" href="<?php echo site_url('lms/survey/responses/'.$list_data['id']);?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="View Responses" >
                                                             <i class="fa fa-eye"></i>
                                                     </a>
