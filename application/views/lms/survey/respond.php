@@ -184,7 +184,6 @@
 		});
 	}
 	$(document).ready(function(){
-
 		if(stored_json){
 			$.each(JSON.parse(stored_json),function(key,value){
 				populate_key(value.type);
@@ -235,19 +234,26 @@
 			var the_option_type = $(value).attr("option_type");
 			var has_answer = 0;
 			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
+
 				var option_val = [];
+
 				$.each($(value).find(".option"),function(option_key,option_value){
+
 					if($(option_value).find(".option_type").find("input").is(":checked")){
+						
 					 	option_val.push(1);
 					 	
 					}else{
+
 						option_val.push(0);
+
 					}
 				});
 
 				if($.inArray(1,option_val)>=0){
 					completed_answer++;
 				}
+
 				option_json = {
 					"type":the_option_type,
 					"answer":option_val.join(","),
@@ -255,9 +261,9 @@
 			}else if(the_option_type=="long_answer"){
 				var option_val = [];
 				$.each($(value).find(".option"),function(option_key,option_value){
-					
+
 					option_val.push($(option_value).find(".option_type").find("textarea").val());
-					
+
 				});
 				option_json = {
 					"type":the_option_type,
@@ -276,18 +282,13 @@
 				};
 			}
 
-			
-
-
 			json.push(option_json);
-
-			
 			
 		});
 
 		final_json = {survey_id:"<?php echo $survey['id'] ?>",respond:JSON.stringify(json),account_id:account_id};
 
-		if(completed_answer >= json.length){
+		// if(completed_answer >= json.length){
 			$.ajax({
 			    url: url,
 			    type: "POST",
@@ -304,10 +305,10 @@
 			    	
 			    }
 			});
-		}else{
+		// }else{
 
-			alert("Please complete the survey first.");
-		}
+			// alert("Please complete the survey first.");
+		// }
 		
 	});
 
