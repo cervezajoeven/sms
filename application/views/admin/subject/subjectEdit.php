@@ -55,7 +55,8 @@
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="isgraded" value="<?php echo $subject['graded'] ?>" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?> >Graded                                                
+                                            <input type="checkbox" name="isgraded" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?> >Graded
+                                            <!-- <input type="checkbox" name="isgraded" >Graded                                                   -->
                                         </label>
                                     </div>
 
@@ -91,6 +92,7 @@
                                         <th><?php echo $this->lang->line('subject'); ?>
                                             <?php echo $this->lang->line('type'); ?>
                                         </th>
+                                        <th>Graded</th>
                                         <th class="text-right no-print"><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
                                 </thead>
@@ -102,7 +104,8 @@
                                         <tr>
                                             <td class="mailbox-name"> <?php echo $subject['name'] ?></td>
                                             <td class="mailbox-name"><?php echo $subject['code'] ?></td>
-                                                   <td class="mailbox-name"><?php echo ucfirst($subject['type']) ?></td>
+                                            <td class="mailbox-name"><?php echo ucfirst($subject['type']) ?></td>
+                                            <td class="mailbox-name"><?php echo $subject['graded'] == 1 ? 'YES' : 'NO' ?></td>
                                             <td class="mailbox-date pull-right no-print">
                                                 <?php
                                                 if ($this->rbac->hasPrivilege('subject', 'can_edit')) {
