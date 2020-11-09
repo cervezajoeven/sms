@@ -1762,10 +1762,10 @@ $attd=array();
         $data['sch_setting'] = $this->sch_setting_detail;
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
-        $data['quarter_list'] = $this->general_model->get_quarter_list();
-        print_r("CloudPH Debug Mode 2");die();
+        $data['quarter_list'] = $this->general_model->get_quarter_list();        
         $data['teacher_list'] = $this->classrecord_model->get_teacher_list();     
         $data['quarter_list'] = $this->classrecord_model->get_quarter_list();   
+        print_r("CloudPH Debug Mode 2");die();
         // $carray = array();
 
         // if (!empty($data["classlist"])) { $sch_setting->session_id
