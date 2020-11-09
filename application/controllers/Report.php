@@ -44,7 +44,7 @@ class Report extends Admin_Controller {
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
         $this->load->model('session_model');
-        $this->load->model('general_model');
+        $this->load->model('general_model');print_r('CloudPH Debug Mode');die();
         $this->load->model('classrecord_model');
         $this->load->model('subject_model');
         
@@ -798,8 +798,7 @@ public function gerenalincomereport(){
         $this->load->view('layout/footer', $data);
 }
 
-public function studentinformation(){
-    print_r('CloudPH Debug Mode');die();
+public function studentinformation() {    
     $this->session->set_userdata('top_menu', 'Reports');
     $this->session->set_userdata('sub_menu', 'Reports/student_information');
     $this->session->set_userdata('subsub_menu', '');
