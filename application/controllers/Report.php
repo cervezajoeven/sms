@@ -11,7 +11,7 @@ class Report extends Admin_Controller {
         $this->time = strtotime(date('d-m-Y H:i:s'));
      
         $this->payment_mode= $this->customlib->payment_mode();     
-        $this->load->model('classrecord_model');   
+        $this->load->model('gradereport_model');
         $this->load->model('general_model');
         $this->load->model('setting_model');
         $this->load->model('student_model');
