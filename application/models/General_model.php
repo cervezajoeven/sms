@@ -20,12 +20,15 @@ class General_model extends MY_Model {
     public function get_role(){
         $current_session = $this->setting_model->getCurrentSession();
         $userdata = $this->session->userdata();
+
         if(array_key_exists('student', $userdata)){
             $role = "student";
         }else{
             $role = "admin";
         }
+        
         return $role;
+
         
     }
 
@@ -73,9 +76,28 @@ class General_model extends MY_Model {
     public function get_classes(){
         return $this->db->select("*")->get("classes")->result_array();   
     }
+    public function get_sections(){
+        return $this->db->select("*")->get("sections")->result_array();   
+    }
 
     public function get_subjects(){
         return $this->db->select("*")->get("subjects")->result_array();   
+    }
+
+    public function get_students_class_section($class_id,$section_id){
+        $current_session = $this->setting_model->getCurrentSession();
+        $this->db->select("students.id,students.firstname,students.lastname,students.middlename,student_session.class_id,student_session.section_id,students.is_active,students.gender");
+        $this->db->join("students","students.id = student_session.student_id");
+        $this->db->where("session_id",$current_session);
+        $this->db->where("student_session.class_id",$class_id);
+        $this->db->where("student_session.section_id",$section_id);
+        $this->db->where("students.is_active","yes");
+        $this->db->order_by("students.lastname","asc");
+
+        $query = $this->db->get("student_session");
+
+        $result = $query->result_array();
+        return $result;
     }
 
     public function get_zoom_accounts(){

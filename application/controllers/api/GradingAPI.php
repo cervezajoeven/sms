@@ -25,11 +25,11 @@ class GradingAPI Extends REST_Controller {
 
     public function class_record_post() {
         $input = $this->input->post();
-        // print_r($input);die();
         $create = $this->db->insert('grading_class_record', $input);
+        // print_r($input);die();
      
         if ($create)
-            $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
+            $this->response(['Item creation successfully.'], REST_Controller::HTTP_OK);
         else
             $this->response(['Item creation failed.'], REST_Controller::HTTP_OK);
     }

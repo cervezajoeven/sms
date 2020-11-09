@@ -164,7 +164,7 @@ class Survey extends General_Controller {
         $data['start_date'] = $_REQUEST['start_date'];
         $data['end_date'] = $_REQUEST['end_date'];
         $data['assigned'] = $_REQUEST['assigned'];
-
+        
         print_r($data);
         $this->survey_model->lms_update("lms_survey",$data);
     }
@@ -175,9 +175,9 @@ class Survey extends General_Controller {
         $data['account_id'] = $_REQUEST['account_id'];
         $data['response_status'] = 1;
 
-        $this->db->select("*");
-        $this->db->where("survey_id", $data["survey_id"]);
-        $this->db->where("account_id", $data["account_id"]);
+        $this->writedb->select("*");
+        $this->writedb->where("survey_id", $data["survey_id"]);
+        $this->writedb->where("account_id", $data["account_id"]);
         $data['date_updated'] = date("Y-m-d H:i:s");
         $this->writedb->update("lms_survey_sheets", $data);
         $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');

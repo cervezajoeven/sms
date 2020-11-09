@@ -123,9 +123,11 @@ class Assessment extends General_Controller {
             $this->db->from("lms_assessment_sheets");
             $this->db->where("account_id",$student_value['id']);
             $exist = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
+            
             if($exist){
 
-                if($assessment_sheet_data['response_status']==1){
+                if($exist['response_status']==1){
+
                     $submitted += 1;
                 }else{
 
@@ -145,6 +147,7 @@ class Assessment extends General_Controller {
                 $this->db->where("date_created",$max_date);
                 $assessment_sheet_data = $this->db->where("assessment_id",$assessment_id)->get()->result_array()[0];
                 if(!empty($assessment_sheet_data)){
+                    // print_r($assessment_sheet_data);
                     $students[$student_key]['assessment_sheet_id'] = $assessment_sheet_data['id'];
                     $students[$student_key]['response_status'] = $assessment_sheet_data['response_status'];
                     $students[$student_key]['student_activity'] = ($assessment_sheet_data['response_status']==1)?"submitted":"answering";
@@ -179,13 +182,13 @@ class Assessment extends General_Controller {
 
 
         }
-        // echo '<pre>';print_r($students);exit();
+        // echo '<pre>';exit();
     
         $data['answering'] = $answering;
         $data['submitted'] = $submitted;
         $data['not_yet'] = $not_yet;
         $data['students'] = $students;
-
+     
         if($data['role']=='admin'){
             $this->load->view('layout/header');
         }else{

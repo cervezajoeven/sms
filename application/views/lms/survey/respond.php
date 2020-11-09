@@ -301,6 +301,7 @@
 			    	}else{
 			    		window.location.replace("<?php echo site_url('lms/survey/index') ?>/");
 			    	}
+			    	
 			    	alert("Sucessfully Submitted!");
 			    	
 			    }

@@ -293,6 +293,7 @@ function assessment_update(){
 function save(){
 	
 	var save_json = assessment_update();
+	
 	$.ajax({
 	    url: url,
 	    type: "POST",
@@ -300,9 +301,9 @@ function save(){
 	    // contentType: "application/json",
 	    complete: function(response){
 	    	console.log(response.responseText);
-	    	alert("Quiz has been saved successfully!");
-	    	$(".save_status").text("Saved");
-			$(".save_status").css("background-color","green");
+	  //   	alert("Quiz has been saved successfully!");
+	  //   	$(".save_status").text("Saved");
+			// $(".save_status").css("background-color","green");
 	    }
 	});
 }
