@@ -1729,7 +1729,9 @@ $attd=array();
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
 
+                print_r("CloudPH Debug Mode 1");die();
                 $class_record = $this->classrecord_model->get_class_record($session, $quarter, $grade_level, $section);
+                
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['quarter_id'] = $quarter;
@@ -1761,6 +1763,7 @@ $attd=array();
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
         $data['quarter_list'] = $this->general_model->get_quarter_list();
+        print_r("CloudPH Debug Mode 2");die();
         $data['teacher_list'] = $this->classrecord_model->get_teacher_list();     
         $data['quarter_list'] = $this->classrecord_model->get_quarter_list();   
         // $carray = array();
