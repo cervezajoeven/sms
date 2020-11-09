@@ -44,7 +44,7 @@ class Report extends Admin_Controller {
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
         $this->load->model('session_model');
-        // $this->load->model('subject_model');
+        $this->load->model('subject_model');
         // $this->load->model('classrecord_model');
         
         $this->search_type=$this->customlib->get_searchtype();
