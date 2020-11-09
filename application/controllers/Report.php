@@ -49,7 +49,8 @@ class Report extends Admin_Controller {
         $this->load->model('subject_model');
         
         $this->search_type=$this->customlib->get_searchtype();
-		$this->sch_setting_detail = $this->setting_model->getSetting();
+        $this->sch_setting_detail = $this->setting_model->getSetting();
+        
     }
 
     function pdfStudentFeeRecord() {
@@ -798,14 +799,15 @@ public function gerenalincomereport(){
 }
 
 public function studentinformation(){
-        $this->session->set_userdata('top_menu', 'Reports');
-        $this->session->set_userdata('sub_menu', 'Reports/student_information');
-         $this->session->set_userdata('subsub_menu', '');
+    print_r('CloudPH Debug Mode');die();
+    $this->session->set_userdata('top_menu', 'Reports');
+    $this->session->set_userdata('sub_menu', 'Reports/student_information');
+    $this->session->set_userdata('subsub_menu', '');
 
-        
-        $this->load->view('layout/header');
-        $this->load->view('reports/studentinformation');
-        $this->load->view('layout/footer');
+    
+    $this->load->view('layout/header');
+    $this->load->view('reports/studentinformation');
+    $this->load->view('layout/footer');
 }
 
 public function attendance(){
