@@ -43,8 +43,8 @@ class Report extends Admin_Controller {
         $this->load->model('designation_model');
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
-        $this->load->model('session_model');print_r('CloudPH Debug Mode');die();
-        $this->load->model('classrecord_model');
+        $this->load->model('session_model');
+        $this->load->model('classrecord_model');print_r('CloudPH Debug Mode');die();
         $this->load->model('subject_model');
         
         $this->search_type=$this->customlib->get_searchtype();
