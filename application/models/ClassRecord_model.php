@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Classrecord_model extends CI_Model 
+class Classrecord_model extends MY_Model 
 {
 
     public function __construct() {
