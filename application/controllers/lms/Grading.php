@@ -203,7 +203,20 @@ class Grading extends General_Controller {
         
 
     }
+    function update_ws(){
 
+        $column_section = $_REQUEST['column_section'];
+        $highest_score = $_REQUEST['highest_score'];
+
+        
+        $update_data['id'] = $column_section;
+        $update_data['ws'] = $highest_score;
+        $updated_data = $this->general_model->lms_update("grading_column_section",$update_data);
+        print_r($update_data);
+        print_r($updated_data);
+        
+
+    }
     function delete($id){
 
         $id = $id;
