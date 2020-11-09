@@ -9,6 +9,7 @@ class Subject_model extends MY_Model {
         parent::__construct();
         //-- Load database for writing
         $this->writedb = $this->load->database('write_db', TRUE);
+        $this->load->model('teacher_model');
     }
 
     public function get($id = null) {
