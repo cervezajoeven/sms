@@ -175,6 +175,8 @@ class ClassRecord_model extends MY_Model
                             AND student_session.section_id = ".$section." 
                             GROUP BY school_year, quarter, student_id
                          ) tbl".$row->id." ON tbl".$row->id.".subject_id = vw_class_subjects.subject_id";
+
+            $colcount++;
         }
 
         $sql = "SELECT subject_name AS Subjects, ".$quarter_columns." 
@@ -196,13 +198,18 @@ class ClassRecord_model extends MY_Model
     public function get_class_record_quarterly($schoolyear, $gradelevel, $section, $subject, $teacher) {
         $quarter_columns = "";        
         $resultdata = $this->get_quarter_list();
+        $average_columns = "";
+        $average_column = "";
+        $colcount = 0;
 
         foreach($resultdata as $row) {
             if (!empty($quarter_columns)) {
                 $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+                $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
             }
             else {
                 $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+                $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
             }
 
             $subquery .= " LEFT JOIN 
@@ -227,7 +234,9 @@ class ClassRecord_model extends MY_Model
             $colcount++;
         }
 
-        $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender) AS Gender, ".$quarter_columns." 
+        $average_columns = " ((".$average_column.")/".$colcount.") AS average";
+
+        $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender) AS Gender, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
                 FROM students 
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 ".$subquery." 

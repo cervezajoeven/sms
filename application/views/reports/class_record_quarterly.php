@@ -126,7 +126,8 @@
                                                     echo "<th class=\"text-center\">".$row->description."</th>\r\n";
                                                 }
                                             ?>
-                                            <!-- <th>Average</th> -->
+                                            <th class="text-center">Average</th>
+                                            <th class="text-center">Final Grade</th>
                                         </tr>
                                     </thead>
                                     <tbody>
