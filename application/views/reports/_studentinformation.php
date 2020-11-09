@@ -8,6 +8,7 @@
             </div>
                     <div class="">
                         <ul class="reportlists">
+                        
                         	<?php
                         	 if ($this->rbac->hasPrivilege('student_report', 'can_view')) {
                                 ?>
