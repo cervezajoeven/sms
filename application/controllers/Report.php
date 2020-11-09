@@ -1729,14 +1729,14 @@ $attd=array();
                 $section = $this->input->post('section_id');
 
                 // print_r("CloudPH Debug Mode 1");die();
-                $class_record = $this->classrecord_model->get_class_record($session, $quarter, $grade_level, $section);
+                $class_record = $this->gradereport_model->get_class_record($session, $quarter, $grade_level, $section);
                 
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['quarter_id'] = $quarter;
                 $data['class_id'] = $grade_level;
                 $data['section_id']  = $section;
-                $data['subject_list'] = $this->classrecord_model->get_subject_list($grade_level);
+                $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level);
 
                 // print_r(json_encode($class_record));
                 $this->load->view('layout/header', $data);
@@ -1762,8 +1762,8 @@ $attd=array();
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
         $data['quarter_list'] = $this->general_model->get_quarter_list();        
-        $data['teacher_list'] = $this->classrecord_model->get_teacher_list();     
-        $data['quarter_list'] = $this->classrecord_model->get_quarter_list();   
+        $data['teacher_list'] = $this->gradereport_model->get_teacher_list();     
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();   
         // print_r("CloudPH Debug Mode 2");die();
         // $carray = array();
 
@@ -1796,8 +1796,8 @@ $attd=array();
                 $subject = $this->input->post('subject_id');
                 $teacher = $this->input->post('teacher_id');
                 
-                $class_record = $this->classrecord_model->get_class_record_quarterly($session, $grade_level, $section, $subject, $teacher);
-                // $class_record = $this->classrecord_model->get_class_record_quarterly($session, $grade_level, $section, $subject);
+                $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject, $teacher);
+                // $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject);
                 // print_r($class_record);die();
 
                 $data['resultlist'] = $class_record;
