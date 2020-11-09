@@ -140,7 +140,7 @@
 		        			<td>
 		        				<select class="form-control class_record" name="subject">
 		        					<<?php foreach ($subjects as $subject_key => $subject_value): ?>
-		        						<option  ><?php echo $subject_value['name']; ?></option>
+		        						<option value="<?php echo $subject_value['id'] ?>" <?php echo ($subject_value['id']==$class_record->subject_id)?"selected":""; ?>><?php echo $subject_value['name']; ?></option>
 		        					<?php endforeach ?>
 		        				</select>
 		        			</td>
@@ -189,7 +189,7 @@
 	        					<?php endforeach; ?>
 	        					<td class="total thicc">Total</td>
 			        			<td class="ps thicc">PS</td>
-			        			<td class="ws thicc">WS</td>
+			        			<td class="ws thicc ">WS</td>
 	        				<?php endforeach; ?>
 
 	        			<?php endforeach; ?>
@@ -212,7 +212,7 @@
 	        					<?php endforeach; ?>
 	        					<td class="total_highest total thicc center <?php echo $criteria_key ?>_<?php echo $column_section_key ?>" criteria="<?php echo $criteria_key ?>" section="<?php echo $column_section_key ?>" total_highest="<?php echo $column_section_key ?>"></td>
 			        			<td class="center ps thicc">100</td>
-			        			<td class="thicc table_td ws"><input type="text" class="table_input ws-<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" name="" value="<?php echo $column_section_value['ws'] ?>"></td>
+			        			<td class="thicc table_td ws"><input type="text" class="ws_input table_input ws-<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" name="" value="<?php echo $column_section_value['ws'] ?>" column_section="<?php echo $column_section_value['id'] ?>"></td>
 	        				<?php endforeach; ?>
 	        			<?php endforeach; ?>
 	        			<td></td>
@@ -523,23 +523,23 @@
 	});
 
 
-	$(".ws").change(function(){
+	$(".ws_input").change(function(){
 		// $(this).css("20px solid black");
+		var column_section = $(this).attr("column_section");
 		var highest_score = $(this).val();
-		var column_id = $(this).attr("column_id");
 		var update_data = {
 			highest_score:highest_score,
-			column_id:column_id,
+			column_section:column_section,
 		}
+		$.ajax({
+		    url: url+"update_ws",
+		    type: "POST",
+		    data: update_data,
+		    complete: function(response){
+				console.log(response.responseText);
 
-		// $.ajax({
-		//     url: url+"update_ws",
-		//     type: "POST",
-		//     data: update_data,
-		//     complete: function(response){
-
-		//     }
-		// });
+		    }
+		});
 
 		update_highest_score();
 

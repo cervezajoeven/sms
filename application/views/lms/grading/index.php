@@ -45,6 +45,7 @@
                                     <tr>
                                         <th>Description</th>
                                         <th>Teacher</th>
+                                        <th>Lock(Registrar)</th>
                                         <th>Action</th>
                                         <th>Date Created</th>
                                         
@@ -56,10 +57,16 @@
 
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['class']?> - <?php echo $list_data['section']?> (<?php echo $list_data['description']?>)
+                                                <?php echo $list_data['class']?> - <?php echo $list_data['section']?> (<?php echo $list_data['name']?>) (<?php echo $list_data['description']?>) 
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['subject_name']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <select class="form-control">
+                                                    <option>Lock</option>
+                                                    <option>Unlock</option>
+                                                </select>
                                             </td>
                                             <td class="mailbox-name">
                                                 <a data-placement="right" href="<?php echo site_url('lms/grading/edit/'.$list_data['id']) ?>" class="btn btn-default btn-xs duplicate"  data-toggle="tooltip" title="Edit">
@@ -70,6 +77,8 @@
                                                         <i class="fa fa-times"></i>
                                                     </a>
                                             </td>
+
+                                            
 
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['created_at']; ?>
