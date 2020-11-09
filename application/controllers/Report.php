@@ -10,7 +10,8 @@ class Report extends Admin_Controller {
         
         $this->time = strtotime(date('d-m-Y H:i:s'));
      
-        $this->payment_mode= $this->customlib->payment_mode();        
+        $this->payment_mode= $this->customlib->payment_mode();     
+        $this->load->model('classrecord_model');   
         $this->load->model('general_model');
         $this->load->model('setting_model');
         $this->load->model('student_model');
@@ -44,12 +45,10 @@ class Report extends Admin_Controller {
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
         $this->load->model('session_model');
-        $this->load->model('subject_model');
-        // $this->load->model('classrecord_model');
+        $this->load->model('subject_model');        
         
         $this->search_type=$this->customlib->get_searchtype();
-        $this->sch_setting_detail = $this->setting_model->getSetting();
-        
+        $this->sch_setting_detail = $this->setting_model->getSetting();        
     }
 
     function pdfStudentFeeRecord() {
@@ -1729,7 +1728,7 @@ $attd=array();
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
 
-                print_r("CloudPH Debug Mode 1");die();
+                // print_r("CloudPH Debug Mode 1");die();
                 $class_record = $this->classrecord_model->get_class_record($session, $quarter, $grade_level, $section);
                 
                 $data['resultlist'] = $class_record;
@@ -1765,7 +1764,7 @@ $attd=array();
         $data['quarter_list'] = $this->general_model->get_quarter_list();        
         $data['teacher_list'] = $this->classrecord_model->get_teacher_list();     
         $data['quarter_list'] = $this->classrecord_model->get_quarter_list();   
-        print_r("CloudPH Debug Mode 2");die();
+        // print_r("CloudPH Debug Mode 2");die();
         // $carray = array();
 
         // if (!empty($data["classlist"])) { $sch_setting->session_id
