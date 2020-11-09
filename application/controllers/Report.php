@@ -7,7 +7,7 @@ class Report extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
-        print_r('CloudPH Debug Mode');die();
+        
         $this->time = strtotime(date('d-m-Y H:i:s'));
      
         $this->payment_mode= $this->customlib->payment_mode();        
@@ -43,8 +43,7 @@ class Report extends Admin_Controller {
         $this->load->model('designation_model');
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
-        $this->load->model('session_model');
-        $this->load->model('general_model');
+        $this->load->model('session_model');print_r('CloudPH Debug Mode');die();
         $this->load->model('classrecord_model');
         $this->load->model('subject_model');
         
