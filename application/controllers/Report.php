@@ -1795,6 +1795,7 @@ $attd=array();
                 $teacher = $this->input->post('teacher_id');
                 
                 $class_record = $this->classrecord_model->get_class_record_quarterly($session, $grade_level, $section, $subject, $teacher);
+                // $class_record = $this->classrecord_model->get_class_record_quarterly($session, $grade_level, $section, $subject);
                 // print_r($class_record);die();
 
                 $data['resultlist'] = $class_record;

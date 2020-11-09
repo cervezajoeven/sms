@@ -94,9 +94,10 @@ class ClassRecord_model extends MY_Model
             }
 
             $subquery .= " LEFT JOIN ( 
-                           SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, IFNULL(fn_transmuted_grade(SUM((total_scores*wspercent))), 0) AS quarterly_grade 
+                           SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, fn_transmuted_grade(IFNULL(SUM(((total_scores/highest_score)*100) * wspercent)), 0) AS quarterly_grade 
                            FROM 
-                           (SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
+                           (SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                            SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
                             FROM vw_class_record 
                             GROUP BY student_id, criteria_id, label 
                            ) tbl 
@@ -159,10 +160,11 @@ class ClassRecord_model extends MY_Model
 
             $subquery .= " LEFT JOIN 
                          (
-                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, fn_transmuted_grade(SUM((total_scores*wspercent))) AS quarterly_grade
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) AS quarterly_grade
                             FROM
                             (
-                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
                               FROM vw_class_record
                               GROUP BY student_id, criteria_id, label
                             ) tbl
@@ -205,10 +207,11 @@ class ClassRecord_model extends MY_Model
 
             $subquery .= " LEFT JOIN 
                          (
-                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, fn_transmuted_grade(SUM((total_scores*wspercent))) AS quarterly_grade
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) AS quarterly_grade
                             FROM
                             (
-                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
                               FROM vw_class_record
                               GROUP BY student_id, criteria_id, label
                             ) tbl
