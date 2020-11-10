@@ -102,10 +102,16 @@ class Grading extends General_Controller {
 
         $data['resources'] = site_url('backend/lms/');
         $class_record_id = $id;
-        $data['class_record'] = json_decode($this->get($class_record_id,"class_record"))[0];
+        $this->db->select("*");
+        $this->db->from("grading_class_record");
+        $this->db->where("id",$class_record_id);
+        $data['class_record'] = $this->db->get()->result_array()[0];
+       
+
         $this->db->select("*");
         $this->db->from("grading_criteria");
         $this->db->where("class_record_id",$class_record_id);
+
         $data['criteria'] = $this->db->get()->result_array();
 
         $data['full_width'] = 0;
