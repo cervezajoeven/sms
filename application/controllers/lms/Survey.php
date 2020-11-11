@@ -171,8 +171,8 @@ class Survey extends General_Controller {
     }
 
     public function get_sheet(){
-        $data['id'] = $_REQUEST['id'];
         
+        $data['id'] = $_REQUEST['id'];
         echo $this->survey_model->lms_get("lms_survey",$data['id'],"id")[0]['sheet'];
     }
 

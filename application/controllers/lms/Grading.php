@@ -310,7 +310,7 @@ class Grading extends General_Controller {
             'school_year' =>    urlencode("15"),
             'quarter' =>        urlencode($_REQUEST['quarter']),
             'section_id' =>     urlencode($_REQUEST['section']),
-            'teacher_id' =>     urlencode("1"),
+            'teacher_id' =>     urlencode($data['account_id']),
             'subject_id' =>     urlencode($_REQUEST['subject']),
             'grade' =>          urlencode($_REQUEST['grade']),
             'disabled' =>          urlencode(0),
