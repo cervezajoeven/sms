@@ -24,31 +24,47 @@
                                                     echo "<th class=\"text-center\">".$row->description."</th>\r\n";
                                                 }
                                             ?>
+                                            <th class="text-center">Average</th>
+                                            <th class="text-center">Final Grade</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php                                 
+                                        <?php                                 
+                                        // foreach($resultlist as $row) {
+                                        //     $ctr=0;
+                                        //     echo "<tr>\r\n";
+                                        //     foreach($row as $val) {
+                                        //         if (!is_numeric($val)) //($ctr==0)
+                                        //             echo "<td class='text-left'>".$val."</td>\r\n";
+                                        //         else 
+                                        //             echo "<td class='text-center'>".$val."</td>\r\n";
+                                        //         $ctr++;
+                                        //     }
+                                        //     echo "</tr>\r\n";
+                                        // } 
                                         foreach($resultlist as $row) {
-                                            $ctr=0;
+                                            $average = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->average;
+                                            $final = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->final_grade;
                                             echo "<tr>\r\n";
-                                            foreach($row as $val) {
-                                                if ($ctr==0)
-                                                    echo "<td class='text-left'>".$val."</td>\r\n";
-                                                else 
-                                                    echo "<td class='text-center'>".$val."</td>\r\n";
-                                                $ctr++;
-                                            }
+                                            echo "<td class='text-left'>".$row->Subjects."</td>\r\n";
+                                            echo "<td class='text-center".($row->first < 75 ? " text-danger" : ($row->first >= 90 ? " text-success" : ""))."'><b>".($row->first == 0 ? '' : $row->first)."</b></td>\r\n";
+                                            echo "<td class='text-center".($row->second < 75 ? " text-danger" : ($row->second >= 90 ? " text-success" : ""))."'><b>".($row->second == 0 ? '' : $row->second)."</b></td>\r\n";
+                                            echo "<td class='text-center".($row->third < 75 ? " text-danger" : ($row->third >= 90 ? " text-success" : ""))."'><b>".($row->third == 0 ? '' : $row->third)."</b></td>\r\n";
+                                            echo "<td class='text-center".($row->fourth < 75 ? " text-danger" : ($row->fourth >= 90 ? " text-success" : ""))."'><b>".($row->fourth == 0 ? '' : $row->fourth)."</b></td>\r\n";
+                                            echo "<td class='text-center'>".$average."</td>\r\n";
+                                            echo "<td class='text-center'>".$final."</td>\r\n";
                                             echo "</tr>\r\n";
-                                        } ?>
+                                        }
+                                        ?>
                                     </tbody>
                                     <tfoot>
-                                        <tr>
+                                        <!-- <tr>
                                             <th>Average</th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                        </tr>
+                                        </tr> -->
                                     </tfoot>
                                 </table>
                             <?php //} ?>                            
@@ -156,34 +172,34 @@
                     postfixButtons: ['colvisRestore']
                 },                
             ],
-            "footerCallback": function (settings, json) {
-                var api = this.api(), data;
+            // "footerCallback": function (settings, json) {
+            //     var api = this.api(), data;
     
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
-                };
+            //     // Remove the formatting to get integer data for summation
+            //     var intVal = function (i) {
+            //         return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            //     };
 
-                // // computing column Total the complete result 
-                var colCount = $('#class_record').DataTable().columns().header().length;
-                var quarters = [];
+            //     // // computing column Total the complete result 
+            //     var colCount = $('#class_record').DataTable().columns().header().length;
+            //     var quarters = [];
 
-                for(let i=1; i<colCount; i++) {
-                    var quarter = api
-                    .column(i)
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+            //     for(let i=1; i<colCount; i++) {
+            //         var quarter = api
+            //         .column(i)
+            //         .data()
+            //         .reduce( function (a, b) {
+            //             return intVal(a) + intVal(b);
+            //         }, 0);
 
-                    quarters.push(quarter);
-                }
+            //         quarters.push(quarter);
+            //     }
 
-                for(let ii=1; ii<colCount; ii++) {
-                    let rows = $('#class_record').DataTable().data().count()/colCount;
-                    $(api.column(ii).footer()).html((quarters[ii-1]/rows).toFixed(2));
-                }
-            }
+            //     for(let ii=1; ii<colCount; ii++) {
+            //         let rows = $('#class_record').DataTable().data().count()/colCount;
+            //         $(api.column(ii).footer()).html((quarters[ii-1]/rows).toFixed(2));
+            //     }
+            // }
         });
     });
 

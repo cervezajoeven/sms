@@ -109,7 +109,7 @@
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) {?>
                             <div class="download_label"><?php echo $this->lang->line('class_record_summary')."<br>";$this->customlib->get_postmessage();?></div>
-                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover display nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th rowspan=2>Learner Names</th>
@@ -132,16 +132,35 @@
                                     </thead>
                                     <tbody>
                                         <?php                                 
+                                        // foreach($resultlist as $row) {
+                                        //     $ctr=0;
+                                        //     $is_zero = false;
+                                        //     echo "<tr>\r\n";
+                                        //     foreach($row as $val) {
+                                        //         if (!is_numeric($val))//($ctr<=1)
+                                        //             echo "<td class='text-left'>".$val."</td>\r\n";
+                                        //         else {
+                                        //             // if ($val == 0) $is_zero = true;
+                                        //             echo "<td class='text-center'>".$val."</td>\r\n";
+                                                    
+                                        //         }
+                                                    
+                                        //         $ctr++;
+                                        //     }
+                                        //     echo "</tr>\r\n";
+                                        // }
                                         foreach($resultlist as $row) {
-                                            $ctr=0;
+                                            $average = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->average;
+                                            $final = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->final_grade;
                                             echo "<tr>\r\n";
-                                            foreach($row as $val) {
-                                                if ($ctr<=1)
-                                                    echo "<td class='text-left'>".$val."</td>\r\n";
-                                                else 
-                                                    echo "<td class='text-center'>".$val."</td>\r\n";
-                                                $ctr++;
-                                            }
+                                            echo "<td class='text-left'>".$row->student_name."</td>\r\n";
+                                            echo "<td class='text-left'>".$row->gender."</td>\r\n";
+                                            echo "<td class='text-center".($row->first < 75 ? " text-danger" : ($row->first >= 90 ? " text-success" : ""))."'><b>".($row->first == 0 ? '' : $row->first)."</b></td>\r\n";
+                                            echo "<td class='text-center".($row->second < 75 ? " text-danger" : ($row->second >= 90 ? " text-success" : ""))."'><b>".($row->second == 0 ? '' : $row->second)."</b></td>\r\n";
+                                            echo "<td class='text-center".($row->third < 75 ? " text-danger" : ($row->third >= 90 ? " text-success" : ""))."'><b>".($row->third == 0 ? '' : $row->third)."</b></td>\r\n";
+                                            echo "<td class='text-center".($row->fourth < 75 ? " text-danger" : ($row->fourth >= 90 ? " text-success" : ""))."'><b>".($row->fourth == 0 ? '' : $row->fourth)."</b></td>\r\n";
+                                            echo "<td class='text-center".($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : ""))."'><b>$average</b></td>\r\n";
+                                            echo "<td class='text-center".($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : ""))."'><b>$final</b></td>\r\n";
                                             echo "</tr>\r\n";
                                         }
                                         ?>

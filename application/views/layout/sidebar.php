@@ -145,12 +145,7 @@ s<aside class="main-sidebar" id="alert2">
                             <?php }
                             ?>
                              <?php
-                            if ($this->rbac->hasPrivilege('student_houses', 'can_view')) {
-                                ?>
-                                <li class="<?php echo set_Submenu('admin/schoolhouse'); ?>"><a href="<?php echo base_url(); ?>admin/schoolhouse"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('house'); ?></a></li>
-                                <?php
-                            }
-
+                            
                             if($this->rbac->hasPrivilege('disable_reason','can_view')){
                                 ?>
                                  <li class="<?php echo set_Submenu('student/disable_reason'); ?>"><a href="<?php echo base_url(); ?>admin/disable_reason"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disable') . " " . $this->lang->line('reason'); ?></a></li>

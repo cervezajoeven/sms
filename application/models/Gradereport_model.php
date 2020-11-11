@@ -148,16 +148,21 @@ class Gradereport_model extends MY_Model
 
     public function get_student_class_record($school_year, $student_id, $grade_level, $section) {        
         $subquery = "";
-        $quarter_columns = "";        
+        $quarter_columns = "";
+        $average_columns = "";
+        $average_column = "";
+        $colcount = 0;
         
         $dataresult = $this->get_quarter_list();        
 
         foreach($dataresult as $row) {
             if (!empty($quarter_columns)) {
-                $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+                $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".str_replace(" ", "_", $row->name)."'";
+                $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
             }
             else {
-                $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+                $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".str_replace(" ", "_", $row->name)."'";
+                $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
             }
 
             $subquery .= " LEFT JOIN 
@@ -181,12 +186,14 @@ class Gradereport_model extends MY_Model
             $colcount++;
         }
 
-        $sql = "SELECT subject_name AS Subjects, ".$quarter_columns." 
+        $average_columns = " ((".$average_column.")/".$colcount.") AS average";
+
+        $sql = "SELECT subject_name AS Subjects, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
                 FROM vw_class_subjects
                 ".$subquery." 
                 WHERE graded = true
                 AND grade_level_id = ".$grade_level;
-
+        
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -206,11 +213,11 @@ class Gradereport_model extends MY_Model
 
         foreach($resultdata as $row) {
             if (!empty($quarter_columns)) {
-                $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+                $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->name."'";
                 $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
             }
             else {
-                $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->description."'";
+                $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".$row->name."'";
                 $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
             }
 
@@ -238,7 +245,7 @@ class Gradereport_model extends MY_Model
 
         $average_columns = " ((".$average_column.")/".$colcount.") AS average";
 
-        $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender) AS Gender, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
+        $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender) AS gender, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
                 FROM students 
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 ".$subquery." 
