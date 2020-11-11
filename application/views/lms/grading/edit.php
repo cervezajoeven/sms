@@ -116,7 +116,6 @@
 
 		        		<tr>
 		        			<td>Grade</td>
-		        			<?php print_r($class_record->grade) ?>
 		        			<form class="change_grade_section_form class_record" method="post" action="<?php echo base_url('lms/grading/update_grade_section/'.$class_record['id']) ?>">
 		        				<td width="173px">
 			        				<select class="form-control grade_section" name="grade">
@@ -454,7 +453,7 @@
 
 	function update_class_record(){
 		
-		var class_record_id = '<?php echo $class_record->id ?>';
+		var class_record_id = '<?php echo $class_record['id'] ?>';
 		var region = $(".region").val();
 		var division = $(".division").val();
 		var district = $(".district").val();
