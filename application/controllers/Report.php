@@ -1683,10 +1683,9 @@ $attd=array();
     }
 
     public function class_record_summary() {
-        // print_r('Erwin Pogi!');die();
-        if (!$this->rbac->hasPrivilege('class_record_summary', 'can_view')) {
-            access_denied();
-        }
+        // if (!$this->rbac->hasPrivilege('class_record_summary', 'can_view')) {
+        //     access_denied();
+        // }
         
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
@@ -1747,9 +1746,9 @@ $attd=array();
     }
 
     public function class_record_quarterly() {
-        if (!$this->rbac->hasPrivilege('class_record_quarterly', 'can_view')) {
-            access_denied();
-        }
+        // if (!$this->rbac->hasPrivilege('class_record_quarterly', 'can_view')) {
+        //     access_denied();
+        // }
         
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
