@@ -102,12 +102,18 @@ class Grading extends General_Controller {
 
         $data['resources'] = site_url('backend/lms/');
         $class_record_id = $id;
-        $data['class_record'] = json_decode($this->get($class_record_id,"class_record"))[0];
+        $this->db->select("*");
+        $this->db->from("grading_class_record");
+        $this->db->where("id",$class_record_id);
+        $data['class_record'] = $this->db->get()->result_array()[0];
+       
+
         $this->db->select("*");
         $this->db->from("grading_criteria");
         $this->db->where("class_record_id",$class_record_id);
-        $data['criteria'] = $this->db->get()->result_array();
 
+        $data['criteria'] = $this->db->get()->result_array();
+        
         $data['full_width'] = 0;
         
         foreach ($data['criteria'] as $criteria_key => $criteria_value) {
@@ -132,6 +138,8 @@ class Grading extends General_Controller {
 
         }
 
+        
+
 
         $data['subjects'] = $this->assessment_model->lms_get('subjects',"","","id,name");
         
@@ -139,17 +147,16 @@ class Grading extends General_Controller {
         $data['sections'] = $this->general_model->get_sections();
         $data['quarters'] = $this->general_model->lms_get('grading_quarter',"","");
         $data['transmutation'] = json_encode($this->general_model->lms_get('grading_transmutation',"","min_grade,max_grade,transmuted_grade"));
-        $data['quarter'] = $this->general_model->lms_get('grading_quarter',$data['class_record']->quarter,"id")[0]['id'];
+        $data['quarter'] = $this->general_model->lms_get('grading_quarter',$data['class_record']['quarter'],"id")[0]['id'];
 
 
         
-        $data['school_year'] = $this->general_model->lms_get("sessions",$data['class_record']->school_year,"id")[0]['session'];
-        // echo '<pre>';
-        // print_r($data['quarter']);
-        // exit;
-        $data['students'] = $this->general_model->get_students_class_section($data['class_record']->grade,$data['class_record']->section_id);
+        $data['school_year'] = $this->general_model->lms_get("sessions",$data['class_record']['school_year'],"id")[0]['session'];
+        
+        $data['students'] = $this->general_model->get_students_class_section($data['class_record']['grade'],$data['class_record']['section_id']);
 
         $data['the_class'] = $this;
+
         $current_session = $this->setting_model->getCurrentSession();
         
         
