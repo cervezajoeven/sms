@@ -166,8 +166,7 @@ class Survey extends General_Controller {
         $data['end_date'] = $_REQUEST['end_date'];
         $data['assigned'] = $_REQUEST['assigned'];
         
-        print_r($data);
-        $this->survey_model->lms_update("lms_survey",$data);
+        print_r($this->survey_model->lms_update("lms_survey",$data));
     }
 
     public function get_sheet(){

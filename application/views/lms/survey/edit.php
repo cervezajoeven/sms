@@ -360,19 +360,28 @@
 		final_json = {id:"<?php echo $survey['id'] ?>",
 				sheet:JSON.stringify(json),
 				start_date: moment($(".date_range").data('daterangepicker').startDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
-				end_date: moment($(".date_range").data('daterangepicker').startDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
+				end_date: moment($(".date_range").data('daterangepicker').endDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
 				assigned:student_ids.join(','),
 			};
-		$.ajax({
-		    url: url,
-		    type: "POST",
-		    data: final_json,
-		    // contentType: "application/json",
-		    complete: function(response){
-		    	console.log(response.responseText);
-		    	alert("Sucessfully Saved!");
-		    }
-		});
+
+		if(final_json){
+			$.ajax({
+			    url: url,
+			    type: "POST",
+			    data: final_json,
+			    // contentType: "application/json",
+			    complete: function(response){
+			    	console.log();
+			    	if(response.responseText){
+			    		alert("Sucessfully Saved!");
+			    	}
+			    	
+			    }
+			});
+		}else{
+			alert("The survey can't be saved. Please use a compatible browser or device.");
+		}
+		
 	});
 
 	$(".assign_panel").hide();
