@@ -179,19 +179,7 @@
 		id:survey_id
 	};
 
-	$.ajax({
-	    url: "<?php echo site_url('lms/survey/get_sheet'); ?>",
-	    type: "POST",
-	    data: survey_data,
-	    // contentType: "application/json",
-	    complete: function(response){
-	    	console.log(response.responseText);
-	    	if(response.responseText){
-	    		stored_json = response.responseText;
-	    	}
-	    	// alert("Sucessfully Saved!");
-	    }
-	});
+	
 
 
 
@@ -278,26 +266,41 @@
 		});
 	}
 	$(document).ready(function(){
-		if(stored_json){
-			$.each(JSON.parse(stored_json),function(key,value){
-				populate_key(value.type);
-				$.each(value.option_labels.split(","),function(split_key,split_value){
-					var last_option = $(".option-container-actual").eq(key).find(".option").length;
-					var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
-					$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
-				});
-				var the_last = $(".option-container-actual").eq(key).find(".option").length;
-				$.each(value.option_labels.split(","),function(value_key,value_value){
-					$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
-					
-				});
-				$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
+
+		$.ajax({
+	    url: "<?php echo site_url('lms/survey/get_sheet'); ?>",
+	    type: "POST",
+	    data: survey_data,
+	    // contentType: "application/json",
+	    complete: function(response){
+		    	console.log(response.responseText);
+		    	if(response.responseText){
+		    		stored_json = response.responseText;
+		    		if(stored_json){
+						$.each(JSON.parse(stored_json),function(key,value){
+							populate_key(value.type);
+							$.each(value.option_labels.split(","),function(split_key,split_value){
+								var last_option = $(".option-container-actual").eq(key).find(".option").length;
+								var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
+								$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
+							});
+							var the_last = $(".option-container-actual").eq(key).find(".option").length;
+							$.each(value.option_labels.split(","),function(value_key,value_value){
+								$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
+								
+							});
+							$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
 
 
-				
-			});
-			renumbering();
-		}
+							
+						});
+						renumbering();
+					}
+		    	}
+		    	// alert("Sucessfully Saved!");
+		    }
+		});
+		
 		
 
 	});
