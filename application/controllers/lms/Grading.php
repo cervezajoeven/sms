@@ -286,9 +286,7 @@ class Grading extends General_Controller {
 
     function create() {
 
-        // echo '<pre>';
-        // print_r($_REQUEST);
-        // exit;
+        
         $this->session->set_userdata('top_menu', 'Grading');
         $this->session->set_userdata('sub_menu', 'grading/create');
         $data['resources'] = site_url('backend/lms/');
@@ -305,7 +303,7 @@ class Grading extends General_Controller {
             'region' =>         urlencode("Region 1"),
             'division' =>       urlencode("Division 2"),
             'district' =>       urlencode("District 1"),
-            'school_name' =>    urlencode("San Isidro Catholic School"),
+            'school_name' =>    urlencode("School Name"),
             'school_id' =>      urlencode("1"),
             'school_year' =>    urlencode("15"),
             'quarter' =>        urlencode($_REQUEST['quarter']),
