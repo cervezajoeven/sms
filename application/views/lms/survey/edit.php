@@ -174,10 +174,41 @@
 <script type="text/javascript">
 
 	var url = "<?php echo site_url('lms/survey/update'); ?>";
-	var stored_json = '<?php echo $survey['sheet']; ?>';
+	var survey_id = "<?php echo $survey['id'] ?>";
+	var survey_data = {
+		id:survey_id
+	};
+
+	$.ajax({
+	    url: "<?php echo site_url('lms/survey/get_sheet'); ?>",
+	    type: "POST",
+	    data: survey_data,
+	    // contentType: "application/json",
+	    complete: function(response){
+	    	console.log(response.responseText);
+	    	if(response.responseText){
+	    		stored_json = response.responseText;
+	    	}
+	    	// alert("Sucessfully Saved!");
+	    }
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	var final_json = {};
 	var assigned = $("#assigned").val();
-	
+
 	$(".sortable").sortable({
 		stop:function(event,ui){
 			renumbering();
