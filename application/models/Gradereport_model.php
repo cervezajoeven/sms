@@ -209,9 +209,9 @@ class Gradereport_model extends CI_Model
                 ) tblsubjects
                 ".$subquery;
         
-        return($sql);
-        // $query = $this->db->query($sql);
-        // return $query->result();
+        // return($sql);
+        $query = $this->db->query($sql);
+        return $query->result();
     }
 
     public function get_quarter_list() {
