@@ -210,14 +210,14 @@ var base_url = '<?php echo base_url() ?>';
         }
     }
 
-    function getSubjectsByClass(class_id, subject_id) {
+    function getSubjectsByClass(class_id, subject_id, school_year_id) {
         if (class_id != "") {
             $('#subject_id').html("");
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
             $.ajax({
                 type: "GET",
                 url: base_url + "admin/subject/get_subject_list",
-                data: {'class_id': class_id },
+                data: {'class_id': class_id, 'school_year_id': school_year_id },
                 dataType: "json",
                 beforeSend: function () {
                     $('#subject_id').addClass('dropdownloading');
@@ -244,8 +244,9 @@ var base_url = '<?php echo base_url() ?>';
         class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
         var subject_id = '<?php echo set_value('subject_id') ?>';
+        var school_year_id = '<?php echo set_value('session_id') ?>';
         getSectionByClass(class_id, section_id);
-        getSubjectsByClass(class_id, subject_id);
+        getSubjectsByClass(class_id, subject_id, $('#session_id').val());
 
         $(document).on('change', '#class_id', function (e) {
             $('#section_id').html("");
@@ -254,7 +255,7 @@ var base_url = '<?php echo base_url() ?>';
             $.ajax({
                 type: "GET",
                 url: base_url + "sections/getByClass",
-                data: {'class_id': class_id},
+                data: { 'class_id': class_id },
                 dataType: "json",
                 beforeSend: function () {
                     $('#section_id').addClass('dropdownloading');
@@ -276,7 +277,7 @@ var base_url = '<?php echo base_url() ?>';
             $.ajax({
                 type: "GET",
                 url: base_url + "admin/subject/get_subject_list",
-                data: {'class_id': class_id },
+                data: {'class_id': class_id, 'school_year_id': $('#session_id').val() },
                 dataType: "json",
                 beforeSend: function () {
                     $('#subject_id').addClass('dropdownloading');

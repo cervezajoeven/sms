@@ -1691,7 +1691,7 @@ $attd=array();
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_summary');
         
-        $data['title'] = 'Class Record Summary';
+        $data['title'] = 'Summary of Consolidated Grades';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
         $data['sch_setting'] = $this->sch_setting_detail;
@@ -1735,7 +1735,7 @@ $attd=array();
                 $data['quarter_id'] = $quarter;
                 $data['class_id'] = $grade_level;
                 $data['section_id']  = $section;
-                $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level);
+                $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session);
 
                 // print_r(json_encode($class_record));
                 $this->load->view('layout/header', $data);
@@ -1760,7 +1760,6 @@ $attd=array();
         $data['sch_setting'] = $this->sch_setting_detail;
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
-        $data['quarter_list'] = $this->general_model->get_quarter_list();        
         $data['teacher_list'] = $this->gradereport_model->get_teacher_list();     
         $data['quarter_list'] = $this->gradereport_model->get_quarter_list();   
         // print_r("CloudPH Debug Mode 2");die();
