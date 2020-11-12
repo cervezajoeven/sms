@@ -120,7 +120,8 @@
                                                 if ($ctr<=1)
                                                     echo "<td class='text-left'>".$val."</td>\r\n";
                                                 else 
-                                                    echo "<td class='text-center'>".$val."</td>\r\n";
+                                                echo "<td class='text-center".($val < 75 ? " text-danger" : ($val >= 90 ? " text-success" : ""))."'><b>".($val == 0 ? '' : $val)."</b></td>\r\n";
+                                                    // echo "<td class='text-center'><b>".$val."</b></td>\r\n";
                                                 $ctr++;
                                             }
                                             echo "</tr>\r\n";

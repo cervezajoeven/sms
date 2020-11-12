@@ -113,7 +113,7 @@ class Gradereport_model extends CI_Model
         // $average_column = " AVG(".$average_column.") AS average";
         $average_column = " ((".$average_column.")/".$colcount.") AS average";
 
-        $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender), ".$subject_columns.", ".$average_column." 
+        $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender), ".$subject_columns.", ".$average_column." 
                 FROM students 
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 ".$subquery." 
