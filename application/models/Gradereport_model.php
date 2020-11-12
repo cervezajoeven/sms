@@ -132,11 +132,11 @@ class Gradereport_model extends MY_Model
         //-- Get subject list
         $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id -- subject_groups.id, subject_groups.name, subject_group_subjects.subject_id, subjects.name, subject_group_class_sections.class_section_id, classes.id as grade_level_id, classes.class as grade_level
                 FROM subject_groups
-                LEFT JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
-                LEFT JOIN subjects ON subjects.id = subject_group_subjects.subject_id
-                LEFT JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
-                LEFT JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
-                LEFT JOIN classes ON classes.id = class_sections.class_id
+                JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+                JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+                JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+                JOIN classes ON classes.id = class_sections.class_id
                 WHERE classes.id = ".$gradelevel." 
                 AND subjects.graded = TRUE 
                 AND subject_groups.session_id = ".$schoolyear." 
