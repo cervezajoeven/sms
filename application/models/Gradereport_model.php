@@ -197,9 +197,9 @@ class Gradereport_model extends CI_Model
                 WHERE graded = true
                 AND grade_level_id = ".$grade_level;
         
-        return($sql);
-        // $query = $this->db->query($sql);
-        // return $query->result();
+        // return($sql);
+        $query = $this->db->query($sql);
+        return $query->result();
     }
 
     public function get_quarter_list() {
