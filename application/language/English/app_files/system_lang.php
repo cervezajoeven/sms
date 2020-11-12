@@ -1551,4 +1551,6 @@ $lang['Asynchronous'] = 'Async';
 $lang['Synchronous'] = 'Sync';
 $lang['lrn'] = 'LRN';
 $lang['class_record_summary'] = 'Class Record Summary';
+$lang['grades'] = 'Grades';
+$lang['grade_view_permission'] = 'Grade View Permission';
 ?>

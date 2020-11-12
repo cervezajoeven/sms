@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="isgraded" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?> >Graded
+                                            <input type="checkbox" name="isgraded" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?>>Graded
                                             <!-- <input type="checkbox" name="isgraded" >Graded                                                   -->
                                         </label>
                                     </div>

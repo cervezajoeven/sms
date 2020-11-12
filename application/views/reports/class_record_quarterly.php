@@ -109,7 +109,7 @@
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) {?>
                             <div class="download_label"><?php echo $this->lang->line('class_record_summary')."<br>";$this->customlib->get_postmessage();?></div>
-                                <table class="table table-striped table-bordered table-hover display nowrap" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th rowspan=2>Learner Names</th>

@@ -35,10 +35,21 @@ class Student extends Admin_Controller
         $this->load->model('feegroup_model');
         $this->load->model('feediscount_model');
         $this->load->model('user_model');
+        $this->load->model('gradereport_model');
 
         $this->blood_group        = $this->config->item('bloodgroup');
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->role;
+
+        $url = $_SERVER['SERVER_NAME'];
+
+        if (strpos($url,'localhost') !== false) {
+            $this->mode = "offline";
+        }elseif(strpos($url,'192.') !== false||strpos($url,'172.') !== false) {
+            $this->mode = "offline";
+        }else{
+            $this->mode = "online";
+        }
     }
 
     public function index()
@@ -2646,5 +2657,140 @@ class Student extends Admin_Controller
             $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
             echo json_encode($array);
         }
+    }
+
+    public function grading_StudentsAllowedToView() 
+    {
+        if (!$this->rbac->hasPrivilege('student', 'can_add')) 
+            access_denied();
+
+        $this->session->set_userdata('top_menu', 'Student Information');
+        $this->session->set_userdata('sub_menu', 'student/grading_StudentsAllowedToView');
+        
+        $data['title']           = 'Allow Grade Viewing';
+        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+        $data['sch_setting']     = $this->sch_setting_detail;
+        $data['fields']          = $this->customfield_model->get_custom_fields('students', 1);
+        $class                   = $this->class_model->get();
+        $data['classlist']       = $class;
+
+        $userdata = $this->customlib->getUserData();
+        $carray   = array();
+
+        if (!empty($data["classlist"])) 
+            foreach ($data["classlist"] as $ckey => $cvalue) 
+                $carray[] = $cvalue["id"];
+
+        //echo "<pre>";  print_r($carray); echo "<pre>";die;
+        // $button = $this->input->post('search');
+        // echo "<pre>";  print_r($data); echo "<pre>";die;
+
+        if ($this->input->server('REQUEST_METHOD') == "GET") 
+        {
+            $this->load->view('layout/header', $data);
+            $this->load->view('student/grading_StudentsAllowedToView', $data);
+            $this->load->view('layout/footer', $data);
+        } 
+        else 
+        {
+            $class       = $this->input->post('class_id');
+            $section     = $this->input->post('section_id');
+            $search      = $this->input->post('search');
+            
+            $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+            
+            if ($this->form_validation->run() == false) 
+            {
+            } 
+            else 
+            {
+                $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+                $data['class_id'] = $this->input->post('class_id');
+                $data['section_id'] = $this->input->post('section_id');
+                $resultlist = $this->student_model->grading_GetAllowedToView($this->sch_setting_detail->session_id, $class, $section);
+                $data['resultlist']  = $resultlist;
+                // echo "<pre>"; print_r($resultlist);  echo "<pre>";  die();
+            }
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('student/grading_StudentsAllowedToView', $data);
+            $this->load->view('layout/footer', $data);
+        }
+    }
+
+    public function grading_AllowStudentsToView() {
+        try {
+            // $student_ids = $this->input->post('student_id');
+            $q1 = $this->input->post('q1');
+            $q2 = $this->input->post('q2');
+            $q3 = $this->input->post('q3');
+            $q4 = $this->input->post('q4');
+
+            $q1hidden = $this->input->post('q1hidden');
+            $q2hidden = $this->input->post('q2hidden');
+            $q3hidden = $this->input->post('q3hidden');
+            $q4hidden = $this->input->post('q4hidden');
+
+            // echo "<pre>"; print_r($q1); echo"<pre>";die();
+
+            $this->addQuarterViewValues($q1, $q1hidden);
+            $this->addQuarterViewValues($q2, $q2hidden);
+            $this->addQuarterViewValues($q3, $q3hidden);
+            $this->addQuarterViewValues($q4, $q4hidden);
+
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);    
+        } catch (Exception $e) {
+            $msg   = $this->lang->line('failed_message');
+            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+        }
+        
+        echo json_encode($array);
+    }
+
+    function addQuarterViewValues($quarter, $qtrhidden) {
+        for($i = 0; $i < count($qtrhidden); $i++) {
+            $hiddenarr = explode("_", $qtrhidden[$i]);
+            $data = [];
+            $id = "allowed_students_".$this->mode."_".microtime(true)*10000;
+            $id = $id.rand(1000,9999);
+
+            if ($this->findIDInQuarterList($quarter, $hiddenarr)) {
+                $data = array(
+                    "id" => $id,
+                    "student_id" => $hiddenarr[0],
+                    "session_id" => $hiddenarr[1],                
+                    "quarter_id" => $hiddenarr[2],
+                    "view_allowed" => 1,
+                );
+            }
+            else {
+                $data = array(
+                    "id" => $id,
+                    "student_id" => $hiddenarr[0],
+                    "session_id" => $hiddenarr[1],                
+                    "quarter_id" => $hiddenarr[2],
+                    "view_allowed" => 0,
+                );
+            }
+            // echo "<pre>"; print_r($data); echo"<pre>";
+            $this->student_model->grading_AddAllowedToView($data);                
+        }        
+    }
+
+    function findIDInQuarterList($quarter, $hidden) {
+        $retVal = false;
+
+        for($i=0; $i < count($quarter); $i++) {
+            $qtr = explode("_", $quarter[$i]);
+
+            if ($qtr[0] == $hidden[0] && $qtr[1] == $hidden[1] && $qtr[1] == $hidden[1]) {
+                $retVal = true;
+                break;
+            }
+        }
+        
+        return $retVal;
     }
 }

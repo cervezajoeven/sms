@@ -1,6 +1,6 @@
 <div class="content-wrapper" style="min-height: 946px;">
     <section class="content-header">
-        <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('class_record'); ?> </h1>
+        <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
     </section>
     <!-- Main content -->
     <section class="content">
@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="box box-warning">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('class_record'); ?></h3>
+                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
                         <div class="box-tools pull-right"></div>
                     </div>
                     <div class="box-body">

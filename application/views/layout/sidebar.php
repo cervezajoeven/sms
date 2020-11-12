@@ -108,7 +108,7 @@ s<aside class="main-sidebar" id="alert2">
 
                             if ($this->rbac->hasPrivilege('student', 'can_add')) {
                                 ?>
-
+                                <li class="<?php echo set_Submenu('student/grading_StudentsAllowedToView'); ?>"><a href="<?php echo base_url(); ?>student/grading_StudentsAllowedToView"><i class="fa fa-angle-double-right"></i> Grade View Permission</a></li>
                                 <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> On-Site Enrollment</a></li>
                             <?php } ?><?php 
                                 if ($this->module_lib->hasActive('online_admission')) {

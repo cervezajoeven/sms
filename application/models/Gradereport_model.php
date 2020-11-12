@@ -167,7 +167,8 @@ class Gradereport_model extends MY_Model
 
             $subquery .= " LEFT JOIN 
                          (
-                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) AS quarterly_grade
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) ELSE 0 END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
@@ -176,6 +177,7 @@ class Gradereport_model extends MY_Model
                               GROUP BY student_id, criteria_id, label
                             ) tbl
                             LEFT JOIN student_session ON student_session.student_id = tbl.student_id 
+                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = student_session.session_id AND grading_allowed_students.quarter_id = quarter
                             WHERE quarter = ".$row->id." 
                             AND tbl.student_id = ".$student_id." 
                             AND student_session.session_id = ".$school_year." 
@@ -194,6 +196,7 @@ class Gradereport_model extends MY_Model
                 WHERE graded = true
                 AND grade_level_id = ".$grade_level;
         
+        // return($sql);
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -233,8 +236,6 @@ class Gradereport_model extends MY_Model
                             ) tbl
                             LEFT JOIN student_session ON student_session.student_id = tbl.student_id 
                             WHERE quarter = ".$row->id." 
-                            AND student_session.session_id = ".$schoolyear." 
-                            AND student_session.section_id = ".$section." 
                             AND subject_id = ".$subject." 
                             AND teacher_id = ".$teacher." 
                             GROUP BY school_year, quarter, student_id
