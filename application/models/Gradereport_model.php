@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Gradereport_model extends MY_Model
+class Gradereport_model extends CI_Model
 {
     public function __construct()
     {
