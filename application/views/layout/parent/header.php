@@ -280,13 +280,7 @@
                                 </ul>
                             </li>
                             <?php
-                        } if ($this->parentmodule_lib->hasActive('homework')) {
-                            ?>
-
-
-
-
-
+                        } if ($this->parentmodule_lib->hasActive('homework')) { ?>
                             <li class="treeview <?php echo set_Topmenu('Homework'); ?>">
                                 <a href="#">
                                     <i class="fa fa-calendar-times-o ftlayer"></i> <span><?php echo $this->lang->line('homework'); ?></span> <i class="fa fa-angle-left pull-right"></i>
@@ -349,6 +343,31 @@
                             </li>
                             <?php
                         }
+
+                        ?>
+
+                        <?php
+                        if ($this->parentmodule_lib->hasActive('grading')) {
+                            ?>
+
+                            <li class="treeview <?php echo set_Topmenu('Grades'); ?>">
+                                <a href="#">
+                                    <i class="fa fa-calendar-check-o ftlayer"></i> <span><?php echo $this->lang->line('grades'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <?php
+                                    $ch = $this->session->userdata('parent_childs');
+                                    foreach ($ch as $key_ch => $value_ch) {
+                                        ?>
+                                        <li class="<?php echo set_Submenu('parent/parents/grades'); ?>"><a href="<?php echo base_url(); ?>parent/parents/getgrades/<?php echo $value_ch['student_id'] ?>"><i class="fa fa-angle-double-right"></i> <?php echo $value_ch['name'] ?></a></li>
+                                        <?php
+                                    }
+                                    ?>                                    
+                                </ul>
+                            </li>
+                            <?php
+                        }
+
                         if ($this->parentmodule_lib->hasActive('examinations')) {
                             ?>
                             <li class="treeview <?php echo set_Topmenu('Examination'); ?>">

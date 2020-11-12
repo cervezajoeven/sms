@@ -279,9 +279,7 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                                     <!-- <li class="<?php echo set_Submenu('content/syllabus'); ?>"><a href="<?php echo base_url(); ?>user/content/syllabus"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('syllabus'); ?></a></li> -->
                                     <!-- <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>user/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li> -->
                                 </ul>
-                            </li>
-
-                            <li class="<?php echo set_Topmenu('Class_Record'); ?>"><a href="<?php echo base_url(); ?>user/class_record"><i class="fa fa-file ftlayer"></i> <span><?php echo $this->lang->line('grades'); ?></span></a></li>
+                            </li>                            
                             <?php
                         }
                         if ($this->studentmodule_lib->hasActive('attendance')) {
@@ -289,6 +287,10 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                             <li class="treeview <?php echo set_Topmenu('Attendence'); ?>"><a href="<?php echo base_url(); ?>user/attendence"><i class="fa fa-calendar-check-o ftlayer"></i> <span><?php echo $this->lang->line('attendance'); ?></span></a></li>
                             <?php
                         }
+
+                        if ($this->studentmodule_lib->hasActive('grading')) { ?>
+                            <li class="<?php echo set_Topmenu('Class_Record'); ?>"><a href="<?php echo base_url(); ?>user/class_record"><i class="fa fa-file ftlayer"></i> <span><?php echo $this->lang->line('grades'); ?></span></a></li>
+                        <?php }
                       
                         if ($this->studentmodule_lib->hasActive('examinations')) {
                             ?>

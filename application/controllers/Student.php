@@ -1373,7 +1373,8 @@ class Student extends Admin_Controller
     {
         if (!$this->rbac->hasPrivilege('student', 'can_edit')) {
             access_denied();
-        }
+        }        
+
         $data['title']   = 'Edit Student';
         $data['id']      = $id;
         $student         = $this->student_model->get($id);
@@ -1448,6 +1449,8 @@ class Student extends Admin_Controller
             $this->load->view('student/studentEdit', $data);
             $this->load->view('layout/footer', $data);
         } else {
+
+            // print_r($_FILES["file"]);die();
 
             $custom_field_post  = $this->input->post("custom_fields[students]");
             $custom_value_array = array();
@@ -1691,38 +1694,47 @@ class Student extends Admin_Controller
                 'fees_discount' => $fees_discount,
             );
             
-            $insert_id = $this->student_model->add_student_session($data_new);
+            $insert_id = $this->student_model->add_student_session($data_new);            
 
-            if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
-                $fileInfo = pathinfo($_FILES["file"]["name"]);
-                $img_name = $id . '.' . $fileInfo['extension'];
-                move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
-                $data_img = array('id' => $id, 'image' => 'uploads/student_images/' . $img_name);
-                $this->student_model->add($data_img);
+            // if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+            if (isset($_FILES["file"])) {
+                if ($_FILES['file']['size'] > 0) {
+                    $fileInfo = pathinfo($_FILES["file"]["name"]);
+                    $img_name = $id . '.' . $fileInfo['extension'];
+                    move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
+                    $data_img = array('id' => $id, 'image' => 'uploads/student_images/' . $img_name);
+                    $this->student_model->add($data_img);
+                }                
             }
 
-            if (isset($_FILES["father_pic"]) && !empty($_FILES['father_pic']['name'])) {
-                $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
-                $img_name = $id . "father" . '.' . $fileInfo['extension'];
-                move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
-                $data_img = array('id' => $id, 'father_pic' => 'uploads/student_images/' . $img_name);
-                $this->student_model->add($data_img);
+            if (isset($_FILES["father_pic"])) {
+                if ($_FILES['father_pic']['size'] > 0) {
+                    $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
+                    $img_name = $id . "father" . '.' . $fileInfo['extension'];
+                    move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+                    $data_img = array('id' => $id, 'father_pic' => 'uploads/student_images/' . $img_name);
+                    $this->student_model->add($data_img);
+                }
             }
 
-            if (isset($_FILES["mother_pic"]) && !empty($_FILES['mother_pic']['name'])) {
-                $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
-                $img_name = $id . "mother" . '.' . $fileInfo['extension'];
-                move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
-                $data_img = array('id' => $id, 'mother_pic' => 'uploads/student_images/' . $img_name);
-                $this->student_model->add($data_img);
+            if (isset($_FILES["mother_pic"])) {
+                if ($_FILES['mother_pic']['size'] > 0) {
+                    $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
+                    $img_name = $id . "mother" . '.' . $fileInfo['extension'];
+                    move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+                    $data_img = array('id' => $id, 'mother_pic' => 'uploads/student_images/' . $img_name);
+                    $this->student_model->add($data_img);
+                }
             }
 
-            if (isset($_FILES["guardian_pic"]) && !empty($_FILES['guardian_pic']['name'])) {
-                $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
-                $img_name = $id . "guardian" . '.' . $fileInfo['extension'];
-                move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
-                $data_img = array('id' => $id, 'guardian_pic' => 'uploads/student_images/' . $img_name);
-                $this->student_model->add($data_img);
+            if (isset($_FILES["guardian_pic"])) {
+                if ($_FILES['guardian_pic']['size'] > 0) {
+                    $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
+                    $img_name = $id . "guardian" . '.' . $fileInfo['extension'];
+                    move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+                    $data_img = array('id' => $id, 'guardian_pic' => 'uploads/student_images/' . $img_name);
+                    $this->student_model->add($data_img);
+                }
             }
 
             if (isset($siblings_counts) && ($total_siblings == $siblings_counts)) {

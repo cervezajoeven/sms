@@ -37,9 +37,10 @@ class Parents extends Parent_Controller
         $this->load->model('studentsubjectattendence_model');
         $this->load->model('class_model');
         $this->load->model('apply_leave_model');
+        $this->load->model('gradereport_model');
 
+        $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->payment_method = $this->paymentsetting_model->getActiveMethod();
-
     }
 
     public function unauthorized()
@@ -329,7 +330,6 @@ class Parents extends Parent_Controller
         $setting_result['attendence_type'];
         $student_id = $id;
         $student    = $this->student_model->get($student_id);
-
         $data['student'] = $student;
 
         $this->load->view('layout/parent/header', $data);
@@ -717,5 +717,25 @@ class Parents extends Parent_Controller
     public function remove_leave($id) {    
         $this->apply_leave_model->remove_leave($id);
         redirect('parent/student/excuseletter');
+    }
+
+    public function getgrades($student_id) {
+        // print_r($student_id);die();
+        $this->auth->validate_child($id);
+        $this->session->set_userdata('top_menu', 'Grades');
+        $this->session->set_userdata('sub_menu', 'parent/parents/grades');
+
+        $student = $this->student_model->get($student_id);
+        $data['student'] = $student;
+        $class_id = $student['class_id'];
+        $section_id = $student['section_id'];
+        $student_current_class = $this->customlib->getStudentCurrentClsSection();
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();        
+        $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
+        $data['resultlist'] = $class_record;
+
+        $this->load->view('layout/parent/header', $data);
+        $this->load->view('parent/student/getclassrecord', $data);
+        $this->load->view('layout/parent/footer', $data);
     }
 }
