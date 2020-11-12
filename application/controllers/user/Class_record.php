@@ -26,7 +26,7 @@ class Class_record extends Student_Controller
         $student_id = $this->customlib->getStudentSessionUserID();
         // print_r("CloudPH Debug Mode");die();
         $data['quarter_list'] = $this->gradereport_model->get_quarter_list();        
-        $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
+        // $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
         // // print_r($class_record);die();
         $data['resultlist'] = $class_record;
         
