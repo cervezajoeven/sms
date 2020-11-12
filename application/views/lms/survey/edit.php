@@ -174,10 +174,29 @@
 <script type="text/javascript">
 
 	var url = "<?php echo site_url('lms/survey/update'); ?>";
-	var stored_json = '<?php echo $survey['sheet']; ?>';
+	var survey_id = "<?php echo $survey['id'] ?>";
+	var survey_data = {
+		id:survey_id
+	};
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	var final_json = {};
 	var assigned = $("#assigned").val();
-	
+
 	$(".sortable").sortable({
 		stop:function(event,ui){
 			renumbering();
@@ -247,26 +266,41 @@
 		});
 	}
 	$(document).ready(function(){
-		if(stored_json){
-			$.each(JSON.parse(stored_json),function(key,value){
-				populate_key(value.type);
-				$.each(value.option_labels.split(","),function(split_key,split_value){
-					var last_option = $(".option-container-actual").eq(key).find(".option").length;
-					var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
-					$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
-				});
-				var the_last = $(".option-container-actual").eq(key).find(".option").length;
-				$.each(value.option_labels.split(","),function(value_key,value_value){
-					$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
-					
-				});
-				$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
+
+		$.ajax({
+	    url: "<?php echo site_url('lms/survey/get_sheet'); ?>",
+	    type: "POST",
+	    data: survey_data,
+	    // contentType: "application/json",
+	    complete: function(response){
+		    	console.log(response.responseText);
+		    	if(response.responseText){
+		    		stored_json = response.responseText;
+		    		if(stored_json){
+						$.each(JSON.parse(stored_json),function(key,value){
+							populate_key(value.type);
+							$.each(value.option_labels.split(","),function(split_key,split_value){
+								var last_option = $(".option-container-actual").eq(key).find(".option").length;
+								var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
+								$(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
+							});
+							var the_last = $(".option-container-actual").eq(key).find(".option").length;
+							$.each(value.option_labels.split(","),function(value_key,value_value){
+								$(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(value_value);
+								
+							});
+							$(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
 
 
-				
-			});
-			renumbering();
-		}
+							
+						});
+						renumbering();
+					}
+		    	}
+		    	// alert("Sucessfully Saved!");
+		    }
+		});
+		
 		
 
 	});
@@ -326,19 +360,28 @@
 		final_json = {id:"<?php echo $survey['id'] ?>",
 				sheet:JSON.stringify(json),
 				start_date: moment($(".date_range").data('daterangepicker').startDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
-				end_date: moment($(".date_range").data('daterangepicker').startDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
+				end_date: moment($(".date_range").data('daterangepicker').endDate.toDate()).format("YYYY-MM-DD HH:mm:ss"),
 				assigned:student_ids.join(','),
 			};
-		$.ajax({
-		    url: url,
-		    type: "POST",
-		    data: final_json,
-		    // contentType: "application/json",
-		    complete: function(response){
-		    	console.log(response.responseText);
-		    	alert("Sucessfully Saved!");
-		    }
-		});
+
+		if(final_json){
+			$.ajax({
+			    url: url,
+			    type: "POST",
+			    data: final_json,
+			    // contentType: "application/json",
+			    complete: function(response){
+			    	console.log();
+			    	if(response.responseText){
+			    		alert("Sucessfully Saved!");
+			    	}
+			    	
+			    }
+			});
+		}else{
+			alert("The survey can't be saved. Please use a compatible browser or device.");
+		}
+		
 	});
 
 	$(".assign_panel").hide();

@@ -151,6 +151,7 @@ class Survey extends General_Controller {
     public function edit($id){
         $data['id'] = $id;
         $data['survey'] = $this->survey_model->lms_get("lms_survey",$id,"id")[0];
+        
         $data['resources'] = site_url('backend/lms/');
         $data['students'] = $this->lesson_model->get_students();
         $data['classes'] = $this->class_model->getAll();
@@ -165,8 +166,13 @@ class Survey extends General_Controller {
         $data['end_date'] = $_REQUEST['end_date'];
         $data['assigned'] = $_REQUEST['assigned'];
         
-        print_r($data);
-        $this->survey_model->lms_update("lms_survey",$data);
+        print_r($this->survey_model->lms_update("lms_survey",$data));
+    }
+
+    public function get_sheet(){
+        
+        $data['id'] = $_REQUEST['id'];
+        echo $this->survey_model->lms_get("lms_survey",$data['id'],"id")[0]['sheet'];
     }
 
     public function update_survey_sheet(){
