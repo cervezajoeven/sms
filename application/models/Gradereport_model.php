@@ -83,7 +83,7 @@ class Gradereport_model extends MY_Model
         $average_column = "";
         $colcount = 0;
 
-        $resultdata = $this->get_subject_list($gradelevel);
+        $resultdata = $this->get_subject_list($gradelevel, $schoolyear);
 
         foreach($resultdata as $row) {
             if (!empty($subject_columns)) {
@@ -127,7 +127,7 @@ class Gradereport_model extends MY_Model
         return $query->result();
     }
 
-    public function get_subject_list($gradelevel)
+    public function get_subject_list($gradelevel, $schoolyear)
     {
         //-- Get subject list
         $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id -- subject_groups.id, subject_groups.name, subject_group_subjects.subject_id, subjects.name, subject_group_class_sections.class_section_id, classes.id as grade_level_id, classes.class as grade_level
@@ -139,6 +139,7 @@ class Gradereport_model extends MY_Model
                 LEFT JOIN classes ON classes.id = class_sections.class_id
                 WHERE classes.id = ".$gradelevel." 
                 AND subjects.graded = TRUE 
+                AND subject_groups.session_id = ".$schoolyear." 
                 GROUP BY classes.id, subjects.name
                 ORDER BY subject_groups.name, subjects.name ASC";
 

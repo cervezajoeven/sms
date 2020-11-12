@@ -98,67 +98,45 @@ s<aside class="main-sidebar" id="alert2">
                         </a>
                         <ul class="treeview-menu">
                             <?php
-                            if ($this->rbac->hasPrivilege('student', 'can_view')) {
-                                ?>
-
+                            if ($this->rbac->hasPrivilege('student', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('student/search'); ?>"><a href="<?php echo base_url(); ?>student/search"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_information'); ?></a></li>
+                            <?php }
 
-                                <?php
-                            }
-
-                            if ($this->rbac->hasPrivilege('student', 'can_add')) {
-                                ?>
+                            if ($this->rbac->hasPrivilege('student', 'can_add')) { ?>
                                 <li class="<?php echo set_Submenu('student/grading_StudentsAllowedToView'); ?>"><a href="<?php echo base_url(); ?>student/grading_StudentsAllowedToView"><i class="fa fa-angle-double-right"></i> Grade View Permission</a></li>
                                 <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> On-Site Enrollment</a></li>
-                            <?php } ?><?php 
-                                if ($this->module_lib->hasActive('online_admission')) {
-                            if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
+                            <?php }  
 
-                                <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
+                            if ($this->module_lib->hasActive('online_admission')) {
+                                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
+                                    <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
+                                <?php } 
+                            }
 
-                                <?php
-                            } }
-
-                            if ($this->rbac->hasPrivilege('disable_student', 'can_view')) {
-                                ?>
+                            if ($this->rbac->hasPrivilege('disable_student', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('student/disablestudentslist'); ?>"><a href="<?php echo base_url(); ?>student/disablestudentslist"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disabled_students'); ?></a></li>
-                                <?php
-                            } 
-                             if ($this->module_lib->hasActive('multi_class')) {
-                            if($this->rbac->hasPrivilege('multi_class_student','can_view')){
-                                ?>
-                                <li class="<?php echo set_Submenu('student/multiclass'); ?>"><a href="<?php echo base_url(); ?>student/multiclass"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('multiclass') . " " . $this->lang->line('student'); ?></a></li>
-                                <?php
-                            } }
-                            if($this->rbac->hasPrivilege('student','can_delete')){
-                                ?>
-                                <li class="<?php echo set_Submenu('bulkdelete'); ?>"><a href="<?php echo site_url('student/bulkdelete'); ?>"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('bulk') . " " . $this->lang->line('delete'); ?></a>
-                            </li>
-                                <?php
-                            }
-                           
-                            if ($this->rbac->hasPrivilege('student_categories', 'can_view')) {
-                                ?>
-
-                                <li class="<?php echo set_Submenu('category/index'); ?>"><a href="<?php echo base_url(); ?>category"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_categories'); ?></a></li>
-
                             <?php }
-                            ?>
-                             <?php
-                            
-                            if($this->rbac->hasPrivilege('disable_reason','can_view')){
-                                ?>
-                                 <li class="<?php echo set_Submenu('student/disable_reason'); ?>"><a href="<?php echo base_url(); ?>admin/disable_reason"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disable') . " " . $this->lang->line('reason'); ?></a></li>
-                                <?php
-                            }
-                            ?>
-                           
-                           
 
+                            if ($this->module_lib->hasActive('multi_class')) {
+                                if($this->rbac->hasPrivilege('multi_class_student','can_view')) { ?>
+                                    <li class="<?php echo set_Submenu('student/multiclass'); ?>"><a href="<?php echo base_url(); ?>student/multiclass"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('multiclass') . " " . $this->lang->line('student'); ?></a></li>
+                                    <?php
+                                } 
+                            }
+                            if($this->rbac->hasPrivilege('student','can_delete')) { ?>
+                                <li class="<?php echo set_Submenu('bulkdelete'); ?>"><a href="<?php echo site_url('student/bulkdelete'); ?>"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('bulk') . " " . $this->lang->line('delete'); ?></a></li>
+                            <?php }
+                           
+                            if ($this->rbac->hasPrivilege('student_categories', 'can_view')) { ?>
+                                <li class="<?php echo set_Submenu('category/index'); ?>"><a href="<?php echo base_url(); ?>category"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_categories'); ?></a></li>
+                            <?php } 
+                            
+                            if($this->rbac->hasPrivilege('disable_reason','can_view')) { ?>
+                                 <li class="<?php echo set_Submenu('student/disable_reason'); ?>"><a href="<?php echo base_url(); ?>admin/disable_reason"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disable') . " " . $this->lang->line('reason'); ?></a></li>
+                            <?php } ?>
                         </ul>
                     </li>
-                    <?php
-                }
+                <?php }
             }
 
             if ($this->module_lib->hasActive('fees_collection')) {
