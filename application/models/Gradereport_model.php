@@ -184,22 +184,34 @@ class Gradereport_model extends CI_Model
                             AND student_session.session_id = ".$school_year." 
                             AND student_session.section_id = ".$section." 
                             GROUP BY school_year, quarter, student_id
-                         ) tbl".$row->id." ON tbl".$row->id.".subject_id = vw_class_subjects.subject_id";
+                         ) tbl".$row->id." ON tbl".$row->id.".subject_id = tblsubjects.subject_id";
 
             $colcount++;
         }
 
         $average_columns = " ((".$average_column.")/".$colcount.") AS average";
 
-        $sql = "SELECT subject_name AS Subjects, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
-                FROM vw_class_subjects
-                ".$subquery." 
-                WHERE graded = true
-                AND grade_level_id = ".$grade_level;
+        $sql = "SELECT subject AS Subjects, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
+                FROM 
+                (
+                    SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
+                    FROM subject_groups
+                    JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+                    JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+                    JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                    JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+                    JOIN classes ON classes.id = class_sections.class_id
+                    WHERE classes.id = ".$grade_level." 
+                    AND subjects.graded = TRUE 
+                    AND subject_groups.session_id = ".$school_year." 
+                    GROUP BY classes.id, subjects.name
+                    ORDER BY subject_groups.name, subjects.name ASC
+                ) tblsubjects
+                ".$subquery;
         
-        // return($sql);
-        $query = $this->db->query($sql);
-        return $query->result();
+        return($sql);
+        // $query = $this->db->query($sql);
+        // return $query->result();
     }
 
     public function get_quarter_list() {
