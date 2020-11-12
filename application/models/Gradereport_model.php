@@ -77,14 +77,14 @@ class Gradereport_model extends CI_Model
         }
     }
 
-    public function get_class_record($schoolyear, $quarter, $gradelevel, $section) {
+    public function get_class_record($school_year, $quarter, $grade_level, $section) {
         $subject_columns = "";
         $subquery = "";
         $average_column = "";
         $colcount = 0;
-
-        $resultdata = $this->get_subject_list($gradelevel, $schoolyear);
-
+        
+        $resultdata = $this->get_subject_list($grade_level, $school_year);
+        
         foreach($resultdata as $row) {
             if (!empty($subject_columns)) {
                 $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" .$row->subject. "'" ;
@@ -104,6 +104,10 @@ class Gradereport_model extends CI_Model
                             GROUP BY student_id, criteria_id, label 
                            ) tbl 
                            WHERE subject_id = ".$row->subject_id." 
+                           AND section_id  = ".$section." 
+                           AND grade_level  = ".$grade_level." 
+                           AND school_year = ".$school_year." 
+                           AND quarter = ".$quarter." 
                            GROUP BY school_year, quarter, student_id 
                          ) tbl".$row->subject_id." ON tbl".$row->subject_id.".student_id = students.id";
 
@@ -113,13 +117,13 @@ class Gradereport_model extends CI_Model
         // $average_column = " AVG(".$average_column.") AS average";
         $average_column = " ((".$average_column.")/".$colcount.") AS average";
 
-        $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender), ".$subject_columns.", ".$average_column." 
+        $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender) as gender, ".$subject_columns.", ".$average_column." 
                 FROM students 
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 ".$subquery." 
-                WHERE student_session.class_id = ".$gradelevel." 
+                WHERE student_session.class_id = ".$grade_level." 
                 AND student_session.section_id = ".$section." 
-                AND student_session.session_id = ".$schoolyear." 
+                AND student_session.session_id = ".$school_year." 
                 ORDER BY gender DESC, student_name ASC";
 
         // return $sql;
@@ -130,7 +134,7 @@ class Gradereport_model extends CI_Model
     public function get_subject_list($gradelevel, $schoolyear)
     {
         //-- Get subject list
-        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id -- subject_groups.id, subject_groups.name, subject_group_subjects.subject_id, subjects.name, subject_group_class_sections.class_section_id, classes.id as grade_level_id, classes.class as grade_level
+        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
                 FROM subject_groups
                 JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                 JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -142,7 +146,7 @@ class Gradereport_model extends CI_Model
                 AND subject_groups.session_id = ".$schoolyear." 
                 GROUP BY classes.id, subjects.name
                 ORDER BY subject_groups.name, subjects.name ASC";
-
+        // print_r($sql);die();
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -169,21 +173,21 @@ class Gradereport_model extends CI_Model
             $subquery .= " LEFT JOIN 
                          (
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
-                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) ELSE 0 END AS quarterly_grade 
+                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(SUM(((total_scores/tot_highest_score)*100) * wspercent)), 0) ELSE 0 END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
-                              SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
                               FROM vw_class_record
+                              WHERE section_id  = ".$section." 
+                              AND grade  = ".$grade_level." 
+                              AND school_year = ".$school_year." 
+                              AND quarter = ".$row->id." 
+                              AND student_id = ".$student_id." 
                               GROUP BY student_id, criteria_id, label
                             ) tbl
-                            LEFT JOIN student_session ON student_session.student_id = tbl.student_id 
-                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = student_session.session_id AND grading_allowed_students.quarter_id = quarter
-                            WHERE quarter = ".$row->id." 
-                            AND tbl.student_id = ".$student_id." 
-                            AND student_session.session_id = ".$school_year." 
-                            AND student_session.section_id = ".$section." 
-                            GROUP BY school_year, quarter, student_id
+                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = tbl.school_year AND grading_allowed_students.quarter_id = quarter
+                            GROUP BY school_year, quarter, student_id, subject_id
                          ) tbl".$row->id." ON tbl".$row->id.".subject_id = tblsubjects.subject_id";
 
             $colcount++;
@@ -220,7 +224,7 @@ class Gradereport_model extends CI_Model
         return $query->result();
     }
 
-    public function get_class_record_quarterly($schoolyear, $gradelevel, $section, $subject, $teacher) {
+    public function get_class_record_quarterly($school_year, $grade_level, $section, $subject, $teacher) {
         $quarter_columns = "";        
         $resultdata = $this->get_quarter_list();
         $average_columns = "";
@@ -245,6 +249,9 @@ class Gradereport_model extends CI_Model
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, 
                               SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
                               FROM vw_class_record
+                              WHERE section_id  = ".$section." 
+                              AND grade  = ".$grade_level." 
+                              AND school_year = ".$school_year." 
                               GROUP BY student_id, criteria_id, label
                             ) tbl
                             LEFT JOIN student_session ON student_session.student_id = tbl.student_id 
@@ -263,9 +270,9 @@ class Gradereport_model extends CI_Model
                 FROM students 
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 ".$subquery." 
-                WHERE student_session.class_id = ".$gradelevel." 
+                WHERE student_session.class_id = ".$grade_level." 
                 AND student_session.section_id = ".$section." 
-                AND student_session.session_id = ".$schoolyear." 
+                AND student_session.session_id = ".$school_year." 
                 ORDER BY gender DESC, student_name ASC";
 
         // return $sql;

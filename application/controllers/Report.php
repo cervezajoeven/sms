@@ -1726,8 +1726,7 @@ $attd=array();
                 $quarter = $this->input->post('quarter_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
-
-                // print_r("CloudPH Debug Mode 1");die();
+                
                 $class_record = $this->gradereport_model->get_class_record($session, $quarter, $grade_level, $section);
                 
                 $data['resultlist'] = $class_record;
@@ -1737,7 +1736,7 @@ $attd=array();
                 $data['section_id']  = $section;
                 $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session);
 
-                // print_r(json_encode($class_record));
+                // print_r($class_record);die();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/class_record_summary', $data);
                 $this->load->view('layout/footer', $data);
