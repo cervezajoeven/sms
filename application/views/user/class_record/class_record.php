@@ -43,8 +43,8 @@
                                         //     echo "</tr>\r\n";
                                         // } 
                                         foreach($resultlist as $row) {
-                                            $average = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->average;
-                                            $final = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->final_grade;
+                                            $average = ($row->first == 0 || $row->second == 0 || $row->third == 0 || $row->fourth == 0) ? '' : $row->average;
+                                            $final = ($row->first == 0 || $row->second == 0 || $row->third == 0 || $row->fourth == 0) ? '' : $row->final_grade;
                                             echo "<tr>\r\n";
                                             echo "<td class='text-left'>".$row->Subjects."</td>\r\n";
                                             echo "<td class='text-center".($row->first < 75 ? " text-danger" : ($row->first >= 90 ? " text-success" : ""))."'><b>".($row->first == 0 ? '' : $row->first)."</b></td>\r\n";
