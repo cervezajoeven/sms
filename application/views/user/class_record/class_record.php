@@ -51,8 +51,8 @@
                                             echo "<td class='text-center".($row->second < 75 ? " text-danger" : ($row->second >= 90 ? " text-success" : ""))."'><b>".($row->second == 0 ? '' : $row->second)."</b></td>\r\n";
                                             echo "<td class='text-center".($row->third < 75 ? " text-danger" : ($row->third >= 90 ? " text-success" : ""))."'><b>".($row->third == 0 ? '' : $row->third)."</b></td>\r\n";
                                             echo "<td class='text-center".($row->fourth < 75 ? " text-danger" : ($row->fourth >= 90 ? " text-success" : ""))."'><b>".($row->fourth == 0 ? '' : $row->fourth)."</b></td>\r\n";
-                                            echo "<td class='text-center'>".$average."</td>\r\n";
-                                            echo "<td class='text-center'>".$final."</td>\r\n";
+                                            echo "<td class='text-center".($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : ""))."'><b>".($average == 0 ? '' : $average)."</b></td>\r\n";
+                                            echo "<td class='text-center".($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : ""))."'><b>".($final == 0 ? '' : $final)."</b></td>\r\n";
                                             echo "</tr>\r\n";
                                         }
                                         ?>
