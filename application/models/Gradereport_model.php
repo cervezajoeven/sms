@@ -257,7 +257,6 @@ class Gradereport_model extends CI_Model
                               AND teacher_id = ".$teacher." 
                               GROUP BY student_id, criteria_id, label
                             ) tbl
-                            LEFT JOIN student_session ON student_session.student_id = tbl.student_id 
                             GROUP BY school_year, quarter, student_id
                          ) tbl".$row->id." ON tbl".$row->id.".student_id = students.id ";
 

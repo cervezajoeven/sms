@@ -149,9 +149,10 @@
                                         //     }
                                         //     echo "</tr>\r\n";
                                         // }
-                                        foreach($resultlist as $row) {
-                                            $average = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->average;
-                                            $final = ($row->first == 0 || $row->second == 0 || $row->third = 0 || $row->fourth = 0) ? '' : $row->final_grade;
+                                        foreach($resultlist as $row):
+                                            $average = ($row->first == 0 || $row->second == 0 || $row->third == 0 || $row->fourth == 0) ? '' : $row->average;
+                                            $final = ($row->first == 0 || $row->second == 0 || $row->third == 0 || $row->fourth == 0) ? '' : $row->final_grade;
+
                                             echo "<tr>\r\n";
                                             echo "<td class='text-left'>".$row->student_name."</td>\r\n";
                                             echo "<td class='text-left'>".$row->gender."</td>\r\n";
@@ -162,7 +163,7 @@
                                             echo "<td class='text-center".($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : ""))."'><b>$average</b></td>\r\n";
                                             echo "<td class='text-center".($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : ""))."'><b>$final</b></td>\r\n";
                                             echo "</tr>\r\n";
-                                        }
+                                        endforeach
                                         ?>
                                     </tbody>
                                 </table>

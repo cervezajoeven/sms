@@ -1795,7 +1795,7 @@ $attd=array();
                 
                 $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject, $teacher);
                 // $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject);
-                // print_r($class_record);die();
+                // print_r(json_encode($class_record));die();
 
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
