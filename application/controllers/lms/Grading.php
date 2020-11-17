@@ -27,7 +27,7 @@ class Grading extends General_Controller {
         $data['sections'] = $this->general_model->get_sections();
         $data['quarters'] = $this->general_model->lms_get('grading_quarter',"","");
         
-        $this->db->select("*,grading_class_record.id as id");
+        $this->db->select("*,grading_class_record.id as id,subjects.name as subject_name");
         $this->db->from("grading_class_record");
         $this->db->join("classes","classes.id = grading_class_record.grade");
         $this->db->join("subjects","subjects.id = grading_class_record.subject_id");

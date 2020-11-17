@@ -80,7 +80,7 @@ $godaddy = array("beta");
 $campuscloudph = array("sms","rcamessjbcs","rcamessics","rcamesolgms","rcamesgcs","lipacitycolleges","dbti","c7preschool","lcc-silvercrest","htspreschool","htsmk","htslipa","htspg","htsgrade1","sim");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
-$local_db = "csl";
+$local_db = "sjbcs";
 // $lcfirst(str)ocal_db = "optimized_db";
 if($HTTP_HOST=="localhost"){
 
