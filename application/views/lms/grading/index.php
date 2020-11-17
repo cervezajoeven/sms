@@ -45,8 +45,8 @@
                                 <thead>
                                     <tr>
                                         <th>Description</th>
-                                        <th>Teacher</th>
                                         <th>Subject</th>
+                                        <th>Teacher</th>
                                         <th>Action</th>
                                         <th>Date Created</th>
                                         
@@ -62,6 +62,9 @@
                                             </td>
                                             <td class="mailbox-name">
                                                 <?php echo $list_data['subject_name']; ?>
+                                            </td>
+                                            <td class="mailbox-name">
+                                                <?php echo $list_data['teacher_name']; ?> <?php echo $list_data['teacher_surname']; ?>
                                             </td>
                                             <td class="mailbox-name">
                                                 <a data-placement="right" href="<?php echo site_url('lms/grading/edit/'.$list_data['id']) ?>" class="btn btn-default btn-xs duplicate"  data-toggle="tooltip" title="Edit">

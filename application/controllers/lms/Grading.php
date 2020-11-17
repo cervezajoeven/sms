@@ -26,14 +26,27 @@ class Grading extends General_Controller {
         $data['classes'] = $this->general_model->get_classes();
         $data['sections'] = $this->general_model->get_sections();
         $data['quarters'] = $this->general_model->lms_get('grading_quarter',"","");
+
+        $data['real_role'] = $this->general_model->get_real_role();
+        $data['user_id'] = $this->general_model->get_account_id();
         
-        $this->db->select("*,grading_class_record.id as id,subjects.name as subject_name");
+
+        $this->db->select("*,grading_class_record.id as id,subjects.name as subject_name, staff.name as teacher_name,staff.surname as teacher_surname");
         $this->db->from("grading_class_record");
         $this->db->join("classes","classes.id = grading_class_record.grade");
         $this->db->join("subjects","subjects.id = grading_class_record.subject_id");
         $this->db->join("sections","sections.id = grading_class_record.section_id");
         $this->db->join("grading_quarter","grading_quarter.id = grading_class_record.quarter");
+        $this->db->join("staff","staff.id = grading_class_record.teacher_id");
         $this->db->where("grading_class_record.disabled",0);
+
+        if($data['real_role']==7||$data['real_role']==1){
+            
+        }else{
+            $this->db->where("grading_class_record.teacher_id",$data['user_id']);
+        }
+        
+        
         
         $data['list'] = $this->db->get()->result_array();
         // echo '<pre>';
@@ -102,11 +115,14 @@ class Grading extends General_Controller {
 
         $data['resources'] = site_url('backend/lms/');
         $class_record_id = $id;
-        $this->db->select("*");
+        $this->db->select("grading_class_record.*,staff.name,staff.surname,grading_class_record.id as id");
         $this->db->from("grading_class_record");
-        $this->db->where("id",$class_record_id);
+        $this->db->join("staff","staff.id = grading_class_record.teacher_id");
+        $this->db->where("grading_class_record.id",$class_record_id);
         $data['class_record'] = $this->db->get()->result_array()[0];
-       
+        // echo '<pre>';
+        // print_r($data['class_record']);
+        // exit;
 
         $this->db->select("*");
         $this->db->from("grading_criteria");

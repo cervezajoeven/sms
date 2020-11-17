@@ -135,7 +135,7 @@
 		        			</form>
 		        			
 		        			<td>Teacher</td>
-		        			<td><input type="" name="teacher" class="form-control class_record"></td>
+		        			<td><?php echo $class_record['name'] ?> <?php echo $class_record['surname'] ?></td>
 		        			<td>Subject</td>
 		        			<td>
 		        				<select class="form-control class_record" name="subject">
