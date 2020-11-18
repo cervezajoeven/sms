@@ -54,7 +54,7 @@ class Lesson_model extends MY_Model {
             $this->db->where('start_date >', date('Y-m-d H:i:s'));
         }else{
             $this->db->where('end_date <', date('Y-m-d H:i:s'));
-            // $this->db->limit(1000);
+            $this->db->limit(1000);
         }
         
         $this->db->where('lms_lesson.deleted',0);
