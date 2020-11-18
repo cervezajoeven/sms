@@ -2316,8 +2316,8 @@ class Student extends Admin_Controller
 
     public function SendDocs() 
     {
-        if (!$this->rbac->hasPrivilege('student', 'can_add')) 
-            access_denied();
+        // if (!$this->rbac->hasPrivilege('student', 'can_add')) 
+        //     access_denied();
 
         $this->session->set_userdata('top_menu', 'Communicate');
         $this->session->set_userdata('sub_menu', 'Communicate/senddocs');
@@ -2804,5 +2804,14 @@ class Student extends Admin_Controller
         }
         
         return $retVal;
+    }
+
+    function getStudentListPerClassSection() {
+        $class = $this->input->get('class_id');
+        $section = $this->input->get('section_id');
+        $session = $this->input->get('school_year_id');
+        $array = $this->student_model->getStudentListPerClassSection($class, $section, $session);
+
+        echo json_encode($array);
     }
 }

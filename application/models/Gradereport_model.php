@@ -96,7 +96,8 @@ class Gradereport_model extends CI_Model
             }
 
             $subquery .= " LEFT JOIN ( 
-                           SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) AS quarterly_grade 
+                           SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, 
+                           IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade 
                            FROM 
                            (SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
                             SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
@@ -173,7 +174,7 @@ class Gradereport_model extends CI_Model
             $subquery .= " LEFT JOIN 
                          (
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
-                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(SUM(((total_scores/tot_highest_score)*100) * wspercent)), 0) ELSE 0 END AS quarterly_grade 
+                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/highest_score)*100) * wspercent), 2)), 0) ELSE 0 END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
@@ -243,7 +244,8 @@ class Gradereport_model extends CI_Model
 
             $subquery .= " LEFT JOIN 
                          (
-                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, IFNULL(fn_transmuted_grade(SUM(((total_scores/highest_score)*100) * wspercent)), 0) AS quarterly_grade
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, 
+                            IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, 

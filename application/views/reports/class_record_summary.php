@@ -90,8 +90,7 @@
                         </form>
                     </div><!--./box-body-->    
             
-                    <div class="">
-                        <div class="box-header ptbnull"></div> 
+                    <div class="box box-warning">
                         <div class="box-header ptbnull">
                             <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_summary'); ?> Summary of Consolidated Grades<?php //echo $this->lang->line('class_record_summary') ; ?></h3>
                         </div>
