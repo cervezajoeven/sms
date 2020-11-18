@@ -88,16 +88,18 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <th><?php echo $this->lang->line('student_name'); ?></th>
                                             <th><?php echo $this->lang->line('gender'); ?></th>
                                             <?php
+                                                $qtr = 1;
                                                 foreach($quarter_list as $row) {
-                                                    echo "<th class=\"text-center\">".$row->description."</th>\r\n";
+                                                    echo "<th class=\"text-center\"><input type=\"checkbox\" id=\"chkqtr".$qtr."\">&nbsp;&nbsp;".$row->description."</th>\r\n";
+                                                    $qtr++;
                                                 }
                                             ?>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php if (!empty($resultlist)) { 
-                                             echo "<input type=\"hidden\" name=\"class_id\" value=".$row->id.">\r\n";
-                                             echo "<input type=\"hidden\" name=\"section_id\" value=".$row->id.">\r\n";
+                                            echo "<input type=\"hidden\" name=\"class_id\" value=".$row->id.">\r\n";
+                                            echo "<input type=\"hidden\" name=\"section_id\" value=".$row->id.">\r\n";
                                             foreach($resultlist as $row) {
                                                 echo "<tr>\r\n";
                                                 // echo "<input type=\"hidden\" name=\"student_id[]\" value=".$row->id.">\r\n";
@@ -225,5 +227,61 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 }
             });
         }));
+    });
+
+    $("#chkqtr1").click(function() {
+        var chk_arr =  document.getElementsByName("q1[]");
+        var chklength = chk_arr.length;    
+        var mainchk = document.getElementById("chkqtr1").checked;         
+
+        for(k=0;k< chklength;k++)
+        {
+            if (mainchk)
+                chk_arr[k].checked = true;
+            else 
+                chk_arr[k].checked = false;
+        }       
+    });
+
+    $("#chkqtr2").click(function() {
+        var chk_arr =  document.getElementsByName("q2[]");
+        var chklength = chk_arr.length;    
+        var mainchk = document.getElementById("chkqtr2").checked;         
+
+        for(k=0;k< chklength;k++)
+        {
+            if (mainchk)
+                chk_arr[k].checked = true;
+            else 
+                chk_arr[k].checked = false;
+        }       
+    });
+
+    $("#chkqtr3").click(function() {
+        var chk_arr =  document.getElementsByName("q3[]");
+        var chklength = chk_arr.length;    
+        var mainchk = document.getElementById("chkqtr3").checked;         
+
+        for(k=0;k< chklength;k++)
+        {
+            if (mainchk)
+                chk_arr[k].checked = true;
+            else 
+                chk_arr[k].checked = false;
+        }       
+    });
+
+    $("#chkqtr4").click(function() {
+        var chk_arr =  document.getElementsByName("q4[]");
+        var chklength = chk_arr.length;    
+        var mainchk = document.getElementById("chkqtr4").checked;         
+
+        for(k=0;k< chklength;k++)
+        {
+            if (mainchk)
+                chk_arr[k].checked = true;
+            else 
+                chk_arr[k].checked = false;
+        }       
     });
 </script>
