@@ -1858,7 +1858,8 @@ $attd=array();
                 $section = $this->input->post('section_id');
                 $student = $this->input->post('student_id');                
 
-                $class_record = $this->gradereport_model->get_student_class_record($session, $student, $grade_level, $section);
+                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student, $grade_level, $section);
+                // print_r(json_encode($class_record));die();
                 // print_r(json_encode($class_record));die();
                 $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
                 $data['resultlist'] = $class_record;

@@ -219,6 +219,72 @@ class Gradereport_model extends CI_Model
         return $query->result();
     }
 
+    public function get_student_class_record_unrestricted($school_year, $student_id, $grade_level, $section) {        
+        $subquery = "";
+        $quarter_columns = "";
+        $average_columns = "";
+        $average_column = "";
+        $colcount = 0;
+        
+        $dataresult = $this->get_quarter_list();        
+
+        foreach($dataresult as $row) {
+            if (!empty($quarter_columns)) {
+                $quarter_columns .= ", IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".str_replace(" ", "_", $row->name)."'";
+                $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+            }
+            else {
+                $quarter_columns .= " IFNULL(tbl".$row->id.".quarterly_grade, 0) AS '".str_replace(" ", "_", $row->name)."'";
+                $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+            }
+
+            $subquery .= " LEFT JOIN 
+                         (
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                            IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade 
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              FROM vw_class_record
+                              WHERE section_id  = ".$section." 
+                              AND grade  = ".$grade_level." 
+                              AND school_year = ".$school_year." 
+                              AND quarter = ".$row->id." 
+                              AND student_id = ".$student_id." 
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            GROUP BY school_year, quarter, student_id, subject_id
+                         ) tbl".$row->id." ON tbl".$row->id.".subject_id = tblsubjects.subject_id";
+
+            $colcount++;
+        }
+
+        $average_columns = " ((".$average_column.")/".$colcount.") AS average";
+
+        $sql = "SELECT subject AS Subjects, $quarter_columns, $average_columns, ROUND((".$average_column.")/".$colcount.") AS final_grade 
+                FROM 
+                (
+                    SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
+                    FROM subject_groups
+                    JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+                    JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+                    JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                    JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+                    JOIN classes ON classes.id = class_sections.class_id
+                    WHERE classes.id = ".$grade_level." 
+                    AND subjects.graded = TRUE 
+                    AND subject_groups.session_id = ".$school_year." 
+                    GROUP BY classes.id, subjects.name
+                    ORDER BY subject_groups.name, subjects.name ASC
+                ) tblsubjects
+                ".$subquery;
+        
+        // return($sql);
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
     public function get_quarter_list() {
         $sql = "SELECT * FROM grading_quarter";
         $query = $this->db->query($sql);
