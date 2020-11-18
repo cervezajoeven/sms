@@ -229,75 +229,46 @@ class Student_model extends MY_Model
 
     public function getStudentListPerClassSection($class_id = null, $section_id = null, $session_id = null)
     {
-        // $this->db->select('student_session.transport_fees,
-        //                    student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,
-        //                    students.admission_no , students.roll_no,students.admission_date,students.firstname,students.lastname,students.image,students.mobileno, students.email ,students.state,
-        //                    students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,students.current_address, students.previous_school,
-        //                    students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
-        //                    students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic , 
-        //                    students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
-        //                    students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
-        //                    students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,students.app_key,students.parent_app_key,
-        //                    students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
-        //                    students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
-        //                   students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
-        //                   students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
-        //                   students.father_prof_affiliation_position,students.father_tech_prof,
-        //                   students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
-        //                   students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
-        //                   students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
-        //                   students.mother_prof_affiliation_position,students.mother_tech_prof,
-        //                   students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-        //                   students.preferred_education_mode, students.enrollment_payment_status,
-        //                   students.payment_scheme');
-        // $this->db->from('students');
-        // $this->db->join('student_session', 'student_session.student_id = students.id');
-        // $this->db->join('classes', 'student_session.class_id = classes.id');
-        // $this->db->join('sections', 'sections.id = student_session.section_id');
-        // $this->db->join('users', 'users.user_id = students.id', 'left');
-        // $this->db->where('student_session.class_id', $class_id);
-        // $this->db->where('student_session.section_id', $section_id);
-        // $this->db->where('student_session.session_id', $session_id);
-        // $this->db->where('users.role', 'student');
-        // $this->db->where('students.is_active', 'yes');
-        // $this->db->order_by('students.lastname', 'asc');
-        // // $this->db->order_by('students.firstname', 'asc');
-        // $query = $this->db->get();
-        
-        // return $query->last_query();
-        // //return $query->result_array();
-
-        $sql = "SELECT student_session.transport_fees,
-                student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id as student_id,
-                students.admission_no , students.roll_no,students.admission_date,students.firstname,students.lastname,students.image,students.mobileno, students.email ,students.state,
-                students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,students.current_address, students.previous_school,
-                students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
-                students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic , 
-                students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
-                students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
-                students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,students.app_key,students.parent_app_key,
-                students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
-                students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
-                students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
-                students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
-                students.father_prof_affiliation_position,students.father_tech_prof,
-                students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
-                students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
-                students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
-                students.mother_prof_affiliation_position,students.mother_tech_prof,
-                students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                students.preferred_education_mode, students.enrollment_payment_status,
-                students.payment_scheme
+        // $sql = "SELECT student_session.transport_fees,
+        //         student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id as student_id,
+        //         students.admission_no , students.roll_no,students.admission_date,students.firstname,students.lastname,students.image,students.mobileno, students.email ,students.state,
+        //         students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,students.current_address, students.previous_school,
+        //         students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
+        //         students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic , 
+        //         students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
+        //         students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
+        //         students.gender,students.guardian_is,students.rte,students.guardian_email, students.dis_reason,students.dis_note,students.app_key,students.parent_app_key,
+        //         students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+        //         students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+        //         students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+        //         students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+        //         students.father_prof_affiliation_position,students.father_tech_prof,
+        //         students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+        //         students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+        //         students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+        //         students.mother_prof_affiliation_position,students.mother_tech_prof,
+        //         students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
+        //         students.preferred_education_mode, students.enrollment_payment_status,
+        //         students.payment_scheme
+        //         FROM students 
+        //         LEFT JOIN student_session ON student_session.student_id = students.id 
+        //         LEFT JOIN classes ON classes.id = student_session.class_id 
+        //         LEFT JOIN sections ON sections.id = student_session.section_id 
+        //         WHERE student_session.class_id = $class_id 
+        //         AND student_session.section_id = $section_id 
+        //         AND student_session.session_id = $session_id 
+        //         ORDER BY students.lastname ASC, students.firstname ASC";
+        $sql = "SELECT students.id as student_id, firstname, lastname, middlename
                 FROM students 
                 JOIN student_session ON student_session.student_id = students.id 
-                JOIN classes ON classes.id = student_session.class_id 
-                JOIN sections ON sections.id = student_session.section_id 
-                LEFT JOIN users ON users.user_id = students.id 
+                LEFT JOIN classes ON classes.id = student_session.class_id 
+                LEFT JOIN sections ON sections.id = student_session.section_id 
                 WHERE student_session.class_id = $class_id 
                 AND student_session.section_id = $section_id 
                 AND student_session.session_id = $session_id 
-                AND users.role = 'student' 
                 ORDER BY students.lastname ASC, students.firstname ASC";
+
+        // return $sql;
 
         $query = $this->db->query($sql);
         return $query->result();
