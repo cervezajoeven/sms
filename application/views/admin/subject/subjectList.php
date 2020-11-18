@@ -57,6 +57,16 @@
                                     <span class="text-danger"><?php echo form_error('isgraded'); ?></span>
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="inaverage" <?php echo ($subject['in_average'] == true ? 'CHECKED' : ''); ?>>Include in Average Calculation
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('inaverage'); ?></span>
+                                </div>
+
                                 <!-- <label class="radio-inline"><input type="radio" value="Synchronous" name="type">Synchronous</label>
                                 <label class="radio-inline"><input type="radio" value="Asynchronous" name="type">Asynchronous</label> -->
                             </div>

@@ -36,6 +36,7 @@ class Subject extends Admin_Controller {
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
                 'graded' => $this->input->post('isgraded') == 'on' ? 1 : 0,
+                'in_average' => $this->input->post('inaverage') == 'on' ? 1 : 0,
             );
 
             // print_r($data);die();
@@ -114,6 +115,7 @@ class Subject extends Admin_Controller {
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
                 'graded' => $this->input->post('isgraded') == 'on' ? 1 : 0,
+                'in_average' => $this->input->post('inaverage') == 'on' ? 1 : 0,
             );
 
             // print_r($data);die();

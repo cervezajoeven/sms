@@ -88,11 +88,19 @@ class Gradereport_model extends CI_Model
         foreach($resultdata as $row) {
             if (!empty($subject_columns)) {
                 $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" .$row->subject. "'" ;
-                $average_column .= "+IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0)";
+
+                if ($row->in_average) {
+                    $average_column .= "+IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0)";
+                    $colcount++;
+                }                    
             }
             else {
                 $subject_columns .= " IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" .$row->subject. "'" ;
-                $average_column .= "IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0)";
+                
+                if ($row->in_average) {
+                    $average_column .= "IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0)";
+                    $colcount++;
+                }                    
             }
 
             $subquery .= " LEFT JOIN ( 
@@ -110,9 +118,7 @@ class Gradereport_model extends CI_Model
                            AND school_year = ".$school_year." 
                            AND quarter = ".$quarter." 
                            GROUP BY school_year, quarter, student_id 
-                         ) tbl".$row->subject_id." ON tbl".$row->subject_id.".student_id = students.id";
-
-            $colcount++;
+                         ) tbl".$row->subject_id." ON tbl".$row->subject_id.".student_id = students.id";            
         }
 
         // $average_column = " AVG(".$average_column.") AS average";
@@ -135,7 +141,7 @@ class Gradereport_model extends CI_Model
     public function get_subject_list($gradelevel, $schoolyear)
     {
         //-- Get subject list
-        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
+        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average
                 FROM subject_groups
                 JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                 JOIN subjects ON subjects.id = subject_group_subjects.subject_id

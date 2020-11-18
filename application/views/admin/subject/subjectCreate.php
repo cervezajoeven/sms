@@ -38,14 +38,24 @@
                                 <span class="text-danger"><?php echo form_error('code'); ?></span>
                             </div>
                             <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                    <input type="checkbox" name="isgraded" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?> >Graded
-                                    </label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="isgraded" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?>>Graded
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('isgraded'); ?></span>
                                 </div>
 
-                                <span class="text-danger"><?php echo form_error('isgraded'); ?></span>
-                            </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="inaverage" <?php echo ($subject['in_average'] == true ? 'CHECKED' : ''); ?>>Include in Average Calculation
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('inaverage'); ?></span>
+                                </div>
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>

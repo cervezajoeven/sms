@@ -56,11 +56,20 @@
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="isgraded" <?php echo ($subject['graded'] == true ? 'CHECKED' : ''); ?>>Graded
-                                            <!-- <input type="checkbox" name="isgraded" >Graded                                                   -->
                                         </label>
                                     </div>
 
                                     <span class="text-danger"><?php echo form_error('isgraded'); ?></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="inaverage" <?php echo ($subject['in_average'] == true ? 'CHECKED' : ''); ?>>Include in Average Calculation
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('inaverage'); ?></span>
                                 </div>
                             </div>
                             <div class="box-footer">
