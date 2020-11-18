@@ -2446,4 +2446,65 @@ return false;
         // else
         //     return false;
     }
+	
+	public function grading_GetAllowedToView($schoolyear, $gradelevel, $section) {
+        $subquery = "";
+        $quarter_columns = "";
+        
+        $dataresult = $this->gradereport_model->get_quarter_list();     
+        // $dataresult = $this->get_quarter_list();   
+
+        foreach($dataresult as $row) {
+            if (!empty($quarter_columns)) {
+                $quarter_columns .= ", IFNULL(tbl$row->id.view_allowed, 0) AS '$row->name'";
+            }
+            else {
+                $quarter_columns .= " IFNULL(tbl$row->id.view_allowed, 0) AS '$row->name'";
+            }
+
+            $subquery .= " LEFT JOIN
+                           (
+                              SELECT student_id, session_id, quarter_id, view_allowed FROM grading_allowed_students
+                           ) tbl$row->id ON tbl$row->id.student_id = students.id AND tbl$row->id.session_id = student_session.session_id AND tbl$row->id.quarter_id = $row->id";
+        }
+
+        $sql = "SELECT students.id, students.roll_no, student_session.session_id, CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, gender, $quarter_columns,
+                (SELECT id FROM grading_quarter WHERE NAME = 'first') AS q1, (SELECT id FROM grading_quarter WHERE NAME = 'second') AS q2,
+                (SELECT id FROM grading_quarter WHERE NAME = 'third') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'fourth') AS q4 
+                FROM students
+                LEFT JOIN student_session ON student_session.student_id = students.id 
+                ".$subquery." 
+                WHERE student_session.session_id = $schoolyear
+                AND student_session.class_id = $gradelevel 
+                AND student_session.section_id = $section 
+                ORDER BY gender DESC, student_name ASC";
+        
+        // return($sql);
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function grading_AddAllowedToView($data) {
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+
+        $this->writedb->where('session_id', $data["session_id"]);
+        $this->writedb->where('student_id', $data["student_id"]);
+        $this->writedb->where('quarter_id', $data["quarter_id"]);
+        $this->writedb->delete('grading_allowed_students');
+
+        if ($data["view_allowed"] == 1)
+            $this->writedb->insert('grading_allowed_students', $data);
+
+        $this->writedb->trans_complete(); # Completing transaction
+
+        if ($this->writedb->trans_status() === false) {
+            # Something went wrong.
+            $this->writedb->trans_rollback();
+            return false;
+
+        } else {
+            return true;
+        }
+    }
 }
