@@ -174,7 +174,7 @@ class Gradereport_model extends CI_Model
             $subquery .= " LEFT JOIN 
                          (
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
-                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/highest_score)*100) * wspercent), 2)), 0) ELSE 0 END AS quarterly_grade 
+                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) ELSE 0 END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
