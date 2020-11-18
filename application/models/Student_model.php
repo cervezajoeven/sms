@@ -12,17 +12,16 @@ class Student_model extends MY_Model
         $this->load->model('setting_model');
         $this->load->model('customfield_model');
         $this->load->model('teacher_model');
-        $this->load->model('gradereport_model');
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date    = $this->setting_model->getDateYmd();
-        $this->schoolname = $this->setting_model->getCurrentSchoolName(); 
+        $this->schoolname = $this->setting_model->getCurrentSchoolName();
         //-- Load database for writing
         $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     public function getBirthDayStudents($date, $email = false, $contact_no = false)
     {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no, 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no,
                            students.roll_no,students.admission_date,students.firstname,students.lastname,students.image,students.mobileno,students.email,students.state,students.city,students.pincode,
                            students.religion,students.dob,students.current_address,students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code,students.guardian_name,students.guardian_relation,students.guardian_phone,
@@ -138,7 +137,7 @@ class Student_model extends MY_Model
     {
         $this->db->select('classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
                            students.firstname,students.lastname,students.image,students.mobileno, students.email ,students.state,students.city,students.pincode,students.religion,students.dob,
-                           students.current_address,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
+                           students.current_address,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
                            students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at,
                            students.updated_at,students.father_name,students.father_phone,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,
                            students.guardian_occupation,students.gender,students.guardian_is,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
@@ -180,8 +179,8 @@ class Student_model extends MY_Model
                            student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,
                            students.admission_no , students.roll_no,students.admission_date,students.firstname,students.lastname,students.image,students.mobileno, students.email ,students.state,
                            students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,students.current_address, students.previous_school,
-                           students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
-                           students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic , 
+                           students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
+                           students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
                            students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
                            students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,students.app_key,students.parent_app_key,
@@ -312,7 +311,7 @@ class Student_model extends MY_Model
                            sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno,
                            students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,
-                           students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, 
+                           students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date,
                            students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,
                            students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,
                            students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,
@@ -343,13 +342,13 @@ class Student_model extends MY_Model
 
         $this->db->where('student_session.session_id', $this->current_session);
         $this->db->where('users.role', 'student');
- 
+
         $this->db->where('student_session.id', $student_session_id);
-      
+
             $query = $this->db->get();
-  
+
             return $query->row_array();
-       
+
     }
 
      public function get($id = null)
@@ -357,13 +356,13 @@ class Student_model extends MY_Model
         $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
-                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, 
+                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno,
                            students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
-                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
+                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email,
                            users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                            students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
@@ -409,7 +408,7 @@ class Student_model extends MY_Model
             return $query->result_array();
         }
 
-        
+
     }
 
 
@@ -419,10 +418,10 @@ class Student_model extends MY_Model
         $this->db->select('student_session.transport_fees,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,
                            vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,students.hostel_room_id,
                            student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,
-                           students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   
+                           students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,
                            students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,students.current_address, students.previous_school,
-                           students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
-                           students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic , 
+                           students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
+                           students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
                            students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
                            students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,
@@ -457,7 +456,7 @@ class Student_model extends MY_Model
         $this->db->where('users.role', 'student');
             $this->db->where('students.is_active', 'yes');
             $this->db->where('students.admission_no', $admission_no);
-       
+
 
 
         $query = $this->db->get();
@@ -480,8 +479,8 @@ return false;
     public function search_student()
     {
         $this->db->select('classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
-                           students.dob ,students.current_address,    students.permanent_address,students.category_id,    students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
+                           students.dob ,students.current_address,    students.permanent_address,students.category_id,    students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
                            students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,
                            students.updated_at,students.father_name,students.father_phone,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,
                            students.guardian_occupation,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
@@ -523,7 +522,7 @@ return false;
         $query = $this->db->get();
         return $query->result_array();
     }
- 
+
     public function searchByClassSection($class_id = null, $section_id = null)
     {
         $i = 1;
@@ -573,7 +572,7 @@ return false;
             $this->db->where('student_session.section_id', $section_id);
         }
         //$this->db->order_by('students.id');
-        $this->db->order_by('students.admission_no', 'asc');
+        $this->db->order_by('students.lastname', 'asc');
 
         $query = $this->db->get();
 
@@ -582,10 +581,10 @@ return false;
 
     public function searchByClassSectionWithoutCurrent($class_id = null, $section_id = null, $student_id = null)
     {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
+                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
                            students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
@@ -623,9 +622,9 @@ return false;
     }
 
     public function searchByClassSectionCategoryGenderRte($class_id = null, $section_id = null, $category = null, $gender = null, $rte = null) {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
-                           students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,students.category_id, categories.category,   
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
+                           students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,students.category_id, categories.category,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,students.gender,
                            students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
@@ -675,7 +674,7 @@ return false;
         $staff_id=$userdata['id'];
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students', 1);
-        
+
         $field_var_array = array();
         if (!empty($custom_fields)) {
             foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
@@ -701,10 +700,10 @@ return false;
                 $this->db->where_in("student_session.class_id", "");
             }
         }
-        $this->db->select('classes.id AS `class_id`,students.id,student_session.id as student_session_id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,students.id,student_session.id as student_session_id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,      students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , 
+                           IFNULL(categories.category, "") as `category`,      students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name ,
                            students.guardian_name , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,
                            students.rte,student_session.session_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                            students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
@@ -737,7 +736,7 @@ return false;
         $this->db->group_end();
         $this->db->order_by('students.id');
         $query = $this->db->get();
-       
+
         //echo $this->db->last_query();die;
         return $query->result_array();
     }
@@ -745,7 +744,7 @@ return false;
     public function admission_report($searchterm, $carray = null, $condition = null)
     {
         $userdata = $this->customlib->getUserData();
-       
+
 
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students', 1);
@@ -765,12 +764,12 @@ return false;
 
                 $this->db->where_in("student_session.class_id", $carray);
             } else {
-               
+
             }
         }
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
-                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
+                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,student_session.session_id,
                            students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
@@ -832,7 +831,7 @@ return false;
           }
 
         }
-        if(array_key_exists("enrollment_payment_status", $other_variables)) {          
+        if(array_key_exists("enrollment_payment_status", $other_variables)) {
           if($other_variables['enrollment_payment_status']=="paid") {
             $this->db->where('students.enrollment_payment_status',"paid");
 
@@ -856,7 +855,7 @@ return false;
         $data = $this->db->get("students")->result_array();
         // echo '<pre>';print_r($data);exit();
         // print_r('EMN Debug Mode');die();
-        
+
         return $data;
     }
 
@@ -876,7 +875,7 @@ return false;
 
     //     }
     //     if(array_key_exists("enrollment_payment_status", $other_variables)){
-          
+
     //       if($other_variables['enrollment_payment_status']=="paid"){
     //         $this->db->where('online_admissions.enrollment_payment_status',"paid");
 
@@ -922,7 +921,7 @@ return false;
 
         }
         // if(array_key_exists("enrollment_payment_status", $other_variables)){
-          
+
         //   if($other_variables['enrollment_payment_status']=="paid"){
         //     $this->db->where('students.enrollment_payment_status',"paid");
 
@@ -973,7 +972,7 @@ return false;
 
         // }
         // if(array_key_exists("enrollment_payment_status", $other_variables)){
-          
+
         //   if($other_variables['enrollment_payment_status']=="paid"){
         //     $this->db->where('students.enrollment_payment_status',"paid");
 
@@ -1007,8 +1006,8 @@ return false;
     public function sibling_report($searchterm, $carray = null, $condition = null)
     {
         $userdata = $this->customlib->getUserData();
-        
-       
+
+
 
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students', 1);
@@ -1032,9 +1031,9 @@ return false;
             }
         }
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
-                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
-                           students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name,students.mother_name , students.guardian_name , 
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
+                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
+                           students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name,students.mother_name , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,
                            student_session.session_id,students.parent_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                            students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
@@ -1070,9 +1069,9 @@ return false;
     public function sibling_reportsearch($searchterm, $carray = null, $condition = null)
     {
 
-        
+
         $userdata = $this->customlib->getUserData();
-       
+
 
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students', 1);
@@ -1193,10 +1192,10 @@ return false;
                 $action    = "Insert";
                 $record_id = $insert_id;
                 $this->log($message, $record_id, $action);
-                
+
                 return $insert_id;
             }
-        }				
+        }
     }
 
     public function add_student_sibling($data_sibling)
@@ -1211,7 +1210,7 @@ return false;
             $action    = "Update";
             $record_id = $insert_id = $data['id'];
             $this->log($message, $record_id, $action);
-            
+
         } else {
             $this->writedb->insert('student_sibling', $data_sibling);
             $insert_id = $this->writedb->insert_id();
@@ -1219,10 +1218,10 @@ return false;
             $action    = "Insert";
             $record_id = $insert_id;
             $this->log($message, $record_id, $action);
-            
+
             //return $insert_id;
         }
-		//echo $this->writedb->last_query();die;
+    //echo $this->writedb->last_query();die;
             //======================Code End==============================
 
             $this->writedb->trans_complete(); # Completing transaction
@@ -1239,23 +1238,23 @@ return false;
     }
 
     public function add_student_session($data)
-    {        
+    {
         $this->writedb->trans_start(); # Starting Transaction
         $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
         $session_id=0;
         //=======================Code Start===========================
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
-        $q = $this->db->get('student_session');        
+        $q = $this->db->get('student_session');
 
-        if ($q->num_rows() > 0) {            
+        if ($q->num_rows() > 0) {
             $rec = $q->row_array();
             $this->writedb->where('id', $rec['id']);
             $this->writedb->update('student_session', $data);
             $message   = UPDATE_RECORD_CONSTANT . " On  student session id " . $rec['id'];
             $action    = "Update";
             $record_id = $rec['id'];
-            
+
             $this->log($message, $record_id, $action);
             // $session_id = $record_id;
 
@@ -1265,11 +1264,11 @@ return false;
             $message   = INSERT_RECORD_CONSTANT . " On  student session id " . $session_id;
             $action    = "Insert";
             $record_id = $session_id;
-            
+
             $this->log($message, $record_id, $action);
-            
+
         }
-		//echo $this->db->last_query();die;
+    //echo $this->db->last_query();die;
         //======================Code End==============================
 
         $this->writedb->trans_complete(); # Completing transaction
@@ -1338,10 +1337,10 @@ return false;
 
     public function searchCurrentSessionStudents()
     {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
+                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
                            students.gender,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
@@ -1373,7 +1372,7 @@ return false;
     public function searchLibraryStudent($class_id = null, $section_id = null)
     {
         $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,IFNULL(libarary_members.id,0) as `libarary_member_id`,
-                           IFNULL(libarary_members.library_card_no,0) as `library_card_no`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  
+                           IFNULL(libarary_members.library_card_no,0) as `library_card_no`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,
                            students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     students.dob ,
                            students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.guardian_relation,students.guardian_phone,
@@ -1391,7 +1390,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme'); 
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1416,8 +1415,8 @@ return false;
     public function searchNameLike($searchterm)
     {
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,students.religion,     
-                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,     
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,students.religion,
+                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_email,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,students.app_key,
                            students.parent_app_key,student_session.session_id,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
@@ -1454,7 +1453,7 @@ return false;
     public function searchGuardianNameLike($searchterm)
     {
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
                            students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.guardian_email,students.rte,
@@ -1471,7 +1470,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme'); 
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1491,10 +1490,10 @@ return false;
 
     public function searchByClassSectionWithSession($class_id = null, $section_id = null, $session_id = null)
     {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
+                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
                            students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
@@ -1509,7 +1508,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme'); 
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1534,14 +1533,14 @@ return false;
     {
         $sql = "SELECT student_session.student_id as student_id, student_session.id as current_student_session_id, student_session.class_id as current_session_class_id ,
                 previous_session.id as previous_student_session_id,students.firstname,students.lastname,students.admission_no,students.roll_no,students.father_name,
-                students.admission_date,students.mode_of_payment,students.enrollment_type, students.guardian_email 
-                FROM `student_session` 
-                left JOIN (SELECT * FROM `student_session` where session_id=$previous_session_id) as previous_session on student_session.student_id=previous_session.student_id 
-                INNER join students on students.id = student_session.student_id 
-                where student_session.session_id=$this->current_session 
-                and student_session.class_id=$class_id 
-                and student_session.section_id=$section_id 
-                and students.is_active='yes' 
+                students.admission_date,students.mode_of_payment,students.enrollment_type, students.guardian_email
+                FROM `student_session`
+                left JOIN (SELECT * FROM `student_session` where session_id=$previous_session_id) as previous_session on student_session.student_id=previous_session.student_id
+                INNER join students on students.id = student_session.student_id
+                where student_session.session_id=$this->current_session
+                and student_session.class_id=$class_id
+                and student_session.section_id=$section_id
+                and students.is_active='yes'
                 ORDER BY students.firstname ASC";
 
         $query = $this->db->query($sql);
@@ -1601,7 +1600,7 @@ return false;
             }
         }
 
-        $query = $this->db->SELECT("students.firstname,students.lastname,students.is_active, students.mobileno, students.id as sid ,students.admission_no, students.admission_date, students.guardian_name, 
+        $query = $this->db->SELECT("students.firstname,students.lastname,students.is_active, students.mobileno, students.id as sid ,students.admission_no, students.admission_date, students.guardian_name,
                                     students.guardian_relation, students.guardian_phone, classes.class, sessions.id, sections.section,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no")->join("student_session", "students.id = student_session.student_id")->join("classes", "student_session.class_id = classes.id")->join("sections", "student_session.section_id = sections.id")->join("sessions", "student_session.session_id = sessions.id")->group_by("students.id")->get("students");
 
         return $query->result_array();
@@ -1623,7 +1622,7 @@ return false;
             $data = array('student_session.class_id' => $class_id);
         }
 
-        $query = $this->db->SELECT("students.firstname,students.lastname,students.is_active, students.mobileno, students.id as sid ,students.admission_no, students.admission_date, 
+        $query = $this->db->SELECT("students.firstname,students.lastname,students.is_active, students.mobileno, students.id as sid ,students.admission_no, students.admission_date,
                                     students.guardian_name, students.guardian_relation, students.guardian_phone, classes.class, sessions.id, sections.section,students.mode_of_payment,
                                     students.enrollment_type,students.middlename,students.lrn_no")->join("student_session", "students.id = student_session.student_id")->join("classes", "student_session.class_id = classes.id")->join("sections", "student_session.section_id = sections.id")->join("sessions", "student_session.session_id = sessions.id")->where($data)->group_by("students.id")->get("students");
 
@@ -1708,8 +1707,8 @@ return false;
     public function getdisableStudent()
     {
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
-                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
+                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,student_session.session_id,dis_reason,
                            dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
@@ -1725,7 +1724,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme'); 
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1740,10 +1739,10 @@ return false;
 
     public function disablestudentByClassSection($class, $section)
     {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
+                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
                            students.gender,dis_reason,dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
@@ -1758,7 +1757,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme'); 
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1782,8 +1781,8 @@ return false;
     {
         $userdata = $this->customlib->getUserData();
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
-                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,     
-                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,      
+                           students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
+                           students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code ,students.father_name , students.guardian_name , students.guardian_relation,
                            students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.gender,students.rte,student_session.session_id,dis_reason,
                            dis_note,students.mode_of_payment,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
@@ -1799,7 +1798,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme'); 
+                           students.payment_scheme');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1833,7 +1832,7 @@ return false;
 
     public function getClassSection($id)
     {
- 
+
         $query = $this->db->SELECT("*")->join("sections", "class_sections.section_id = sections.id")->where("class_sections.class_id", $id)->get("class_sections");
         return $query->result_array();
     }
@@ -1851,7 +1850,7 @@ return false;
     {
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students');
-     
+
         $field_var_array = array();
        if (!empty($custom_fields)) {
             foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
@@ -1864,10 +1863,10 @@ return false;
 
         $field_variable = implode(',', $field_var_array);
 
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,students.blood_group ,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.cast,students.bank_name, students.ifsc_code , students.guardian_name , 
+                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.cast,students.bank_name, students.ifsc_code , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.mother_name,students.updated_at,students.father_name,
                            students.rte,students.gender,users.id as `user_tbl_id`,users.username,users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.mode_of_payment,
                            students.enrollment_type,students.middlename,students.lrn_no,
@@ -1883,7 +1882,7 @@ return false;
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable); 
+                           students.payment_scheme,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1953,10 +1952,10 @@ return false;
 
         $field_variable = implode(',', $field_var_array);
 
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , 
-                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , 
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
+                           students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,
-                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , 
+                           IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.rte,
                            students.gender,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
@@ -2014,10 +2013,10 @@ return false;
         $this->db->select('student_session.transport_fees,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,
                            vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,students.hostel_room_id,
                            student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,
-                           students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   
+                           students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,
                            students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,students.current_address, students.previous_school,
-                           students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name, 
-                           students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic , 
+                           students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
+                           students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
                            students.blood_group,students.school_house_id,students.father_occupation,students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,
                            students.gender,students.guardian_is,students.rte,students.guardian_email, users.username,users.password,students.dis_reason,students.dis_note,category,students.mode_of_payment,
@@ -2060,21 +2059,21 @@ return false;
     }
 
     public function bulkdelete($students)
-    { 
+    {
         if (!empty($students)) {
 
             $this->writedb->trans_start();
             $student_comma_seprate = implode(', ', $students);
-			//delete from students
+      //delete from students
             $this->writedb->where_in('id', $students);
             $this->writedb->delete('students');
-			
-			//delete from users
+
+      //delete from users
             $this->writedb->where_in('user_id', $students);
             $this->writedb->where_in('role', 'student');
             $this->writedb->delete('users');
             //delete from custom_field_value
-			
+
             $sql = "DELETE FROM custom_field_values WHERE id IN (select * from (SELECT t2.id as `id` FROM `custom_fields` INNER JOIN custom_field_values as t2 on t2.custom_field_id=custom_fields.id WHERE custom_fields.belong_to='students' and t2.belong_table_id IN (" . implode(', ', $students) . ")) as m2)";
 
             $query = $this->writedb->query($sql);
@@ -2098,7 +2097,7 @@ return false;
 
         $admission_no    = $this->input->post('admission_no');
         $student_id = $this->input->post('studentid');
-     
+
 
         if ($admission_no != "") {
 
@@ -2131,7 +2130,7 @@ return false;
 
             $this->db->where(array('class_id' => $class, 'admission_no' => $admission_no));
             $query = $this->db->join("student_session", "students.id = student_session.student_id")->get('students');
-     
+
             if ($query->num_rows() > 0) {
                 return true;
             } else {
@@ -2141,18 +2140,18 @@ return false;
 
     }
 
-    public function GetStudentByID($id) 
+    public function GetStudentByID($id)
     {
         $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
-                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno, 
+                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno,
                            students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
-                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
+                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email,
                            users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                            students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
@@ -2191,18 +2190,18 @@ return false;
         return $result;
     }
 
-    public function GetStudentByRollNo($roll_no) 
+    public function GetStudentByRollNo($roll_no)
     {
         $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
-                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno, 
+                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno,
                            students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
-                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
+                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email,
                            users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                            students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
@@ -2241,18 +2240,18 @@ return false;
         return $result;
     }
 
-    public function GetStudentByLRNNo($lrn_no) 
+    public function GetStudentByLRNNo($lrn_no)
     {
         $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
-                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno, 
+                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno,
                            students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
                            students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
-                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email, 
+                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email,
                            users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,student_session.session_id,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
                            students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
@@ -2289,7 +2288,7 @@ return false;
         //var_dump($result);die;
 
         return $result;
-    }    
+    }
 
     public function check_roll_exists($roll_no)
     {
@@ -2304,7 +2303,7 @@ return false;
 
     public function GetStudentInfo($id_no)
     {
-        $this->db->select('students.id, students.roll_no, students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender'); 
+        $this->db->select('students.id, students.roll_no, students.lrn_no, students.firstname, students.middlename, students.lastname, students.dob, students.gender');
         $this->db->from('students');
         $this->db->where('students.lrn_no', $id_no);
         $this->db->or_where('students.roll_no', $id_no);
@@ -2355,7 +2354,7 @@ return false;
     public function GetNameListEnrolled($name)
     {
         $this->db->select("DISTINCT(roll_no), studentname");
-        $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname 
+        $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname
                           FROM students
                           JOIN student_session ON students.id = student_session.student_id
                           WHERE student_session.session_id = ".$this->current_session.") tbl1");
@@ -2435,7 +2434,7 @@ return false;
     }
 
     public function UpdateEnrollmentPaymentStatus($idnumber, $status)
-    {        
+    {
         $data = array(
             'enrollment_payment_status' => $status,
         );
@@ -2455,9 +2454,9 @@ return false;
 
         $this->writedb->where('roll_no', $idnumber);
         $update = $this->writedb->update('online_admissions', $data);
-        
+
         // $this->db_exceptions->checkForError();
-        // return ($update == true) ? true : false;        
+        // return ($update == true) ? true : false;
 
         $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
@@ -2471,76 +2470,9 @@ return false;
             return true;
         }
 
-        // if ($this->db->affected_rows() > 0) 
-        //     return true; 
+        // if ($this->db->affected_rows() > 0)
+        //     return true;
         // else
         //     return false;
     }
-
-    public function grading_GetAllowedToView($schoolyear, $gradelevel, $section) {
-        $subquery = "";
-        $quarter_columns = "";
-        
-        $dataresult = $this->gradereport_model->get_quarter_list();     
-        // $dataresult = $this->get_quarter_list();   
-
-        foreach($dataresult as $row) {
-            if (!empty($quarter_columns)) {
-                $quarter_columns .= ", IFNULL(tbl$row->id.view_allowed, 0) AS '$row->name'";
-            }
-            else {
-                $quarter_columns .= " IFNULL(tbl$row->id.view_allowed, 0) AS '$row->name'";
-            }
-
-            $subquery .= " LEFT JOIN
-                           (
-                              SELECT student_id, session_id, quarter_id, view_allowed FROM grading_allowed_students
-                           ) tbl$row->id ON tbl$row->id.student_id = students.id AND tbl$row->id.session_id = student_session.session_id AND tbl$row->id.quarter_id = $row->id";
-        }
-
-        $sql = "SELECT students.id, students.roll_no, student_session.session_id, CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, gender, $quarter_columns,
-                (SELECT id FROM grading_quarter WHERE NAME = 'first') AS q1, (SELECT id FROM grading_quarter WHERE NAME = 'second') AS q2,
-                (SELECT id FROM grading_quarter WHERE NAME = 'third') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'fourth') AS q4 
-                FROM students
-                LEFT JOIN student_session ON student_session.student_id = students.id 
-                ".$subquery." 
-                WHERE student_session.session_id = $schoolyear
-                AND student_session.class_id = $gradelevel 
-                AND student_session.section_id = $section 
-                ORDER BY gender DESC, student_name ASC";
-        
-        // return($sql);
-        $query = $this->db->query($sql);
-        return $query->result();
-    }
-
-    public function grading_AddAllowedToView($data) {
-        $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
-
-        $this->writedb->where('session_id', $data["session_id"]);
-        $this->writedb->where('student_id', $data["student_id"]);
-        $this->writedb->where('quarter_id', $data["quarter_id"]);
-        $this->writedb->delete('grading_allowed_students');
-
-        if ($data["view_allowed"] == 1)
-            $this->writedb->insert('grading_allowed_students', $data);
-
-        $this->writedb->trans_complete(); # Completing transaction
-
-        if ($this->writedb->trans_status() === false) {
-            # Something went wrong.
-            $this->writedb->trans_rollback();
-            return false;
-
-        } else {
-            return true;
-        }
-    }
-
-    // public function get_quarter_list() {
-    //     $sql = "SELECT * FROM grading_quarter";
-    //     $query = $this->db->query($sql);
-    //     return $query->result();
-    // }
 }
