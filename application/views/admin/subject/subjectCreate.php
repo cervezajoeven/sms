@@ -56,6 +56,16 @@
 
                                     <span class="text-danger"><?php echo form_error('inaverage'); ?></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="transmuted" <?php echo ($subject['transmuted'] == true ? 'CHECKED' : ''); ?>>Grade Transmuted
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('transmuted'); ?></span>
+                                </div>
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>

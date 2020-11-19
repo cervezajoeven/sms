@@ -169,7 +169,7 @@ class Subject_model extends MY_Model {
     // }
 
     public function get_subject_list($gradelevel, $schoolyear) {
-        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id 
+        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average, subjects.transmuted 
                 FROM subject_groups
                 JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                 JOIN subjects ON subjects.id = subject_group_subjects.subject_id

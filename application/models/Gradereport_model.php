@@ -103,22 +103,27 @@ class Gradereport_model extends CI_Model
                 }                    
             }
 
+            if ($row->transmuted)
+                $quarterly_grade = "IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade";
+            else 
+                $quarterly_grade = "IFNULL(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 0) AS quarterly_grade";
+
             $subquery .= " LEFT JOIN ( 
-                           SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, 
-                           IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade 
-                           FROM 
-                           (SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
-                            SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
-                            FROM vw_class_record 
-                            GROUP BY student_id, criteria_id, label 
-                           ) tbl 
-                           WHERE subject_id = ".$row->subject_id." 
-                           AND section_id  = ".$section." 
-                           AND grade_level  = ".$grade_level." 
-                           AND school_year = ".$school_year." 
-                           AND quarter = ".$quarter." 
-                           GROUP BY school_year, quarter, student_id 
-                         ) tbl".$row->subject_id." ON tbl".$row->subject_id.".student_id = students.id";            
+                             SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, ".$quarterly_grade."                            
+                             FROM 
+                             (
+                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                               SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
+                               FROM vw_class_record 
+                               GROUP BY student_id, criteria_id, label 
+                             ) tbl 
+                             WHERE subject_id = ".$row->subject_id." 
+                             AND section_id  = ".$section." 
+                             AND grade_level  = ".$grade_level." 
+                             AND school_year = ".$school_year." 
+                             AND quarter = ".$quarter." 
+                             GROUP BY school_year, quarter, student_id 
+                           ) tbl".$row->subject_id." ON tbl".$row->subject_id.".student_id = students.id";            
         }
 
         // $average_column = " AVG(".$average_column.") AS average";
@@ -141,7 +146,7 @@ class Gradereport_model extends CI_Model
     public function get_subject_list($gradelevel, $schoolyear)
     {
         //-- Get subject list
-        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average
+        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average, subjects.transmuted
                 FROM subject_groups
                 JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                 JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -180,7 +185,16 @@ class Gradereport_model extends CI_Model
             $subquery .= " LEFT JOIN 
                          (
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
-                            CASE WHEN grading_allowed_students.view_allowed = 1 THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) ELSE 0 END AS quarterly_grade 
+                            CASE 
+                            WHEN grading_allowed_students.view_allowed = 1 
+                              THEN 
+                                CASE 
+                                  WHEN subjects.transmuted = 1 
+                                    THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) 
+                                    ELSE IFNULL(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 0) 
+                                END
+                              ELSE 0 
+                            END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
@@ -193,7 +207,8 @@ class Gradereport_model extends CI_Model
                               AND student_id = ".$student_id." 
                               GROUP BY student_id, criteria_id, label
                             ) tbl
-                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = tbl.school_year AND grading_allowed_students.quarter_id = quarter
+                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = tbl.school_year AND grading_allowed_students.quarter_id = quarter 
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
                             GROUP BY school_year, quarter, student_id, subject_id
                          ) tbl".$row->id." ON tbl".$row->id.".subject_id = tblsubjects.subject_id";
 
@@ -247,7 +262,11 @@ class Gradereport_model extends CI_Model
             $subquery .= " LEFT JOIN 
                          (
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
-                            IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade 
+                            CASE 
+                              WHEN subjects.transmuted = 1 
+                                THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) 
+                                ELSE IFNULL(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 0) 
+                            END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
@@ -260,6 +279,7 @@ class Gradereport_model extends CI_Model
                               AND student_id = ".$student_id." 
                               GROUP BY student_id, criteria_id, label
                             ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
                             GROUP BY school_year, quarter, student_id, subject_id
                          ) tbl".$row->id." ON tbl".$row->id.".subject_id = tblsubjects.subject_id";
 
@@ -317,11 +337,15 @@ class Gradereport_model extends CI_Model
             $subquery .= " LEFT JOIN 
                          (
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, 
-                            IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade 
+                            CASE 
+                            WHEN subjects.transmuted = 1 
+                              THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) 
+                              ELSE IFNULL(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 0) 
+                            END AS quarterly_grade 
                             FROM
                             (
                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, 
-                              SUM(highest_score) AS highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
                               FROM vw_class_record
                               WHERE section_id  = ".$section." 
                               AND grade  = ".$grade_level." 
@@ -331,6 +355,7 @@ class Gradereport_model extends CI_Model
                               AND teacher_id = ".$teacher." 
                               GROUP BY student_id, criteria_id, label
                             ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
                             GROUP BY school_year, quarter, student_id
                          ) tbl".$row->id." ON tbl".$row->id.".student_id = students.id ";
 

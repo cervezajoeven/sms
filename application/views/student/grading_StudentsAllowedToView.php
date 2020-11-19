@@ -133,6 +133,30 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 </div>
 
 <script type="text/javascript">    
+    // // call onload or in script segment below form
+    // function attachCheckboxHandlers() {
+    //     var chk_arr =  document.getElementsByName("q1[]");
+    //     var chklength = chk_arr.length; 
+
+    //     for(k=0;k< chklength;k++) {
+    //         chk_arr[k].onclick = updateQ1(chk_arr, chklength);
+    //     }
+    // }
+
+    // function updateQ1(chkarr, chklen) {
+    //     var mainchk = document.getElementById("chkqtr1");
+    //     var allChecked = true;
+
+    //     for(k=0;k<chklen;k++) {
+    //         if (chkarr[k].checked == false) {
+    //             allChecked = false;
+    //             break;
+    //         }
+    //     }
+
+    //     mainchk.checked = allChecked;
+    // }
+
     function getSectionByClass(class_id, section_id) {
         if (class_id != "" && section_id != "") {
             $('#section_id').html("");
@@ -161,7 +185,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
     $(document).ready(function () {
         var class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
-        getSectionByClass(class_id, section_id);
+        getSectionByClass(class_id, section_id);   
+        // attachCheckboxHandlers();     
         
         $(document).on('change', '#class_id', function (e) {
             $('#section_id').html("");

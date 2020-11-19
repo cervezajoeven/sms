@@ -67,6 +67,16 @@
                                     <span class="text-danger"><?php echo form_error('inaverage'); ?></span>
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="transmuted" <?php echo ($subject['transmuted'] == true ? 'CHECKED' : ''); ?>>Grade Transmuted
+                                        </label>
+                                    </div>
+
+                                    <span class="text-danger"><?php echo form_error('transmuted'); ?></span>
+                                </div>
+
                                 <!-- <label class="radio-inline"><input type="radio" value="Synchronous" name="type">Synchronous</label>
                                 <label class="radio-inline"><input type="radio" value="Asynchronous" name="type">Asynchronous</label> -->
                             </div>
