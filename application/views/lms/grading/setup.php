@@ -42,7 +42,7 @@
                                 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Section</label><small class="req"> *</small>
-                                    <select autofocus="" id="subject_id" name="section" placeholder="" type="text" class="form-control filter">
+                                    <select autofocus="" id="section_id" name="section" placeholder="" type="text" class="form-control filter">
                                         <?php foreach ($sections as $key => $value) : ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['section'] ?></option>
                                         <?php endforeach; ?>
@@ -62,10 +62,20 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Quarter</label><small class="req"> *</small>
-                                    <select autofocus="" id="subject_id" name="quarter" placeholder="" type="text" class="form-control filter">
+                                    <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter">
                                         <?php foreach ($quarters as $key => $value) : ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
                                         <?php endforeach; ?>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Template</label><small class="req"> *</small>
+                                    <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control filter">
+                                        <option value="original">Original</option>
+                                        <option value="mapeh">MAPEH</option>
+                                        <option value="penmanship">Penmanship</option>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
