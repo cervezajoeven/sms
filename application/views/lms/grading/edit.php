@@ -104,9 +104,10 @@
 		        			<td><input type="" name="school_id" class="form-control school_id class_record" value="<?php echo $class_record['school_id'] ?>"></td>
 		        			<td>School Year</td>
 		        			<td><?php echo $school_year ?></td>
+		        			<form class="change_grade_section_form class_record" method="post" action="<?php echo base_url('lms/grading/update_grade_section/'.$class_record['id']) ?>">
 		        			<td>First Quarter</td>
 		        			<td>
-		        				<select class="form-control grade_section quarter">
+		        				<select name="quarter" class="form-control grade_section quarter">
 			        				<?php foreach ($quarters as $quarter_key => $quarter_value): ?>
 		        						<option <?php echo ($quarter_value['id']==$class_record['quarter'])?"selected":""; ?> value="<?php echo $quarter_value['id'] ?>"><?php echo $quarter_value['description']; ?></option>
 		        					<?php endforeach ?>
@@ -116,7 +117,7 @@
 
 		        		<tr>
 		        			<td>Grade</td>
-		        			<form class="change_grade_section_form class_record" method="post" action="<?php echo base_url('lms/grading/update_grade_section/'.$class_record['id']) ?>">
+		        			
 		        				<td width="173px">
 			        				<select class="form-control grade_section" name="grade">
 			        					<?php foreach ($classes as $class_key => $class_value): ?>
