@@ -371,7 +371,7 @@
 	        var row_count = $(this).parent().parent().attr("row_count");
 	        var row_count_1 = parseInt(row_count)+1;
 	        $("[row_count="+row_count_1+"]").find("td[column_count="+column_count+"]").find("input").focus();
-
+	        
 
 	    }
 	});
