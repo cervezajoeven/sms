@@ -120,6 +120,11 @@ class Gradereport_model extends CI_Model
                                SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
                                SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
                                FROM vw_class_record 
+                               WHERE g_class_record_disabled = 0
+                               AND g_criteria_disabled = 0
+                               AND g_column_section_disabled = 0
+                               AND g_column_disabled = 0
+                               AND g_column_scores_disabled = 0
                                GROUP BY student_id, criteria_id, label 
                              ) tbl 
                              WHERE subject_id = ".$row->subject_id." 
@@ -215,6 +220,11 @@ class Gradereport_model extends CI_Model
                               AND school_year = ".$school_year." 
                               AND quarter = ".$row->id." 
                               AND student_id = ".$student_id." 
+                              AND g_class_record_disabled = 0
+                              AND g_criteria_disabled = 0
+                              AND g_column_section_disabled = 0
+                              AND g_column_disabled = 0
+                              AND g_column_scores_disabled = 0
                               GROUP BY student_id, criteria_id, label
                             ) tbl
                             LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = tbl.school_year AND grading_allowed_students.quarter_id = quarter 
@@ -291,6 +301,11 @@ class Gradereport_model extends CI_Model
                               AND school_year = ".$school_year." 
                               AND quarter = ".$row->id." 
                               AND student_id = ".$student_id." 
+                              AND g_class_record_disabled = 0
+                              AND g_criteria_disabled = 0
+                              AND g_column_section_disabled = 0
+                              AND g_column_disabled = 0
+                              AND g_column_scores_disabled = 0
                               GROUP BY student_id, criteria_id, label
                             ) tbl
                             LEFT JOIN subjects ON subjects.id = tbl.subject_id
@@ -371,6 +386,11 @@ class Gradereport_model extends CI_Model
                               AND quarter = ".$row->id." 
                               AND subject_id = ".$subject." 
                               AND teacher_id = ".$teacher." 
+                              AND g_class_record_disabled = 0
+                              AND g_criteria_disabled = 0
+                              AND g_column_section_disabled = 0
+                              AND g_column_disabled = 0
+                              AND g_column_scores_disabled = 0
                               GROUP BY student_id, criteria_id, label
                             ) tbl
                             LEFT JOIN subjects ON subjects.id = tbl.subject_id
