@@ -233,19 +233,21 @@
 
 	        		</tr>
 	        		<?php $male_count = 1; ?>
+	        		<?php $all_count = 1; ?>
 	        		<?php foreach ($students as $student_key => $student_value): ?>
 	        			<?php if($student_value['gender']=="male"): ?>
-			        		<tr>
+			        		<tr row_count="<?php echo $all_count; ?>">
 			        			<td class="students" student_key="<?php echo $student_key ?>"><?php echo $male_count ?></td>
 			        			<td><?php echo $student_value['lastname'] ?>, <?php echo $student_value['firstname'] ?></td>
-
+			        			<?php $column_count=1; ?>
 			        			<?php foreach ($criteria as $criteria_key => $criteria_value): ?>
 			        				<?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value): ?>
 			        					<?php foreach ($column_section_value['column'] as $column_key => $column_value): ?>
 
-			        						<td class="male column column-1 table_td"  section="1">
+			        						<td column_count="<?php echo $column_count; ?>" class="male column column-1 table_td"  section="1">
 			        							<input class="column_score table_input column-score" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" student_id="<?php echo $student_value['id'] ?>" type="text" name="" value="<?php echo $the_class->get_column_score($column_value['id'],$student_value['id']) ?>">
 			        						</td>
+			        						<?php $column_count++; ?>
 			        					<?php endforeach; ?>
 			        					<td class="center total column_score_total column_score_total-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
 					        			<td class="center ps ps-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
@@ -256,6 +258,7 @@
 								<td class="quarterly_grade quarterly_grade-<?php echo $student_key ?> quarterly_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
 			        		</tr>
 			        		<?php $male_count++; ?>
+			        		<?php $all_count++; ?>
 		        		<?php endif; ?>
 	        		<?php endforeach; ?>
 
@@ -266,17 +269,18 @@
 	        		<?php $male_count = 1; ?>
 	        		<?php foreach ($students as $student_key => $student_value): ?>
 	        			<?php if($student_value['gender']=="female"): ?>
-			        		<tr>
+			        		<tr row_count="<?php echo $all_count; ?>">
 			        			<td class="students" student_key="<?php echo $student_key ?>"><?php echo $male_count ?></td>
 			        			<td><?php echo $student_value['lastname'] ?>, <?php echo $student_value['firstname'] ?></td>
-
+			        			<?php $column_count=1; ?>
 			        			<?php foreach ($criteria as $criteria_key => $criteria_value): ?>
 			        				<?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value): ?>
 			        					<?php foreach ($column_section_value['column'] as $column_key => $column_value): ?>
 
-			        						<td class="male column column-1 table_td"  section="1">
+			        						<td column_count="<?php echo $column_count; ?>" class="male column column-1 table_td"  section="1">
 			        							<input class="column_score table_input column-score" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" student_id="<?php echo $student_value['id'] ?>" type="text" name="" value="<?php echo $the_class->get_column_score($column_value['id'],$student_value['id']) ?>">
 			        						</td>
+										<?php $column_count++; ?>		        						
 			        					<?php endforeach; ?>
 			        					<td class="center total column_score_total column_score_total-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
 					        			<td class="center ps ps-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
@@ -287,6 +291,7 @@
 								<td class="quarterly_grade quarterly_grade-<?php echo $student_key ?> quarterly_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
 			        		</tr>
 			        		<?php $male_count++; ?>
+			        		<?php $all_count++; ?>
 		        		<?php endif; ?>
 	        		<?php endforeach; ?>
 	        	</table>
@@ -357,6 +362,18 @@
 		    	console.log(response.responseText);
 		    }
 		});
+	});
+	$(".table_input").on('keypress',function(e){
+
+	    if(e.which == 13) {
+
+	        var column_count = $(this).parent().attr("column_count");
+	        var row_count = $(this).parent().parent().attr("row_count");
+	        var row_count_1 = parseInt(row_count)+1;
+	        $("[row_count="+row_count_1+"]").find("td[column_count="+column_count+"]").find("input").focus();
+
+
+	    }
 	});
 
 	
