@@ -282,6 +282,7 @@ class Grading extends General_Controller {
             "grade" => $_REQUEST['grade'],
             "section_id" => $_REQUEST['section'],
             "teacher_id" => $_REQUEST['teacher'],
+            "quarter" => $_REQUEST['quarter'],
             "subject_id" => $_REQUEST['subject'],
         );
         $updated_data = $this->general_model->lms_update("grading_class_record",$update_data);

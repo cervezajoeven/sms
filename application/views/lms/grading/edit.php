@@ -106,7 +106,7 @@
 		        			<td><?php echo $school_year ?></td>
 		        			<td>First Quarter</td>
 		        			<td>
-		        				<select class="form-control quarter">
+		        				<select class="form-control grade_section quarter">
 			        				<?php foreach ($quarters as $quarter_key => $quarter_value): ?>
 		        						<option <?php echo ($quarter_value['id']==$class_record['quarter'])?"selected":""; ?> value="<?php echo $quarter_value['id'] ?>"><?php echo $quarter_value['description']; ?></option>
 		        					<?php endforeach ?>
@@ -139,7 +139,7 @@
 			        			<td>
 			        				<select class="form-control grade_section class_record" name="teacher">
 			        					<<?php foreach ($teachers as $teacher_key => $teacher_value): ?>
-			        						<option value="<?php echo $teacher_value['id'] ?>" <?php echo ($teacher_value['id']==$class_record['teacher'])?"selected":""; ?>><?php echo $teacher_value['name'] ?> <?php echo $teacher_value['surname'] ?></option>
+			        						<option value="<?php echo $teacher_value['id'] ?>" <?php echo ($teacher_value['id']==$class_record['teacher_id'])?"selected":""; ?>><?php echo $teacher_value['name'] ?> <?php echo $teacher_value['surname'] ?></option>
 			        					<?php endforeach ?>
 			        				</select>
 			        			</td>
