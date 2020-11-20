@@ -232,7 +232,9 @@ class Survey extends General_Controller {
         $json_sheet = json_decode($survey[0]['sheet']);
         $responses['data'] = array();
         $array_pos = 0;
-
+        // echo '<pre>';
+        // print_r($survey_responses);
+        // exit;
         //var_dump($json_sheet[0]->type);
         
         foreach ($survey_responses as $row) {

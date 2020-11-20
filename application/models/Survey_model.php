@@ -70,8 +70,8 @@ class Survey_model extends MY_Model {
         $this->db->select('respond');
         $this->db->from('lms_survey_sheets');
         $this->db->where('survey_id', $id);
-        $this->db->where('respond !=', null);
-        $this->db->where('respond !=', '');
+        // $this->db->where('respond !=', null);
+        // $this->db->where('respond !=', '');
 
         $query = $this->db->get();
         $result = $query->result_array();
