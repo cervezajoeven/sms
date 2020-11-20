@@ -76,6 +76,7 @@
                                         <option value="original">Original</option>
                                         <option value="mapeh">MAPEH</option>
                                         <option value="penmanship">Penmanship</option>
+                                        <option value="epp_comp">EPP/COMP</option>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
