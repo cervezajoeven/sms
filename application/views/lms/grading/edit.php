@@ -132,18 +132,27 @@
 			        					<?php endforeach ?>
 			        				</select>
 			        			</td>
-		        			</form>
 		        			
-		        			<td>Teacher</td>
-		        			<td><?php echo $class_record['name'] ?> <?php echo $class_record['surname'] ?></td>
-		        			<td>Subject</td>
-		        			<td>
-		        				<select class="form-control class_record" name="subject">
-		        					<<?php foreach ($subjects as $subject_key => $subject_value): ?>
-		        						<option value="<?php echo $subject_value['id'] ?>" <?php echo ($subject_value['id']==$class_record['subject_id'])?"selected":""; ?>><?php echo $subject_value['name']; ?></option>
-		        					<?php endforeach ?>
-		        				</select>
-		        			</td>
+		        			
+			        			<td>Teacher</td>
+			        			<!-- <td><?php echo $class_record['name'] ?> <?php echo $class_record['surname'] ?></td> -->
+			        			<td>
+			        				<select class="form-control grade_section class_record" name="teacher">
+			        					<<?php foreach ($teachers as $teacher_key => $teacher_value): ?>
+			        						<option value="<?php echo $teacher_value['id'] ?>" <?php echo ($teacher_value['id']==$class_record['teacher'])?"selected":""; ?>><?php echo $teacher_value['name'] ?> <?php echo $teacher_value['surname'] ?></option>
+			        					<?php endforeach ?>
+			        				</select>
+			        			</td>
+			        			<td>Subject</td>
+			        			<td>
+			        				<select class="form-control grade_section class_record" name="subject">
+			        					<<?php foreach ($subjects as $subject_key => $subject_value): ?>
+			        						<option value="<?php echo $subject_value['id'] ?>" <?php echo ($subject_value['id']==$class_record['subject_id'])?"selected":""; ?>><?php echo $subject_value['name']; ?></option>
+			        					<?php endforeach ?>
+			        				</select>
+			        			</td>
+
+		        			</form>
 		        		</tr>
 		        	</table>
 		        </div>
