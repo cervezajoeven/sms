@@ -169,6 +169,20 @@ class MY_Model extends CI_Model
         }  
     }
 
+    public function lms_true_delete($table="",$data=array()){
+        
+        if($table&&is_string($table)){
+            $this->writedb->where("id", $data["id"]);
+            $this->writedb->delete($table);
+            
+
+                        
+        }else{   
+            echo "Table name was not declared.";
+            exit();
+        }  
+    }
+
 
     public function id_generator($table){
         $id = $table."_".$this->mode."_".microtime(true)*10000;

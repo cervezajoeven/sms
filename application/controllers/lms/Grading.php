@@ -405,6 +405,59 @@ class Grading extends General_Controller {
     }
 
 
+    public function delete_all_disabled(){
+        $all_disabled = $this->general_model->lms_get("grading_class_record",1,"disabled");
+
+        foreach ($all_disabled as $all_disabled_key => $all_disabled_value) {
+            $update_data['id'] = $all_disabled_value['id'];
+            $update_data['disabled'] = 1;
+            $criterias = $this->general_model->lms_get("grading_criteria",$update_data['id'],"class_record_id");
+
+            $column_sections = array();
+            foreach ($criterias as $criteria_key => $criteria_value) {
+
+                $disable_data['id'] = $criteria_value['id'];
+                $disable_data['disabled'] = 1;
+                $disabled_data = $this->general_model->lms_true_delete("grading_criteria",$disable_data);
+
+
+                $column_section = $this->general_model->lms_get("grading_column_section",$criteria_value['id'],"criteria_id");
+
+                $column_sections = array_merge($column_sections,$column_section);
+
+            }
+            $columns = array();
+            foreach ($column_sections as $column_sections_key => $column_sections_value) {
+                $disable_data['id'] = $column_sections_value['id'];
+                $disable_data['disabled'] = 1;
+                $disabled_data = $this->general_model->lms_true_delete("grading_column_section",$disable_data);
+                
+                $column = $this->general_model->lms_get("grading_column",$column_sections_value['id'],"column_section_id");
+                $columns = array_merge($columns,$column);
+            }
+            // print_r($column_scores);
+
+            $column_scores = array();
+            foreach ($columns as $column_key => $column_value) {
+                $disable_data['id'] = $column_value['id'];
+                $disable_data['disabled'] = 1;
+                $disabled_data = $this->general_model->lms_true_delete("grading_column",$disable_data);
+                
+                $column_score = $this->general_model->lms_get("grading_column_scores",$column_value['id'],"column_id");
+                $column_scores = array_merge($column_scores,$column_score);
+            }
+
+            foreach ($column_scores as $column_scores_key => $column_scores_value) {
+                $disable_data['id'] = $column_scores_value['id'];
+                $disable_data['disabled'] = 1;
+                $disabled_data = $this->general_model->lms_true_delete("grading_column_scores",$disable_data);
+
+            }
+
+            $this->general_model->lms_true_delete("grading_class_record",$update_data);
+        }
+    }
+
     public function get_column_score($column_id,$student_id){
 
         
