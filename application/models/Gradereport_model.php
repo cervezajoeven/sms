@@ -104,7 +104,8 @@ class Gradereport_model extends CI_Model
             }
 
             if ($row->transmuted)
-                $quarterly_grade = "IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade";
+                $quarterly_grade = "fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) AS quarterly_grade";
+                // $quarterly_grade = "IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade";
             else 
                 $quarterly_grade = "CASE
                                     WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
@@ -196,7 +197,7 @@ class Gradereport_model extends CI_Model
                               THEN 
                                 CASE 
                                   WHEN subjects.transmuted = 1 
-                                    THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) 
+                                    THEN fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) 
                                     ELSE CASE
                                          WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
                                            THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
@@ -274,7 +275,7 @@ class Gradereport_model extends CI_Model
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
                             CASE 
                               WHEN subjects.transmuted = 1 
-                                THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) 
+                                THEN fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) 
                                 ELSE CASE
                                      WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
                                        THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
@@ -353,7 +354,7 @@ class Gradereport_model extends CI_Model
                             SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, 
                             CASE 
                             WHEN subjects.transmuted = 1 
-                              THEN IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) 
+                              THEN fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) 
                               ELSE CASE
                                      WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
                                       THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
