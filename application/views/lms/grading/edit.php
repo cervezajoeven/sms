@@ -171,7 +171,7 @@
 	        			<?php endforeach; ?>
 
 	        			<td class="initial_grade thicc">Initial Grade</td>
-	        			<td class="term_grade thicc">Quarterly Grade</td>
+	        			<td class="quarterly_grade term_grade thicc">Quarterly Grade</td>
 
 	        		</tr>
 	        		<tr>
@@ -185,7 +185,8 @@
 	        				<?php endforeach; ?>
 	        			<?php endforeach; ?>
 	        			
-	        			<td class="thicc" colspan="2"></td>
+	        			<td class="thicc" colspan="1"></td>
+	        			<td class="quarterly_grade thicc" colspan="1"></td>
 	        			
 
 	        		</tr>
@@ -204,7 +205,7 @@
 
 	        			<?php endforeach; ?>
 	        			<td class="thicc"></td>
-	        			<td class="thicc"></td>
+	        			<td class="quarterly_grade thicc"></td>
 	        			
 
 	        			
@@ -226,11 +227,11 @@
 	        				<?php endforeach; ?>
 	        			<?php endforeach; ?>
 	        			<td></td>
-						<td></td>
+						<td class="quarterly_grade"></td>
 	        		</tr>
 	        		<tr>
-	        			<td class="male thicc" colspan="<?php echo $full_width+4 ?>">Male</td>
-
+	        			<td class="male thicc" colspan="<?php echo $full_width+3 ?>">Male</td>
+	        			<td class="male thicc quarterly_grade" ></td>
 	        		</tr>
 	        		<?php $male_count = 1; ?>
 	        		<?php $all_count = 1; ?>
@@ -304,7 +305,6 @@
 
 	    <input type="hidden" id="url" value="<?php echo site_url('lms/assessment/update'); ?>" name="" />
 	    <input type="hidden" id="base_url" value="<?php echo base_url(); ?>" name="" />
-
 	    
 	</body>
 </html>
@@ -321,6 +321,11 @@
 <script type="text/javascript">
 	var url = "<?php echo base_url('lms/grading/') ?>";
 	var transmutation = JSON.parse('<?php echo $transmutation ?>');
+	var subject_transmuted = "<?php echo $subject['transmuted']; ?>";
+	if(subject_transmuted=="0"){
+		$(".quarterly_grade").hide();
+	}
+	
 	function onlyUnique(value, index, self) {
 	  return self.indexOf(value) === index;
 	}
@@ -455,8 +460,19 @@
 			$.each(all_ws,function(ws_key,ws_value){
 				initial_grade+=parseFloat($(ws_value).text());
 			});
+			if(subject_transmuted=='1'){
+				$(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
 
-			$(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
+			}else{
+				$(".initial_grade-"+student_key).text(initial_grade.toFixed(0));
+				if(initial_grade.toFixed(0)<80){
+					$(".initial_grade-"+student_key).css("background-color","rgb(255 185 185)");
+				}
+				if(initial_grade.toFixed(0)>=90){
+					$(".initial_grade-"+student_key).css("background-color","rgb(191 246 191)");
+				}
+			}
+			
 
 		});
 	}
@@ -470,8 +486,18 @@
 				if(initial_grade<=parseFloat(transmute_value.max_grade)&&initial_grade>=parseFloat(transmute_value.min_grade)){
 
 					$(".quarterly_grade-"+student_key).text(parseFloat(transmute_value.transmuted_grade));
+					if(subject_transmuted=='1'){
+						if(parseFloat(transmute_value.transmuted_grade)<80){
+							$(".quarterly_grade-"+student_key).css("background-color","rgb(255 185 185)");
+						}
+						if(parseFloat(transmute_value.transmuted_grade)>=90){
+							$(".quarterly_grade-"+student_key).css("background-color","rgb(191 246 191)");
+						}
+					}
 				}
 			});
+
+
 
 			// $(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
 
