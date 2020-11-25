@@ -149,7 +149,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
-            paging: false;
+            paging: false,
             // pageLength: 50,
             //responsive: 'false',
             dom: "Bfrtip",
