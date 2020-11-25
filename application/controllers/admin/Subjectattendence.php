@@ -18,6 +18,7 @@ class Subjectattendence extends Admin_Controller
         $this->load->model('class_model');
         $this->load->model('studentsubjectattendence_model');
         $this->load->model('attendencetype_model');
+        $this->load->model('subjecttimetable_model');
     }
 
     public function reportbymonthstudent()

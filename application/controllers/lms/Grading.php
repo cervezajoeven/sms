@@ -162,6 +162,8 @@ class Grading extends General_Controller {
         $data['classes'] = $this->general_model->get_classes();
         $data['sections'] = $this->general_model->get_sections();
         $data['teachers'] = $this->general_model->lms_get("staff","","");
+        $data['subject'] = $this->general_model->lms_get("subjects",$data['class_record']['subject_id'],"id")[0];
+        
         $data['quarters'] = $this->general_model->lms_get('grading_quarter',"","");
         $data['transmutation'] = json_encode($this->general_model->lms_get('grading_transmutation',"","min_grade,max_grade,transmuted_grade"));
         $data['quarter'] = $this->general_model->lms_get('grading_quarter',$data['class_record']['quarter'],"id")[0]['id'];
