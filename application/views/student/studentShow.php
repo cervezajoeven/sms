@@ -959,9 +959,9 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                         ?>
                                                         <tr>
                                                             <td><?php echo $value['title']; ?></td>
-                                                            <td><?php echo $value['doc']; ?></td>
+                                                            <td><?php echo $value['document_title']; ?></td>
                                                             <td class="mailbox-date pull-right">
-                                                                <a href="<?php echo base_url(); ?>student/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>">
+                                                                <a href="<?php echo base_url(); ?>student/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>" download="<?php echo $value['document_title'] ?>">
                                                                     <i class="fa fa-download"></i>
                                                                 </a>
                                                                 <a href="<?php echo base_url(); ?>student/doc_delete/<?php echo $value['id'] . "/" . $value['student_id']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">

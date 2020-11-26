@@ -2407,15 +2407,17 @@ class Student extends Admin_Controller
 
                             if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
                                 die("Error creating folder $uploaddir");
-        
+                            
                             $fileInfo    = pathinfo($FILES[$i]["name"]);
+                            $fileExtension    = pathinfo($FILES[$i]["name"],PATHINFO_EXTENSION);
                             $title = $this->input->post('doctitle');
                             $file_name   = $FILES[$i]["name"];
                             $exp         = explode(' ', $file_name);
-                            $imp         = implode('_', $exp);
+                            // $imp         = implode('_', $exp);
+                            $imp         = $this->student_model->id_generator("student_documents").".".$fileExtension;
                             $img_name    = $uploaddir . basename($imp);
                             move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
-                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp);
+                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp,'document_title'=>$fileInfo['basename']);
                             $this->student_model->adddoc($data_img);    
                             // var_dump($FILES[$i]["name"]);
                             // echo ("<BR>");
