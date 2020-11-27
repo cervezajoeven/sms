@@ -2418,7 +2418,7 @@ class Student extends Admin_Controller
                             $img_name    = $uploaddir . basename($imp);
                             move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
                             $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
-                            $this->student_model->adddoc($data_img);    
+                            $this->student_model->adddoc($data_img); 
                             // var_dump($FILES[$i]["name"]);
                             // echo ("<BR>");
                         }
@@ -2433,6 +2433,55 @@ class Student extends Admin_Controller
         }
 
         echo json_encode($array);
+    }
+
+    public function refresh_all_send_documents()
+    {
+        $the_directory = './uploads/student_documents/';
+        $directories = scandir($the_directory);
+        $directory_count = count($directories);
+        echo "<pre>";
+        unset($directories[0]);
+        unset($directories[1]);
+        unset($directories[2]);
+        unset($directories[$directory_count-1]);
+        unset($directories[$directory_count-2]);
+        $all_student_doc = $this->student_model->lms_get("student_doc","","");
+        // print_r($all_student_doc);
+
+        foreach ($all_student_doc as $all_student_doc_key => $all_student_doc_value) {
+            if(!$all_student_doc_value['document_title']){
+                $generated_id = $this->student_model->id_generator("student_documents");
+                $extension = pathinfo($all_student_doc_value['doc'],PATHINFO_EXTENSION);
+                $new_doc = $generated_id.".".$extension;
+                $update_data['id'] = $all_student_doc_value['id'];
+                $update_data['doc'] = $new_doc;
+                $update_data['document_title'] = $all_student_doc_value['doc'];
+                $update_data['date_updated'] = date("Y-m-d H:i:s");
+                $update_directory = './uploads/student_documents/'.$all_student_doc_value['student_id'];
+
+                $original_file_url = base_url()."uploads/student_documents/".$all_student_doc_value['student_id']."/".$all_student_doc_value['doc'];
+                // print_r(file_get_contents($original_file_url));
+
+                $original_file = $update_directory."/".$all_student_doc_value['doc'];
+                $newname = $update_directory."/".$new_doc;
+
+                print_r($original_file);
+                echo "<pre>";
+                print_r($newname);
+                echo "<pre>";
+
+
+                if(rename($original_file, $newname)){
+                    echo "rename successful";
+                    echo "<pre>";
+                    $this->student_model->lms_update("student_doc",$update_data);
+                }
+
+
+
+            }
+        }
     }
 
     function reArrayFilesMultiple() {
