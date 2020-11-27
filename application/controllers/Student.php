@@ -2417,7 +2417,7 @@ class Student extends Admin_Controller
                             $imp         = $this->student_model->id_generator("student_documents").".".$fileExtension;
                             $img_name    = $uploaddir . basename($imp);
                             move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
-                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp,'document_title'=>$fileInfo['basename']);
+                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
                             $this->student_model->adddoc($data_img);    
                             // var_dump($FILES[$i]["name"]);
                             // echo ("<BR>");
