@@ -205,12 +205,12 @@
 		        			<div class="remove_option float-right">X</div>
 		        			<div class="option">
 		        				<div class="option_type">
-		        					<input type="radio" name="" class="form-control">
+		        					<input type="radio" name="" autocomplete="off" class="form-control">
 		        				</div>
 		        				<div class="option_label_container">
 		        					<div class="option_label"></div>
 		        					<div class="option_label_input">
-		        						<input type="text" name="" value="A" class="form-control">
+		        						<input type="text" name="" autocomplete="off" value="A" class="form-control">
 		        					</div>
 		        					<div class="remove_choice"><button>X</button></div>
 		        				</div>		        				
@@ -256,4 +256,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'assessment_7.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'assessment_8.js'?>"></script>

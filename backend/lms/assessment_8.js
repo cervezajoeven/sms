@@ -342,6 +342,7 @@ $(document).ready(function(){
 				
 				$.each(JSON.parse(stored_json),function(key,value){
 					$(document).find("input").attr("autocomplete","off");
+					console.log("autocomplete has been turned off");
 					populate_key(value.type,value);
 					
 					var checked_ids = [];
