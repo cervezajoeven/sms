@@ -814,7 +814,14 @@ class Assessment extends General_Controller {
     public function update_essay(){
         $data['id'] = $_REQUEST['assessment_sheet_id'];
         $data['answer'] = json_encode($_REQUEST['updated_answer']);
-        $this->lesson_model->lms_update("lms_assessment_sheets",$data,"id");
+        $the_data = $this->lesson_model->lms_update("lms_assessment_sheets",$data,"id");
+        if($the_data){
+            $return = array("status"=>1,"message"=>"success");
+        }else{
+            $return = array("status"=>0,"message"=>"fail");
+        }
+        echo json_encode($return);
+
     }
 
     public function consider_answer(){
