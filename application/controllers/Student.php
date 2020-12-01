@@ -894,13 +894,15 @@ class Student extends Admin_Controller
                 }
                 
                 $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
+                $fileExtension    = pathinfo($FILES[$i]["name"],PATHINFO_EXTENSION);
                 $first_title = $this->input->post('first_title');
                 $file_name   = $_FILES['first_doc']['name'];
                 $exp         = explode(' ', $file_name);
                 $imp         = implode('_', $exp);
+                $imp         = $this->student_model->id_generator("student_documents").".".$fileExtension;
                 $img_name    = $uploaddir . basename($imp);
                 move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
-                $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
+                $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
                 $this->student_model->adddoc($data_img);
 
             }
@@ -2378,6 +2380,7 @@ class Student extends Admin_Controller
     {
         $student_id = $this->input->post('id_num');
         $student_docs = $this->reArrayFilesMultiple();
+
         // var_dump($student_docs);die;
 
         $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
@@ -2396,7 +2399,7 @@ class Student extends Admin_Controller
             if (isset($student_docs)) 
             {
                 $stdidx = 0;
-
+                
                 foreach($student_docs as $key0=>$FILES) 
                 {   
                     for ($i=0; $i<sizeof($FILES); $i++)
@@ -2418,6 +2421,7 @@ class Student extends Admin_Controller
                             $img_name    = $uploaddir . basename($imp);
                             move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
                             $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
+                            print_r($data_img);
                             $this->student_model->adddoc($data_img); 
                             // var_dump($FILES[$i]["name"]);
                             // echo ("<BR>");
@@ -2494,6 +2498,7 @@ class Student extends Admin_Controller
             }
         }
         $files = $uploads;
+
         return $uploads; // prevent misuse issue
     }
 
