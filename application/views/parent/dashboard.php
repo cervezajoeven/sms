@@ -51,7 +51,13 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right text-aqua"><?php echo $student['section']; ?></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b><?php echo $this->lang->line('rte'); ?></b> <a class="pull-right text-aqua"><?php echo $student['rte']; ?></a>
+                                    <b><?php echo $this->lang->line('date_of_birth'); ?></b> <a class="pull-right text-aqua"><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob'])); ?></a>
+                                </li>
+                                <li class="list-group-item listnoback">
+                                    <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo ucfirst(($student['gender'])); ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right text-aqua"><?php echo $student['lrn_no']; ?></a>
                                 </li>
                             </ul>
                         </div>

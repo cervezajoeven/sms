@@ -44,11 +44,12 @@
                             <li class="list-group-item">
                                 <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right text-aqua"><?php echo $student['section']; ?></a>
                             </li>
-                            <?php if ($sch_setting->rte) { ?>
-                                <li class="list-group-item">
-                                    <b><?php echo $this->lang->line('rte'); ?></b> <a class="pull-right text-aqua"><?php echo $student['rte']; ?></a>
-                                </li>
-                            <?php } ?>
+                            <li class="list-group-item">
+                                <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo ucfirst($student['gender']); ?></a>
+                            </li>
+                            <li class="list-group-item">
+                                <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right text-aqua"><?php echo $student['lrn_no']; ?></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -99,12 +100,7 @@
                                                     <td><?php echo $student['mobileno']; ?></td>
                                                 </tr>
                                             <?php }
-                                            if ($sch_setting->cast) { ?>
-                                                <tr>
-                                                    <td><?php echo $this->lang->line('cast'); ?></td>
-                                                    <td><?php echo $student['cast']; ?></td>
-                                                </tr>
-                                            <?php }
+                                            
                                             if ($sch_setting->religion) { ?>
                                                 <tr>
                                                     <td><?php echo $this->lang->line('religion'); ?></td>

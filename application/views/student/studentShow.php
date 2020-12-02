@@ -137,7 +137,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             </li> -->
                             <?php //} ?>
                             <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo $this->lang->line(strtolower($student['gender'])); ?></a>
+                                <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo ucfirst(($student['gender'])); ?></a>
+                            </li>
+                            <li class="list-group-item">
+                                <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right text-aqua"><?php echo $student['lrn_no']; ?></a>
                             </li>
                         </ul>
                     </div>
