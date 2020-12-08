@@ -647,7 +647,7 @@
                                                             <!-- <a data-placement="left" href="<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>" download="<?php echo $value['document_title'] ?>">
                                                                 <i class="fa fa-download"></i>
                                                             </a> -->
-                                                            <a data-placement="left" href="https://view.officeapps.live.com/op/view.aspx?src=<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                            <a data-placement="left" href="https://view.officeapps.live.com/op/view.aspx?src=<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs" target="_blank" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
                                                         </td>
