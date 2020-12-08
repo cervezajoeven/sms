@@ -599,7 +599,7 @@
                                                     <div class="timeline-item">
                                                         <?php if (!empty($value["document"])) { ?>
                                                             <span class="time">
-                                                                <a data-placement="left" class="defaults-c text-right" data-toggle="tooltip" title="" href="<?php echo base_url() . "user/user/timeline_download/" . $value["id"] . "/" . $value["document"] ?>" data-original-title="Download"><i class="fa fa-download"></i></a>
+                                                                <a data-placement="left" class="defaults-c text-right" data-toggle="tooltip" title="" href="<?php echo base_url() . "user/user/timeline_download/" . $value["id"] . "/" . $value["document"] ?>" target="_blank" data-original-title="Download"><i class="fa fa-download"></i></a>
                                                             </span>
                                                         <?php } ?>
                                                         <h3 class="timeline-header text-aqua"><?php echo $value['title']; ?> </h3>
@@ -642,10 +642,13 @@
                                                 <?php foreach ($student_doc as $value) { ?>
                                                     <tr>
                                                         <td><?php echo $value['title']; ?></td>
-                                                        <td><?php echo $value['doc']; ?></td>
+                                                        <td><?php echo $value['document_title']; ?></td>
                                                         <td class="mailbox-date text-right">
-                                                            <a data-placement="left" href="<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>" download="<?php echo $value['document_title'] ?>">
+                                                            <!-- <a data-placement="left" href="<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>" download="<?php echo $value['document_title'] ?>">
                                                                 <i class="fa fa-download"></i>
+                                                            </a> -->
+                                                            <a data-placement="left" href="https://view.officeapps.live.com/op/view.aspx?src=<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                                <i class="fa fa-eye"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
