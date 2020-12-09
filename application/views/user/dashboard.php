@@ -647,7 +647,10 @@
                                                             <!-- <a data-placement="left" href="<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('download'); ?>" download="<?php echo $value['document_title'] ?>">
                                                                 <i class="fa fa-download"></i>
                                                             </a> -->
-                                                            <a data-placement="left" href="https://view.officeapps.live.com/op/view.aspx?src=<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs" target="_blank" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                            <!-- <a data-placement="left" href="https://view.officeapps.live.com/op/view.aspx?src=<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>"class="btn btn-default btn-xs document_view_btn" target="_blank" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                                <i class="fa fa-eye"></i>
+                                                            </a> -->
+                                                            <a data-placement="left" file_location="<?php echo base_url(); ?>user/user/download/<?php echo $value['student_id'] . "/" . $value['doc']; ?>" class="btn btn-default btn-xs document_view_btn" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
                                                         </td>
@@ -1399,6 +1402,21 @@
                                                             </section>
                                                             </div>
 
+<div class="modal fade" id="document_view_modal" role="dialog">
+    <div class="modal-dialog" style="width: 100%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title text-center transport_fees_title"></h4>
+            </div>            
+                
+            <input  type="hidden" class="form-control" id="transport_student_session_id"  value="0" readonly="readonly"/>
+            <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
+                
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="myTransportFeesModal" role="dialog">
     <div class="modal-dialog modal-sm400">
         <div class="modal-content">
@@ -1660,7 +1678,23 @@ function getCalculatedExam($array, $exam_id) {
             keyboard: false,
             show: true
         });
+
+        
     });
+
+    $(".document_view_btn").click(function () {
+
+        var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
+        var file_location = $(this).attr("file_location");
+        $(".document_iframe").attr("src",pdfjs+file_location);
+        $('#document_view_modal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });  
+    });
+
+    
 
     document.getElementById("print").style.display = "block";
     
