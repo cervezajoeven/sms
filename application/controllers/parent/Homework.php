@@ -18,15 +18,19 @@ class Homework extends Parent_Controller {
         $this->session->set_userdata('top_menu', 'Homework');
         $this->session->set_userdata('sub_menu', 'parent/homework/student_homework/' . $student_id);
           $student = $this->student_model->get($student_id);
-  
+        
 
         $class_id = $student["class_id"];
         $section_id = $student["section_id"];
         $student_session_id=$student['student_session_id'];
         // $homeworklist = $this->homework_model->getStudentHomework($class_id, $section_id);
 
+
         $homeworklist = $this->homework_model->getStudentHomeworkWithStatus($class_id, $section_id,$student_session_id);
         //echo $this->db->last_query();die;
+        // echo "<pre>"
+        // print_r($homeworklist);
+        // exit;
         $data["homeworklist"] = $homeworklist;
         $data["class_id"] = $class_id;
         $data["section_id"] = $section_id;

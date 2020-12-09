@@ -58,11 +58,18 @@
                                                 $status_class = "class= 'label label-danger'";
                                                 $hw=0;
                                                 $status_homework = $this->lang->line("incomplete");
+                                                if ($homework["submitted"] == 'Yes') {
+                                                    $h_status=2;
+                                                    $status_class    = "class= 'label label-info'";
+                                                    $status_homework = "Submitted";
+                                                }
+
                                                 if ($homework["homework_evaluation_id"] != 0) {
                                                     $hw=1;
                                                     $status_class = "class= 'label label-success'";
                                                     $status_homework = $this->lang->line("complete");
                                                 }
+
                                                 ?>
                                                 <label <?php echo $status_class; ?>><?php echo $status_homework; ?></label>
 
