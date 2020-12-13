@@ -293,19 +293,24 @@ function assessment_update(){
 function save(){
 	
 	var save_json = assessment_update();
+
+	if(save_json.length === 0){
+		alert("The system has encountered some issues during saving. Please use the latest version of chrome or firefox.");
+	}else{
+		$.ajax({
+		    url: url,
+		    type: "POST",
+		    data: save_json,
+		    // contentType: "application/json",
+		    complete: function(response){
+		    	console.log(response.responseText);
+		    	alert("Quiz has been saved successfully!");
+		    	$(".save_status").text("Saved");
+				$(".save_status").css("background-color","green");
+		    }
+		});
+	}
 	
-	$.ajax({
-	    url: url,
-	    type: "POST",
-	    data: save_json,
-	    // contentType: "application/json",
-	    complete: function(response){
-	    	console.log(response.responseText);
-	    	alert("Quiz has been saved successfully!");
-	    	$(".save_status").text("Saved");
-			$(".save_status").css("background-color","green");
-	    }
-	});
 }
 
 function save_no_notif(){
