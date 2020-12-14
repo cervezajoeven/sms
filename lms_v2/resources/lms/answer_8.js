@@ -384,8 +384,7 @@ $(".submit").click(function(){
 		});
 		final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
 
-		final_json = [];
-		console.log(final_json);
+
 		if(final_json.length === 0){
 			alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
 		}else{
