@@ -1,0 +1,156 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Conduct extends General_Controller {
+
+    function __construct() {
+        
+        parent::__construct();
+
+        $this->session->set_userdata('top_menu', 'Conduct');
+        $this->writedb = $this->load->database('write_db', TRUE);
+        $this->load->model('general_model');
+        $this->load->model('setting_model');
+        $this->load->model('session_model');
+        $this->load->model('conduct_model');
+
+        date_default_timezone_set('Asia/Manila');
+        $this->sch_setting_detail = $this->setting_model->getSetting();
+
+        $url = $_SERVER['SERVER_NAME'];
+
+        if (strpos($url,'localhost') !== false) {
+            $this->mode = "offline";
+        }elseif(strpos($url,'192.') !== false||strpos($url,'172.') !== false) {
+            $this->mode = "offline";
+        }else{
+            $this->mode = "online";
+        }
+    }
+
+    function index()
+    {
+        $this->session->set_userdata('top_menu', 'Academics');
+        $this->session->set_userdata('sub_menu', 'Academics/conduct');
+
+        $data['classlist'] = $this->general_model->get_classes();
+        $data['quarter_list'] = $this->general_model->lms_get('grading_quarter',"","");
+        $data['session_list'] = $this->session_model->getAllSession();
+        $data['sch_setting'] = $this->sch_setting_detail;
+        // $data['real_role'] = $this->general_model->get_real_role();
+        $data['user_id'] = $this->general_model->get_account_id();        
+
+        $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('quarter_id', $this->lang->line('quarter'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('student_id', $this->lang->line('student'), 'trim|required|xss_clean');
+
+        if ($this->input->server('REQUEST_METHOD') == "GET") {   
+            $session = $this->input->post('session_id');
+            $quarter = $this->input->post('quarter_id');
+            $grade_level = $this->input->post('class_id');
+            $section = $this->input->post('section_id');
+            $student = $this->input->post('student_id');
+            $data['session_id'] = $session;
+            $data['quarter_id'] = $quarter;
+            $data['class_id'] = $grade_level;
+            $data['section_id']  = $section;
+            $data['student_id'] = $student_id;
+
+            $this->load->view('layout/header');
+            $this->load->view('lms/conduct/index', $data);
+            $this->load->view('layout/footer');
+        } else {
+            if ($this->form_validation->run() == false) {
+                $this->load->view('layout/header');
+                $this->load->view('lms/conduct/index', $data);
+                $this->load->view('layout/footer');
+            } 
+            else {                
+                $session = $this->input->post('session_id');
+                $quarter = $this->input->post('quarter_id');
+                $grade_level = $this->input->post('class_id');
+                $section = $this->input->post('section_id');
+                $student = $this->input->post('student_id');                
+
+                $class_record = $this->conduct_model->get_student_conduct_record($session, $quarter, $grade_level, $section, $student);
+                $data['resultlist'] = $class_record;
+                // print_r(json_encode($class_record));die();
+                // print_r($class_record);die();
+                $data['quarter_list'] = $this->general_model->lms_get('grading_quarter',"","");
+                $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+                $data['student'] = $this->student_model->get($student);
+                $data['user_id'] = $this->general_model->get_account_id();
+                $data['session_id'] = $session;
+                $data['quarter_id'] = $quarter;
+                $data['class_id'] = $grade_level;
+                $data['section_id']  = $section;
+                $data['student_id'] = $student;
+
+                $this->load->view('layout/header');
+                $this->load->view('lms/conduct/index', $data);
+                $this->load->view('layout/footer');
+            }
+        }        
+    }
+
+    public function save_conduct_grades() 
+    {
+        try {
+            $conducts = $this->input->post('conduct');
+            // print_r($conducts);die();
+            $user_id = $this->input->post('user_id');
+            $session_id = $this->input->post('session_id');
+            $quarter_id = $this->input->post('quarter_id');
+            $class_id = $this->input->post('class_id');
+            $section_id = $this->input->post('section_id');
+            $student_id = $this->input->post('student_id');
+            
+            $this->add_conduct_grades($session_id, $quarter_id, $class_id, $section_id, $student_id, $user_id, $conducts);
+
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);    
+        } catch (Exception $e) {
+            $msg   = $this->lang->line('failed_message');
+            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+        }
+        
+        echo json_encode($array);
+    }
+
+    function add_conduct_grades($session, $quarter, $grade_level, $section, $student, $user, $conducts)
+    {
+        for($i = 0; $i < count($conducts); $i++) {
+            $data = [];
+
+            $id = "grading_conduct_".$this->mode."_".microtime(true)*10000;
+            $id = $id.rand(1000,9999);
+
+            if (!empty($conducts[$i]))
+            {
+                $conduct_data = explode('-', $conducts[$i]);            
+
+                $data = array(
+                    "id" => $id,
+                    "school_year" => $session,
+                    "quarter" => $quarter,                
+                    "grade" => $grade_level,
+                    "section_id" => $section,
+                    "teacher_id" => $user,
+                    "student_id" => $student,
+                    "indicator_id" => $conduct_data[0],
+                    "conduct" => $conduct_data[1],
+                );
+    
+                // print_r($data);die();
+    
+                $this->conduct_model->save_conduct_grades($data);
+            }            
+        }
+    }
+}
+ 
+?>

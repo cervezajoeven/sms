@@ -81,61 +81,41 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
         <div class="row">
 
             <div class="col-md-3"> 
-
-                <div class="box box-primary"  <?php
-                if ($student["is_active"] == "no") {
-                    echo "style='background-color:#f0dddd;'";
-                }
-                ?>>
+                <div class="box box-primary" <?php if ($student["is_active"] == "no") { echo "style='background-color:#f0dddd;'"; }?>>
                     <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" src="<?php
-                        if (!empty($student['image'])) {
-                            echo base_url() . $student['image'];
-                        } else {
-                            echo base_url() . "uploads/student_images/no_image.png";
-                        }
-                        ?>" alt="User profile picture">
+                        <img class="profile-user-img img-responsive img-circle" 
+                            src="<?php if (!empty($student['image'])) {
+                                echo base_url() . $student['image'];
+                            } else {
+                                echo base_url() . "uploads/student_images/no_image.png";
+                            }?>" alt="User profile picture">
                         <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
 
                         <ul class="list-group list-group-unbordered">
-                            <?php
-                            if ($student['is_active'] == 'no') {
-                                ?>
-
-
-
+                            <?php if ($student['is_active'] == 'no') { ?>
                                 <li class="list-group-item listnoback">
                                     <b><?php echo $this->lang->line('disable')." ".$this->lang->line('reason') ?></b> <span class="pull-right text-aqua"><?php echo $reason_data['reason'] ?></span>
                                 </li>
                                 <li class="list-group-item listnoback">
                                     <b><?php  echo $this->lang->line('disable')." ".$this->lang->line('note') ?></b> <span class="pull-right text-aqua"><?php echo $student['dis_note'] ?></span>
                                 </li>
-
-
-
                             <?php } ?> 
                             
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right text-aqua"><?php echo $student['admission_no']; ?></a>
                             </li>
-                        <?php 
-                            if ($sch_setting->roll_no) { ?> 
-                            <li class="list-group-item listnoback">
-                                <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right text-aqua"><?php echo $student['roll_no']; ?></a>
-                            </li>
-                            <?php 
-                        } ?>
+                            <?php if ($sch_setting->roll_no) { ?> 
+                                <li class="list-group-item listnoback">
+                                    <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right text-aqua"><?php echo $student['roll_no']; ?></a>
+                                </li>
+                                <?php 
+                            } ?>
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right text-aqua"><?php echo $student['class'] . " (" . $session . ")"; ?></a>
                             </li>
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right text-aqua"><?php echo $student['section']; ?></a>
                             </li>
-                            <?php //if ($sch_setting->rte) { ?>
-                            <!-- <li class="list-group-item listnoback">
-                                <b><?php //echo $this->lang->line('rte'); ?></b> <a class="pull-right text-aqua"><?php //echo $student['rte']; ?></a>
-                            </li> -->
-                            <?php //} ?>
                             <li class="list-group-item listnoback">
                                 <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo ucfirst(($student['gender'])); ?></a>
                             </li>
@@ -145,9 +125,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         </ul>
                     </div>
                 </div>
-                <?php
-                if (!empty($siblings)) {
-                    ?>
+                <?php if (!empty($siblings)) { ?>
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"><?php echo $this->lang->line('sibling'); ?></h3>
@@ -155,9 +133,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <!-- /.box-header -->
 
                         <div class="box-body">
-                            <?php
-                            foreach ($siblings as $sibling_key => $sibling_value) {
-                                ?>
+                            <?php foreach ($siblings as $sibling_key => $sibling_value) { ?>
                                 <div class="box box-widget widget-user-2">
                                     <!-- Add the bg color to the header using any of the bg-* classes -->
                                     <div class="siblingview">
@@ -167,44 +143,30 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     <div class="box-footer no-padding">
                                         <ul class="list-group list-group-unbordered">
                                             <li class="list-group-item">
-
-
                                                 <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right text-aqua"><?php echo $sibling_value->admission_no; ?></a>
                                             </li>
-
                                             <li class="list-group-item">
                                                 <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right text-aqua"><?php echo $sibling_value->class; ?></a>
                                             </li> 
                                             <li class="list-group-item">
                                                 <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right text-aqua"><?php echo $sibling_value->section; ?></a>
-
                                             </li>
-
                                         </ul>
                                     </div>
                                 </div>
                                 <?php
-                            }
-                            ?>
-
-
+                            }?>
                         </div>
                         <!-- /.box-body -->
-
                     </div>
-
-                    <?php
-                }
-                ?>
- 
+                <?php }?> 
             </div>
             <div class="col-md-9">
 
                 <div class="nav-tabs-custom theme-shadow">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('profile'); ?></a></li>
-                        <?php
-                        if ($this->module_lib->hasActive('fees_collection')) {
+                        <?php if ($this->module_lib->hasActive('fees_collection')) {
                             if (($this->rbac->hasPrivilege('collect_fees', 'can_view') ||
                                     $this->rbac->hasPrivilege('search_fees_payment', 'can_view') ||
                                     $this->rbac->hasPrivilege('search_due_fees', 'can_view') ||
@@ -215,22 +177,19 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                     $this->rbac->hasPrivilege('fees_group', 'can_view') ||
                                     $this->rbac->hasPrivilege('fees_type', 'can_view') ||
                                     $this->rbac->hasPrivilege('fees_discount', 'can_view') ||
-                                    $this->rbac->hasPrivilege('accountants', 'can_view'))) {
-                                ?>
+                                    $this->rbac->hasPrivilege('accountants', 'can_view'))) { ?>
                                 <li class=""><a href="#fee" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('fees'); ?></a></li>
                             <?php }
                         } ?>              
                         <li class=""><a href="#documents" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('documents'); ?></a></li>
                         <?php
-                        if ($this->rbac->hasPrivilege('student_timeline', 'can_add')) {
-                            ?> 
+                        if ($this->rbac->hasPrivilege('student_timeline', 'can_add')) { ?> 
                             <li class=""><a href="#timelineh" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('timeline') ?></a></li>
                         <?php } ?>
 
                         <?php if ($student["is_active"] == "yes") { ?>
                             <?php
-                            if ($this->rbac->hasPrivilege('disable_student', 'can_view')) {
-                                ?>
+                            if ($this->rbac->hasPrivilege('disable_student', 'can_view')) { ?>
                                 <li class="pull-right dropdown">
                                     <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
                                     <ul class="dropdown-menu">
@@ -241,12 +200,11 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                                 <li class="pull-right">
                                     <a style="cursor: pointer;" onclick="disable_student('<?php echo $student["id"] ?>')"  class="text-red" data-toggle="tooltip" data-placement="bottom" title="<?php echo "Disable"; ?>">
-                                        <i class="fa fa-thumbs-o-down"></i><?php //echo "Disable Student";        ?>
+                                        <i class="fa fa-thumbs-o-down"></i><?php //echo "Disable Student"; ?>
                                     </a>
                                 </li>
 
-                                <?php
-                            }
+                                <?php }
 
 //5235
                             if ($this->rbac->hasPrivilege('student_login_credential_report', 'can_view')) {

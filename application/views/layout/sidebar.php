@@ -504,6 +504,7 @@ s<aside class="main-sidebar" id="alert2">
 
                             <li class="<?php echo set_Submenu('grading/create'); ?>"><a href="<?php echo base_url(); ?>lms/grading/setup"><i class="fa fa-angle-double-right"></i> Create Grading </a></li>
                             <li class="<?php echo set_Submenu('grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/grading/index"><i class="fa fa-angle-double-right"></i> Edit Grading </a></li>
+                            <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
 
                         </ul>
                     </li>
