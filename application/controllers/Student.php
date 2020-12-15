@@ -894,13 +894,14 @@ class Student extends Admin_Controller
                 }
                 
                 $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
-                $fileExtension    = pathinfo($FILES[$i]["name"],PATHINFO_EXTENSION);
+                $fileExtension    = pathinfo($_FILES["first_doc"]["name"],PATHINFO_EXTENSION);
                 $first_title = $this->input->post('first_title');
                 $file_name   = $_FILES['first_doc']['name'];
                 $exp         = explode(' ', $file_name);
                 $imp         = implode('_', $exp);
                 $imp         = $this->student_model->id_generator("student_documents").".".$fileExtension;
                 $img_name    = $uploaddir . basename($imp);
+
                 move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
                 $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
                 $this->student_model->adddoc($data_img);

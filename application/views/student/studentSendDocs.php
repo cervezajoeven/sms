@@ -285,7 +285,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 url: "<?php echo site_url("student/Upload_MultiDocs") ?>",
                 type: "POST",
                 data: frmdata,
-                // dataType: 'json',
+                dataType: 'json',
                 contentType: false,
                 cache: false,
                 processData: false,
@@ -304,7 +304,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                     } else {
                         successMsg(res.message);
-                        // window.location.reload(true);
+                        window.location.reload(true);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

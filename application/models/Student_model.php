@@ -490,8 +490,9 @@ return false;
     {
         $this->db->select()->from('student_doc');
         $this->db->where('student_id', $id);
-        $query = $this->db->get();
-        return $query->result_array();
+        $query = $this->db->get()->result_array();
+        
+        return $query;
     }
 
     public function searchByClassSection($class_id = null, $section_id = null)

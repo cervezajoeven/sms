@@ -272,6 +272,7 @@ class Welcome extends Front_Controller
             $category = $this->category_model->get();
             $this->data['categorylist'] = $category;        
             $this->data['schoolname'] = $this->setting_model->getCurrentSchoolName();
+            
 
             $enrollment_type = $this->input->post('enrollment_type');
 
