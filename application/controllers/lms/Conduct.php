@@ -76,7 +76,7 @@ class Conduct extends General_Controller {
                 $section = $this->input->post('section_id');
                 $student = $this->input->post('student_id');                
 
-                $class_record = $this->conduct_model->get_student_conduct_record($session, $quarter, $grade_level, $section, $student);
+                $class_record = $this->conduct_model->get_student_conduct_record($session, $quarter, $grade_level, $section, $student, $data['user_id']);
                 $data['resultlist'] = $class_record;
                 // print_r(json_encode($class_record));die();
                 // print_r($class_record);die();

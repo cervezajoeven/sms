@@ -20,7 +20,7 @@ class Conduct_model extends MY_Model
         return $return;
     }
 
-    public function get_student_conduct_record($session, $quarter, $grade_level, $section, $student)
+    public function get_student_conduct_record($session, $quarter, $grade_level, $section, $student, $teacher)
     {
         $sql = "SELECT 
                 grading_conduct_indicators.id,
@@ -34,7 +34,7 @@ class Conduct_model extends MY_Model
                 LEFT JOIN grading_conduct ON grading_conduct.indicator_id = grading_conduct_indicators.id
                 AND grading_conduct.school_year = '$session' AND grading_conduct.quarter = '$quarter' 
                 AND grading_conduct.grade = $grade_level AND grading_conduct.section_id = $section  
-                AND grading_conduct.student_id = $student
+                AND grading_conduct.student_id = $student AND grading_conduct.teacher_id = $teacher 
                 ORDER BY grading_conduct_indicators.id ASC";
 
         $query = $this->db->query($sql);
@@ -48,7 +48,8 @@ class Conduct_model extends MY_Model
 
         $this->writedb->where('school_year', $data["school_year"]);
         $this->writedb->where('quarter', $data["quarter"]);
-        $this->writedb->where('student_id', $data["student_id"]);        
+        $this->writedb->where('student_id', $data["student_id"]);
+        $this->writedb->where('teacher_id', $data["teacher_id"]);
         $this->writedb->where('indicator_id', $data["indicator_id"]);
         $this->writedb->delete('grading_conduct');
 
