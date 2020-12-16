@@ -117,8 +117,22 @@
                                     </section>
                                     <!-- Main content -->
                                     <section class="content">
-                                        <div class="row">                                            
-                                            <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="box box-primary">
+                                                    <div class="box-body box-profile">
+                                                        <h3 class="profile-username text-center">LEGEND</h3>
+                                                        <ul class="list-group list-group-unbordered">
+                                                            <?php foreach($legend_list as $legendrow) { ?>
+                                                                    <li class="list-group-item">
+                                                                        <b><?php echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php echo $legendrow->description; ?></span>
+                                                                    </li>
+                                                            <?php } ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>                                 
+                                            <div class="col-md-9">
                                                 <div class="box box-warning">
                                                     <div class="box-header ptbnull">
                                                         <h3 class="box-title titlefix"> <?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
@@ -139,10 +153,6 @@
                                                                     </thead>
                                                                     <tbody>
                                                                         <?php
-                                                                        // $depedrowspan = 1;
-                                                                        // $indicatorrowspan = 1;
-                                                                        // $depedindicator = "";
-                                                                        // $indicator = "";
 
                                                                         foreach($resultlist as $row) {
                                                                             if ($coreindicator == $row->deped_indicators)

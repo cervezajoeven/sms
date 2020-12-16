@@ -40,7 +40,8 @@ class Conduct extends General_Controller {
         $data['session_list'] = $this->session_model->getAllSession();
         $data['sch_setting'] = $this->sch_setting_detail;
         // $data['real_role'] = $this->general_model->get_real_role();
-        $data['user_id'] = $this->general_model->get_account_id();        
+        $data['user_id'] = $this->general_model->get_account_id();      
+        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();  
 
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('quarter_id', $this->lang->line('quarter'), 'trim|required|xss_clean');
@@ -81,7 +82,7 @@ class Conduct extends General_Controller {
                 // print_r(json_encode($class_record));die();
                 // print_r($class_record);die();
                 $data['quarter_list'] = $this->general_model->lms_get('grading_quarter',"","");
-                $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+                // $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
                 $data['student'] = $this->student_model->get($student);
                 $data['user_id'] = $this->general_model->get_account_id();
                 $data['session_id'] = $session;

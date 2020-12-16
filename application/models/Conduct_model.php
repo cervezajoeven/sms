@@ -11,7 +11,7 @@ class Conduct_model extends MY_Model
 
     public function get_conduct_legend_list()
     {
-        $this->db->select('id, conduct_grade');
+        $this->db->select('id, conduct_grade, description');
         $this->db->from('grading_conduct_legend');
         $this->db->order_by('id',"asc");
         $query = $this->db->get();
