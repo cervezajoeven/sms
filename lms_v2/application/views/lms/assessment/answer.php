@@ -52,7 +52,7 @@
 
 		        			<td colspan="4" style="padding: 0;cursor: pointer;">
 		        				<a href="<?php echo old_url('lms/assessment/index/'); ?>">
-		        					<div class="info-tab info-title the_close">X Close</div>
+		        					<div class="info-tab info-title the_close">Close</div>
 		        				</a>
 		        			</td>
 
@@ -151,4 +151,4 @@
 <script type="text/javascript" src="<?php echo $resources.'jquery-ui.js'?>"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script type="text/javascript" src="<?php echo $resources.'answer_10.js'?>"></script>
+<script type="text/javascript" src="<?php echo $resources.'answer_11.js'?>"></script>
