@@ -341,6 +341,10 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                                 </a>
                                 <ul class="treeview-menu">
                                     <li class="<?php echo set_Submenu('book/index'); ?>">
+                                        <a href="http://sophiameycauayan.campuscloudph.com/worldbook_login/">
+                                            <i class="fa fa-angle-double-right"></i> Resources</a>
+                                    </li>
+                                    <li class="<?php echo set_Submenu('book/index'); ?>">
                                         <a href="<?php echo base_url(); ?>user/book">
                                             <i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('books'); ?></a>
                                     </li>
