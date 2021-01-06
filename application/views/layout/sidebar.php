@@ -699,8 +699,9 @@ s<aside class="main-sidebar" id="alert2">
                             <i class="fa fa-book ftlayer"></i> <span><?php echo $this->lang->line('lms_campus_elibrary'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-
-
+                            
+                            <li class="<?php echo set_Submenu('book/getall'); ?>">
+                                <a href="http://sophiameycauayan.campuscloudph.com/worldbook_login/"><i class="fa fa-angle-double-right"></i>Resources</a></li>
                             <?php if ($this->rbac->hasPrivilege('books', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('book/getall'); ?>">
                                     <a href="<?php echo base_url(); ?>admin/book/getall"><i class="fa fa-angle-double-right"></i><?php echo $this->lang->line('book_list'); ?></a></li>

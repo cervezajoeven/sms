@@ -29,7 +29,7 @@ class JOE_Model extends CI_Model
         }
     }
 
-    public function lms_create($table="",$data=array()){
+    public function lms_create($table="",$data=array(),$escape=TRUE){
 
         if($table&&is_string($table)){
 
@@ -37,24 +37,30 @@ class JOE_Model extends CI_Model
                 $id = $table."_".$this->mode."_".microtime(true)*10000;
                 $id = $id.rand(1000,9999);
                 $data['id'] = $id;
-
+                
                 $escaped_data = array();
-                foreach ($data as $data_key => $data_value) {
-                    $escaped_data[$data_key] = html_escape($data_value);
-                }
 
+                foreach ($data as $data_key => $data_value) {
+                    if($escape){
+                        $escaped_data[$data_key] = html_escape($data_value);
+                    }else{
+                        $escaped_data[$data_key] = $data_value;
+                    }
+                    
+                }
+                
                 $escaped_data['date_created'] = date("Y-m-d H:i:s");
                 if($this->db->insert($table, $escaped_data)){
                     return $id;
-                }else{
-                    print_r($this->db->error());
-                    return false;
+                }else{ 
+                    print_r($this->writedb->error());
+                    return false; 
                 }
             }else{
                 exit("Data is empty");
             }
-
-
+            
+            
         }else{
             echo "Table name was not declared.";
             return false;
