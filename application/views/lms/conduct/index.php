@@ -144,7 +144,8 @@
                                                                 <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th class="text-left">Indicator ID</th>                                                                            
+                                                                            <th class="text-left">Indicator ID</th>
+                                                                            <th class="text-left">DepEd Indicator</th>
                                                                             <th class="text-left">Indicator</th>
                                                                             <th class="text-left">Conduct Grade</th>
                                                                             <!-- <th class="text-left">Core Indicator</th>
@@ -161,7 +162,8 @@
                                                                             $coreindicator = $row->deped_indicators;
 
                                                                             echo "<tr>\r\n";
-                                                                            echo "<td class='text-center'>$row->id</td>\r\n";                                                                            
+                                                                            echo "<td class='text-center'>$row->id</td>\r\n";
+                                                                            echo "<td class='text-left'>$coreindicator</td>\r\n";
                                                                             echo "<td class='text-left'>$row->indicators</td>\r\n";
                                                                             echo "<td class='text-center'>";
                                                                             echo "<select name='conduct[]' class='form-control'>";
