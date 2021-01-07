@@ -38,6 +38,7 @@ class Parents extends Parent_Controller
         $this->load->model('class_model');
         $this->load->model('apply_leave_model');
         $this->load->model('gradereport_model');
+        $this->load->model('conduct_model');
 
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->payment_method = $this->paymentsetting_model->getActiveMethod();
@@ -731,8 +732,11 @@ class Parents extends Parent_Controller
         $section_id = $student['section_id'];
         $student_current_class = $this->customlib->getStudentCurrentClsSection();
         $data['quarter_list'] = $this->gradereport_model->get_quarter_list();        
+        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
         $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
         $data['resultlist'] = $class_record;
+        $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+        $data['student_conduct'] = $student_conduct;
 
         $this->load->view('layout/parent/header', $data);
         $this->load->view('parent/student/getclassrecord', $data);
