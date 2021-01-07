@@ -405,4 +405,28 @@ class Gradereport_model extends CI_Model
         $query = $this->db->query($sql);
         return $query->result_array();
     }
+
+    public function get_student_conduct($_year, $_grade_level_id, $_section_id, $_student_id) {
+        $sql = "SELECT 
+                DISTINCT(grading_conduct_indicators.id),
+                grading_conduct_deped_indicators.indicator AS deped_indicators, 
+                grading_conduct_core_indicators.core_indicator AS core_indicator,
+                grading_conduct_indicators.indicator AS indicators,
+                fn_final_conduct($_year, 1, $_grade_level_id, $_section_id, $_student_id, grading_conduct_indicators.id) AS first_quarter,
+                fn_final_conduct($_year, 2, $_grade_level_id, $_section_id, $_student_id, grading_conduct_indicators.id) AS second_quarter,
+                fn_final_conduct($_year, 3, $_grade_level_id, $_section_id, $_student_id, grading_conduct_indicators.id) AS third_quarter,
+                fn_final_conduct($_year, 4, $_grade_level_id, $_section_id, $_student_id, grading_conduct_indicators.id) AS fourth_quarter
+                FROM grading_conduct_deped_indicators
+                LEFT JOIN grading_conduct_core_indicators ON grading_conduct_core_indicators.deped_indicator_id = grading_conduct_deped_indicators.id
+                LEFT JOIN grading_conduct_indicators ON grading_conduct_indicators.core_indicator_id = grading_conduct_core_indicators.id
+                LEFT JOIN grading_conduct ON grading_conduct.indicator_id = grading_conduct_indicators.id
+                AND grading_conduct.school_year = $_year 
+                AND grading_conduct.grade = $_grade_level_id
+                AND grading_conduct.section_id = $_section_id
+                AND grading_conduct.student_id = $_student_id
+                ORDER BY grading_conduct_indicators.id ASC";
+
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
 }

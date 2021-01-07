@@ -13,6 +13,7 @@ class Class_record extends Student_Controller
         $this->load->model('student_model');
         $this->load->model('gradereport_model');
         $this->load->model('setting_model');
+        $this->load->model('conduct_model');
 
         $this->sch_setting_detail = $this->setting_model->getSetting();
     }
@@ -25,10 +26,15 @@ class Class_record extends Student_Controller
         $student_current_class = $this->customlib->getStudentCurrentClsSection();
         $student_id = $this->customlib->getStudentSessionUserID();
         // print_r("CloudPH Debug Mode");die();
-        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();        
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();  
+        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+        
         $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
+        $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
+        // print_r($student_conduct);die();
         // print_r($class_record);die();
         $data['resultlist'] = $class_record;
+        $data['student_conduct'] = $student_conduct;
         
         $this->load->view('layout/student/header', $data);
         $this->load->view('user/class_record/class_record', $data);
