@@ -504,6 +504,7 @@ s<aside class="main-sidebar" id="alert2">
 
                             <li class="<?php echo set_Submenu('grading/create'); ?>"><a href="<?php echo base_url(); ?>lms/grading/setup"><i class="fa fa-angle-double-right"></i> Create Grading </a></li>
                             <li class="<?php echo set_Submenu('grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/grading/index"><i class="fa fa-angle-double-right"></i> Edit Grading </a></li>
+                            <li class="<?php echo set_Submenu('final_grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/index"><i class="fa fa-angle-double-right"></i> Final Grading Encoding </a></li>
                             <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
 
                         </ul>
@@ -701,7 +702,9 @@ s<aside class="main-sidebar" id="alert2">
                         <ul class="treeview-menu">
                             
                             <li class="<?php echo set_Submenu('book/getall'); ?>">
-                                <a href="http://sophiameycauayan.campuscloudph.com/worldbook_login/"><i class="fa fa-angle-double-right"></i>Resources</a></li>
+                                <a href="http://sophiameycauayan.campuscloudph.com/worldbook_login/"><i class="fa fa-angle-double-right"></i>Resources</a>
+                            </li>
+
                             <?php if ($this->rbac->hasPrivilege('books', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('book/getall'); ?>">
                                     <a href="<?php echo base_url(); ?>admin/book/getall"><i class="fa fa-angle-double-right"></i><?php echo $this->lang->line('book_list'); ?></a></li>
