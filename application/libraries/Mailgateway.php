@@ -58,6 +58,30 @@ class Mailgateway
             }
         }
     }
+
+    public function sendOnlineAdmissionApplicationMail($details, $template)
+    {
+        print_r("On Debug Mode");die();
+
+        if (!empty($this->_CI->mail_config) && $details['email'] != "") 
+        {
+            $subject = "Online Admission Application";
+            // var_dump($template);die();
+            $msg = $this->getStudentResultContent($details, $template);
+            // var_dump($msg);die();
+
+            if ($this->_CI->mailer->send_mail($details['email'], $subject, $msg))
+            {
+                return $email_log = array("title"=>"Success - Online Admission Application Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$details['email']);
+                // $this->_CI->lesson_model->sms_create("messages",$email_log);
+                // $this->_CI->my_model->log("Student online admission application notice sent", $id, "Email");
+            }else{
+                return $email_log = array("title"=>"Not Sent - Online Admission Application Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$details['email']);
+                // $this->_CI->lesson_model->sms_create("messages",$email_log);
+            }
+        }
+    }
+
     public function send_lesson_details($id, $send_to, $template,$data)
     {
         if (!empty($this->_CI->mail_config) && $send_to != "") {
@@ -323,14 +347,14 @@ class Mailgateway
 
     }
 
-    public function getContent($sender_details, $template)
-    {
+    // public function getContent($sender_details, $template)
+    // {
 
-        foreach ($sender_details as $key => $value) {
-            $template = str_replace('{{' . $key . '}}', $value, $template);
-        }
+    //     foreach ($sender_details as $key => $value) {
+    //         $template = str_replace('{{' . $key . '}}', $value, $template);
+    //     }
 
-        return $template;
-    }
+    //     return $template;
+    // }
 
 }

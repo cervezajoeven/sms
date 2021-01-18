@@ -92,6 +92,7 @@ class Onlinestudent_model extends MY_Model {
         $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
         $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
         $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
+        $this->db->where('online_admissions.session_id', $this->current_session);
 
         //echo $this->db->last_query(); die;
 
@@ -457,6 +458,7 @@ class Onlinestudent_model extends MY_Model {
         $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
         $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
         $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
+        $this->db->where('online_admissions.session_id', $this->current_session);
         $this->db->where('students.roll_no', $roll_no);
 
         $query = $this->db->get();
@@ -500,6 +502,7 @@ class Onlinestudent_model extends MY_Model {
         $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
         $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
         $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
+        $this->db->where('online_admissions.session_id', $this->current_session);
         $this->db->where('students.lrn_no', $lrn_no);
 
         $query = $this->db->get();

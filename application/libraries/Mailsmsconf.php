@@ -28,7 +28,7 @@ class Mailsmsconf
     public function mailsms($send_for, $sender_details, $date = null, $exam_schedule_array = null)
     {
         // $send_for = $this->config_mailsms[$send_for];
-        // var_dump($send_for);die;
+        // print_r("On Debug Mode");die();
         //=========
         $chk_mail_sms = $this->CI->customlib->sendMailSMS($send_for);
 
@@ -130,8 +130,15 @@ class Mailsmsconf
 
                     return $this->CI->mailgateway->sendLoginCredentialJoe($chk_mail_sms, $sender_details, $chk_mail_sms['template']);
             }
-            else {
+            elseif ($send_for == "online_admission") {
+                // var_dump($chk_mail_sms['template']);die();
 
+                if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") {
+                    $this->CI->mailgateway->sendOnlineAdmissionApplicationMail($sender_details, $chk_mail_sms['template']);
+                }
+                if ($chk_mail_sms['sms'] && $chk_mail_sms['template'] != "") {
+                    $this->CI->smsgateway->sentRegisterSMS($sender_details['student_id'], $sender_details['contact_no'], $chk_mail_sms['template']);
+                }
             }
         }
 

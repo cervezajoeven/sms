@@ -37,6 +37,8 @@ class Welcome extends Front_Controller
         $this->perPage                = 12;
         $ban_notice_type              = $this->config->item('ci_front_notice_content');
         $this->data['banner_notices'] = $this->cms_program_model->getByCategory($ban_notice_type, array('start' => 0, 'limit' => 5));
+
+        $this->load->library('mailsmsconf');
     }
 
     public function show_404()
@@ -583,6 +585,15 @@ class Welcome extends Front_Controller
                                         
                                 }
                             } 
+
+                            //--Send acknowledgement mail
+                            $sender_details = array('admission_date' => date("Y-m-d"), 
+                                                    'firstname' => $old_student_data->firstname, 
+                                                    'lastname' => $old_student_data->lastname, 
+                                                    'guardian_name' => $old_student_data->guardian_name, 
+                                                    'email' => $old_student_data->guardian_email == '' ? $this->input->post('guardian_email') : $old_student_data->guardian_email);
+                            // var_dump($sender_details);die();
+                            $this->mailsmsconf->mailsms('online_admission', $sender_details);
     
                             redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));                            
                         }
@@ -731,6 +742,15 @@ class Welcome extends Front_Controller
                                         $this->session->set_flashdata('msg', '<div class="alert alert-info">Your child '.$has_admission->firstname.' '.$has_admission->lastname.' '.$this->lang->line('already_enrolled') . '</div>');
                                 }
                             }
+
+                            //--Send acknowledgement mail
+                            $sender_details = array('admission_date' => date("Y-m-d"), 
+                                                    'firstname' => $this->input->post('firstname'), 
+                                                    'lastname' => $this->input->post('lastnae'), 
+                                                    'guardian_name' => $this->input->post('guardian_name'), 
+                                                    'email' => $this->input->post('guardian_email'));
+                            // var_dump($sender_details);die;
+                            $this->mailsmsconf->mailsms('online_admission', $sender_details);
          
                             redirect(site_url('lms/survey/respond/lms_survey_offline_159146294820546101'));
                         }

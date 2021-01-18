@@ -71,104 +71,104 @@
                         </div>                     
                     </div>
                     <div class="table-responsive">
-                            <?php if (isset($student_conduct)) {?>
-                                <section class="content-header">
-                                        <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
-                                    </section>
-                                    <!-- Main content -->
-                                    <section class="content">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="box box-primary">
-                                                    <div class="box-body box-profile">
-                                                        <h3 class="profile-username text-center">Legend</h3>
-                                                        <ul class="list-group list-group-unbordered">
-                                                            <?php foreach($legend_list as $legendrow) { ?>
-                                                                    <li class="list-group-item">
-                                                                        <b><?php echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php echo $legendrow->description; ?></span>
-                                                                    </li>
-                                                            <?php } ?>
-                                                        </ul>
-                                                    </div>
+                        <?php if (isset($student_conduct)) {?>
+                            <section class="content-header">
+                                    <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
+                                </section>
+                                <!-- Main content -->
+                                <section class="content">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="box box-primary">
+                                                <div class="box-body box-profile">
+                                                    <h3 class="profile-username text-center">Legend</h3>
+                                                    <ul class="list-group list-group-unbordered">
+                                                        <?php foreach($legend_list as $legendrow) { ?>
+                                                                <li class="list-group-item">
+                                                                    <b><?php echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php echo $legendrow->description; ?></span>
+                                                                </li>
+                                                        <?php } ?>
+                                                    </ul>
                                                 </div>
-                                            </div>                                 
-                                            <div class="col-md-10">
-                                                <div class="box box-warning">
-                                                    <div class="box-header ptbnull">
-                                                        <h3 class="box-title titlefix"> Conduct Grades</h3>
-                                                        <div class="box-tools pull-right"></div>
-                                                    </div>
-                                                    <div class="box-body">
-                                                        <div class="table-responsive">
-                                                            <?php if (!empty($student_conduct)) { ?>
-                                                                <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th class="text-left">Indicator ID</th>
-                                                                            <th class="text-left">DepEd Indicator</th>
-                                                                            <th class="text-left">Indicator</th>
-                                                                            <th class="text-left">1st Qtr</th>
-                                                                            <th class="text-left">2nd Qtr</th>
-                                                                            <th class="text-left">3rd Qtr</th>
-                                                                            <th class="text-left">4rth Qtr</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <?php
+                                            </div>
+                                        </div>                                 
+                                        <div class="col-md-10">
+                                            <div class="box box-warning">
+                                                <div class="box-header ptbnull">
+                                                    <h3 class="box-title titlefix"> Conduct Grades</h3>
+                                                    <div class="box-tools pull-right"></div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="table-responsive">
+                                                        <?php if (!empty($student_conduct)) { ?>
+                                                            <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="text-left">Indicator ID</th>
+                                                                        <th class="text-left">DepEd Indicator</th>
+                                                                        <th class="text-left">Indicator</th>
+                                                                        <th class="text-left">1st Qtr</th>
+                                                                        <th class="text-left">2nd Qtr</th>
+                                                                        <th class="text-left">3rd Qtr</th>
+                                                                        <th class="text-left">4rth Qtr</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
 
-                                                                        foreach($student_conduct as $row) {
-                                                                            if ($coreindicator == $row->deped_indicators)
-                                                                                $depedrowspan++;
+                                                                    foreach($student_conduct as $row) {
+                                                                        if ($coreindicator == $row->deped_indicators)
+                                                                            $depedrowspan++;
 
-                                                                            // $coreindicator = $row->deped_indicators;
+                                                                        // $coreindicator = $row->deped_indicators;
 
-                                                                            echo "<tr>\r\n";
-                                                                            echo "<td class='text-center'>$row->id</td>\r\n";
-                                                                            echo "<td class='text-left'>$row->deped_indicators</td>\r\n";
-                                                                            echo "<td class='text-left'>$row->indicators</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->first_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->second_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->third_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
-                                                                            // echo "<select name='conduct[]' class='form-control'>";
-                                                                            // echo "<option value=''>".$this->lang->line('select')."</option>";
-                                                                            // foreach($legend_list as $legendrow) {
-                                                                            //     $selected = "";
-                                                                            //     if ($legendrow->conduct_grade == $row->conduct)
-                                                                            //         $selected = "selected";
-                                                                            //     echo "<option value='".$row->id."-".$legendrow->conduct_grade."' ".$selected.">".$legendrow->conduct_grade."</option>";
-                                                                            // }
-                                                                            // echo "</select>";
-                                                                            // echo "</td>\r\n";
-                                                                            echo "</tr>\r\n";
-                                                                        }
-                                                                        ?>
-                                                                    </tbody>
-                                                                    <tfoot>
-                                                                        <!-- <tr>
-                                                                            <th>Average</th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                        </tr> -->
-                                                                    </tfoot>
-                                                                </table>
+                                                                        echo "<tr>\r\n";
+                                                                        echo "<td class='text-center'>$row->id</td>\r\n";
+                                                                        echo "<td class='text-left'>$row->deped_indicators</td>\r\n";
+                                                                        echo "<td class='text-left'>$row->indicators</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->first_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->second_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->third_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
+                                                                        // echo "<select name='conduct[]' class='form-control'>";
+                                                                        // echo "<option value=''>".$this->lang->line('select')."</option>";
+                                                                        // foreach($legend_list as $legendrow) {
+                                                                        //     $selected = "";
+                                                                        //     if ($legendrow->conduct_grade == $row->conduct)
+                                                                        //         $selected = "selected";
+                                                                        //     echo "<option value='".$row->id."-".$legendrow->conduct_grade."' ".$selected.">".$legendrow->conduct_grade."</option>";
+                                                                        // }
+                                                                        // echo "</select>";
+                                                                        // echo "</td>\r\n";
+                                                                        echo "</tr>\r\n";
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <!-- <tr>
+                                                                        <th>Average</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr> -->
+                                                                </tfoot>
+                                                            </table>
 
-                                                            <?php } ?>                            
-                                                        </div>                                                                          
-                                                    </div>
+                                                        <?php } ?>                            
+                                                    </div>                                                                          
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <button type="submit" name="save_conduct" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-save"></i> <?php echo $this->lang->line('save'); ?></button>
-                                            </div>
-                                        </div>    -->
-                                    </section>
-                            <?php } ?>
-                        </div>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button type="submit" name="save_conduct" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-save"></i> <?php echo $this->lang->line('save'); ?></button>
+                                        </div>
+                                    </div>    -->
+                                </section>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
         </div>

@@ -677,6 +677,15 @@ class Smsgateway
 
     }
 
+    public function getOnlineAdmissionAcknowledgementContent($details, $template)
+    {
+        foreach ($details as $key => $value) {
+            $template = str_replace('{{' . $key . '}}', $value, $template);
+        }
+
+        return $template;
+    }
+
     public function getAddFeeContent($data, $template)
     {
         // $currency_symbol = $this->sch_setting[0]['currency_symbol'];

@@ -93,6 +93,7 @@ class General_model extends MY_Model {
         $this->db->where("student_session.section_id",$section_id);
         $this->db->where("students.is_active","yes");
         $this->db->order_by("students.lastname","asc");
+        $this->db->order_by("students.firstname","asc");
 
         $query = $this->db->get("student_session");
 
