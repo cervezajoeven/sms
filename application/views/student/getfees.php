@@ -81,11 +81,9 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                                 }
                                                                 ?>
                                                             </td>
-                                                        <?php } if ($sch_setting->rte) { ?>
-                                                            <th><?php echo $this->lang->line('rte'); ?></th>
-                                                            <td><b class="text-danger"> <?php echo $student['rte']; ?> </b>
-                                                            </td>
                                                         <?php } ?>
+                                                            <th><?php echo "" ?></th>
+                                                            <td><b class="text-danger"> <?php echo ""; ?> </b></td>
                                                     </tr>
 
                                                 </tbody>
