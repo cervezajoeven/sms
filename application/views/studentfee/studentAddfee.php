@@ -310,8 +310,7 @@ $language_name = $language["short_code"];
 
                                                 $fee_deposits = json_decode(($fee_value->amount_detail));
 
-                                                foreach ($fee_deposits as $fee_deposits_key => $fee_deposits_value) {
-                                                    ?>
+                                                foreach ($fee_deposits as $fee_deposits_key => $fee_deposits_value) {?>
                                                     <tr class="white-td">
                                                         <!-- <td align="left"></td>
                                                         <td align="left"></td>-->
