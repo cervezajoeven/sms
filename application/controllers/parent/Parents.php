@@ -735,7 +735,10 @@ class Parents extends Parent_Controller
         $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
         $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
         $data['resultlist'] = $class_record;
-        $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+
+        $student_conduct = null;
+        if ($this->sch_setting_detail->conduct_grade_view == 0)
+            $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
         $data['student_conduct'] = $student_conduct;
 
         $this->load->view('layout/parent/header', $data);

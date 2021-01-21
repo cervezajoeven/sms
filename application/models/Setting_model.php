@@ -108,7 +108,7 @@ class Setting_model extends MY_Model {
                            sch_settings.staff_work_location,sch_settings.staff_leaves,sch_settings.staff_account_details,sch_settings.staff_social_media,sch_settings.staff_upload_documents,
                            sch_settings.admin_logo,sch_settings.admin_small_logo,sch_settings.mobile_api_url,sch_settings.app_primary_color_code,sch_settings.app_secondary_color_code,
                            sch_settings.app_logo,languages.short_code as `language_code`,sch_settings.zoom_api_key,sch_settings.zoom_api_secret,
-                           sch_settings.email_on_student_import,sch_settings.data_privacy_chkbox_text'
+                           sch_settings.email_on_student_import,sch_settings.data_privacy_chkbox_text, sch_settings.conduct_grade_view'
         );
 
         $this->db->from('sch_settings');
