@@ -100,62 +100,69 @@
                                                 </div>
                                                 <div class="box-body">
                                                     <div class="table-responsive">
-                                                        <?php if (!empty($student_conduct)) { ?>
-                                                            <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="text-left">Indicator ID</th>
-                                                                        <th class="text-left">DepEd Indicator</th>
-                                                                        <th class="text-left">Indicator</th>
-                                                                        <th class="text-left">1st Qtr</th>
-                                                                        <th class="text-left">2nd Qtr</th>
-                                                                        <th class="text-left">3rd Qtr</th>
-                                                                        <th class="text-left">4rth Qtr</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <?php
+                                                        <?php if (!empty($student_conduct)) { 
+                                                            
+                                                            if ($conduct_grading_type == "letter") {?>
+                                                                <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="text-left">Indicator ID</th>
+                                                                            <th class="text-left">DepEd Indicator</th>
+                                                                            <th class="text-left">Indicator</th>
+                                                                            <th class="text-left">1st Qtr</th>
+                                                                            <th class="text-left">2nd Qtr</th>
+                                                                            <th class="text-left">3rd Qtr</th>
+                                                                            <th class="text-left">4rth Qtr</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <?php
 
-                                                                    foreach($student_conduct as $row) {
-                                                                        if ($coreindicator == $row->deped_indicators)
-                                                                            $depedrowspan++;
-
-                                                                        // $coreindicator = $row->deped_indicators;
-
-                                                                        echo "<tr>\r\n";
-                                                                        echo "<td class='text-center'>$row->id</td>\r\n";
-                                                                        echo "<td class='text-left'>$row->deped_indicators</td>\r\n";
-                                                                        echo "<td class='text-left'>$row->indicators</td>\r\n";
-                                                                        echo "<td class='text-center'>$row->first_quarter</td>\r\n";
-                                                                        echo "<td class='text-center'>$row->second_quarter</td>\r\n";
-                                                                        echo "<td class='text-center'>$row->third_quarter</td>\r\n";
-                                                                        echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
-                                                                        // echo "<select name='conduct[]' class='form-control'>";
-                                                                        // echo "<option value=''>".$this->lang->line('select')."</option>";
-                                                                        // foreach($legend_list as $legendrow) {
-                                                                        //     $selected = "";
-                                                                        //     if ($legendrow->conduct_grade == $row->conduct)
-                                                                        //         $selected = "selected";
-                                                                        //     echo "<option value='".$row->id."-".$legendrow->conduct_grade."' ".$selected.">".$legendrow->conduct_grade."</option>";
-                                                                        // }
-                                                                        // echo "</select>";
-                                                                        // echo "</td>\r\n";
-                                                                        echo "</tr>\r\n";
-                                                                    }
-                                                                    ?>
-                                                                </tbody>
-                                                                <tfoot>
-                                                                    <!-- <tr>
-                                                                        <th>Average</th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                    </tr> -->
-                                                                </tfoot>
-                                                            </table>
-
-                                                        <?php } ?>                            
+                                                                        foreach($student_conduct as $row) {
+                                                                            echo "<tr>\r\n";
+                                                                            echo "<td class='text-center'>$row->id</td>\r\n";
+                                                                            echo "<td class='text-left'>$row->deped_indicators</td>\r\n";
+                                                                            echo "<td class='text-left'>$row->indicators</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->first_quarter</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->second_quarter</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->third_quarter</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
+                                                                            echo "</tr>\r\n";
+                                                                        }
+                                                                        ?>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                    </tfoot>
+                                                                </table>
+                                                            <?php } else if ($conduct_grading_type == "number") {?>
+                                                                <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="text-center">ID</th>
+                                                                            <th class="text-center">1st Qtr</th>
+                                                                            <th class="text-center">2nd Qtr</th>
+                                                                            <th class="text-center">3rd Qtr</th>
+                                                                            <th class="text-center">4rth Qtr</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <?php
+                                                                        foreach($student_conduct as $row) {
+                                                                            echo "<tr>\r\n";
+                                                                            echo "<td class='text-center'>&nbsp;</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->first_quarter</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->second_quarter</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->third_quarter</td>\r\n";
+                                                                            echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
+                                                                            echo "</tr>\r\n";
+                                                                        } 
+                                                                        ?>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                    </tfoot>
+                                                                </table>
+                                                            <?php }
+                                                        } ?>                            
                                                     </div>                                                                          
                                                 </div>
                                             </div>

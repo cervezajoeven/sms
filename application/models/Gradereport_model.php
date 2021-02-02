@@ -429,4 +429,70 @@ class Gradereport_model extends CI_Model
         $query = $this->db->query($sql);
         return $query->result();
     }
+
+    public function get_student_conduct_numeric($_school_year, $_grade_level_id, $_section_id, $_student_id) {
+        $sql = "SELECT tbl1.conduct_grade AS first_quarter, tbl2.conduct_grade AS second_quarter,
+                tbl3.conduct_grade AS third_quarter, tbl4.conduct_grade AS fourth_quarter
+                FROM
+                (
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                FROM grading_conduct_numeric
+                WHERE school_year = $_school_year
+                AND QUARTER = 1
+                AND grade_level = $_grade_level_id
+                AND section_id = $_section_id
+                AND student_id = $_student_id
+                ) tbl1
+                
+                LEFT JOIN 
+                (
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                FROM grading_conduct_numeric
+                WHERE school_year = $_school_year
+                AND QUARTER = 2
+                AND grade_level = $_grade_level_id
+                AND section_id = $_section_id
+                AND student_id = $_student_id
+                ) tbl2 ON tbl2.student_id = tbl1.student_id
+                
+                LEFT JOIN 
+                (
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                FROM grading_conduct_numeric
+                WHERE school_year = $_school_year
+                AND QUARTER = 3
+                AND grade_level = $_grade_level_id
+                AND section_id = $_section_id
+                AND student_id = $_student_id
+                ) tbl3 ON tbl3.student_id = tbl1.student_id
+                
+                LEFT JOIN 
+                (
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                FROM grading_conduct_numeric
+                WHERE school_year = $_school_year
+                AND QUARTER = 4
+                AND grade_level = $_grade_level_id
+                AND section_id = $_section_id
+                AND student_id = $_student_id
+                ) tbl4 ON tbl4.student_id = tbl1.student_id";
+
+        // print_r($sql);die();
+
+        $query = $this->db->query($sql);
+        return $query->result();
+
+        // $this->db->select('fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS \'conduct_grade\'');
+        // $this->db->from('grading_conduct_numeric');
+        // $this->db->where('school_year', $_school_year);
+        // $this->db->where('quarter', $_quarter);
+        // $this->db->where('grade_level', $_grade_level_id);
+        // $this->db->where('section_id', $_section_id);
+        // $this->db->where('student_id', $_student_id);
+        // $this->db->order_by('description');
+
+        // // $result = $this->db->get()->result_array();
+        // $result = $this->db->get()->row();
+        // return $result->conduct_grade;
+    }
 }
