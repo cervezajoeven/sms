@@ -45,7 +45,9 @@ class Report extends Admin_Controller {
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
         $this->load->model('session_model');
-        $this->load->model('subject_model');        
+        $this->load->model('subject_model');  
+        $this->load->model('conduct_model');     
+          
         
         $this->search_type=$this->customlib->get_searchtype();
         $this->sch_setting_detail = $this->setting_model->getSetting();        
@@ -1827,6 +1829,8 @@ $attd=array();
         $data['sch_setting'] = $this->sch_setting_detail;
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
+        $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
+        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
         
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -1856,7 +1860,18 @@ $attd=array();
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
-                $student = $this->input->post('student_id');                
+                $student = $this->input->post('student_id');
+
+                $student_conduct = null;
+                if ($this->sch_setting_detail->conduct_grade_view == 0)
+                {
+                    if ($this->sch_setting_detail->conduct_grading_type == 'letter')
+                        $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student);
+                    else if ($this->sch_setting_detail->conduct_grading_type == 'number')
+                        $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student);
+                }
+
+                $data['student_conduct'] = $student_conduct;
 
                 $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student, $grade_level, $section);
                 // print_r(json_encode($class_record));die();

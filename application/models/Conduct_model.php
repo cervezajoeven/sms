@@ -96,7 +96,7 @@ class Conduct_model extends MY_Model
     public function save_conduct_grades_numeric($data)
     {
         $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+        $this->writedb->trans_strict(false);
 
         // $this->writedb->where('school_year', $data["school_year"]);
         // $this->writedb->where('quarter', $data["quarter"]);

@@ -103,22 +103,8 @@
                                         </section>
                                         <!-- Main content -->
                                         <section class="content">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="box box-primary">
-                                                        <div class="box-body box-profile">
-                                                            <h3 class="profile-username text-center">LEGEND</h3>
-                                                            <ul class="list-group list-group-unbordered">
-                                                                <?php foreach($legend_list as $legendrow) { ?>
-                                                                        <li class="list-group-item">
-                                                                            <b><?php echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php echo $legendrow->description; ?></span>
-                                                                        </li>
-                                                                <?php } ?>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>                                 
-                                                <div class="col-md-9">
+                                            <div class="row">                                                
+                                                <div class="col-md-12">
                                                     <div class="box box-warning">
                                                         <div class="box-header ptbnull">
                                                             <h3 class="box-title titlefix"> <?php echo ""; ?></h3>
@@ -140,9 +126,8 @@
                                                                             <?php if (!empty($resultlist)) { 
                                                                                 foreach($resultlist as $row) {
                                                                                     echo "<tr>\r\n";
-                                                                                    // echo "<input type=\"hidden\" name=\"student_id[]\" value=".$row->id.">\r\n";
                                                                                     echo "<td class='text-left'>".$row->roll_no."</td>\r\n";
-                                                                                    echo "<td class='text-left'>".strtoupper($row->student_name)."</td>\r\n";
+                                                                                    echo "<td class='text-left'><a href=\"".base_url()."student/view/".$row->id."\">".strtoupper($row->student_name)."</a></td>\r\n";
                                                                                     echo "<td class='text-left'>".strtoupper($row->gender)."</td>\r\n";
                                                                                     echo "<td class='text-center'><input type=\"hidden\" name=\"studentidhidden[]\" value=".$row->id."><input type=\"number\" name=\"conductgrades[]\" value=\"".$row->conduct_num."\" min=\"60\" max=\"100\"></td>\r\n";
                                                                                     echo "</tr>\r\n";
@@ -156,6 +141,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- <div class="col-md-3">
+                                                    <div class="box box-primary">
+                                                        <div class="box-body box-profile">
+                                                            <h3 class="profile-username text-center">LEGEND</h3>
+                                                            <ul class="list-group list-group-unbordered">
+                                                                <?php //foreach($legend_list as $legendrow) { ?>
+                                                                        <li class="list-group-item">
+                                                                            <b><?php //echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php //echo $legendrow->description; ?></span>
+                                                                        </li>
+                                                                <?php //} ?>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
                                             </div>
                                             <div class="row">
                                                 <div class="box-footer">
