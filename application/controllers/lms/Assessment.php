@@ -506,22 +506,35 @@ class Assessment extends General_Controller {
             $tmp_name = $_FILES['assessment_form']['tmp_name'];
             $file_name = $this->assessment_model->id_generator("assessment").".pdf";
             $dest = FCPATH."uploads/lms_assessment/".$id."/".$file_name;
+			
+			// print_r($dest);
+			//mkdir(FCPATH."uploads/EMN");
+			$folderCreated = false;
+			
             if(!is_dir(FCPATH."uploads/lms_assessment/".$id)){
-                mkdir(FCPATH."uploads/lms_assessment/".$id);
-            }
+				try {
+					mkdir(FCPATH."uploads/lms_assessment/".$id);
+					$folderCreated = true;
+				} catch(ErrorException $ex) {
+					echo "<script>alert('Upload failed! (".$ex->getMessage().")');window.location.replace('".site_url('lms/assessment/edit/'.$id)."')</script>";
+				}                
+            }			
             
-            if(move_uploaded_file($tmp_name, $dest)){
-                $data['id'] = $id;
-                $data['assessment_file'] = $file_name;
+			if ($folderCreated == true) {
+				if(move_uploaded_file($tmp_name, $dest)){
+					$data['id'] = $id;
+					$data['assessment_file'] = $file_name;
 
-                $this->assessment_model->lms_update("lms_assessment",$data);
-                
-                echo "<script>alert('Successfully uploaded');window.location.replace('".site_url('lms/assessment/edit/'.$id)."')</script>";
-            }
+					$this->assessment_model->lms_update("lms_assessment",$data);
+					
+					echo "<script>alert('Successfully uploaded');window.location.replace('".site_url('lms/assessment/edit/'.$id)."')</script>";
+				}else{
+					echo "<script>alert('Upload failed!');window.location.replace('".site_url('lms/assessment/edit/'.$id)."')</script>";
+				}	
+			}            		
         }else{
             echo "<script>alert('Only PDF files are allowed');window.location.replace('".site_url('lms/assessment/edit/'.$id)."')</script>";
-        }
-        
+        }        
     }
 
     public function delete($id){

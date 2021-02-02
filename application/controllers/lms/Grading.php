@@ -61,7 +61,8 @@ class Grading extends General_Controller {
 
         $data['classes'] = $this->general_model->get_classes();
         $data['sections'] = $this->general_model->get_sections();
-        $data['subjects'] = $this->assessment_model->lms_get('subjects',"","","id,name");
+        // $data['subjects'] = $this->assessment_model->lms_get('subjects',"","","id,name");
+        $data['subjects'] = $this->assessment_model->lms_getv2('subjects',"1","graded","id,name", "name", "ASC");
         $data['quarters'] = $this->general_model->lms_get('grading_quarter',"","");
         $this->load->view('layout/header');
         $this->load->view('lms/grading/setup', $data);
@@ -290,13 +291,9 @@ class Grading extends General_Controller {
             $disable_data['disabled'] = 1;
             $disabled_data = $this->general_model->lms_update("grading_column_scores",$disable_data);
 
-        }
+        }        
 
-        
-
-        // redirect(base_url('lms/grading/index/'.$id));
-        
-
+        redirect(base_url('lms/grading/index/'.$id));
     }
 
     function retrieve($id){
@@ -1410,7 +1407,6 @@ class Grading extends General_Controller {
 
 
         redirect(base_url('lms/grading/edit/'.$class_record_id));
-
     }
 
 }

@@ -60,6 +60,29 @@ class MY_Model extends CI_Model
         }
         
     }
+
+    public function lms_getv2($table="",$value="",$where="",$select="*", $orderby="", $orderdirection="ASC") {
+        if($table){
+            $this->db->select($select);
+            if($value){
+                if($where){
+                    $this->db->where($where,$value);                    
+                }else{
+                    die("Where is not defined!");
+                }
+            }
+            if($orderby) {
+                $this->db->order_by($orderby, $orderdirection);
+            }
+            $query = $this->db->get($table);
+            $return = $query->result_array();
+            return $return;
+        }else{
+            die("Table name was not defined.");
+        }
+        
+    }
+
     public function lms_create($table="",$data=array(),$escape=TRUE){
 
         if($table&&is_string($table)){

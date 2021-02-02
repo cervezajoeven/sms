@@ -74,10 +74,10 @@ class General_model extends MY_Model {
     }
 
     public function get_classes(){
-        return $this->db->select("*")->get("classes")->result_array();   
+        return $this->db->select("*")->order_by("id", "ASC")->get("classes")->result_array();   
     }
     public function get_sections(){
-        return $this->db->select("*")->get("sections")->result_array();   
+        return $this->db->select("*")->order_by("section", "ASC")->get("sections")->result_array();
     }
 
     public function get_subjects(){
