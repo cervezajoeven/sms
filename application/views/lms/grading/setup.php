@@ -13,11 +13,11 @@
     <section class="content">
         <div class="row">
             <?php
-            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                ?>
+            if ($this->rbac->hasPrivilege('upload_content', 'can_add')) { ?>
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
-                    <div class="box box-primary">
+                    <div class="box removeboxmius">
+                        <div class="box-header ptbnull"></div>
                         <div class="box-header with-border">
                             <h3 class="box-title">Create Grades</h3>
                         </div><!-- /.box-header -->
@@ -82,24 +82,15 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
                                 
-
-                                
                             </div><!-- /.box-body -->
 
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
                             </div>
                         </form>
-                    </div>
-
-                </div><!--/.col (right) -->
-                <!-- left column -->
-            <!-- <?php } ?> -->
-            
-
-
-            <!-- right column -->
-
+                    </div>          
+                </div>
+            <?php } ?>
         </div>
         <div class="row">
             <!-- left column -->

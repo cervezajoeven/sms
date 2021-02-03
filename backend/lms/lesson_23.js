@@ -70,6 +70,7 @@ $(document).ready(function(){
         label.find(".label-desc").html(selection);
         change_detected();
     });
+
     $("#allow_view").change(function(){
         change_detected();
     });
@@ -205,92 +206,102 @@ $(document).ready(function(){
         "AIzaSyD56J-2bn71BRuN2NA8xvk1DSFszKpyvnI",
     ];
     // window.addEventListener("resize", adjust_iframe());
-    function youtube_search(query,maxResults = 5){
-        var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
-        $.ajax({
-            url: youtube_api,
-            context: document.body
-        }).done(function(data) {
+    function youtube_search(query,maxResults = 5) {
+        if (query != "") {
+            var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
+            $.ajax({
+                url: youtube_api,
+                context: document.body
+            }).done(function(data) {
 
-            console.log(youtube_keys[youtube_looper]+" For youtube Worked");
-            var processed_data = process_data(data,"youtube");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
+                console.log(youtube_keys[youtube_looper]+" For youtube Worked");
+                var processed_data = process_data(data,"youtube");
+                result_pool = processed_data;
+                populate_search_content(processed_data);
 
-        }).error(function(){
-            console.log(youtube_keys[youtube_looper]+" For youtube did not work!");
-            youtube_looper++;
-            youtube_search();
+            }).error(function(){
+                console.log(youtube_keys[youtube_looper]+" For youtube did not work!");
+                youtube_looper++;
+                youtube_search();
 
-        });
+            });
+        }     
     }
 
-    function google_search(query,maxResults = 5){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&q="+query;
-        $.ajax({
-            url: api,
-            context: document.body
-        }).done(function(data) {
-            console.log(google_keys[google_looper]+" Worked");
-            var processed_data = process_data(data,"google");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-        }).error(function(){
+    function google_search(query,maxResults = 5) {
+        if (query != "") {
+            var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&q="+query;
+            $.ajax({
+                url: api,
+                context: document.body
+            }).done(function(data) {
+                console.log(google_keys[google_looper]+" Worked");
+                var processed_data = process_data(data,"google");
+                result_pool = processed_data;
+                populate_search_content(processed_data);
+            }).error(function(){
 
-            console.log(google_keys[google_looper]+" Did not work!");
-            google_looper++;
-            google_search();
-        });
+                console.log(google_keys[google_looper]+" Did not work!");
+                google_looper++;
+                google_search();
+            });
+        }        
     }
 
-    function google_image_search(query,maxResults = 10){
-        var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&searchType=image&q="+query;
-        $.ajax({
-            url: api,
-            context: document.body
-        }).done(function(data) {
-            var processed_data = process_data(data,"google_image");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-        }).error(function(){
+    function google_image_search(query,maxResults = 10) {
+        if (query != "") {
+            var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&searchType=image&q="+query;
+            $.ajax({
+                url: api,
+                context: document.body
+            }).done(function(data) {
+                var processed_data = process_data(data,"google_image");
+                result_pool = processed_data;
+                populate_search_content(processed_data);
+            }).error(function(){
 
-            console.log(google_keys[google_looper]+" Did not work!");
-            google_looper++;
-            google_search();
-        });
+                console.log(google_keys[google_looper]+" Did not work!");
+                google_looper++;
+                google_search();
+            });
+        }        
     }
-    function my_resources_search(query){
-        var api = url+"my_resources/"+query;
+    function my_resources_search(query) {
+        if (query != "") {
+            var api = url+"my_resources/"+query;
 
-        $.ajax({
-            url: api,
-            context: document.body
-        }).done(function(data) {
-            var processed_data = process_data(data,"my_resources");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-        });
+            $.ajax({
+                url: api,
+                context: document.body
+            }).done(function(data) {
+                var processed_data = process_data(data,"my_resources");
+                result_pool = processed_data;
+                populate_search_content(processed_data);
+            });
+        }        
     }
 
-    function cms_resources_search(query){
-        var api = url+"cms_resources/"+query;
+    function cms_resources_search(query) {
+        if (query != "") {
+            var api = url+"cms_resources/"+query;
 
-        $.ajax({
-            url: api,
-            context: document.body
-        }).done(function(data) {
+            $.ajax({
+                url: api,
+                context: document.body
+            }).done(function(data) {
 
-            var processed_data = process_data(data,"cms_resources");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-        });
+                var processed_data = process_data(data,"cms_resources");
+                result_pool = processed_data;
+                populate_search_content(processed_data);
+            });
+        }
     }
 
     function reset_result_pool(){
         result_pool = {};
     }
 
-    function portal_change(portal_name){
+    function portal_change(portal_name) {
         active_portal = portal_name;
         $(".instruction").hide();
         $(".upload_actions").hide();
@@ -305,7 +316,7 @@ $(document).ready(function(){
         }
     }
 
-    function reset_population(){
+    function reset_population() {
         $(".content_result").remove();
         reset_result_pool();
     }
@@ -809,7 +820,6 @@ $(document).ready(function(){
         $(".extremeright_icon").removeClass("icon_active");
         $(this).addClass("icon_active");
         portal_change(portal_name);
-        reset_population();
         $(".submit_button").click();
     });
     $('.trigger').click(function() {
@@ -969,20 +979,21 @@ $(document).ready(function(){
 
                 
             });
-        }else{
+        } else {
             console.log("No content");
-        }
-        
+        }        
     }
+
     $("#search_portal").on("keyup",function(event){
         if (event.keyCode === 13) {
             event.preventDefault();
-            reset_population();
             $(".submit_button").click();
         }
     });
 
-    $(".submit_button").on("click",function(){
+    $(".submit_button").on("click",function() {
+        reset_population();
+
         var search = $("#search_portal").val();
         switch(active_portal) {
             case "youtube":

@@ -72,9 +72,9 @@
                                                         <i class="fa fa-edit"></i>
                                                 </a>
 
-                                                <a data-placement="right" href="<?php echo site_url('lms/grading/edit_column/'.$list_data['id']) ?>" class="btn btn-default btn-xs duplicate"  data-toggle="tooltip" title="Edit">
+                                                <!-- <a data-placement="right" href="<?php //echo site_url('lms/grading/edit_column/'.$list_data['id']) ?>" class="btn btn-default btn-xs duplicate"  data-toggle="tooltip" title="Edit">
                                                     <i class="fa fa-list"></i>
-                                                </a>
+                                                </a> -->
 
                                                 <a data-placement="right" href="<?php echo site_url('lms/grading/delete/'.$list_data['id']) ?>" class="btn btn-default btn-xs duplicate"  data-toggle="tooltip" title="Delete">
                                                         <i class="fa fa-times"></i>

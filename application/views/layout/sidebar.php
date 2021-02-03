@@ -1140,11 +1140,10 @@ s<aside class="main-sidebar" id="alert2">
                                 <?php
                             }
 
-                            if ($this->rbac->hasPrivilege('payment_methods', 'can_view')) {
-                                ?>
-                                <li class="<?php echo set_Submenu('admin/paymentsettings'); ?>"><a href="<?php echo base_url(); ?>admin/paymentsettings"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('payment_methods'); ?></a></li>
-                                <?php
-                            }
+                            //if ($this->rbac->hasPrivilege('payment_methods', 'can_view')) { ?>
+                                <!-- <li class="<?php //echo set_Submenu('admin/paymentsettings'); ?>"><a href="<?php //echo base_url(); ?>admin/paymentsettings"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('payment_methods'); ?></a></li> -->
+                            <?php //}
+                            
                              if ($this->rbac->hasPrivilege('print_header_footer', 'can_view')) {
                             ?>
                                 <li class="<?php echo set_Submenu('admin/print_headerfooter'); ?>"><a href="<?php echo base_url(); ?>admin/print_headerfooter"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('print_headerfooter'); ?></a></li>

@@ -686,6 +686,19 @@
                                          </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4"><?php echo "Conduct Grading Input Type" ?></label>
+                                            <div class="col-sm-8">
+                                            <select  id="conduct_grading_type" name="conduct_grading_type" class="form-control" >
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <option value="letter" <?php if ($result->conduct_grading_type == "letter") echo "selected" ?>><?php echo "Letter"; ?></option>
+                                                <option value="number" <?php if ($result->conduct_grading_type == "number") echo "selected" ?>><?php echo "Number"; ?></option>
+                                            </select>
+                                            </div>
+                                         </div>
+                                    </div>
+
                                 </div><!--./row-->
 
                                 <div class="row">

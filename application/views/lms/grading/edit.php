@@ -107,7 +107,7 @@
 		        			<form class="change_grade_section_form class_record" method="post" action="<?php echo base_url('lms/grading/update_grade_section/'.$class_record['id']) ?>">
 		        			<td>First Quarter</td>
 		        			<td>
-		        				<select name="quarter" class="form-control grade_section quarter">
+		        				<select name="quarter" class="form-control grade_section quarter" disabled>
 			        				<?php foreach ($quarters as $quarter_key => $quarter_value): ?>
 		        						<option <?php echo ($quarter_value['id']==$class_record['quarter'])?"selected":""; ?> value="<?php echo $quarter_value['id'] ?>"><?php echo $quarter_value['description']; ?></option>
 		        					<?php endforeach ?>
@@ -119,7 +119,7 @@
 		        			<td>Grade</td>
 		        			
 		        				<td width="173px">
-			        				<select class="form-control grade_section" name="grade">
+			        				<select class="form-control grade_section" name="grade" disabled>
 			        					<?php foreach ($classes as $class_key => $class_value): ?>
 			        						<option <?php echo ($class_value['id']==$class_record['grade'])?"selected":""; ?> value="<?php echo $class_value['id'] ?>"><?php echo $class_value['class']; ?></option>
 			        					<?php endforeach ?>
@@ -127,7 +127,7 @@
 			        			</td>
 			        			<td>Section</td>
 			        			<td>
-			        				<select class="form-control grade_section class_record" name="section">
+			        				<select class="form-control grade_section class_record" name="section" disabled>
 			        					<?php foreach ($sections as $section_key => $section_value): ?>
 			        						<option <?php echo ($section_value['id']==$class_record['section_id'])?"selected":""; ?> value="<?php echo $section_value['id'] ?>"><?php echo $section_value['section']; ?></option>
 			        					<?php endforeach ?>
@@ -138,7 +138,7 @@
 			        			<td>Teacher</td>
 			        			<!-- <td><?php echo $class_record['name'] ?> <?php echo $class_record['surname'] ?></td> -->
 			        			<td>
-			        				<select class="form-control grade_section class_record" name="teacher">
+			        				<select class="form-control grade_section class_record" name="teacher" disabled>
 			        					<<?php foreach ($teachers as $teacher_key => $teacher_value): ?>
 			        						<option value="<?php echo $teacher_value['id'] ?>" <?php echo ($teacher_value['id']==$class_record['teacher_id'])?"selected":""; ?>><?php echo $teacher_value['name'] ?> <?php echo $teacher_value['surname'] ?></option>
 			        					<?php endforeach ?>
@@ -146,7 +146,7 @@
 			        			</td>
 			        			<td>Subject</td>
 			        			<td>
-			        				<select class="form-control grade_section class_record" name="subject">
+			        				<select class="form-control grade_section class_record" name="subject" disabled>
 			        					<<?php foreach ($subjects as $subject_key => $subject_value): ?>
 			        						<option value="<?php echo $subject_value['id'] ?>" <?php echo ($subject_value['id']==$class_record['subject_id'])?"selected":""; ?>><?php echo $subject_value['name']; ?></option>
 			        					<?php endforeach ?>
