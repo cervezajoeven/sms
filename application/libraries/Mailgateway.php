@@ -61,7 +61,7 @@ class Mailgateway
 
     public function sendOnlineAdmissionApplicationMail($details, $template)
     {
-        print_r("On Debug Mode");die();
+        // print_r("On Debug Mode");die();
 
         if (!empty($this->_CI->mail_config) && $details['email'] != "") 
         {
