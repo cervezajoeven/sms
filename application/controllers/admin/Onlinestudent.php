@@ -144,6 +144,8 @@ class Onlinestudent extends Admin_Controller
         } 
         else 
         {
+            print_r($id);die();
+
             $student_id     = $this->input->post('student_id');
             $class_id       = $this->input->post('class_id');
             $section_id     = $this->input->post('section_id');
@@ -158,9 +160,7 @@ class Onlinestudent extends Admin_Controller
             // if (empty($hostel_room_id)) {
             //     $hostel_room_id = 0;
             // }
-
-            print_r($student_id);die();
-
+            
             $data = array(
                 'sibling_id'          => $this->input->post('sibling_id'),
                 'id'                  => $student_id,
