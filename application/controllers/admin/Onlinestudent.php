@@ -159,7 +159,7 @@ class Onlinestudent extends Admin_Controller
             //     $hostel_room_id = 0;
             // }
 
-            // var_dump($student_id);die;
+            print_r($student_id);die();
 
             $data = array(
                 'sibling_id'          => $this->input->post('sibling_id'),
