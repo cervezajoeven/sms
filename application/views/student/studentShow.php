@@ -537,17 +537,18 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                 <div class="table-responsive around10 pt0">
                                     <table class="table table-hover table-striped tmb0">
                                         <tbody>
-                                            <?php if ($sch_setting->is_blood_group) { ?>
-                                            <tr>
+                                            <?php //if ($sch_setting->is_blood_group) { ?>
+                                            <!-- <tr>
                                                 <td  class="col-md-4"><?php echo $this->lang->line('blood_group'); ?></td>
                                                 <td  class="col-md-5"><?php echo $student['blood_group']; ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->is_student_house) { ?>
-                                            <tr>
+                                            </tr> -->
+                                            <?php //} if ($sch_setting->is_student_house) { ?>
+                                            <!-- <tr>
                                                 <td  class="col-md-4"><?php echo $this->lang->line('house'); ?></td>
                                                 <td  class="col-md-5"><?php echo $student['house_name']; ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->student_height) {  ?>
+                                            </tr> -->
+                                            <?php //} 
+                                            if ($sch_setting->student_height) {  ?>
                                             <tr>
                                                 <td  class="col-md-4"><?php echo $this->lang->line('height'); ?></td>
                                                 <td  class="col-md-5"><?php echo $student['height']; ?></td>
@@ -557,43 +558,22 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 <td  class="col-md-4"><?php echo $this->lang->line('weight'); ?></td>
                                                 <td  class="col-md-5"><?php echo $student['weight']; ?></td>
                                             </tr>
-                                            <?php } if ($sch_setting->measurement_date) { ?>
-                                            <tr>
-                                                <td  class="col-md-4"><?php echo $this->lang->line('measurement_date'); ?></td>
+                                            <?php } 
+                                            //if ($sch_setting->measurement_date) { ?>
+                                            <!-- <tr>
+                                                <td  class="col-md-4"><?php //echo $this->lang->line('measurement_date'); ?></td>
                                                 <td  class="col-md-5"><?php
-                                                    if (!empty($student['measurement_date'])) {
-                                                        echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['measurement_date']));
-                                                    }
+                                                    // if (!empty($student['measurement_date'])) {
+                                                    //     echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['measurement_date']));
+                                                    // }
                                                     ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->previous_school_details) {  ?>
+                                            </tr> -->
+                                            <?php //} 
+                                            if ($sch_setting->previous_school_details) {  ?>
                                             <tr>
                                                 <td  class="col-md-4"><?php echo $this->lang->line('previous_school_details'); ?></td>
                                                 <td  class="col-md-5"><?php echo $student['previous_school']; ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->national_identification_no) { ?>
-                                            <tr>
-                                                <td  class="col-md-4"><?php echo $this->lang->line('national_identification_no'); ?></td>
-                                                <td  class="col-md-5"><?php echo $student['adhar_no']; ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->local_identification_no) { ?>
-                                            <tr>
-                                                <td><?php echo $this->lang->line('local_identification_no'); ?></td>
-                                                <td><?php echo $student['samagra_id']; ?></td>
-                                            </tr>
-                                            <?php } if ($sch_setting->bank_account_no) { ?>
-                                            <tr>
-                                                <td><?php echo $this->lang->line('bank_account_no'); ?></td>
-                                                <td><?php echo $student['bank_account_no']; ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td><?php echo $this->lang->line('bank_name'); ?></td>
-                                                <td><?php echo $student['bank_name']; ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td><?php echo $this->lang->line('ifsc_code'); ?></td>
-                                                <td><?php echo $student['ifsc_code']; ?></td>
-                                            </tr>
+                                            </tr>                                            
                                             <?php } ?>
                                         </tbody>
                                     </table>
