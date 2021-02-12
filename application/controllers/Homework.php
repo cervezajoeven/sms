@@ -232,10 +232,10 @@ class Homework extends Admin_Controller
                 //     return false;
                 // }
 
-                if ($file_size > $image_validate['upload_size']) {
-                    $this->form_validation->set_message('handle_upload', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
-                    return false;
-                }
+                // if ($file_size > $image_validate['upload_size']) {
+                //     $this->form_validation->set_message('handle_upload', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                //     return false;
+                // }
                 if ($file_size == 0) {
                     $this->form_validation->set_message('handle_upload', "File size is zero byte.");
                     return false;
