@@ -150,7 +150,7 @@ class Mailgateway
 
     public function sendLoginCredentialJoe($chk_mail_sms, $sender_details, $template)
     {
-        $msg     = $this->general_data($sender_details['credential_for'],$template, $sender_details);
+        $msg     = $this->general_data($template, $sender_details);
 
         $send_to = $sender_details['email'];
 
@@ -290,7 +290,7 @@ class Mailgateway
         return $template;
     }
 
-    public function general_data($id, $template,$data)
+    public function general_data($template,$data)
     {
 
         foreach ($data as $key => $value) {
