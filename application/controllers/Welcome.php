@@ -746,9 +746,10 @@ class Welcome extends Front_Controller
                             //--Send acknowledgement mail
                             $sender_details = array('admission_date' => date("Y-m-d"), 
                                                     'firstname' => $this->input->post('firstname'), 
-                                                    'lastname' => $this->input->post('lastnae'), 
+                                                    'lastname' => $this->input->post('lastname'), 
                                                     'guardian_name' => $this->input->post('guardian_name'), 
-                                                    'email' => $this->input->post('guardian_email'));
+                                                    'email' => $this->input->post('guardian_email'),
+                                                    'school_name' => $this->setting_model->getCurrentSchoolName());
                             // var_dump($sender_details);die;
                             $this->mailsmsconf->mailsms('online_admission', $sender_details);
          

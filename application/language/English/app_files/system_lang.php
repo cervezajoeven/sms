@@ -1553,4 +1553,9 @@ $lang['lrn'] = 'LRN';
 $lang['class_record_summary'] = 'Class Record Summary';
 $lang['grades'] = 'Grades';
 $lang['grade_view_permission'] = 'Grade View Permission';
+
+$lang['online_classes'] = 'Online Classes';
+$lang['online_meeting'] = 'Online Meeting';
+$lang['lesson_assigned'] = 'Lesson Assigned';
+$lang['online_admission'] = 'Online Admission';
 ?>
