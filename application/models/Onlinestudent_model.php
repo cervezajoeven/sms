@@ -359,7 +359,20 @@ class Onlinestudent_model extends MY_Model {
 
                         //if ($action == "enroll")
                         {
-                            $sender_details = array('student_id' => $student_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                            // $sender_details = array(
+                            //     'student_id' => $student_id, 
+                            //     'contact_no' => $this->input->post('guardian_phone'), 
+                            //     'email' => $this->input->post('guardian_email'));
+
+                            $sender_details = array(
+                                'admission_date' => date("Y-m-d"), 
+                                'firstname' => $this->input->post('firstname'), 
+                                'lastname' => $this->input->post('lastname'), 
+                                'guardian_name' => $this->input->post('guardian_name'), 
+                                'email' => $this->input->post('guardian_email'),
+                                'school_name' => $this->setting_model->getCurrentSchoolName(),
+                                'class' => $this->GetGradeLevel($this->input->post('class_id')),
+                                'section' => $this->GetSection($this->input->post('section_id')));
                             // var_dump($sender_details);die;
                             $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
@@ -591,6 +604,18 @@ class Onlinestudent_model extends MY_Model {
     public function GetFeeSessionGroupID($feegroupid)
     {
         $result = $this->db->select('id')->from('fee_session_groups')->where('fee_groups_id', $feegroupid)->where('session_id', $this->current_session)->limit(1)->get()->row();
+        return $result->id;
+    }
+
+    public function GetGradeLevel($class_id)
+    {
+        $result = $this->db->select('class')->from('classess')->where('id', $class_id)->limit(1)->get()->row();
+        return $result->id;
+    }
+
+    public function GetSection($section_id)
+    {
+        $result = $this->db->select('section')->from('sections')->where('id', $section_id)->limit(1)->get()->row();
         return $result->id;
     }
 
