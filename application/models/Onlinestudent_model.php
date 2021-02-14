@@ -17,6 +17,7 @@ class Onlinestudent_model extends MY_Model {
 
         $this->current_session = $this->setting_model->getCurrentSession();
         $this->current_date = $this->setting_model->getDateYmd();
+        $this->$sch_setting_detail = $this->setting_model->getSetting();
         //-- Load database for writing
         $this->writedb = $this->load->database('write_db', TRUE);
     }
@@ -141,18 +142,18 @@ class Onlinestudent_model extends MY_Model {
             if ($action == "enroll") {
 			//==========================
                 $insert = true;
-                $sch_setting_detail = $this->setting_model->getSetting();
+                // $sch_setting_detail = $this->setting_model->getSetting();
 
-                if ($sch_setting_detail->adm_auto_insert) {
-                    if ($sch_setting_detail->adm_update_status) {
+                if ($this->$sch_setting_detail->adm_auto_insert) {
+                    if ($this->$sch_setting_detail->adm_update_status) {
                         // $admission_no = $sch_setting_detail->adm_prefix . $sch_setting_detail->adm_start_from;
                         //$last_student = $this->student_model->lastRecord();
                         $last_student = $this->student_model->lastRecordByAdmissionNo();
-                        $last_admission_digit = str_replace($sch_setting_detail->adm_prefix, "", $last_student->admission_no);
-                        $admission_no = $sch_setting_detail->adm_prefix . sprintf("%0" . $sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);                        
+                        $last_admission_digit = str_replace($this->$sch_setting_detail->adm_prefix, "", $last_student->admission_no);
+                        $admission_no = $this->$sch_setting_detail->adm_prefix . sprintf("%0" . $this->$sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);                        
                         $data['admission_no'] = $admission_no;
                     } else {
-                        $admission_no = $sch_setting_detail->adm_prefix . $sch_setting_detail->adm_start_from;
+                        $admission_no = $this->$sch_setting_detail->adm_prefix . $this->$sch_setting_detail->adm_start_from;
                         $data['admission_no'] = $admission_no;
                     }
 
@@ -347,10 +348,10 @@ class Onlinestudent_model extends MY_Model {
                         // }
 
                         //============== Update setting modal =================
-                        if ($sch_setting_detail->adm_auto_insert) {
-                            if ($sch_setting_detail->adm_update_status == 0) {
+                        if ($this->$sch_setting_detail->adm_auto_insert) {
+                            if ($this->$sch_setting_detail->adm_update_status == 0) {
                                 $data_setting=array();
-                                $data_setting['id']=$sch_setting_detail->id;
+                                $data_setting['id']=$this->$sch_setting_detail->id;
                                 $data_setting['adm_update_status'] = 1;
                                 $this->setting_model->add($data_setting);
                             }
