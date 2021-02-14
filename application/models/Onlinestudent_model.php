@@ -363,7 +363,12 @@ class Onlinestudent_model extends MY_Model {
                             //     'student_id' => $student_id, 
                             //     'contact_no' => $this->input->post('guardian_phone'), 
                             //     'email' => $this->input->post('guardian_email'));
+                            
+                            // print_r($sender_details);die();
 
+                            $grade_level = $this->GetGradeLevel($this->input->post('class_id'));                            
+                            $section = $this->GetSection($this->input->post('section_id'));
+                            
                             $sender_details = array(
                                 'admission_date' => date("Y-m-d"), 
                                 'firstname' => $this->input->post('firstname'), 
@@ -371,9 +376,11 @@ class Onlinestudent_model extends MY_Model {
                                 'guardian_name' => $this->input->post('guardian_name'), 
                                 'email' => $this->input->post('guardian_email'),
                                 'school_name' => $this->setting_model->getCurrentSchoolName(),
-                                'class' => $this->GetGradeLevel($this->input->post('class_id')),
-                                'section' => $this->GetSection($this->input->post('section_id')));
-                            // var_dump($sender_details);die;
+                                'class' => $grade_level,
+                                'section' => $section);
+
+                            // print_r($sender_details);die();
+                            
                             $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
                             //if ($enroll_type != 'old')
@@ -609,14 +616,14 @@ class Onlinestudent_model extends MY_Model {
 
     public function GetGradeLevel($class_id)
     {
-        $result = $this->db->select('class')->from('classess')->where('id', $class_id)->limit(1)->get()->row();
-        return $result->id;
+        $result = $this->db->select('class')->from('classes')->where('id', $class_id)->limit(1)->get()->row();
+        return $result->class;
     }
 
     public function GetSection($section_id)
     {
         $result = $this->db->select('section')->from('sections')->where('id', $section_id)->limit(1)->get()->row();
-        return $result->id;
+        return $result->section;
     }
 
     // public function GetNameListAdmission($name)
