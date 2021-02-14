@@ -66,9 +66,7 @@ class Mailgateway
         if (!empty($this->_CI->mail_config) && $details['email'] != "") 
         {
             $subject = "Enrollment Confirmation";
-            // var_dump($template);die();
-            $msg = $this->getStudentTemplate($details, $template);
-            // var_dump($msg);die();
+            $msg = $this->fillStudentTemplate($details, $template);
 
             if ($this->_CI->mailer->send_mail($details['email'], $subject, $msg))
             {
@@ -90,7 +88,7 @@ class Mailgateway
         {
             $subject = "Online Admission Application";
             // var_dump($template);die();
-            $msg = $this->getStudentTemplate($details, $template);
+            $msg = $this->fillStudentTemplate($details, $template);
             // var_dump($msg);die();
 
             if ($this->_CI->mailer->send_mail($details['email'], $subject, $msg))
@@ -191,7 +189,7 @@ class Mailgateway
     public function sentExamResultMail($detail, $template)
     {
 
-        $msg     = $this->getStudentTemplate($detail, $template);     
+        $msg     = $this->fillStudentTemplate($detail, $template);     
         $send_to = $detail['guardian_email'];
         if (!empty($this->_CI->mail_config) && $send_to != "") {
             $subject = "Exam Result";           
@@ -360,7 +358,7 @@ class Mailgateway
         return $template;
     }
 
-    public function getStudentTemplate($student_result_detail, $template)
+    public function fillStudentTemplate($student_result_detail, $template)
     {
        
         foreach ($student_result_detail as $key => $value) {
