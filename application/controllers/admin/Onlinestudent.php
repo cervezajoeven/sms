@@ -86,7 +86,7 @@ class Onlinestudent extends Admin_Controller
             access_denied();
         }        
 
-        // print_r($id);die();
+        print_r($id);die();
 
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['title']           = 'Edit Student';
