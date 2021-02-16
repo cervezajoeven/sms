@@ -384,8 +384,8 @@ class Onlinestudent_model extends MY_Model {
                                 'class' => $grade_level,
                                 'section' => $section);
 
-                            print_r("Debug Mode On <BR><BR>");
-                            print_r($sender_details);die();
+                            // print_r("Debug Mode On <BR><BR>");
+                            // print_r($sender_details);die();
                             
                             $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
