@@ -135,10 +135,7 @@ class Onlinestudent_model extends MY_Model {
             $feesmaster = $data['feesmaster'];
             unset($data['feesmaster']);
             $feesdiscount = $data['feesdiscount'];
-            unset($data['feesdiscount']);
-
-            print_r("Debug Mode On <BR><BR>");
-            print_r($data);die();
+            unset($data['feesdiscount']);            
 
             // var_dump($feesmaster);die;
             
@@ -418,6 +415,9 @@ class Onlinestudent_model extends MY_Model {
                     $data['class_section_id'] = $class_section_id;
                 }
             }
+
+            print_r("Debug Mode On <BR><BR>");
+            print_r($data);die();
 
             //var_dump($data);die;
 
