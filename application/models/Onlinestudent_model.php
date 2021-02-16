@@ -387,7 +387,7 @@ class Onlinestudent_model extends MY_Model {
                             // print_r("Debug Mode On <BR><BR>");
                             // print_r($sender_details);die();
                             
-                            $this->mailsmsconf->mailsms('student_admission', $sender_details);
+                            //$this->mailsmsconf->mailsms('student_admission', $sender_details);
 
                             $student_login_detail = array(
                                 'id' => $student_id, 
@@ -398,7 +398,7 @@ class Onlinestudent_model extends MY_Model {
                                 'email' => $this->input->post('email'),
                                 'display_name' => 'Student',
                                 'school_name' => $this->setting_model->getCurrentSchoolName());
-                            $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                            //$this->mailsmsconf->mailsms('login_credential', $student_login_detail);
                             
                             $parent_login_detail = array(
                                 'id' => $student_id, 
@@ -409,7 +409,7 @@ class Onlinestudent_model extends MY_Model {
                                 'email' => $this->input->post('guardian_email'),
                                 'display_name' => 'Parent',
                                 'school_name' => $this->setting_model->getCurrentSchoolName());
-                            $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+                            //$this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                         }                        
                     }
 
