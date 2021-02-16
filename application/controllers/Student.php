@@ -178,9 +178,13 @@ class Student extends Admin_Controller
         if (!$this->rbac->hasPrivilege('student', 'can_view')) {
             access_denied();
         }
-
+        
         $data['title']         = 'Student Details';
         $student               = $this->student_model->get($id); 
+
+        print_r("Debug Mode On <BR><BR>");
+        print_r($id);die();
+
         // var_dump($student);die;
         $gradeList             = $this->grade_model->get();
         $studentSession        = $this->student_model->getStudentSession($id);
