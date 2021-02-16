@@ -180,8 +180,6 @@ class Student extends Admin_Controller
         }
         
         $data['title']         = 'Student Details';
-        print_r("Debug Mode On <BR><BR>");
-        print_r($id);die();
         $student               = $this->student_model->get($id); 
 
         print_r("Debug Mode On <BR><BR>");
