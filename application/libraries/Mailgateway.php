@@ -66,17 +66,21 @@ class Mailgateway
             $subject = "Enrollment Confirmation";
             $msg = $this->fillStudentTemplate($details, $template);
 
-            print_r("Debug Mode On <BR><BR>");
-            print_r($msg);die();
-
-            if ($this->_CI->mailer->send_mail($details['email'], $subject, $msg))
-            {
-                return $email_log = array("title"=>"Success - Enrollment Confirmation Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$details['email']);
-                // $this->_CI->lesson_model->sms_create("messages",$email_log);
-                // $this->_CI->my_model->log("Student online admission application notice sent", $id, "Email");
-            }else{
-                return $email_log = array("title"=>"Not Sent - Enrollment Confirmation Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$details['email']);
-                // $this->_CI->lesson_model->sms_create("messages",$email_log);
+            // print_r("Debug Mode On <BR><BR>");
+            // print_r($msg);die();
+            try {
+                if ($this->_CI->mailer->send_mail($details['email'], $subject, $msg))
+                {
+                    return $email_log = array("title"=>"Success - Enrollment Confirmation Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$details['email']);
+                    // $this->_CI->lesson_model->sms_create("messages",$email_log);
+                    // $this->_CI->my_model->log("Student online admission application notice sent", $id, "Email");
+                }else{
+                    return $email_log = array("title"=>"Not Sent - Enrollment Confirmation Email","message"=>$msg,"send_mail"=>1,"is_group"=>0,"is_individual"=>1,"receiver"=>$details['email']);
+                    // $this->_CI->lesson_model->sms_create("messages",$email_log);
+                }
+            }
+            catch(Exception $e) {
+                print_r('Message: ' .$e->getMessage());
             }
         }
     }
