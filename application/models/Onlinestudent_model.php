@@ -170,9 +170,6 @@ class Onlinestudent_model extends MY_Model {
                     $record_update_status = false;
                 }
 
-                print_r("Debug Mode On <BR><BR>");
-                print_r($data);die();
-
 				//============================
                 if ($insert) {
                     $this->db->select('class_sections.*')->from('class_sections');
@@ -359,7 +356,10 @@ class Onlinestudent_model extends MY_Model {
                                 $this->setting_model->add($data_setting);
                             }
                         }
-                        //===================================================                        
+                        //===================================================     
+                        
+                        print_r("Debug Mode On <BR><BR>");
+                        print_r($data);die();
 
                         //if ($action == "enroll")
                         {
@@ -368,7 +368,7 @@ class Onlinestudent_model extends MY_Model {
                             //     'contact_no' => $this->input->post('guardian_phone'), 
                             //     'email' => $this->input->post('guardian_email'));
                             
-                            // print_r($sender_details);die();
+                            // print_r($sender_details);die();                            
 
                             $grade_level = $this->GetGradeLevel($this->input->post('class_id'));                            
                             $section = $this->GetSection($this->input->post('section_id'));
