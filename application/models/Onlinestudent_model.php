@@ -170,6 +170,9 @@ class Onlinestudent_model extends MY_Model {
                     $record_update_status = false;
                 }
 
+                print_r("Debug Mode On <BR><BR>");
+                print_r($data);die();
+
 				//============================
                 if ($insert) {
                     $this->db->select('class_sections.*')->from('class_sections');
@@ -416,8 +419,7 @@ class Onlinestudent_model extends MY_Model {
                 }
             }
 
-            print_r("Debug Mode On <BR><BR>");
-            print_r($data);die();
+            
 
             //var_dump($data);die;
 
