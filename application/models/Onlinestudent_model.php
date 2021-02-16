@@ -119,7 +119,7 @@ class Onlinestudent_model extends MY_Model {
     public function update($data, $action = "save") {
         $record_update_status = true;
         // var_dump($data);die;
-        print_r($data);die();
+        // print_r($data);die();
 
         if (isset($data['id'])) {
             $this->writedb->trans_begin();
@@ -136,6 +136,9 @@ class Onlinestudent_model extends MY_Model {
             unset($data['feesmaster']);
             $feesdiscount = $data['feesdiscount'];
             unset($data['feesdiscount']);
+
+            print_r("Debug Mode On <BR><BR>");
+            print_r($data);die();
 
             // var_dump($feesmaster);die;
             
