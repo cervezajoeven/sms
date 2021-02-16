@@ -371,20 +371,20 @@ class Onlinestudent_model extends MY_Model {
                             $grade_level = $this->GetGradeLevel($this->input->post('class_id'));                            
                             $section = $this->GetSection($this->input->post('section_id'));
 
-                            print_r("Debug Mode On <BR><BR>");
-                            print_r($data);die();
+                            // print_r("Debug Mode On <BR><BR>");
+                            // print_r($data);die();
                             
-                            $sender_details = array(
-                                'admission_date' => date("Y-m-d"), 
-                                'firstname' => $this->input->post('firstname'), 
-                                'lastname' => $this->input->post('lastname'), 
-                                'guardian_name' => $this->input->post('guardian_name'), 
-                                'email' => $this->input->post('guardian_email'),
-                                'school_name' => $this->setting_model->getCurrentSchoolName(),
-                                'class' => $grade_level,
-                                'section' => $section);
+                            // $sender_details = array(
+                            //     'admission_date' => date("Y-m-d"), 
+                            //     'firstname' => $this->input->post('firstname'), 
+                            //     'lastname' => $this->input->post('lastname'), 
+                            //     'guardian_name' => $this->input->post('guardian_name'), 
+                            //     'email' => $this->input->post('guardian_email'),
+                            //     'school_name' => $this->setting_model->getCurrentSchoolName(),
+                            //     'class' => $grade_level,
+                            //     'section' => $section);
                             
-                            $this->mailsmsconf->mailsms('student_admission', $sender_details);
+                            // $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
                             $student_login_detail = array(
                                 'id' => $student_id, 
