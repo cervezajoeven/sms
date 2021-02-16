@@ -396,7 +396,7 @@ class Onlinestudent_model extends MY_Model {
                                 'password' => $user_password, 
                                 'contact_no' => $this->input->post('mobileno'), 
                                 'email' => $this->input->post('email'),
-                                'display_name' => 'Student',
+                                'display_name' => $this->input->post('firstname') . " " . $this->input->post('lastname'), 
                                 'school_name' => $this->setting_model->getCurrentSchoolName());
                             $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
                             
@@ -407,7 +407,7 @@ class Onlinestudent_model extends MY_Model {
                                 'password' => $parent_password, 
                                 'contact_no' => $this->input->post('guardian_phone'), 
                                 'email' => $this->input->post('guardian_email'),
-                                'display_name' => 'Parent',
+                                'display_name' => $this->input->post('guardian_name'), 
                                 'school_name' => $this->setting_model->getCurrentSchoolName());
                             //$this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                         }                        
