@@ -131,11 +131,14 @@ class Mailgateway
 
     public function sendLoginCredential($chk_mail_sms, $sender_details, $template)
     {
+        print_r("Debug Mode On <BR><BR>");
+        print_r($sender_details);die();
+
         $msg     = $this->getLoginCredentialContent($sender_details['credential_for'], $sender_details, $template);
 
-        print_r("Debug Mode On <BR><BR>");
-        print_r($msg);die();
-        
+        // print_r("Debug Mode On <BR><BR>");
+        // print_r($msg);die();
+
         $send_to = $sender_details['email'];
 
         if (!empty($this->_CI->mail_config) && $send_to != "") {
