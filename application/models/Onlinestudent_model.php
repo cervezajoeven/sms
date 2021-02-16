@@ -8,7 +8,7 @@ class Onlinestudent_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
-        // $this->load->library('mailsmsconf');
+        $this->load->library('mailsmsconf');
         $this->load->model('setting_model');
         $this->load->model('student_model');
         $this->load->model('studentfeemaster_model');
