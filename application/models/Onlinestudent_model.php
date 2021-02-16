@@ -388,6 +388,7 @@ class Onlinestudent_model extends MY_Model {
                             // print_r($sender_details);die();
                             
                             //$this->mailsmsconf->mailsms('student_admission', $sender_details);
+                            $this->mailsmsconf->console_log($sender_details);
 
                             $student_login_detail = array(
                                 'id' => $student_id, 
