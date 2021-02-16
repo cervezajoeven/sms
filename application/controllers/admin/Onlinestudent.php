@@ -274,8 +274,7 @@ class Onlinestudent extends Admin_Controller
                 'payment_scheme' => $this->input->post('payment_scheme'),
             );
 
-            print_r($data);die();
-            // var_dump($data);die;
+            // print_r($data);die();
             // print_r("EMN Debug Mode");die();
 
             $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
