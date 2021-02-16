@@ -61,13 +61,13 @@ class Mailgateway
 
     public function sendEnrollmentConfirmation($details, $template)
     {        
-        print_r("Debug Mode On <BR><BR>");
-        print_r($details);die();
-
         if (!empty($this->_CI->mail_config) && $details['email'] != "") 
         {
             $subject = "Enrollment Confirmation";
             $msg = $this->fillStudentTemplate($details, $template);
+
+            print_r("Debug Mode On <BR><BR>");
+            print_r($msg);die();
 
             if ($this->_CI->mailer->send_mail($details['email'], $subject, $msg))
             {
