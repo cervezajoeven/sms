@@ -32,12 +32,15 @@ class Mailsmsconf
         //=========
         $chk_mail_sms = $this->CI->customlib->sendMailSMS($send_for);
 
+        print_r("Debug Mode On <BR><BR>");
+        print_r($sender_details);die();
+
         if (!empty($chk_mail_sms)) {
             if ($send_for == "student_admission") {
                 if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") {
                     // $this->CI->mailgateway->sentRegisterMail($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template']);
 
-                    
+
                     $this->CI->mailgateway->sendEnrollmentConfirmation($sender_details, $chk_mail_sms['template']);                    
                 }
                 if ($chk_mail_sms['sms'] && $chk_mail_sms['template'] != "") {
