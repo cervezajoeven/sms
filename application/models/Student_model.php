@@ -322,7 +322,7 @@ class Student_model extends MY_Model
 
     }
 
-     public function get($id = null)
+    public function get($id = null)
     {
         $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
@@ -378,8 +378,60 @@ class Student_model extends MY_Model
         } else {
             return $query->result_array();
         }
+    }
 
+    public function getStudentDetails($id = null)
+    {
+        print_r("Debug Mode On <BR><BR>");
+        print_r($id);die();
+        $this->db->select("student_session.transport_fees,students.app_key,
+                           student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
+                           sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno,
+                           students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,
+                           students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
+                           students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
+                           students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
+                           students.created_at ,students.updated_at,students.father_name,students.father_phone,students.blood_group,students.school_house_id,students.father_occupation,
+                           students.mother_name,students.mother_phone,students.mother_occupation,students.guardian_occupation,students.gender,students.guardian_is,students.rte,students.guardian_email,
+                           users.username,users.password,students.dis_reason,students.dis_note,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
+                           students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
+                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                           students.father_prof_affiliation_position,students.father_tech_prof,students.father_tech_prof_other,
+                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                           students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other,
+                           students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
+                           students.parents_civil_status,students.parents_civil_status_other,
+                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
+                           students.preferred_education_mode, students.enrollment_payment_status,
+                           students.payment_scheme,'".$this->schoolname."' AS school_name");
+        $this->db->from('students');
+        $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
+        $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');        
+        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
+        $this->db->join('users', 'users.user_id = students.id', 'left');
 
+        $this->db->where('student_session.session_id', $this->current_session);
+        $this->db->where('users.role', 'student');
+
+        if ($id != null) {
+            $this->db->where('students.id', $id);
+        } else {
+            $this->db->where('students.is_active', 'yes');
+            $this->db->order_by('students.id', 'desc');
+        }
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        // echo($this->db->last_query());
+        if ($id != null) {
+            return $query->row_array();
+        } else {
+            return $query->result_array();
+        }
     }
 
 

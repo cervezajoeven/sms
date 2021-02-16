@@ -308,7 +308,7 @@ class Mailgateway
     public function getLoginCredentialContent($credential_for, $sender_details, $template)
     {
         if ($credential_for == "student") {
-            $student                        = $this->_CI->student_model->get($sender_details['id']);
+            $student                        = $this->_CI->student_model->getStudentDetails($sender_details['id']);
             print_r("Debug Mode On <BR><BR>");
             print_r($sender_details);die();
 
