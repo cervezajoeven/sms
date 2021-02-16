@@ -383,30 +383,33 @@ class Onlinestudent_model extends MY_Model {
                                 'school_name' => $this->setting_model->getCurrentSchoolName(),
                                 'class' => $grade_level,
                                 'section' => $section);
+
+                            print_r("Debug Mode On <BR><BR>");
+                            print_r($sender_details);die();
                             
                             $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
-                            // $student_login_detail = array(
-                            //     'id' => $student_id, 
-                            //     'credential_for' => 'student', 
-                            //     'username' => $this->student_login_prefix . $student_id, 
-                            //     'password' => $user_password, 
-                            //     'contact_no' => $this->input->post('mobileno'), 
-                            //     'email' => $this->input->post('email'),
-                            //     'display_name' => 'Student',
-                            //     'school_name' => $this->setting_model->getCurrentSchoolName());
-                            // $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                            $student_login_detail = array(
+                                'id' => $student_id, 
+                                'credential_for' => 'student', 
+                                'username' => $this->student_login_prefix . $student_id, 
+                                'password' => $user_password, 
+                                'contact_no' => $this->input->post('mobileno'), 
+                                'email' => $this->input->post('email'),
+                                'display_name' => 'Student',
+                                'school_name' => $this->setting_model->getCurrentSchoolName());
+                            $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
                             
-                            // $parent_login_detail = array(
-                            //     'id' => $student_id, 
-                            //     'credential_for' => 'parent', 
-                            //     'username' => $this->parent_login_prefix . $student_id, 
-                            //     'password' => $parent_password, 
-                            //     'contact_no' => $this->input->post('guardian_phone'), 
-                            //     'email' => $this->input->post('guardian_email'),
-                            //     'display_name' => 'Parent',
-                            //     'school_name' => $this->setting_model->getCurrentSchoolName());
-                            // $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+                            $parent_login_detail = array(
+                                'id' => $student_id, 
+                                'credential_for' => 'parent', 
+                                'username' => $this->parent_login_prefix . $student_id, 
+                                'password' => $parent_password, 
+                                'contact_no' => $this->input->post('guardian_phone'), 
+                                'email' => $this->input->post('guardian_email'),
+                                'display_name' => 'Parent',
+                                'school_name' => $this->setting_model->getCurrentSchoolName());
+                            $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                         }                        
                     }
 
