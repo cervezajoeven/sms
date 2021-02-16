@@ -372,8 +372,8 @@ class Student_model extends MY_Model
         $this->db->limit(1);
         $query = $this->db->get();
 
-        print_r("Debug Mode On <BR><BR>");
-        print_r($this->db->last_query());die();
+        // print_r("Debug Mode On <BR><BR>");
+        // print_r($this->db->last_query());die();
 
         // echo($this->db->last_query());
         if ($id != null) {
