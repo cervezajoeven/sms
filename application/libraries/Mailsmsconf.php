@@ -36,6 +36,8 @@ class Mailsmsconf
             if ($send_for == "student_admission") {
                 if ($chk_mail_sms['mail'] && $chk_mail_sms['template'] != "") {
                     // $this->CI->mailgateway->sentRegisterMail($sender_details['student_id'], $sender_details['email'], $chk_mail_sms['template']);
+
+                    
                     $this->CI->mailgateway->sendEnrollmentConfirmation($sender_details, $chk_mail_sms['template']);                    
                 }
                 if ($chk_mail_sms['sms'] && $chk_mail_sms['template'] != "") {
