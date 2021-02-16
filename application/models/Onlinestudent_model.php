@@ -398,7 +398,7 @@ class Onlinestudent_model extends MY_Model {
                                 'email' => $this->input->post('email'),
                                 'display_name' => 'Student',
                                 'school_name' => $this->setting_model->getCurrentSchoolName());
-                            // $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                            $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
                             
                             $parent_login_detail = array(
                                 'id' => $student_id, 
