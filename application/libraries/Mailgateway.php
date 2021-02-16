@@ -307,11 +307,10 @@ class Mailgateway
 
     public function getLoginCredentialContent($credential_for, $sender_details, $template)
     {
-        print_r("Debug Mode On <BR><BR>");
-        print_r($sender_details);die();
-
         if ($credential_for == "student") {
             $student                        = $this->_CI->student_model->get($sender_details['id']);
+            print_r("Debug Mode On <BR><BR>");
+            print_r($sender_details);die();
 
             $sender_details['url']          = site_url('site/userlogin');
             $sender_details['display_name'] = $student['firstname'] . " " . $student['lastname'];
