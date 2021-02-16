@@ -1382,8 +1382,8 @@ class Student extends Admin_Controller
             access_denied();
         }        
 
-        print_r("Debug Mode On <BR><BR>");
-        print_r($id);die();
+        // print_r("Debug Mode On <BR><BR>");
+        // print_r($id);die();
 
         $data['title']   = 'Edit Student';
         $data['id']      = $id;
