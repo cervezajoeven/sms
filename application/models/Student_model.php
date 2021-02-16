@@ -347,7 +347,7 @@ class Student_model extends MY_Model
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
                            students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,'".$this->schoolname."' AS school_name");
+                           students.payment_scheme,'".str_replace("'", "''", $this->schoolname)."' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
