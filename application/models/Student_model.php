@@ -323,10 +323,7 @@ class Student_model extends MY_Model
     }
 
     public function get($id = null)
-    {
-        print_r("Debug Mode On <BR><BR>");
-        print_r($id);die();
-        
+    {       
         $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
                            hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
@@ -374,6 +371,9 @@ class Student_model extends MY_Model
         }
         $this->db->limit(1);
         $query = $this->db->get();
+
+        print_r("Debug Mode On <BR><BR>");
+        print_r($this->db->last_query());die();
 
         // echo($this->db->last_query());
         if ($id != null) {
