@@ -410,8 +410,7 @@ class Student_model extends MY_Model
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
-        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');        
-        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');   
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
         $this->db->where('student_session.session_id', $this->current_session);
