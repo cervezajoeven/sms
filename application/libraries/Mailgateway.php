@@ -131,9 +131,6 @@ class Mailgateway
 
     public function sendLoginCredential($chk_mail_sms, $sender_details, $template)
     {
-        print_r("Debug Mode On <BR><BR>");
-        print_r($sender_details);die();
-
         $msg     = $this->getLoginCredentialContent($sender_details['credential_for'], $sender_details, $template);
 
         // print_r("Debug Mode On <BR><BR>");
@@ -310,6 +307,9 @@ class Mailgateway
 
     public function getLoginCredentialContent($credential_for, $sender_details, $template)
     {
+        print_r("Debug Mode On <BR><BR>");
+        print_r($sender_details);die();
+
         if ($credential_for == "student") {
             $student                        = $this->_CI->student_model->get($sender_details['id']);
 
