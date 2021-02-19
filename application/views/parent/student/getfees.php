@@ -113,6 +113,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <th class="text text-left"><?php echo $this->lang->line('payment_id'); ?></th>
                                             <th class="text text-left"><?php echo $this->lang->line('mode'); ?></th>
                                             <th class="text text-left"><?php echo $this->lang->line('date'); ?></th>
+                                            <th  class="text text-left">O.R.</th>
                                             <th class="text text-right" ><?php echo $this->lang->line('discount'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
                                             <th class="text text-right"><?php echo $this->lang->line('fine'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
                                             <th class="text text-right"><?php echo $this->lang->line('paid'); ?> <span><?php echo "(" . $currency_symbol . ")"; ?></span></th>
@@ -201,6 +202,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <td class="text text-left"></td>
                                                     <td class="text text-left"></td>
                                                     <td class="text text-left"></td>
+                                                    <td class="text text-left"></td>
                                                     <td class="text text-right"><?php
                                                         echo (number_format($fee_discount, 2, '.', ''));
                                                         ?></td>
@@ -257,8 +259,6 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                             <td align="left"></td>
                                                             <td class="text-right"><img src="<?php echo base_url(); ?>backend/images/table-arrow.png" alt="" /></td>
                                                             <td class="text text-left">
-
-
                                                                 <a href="#" data-toggle="popover" class="detail_popover" > <?php echo $fee_value->student_fees_deposite_id . "/" . $fee_deposits_value->inv_no; ?></a>
                                                                 <div class="fee_detail_popover" style="display: none">
                                                                     <?php
@@ -273,14 +273,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                                     }
                                                                     ?>
                                                                 </div>
-
-
                                                             </td>
                                                             <td class="text text-left"><?php echo $fee_deposits_value->payment_mode; ?></td>
-                                                            <td class="text text-left">
-
-                                                                <?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date)); ?>
-                                                            </td>
+                                                            <td class="text text-left"><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date)); ?></td>
+                                                            <td class="text text-left"><?php echo $fee_deposits_value->or_number; ?></td>
                                                             <td class="text text-right"><?php echo ( number_format($fee_deposits_value->amount_discount, 2, '.', '')); ?></td>
                                                             <td class="text text-right"><?php echo ( number_format($fee_deposits_value->amount_fine, 2, '.', '')); ?></td>
                                                             <td class="text text-right"><?php echo ( number_format($fee_deposits_value->amount, 2, '.', '')); ?></td>
@@ -344,6 +340,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     <td class="text text-left"></td>
                                                     <td class="text text-left"></td>
                                                     <td class="text text-left"></td>
+                                                    <td class="text text-left"></td>
                                                     <td  class="text text-right">
                                                         <?php
                                                         $alot_fee_discount = $alot_fee_discount;
@@ -366,6 +363,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <td class="text text-right"><?php
                                                 echo ($currency_symbol . number_format($total_amount, 2, '.', ''));
                                                 ?></td>
+                                            <td class="text text-left"></td>
                                             <td class="text text-left"></td>
                                             <td class="text text-left"></td>
                                             <td class="text text-left"></td>
