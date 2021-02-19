@@ -363,7 +363,7 @@
                 </div> -->
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
-                        <div class="col-lg-6" style="margin-bottom: 1000px;">
+                        <div class="col-lg-6" style="margin-bottom: 1000px;height: 5000px">
                             <h2>Assign to Students</h2>
                             <div id="jstree_demo_div">
                               
