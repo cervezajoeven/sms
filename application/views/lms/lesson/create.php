@@ -363,7 +363,7 @@
                 </div> -->
                 <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
                     <div class="slider_container">
-                        <div class="col-lg-6" style="margin-bottom: 1000px;">
+                        <div class="col-lg-6" style="margin-bottom: 1000px;height: 5000px">
                             <h2>Assign to Students</h2>
                             <div id="jstree_demo_div">
                               
@@ -940,7 +940,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script src="<?php echo $resources.'drawing-table.js'?>" type="text/javascript"></script>
-        <script src="<?php echo $resources.'lesson_26.js'?>"></script>
+        <script src="<?php echo $resources.'lesson_26-.js'?>"></script>
         <script type="text/javascript">
           
         </script>
