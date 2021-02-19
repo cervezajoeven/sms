@@ -159,7 +159,7 @@
                                                                                 $coreindicator = $row->deped_indicators;
                                                                                 $letterVisible = "";
                                                                                 $numericVisible = "";
-                                                                                if ($sch_setting->conduct_grading_type.strtolower() == 'numeric') 
+                                                                                if (strtolower($sch_setting->conduct_grading_type) == 'numeric') 
                                                                                     $letterVisible = "HIDDEN";
                                                                                 else 
                                                                                     $numericVisible = "HIDDEN";

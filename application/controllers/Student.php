@@ -2240,7 +2240,7 @@ class Student extends Admin_Controller
     public function AutoCompleteLRN() {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
-        $roll_no = $_POST['search'];        
+        $lrn = $_POST['search'];        
         $lrns = $this->student_model->GetLRNList($lrn);
         //var_dump($lrns);die;
 

@@ -68,7 +68,7 @@ class Conduct extends General_Controller {
             $data['quarter_id'] = $quarter;
             $data['class_id'] = $grade_level;
             $data['section_id']  = $section;
-            $data['student_id'] = $student_id;
+            $data['student_id'] = $student;
 
             $this->load->view('layout/header');
             $this->load->view('lms/conduct/index', $data);

@@ -701,7 +701,7 @@ class Welcome extends Front_Controller
                                 'payment_scheme' => $this->input->post('payment_scheme'),
                             );
 
-                            // var_dump($data);die;
+                            // var_dump($data);die; 
 
                             if (isset($admission_docs)) 
                             {
@@ -721,7 +721,7 @@ class Welcome extends Front_Controller
                                 }
                                 
                                 $data['document'] = $doc_names;
-                            }
+                            }                            
     
                             if (!isset($has_admission))
                             {

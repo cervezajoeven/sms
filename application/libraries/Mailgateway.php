@@ -34,7 +34,8 @@ class Mailgateway
 
     public function sentMail($sender_details, $template, $subject)
     {
-        $msg = $this->getContent($sender_details, $template);
+        // $msg = $this->getContent($sender_details, $template);
+        $msg = $this->general_data($template, $sender_details);
 
         $send_to = $sender_details->guardian_email;
         if (!empty($this->_CI->mail_config) && $send_to != "") {
@@ -293,17 +294,7 @@ class Mailgateway
         }
 
         return $template;
-    }
-
-    public function general_data($template,$data)
-    {
-
-        foreach ($data as $key => $value) {
-            $template = str_replace('{{' . $key . '}}', $value, $template);
-        }
-
-        return $template;
-    }
+    }    
 
     public function getLoginCredentialContent($credential_for, $sender_details, $template)
     {
@@ -393,4 +384,13 @@ class Mailgateway
     //     return $template;
     // }
 
+    public function general_data($template, $data)
+    {
+
+        foreach ($data as $key => $value) {
+            $template = str_replace('{{' . $key . '}}', $value, $template);
+        }
+
+        return $template;
+    }
 }

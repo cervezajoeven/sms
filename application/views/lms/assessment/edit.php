@@ -109,11 +109,11 @@
 		        		</div>
 		        		<div class = "col-sm-4">
 		        			Term
-		        			<select class="form-control">
-		        				<option>1st</option>
-		        				<option>2nd</option>
-		        				<option>3rd</option>
-		        				<option>4th</option>
+		        			<select class="form-control" id="term">
+		        				<option value="1" <?php echo ($assessment['term'] == 1 ? "SELECTED" : "") ?>>1st</option>
+		        				<option value="2" <?php echo ($assessment['term'] == 2 ? "SELECTED" : "") ?>>2nd</option>
+		        				<option value="3" <?php echo ($assessment['term'] == 3 ? "SELECTED" : "") ?>>3rd</option>
+		        				<option value="4" <?php echo ($assessment['term'] == 4 ? "SELECTED" : "") ?>>4th</option>
 		        			</select>
 		        		</div>
 		        		<div class = "col-sm-4">

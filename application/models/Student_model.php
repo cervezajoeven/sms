@@ -501,7 +501,7 @@ return false;
         return $query->row_array();
     }
 
-    public function search_student()
+    public function search_student($id)
     {
         $this->db->select('classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
                            students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode ,     students.religion,
@@ -1315,7 +1315,7 @@ return false;
         $this->db->where('session_id', $data['session_id']);
         $q = $this->db->get('student_session');
         if ($q->num_rows() > 0) {
-            $this->writedb->where('session_id', $student_session);
+            $this->writedb->where('session_id', $data['session_id']);
             $this->writedb->update('student_session', $data);
         } else {
             $this->writedb->insert('student_session', $data);
@@ -2153,15 +2153,14 @@ return false;
                 return false;
             }
         } else {
+            // $this->db->where(array('class_id' => $class, 'admission_no' => $admission_no));
+            // $query = $this->db->join("student_session", "students.id = student_session.student_id")->get('students');
 
-            $this->db->where(array('class_id' => $class, 'admission_no' => $admission_no));
-            $query = $this->db->join("student_session", "students.id = student_session.student_id")->get('students');
-
-            if ($query->num_rows() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            // if ($query->num_rows() > 0) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
         }
 
     }

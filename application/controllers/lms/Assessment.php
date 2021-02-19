@@ -463,6 +463,8 @@ class Assessment extends General_Controller {
         $data['allow_result_viewing'] = $_REQUEST['allow_result_viewing'];
         $data['enable_timer'] = $_REQUEST['enable_timer'];
         $data['assessment_name'] = $_REQUEST['assessment_name'];
+        $data['term'] = $_REQUEST['term'];
+
         $sheet = (array)json_decode($data['sheet']);
 
         if($data['email_notification']=="1"){

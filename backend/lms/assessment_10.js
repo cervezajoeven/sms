@@ -258,6 +258,8 @@ function assessment_update(){
     var allow_result_viewing = $("#allow_result_viewing").prop('checked');
     var enable_timer = $("#enable_timer").prop('checked');
     var assessment_name = $("#assessment_name").val();
+    var term = $("#term").val();
+
     if(email_notification){
     	email_notification = 1;
     }else{
@@ -274,7 +276,7 @@ function assessment_update(){
     	enable_timer = 0;
     }
 
-	return final_json = {
+	var final_json = {
 		id:$("#assessment_id").val(),
 		sheet:JSON.stringify(json),
 		assigned:student_ids.join(','),
@@ -287,7 +289,10 @@ function assessment_update(){
 		allow_result_viewing: allow_result_viewing,
 		enable_timer: enable_timer,
 		assessment_name: assessment_name,
+        term: term,
 	};
+
+    return final_json;
 }
 
 function save(){
