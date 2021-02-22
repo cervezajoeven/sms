@@ -87,8 +87,23 @@
                                             <td class="mailbox-name">
                                                <?php echo date("F d h:i A", strtotime($list_data['start_date'])); ?> - <?php echo date("F d h:i A", strtotime($list_data['end_date'])); ?>
                                             </td>
-                                            <td>
-                                                (Term)
+                                            <td class="text-center">
+                                                <?php 
+                                                    $term = "";
+                                                    switch ($list_data['term']) {
+                                                        case 1:
+                                                            $term = "1st";
+                                                            break;
+                                                        case 2:
+                                                            $term = "2nd";
+                                                            break;
+                                                        case 3:
+                                                            $term = "3rd";
+                                                            break;
+                                                        case 4:
+                                                            $term = "4th";
+                                                    }
+                                                    print_r($term); ?>
                                             </td>
                                             <td class="mailbox-name">
 
