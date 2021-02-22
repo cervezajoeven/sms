@@ -556,7 +556,9 @@ function populate_answer(data) {
 	active_answer = the_answers;
 	active_assessment_sheet = data.id;
 	$.each(the_answers,function(key,value){
-		if(value.type=="long_answer"){
+		if(value.type=="long_answer") {
+            console.log(value.answer);
+
 			if(value.score){
 
 				$(".option-container-actual").eq(key).find(".score_class").val(value.score);
@@ -566,7 +568,7 @@ function populate_answer(data) {
 
 			}
 			$(".option-container-actual").eq(key).find(".score_class").attr("essay_number",key);
-			$(".option-container-actual").eq(key).find("textarea").val(value.answer);
+			$(".option-container-actual").eq(key).find("textarea").val(value.answer.replace(/~newline~/g, '\n'));
 		}
 		
 	});
@@ -601,6 +603,7 @@ $(document).on("focusout",".score_class",function(){
 
 	    	var result = JSON.parse(response.responseText);
 	    	console.log(result);
+
 	    	if(result.status==1){
 				the_this.parent().css("background-color","green");
 	    		// the_this.css("border","20px solid black");
@@ -631,7 +634,7 @@ $(".student_name_container").click(function(){
 
 	    	if(response.responseText!="null"){
 
-	    		populate_answer(JSON.parse(response.responseText));
+	    		populate_answer(JSON.parse(response.responseText.replace(/[\n\r]/g, '~newline~')));
 
 	    	}else{
 
