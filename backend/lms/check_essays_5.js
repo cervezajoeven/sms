@@ -552,12 +552,12 @@ var active_answer;
 var active_assessment_sheet;
 function populate_answer(data) {
 	
-	var the_answers = JSON.parse(data.answer);
+	var the_answers = JSON.parse(data.answer.replace(/[\n\r]/g, '~newline~'));
 	active_answer = the_answers;
 	active_assessment_sheet = data.id;
 	$.each(the_answers,function(key,value){
 		if(value.type=="long_answer") {
-            
+
             console.log(value.answer);
 
 			if(value.score){
@@ -635,7 +635,7 @@ $(".student_name_container").click(function(){
 
 	    	if(response.responseText!="null"){
 
-	    		populate_answer(JSON.parse(response.responseText.replace(/[\n\r]/g, '~newline~')));
+	    		populate_answer(JSON.parse(response.responseText));
 
 	    	}else{
 
