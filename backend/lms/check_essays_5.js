@@ -557,6 +557,7 @@ function populate_answer(data) {
 	active_assessment_sheet = data.id;
 	$.each(the_answers,function(key,value){
 		if(value.type=="long_answer") {
+            
             console.log(value.answer);
 
 			if(value.score){
