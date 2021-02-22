@@ -209,12 +209,6 @@ $(document).ready(function(){
 			}
 
 
-
-
-
-
-
-
 			$.ajax({
 			    url: base_url+'/stored_answer',
 			    type: "POST",
@@ -222,15 +216,16 @@ $(document).ready(function(){
 			    // contentType: "application/json",
 			    complete: function(stored_answer){
 
-			    	var answer = stored_answer.responseText;
+			    	var answer = stored_answer.responseText.replace(/[\n\r]/g, '~newline~');
 			    	global_stored_answer = answer;
 
-			    	console.log(global_stored_answer);
+			    	// console.log(global_stored_answer);
 
 					if(answer){
 						answer = JSON.parse(answer);
 						stored_json_parsed = JSON.parse(stored_json);
-						$.each(answer,function(key,value){
+						$.each(answer,function(key,value) {
+                            console.log(value.answer);
 
 							if(value.type=="multiple_choice"||value.type=="multiple_answer"){
 								var correct_answer = stored_json_parsed[key].correct.split(",");
@@ -271,8 +266,8 @@ $(document).ready(function(){
 								total_score += parseInt(stored_json_parsed[key].points);
 
 								var the_options = $(".option-container-actual").eq(key).find(".option");
-								$(the_options).find(".option_type").find("input").val(value.answer);
-								var student_short_answer = escape_comma(value.answer.toLowerCase().trim());
+								$(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
+								var student_short_answer = escape_comma(value.answer.toLowerCase().trim().replace(/~newline~/g, '\n'));
 								if(trimmed_correct_array.indexOf(student_short_answer) != -1){
 									score += parseInt(stored_json_parsed[key].points);
 									$(".option-container-actual").eq(key).css("background-color","rgb(114, 196, 114)");
@@ -307,7 +302,7 @@ $(document).ready(function(){
 								}
 
 								var the_options = $(".option-container-actual").eq(key).find(".option");
-								$(the_options).find(".option_type").find("textarea").text(value.answer);
+								$(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
 								$(the_options).find(".option_type").find("textarea").after("<p>Essay score: "+essay_score+"</p>");
 							}	
 							
