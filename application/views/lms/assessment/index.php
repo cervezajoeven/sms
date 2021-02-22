@@ -105,7 +105,7 @@
                                                     }
                                                     print_r($term); ?>
                                             </td>
-                                            <td class="mailbox-name">
+                                            <td class="mailbox-name text-center">
 
                                                 <?php if($role=="student"): ?><?php print_r($list_data['student_attempt']) ?>/<?php endif; ?> <?php print_r($list_data['attempts']) ?>
                                             </td>
