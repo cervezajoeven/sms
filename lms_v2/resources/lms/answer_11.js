@@ -151,6 +151,7 @@ function unescape_comma(value){
 
 $(document).ready(function(){
 
+    // console.log(base_url+'stored_json');
 
 	$.ajax({
 	    url: base_url+'stored_json',
@@ -160,6 +161,7 @@ $(document).ready(function(){
 	    complete: function(response){
 
 	    	var stored_json = response.responseText;
+            // console.log(stored_json);
 
 	    	if(stored_json){
 
@@ -202,12 +204,16 @@ $(document).ready(function(){
 			    // contentType: "application/json",
 			    complete: function(stored_answer){
 
-			    	var answer = stored_answer.responseText;
+			    	var answer = stored_answer.responseText.replace(/[\n\r]/g, '~newline~');
+                    // console.log(answer);
+
 			    	$(document).find("input").attr("autocomplete","off");
 					if(answer){
 						answer = JSON.parse(answer);
 						stored_json_parsed = JSON.parse(stored_json);
+
 						$.each(answer,function(key,value){
+                            console.log(value.answer);
 
 							if(value.type=="multiple_choice"||value.type=="multiple_answer"){
 								var student_answer = value.answer.split(",");
@@ -225,13 +231,13 @@ $(document).ready(function(){
 								var short_answer_correct_array = stored_json_parsed[key].correct.split(",");
 
 								var the_options = $(".option-container-actual").eq(key).find(".option");
-								$(the_options).find(".option_type").find("input").val(value.answer);
+								$(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
 
 
 							}else if(value.type=="long_answer"){
 
 								var the_options = $(".option-container-actual").eq(key).find(".option");
-								$(the_options).find(".option_type").find("textarea").text(value.answer);
+								$(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
 							}
 
 
