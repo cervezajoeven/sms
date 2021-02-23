@@ -595,22 +595,31 @@ function startTime() {
 function bake_cookie(name, value) {
     delete_cookie(name);
 
-    var date = new Date();
-    date.setHours(23,59,59,999);
-    var expires = "expires=" + date.toGMTString();
-    document.cookie = name+"="+JSON.stringify(value)+"; "+expires;
+    try {
+        var date = new Date();
+        date.setHours(23,59,59,999);
+        var expires = "expires=" + date.toGMTString();
+        document.cookie = name+"="+JSON.stringify(value)+"; "+expires;    
+    } catch (error) {}   
 
     // var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
     // document.cookie = cookie;
 }
   
 function read_cookie(name) {
-    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-    result && (result = JSON.parse(result[1]));
+    var result = null;
+    try {
+        result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+        result && (result = JSON.parse(result[1]));    
+    } catch (error) {}
+    
     
     return result;
 }
   
 function delete_cookie(name) {
-    document.cookie = [name, '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.', window.location.host.toString()].join('');
+    try {
+        document.cookie = [name, '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.', window.location.host.toString()].join('');
+    } catch(error) {}
+    
 }
