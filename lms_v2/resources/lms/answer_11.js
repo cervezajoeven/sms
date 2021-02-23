@@ -153,7 +153,7 @@ $(document).ready(function(){
 
     // console.log(base_url+'stored_json');
 
-    var stored_answer = read_cookie(assessment_id + "_" + assessment_sheet_id); 
+    var stored_answer = read_local_data(assessment_id + "_" + assessment_sheet_id); 
 
     if (stored_answer != null && stored_answer != "") {
         $.ajax({
@@ -419,7 +419,7 @@ function auto_save(){
     if(final_json.length === 0) {        
         alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
     }else{
-        bake_cookie(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
+        set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
         $.ajax({
             url: site_url+'auto_save',
@@ -490,14 +490,14 @@ $(".submit").click(function(){
 		if(final_json.length === 0) {
 			alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
 		}else{
-            bake_cookie(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
+            set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
 			$.ajax({
 			    url: site_url+'answer_submit',
 			    type: "POST",
 			    data: final_json,
 			    complete: function(response) {
-                    delete_cookie(assessment_id + "_" + assessment_sheet_id);
+                    remove_local_data(assessment_id + "_" + assessment_sheet_id);
 			    	console.log(response.responseText);
 			    	alert("Quiz has been successfully submitted!");
 			    	window.location.replace(old_url+'review/'+assessment_id);
@@ -593,8 +593,8 @@ function startTime() {
 	}, 1000);
 }
 
-function bake_cookie(name, value) {
-    delete_cookie(name);
+function set_local_data(name, value) {
+    remove_local_data(name);
 
     try {
         // var date = new Date();
@@ -608,7 +608,7 @@ function bake_cookie(name, value) {
     // document.cookie = cookie;
 }
   
-function read_cookie(name) {
+function read_local_data(name) {
     var result = null;
     try {
         // result = document.cookie.match(new RegExp(name + '=([^;]+)'));
@@ -620,7 +620,7 @@ function read_cookie(name) {
     return result;
 }
   
-function delete_cookie(name) {
+function remove_local_data(name) {
     try {
         //document.cookie = [name, '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.', window.location.host.toString()].join('');
         localStorage.removeItem(name);
