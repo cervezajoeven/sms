@@ -200,7 +200,8 @@ $(document).ready(function(){
                     $(document).find(".option_label_input").find("input").attr("readonly","readonly");
                 }
     
-                var answer = stored_answer.answer.replace(/[\n\r]/g, '~newline~');
+                // var answer = stored_answer.answer.replace(/[\n\r]/g, '~newline~');
+                var answer = stored_answer.replace(/[\n\r]/g, '~newline~');
                 // console.log(answer);
 
                 $(document).find("input").attr("autocomplete","off");
@@ -418,7 +419,7 @@ function auto_save(){
     if(final_json.length === 0) {        
         alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
     }else{
-        bake_cookie(assessment_id + "_" + assessment_sheet_id, final_json);
+        bake_cookie(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
         $.ajax({
             url: site_url+'auto_save',
@@ -489,7 +490,7 @@ $(".submit").click(function(){
 		if(final_json.length === 0) {
 			alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
 		}else{
-            bake_cookie(assessment_id + "_" + assessment_sheet_id, final_json);
+            bake_cookie(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
 			$.ajax({
 			    url: site_url+'answer_submit',
@@ -596,10 +597,11 @@ function bake_cookie(name, value) {
     delete_cookie(name);
 
     try {
-        var date = new Date();
-        date.setHours(23,59,59,999);
-        var expires = "expires=" + date.toGMTString();
-        document.cookie = name+"="+JSON.stringify(value)+"; "+expires;    
+        // var date = new Date();
+        // date.setHours(23,59,59,999);
+        // var expires = "expires=" + date.toGMTString();
+        // document.cookie = name+"="+JSON.stringify(value)+"; "+expires;    
+        localStorage.setItem(name, value);
     } catch (error) {}   
 
     // var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
@@ -609,8 +611,9 @@ function bake_cookie(name, value) {
 function read_cookie(name) {
     var result = null;
     try {
-        result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-        result && (result = JSON.parse(result[1]));    
+        // result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+        // result && (result = JSON.parse(result[1]));    
+        result = localStorage.getItem(name);
     } catch (error) {}
     
     
@@ -619,7 +622,8 @@ function read_cookie(name) {
   
 function delete_cookie(name) {
     try {
-        document.cookie = [name, '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.', window.location.host.toString()].join('');
+        //document.cookie = [name, '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.', window.location.host.toString()].join('');
+        localStorage.removeItem(name);
     } catch(error) {}
     
 }
