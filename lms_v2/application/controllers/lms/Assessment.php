@@ -45,75 +45,67 @@ class Assessment extends JOE_Controller {
 	}
 
 
-	public function answer($id,$tester='false',$role="student"){
+	public function answer($id,$tester='false',$role="student") {
+        // echo "<pre>";
+        $data['role'] = "student";
+        $data['mode'] = $this->mode;
+        $data['school_code'] = $this->school_code;
 
-			// echo "<pre>";
-			$data['role'] = "student";
-      $data['mode'] = $this->mode;
-      $data['school_code'] = $this->school_code;
+        if($tester=='false') {
+            if(!array_key_exists('user_id',$this->session->userdata())){
+                echo "User was not initialized. Please go back to the previous page.";
+                exit;
+            }else{
+                $data['role'] = $this->session->userdata('role');
+                $data['account_id'] = $this->session->userdata('user_id');
+            }
+        }else{
+            $random_students = $this->assessment_model->lms_get("students","","","id");
+            $random_student = array_rand($random_students,1);
 
-			if($tester=='false'){
-				if(!array_key_exists('user_id',$this->session->userdata())){
-					echo "User was not initialized. Please go back to the previous page.";
-					exit;
-				}else{
+            $data['account_id'] = $random_students[$random_student]['id'];
+        }
 
-					$data['role'] = $this->session->userdata('role');
-					$data['account_id'] = $this->session->userdata('user_id');
-				}
-			}else{
-				$random_students = $this->assessment_model->lms_get("students","","","id");
-				$random_student = array_rand($random_students,1);
+        $data['id'] = $id;
+        $data['resources'] = base_url('resources/lms/');
+        $data['old_resources'] = old_url('backend/lms/');
 
-				$data['account_id'] = $random_students[$random_student]['id'];
-			}
+        $data['student_data'] = $this->assessment_model->lms_get("students",$data['account_id'],"id","firstname,lastname")[0];
+        $data['student_name'] = $data['student_data']['firstname']." ".$data['student_data']['lastname'];
+        $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id","id,attempts,duration,assessment_file,assessment_name,enable_timer")[0];
 
-			$data['id'] = $id;
-			$data['resources'] = base_url('resources/lms/');
-			$data['old_resources'] = old_url('backend/lms/');
+        $response = $this->assessment_model->response($id,$data['account_id'],1);
 
+        if(count($response)>=$data['assessment']['attempts']) {
+            echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".old_url('lms/assessment/index')."')</script>";
+            $this->load->view('lms/assessment/answer', $data);
+        } else {
+            $new_response = $this->assessment_model->response($id,$data['account_id'],0);
 
-	    $data['student_data'] = $this->assessment_model->lms_get("students",$data['account_id'],"id","firstname,lastname")[0];
-	    $data['student_name'] = $data['student_data']['firstname']." ".$data['student_data']['lastname'];
-			$data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id","id,attempts,duration,assessment_file,assessment_name,enable_timer")[0];
+            if(empty($new_response)) {
+                $assessment_data['assessment_id'] = $id;
+                $assessment_data['account_id'] = $data['account_id'];
+                $assessment_data['response_status'] = 0;
+                $assessment_data['expiration'] = date("Y-m-d H:i:s",strtotime("+".$data['assessment']['duration']." minutes",strtotime(date("Y-m-d H:i:s"))));
+                $assessment_data['start_date'] = date("Y-m-d H:i:s");
+                $browser = $this->getBrowserInfo();
+                $assessment_data['user_agent'] = $browser['user_agent'];
+                $assessment_data['browser'] = $browser['browser'];
+                $assessment_data['browser_version'] = $browser['browser_version'];
+                $assessment_data['device'] = $browser['device'];
+                $assessment_data['os_platform'] = $browser['os_platform'];              
 
+                $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
 
-			$response = $this->assessment_model->response($id,$data['account_id'],1);
+                $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id","id,expiration");
+            }
 
-			if(count($response)>=$data['assessment']['attempts']){
-	        echo "<script>alert('Maximum Attempts Have Been Reached! Account ID:".$data['account_id']."');window.location.replace('".old_url('lms/assessment/index')."')</script>";
-	        $this->load->view('lms/assessment/answer', $data);
-	    }else{
+            // print_r($new_response[0]);die();
 
-					$new_response = $this->assessment_model->response($id,$data['account_id'],0);
+            $data['assessment_sheet'] = $new_response[0];
 
-
-	        if(empty($new_response)){
-	            $assessment_data['assessment_id'] = $id;
-	            $assessment_data['account_id'] = $data['account_id'];
-	            $assessment_data['response_status'] = 0;
-	            $assessment_data['expiration'] = date("Y-m-d H:i:s",strtotime("+".$data['assessment']['duration']." minutes",strtotime(date("Y-m-d H:i:s"))));
-              $assessment_data['start_date'] = date("Y-m-d H:i:s");
-              $browser = $this->getBrowserInfo();
-              $assessment_data['user_agent'] = $browser['user_agent'];
-              $assessment_data['browser'] = $browser['browser'];
-              $assessment_data['browser_version'] = $browser['browser_version'];
-              $assessment_data['device'] = $browser['device'];
-              $assessment_data['os_platform'] = $browser['os_platform'];
-              
-
-	            $new_assessment_id = $this->assessment_model->lms_create("lms_assessment_sheets",$assessment_data);
-
-	            $new_response = $this->assessment_model->lms_get("lms_assessment_sheets",$new_assessment_id,"id","id,expiration");
-	        }
-          
-          
-
-	        $data['assessment_sheet'] = $new_response[0];
-
-	        $this->load->view('lms/assessment/answer', $data);
-	    }
-
+            $this->load->view('lms/assessment/answer', $data);
+        }
 	}
 
   public function getBrowserInfo(){

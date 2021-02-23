@@ -171,7 +171,7 @@ class Assessment extends General_Controller {
                 $students[$student_key]['response_status'] = 0;
                 $students[$student_key]['assessment_sheet_id'] = "";
                 $students[$student_key]['student_activity'] = "not_yet";
-                $students[$student_key]['score'] = ($student_answers_value['score'])?$student_answers_value['score']:0;
+                $students[$student_key]['score'] = ($student_value['score'])?$student_value['score']:0;
                 $students[$student_key]['total_score'] = $data['assessment']['total_score'];
                 $students[$student_key]['browser'] = "";
                 $students[$student_key]['browser_version'] = "";
@@ -702,6 +702,11 @@ class Assessment extends General_Controller {
             foreach ($answer as $answer_key => $answer_value) {
                 $total_score += 1;
                 $assessment_value = $assessment_answer[$answer_key];
+                
+                $answer_value['answer'] = preg_replace('/\n/', '~nextline~', $answer_value['answer']);
+                
+                // print_r($answer_value['answer']  . "<BR>");                
+
                 if($answer_value['type']=="multiple_choice"||$answer_value['type']=="multiple_answer"){
 
                     if($answer_value['answer'] == $assessment_value['correct']){
@@ -741,8 +746,12 @@ class Assessment extends General_Controller {
 
             }
 
+            // die();
+
             $data['score'] = $score;
             $data['response_status'] = "1";
+
+
 
             $this->assessment_model->lms_update("lms_assessment_sheets",$data);
         }
