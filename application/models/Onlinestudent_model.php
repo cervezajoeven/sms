@@ -122,7 +122,7 @@ class Onlinestudent_model extends MY_Model {
         // print_r($data);die();
 
         if (isset($data['id'])) {
-            $this->writedb->trans_begin();
+            // $this->writedb->trans_begin();
 
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
@@ -140,7 +140,7 @@ class Onlinestudent_model extends MY_Model {
             // var_dump($feesmaster);die;
             
             if ($action == "enroll") {
-			//==========================
+			    //==========================
                 $insert = true;
                 // $sch_setting_detail = $this->setting_model->getSetting();
 
@@ -180,8 +180,7 @@ class Onlinestudent_model extends MY_Model {
                     unset($data['id']);     
                     $student_id = null;   
 
-                    if ($enroll_type == 'old') 
-                    {
+                    if ($enroll_type == 'old') {
                         $student_id = $this->GetStudentID($data['roll_no']);
                         
                         $old_data = array (
@@ -200,9 +199,8 @@ class Onlinestudent_model extends MY_Model {
                         
                         $this->writedb->where('id', $student_id);
                         $this->writedb->update('students', $old_data);                        
-                    } 
-                    else if ($enroll_type == 'old_new') 
-                    {
+                    }
+                    else if ($enroll_type == 'old_new') {
                         $student_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
                         $data['enrollment_type'] = 'old';
 
@@ -220,13 +218,12 @@ class Onlinestudent_model extends MY_Model {
 
                         // var_dump($student_id);die;
                     }
-                    else 
-                    {
+                    else {
                         // print_r($data);die();
                         $data['roll_no'] = $data['admission_no'];
                         $this->writedb->insert('students', $data);
                         $student_id = $this->writedb->insert_id();                        
-                    }                    
+                    }
                    
                     $data_new = array(
                         'student_id' => $student_id,
@@ -235,36 +232,17 @@ class Onlinestudent_model extends MY_Model {
                         'session_id' => $this->current_session,
                     );
                     
-                    //-- Add to student_session table
-                    // $this->db->where('session_id', $this->current_session);
-                    // $this->db->where('student_id', $student_id);
-                    // $q = $this->db->get('student_session');
+                    $this->writedb->insert('student_session', $data_new);
+                    $student_session_id = $this->writedb->insert_id();
+                    $message = INSERT_RECORD_CONSTANT . " On  student session id " . $student_session_id;
+                    $action = "Insert";
+                    $record_id = $student_session_id;
+                    
+                    $this->log($message, $record_id, $action);
 
-                    // if ($q->num_rows() > 0) {            
-                    //     $rec = $q->row_array();
-                    //     $this->writedb->where('id', $rec['id']);
-                    //     $this->writedb->update('student_session', $data_new);
-                    //     $message   = UPDATE_RECORD_CONSTANT . " On  student session id " . $rec['id'];
-                    //     $action    = "Update";
-                    //     $record_id = $rec['id'];
-                        
-                    //     $this->log($message, $record_id, $action);
-                    //     // $session_id = $record_id;
+                    // // $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session        
 
-                    // } else {
-                        $this->writedb->insert('student_session', $data_new);
-                        $student_session_id = $this->writedb->insert_id();
-                        $message = INSERT_RECORD_CONSTANT . " On  student session id " . $student_session_id;
-                        $action = "Insert";
-                        $record_id = $student_session_id;
-                        
-                        $this->log($message, $record_id, $action);          
-                    // }
-
-                    // $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session        
-
-                    if (isset($student_session_id))
-                    {
+                    if (isset($student_session_id)) {
                         //-- Assign fees master
                         if (isset($feesmaster)) 
                         {
@@ -282,10 +260,8 @@ class Onlinestudent_model extends MY_Model {
                         }
 
                         //-- Assign discount
-                        if (isset($feesdiscount))
-                        {
-                            foreach($feesdiscount as $discount_id)
-                            {
+                        if (isset($feesdiscount)) {
+                            foreach($feesdiscount as $discount_id) {
                                 $insert_array = array(
                                     'student_session_id' => $student_session_id,
                                     'fees_discount_id' => $discount_id,
@@ -294,131 +270,105 @@ class Onlinestudent_model extends MY_Model {
                                 $this->feediscount_model->allotdiscount($insert_array);
                             }
                         }
-                    }                   
-                    
-                    //if ($enroll_type != 'old') 
-                    {
-                        // var_dump($enroll_type);die;
-                        // if (strcmp(strtoupper($enroll_type), "OLD") !== 0) {
-                            $isOld = null;
-
-                            // if ($enroll_type == 'old_new') 
-                            //     $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->GetStudentID($data['roll_no']) : $this->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
-                            
-                            // if (!isset($isOld)) {
-                                $user_password      = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-
-                                $data_student_login = array(
-                                    'username' => $this->student_login_prefix . $student_id,
-                                    'password' => $user_password,
-                                    'user_id'  => $student_id,
-                                    'role'     => 'student',
-                                );
-                                $this->user_model->add($data_student_login);
-                                // var_dump($data_student_login);die;
-
-                                if ($sibling_id > 0) 
-                                {
-                                    $student_sibling = $this->student_model->get($sibling_id);
-                                    $update_student  = array(
-                                        'id'        => $student_id,
-                                        'parent_id' => $student_sibling['parent_id'],
-                                    );
-                                    $student_sibling = $this->student_model->add($update_student);
-                                } 
-                                else 
-                                {
-                                    $parent_password   = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
-                                    $temp              = $student_id;
-                                    $data_parent_login = array(
-                                        'username' => $this->parent_login_prefix . $student_id,
-                                        'password' => $parent_password,
-                                        'user_id'  => 0,
-                                        'role'     => 'parent',
-                                        'childs'   => $temp,
-                                    );
-                                    $ins_parent_id  = $this->user_model->add($data_parent_login);
-                                    $update_student = array(
-                                        'id'        => $student_id,
-                                        'parent_id' => $ins_parent_id,
-                                    );
-                                    $this->student_model->add($update_student);
-                                }
-                            // }
-                        // }
-
-                        //============== Update setting modal =================
-                        if ($this->sch_setting_detail->adm_auto_insert) {
-                            if ($this->sch_setting_detail->adm_update_status == 0) {
-                                $data_setting=array();
-                                $data_setting['id']=$this->sch_setting_detail->id;
-                                $data_setting['adm_update_status'] = 1;
-                                $this->setting_model->add($data_setting);
-                            }
-                        }
-                        //===================================================  
-                        
-
-                        //if ($action == "enroll")
-                        {
-                            // $sender_details = array(
-                            //     'student_id' => $student_id, 
-                            //     'contact_no' => $this->input->post('guardian_phone'), 
-                            //     'email' => $this->input->post('guardian_email'));
-                            
-                            // print_r($sender_details);die();                            
-
-                            $grade_level = $this->GetGradeLevel($this->input->post('class_id'));                            
-                            $section = $this->GetSection($this->input->post('section_id'));
-
-                            // print_r("Debug Mode On <BR><BR>");
-                            // print_r($data);die();
-                            
-                            $sender_details = array(
-                                'admission_date' => date("Y-m-d"), 
-                                'firstname' => $this->input->post('firstname'), 
-                                'lastname' => $this->input->post('lastname'), 
-                                'guardian_name' => $this->input->post('guardian_name'), 
-                                'email' => $this->input->post('guardian_email'),
-                                'school_name' => $this->setting_model->getCurrentSchoolName(),
-                                'class' => $grade_level,
-                                'section' => $section);
-
-                            // print_r("Debug Mode On <BR><BR>");
-                            // print_r($sender_details);die();
-                            
-                            $this->mailsmsconf->mailsms('student_admission', $sender_details);
-
-                            $student_login_detail = array(
-                                'id' => $student_id, 
-                                'credential_for' => 'student', 
-                                'username' => $this->student_login_prefix . $student_id, 
-                                'password' => $user_password, 
-                                'contact_no' => $this->input->post('mobileno'), 
-                                'email' => $this->input->post('email'),
-                                'display_name' => $this->input->post('firstname') . " " . $this->input->post('lastname'), 
-                                'school_name' => $this->setting_model->getCurrentSchoolName());
-                            $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
-                            
-                            $parent_login_detail = array(
-                                'id' => $student_id, 
-                                'credential_for' => 'parent', 
-                                'username' => $this->parent_login_prefix . $student_id, 
-                                'password' => $parent_password, 
-                                'contact_no' => $this->input->post('guardian_phone'), 
-                                'email' => $this->input->post('guardian_email'),
-                                'display_name' => $this->input->post('guardian_name'), 
-                                'school_name' => $this->setting_model->getCurrentSchoolName());
-                            //$this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
-                        }                        
                     }
+                    
+                    $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+
+                    $data_student_login = array(
+                        'username' => $this->student_login_prefix . $student_id,
+                        'password' => $user_password,
+                        'user_id'  => $student_id,
+                        'role'     => 'student',
+                    );
+                    $this->user_model->add($data_student_login);
+                    // var_dump($data_student_login);die;
+
+                    if ($sibling_id > 0) {
+                        $student_sibling = $this->student_model->get($sibling_id);
+                        $update_student  = array(
+                            'id'        => $student_id,
+                            'parent_id' => $student_sibling['parent_id'],
+                        );
+                        $student_sibling = $this->student_model->add($update_student);
+                    } 
+                    else {
+                        $parent_password   = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+                        $temp              = $student_id;
+                        $data_parent_login = array(
+                            'username' => $this->parent_login_prefix . $student_id,
+                            'password' => $parent_password,
+                            'user_id'  => 0,
+                            'role'     => 'parent',
+                            'childs'   => $temp,
+                        );
+                        $ins_parent_id  = $this->user_model->add($data_parent_login);
+
+                        $update_student = array(
+                            'id'        => $student_id,
+                            'parent_id' => $ins_parent_id,
+                        );
+                        $this->student_model->add($update_student);
+                    }
+
+                    //============== Update setting modal =================
+                    if ($this->sch_setting_detail->adm_auto_insert) {
+                        if ($this->sch_setting_detail->adm_update_status == 0) {
+                            $data_setting=array();
+                            $data_setting['id']=$this->sch_setting_detail->id;
+                            $data_setting['adm_update_status'] = 1;
+                            $this->setting_model->add($data_setting);
+                        }
+                    }
+                    //===================================================  
+                    
+
+                    $grade_level = $this->GetGradeLevel($this->input->post('class_id'));                            
+                    $section = $this->GetSection($this->input->post('section_id'));
+
+                    // // print_r("Debug Mode On <BR><BR>");
+                    // // print_r($data);die();
+                    
+                    $sender_details = array(
+                        'admission_date' => date("Y-m-d"), 
+                        'firstname' => $this->input->post('firstname'), 
+                        'lastname' => $this->input->post('lastname'), 
+                        'guardian_name' => $this->input->post('guardian_name'), 
+                        'email' => $this->input->post('guardian_email'),
+                        'school_name' => $this->setting_model->getCurrentSchoolName(),
+                        'class' => $grade_level,
+                        'section' => $section);
+
+                    // print_r("Debug Mode On <BR><BR>");
+                    // print_r($sender_details);die();
+                    
+                    $this->mailsmsconf->mailsms('student_admission', $sender_details);
+
+                    $student_login_detail = array(
+                        'id' => $student_id, 
+                        'credential_for' => 'student', 
+                        'username' => $this->student_login_prefix . $student_id, 
+                        'password' => $user_password, 
+                        'contact_no' => $this->input->post('mobileno'), 
+                        'email' => $this->input->post('email'),
+                        'display_name' => $this->input->post('firstname') . " " . $this->input->post('lastname'), 
+                        'school_name' => $this->setting_model->getCurrentSchoolName());
+                    $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+                    
+                    $parent_login_detail = array(
+                        'id' => $student_id, 
+                        'credential_for' => 'parent', 
+                        'username' => $this->parent_login_prefix . $student_id, 
+                        'password' => $parent_password, 
+                        'contact_no' => $this->input->post('guardian_phone'), 
+                        'email' => $this->input->post('guardian_email'),
+                        'display_name' => $this->input->post('guardian_name'), 
+                        'school_name' => $this->setting_model->getCurrentSchoolName());
+                    $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
                 }
-            }
-
-            
+            }            
 
             //var_dump($data);die;
 
@@ -430,11 +380,11 @@ class Onlinestudent_model extends MY_Model {
 			$record_id    = $data_id;
             $this->log($message, $record_id, $action);
 			
-            if ($this->writedb->trans_status() === false) {
-                $this->writedb->trans_rollback();
-            } else {
-                $this->writedb->trans_commit();
-            }
+            // if ($this->writedb->trans_status() === false) {
+            //     $this->writedb->trans_rollback();
+            // } else {
+            //     $this->writedb->trans_commit();
+            // }
         }
 
         return $record_update_status;
