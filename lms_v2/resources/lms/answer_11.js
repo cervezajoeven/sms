@@ -176,8 +176,7 @@ $(document).ready(function(){
                             var last_option = $(".option-container-actual").eq(key).find(".option").length;
                             var option_clone = $(".option-container-actual").eq(key).find(".option").eq(last_option-1).clone();
     
-                            $(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);
-    
+                            $(".option-container-actual").eq(key).find(".option").eq(last_option-1).after(option_clone);    
                         });
     
                         if(value.type=="section"){
@@ -191,62 +190,54 @@ $(document).ready(function(){
                             $(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
     
                         });
-                        $(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
-    
-    
-    
+
+                        $(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();    
                     });
+                    
                     renumbering();
                     $(document).find(".option_label_input").find("input").attr("readonly","readonly");
+
+                    // var answer = stored_answer.answer.replace(/[\n\r]/g, '~newline~');
+                    var answer = stored_answer.replace(/[\n\r]/g, '~newline~');
+                    // console.log(answer);
+
+                    $(document).find("input").attr("autocomplete","off");
+
+                    if(answer) {
+                        answer = JSON.parse(answer);
+                        stored_json_parsed = JSON.parse(stored_json);
+
+                        $.each(answer,function(key,value) {
+                            console.log(value.answer);
+
+                            if(value.type=="multiple_choice"||value.type=="multiple_answer") {
+                                var student_answer = value.answer.split(",");
+                                var the_options = $(".option-container-actual").eq(key).find(".option");
+
+                                $.each(the_options,function(the_option_key,the_option_value) {
+                                    if(student_answer[the_option_key] == "1"){
+                                        $(the_option_value).find(".option_type").find("input").prop("checked",true);
+                                    }
+                                });
+                            }
+                            else if(value.type=="short_answer") {
+                                var short_answer_correct_array = stored_json_parsed[key].correct.split(",");
+                                var the_options = $(".option-container-actual").eq(key).find(".option");
+
+                                $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
+                            }
+                            else if(value.type=="long_answer") {
+
+                                var the_options = $(".option-container-actual").eq(key).find(".option");
+                                $(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
+                            }
+                        });
+                    }
                 }
-    
-                // var answer = stored_answer.answer.replace(/[\n\r]/g, '~newline~');
-                var answer = stored_answer.replace(/[\n\r]/g, '~newline~');
-                // console.log(answer);
-
-                $(document).find("input").attr("autocomplete","off");
-                if(answer){
-                    answer = JSON.parse(answer);
-                    stored_json_parsed = JSON.parse(stored_json);
-
-                    $.each(answer,function(key,value){
-                        console.log(value.answer);
-
-                        if(value.type=="multiple_choice"||value.type=="multiple_answer"){
-                            var student_answer = value.answer.split(",");
-                            var the_options = $(".option-container-actual").eq(key).find(".option");
-
-                            $.each(the_options,function(the_option_key,the_option_value){
-                                if(student_answer[the_option_key] == "1"){
-                                    $(the_option_value).find(".option_type").find("input").prop("checked",true);
-                                }
-
-                            });
-
-
-                        }else if(value.type=="short_answer"){
-                            var short_answer_correct_array = stored_json_parsed[key].correct.split(",");
-
-                            var the_options = $(".option-container-actual").eq(key).find(".option");
-                            $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
-
-
-                        }else if(value.type=="long_answer"){
-
-                            var the_options = $(".option-container-actual").eq(key).find(".option");
-                            $(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
-                        }
-
-
-
-
-                    });
-
-                }
-    
             },
         });
-    } else {
+    } 
+    else {
         $.ajax({
             url: base_url+'stored_json',
             type: "POST",
@@ -282,10 +273,8 @@ $(document).ready(function(){
                             $(".option-container-actual").eq(key).find(".option").eq(value_key).find(".option_label_input").find("input").val(unescaped_comma);
     
                         });
-                        $(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();
-    
-    
-    
+
+                        $(".option-container-actual").eq(key).find(".option").eq(the_last-1).remove();    
                     });
                     renumbering();
                     $(document).find(".option_label_input").find("input").attr("readonly","readonly");
@@ -296,13 +285,13 @@ $(document).ready(function(){
                     type: "POST",
                     data: {assessment_sheet_id:assessment_sheet_id},
                     // contentType: "application/json",
-                    complete: function(stored_answer){
-    
+                    complete: function(stored_answer) {    
                         var answer = stored_answer.responseText.replace(/[\n\r]/g, '~newline~');
                         // console.log(answer);
     
                         $(document).find("input").attr("autocomplete","off");
-                        if(answer){
+
+                        if(answer) {
                             answer = JSON.parse(answer);
                             stored_json_parsed = JSON.parse(stored_json);
     
@@ -314,35 +303,26 @@ $(document).ready(function(){
                                     var the_options = $(".option-container-actual").eq(key).find(".option");
     
                                     $.each(the_options,function(the_option_key,the_option_value){
-                                        if(student_answer[the_option_key] == "1"){
+                                        if(student_answer[the_option_key] == "1") {
                                             $(the_option_value).find(".option_type").find("input").prop("checked",true);
-                                        }
-    
+                                        }    
                                     });
-    
-    
-                                }else if(value.type=="short_answer"){
-                                    var short_answer_correct_array = stored_json_parsed[key].correct.split(",");
-    
+                                } 
+                                else if(value.type=="short_answer") {
+                                    var short_answer_correct_array = stored_json_parsed[key].correct.split(",");    
                                     var the_options = $(".option-container-actual").eq(key).find(".option");
-                                    $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
-    
-    
-                                }else if(value.type=="long_answer"){
-    
-                                    var the_options = $(".option-container-actual").eq(key).find(".option");
-                                    $(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
+
+                                    $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));    
                                 }
-    
-    
-    
-    
-                            });
-    
+                                else if(value.type=="long_answer") {    
+                                    var the_options = $(".option-container-actual").eq(key).find(".option");
+
+                                    $(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
+                                }    
+                            });    
                         }
                     }
-                });
-    
+                });    
             },
         });
     }
@@ -421,24 +401,24 @@ function auto_save(){
     }else{
         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
-        $.ajax({
-            url: site_url+'auto_save',
-            type: "POST",
-            data: final_json,
-            complete: function(response){
-                console.log("auto saved!");
-            }
-        });
+        // $.ajax({
+        //     url: site_url+'auto_save',
+        //     type: "POST",
+        //     data: final_json,
+        //     complete: function(response){
+        //         console.log("auto saved!");
+        //     }
+        // });
 
-        $.ajax({
-            url: site_url+'assessment_answer_history',
-            type: "POST",
-            data: final_json,
-            complete: function(response){
-                console.log("Assessment History");
-                console.log(response.responseText);
-            }
-        });	
+        // $.ajax({
+        //     url: site_url+'assessment_answer_history',
+        //     type: "POST",
+        //     data: final_json,
+        //     complete: function(response){
+        //         console.log("Assessment History");
+        //         console.log(response.responseText);
+        //     }
+        // });	
     }		
 }
 $(".submit").click(function(){
