@@ -396,9 +396,10 @@ function auto_save(){
     });
     final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};    
 
-    if(final_json.length === 0) {        
+    if (final_json.length === 0) {        
         alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
-    }else{
+    }
+    else {
         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
         // $.ajax({
@@ -421,7 +422,7 @@ function auto_save(){
         // });	
     }		
 }
-$(".submit").click(function(){
+$(".submit").click(function() {
 	if(confirm("Are you sure you want to submit this quiz?")){
 		var json = [];
 		var options = $(".option-container-actual");
