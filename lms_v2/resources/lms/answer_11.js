@@ -155,7 +155,7 @@ $(document).ready(function(){
 
     var stored_answer = read_local_data(assessment_id + "_" + assessment_sheet_id); 
 
-    if (stored_answer != null && stored_answer != "") {
+    if (stored_answer != null && stored_answer != ""){
         $.ajax({
             url: base_url+'stored_json',
             type: "POST",
@@ -203,30 +203,30 @@ $(document).ready(function(){
 
                     $(document).find("input").attr("autocomplete","off");
 
-                    if(answer) {
+                    if(answer){
                         answer = JSON.parse(answer);
                         stored_json_parsed = JSON.parse(stored_json);
 
                         $.each(answer,function(key,value) {
                             console.log(value.answer);
 
-                            if(value.type=="multiple_choice"||value.type=="multiple_answer") {
+                            if(value.type=="multiple_choice"||value.type=="multiple_answer"){
                                 var student_answer = value.answer.split(",");
                                 var the_options = $(".option-container-actual").eq(key).find(".option");
 
-                                $.each(the_options,function(the_option_key,the_option_value) {
+                                $.each(the_options,function(the_option_key,the_option_value){
                                     if(student_answer[the_option_key] == "1"){
                                         $(the_option_value).find(".option_type").find("input").prop("checked",true);
                                     }
                                 });
                             }
-                            else if(value.type=="short_answer") {
+                            else if(value.type=="short_answer"){
                                 var short_answer_correct_array = stored_json_parsed[key].correct.split(",");
                                 var the_options = $(".option-container-actual").eq(key).find(".option");
 
                                 $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
                             }
-                            else if(value.type=="long_answer") {
+                            else if(value.type=="long_answer"){
 
                                 var the_options = $(".option-container-actual").eq(key).find(".option");
                                 $(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
@@ -283,7 +283,7 @@ $(document).ready(function(){
                 $.ajax({
                     url: base_url+'stored_answer',
                     type: "POST",
-                    data: {assessment_sheet_id:assessment_sheet_id},
+                    data: { assessment_sheet_id:assessment_sheet_id },
                     // contentType: "application/json",
                     complete: function(stored_answer) {    
                         var answer = stored_answer.responseText.replace(/[\n\r]/g, '~newline~');
@@ -298,7 +298,7 @@ $(document).ready(function(){
                             $.each(answer,function(key,value){
                                 console.log(value.answer);
     
-                                if(value.type=="multiple_choice"||value.type=="multiple_answer"){
+                                if(value.type=="multiple_choice"||value.type=="multiple_answer") {
                                     var student_answer = value.answer.split(",");
                                     var the_options = $(".option-container-actual").eq(key).find(".option");
     
@@ -308,28 +308,25 @@ $(document).ready(function(){
                                         }    
                                     });
                                 } 
-                                else if(value.type=="short_answer") {
+                                else if(value.type=="short_answer"){
                                     var short_answer_correct_array = stored_json_parsed[key].correct.split(",");    
                                     var the_options = $(".option-container-actual").eq(key).find(".option");
 
-                                    $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));    
+                                    $(the_options).find(".option_type").find("input").val(value.answer.replace(/~newline~/g, '\n'));
                                 }
-                                else if(value.type=="long_answer") {    
+                                else if(value.type=="long_answer"){    
                                     var the_options = $(".option-container-actual").eq(key).find(".option");
 
                                     $(the_options).find(".option_type").find("textarea").text(value.answer.replace(/~newline~/g, '\n'));
                                 }    
-                            });    
+                            });
                         }
                     }
-                });    
+                });
             },
         });
     }
 });
-
-//fill answers
-
 
 //fill answers
 $(document).on("click",".remove_option",function(){
@@ -337,22 +334,21 @@ $(document).on("click",".remove_option",function(){
 	renumbering();
 
 });
+
 $(".info-key").click(function(){
 	var option_type = $(this).attr("option_type");
 	populate_key(option_type);
 
 	renumbering();
 });
+
 $(document).on("click",".add_option",function(){
 	var last_option = $(this).parent().find(".option").length;
 	var option_clone = $(this).siblings(".option").eq(last_option-1).clone();
 	$(this).parent().find(".option").eq(last_option-1).after(option_clone);
-
 });
 
-
-
-function auto_save(){
+function auto_save() {
 	var json = [];
     var options = $(".option-container-actual");
     var student_id = account_id;
@@ -361,13 +357,14 @@ function auto_save(){
 
         if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
             var answer_val = [];
-            $.each($(value).find(".option"),function(option_key,option_value){
 
-                    if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
+            $.each($(value).find(".option"),function(option_key,option_value){
+                if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
                     answer_val.push("1");
-                    }else{
+                }
+                else{
                     answer_val.push("0");
-                    }
+                }
             });
 
             option_json = {
@@ -376,14 +373,14 @@ function auto_save(){
             };
 
         }else if(the_option_type=="short_answer"){
-
             var short_answer_val = $(value).find(".option").find("input").eq(0).val();
 
             option_json = {
                 "type":the_option_type,
                 "answer": short_answer_val,
             };
-        }else{
+        }
+        else{
             var answer_val = $(value).find(".option").find("textarea").eq(0).val();
             option_json = {
                 "type":the_option_type,
@@ -394,12 +391,14 @@ function auto_save(){
         json.push(option_json);            
 
     });
+
     final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};    
 
     if (final_json.length === 0) {        
         alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
     }
     else {
+        remove_local_data(assessment_id + "_" + assessment_sheet_id);
         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
         // $.ajax({
@@ -423,13 +422,13 @@ function auto_save(){
     }		
 }
 $(".submit").click(function() {
-	if(confirm("Are you sure you want to submit this quiz?")){
+	if(confirm("Are you sure you want to submit this quiz?")) {
 		var json = [];
 		var options = $(".option-container-actual");
-		$.each(options,function(key,value){
+		$.each(options,function(key,value) {
 			var the_option_type = $(value).attr("option_type");
 
-			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
+			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer") {
 				var answer_val = [];
 				$.each($(value).find(".option"),function(option_key,option_value){
 
@@ -445,7 +444,8 @@ $(".submit").click(function() {
 					"answer":answer_val.join(","),
 				};
 
-			}else if(the_option_type=="short_answer"){
+			} 
+            else if(the_option_type=="short_answer") {
 
 				var short_answer_val = $(value).find(".option").find("input").eq(0).val();
 
@@ -453,7 +453,8 @@ $(".submit").click(function() {
 					"type":the_option_type,
 					"answer": short_answer_val,
 				};
-			}else{
+			}
+            else {
 				var answer_val = $(value).find(".option").find("textarea").eq(0).val();
 				option_json = {
 					"type":the_option_type,
@@ -461,16 +462,14 @@ $(".submit").click(function() {
 				};
 			}
 			json.push(option_json);
-
-
-
 		});
 		
-        final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};        
+        final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
 
-		if(final_json.length === 0) {
+		if (final_json.length === 0) {
 			alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
-		}else{
+		}
+        else {
             set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
 			$.ajax({
@@ -478,7 +477,8 @@ $(".submit").click(function() {
 			    type: "POST",
 			    data: final_json,
 			    complete: function(response) {
-                    remove_local_data(assessment_id + "_" + assessment_sheet_id);
+                    // remove_local_data(assessment_id + "_" + assessment_sheet_id);
+                    localStorage.clear();
 			    	console.log(response.responseText);
 			    	alert("Quiz has been successfully submitted!");
 			    	window.location.replace(old_url+'review/'+assessment_id);
@@ -500,14 +500,7 @@ $(document).on("click",".remove_choice",function(){
 	$(this).parent().parent().remove();
 });
 
-$(document).ready(function(){
-
-
-
-
-});
 var expiration_date = $("#expiration_value").val();
-
 var time_now = parseInt($("#time_now").val());
 // console.log(expiration_date);
 // console.log(time_now);
@@ -519,8 +512,7 @@ $(document).ready(function(){
 	}else{
 		document.getElementById("time").innerHTML = "No Time Limit";
 		$("#time").css("color","green");
-	}
-	
+	}	
 	
   	$(document).on("change","input",function(){
     	auto_save();
@@ -575,15 +567,14 @@ function startTime() {
 }
 
 function set_local_data(name, value) {
-    remove_local_data(name);
-
     try {
+        remove_local_data(name);
         // var date = new Date();
         // date.setHours(23,59,59,999);
         // var expires = "expires=" + date.toGMTString();
         // document.cookie = name+"="+JSON.stringify(value)+"; "+expires;    
         localStorage.setItem(name, value);
-    } catch (error) {}   
+    } catch (error) { console.log('Error writing to local storage') }   
 
     // var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
     // document.cookie = cookie;
@@ -595,8 +586,7 @@ function read_local_data(name) {
         // result = document.cookie.match(new RegExp(name + '=([^;]+)'));
         // result && (result = JSON.parse(result[1]));    
         result = localStorage.getItem(name);
-    } catch (error) {}
-    
+    } catch (error) { console.log('Error reading local storage') }    
     
     return result;
 }
@@ -605,6 +595,20 @@ function remove_local_data(name) {
     try {
         //document.cookie = [name, '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.', window.location.host.toString()].join('');
         localStorage.removeItem(name);
-    } catch(error) {}
-    
+        // localStorage.clear();
+    } catch(error) {}    
+}
+
+function isLocalStorageAvailable() {
+    try {
+        var valueToStore = 'test';
+        var mykey = 'key';
+        localStorage.setItem(mykey, valueToStore);
+        var recoveredValue = localStorage.getItem(mykey);
+        localStorage.removeItem(mykey);
+
+        return recoveredValue === valueToStore;
+    } catch(e) {
+        return false;
+    }
 }
