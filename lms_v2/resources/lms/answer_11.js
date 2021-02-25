@@ -402,24 +402,24 @@ function auto_save(){
     else {
         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
-        // $.ajax({
-        //     url: site_url+'auto_save',
-        //     type: "POST",
-        //     data: final_json,
-        //     complete: function(response){
-        //         console.log("auto saved!");
-        //     }
-        // });
+        $.ajax({
+            url: site_url+'auto_save',
+            type: "POST",
+            data: final_json,
+            complete: function(response){
+                console.log("auto saved!");
+            }
+        });
 
-        // $.ajax({
-        //     url: site_url+'assessment_answer_history',
-        //     type: "POST",
-        //     data: final_json,
-        //     complete: function(response){
-        //         console.log("Assessment History");
-        //         console.log(response.responseText);
-        //     }
-        // });	
+        $.ajax({
+            url: site_url+'assessment_answer_history',
+            type: "POST",
+            data: final_json,
+            complete: function(response){
+                console.log("Assessment History");
+                console.log(response.responseText);
+            }
+        });	
     }		
 }
 $(".submit").click(function() {
