@@ -93,7 +93,7 @@ function populate_key(option_type,data={}){
 			option_clone.find(".add_option").remove();
 			option_clone.find(".option_label_input").find("input").remove();
 			option_clone.find(".remove_choice").remove();
-			option_clone.find(".option_type").html('<textarea class="form-control"></textarea>');
+			option_clone.find(".option_type").html('<textarea rows="4" class="form-control"></textarea>');
 			
 			option_clone.find(".option_type").find("textarea").css("width","100%");
 			$(".sortable").append(option_clone);

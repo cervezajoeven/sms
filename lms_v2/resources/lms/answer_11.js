@@ -72,7 +72,7 @@ function populate_key(option_type,data={}){
 			option_clone.show();
 			option_clone.attr("option_type","long_answer");
 			option_clone.find(".option_type").empty();
-			option_clone.find(".option_type").html('<textarea class="form-control"></textarea>');
+			option_clone.find(".option_type").html('<textarea rows="4" class="form-control"></textarea>');
 			option_clone.find(".option_type").find("textarea").css("width","100%");
 			option_clone.find(".option_label_input").find("input").remove();
 			option_clone.find(".add_option").remove();
@@ -402,24 +402,24 @@ function auto_save(){
     else {
         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
-        $.ajax({
-            url: site_url+'auto_save',
-            type: "POST",
-            data: final_json,
-            complete: function(response){
-                console.log("auto saved!");
-            }
-        });
+        // $.ajax({
+        //     url: site_url+'auto_save',
+        //     type: "POST",
+        //     data: final_json,
+        //     complete: function(response){
+        //         console.log("auto saved!");
+        //     }
+        // });
 
-        $.ajax({
-            url: site_url+'assessment_answer_history',
-            type: "POST",
-            data: final_json,
-            complete: function(response){
-                console.log("Assessment History");
-                console.log(response.responseText);
-            }
-        });	
+        // $.ajax({
+        //     url: site_url+'assessment_answer_history',
+        //     type: "POST",
+        //     data: final_json,
+        //     complete: function(response){
+        //         console.log("Assessment History");
+        //         console.log(response.responseText);
+        //     }
+        // });	
     }		
 }
 $(".submit").click(function() {
