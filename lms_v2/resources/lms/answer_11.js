@@ -478,10 +478,15 @@ $(".submit").click(function() {
 			    data: final_json,
 			    complete: function(response) {
                     // remove_local_data(assessment_id + "_" + assessment_sheet_id);
-                    localStorage.clear();
-			    	console.log(response.responseText);
-			    	alert("Quiz has been successfully submitted!");
-			    	window.location.replace(old_url+'review/'+assessment_id);
+                    if (response.responseText != "") {
+                        localStorage.clear();
+                        console.log(response.responseText);
+                        alert("Quiz has been successfully submitted!");
+                        window.location.replace(old_url+'review/'+assessment_id);
+                    }
+                    else {
+                        alert("Oops! There seems to be a problem submitting your answers. Please try to submit again.");
+                    }                    
 			    }
 			});
 		}		
