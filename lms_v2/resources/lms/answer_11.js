@@ -527,8 +527,6 @@ $(document).ready(function(){
   	});
 });
 
-
-
 function startTime() {
 	// Set the date we're counting down to
 	var countDownDate = new Date(expiration_date).getTime();
