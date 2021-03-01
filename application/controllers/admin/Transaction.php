@@ -121,7 +121,7 @@ class Transaction extends Admin_Controller {
                      if (!empty($studentlist)) {
                     foreach ($studentlist as $key => $eachstudent) {
                         $obj = new stdClass();
-                        $obj->name = $eachstudent['lastname'] . ", " . $eachstudent['firstname'];
+                        $obj->name = $eachstudent['lastname'] . ", " . $eachstudent['firstname'] . " " . $eachstudent['middlename'];
                         $obj->class = $eachstudent['class'];
                         $obj->section = $eachstudent['section'];
                         $obj->admission_no = $eachstudent['admission_no'];

@@ -134,7 +134,7 @@ if (!empty($fields)) {
                                                     <td><?php echo $student['admission_no']; ?></td>
 
                                                     <td>
-                                                        <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo $student['firstname'] . " " . $student['lastname']; ?>
+                                                        <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id']; ?>"><?php echo strtoupper($student['lastname']) . ", " . strtoupper($student['firstname']) . " " . strtoupper($student['middlename']); ?>
                                                         </a>
                                                     </td>
                                                     <td><?php echo $student['class'] . "(" . $student['section'] . ")" ?></td>
@@ -224,12 +224,12 @@ if (empty($resultlist)) {
                                                 <div id="carousel-2" class="carousel slide slide-carousel" data-ride="carousel">
                                                     <div class="carousel-inner">
                                                         <div class="item active">
-                                                            <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>"> <img class="img-responsive img-thumbnail width150" alt="<?php echo $student["firstname"] . " " . $student["lastname"] ?>"  src="<?php echo base_url() . $image ?>" alt="Image"></a>
+                                                            <a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>"> <img class="img-responsive img-thumbnail width150" alt="<?php echo strtoupper($student['lastname']) . ", " . strtoupper($student['firstname']) . " " . strtoupper($student['middlename']) ?>"  src="<?php echo base_url() . $image ?>" alt="Image"></a>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="slide-content">
-                                                    <h4><a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>"> <?php echo $student['firstname'] . " " . $student['lastname'] ?></a></h4>
+                                                    <h4><a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>"> <?php echo strtoupper($student['lastname']) . ", " . strtoupper($student['firstname']) . " " . strtoupper($student['middlename']) ?></a></h4>
                                                     <div class="row">
                                                         <div class="col-xs-6 col-md-6">
                                                             <address>

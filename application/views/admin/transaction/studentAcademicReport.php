@@ -109,12 +109,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             $grand_balance=array();
                                            // $grand_total=array();
                                             foreach ($resultarray as $key => $value) {
-                                                                   
-                                                  
- $class= $value[0]['class_name'];
-                                             foreach($value as $key=>$section){
-                                             
-                                                     $name=array();
+                                                $class= $value[0]['class_name'];
+
+                                                foreach($value as $key=>$section){                                             
+                                                    $name=array();
                                                     $admission_no=array();
                                                     $roll_no=array();
                                                     $father_name=array();
@@ -123,29 +121,26 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     $discountlabel=array();
                                                     $finelabel=array();
                                                     $balancelabel=array();
-                                                foreach($section['result'] as $students){
-                                                  
-                                                    $name[]=ucwords(strtolower($students->name));
-                                                    $admission_no[]=$students->admission_no;
-                                                    $roll_no[]=$students->roll_no;
-                                                    $father_name[]=ucwords(strtolower($students->father_name));
 
-                                                        $totalfeelabel[]=number_format($students->totalfee,2,'.','');
+                                                    foreach($section['result'] as $students){
+                                                    
+                                                        $name[]=ucwords(strtolower($students->name));
+                                                        $admission_no[]=$students->admission_no;
+                                                        $roll_no[]=$students->roll_no;
+                                                        $father_name[]=ucwords(strtolower($students->father_name));
 
-                                                        $depositfeelabel[]=number_format($students->deposit,2,'.','');
+                                                            $totalfeelabel[]=number_format($students->totalfee,2,'.','');
 
-                                                        $discountlabel[]=number_format($students->discount,2,'.','');
+                                                            $depositfeelabel[]=number_format($students->deposit,2,'.','');
 
-                                                        $finelabel[]=number_format($students->fine,2,'.','');
+                                                            $discountlabel[]=number_format($students->discount,2,'.','');
 
-                                                        $balancelabel[]=$students->balance;
-                                                   
+                                                            $finelabel[]=number_format($students->fine,2,'.','');
 
-                                                }
+                                                            $balancelabel[]=$students->balance;
+                                                    }
 
-                                            if(!empty($balancelabel)){ 
-                                              
-?>
+                                                if(!empty($balancelabel)){ ?>
                                                <tr>
                                                	<td><?php echo $class; ?></td>
                                                	<td><?php echo $section['section_name'];?></td>
