@@ -119,7 +119,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 											
                                             <td><?php echo $student['admission_no']; ?></td>
 											
-                                            <td><?php echo $student['lastname'] . ", " . $student['firstname']; ?></td>
+                                            <td><a href="<?php echo base_url(); ?>student/view/<?php echo $student['id'] ?>"> <?php echo strtoupper($student['lastname']) . ", " . strtoupper($student['firstname']) . " " . strtoupper($student['middlename']) ?></a></td>
 											<?php //if ($sch_setting->father_name) {  ?>
                                             <!-- <td><?php //echo $student['father_name']; ?></td> -->
 											<?php //} ?>

@@ -598,7 +598,7 @@ return false;
             $this->db->where('student_session.section_id', $section_id);
         }
         //$this->db->order_by('students.id');
-        $this->db->order_by('students.lastname', 'asc');
+        $this->db->order_by('students.lastname', 'ASC');
 
         $query = $this->db->get();
 
@@ -760,7 +760,7 @@ return false;
         $this->db->or_like('students.admission_no', $searchterm);
         $this->db->or_like('students.preferred_education_mode', $searchterm);
         $this->db->group_end();
-        $this->db->order_by('students.id');
+        $this->db->order_by('students.lastname', 'ASC');
         $query = $this->db->get();
 
         //echo $this->db->last_query();die;
@@ -1542,6 +1542,7 @@ return false;
         $this->db->join('categories', 'students.category_id = categories.id', 'left');
         $this->db->where('student_session.session_id', $this->current_session);
         $this->db->where('students.is_active', 'yes');
+        $this->db->order_by('lastname', 'ASC');
 
         if ($class_id != null) {
             $this->db->where('student_session.class_id', $class_id);
