@@ -125,10 +125,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     $balancelabel=array();
                                                 foreach($section['result'] as $students){
                                                   
-                                                    $name[]=$students->name;
+                                                    $name[]=ucwords(strtolower($students->name));
                                                     $admission_no[]=$students->admission_no;
                                                     $roll_no[]=$students->roll_no;
-                                                    $father_name[]=$students->father_name;
+                                                    $father_name[]=ucwords(strtolower($students->father_name));
 
                                                         $totalfeelabel[]=number_format($students->totalfee,2,'.','');
 

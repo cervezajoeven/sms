@@ -2010,7 +2010,7 @@ return false;
         $this->db->where('student_session.section_id', $section_id);
 
         $this->db->group_by('students.id');
-        $this->db->order_by('students.admission_no', 'asc');
+        $this->db->order_by('students.lastname', 'asc');
 
         $query = $this->db->get();
 
