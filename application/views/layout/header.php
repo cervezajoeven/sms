@@ -80,25 +80,25 @@
 
         </script>
      
-  <style type="text/css">
-        span.flag-icon.flag-icon-us{text-orientation: mixed;}
-  </style>
+    <style type="text/css">
+            span.flag-icon.flag-icon-us{text-orientation: mixed;}
+    </style>
     </head>
     <body class="hold-transition skin-blue fixed sidebar-mini">
 
 
- <?php
-if ($this->config->item('SSLK') == "") {
-    ?>
- <div class="topaleart">
-    <div class="slidealert">
-    <div class="alert alert-dismissible topaleart-inside">
-  <!-- <button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button> -->
-   <p class="palert"><strong>Alert!</strong> You are using unregistered version of Campus CloudPH. Please <a  href="#" class="purchasemodal">click here</a> to register your purchase code for Campus CloudPH.</p>
-</div></div>
-</div>
-                    <?php
-}
+    <?php
+    if ($this->config->item('SSLK') == "") {
+        ?>
+    <div class="topaleart">
+        <div class="slidealert">
+        <div class="alert alert-dismissible topaleart-inside">
+    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button> -->
+    <p class="palert"><strong>Alert!</strong> You are using unregistered version of Campus CloudPH. Please <a  href="#" class="purchasemodal">click here</a> to register your purchase code for Campus CloudPH.</p>
+    </div></div>
+    </div>
+                        <?php
+    }
 
 
 ?> 
@@ -169,29 +169,29 @@ if ($this->config->item('SSLK') == "") {
                                 
                                      
                                 <ul class="nav navbar-nav headertopmenu">
- <?php
-if ($this->module_lib->hasActive('calendar_to_do_list')) {
-    if ($this->rbac->hasPrivilege('calendar_to_do_list', 'can_view')) {
-        ?>
-                                            <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="<?php echo $this->lang->line('calendar') ?>" href="<?php echo base_url() ?>admin/calendar/events" ><i class="fa fa-calendar"></i></a>
+                                <?php
+                                if ($this->module_lib->hasActive('calendar_to_do_list')) {
+                                    if ($this->rbac->hasPrivilege('calendar_to_do_list', 'can_view')) {
+                                        ?>
+                                                                            <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="<?php echo $this->lang->line('calendar') ?>" href="<?php echo base_url() ?>admin/calendar/events" ><i class="fa fa-calendar"></i></a>
 
-                                            </li>
-                                            <?php
-}
-}
-?>
-                                    <?php
-if ($this->module_lib->hasActive('calendar_to_do_list')) {
-    if ($this->rbac->hasPrivilege('calendar_to_do_list', 'can_view')) {
-        ?>
+                                                                            </li>
+                                                                            <?php
+                                }
+                                }
+                                ?>
+                                                                    <?php
+                                if ($this->module_lib->hasActive('calendar_to_do_list')) {
+                                    if ($this->rbac->hasPrivilege('calendar_to_do_list', 'can_view')) {
+                                        ?>
                                             <li class="dropdown" data-placement="bottom" data-toggle="tooltip" title="<?php echo $this->lang->line('task') ?>">
                                                 <a href="#"  class="dropdown-toggle todoicon" data-toggle="dropdown">
                                                     <i class="fa fa-check-square-o"></i>
                                                     <?php
-$userdata = $this->customlib->getUserData();
-        $count    = $this->customlib->countincompleteTask($userdata["id"]);
-        if ($count > 0) {
-            ?>
+                                                        $userdata = $this->customlib->getUserData();
+                                                                $count    = $this->customlib->countincompleteTask($userdata["id"]);
+                                                                if ($count > 0) {
+                                                                    ?>
 
                                                         <span class="todo-indicator"><?php echo $count ?></span>
                                                     <?php }?>
@@ -202,9 +202,9 @@ $userdata = $this->customlib->getUserData();
                                                     <li>
                                                         <ul class="todolist">
                                                             <?php
-$tasklist = $this->customlib->getincompleteTask($userdata["id"]);
-        foreach ($tasklist as $key => $value) {
-            ?>
+                                                                $tasklist = $this->customlib->getincompleteTask($userdata["id"]);
+                                                                        foreach ($tasklist as $key => $value) {
+                                                                            ?>
                                                                 <li><div class="checkbox">
                                                                         <label><input type="checkbox" id="newcheck<?php echo $value["id"] ?>" onclick="markc('<?php echo $value["id"] ?>')" name="eventcheck"  value="<?php echo $value["id"]; ?>"><?php echo $value["event_title"] ?></label>
                                                                     </div></li>
@@ -217,8 +217,8 @@ $tasklist = $this->customlib->getincompleteTask($userdata["id"]);
 
                                         
                                             <?php
-}
-}
+                                            }
+                                            }
                                 if ($this->module_lib->hasActive('chat')){
                                     if($this->rbac->hasPrivilege('chat','can_view')){
                                         ?>
@@ -229,20 +229,20 @@ $tasklist = $this->customlib->getincompleteTask($userdata["id"]);
 
                                   
                                 <?php }
-$file   = "";
-$result = $this->customlib->getUserData();
+                                    $file   = "";
+                                    $result = $this->customlib->getUserData();
 
-$image = $result["image"];
-$role  = $result["user_type"];
-$id    = $result["id"];
-if (!empty($image)) {
+                                    $image = $result["image"];
+                                    $role  = $result["user_type"];
+                                    $id    = $result["id"];
+                                    if (!empty($image)) {
 
-    $file = "uploads/staff_images/" . $image;
-} else {
+                                        $file = "uploads/staff_images/" . $image;
+                                    } else {
 
-    $file = "uploads/student_images/no_image.png";
-}
-?>
+                                        $file = "uploads/student_images/no_image.png";
+                                    }
+                                    ?>
                                     <li class="dropdown user-menu">
                                         <a class="dropdown-toggle" style="padding: 15px 13px;" data-toggle="dropdown" href="#" aria-expanded="false">
                                             <img src="<?php echo base_url() . $file; ?>" class="topuser-image" alt="User Image">
@@ -275,42 +275,40 @@ if (!empty($image)) {
                 </nav>
             </header>
 
-            <?php $this->load->view('layout/sidebar');?>
-            <script>
-                function defoult(id){
-      var defoult=  $('#languageSwitcher').val();
-   
+        <?php $this->load->view('layout/sidebar');?>
+        <script>
+    //         function defoult(id){
+    //             var defoult=  $('#languageSwitcher').val();
+    //     $.ajax({
+    //         type: "POST",
+    //         url: base_url + "admin/language/defoult_language/"+id,
+    //         data: {},
+    //         //dataType: "json",
+    //         success: function (data) {
+    //             successMsg("Status Change Successfully");
+    //           $('#languageSwitcher').html(data);
 
-        $.ajax({
-            type: "POST",
-            url: base_url + "admin/language/defoult_language/"+id,
-            data: {},
-            //dataType: "json",
-            success: function (data) {
-                successMsg("Status Change Successfully");
-              $('#languageSwitcher').html(data);
+    //         }
+    //     });
 
-            }
-        });
+    //     window.location.reload('true');
+    //     //alert(id);
+    // }
 
-        window.location.reload('true');
-        //alert(id);
-    }
-
-    function set_languages(lang_id){
+    // function set_languages(lang_id){
        
-        $.ajax({
-            type: "POST",
-            url: base_url + "admin/language/user_language/"+lang_id,
-            data: {},
-            //dataType: "json",
-            success: function (data) { 
-                successMsg("Status Change Successfully");
-                 window.location.reload('true');
+    //     $.ajax({
+    //         type: "POST",
+    //         url: base_url + "admin/language/user_language/"+lang_id,
+    //         data: {},
+    //         //dataType: "json",
+    //         success: function (data) { 
+    //             successMsg("Status Change Successfully");
+    //              window.location.reload('true');
 
-            }
-        });
+    //         }
+    //     });
 
-    }
+    // }
 
             </script>

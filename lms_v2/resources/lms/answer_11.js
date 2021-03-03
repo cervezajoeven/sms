@@ -10,6 +10,8 @@ var answer = $("#answer").val();
 var assessment_id = $("#assessment_id").val();
 var final_json = {};
 var letters_array = ["A","B","C","D"];
+var autosave_count = 0;
+var savedatcount = 0;
 
 $(".option-container-clonable").hide();
 
@@ -35,7 +37,6 @@ function populate_key(option_type,data={}){
 			option_clone.show();
 
 			if(!isEmpty(data)){
-
 			}
 
 			$(".sortable").append(option_clone);
@@ -401,6 +402,26 @@ function auto_save() {
         remove_local_data(assessment_id + "_" + assessment_sheet_id);
         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
+        var totalQuestions = getTotalQuestions();
+        var countAnswer = getTotalAnswers();
+
+        //-- This will do the auto save for only three times given that the questionaires is greater than 10
+        if (totalQuestions >= 10) {
+            var noOfAnsForAuto = Math.floor(totalQuestions / 3);
+
+            if ((countAnswer % noOfAnsForAuto) == 0 && countAnswer > savedatcount) {
+                $.ajax({
+                    url: site_url+'auto_save',
+                    type: "POST",
+                    data: final_json,
+                    complete: function(response){
+                        console.log("auto saved!");
+                        savedatcount = countAnswer;
+                    }
+                });
+            }
+        }
+
         // $.ajax({
         //     url: site_url+'auto_save',
         //     type: "POST",
@@ -614,4 +635,48 @@ function isLocalStorageAvailable() {
     } catch(e) {
         return false;
     }
+}
+
+function getTotalQuestions() {
+    var questionCount = 0;
+    var options = $(".option-container-actual");
+    $.each(options,function(key,value) {
+        var the_option_type = $(value).attr("option_type");
+
+        if(the_option_type=="multiple_choice" || the_option_type=="multiple_answer" || the_option_type=="short_answer" || the_option_type=="long_answer")
+            questionCount++
+    });
+
+    return questionCount;
+}
+
+function getTotalAnswers() {
+    var answerCount = 0;
+    var options = $(".option-container-actual");
+    $.each(options,function(key,value){
+        var the_option_type = $(value).attr("option_type");
+
+        if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer"){
+
+            $.each($(value).find(".option"),function(option_key,option_value){
+                if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
+                    answerCount++
+                }
+            });
+        } 
+        else if(the_option_type=="short_answer"){
+            var short_answer_val = $(value).find(".option").find("input").eq(0).val();
+
+            if (short_answer_val.trim() != "")
+                answerCount++;
+        }
+        else if(the_option_type=="long_answer"){
+            var answer_val = $(value).find(".option").find("textarea").eq(0).val();
+
+            if (answer_val.trim() != "")
+                answerCount++;
+        }
+    });
+
+    return answerCount;
 }

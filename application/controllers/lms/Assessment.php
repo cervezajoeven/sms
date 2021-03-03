@@ -384,17 +384,16 @@ class Assessment extends General_Controller {
     }
 
     public function review($id,$account_id=""){
-
         $data['id'] = $id;
+        
         if($account_id){
             $data['account_id'] = $account_id;
             $data['teacher_review'] = TRUE;
-        }else{
+        }
+        else{
             $data['account_id'] = $this->general_model->get_account_id();
             $data['teacher_review'] = FALSE;
-
-        }
-        
+        }       
 
         $this->db->select("*");
         $this->db->where("account_id", $data['account_id']);
@@ -405,15 +404,18 @@ class Assessment extends General_Controller {
         $query = $this->db->get("lms_assessment_sheets");
         $response = $query->result_array();
 
-        $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];
+        $data['assessment'] = $this->assessment_model->lms_get("lms_assessment",$id,"id")[0];        
 
-        if(!$data['assessment']['allow_result_viewing']||$data['assessment']['allow_result_viewing']==0){
-            if($account_id){
-                
-            }else{
+        if (!$data['assessment']['allow_result_viewing'] || $data['assessment']['allow_result_viewing']==0){
+            if ($account_id){
+
+            }
+            else{
                 redirect(site_url('lms/assessment/index'));
             }
         }
+
+        // print_r($data);die();
 
         $data['resources'] = site_url('backend/lms/');
         $data['student_data'] = $this->general_model->get_account_name($data['account_id'],"student")[0];
@@ -423,6 +425,7 @@ class Assessment extends General_Controller {
         //     echo "<script>alert('This quiz has not been submitted yet');</script>";
         // }
         $data['role'] = $this->general_model->get_role();
+        
         $this->load->view('lms/assessment/review', $data);
         
         
@@ -866,13 +869,13 @@ class Assessment extends General_Controller {
         $new_data['sheet'] = json_encode($decoded_update_sheet);
 
         $this->assessment_model->lms_update("lms_assessment",$backup_data);
+        
         if($this->assessment_model->lms_update("lms_assessment",$new_data)){
             echo "true";
-        }else{
+        }
+        else{
             echo "false";
         }
-
-
     }
 
     public function analysis($id){
