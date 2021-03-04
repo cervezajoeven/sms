@@ -60,7 +60,9 @@
                 <input type="hidden" class="section_post" value="<?php echo $section_post; ?>" >
                 <div class="box-header ptbnull"></div> 
                      <div class="box-header ptbnull">
-                        <h3 class="box-title"><i class="fa fa-list"></i> <?php echo $this->lang->line('promote_students_in_next_session'); ?></h3>
+                        <h3 class="box-title"><i class="fa fa-list"></i> <?php echo $this->lang->line('promote_students_in_next_session'); ?> 
+                       
+                    </h3>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -120,7 +122,8 @@
                                             <th><?php echo $this->lang->line('father_name'); ?></th>
                                             <th><?php echo $this->lang->line('date_of_birth'); ?></th>
                                             <th class=""><?php echo $this->lang->line('current'); ?> <?php echo $this->lang->line('result'); ?></th>
-                                            <th class=""><?php echo $this->lang->line('next_session_status'); ?></th>
+                                            <th class=""><?php echo $this->lang->line('next_session_status'); ?> <input type="radio" name="continue_all" class="continue_all continue_all_actual" value="yes" checked> Continue
+                                            <input type="radio" name="continue_all" class="continue_all leave_all_actual" value="no"> Leave </th>
                                         </tr>
                                         <?php if (empty($resultlist)) {
                                             ?>
@@ -156,13 +159,13 @@
                                                 <td>
                                                     <div class="radio-inline">
                                                         <label>
-                                                            <input type="radio" name="next_working_<?php echo $student['id']; ?>" checked="checked" value="countinue">
+                                                            <input type="radio" class="continue_radio" name="next_working_<?php echo $student['id']; ?>" checked="checked" value="continue">
                                                             <?php echo $this->lang->line('continue'); ?>
                                                         </label>
                                                     </div>
                                                     <div class="radio-inline">
                                                         <label>
-                                                            <input type="radio" name="next_working_<?php echo $student['id']; ?>" value="leave">
+                                                            <input type="radio" class="leave_radio" name="next_working_<?php echo $student['id']; ?>" value="leave">
                                                             <?php echo $this->lang->line('leave'); ?>
                                                         </label>
                                                     </div>
@@ -382,6 +385,17 @@
                 },
             });
 
+        });
+
+        $(document).on("change",".continue_all",function(){
+            var choice = $(this).val();
+
+            if(choice=="yes"){
+                $(".continue_radio").prop("checked",true);
+            }else{
+                $(".leave_radio").prop("checked",true);
+
+            }
         });
 
     });
