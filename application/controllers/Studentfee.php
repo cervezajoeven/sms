@@ -456,7 +456,9 @@ class Studentfee extends Admin_Controller
         $session                      = $this->setting_model->getCurrentSession();
         $studentlistbysection         = $this->student_model->getStudentClassSection($student["class_id"], $session);
         $data["studentlistbysection"] = $studentlistbysection;
-  
+        // echo "<pre>";
+        // print_r($data);
+        // exit;
         $this->load->view('layout/header', $data);
         $this->load->view('studentfee/studentAddfee', $data);
         $this->load->view('layout/footer', $data);
