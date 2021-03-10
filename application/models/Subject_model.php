@@ -48,7 +48,7 @@ class Subject_model extends MY_Model {
             if($subject_condition==1){
              $this->db->where_in('subjects.id',$my_subjects);
         }
-            $this->db->order_by('id');
+            $this->db->order_by('name');
         }
         $query = $this->db->get();
         if ($id != null) {
