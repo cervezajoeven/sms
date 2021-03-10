@@ -417,7 +417,12 @@ $language_name = $language["short_code"];
                                                 <td class="text text-left"></td>
                                                 <td  class="text text-right">
                                                     <?php
-                                                    $alot_fee_discount = $alot_fee_discount;
+                                                    if ($discount_value['status'] == "applied") {
+                                                        $alot_fee_discount += $discount_value['amount'];
+                                                    }else{
+
+                                                        $alot_fee_discount = $alot_fee_discount;
+                                                    }
                                                     ?>
                                                 </td>
                                                 <td></td>
@@ -482,6 +487,7 @@ $language_name = $language["short_code"];
                                             ?></td>
                                         <td class="text text-right"><?php
                                             echo ($currency_symbol . number_format($total_balance_amount - $alot_fee_discount, 2, '.', ''));
+
                                             ?></td>  <td class="text text-right"></td>
                                     </tr>
                                 </tbody>
@@ -816,6 +822,7 @@ $language_name = $language["short_code"];
                                     
                                     $total_amount = $total_amount + $fee_value->amount;
                                     $total_discount_amount = $total_discount_amount + $fee_discount;
+
                                     $total_deposite_amount = $total_deposite_amount + $fee_paid;
                                     $total_fine_amount = $total_fine_amount + $fee_fine;
                                     $feetype_balance = $fee_value->amount - ($fee_paid + $fee_discount);

@@ -213,6 +213,8 @@ class Feediscount_model extends MY_Model {
 
         $this->db->order_by('student_fees_discounts.id');
         $query = $this->db->get();
+        // print_r($query->result_array());
+        // exit;
         return $query->result_array();
     }
 
