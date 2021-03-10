@@ -39,6 +39,16 @@ class Welcome extends Front_Controller
         $this->data['banner_notices'] = $this->cms_program_model->getByCategory($ban_notice_type, array('start' => 0, 'limit' => 5));
 
         $this->load->library('mailsmsconf');
+
+        $url = $_SERVER['SERVER_NAME'];
+
+        if (strpos($url,'localhost') !== false) {
+            $this->mode = "offline";
+        }elseif(strpos($url,'192.') !== false||strpos($url,'172.') !== false) {
+            $this->mode = "offline";
+        }else{
+            $this->mode = "online";
+        }
     }
 
     public function show_404()
@@ -257,6 +267,9 @@ class Welcome extends Front_Controller
             $this->data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
             $this->data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
 
+            $this->data['school_code'] = $this->setting_model->getCurrentSchoolCode();
+            $this->data['current_year'] = date("Y");
+
             ///////===
             $genderList = $this->customlib->getGender();
             $this->data['genderList'] = $genderList;
@@ -357,18 +370,27 @@ class Welcome extends Front_Controller
             $this->form_validation->set_rules('has_siblings_enrolled', $this->lang->line('required'), 'trim|required|xss_clean');
 
             $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
-            // $this->form_validation->set_rules('accountid', $this->lang->line('required'), 'trim|required|xss_clean');
+            // // $this->form_validation->set_rules('accountid', $this->lang->line('required'), 'trim|required|xss_clean');
             
-            // if (empty($_FILES['document']['name']))
-            // {
-            //     $this->form_validation->set_rules('document', $this->lang->line('document'), 'required');
-            // }
+            // // if (empty($_FILES['document']['name']))
+            // // {
+            // //     $this->form_validation->set_rules('document', $this->lang->line('document'), 'required');
+            // // }            
 
             if ($this->form_validation->run() == false) {
+                // print_r('this is test');die();
                 $this->load_theme('pages/admission');
             } 
             else 
             {
+                // $sibling_name = $this->input->post("sibling_name");
+                // $sibling_age = $this->input->post("sibling_age");
+                // $sibling_civil_status = $this->input->post("sibling_civil_status");
+                // $sibling_glo = $this->input->post("sibling_glo");
+                // $sibling_nsc = $this->input->post("sibling_nsc");                
+
+                // $this->addStudentSiblings("", $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
                 //==============
                 $document_validate = true;
                 // $file_validate    = $this->config->item('file_validate');
@@ -429,6 +451,8 @@ class Welcome extends Front_Controller
                 //=====================
                 if ($document_validate) 
                 {
+                    //-- Get siblings (new)                   
+
                     $class_id   = $this->input->post('class_id');
                     $section_id = $this->onlinestudent_model->GetSectionID('No Section'); //--Assign "No Section" for online admissions
 
@@ -536,6 +560,16 @@ class Welcome extends Front_Controller
                                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                                 
                                 'payment_scheme' => $this->input->post('payment_scheme'),
+
+                                //-- Feb. 4, 2021
+                                'has_special_needs' => $old_student_data->has_special_needs,
+                                'has_assistive_device' => $old_student_data->has_assistive_device,
+                                'general_health_condition' => $old_student_data->general_health_condition,
+                                'health_complaints' => $old_student_data->health_complaints,
+                                'father_work_from_home' => $old_student_data->father_work_from_home,
+                                'mother_work_from_home' => $old_student_data->mother_work_from_home,
+                                'guardian_work_from_home' => $old_student_data->guardian_work_from_home,
+                                'family_pppp' => $old_student_data->family_pppp,
                             );
     
                             if (isset($admission_docs)) 
@@ -686,22 +720,47 @@ class Welcome extends Front_Controller
                                 'parents_away'               => $this->input->post('parents_away'),
                                 'parents_away_state'         => $this->input->post('parents_away_state'),
                                 'parents_civil_status'       => $this->input->post('parents_civil_status'),
-                                'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
-    
+                                'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),    
                                 'session_id' => $current_session,
                                 'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address') == "on" ? 1 : 0,
                                 'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address') == "on" ? 1 : 0,
                                 'living_with_parents' => $this->input->post('living_with_parents'),
                                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
-
                                 'has_siblings_enrolled' => $this->input->post('has_siblings_enrolled'),
                                 'siblings_specify' => $this->input->post('siblings_specify'),
                                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
-
                                 'payment_scheme' => $this->input->post('payment_scheme'),
+
+                                //-- March 4, 2021
+                                'birth_place' => $this->input->post('birth_place'),
+                                'present_school' => $this->input->post('present_school'),
+                                'present_school_address' => $this->input->post('present_school_address'),
+                                'age_as_of' => $this->input->post('age_as_of'),
+                                'nationality' => $this->input->post('nationality'),
+                                'esc_grantee' => $this->input->post('esc_grantee'),
+                                'voucher_recipient' => $this->input->post('voucher_recipient'),
+                                
+                                'enrolled_here_before' => $this->input->post('enrolled_here_before'),
+                                'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
+                                'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
+                                'parents_alumnus' => $this->input->post('parents_alumnus'),
+                                'father_alumnus_batch_gs' => $this->input->post('father_alumnus_batch_gs'),
+                                'mother_alumnus_batch_gs' => $this->input->post('mother_alumnus_batch_gs'),
+                                'mother_alumnus_batch_hs' => $this->input->post('mother_alumnus_batch_hs'),
+                                'has_internet' => $this->input->post('has_internet'),
+                                'type_of_internet' => $this->input->post('type_of_internet'),
+
+                                'has_special_needs' => $this->input->post('has_special_needs'),
+                                'has_assistive_device' => $this->input->post('has_assistive_device'),
+                                'general_health_condition' => $this->input->post('general_health_condition'),
+                                'health_complaints' => $this->input->post('health_complaints'),
+                                'father_work_from_home' => $this->input->post('father_work_from_home'),
+                                'mother_work_from_home' => $this->input->post('mother_work_from_home'),
+                                'guardian_work_from_home' => $this->input->post('guardian_work_from_home'),
+                                'family_pppp' => $this->input->post('family_pppp'),
                             );
 
-                            // var_dump($data);die; 
+                            // echo "<pre>"; print_r(json_encode($data)); echo "</pre>"; die(); 
 
                             if (isset($admission_docs)) 
                             {
@@ -725,7 +784,23 @@ class Welcome extends Front_Controller
     
                             if (!isset($has_admission))
                             {
+                                $sibling_name = $this->input->post("sibling_name");
+                                $sibling_age = $this->input->post("sibling_age");
+                                $sibling_civil_status = $this->input->post("sibling_civil_status");
+                                $sibling_glo = $this->input->post("sibling_glo");
+                                $sibling_nsc = $this->input->post("sibling_nsc");
+                                $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
                                 $insert_id = $this->onlinestudent_model->add($data);
+
+                                //-- Get siblings (new)
+                                // $sibling_name = $this->input->post("sibling_name");
+                                // $sibling_age = $this->input->post("sibling_age");
+                                // $sibling_civil_status = $this->input->post("sibling_civil_status");
+                                // $sibling_glo = $this->input->post("sibling_glo");
+                                // $sibling_nsc = $this->input->post("sibling_nsc");
+                                // $this->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('admission_success') . '</div>');
                             }
                             else {
@@ -767,6 +842,60 @@ class Welcome extends Front_Controller
                 $this->load_theme('pages/admission');
             }
         }
+    }
+
+    // function addStudentSiblings($admissionid, $name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+    //     $maindata = [];
+
+    //     for($i = 0; $i < count($name); $i++) {
+    //         $data = [];
+    //         $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
+    //         $id = $id.rand(1000,9999);
+
+    //         $data = array(
+    //             "id" => $id,
+    //             "student_admission_id" => $admissionid,
+    //             "name" => $name[$i],
+    //             "age" => $age[$i],
+    //             "civil_status" => $civilstatus[$i],
+    //             "grade_occupation" => $gradeoccupation[$i],
+    //             "school_company_name" => $schoolcompany[$i],
+    //         );
+            
+    //         if (!empty($name[$i]))
+    //             array_push($maindata, $data);
+    //     }
+
+    //     // echo "<pre>"; print_r($maindata); echo"<pre>";die();
+        
+    //     $this->onlinestudent_model->AddStudentSiblings($admissionid, $maindata);
+    // }
+
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+        $maindata = [];
+
+        for($i = 0; $i < count($name); $i++) {
+            $data = [];
+            $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
+            $id = $id.rand(1000,9999);
+
+            $data = array(
+                "id" => $id,
+                "name" => $name[$i],
+                "age" => $age[$i],
+                "civil_status" => $civilstatus[$i],
+                "grade_occupation" => $gradeoccupation[$i],
+                "school_company_name" => $schoolcompany[$i],
+            );
+            
+            if (!empty($name[$i]))
+                array_push($maindata, $data);
+        }
+
+        return json_encode($maindata);
+
+        // echo "<pre>"; print_r($maindata); echo"<pre>";die();        
+        // $this->onlinestudent_model->AddStudentSiblings($admissionid, $maindata);
     }
 
     public function survey()

@@ -927,7 +927,7 @@
                                 </div>
                         </div>
 
-                        <div class="box-group collapsed-box">
+                        <!-- <div class="box-group collapsed-box">
                             <div class="panel box collapsed-box border0 mb0">
                                 <div class="addmoredetail-title">
                                     <a data-widget="collapse" data-original-title="Collapse" class="collapsed btn boxplus">
@@ -935,268 +935,407 @@
                                     </a>
                                 </div>
                                 <div class="box-body">
-                                    <div class="mb25 bozero">
-                                        <h4 class="pagetitleh2"><?php echo $this->lang->line('student'); ?> <?php echo $this->lang->line('address'); ?> <?php echo $this->lang->line('details'); ?></h4>
+                                    
+                                </div>
+                            </div>
+                        </div> -->
 
-                                        <div class="row around10">
-                                            <?php if ($sch_setting->current_address) { ?>
-                                            <div class="col-md-4">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" id="guardian_address_is_current_address" onclick="return auto_fill_guardian_address();" <?php if(set_value('guardian_address_is_current_address') == 1 ? "checked" : ""); ?>>
-                                                        <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('current_address'); ?></label>
-                                                    <textarea id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?><?php echo set_value('current_address'); ?></textarea>
-                                                    <span class="text-danger"><?php echo form_error('current_address'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } if ($sch_setting->permanent_address) { ?>
-                                            <div class="col-md-4">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" id="permanent_address_is_current_address"onclick="return auto_fill_address();" <?php if(set_value('permanent_address_is_current_address') == 1 ? "checked" : ""); ?>>
-                                                        <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('permanent_address'); ?></label>
-                                                    <textarea id="permanent_address" name="permanent_address" placeholder="" class="form-control"></textarea>
-                                                    <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">    
-                                                    <label><?php echo $this->lang->line('living_with_parents');?></label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="living_with_parents" <?php echo $student['living_with_parents'] == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
-                                                    <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify', $student['living_with_parents_specify']); ?>" autocomplete="off"/>
-                                                </div>
-                                            </div>
+                        <div class="tshadow bozero">
+                            <h3 class="pagetitleh2"><?php echo $this->lang->line('student_other_details'); ?></h3>
+                            <div class="around10">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">    
+                                            <label for="esc_grantee"><?php echo "ESC Grantee (G8 - G10)"; ?></label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="esc_grantee" <?php echo set_value('esc_grantee') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="esc_grantee" <?php echo set_value('esc_grantee') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                            </label>
                                         </div>
                                     </div>
-                                    <?php if ($sch_setting->route_list) { ?>
-                                        <?php if ($this->module_lib->hasActive('transport')) { ?>
-                                            <div class="tshadow mb25 bozero">
-                                                <h4 class="pagetitleh2">
-                                                    <?php echo $this->lang->line('transport') . " " . $this->lang->line('details'); ?>
-                                                </h4>
 
-                                                <div class="row around10">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('route_list'); ?></label>
-                                                            <select class="form-control" id="vehroute_id" name="vehroute_id">
-                                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                                <?php foreach ($vehroutelist as $vehroute) { ?>
-                                                                    <optgroup label=" <?php echo $vehroute->route_title; ?>">
-                                                                    <?php $vehicles = $vehroute->vehicles;
-                                                                    if (!empty($vehicles)) {
-                                                                        foreach ($vehicles as $key => $value) { ?>
-                                                                            <option value="<?php echo $value->vec_route_id ?>" <?php echo set_select('vehroute_id', $value->vec_route_id); ?> data-fee="<?php echo $vehroute->fare; ?>">
-                                                                                <?php echo $value->vehicle_no ?>
-                                                                            </option>
-                                                                        <?php }
-                                                                    }?>
-                                                                    </optgroup>
-                                                                <?php } ?>
-                                                            </select>
-                                                            <span class="text-danger"><?php echo form_error('transport_fees'); ?></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php }?>
-
-                                        <?php if ($this->module_lib->hasActive('hostel')) { ?>
-                                            <?php if ($sch_setting->hostel_id) { ?>
-                                            <div class="tshadow mb25 bozero">
-                                                <h4 class="pagetitleh2">
-                                                    <?php echo $this->lang->line('hostel'); ?></label> <?php echo $this->lang->line('details'); ?></label>
-                                                </h4>
-
-                                                <div class="row around10">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('hostel'); ?></label>
-                                                            <select class="form-control" id="hostel_id" name="hostel_id">
-                                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                                <?php foreach ($hostelList as $hostel_key => $hostel_value) { ?>
-                                                                    <option value="<?php echo $hostel_value['id'] ?>" <?php echo set_select('hostel_id', $hostel_value['id']); ?>><?php echo $hostel_value['hostel_name']; ?></option>
-                                                                <?php }?>
-                                                            </select>
-                                                            <span class="text-danger"><?php echo form_error('hostel_id'); ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('room_no'); ?></label>
-                                                            <select  id="hostel_room_id" name="hostel_room_id" class="form-control" >
-                                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                            </select>
-                                                            <span class="text-danger"><?php echo form_error('hostel_room_id'); ?></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <?php }?> 
-                                        <?php } 
-                                    }?>
-                                    <div class="tshadow mb25 bozero">
-                                        <h4 class="pagetitleh2"><?php echo $this->lang->line('miscellaneous_details'); ?></h4>
-                                        <?php if ($sch_setting->bank_account_no) { ?>
-                                            <div class="row around10">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('bank_account_no'); ?></label>
-                                                        <input id="bank_account_no" name="bank_account_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('bank_account_no'); ?>" />
-                                                        <span class="text-danger"><?php echo form_error('bank_account_no'); ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('bank_name'); ?></label>
-                                                        <input id="bank_name" name="bank_name" placeholder="" type="text" class="form-control"  value="<?php echo set_value('bank_name'); ?>" />
-                                                        <span class="text-danger"><?php echo form_error('bank_name'); ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('ifsc_code'); ?></label>
-                                                        <input id="ifsc_code" name="ifsc_code" placeholder="" type="text" class="form-control"  value="<?php echo set_value('ifsc_code'); ?>" />
-                                                        <span class="text-danger"><?php echo form_error('ifsc_code'); ?></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
-                                        <div class="row around10">
-                                            <?php if ($sch_setting->national_identification_no) { ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">
-                                                        <?php echo $this->lang->line('national_identification_no'); ?>
-                                                    </label>
-                                                    <input id="adhar_no" name="adhar_no" placeholder="" type="text" class="form-control"  value="<?php echo set_value('adhar_no'); ?>" />
-                                                    <span class="text-danger"><?php echo form_error('adhar_no'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } 
-                                            if ($sch_setting->local_identification_no) { ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">
-                                                        <?php echo $this->lang->line('local_identification_no'); ?>
-                                                    </label>
-                                                    <input id="samagra_id" name="samagra_id" placeholder="" type="text" class="form-control"  value="<?php echo set_value('samagra_id'); ?>" />
-                                                    <span class="text-danger"><?php echo form_error('samagra_id'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } 
-                                            if ($sch_setting->rte) { ?>
-                                            <div class="col-md-4">
-                                                <label><?php echo $this->lang->line('rte'); ?></label>
-                                                <div class="radio" style="margin-top: 2px;">
-                                                    <label><input class="radio-inline" id="rte" type="radio" name="rte" value="Yes" <?php echo set_value('rte') == "yes" ? "checked" : "";?>><?php echo $this->lang->line('yes'); ?></label>
-                                                    <label><input class="radio-inline" id="rte" checked="checked" type="radio" name="rte" value="No" <?php echo set_value('rte') == "no" ? "checked" : "";?>><?php echo $this->lang->line('no'); ?></label>                                                
-                                                </div>
-                                                <span class="text-danger"><?php echo form_error('rte'); ?></span>
-                                            </div>
-                                            <?php } 
-                                            if ($sch_setting->previous_school_details) { ?>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('previous_school_details'); ?></label>
-                                                    <textarea class="form-control" rows="3" placeholder="" name="previous_school" id="previous_school"></textarea>
-                                                    <span class="text-danger"><?php echo form_error('previous_school'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } if ($sch_setting->student_note) {  ?>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('note'); ?></label>
-                                                    <textarea class="form-control" rows="3" placeholder="" name="note" id="note"></textarea>
-                                                    <span class="text-danger"><?php echo form_error('note'); ?></span>
-                                                </div>
-                                            </div>
-                                            <?php } ?>
+                                    <div class="col-md-3">
+                                        <div class="form-group">    
+                                            <label for="voucher_recipient"><?php echo "Voucher Recipient"; ?></label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="voucher_recipient" <?php echo set_value('voucher_recipient') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="voucher_recipient" <?php echo set_value('voucher_recipient') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                            </label>
                                         </div>
                                     </div>
-                                    <div id='upload_documents_hide_show'>
-                                    <?php if ($sch_setting->upload_documents) {  ?>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="tshadow bozero">
-                                                    <h4 class="pagetitleh2"><?php echo $this->lang->line('upload_documents'); ?></h4>
-
-                                                    <div class="row around10">
-                                                        <div class="col-md-6">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <th style="width: 10px">#</th>
-                                                                    <th><?php echo $this->lang->line('title'); ?></th>
-                                                                    <th><?php echo $this->lang->line('documents'); ?></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>1.</td>
-                                                                    <td><input type="text" name='first_title' id='first_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='first_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2.</td>
-                                                                    <td><input type="text" name='second_title' id='second_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='second_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>                                                                
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <th style="width: 10px">#</th>
-                                                                    <th><?php echo $this->lang->line('title'); ?></th>
-                                                                    <th><?php echo $this->lang->line('documents'); ?></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3.</td>
-                                                                    <td><input type="text" name='fourth_title' id='fourth_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='fourth_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>4.</td>
-                                                                    <td><input type="text" name='fifth_title' id='fifth_title' class="form-control" placeholder=""></td>
-                                                                    <td>
-                                                                        <input class="filestyle form-control" type='file' name='fifth_doc' id="doc1" >
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    
+                                    <div class="col-md-3">
+                                        <!-- <div class="form-group form-inline"> -->
+                                        <div class="form-group">
+                                            <label for="age_as_of"><?php echo "Age as of Aug. ".$current_year; ?></label>
+                                            <input id="age_as_of" name="age_as_of" placeholder="" type="number" min="0" class="form-control all-fields"  value="<?php echo set_value('age_as_of'); ?>"/>
+                                            <span class="text-danger"><?php echo form_error('age_as_of'); ?></span>
                                         </div>
-                                    <?php } ?>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="nationality"><?php echo $this->lang->line('nationality'); ?></label>
+                                            <input id="nationality" name="nationality" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('nationality'); ?>"/>
+                                            <span class="text-danger"><?php echo form_error('nationality'); ?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">    
+                                            <label for="birth_place"><?php echo "Place of Birth"; ?></label>
+                                            <textarea rows="3" id="birth_place" name="birth_place" placeholder=""  class="form-control" ><?php echo set_value('birth_place'); ?></textarea>
+                                            <span class="text-danger"><?php echo form_error('birth_place'); ?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="present_school"><?php echo "Present School (currently enrolled)"; ?></label>
+                                            <textarea rows="3" id="present_school" name="present_school" placeholder=""  class="form-control" ><?php echo set_value('present_school'); ?></textarea>
+                                            <span class="text-danger"><?php echo form_error('present_school'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="present_school_address"><?php echo "School Address" ?></label><small class="req"> *</small> 
+                                            <textarea rows="3" id="present_school_address" name="present_school_address" placeholder=""  class="form-control" ><?php echo set_value('present_school_address'); ?></textarea>
+                                            <span class="text-danger"><?php echo form_error('present_school_address'); ?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="enrolled_here_before"><?php echo "Has applicant been enrolled at ".$school_code; ?></label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="enrolled_here_before" <?php echo set_value('enrolled_here_before') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="enrolled_here_before" <?php echo set_value('enrolled_here_before') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                            </label>
+                                            <span class="text-danger"><?php echo form_error('enrolled_here_before'); ?></span>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="enrolled_here_before_year" disabled name="enrolled_here_before_year" placeholder="If yes, what school year?" type="text" class="form-control all-fields"  value="<?php echo set_value('enrolled_here_before_year'); ?>" autocomplete="off"/>                
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="enrolled_here_before_level" disabled name="enrolled_here_before_level" placeholder="What grade level?" type="text" class="form-control all-fields"  value="<?php echo set_value('enrolled_here_before_level'); ?>" autocomplete="off"/>                
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="parents_alumnus"><?php echo "Are applicant's parents an alumnus/alumni of ". $school_code; ?></label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="parents_alumnus" <?php echo set_value('parents_alumnus') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="parents_alumnus" <?php echo set_value('parents_alumnus') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                            </label>
+
+                                            <label><?php echo "If yes, what batch?"; ?></label>
+                                            <span class="text-danger"><?php echo form_error('parents_alumnus'); ?></span>
+                                        </div>            
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="father_alumnus_batch_gs" disabled name="father_alumnus_batch_gs" placeholder="Father Grade 6" type="text" class="form-control all-fields"  value="<?php echo set_value('father_alumnus_batch_gs'); ?>" autocomplete="off"/>                
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="mother_alumnus_batch_gs" disabled name="mother_alumnus_batch_gs" placeholder="Mother GS" type="text" class="form-control all-fields"  value="<?php echo set_value('mother_alumnus_batch_gs'); ?>" autocomplete="off"/>                
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input id="mother_alumnus_batch_hs" disabled name="mother_alumnus_batch_hs" placeholder="Mother HS" type="text" class="form-control all-fields"  value="<?php echo set_value('mother_alumnus_batch_hs'); ?>" autocomplete="off"/>                
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="has_internet"><?php echo "Do you have internet connection at home?"; ?></label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="has_internet" <?php echo set_value('has_internet') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="has_internet" <?php echo set_value('has_internet') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                            </label>
+                                            <span class="text-danger"><?php echo form_error('has_internet'); ?></span>
+                                        </div>            
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <label><?php echo "Type of internet connection"; ?></label>
+                                            <select class="form-control all-fields" name="type_of_internet" id="type_of_internet" disabled>
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <option value="mobile" <?php if (strtolower(set_value('mobile')) == 'mobile') echo "selected"; ?>>Mobile Data</option>
+                                                <option value="dsl" <?php if (strtolower(set_value('dsl')) == 'dsl') echo "selected"; ?>>DSL</option>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('type_of_internet'); ?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label><?php echo "Siblings of the applicant starting from the eldest";?></label>
+                                        <!-- <button class="pull-right" id="addRow">Add new row</button> -->
+                                        <table id="siblings_admission" class="table table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Name</th>
+                                                    <th style="width: 10%;">Age</th>
+                                                    <th style="width: 10%;">Civil Status</th>
+                                                    <th style="width: 25%;">Grade Level/Occupation</th>
+                                                    <th style="width: 30%;">Name of School/Company</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
+                                                    for($i=0; $i<5; $i++) {?>
+                                                        <tr>
+                                                            <td><input class="form-control" type="text" name="sibling_name[]" value="<?php echo set_value('sibling_name['.$i.']')?>"></td>
+                                                            <td><input class="form-control" type="number" name="sibling_age[]" value="<?php echo set_value('sibling_age['.$i.']')?>" min="0"></td>
+                                                            <td>
+                                                                <select class="form-control" name="sibling_civil_status[]">
+                                                                    <option value=""></option>
+                                                                    <option value="single" <?php echo set_value('sibling_civil_status['.$i.']') == 'single' ? 'selected' : ""?>>Single</option>
+                                                                    <option value="married"<?php echo set_value('sibling_civil_status['.$i.']') == 'married' ? 'selected' : ""?> >Married</option>
+                                                                    <option value="separated" <?php echo set_value('sibling_civil_status['.$i.']') == 'separated' ? 'selected' : ""?>>Separated</option>
+                                                                    <option value="widower" <?php echo set_value('sibling_civil_status['.$i.']') == 'widower' ? 'selected' : ""?>>Widower</option>
+                                                                </select>
+                                                            </td>
+                                                            <td><input class="form-control" type="text" name="sibling_glo[]" value="<?php echo set_value('sibling_glo['.$i.']')?>"></td>
+                                                            <td><input class="form-control" type="text" name="sibling_nsc[]" value="<?php echo set_value('sibling_nsc['.$i.']')?>"></td>
+                                                        </tr>                            
+                                                    <?php }
+                                                ?>
+                                            </tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
+                                            <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
+                                            <span class="text-danger"><?php echo form_error('current_address'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
+                                            <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
+                                            <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" <?php echo set_value('guardian_address_is_current_address') == "on" ? "checked" : ""; ?>>
+                                                <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" <?php echo set_value('permanent_address_is_current_address') == "on" ? "checked" : ""; ?>>
+                                                <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">    
+                                            <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
+                                            <label class="radio-inline">
+                                                <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="living_with_parents" <?php echo set_value('living_with_parents') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
+                                            <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="tshadow bozero">
+                            <h3 class="pagetitleh2"><?php echo $this->lang->line('other_information'); ?></h3>
+                            <div class="around10">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label>Does the learner have special education needs? (i.e. physical, mental, developmental disability, medical condition, giftedness, among others)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="has_special_needs" <?php echo $student['has_special_needs'] == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="has_special_needs" <?php echo $student['has_special_needs'] == "no" ? "checked" : ""; ?>   value="no"> No
+                                        </label>
+                                        
+                                        <span class="text-danger"><?php echo form_error('guardian_is'); ?></span>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Do you have any assistive technology devices available at home? (i.e. screen reader, Braille, DAISY)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="has_assistive_device" <?php echo $student['has_assistive_device'] == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="has_assistive_device" <?php echo $student['has_assistive_device'] == "no" ? "checked" : ""; ?>   value="no"> No
+                                        </label>
+                                        
+                                        <span class="text-danger"><?php echo form_error('has_assistive_device'); ?></span>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>General Condition of Health<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <textarea rows="3" id="general_health_condition" name="general_health_condition" placeholder=""  class="form-control" ><?php echo $student['general_health_condition']; ?></textarea>
+                                        
+                                        <span class="text-danger"><?php echo form_error('general_health_condition'); ?></span>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Common Health Complaints<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <textarea rows="3" id="health_complaints" name="health_complaints" placeholder=""  class="form-control" ><?php echo $student['health_complaints']; ?></textarea>
+                                        
+                                        <span class="text-danger"><?php echo form_error('health_complaints'); ?></span>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Working from home due to community quarantine? (Father)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="father_work_from_home" <?php echo $student['father_work_from_home'] == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="father_work_from_home" <?php echo $student['father_work_from_home'] == "no" ? "checked" : ""; ?>   value="no"> No
+                                        </label>
+                                        
+                                        <span class="text-danger"><?php echo form_error('father_work_from_home'); ?></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Working from home due to community quarantine? (Mother)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="mother_work_from_home" <?php echo $student['mother_work_from_home'] == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="mother_work_from_home" <?php echo $student['mother_work_from_home'] == "no" ? "checked" : ""; ?>   value="no"> No
+                                        </label>
+                                        
+                                        <span class="text-danger"><?php echo form_error('mother_work_from_home'); ?></span>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Working from home due to community quarantine? (Guardian)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="guardian_work_from_home" <?php echo $student['guardian_work_from_home'] == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="guardian_work_from_home" <?php echo $student['guardian_work_from_home'] == "no" ? "checked" : ""; ?>   value="no"> No
+                                        </label>
+                                        
+                                        <span class="text-danger"><?php echo form_error('guardian_work_from_home'); ?></span>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Is your family a beneficiary of 4P's?<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="family_pppp" <?php echo $student['family_pppp'] == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="family_pppp" <?php echo $student['family_pppp'] == "no" ? "checked" : ""; ?>   value="no"> No
+                                        </label>
+                                        
+                                        <span class="text-danger"><?php echo form_error('family_pppp'); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id='upload_documents_hide_show'>
+                        <?php if ($sch_setting->upload_documents) {  ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="tshadow bozero">
+                                        <h4 class="pagetitleh2"><?php echo $this->lang->line('upload_documents'); ?></h4>
+
+                                        <div class="row around10">
+                                            <div class="col-md-6">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <th style="width: 10px">#</th>
+                                                        <th><?php echo $this->lang->line('title'); ?></th>
+                                                        <th><?php echo $this->lang->line('documents'); ?></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1.</td>
+                                                        <td><input type="text" name='first_title' id='first_title' class="form-control" placeholder=""></td>
+                                                        <td>
+                                                            <input class="filestyle form-control" type='file' name='first_doc' id="doc1" >
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2.</td>
+                                                        <td><input type="text" name='second_title' id='second_title' class="form-control" placeholder=""></td>
+                                                        <td>
+                                                            <input class="filestyle form-control" type='file' name='second_doc' id="doc1" >
+                                                        </td>
+                                                    </tr>                                                                
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <th style="width: 10px">#</th>
+                                                        <th><?php echo $this->lang->line('title'); ?></th>
+                                                        <th><?php echo $this->lang->line('documents'); ?></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3.</td>
+                                                        <td><input type="text" name='fourth_title' id='fourth_title' class="form-control" placeholder=""></td>
+                                                        <td>
+                                                            <input class="filestyle form-control" type='file' name='fourth_doc' id="doc1" >
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4.</td>
+                                                        <td><input type="text" name='fifth_title' id='fifth_title' class="form-control" placeholder=""></td>
+                                                        <td>
+                                                            <input class="filestyle form-control" type='file' name='fifth_doc' id="doc1" >
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-info pull-right" id="save"><?php echo $this->lang->line('save'); ?></button>
@@ -1820,6 +1959,54 @@
                 }
                 else {
                     $('#living_with_parents_specify').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="enrolled_here_before"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#enrolled_here_before_year').prop('disabled', false);
+                    $('#enrolled_here_before_level').prop('disabled', false);
+                }
+                else {
+                    $('#enrolled_here_before_year').prop('disabled', true);
+                    $('#enrolled_here_before_level').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="parents_alumnus"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#father_alumnus_batch_gs').prop('disabled', false);
+                    $('#mother_alumnus_batch_gs').prop('disabled', false);
+                    $('#mother_alumnus_batch_hs').prop('disabled', false);
+                }
+                else {
+                    $('#father_alumnus_batch_gs').prop('disabled', true);
+                    $('#mother_alumnus_batch_gs').prop('disabled', true);
+                    $('#mother_alumnus_batch_hs').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="has_internet"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#type_of_internet').prop('disabled', false);
+                }
+                else {
+                    $('#type_of_internet').prop('disabled', true);
                 }
             }
         }

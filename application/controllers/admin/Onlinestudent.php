@@ -94,32 +94,35 @@ class Onlinestudent extends Admin_Controller
         $student                 = $this->onlinestudent_model->get($id);
         $genderList              = $this->customlib->getGender();
         $data['student']         = $student;
+
+        // echo "<pre>"; print_r(json_encode($data)); echo "</pre>"; die(); 
+
         $data['genderList']      = $genderList;
         $session                 = $this->setting_model->getCurrentSession();
-        $vehroute_result         = $this->vehroute_model->get();
-        $data['vehroutelist']    = $vehroute_result;
+        // $vehroute_result         = $this->vehroute_model->get();
+        // $data['vehroutelist']    = $vehroute_result;
         $class                   = $this->class_model->get();
-        $setting_result          = $this->setting_model->get();
-		$data["bloodgroup"]         = $this->blood_group;
+        // $setting_result          = $this->setting_model->get();
+		// $data["bloodgroup"]         = $this->blood_group;
         $data["student_categorize"] = 'class';
         $data['classlist']          = $class;
         $category                   = $this->category_model->get();
         $data['categorylist']       = $category;
-        $hostelList                 = $this->hostel_model->get();
-        $data['hostelList']         = $hostelList;
-        $houses                     = $this->houselist_model->get();
-        $data['houses']             = $houses;
+        // $hostelList                 = $this->hostel_model->get();
+        // $data['hostelList']         = $hostelList;
+        // $houses                     = $this->houselist_model->get();
+        // $data['houses']             = $houses;
         $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
         $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
         $siblings                   = $this->student_model->getMySiblings($student['parent_id'], $student['id']);
-        $data['siblings']           = $siblings;
-        $data['siblings_counts']    = count($siblings);
+        $data['siblings_enrolled']           = $siblings;
+        $data['siblings_enrolled_counts']    = count($siblings);
 
         $data['fees_master_list'] = $this->feegroup_model->getFeesByGroupFiltered(); //$this->feegroup_model->get();
         // var_dump($data['fees_master_list']);die;
         $data['discount_list'] = $this->feediscount_model->get();
         $data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
-
+        // $data['admission_siblings'] = $this->onlinestudent_model->GetStudentSiblings($id);
 
         $this->form_validation->set_rules('firstname', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('lastname', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -272,14 +275,49 @@ class Onlinestudent extends Admin_Controller
                 'feesdiscount' => $this->input->post('discount[]'),
 
                 'payment_scheme' => $this->input->post('payment_scheme'),
+
+                //-- March 4, 2021
+                'birth_place' => $this->input->post('birth_place'),
+                'present_school' => $this->input->post('present_school'),
+                'present_school_address' => $this->input->post('present_school_address'),
+                'age_as_of' => $this->input->post('age_as_of'),
+                'nationality' => $this->input->post('nationality'),
+                'esc_grantee' => $this->input->post('esc_grantee'),
+                'voucher_recipient' => $this->input->post('voucher_recipient'),
+                
+                'enrolled_here_before' => $this->input->post('enrolled_here_before'),
+                'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
+                'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
+                'parents_alumnus' => $this->input->post('parents_alumnus'),
+                'father_alumnus_batch_gs' => $this->input->post('father_alumnus_batch_gs'),
+                'mother_alumnus_batch_gs' => $this->input->post('mother_alumnus_batch_gs'),
+                'mother_alumnus_batch_hs' => $this->input->post('mother_alumnus_batch_hs'),
+                'has_internet' => $this->input->post('has_internet'),
+                'type_of_internet' => $this->input->post('type_of_internet'),
+
+                'has_special_needs' => $this->input->post('has_special_needs'),
+                'has_assistive_device' => $this->input->post('has_assistive_device'),
+                'general_health_condition' => $this->input->post('general_health_condition'),
+                'health_complaints' => $this->input->post('health_complaints'),
+                'father_work_from_home' => $this->input->post('father_work_from_home'),
+                'mother_work_from_home' => $this->input->post('mother_work_from_home'),
+                'guardian_work_from_home' => $this->input->post('guardian_work_from_home'),
+                'family_pppp' => $this->input->post('family_pppp'),
             );
 
-            // print_r($data);die();
+            // echo "<pre>"; print_r(json_encode($data)); echo "</pre>"; die(); 
             // print_r("EMN Debug Mode");die();
 
-            $response = $this->onlinestudent_model->update($data, $this->input->post('save'));
+            $sibling_name = $this->input->post("sibling_name");
+            $sibling_age = $this->input->post("sibling_age");
+            $sibling_civil_status = $this->input->post("sibling_civil_status");
+            $sibling_glo = $this->input->post("sibling_glo");
+            $sibling_nsc = $this->input->post("sibling_nsc");
+            $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
+            $student_id = $this->onlinestudent_model->update($data, $this->input->post('save'));            
           
-            if ($response) {
+            if ($student_id != "") {
                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
                 redirect('admin/onlinestudent');
             } else {
@@ -295,4 +333,55 @@ class Onlinestudent extends Admin_Controller
         $data     = $this->section_model->getClassBySection($class_id);
         $this->jsonlib->output(200, $data);
     }    
+
+    // function addStudentSiblings($admissionid, $name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+    //     $maindata = [];
+
+    //     for($i = 0; $i < count($name); $i++) {
+    //         $data = [];
+    //         $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
+    //         $id = $id.rand(1000,9999);
+
+    //         $data = array(
+    //             "id" => $id,
+    //             "student_admission_id" => $admissionid,
+    //             "name" => $name[$i],
+    //             "age" => $age[$i],
+    //             "civil_status" => $civilstatus[$i],
+    //             "grade_occupation" => $gradeoccupation[$i],
+    //             "school_company_name" => $schoolcompany[$i],
+    //         );
+            
+    //         if (!empty($name[$i]))
+    //             array_push($maindata, $data);
+    //     }
+
+    //     // echo "<pre>"; print_r($maindata); echo"<pre>";die();
+        
+    //     $this->student_model->AddStudentSiblings($admissionid, $maindata);
+    // }
+
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+        $maindata = [];
+
+        for($i = 0; $i < count($name); $i++) {
+            $data = [];
+            $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
+            $id = $id.rand(1000,9999);
+
+            $data = array(
+                "id" => $id,
+                "name" => $name[$i],
+                "age" => $age[$i],
+                "civil_status" => $civilstatus[$i],
+                "grade_occupation" => $gradeoccupation[$i],
+                "school_company_name" => $schoolcompany[$i],
+            );
+            
+            if (!empty($name[$i]))
+                array_push($maindata, $data);
+        }
+
+        return json_encode($maindata);
+    }
 }

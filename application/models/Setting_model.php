@@ -189,6 +189,11 @@ class Setting_model extends MY_Model {
         return $session_result[0]['name'];
     }
 
+    public function getCurrentSchoolCode() {
+        $session_result = $this->get();
+        return $session_result[0]['dise_code'];
+    }
+
     public function getStartMonth() {
         $session_result = $this->get();
         return $session_result[0]['start_month'];

@@ -447,7 +447,7 @@ $lang['other_download'] = 'Other Download';
 $lang['paid'] = 'Paid';
 $lang['paid_fees'] = 'Paid Fees';
 $lang['parent'] = 'Parent';
-$lang['parent_guardian_detail'] = "Parent's Guardian's Details";
+$lang['parent_guardian_detail'] = "Parent/Guardian Details";
 $lang['partial'] = 'Partial';
 $lang['pass'] = 'Pass';
 $lang['passing_marks'] = 'Passing Marks';
@@ -1450,7 +1450,7 @@ $lang['prof_affil'] = 'Professional Affiliations';
 $lang['position_held'] = 'Positions Held';
 $lang['tech_prof'] = 'Proficient in the use of technology(Social Media Platforms)';
 
-$lang['other_parent_detail'] = "Other Parent's Details";
+$lang['other_parent_detail'] = "Other Parent Details";
 $lang['parent_detail'] = "Parent's Details";
 $lang['guardian_detail'] = "Guardian's Details";
 $lang['parent_civil_status'] = "Parent's Civil Status";
@@ -1508,7 +1508,7 @@ $lang['techbased'] = "Technology-Based Platforms (Online Learning)";
 $lang['modulebased'] = "Module-Based Learning";
 $lang['enrollment_payment_status'] = "Enrolment Payment Status";
 
-$lang['student_additional_details'] = "Student's Other Details";
+$lang['student_additional_details'] = "Student Other Details";
 $lang['error_message'] = "Record Save Failed";
 $lang['fees_assessment'] = "Assessment of Fees";
 $lang['select_discounts'] = "Select Discounts";
@@ -1558,4 +1558,8 @@ $lang['online_classes'] = 'Online Classes';
 $lang['online_meeting'] = 'Online Meeting';
 $lang['lesson_assigned'] = 'Lesson Assigned';
 $lang['online_admission'] = 'Online Admission';
+
+$lang['student_other_details'] = "Student Other Details";
+$lang['other_information'] = "Other Information";
+$lang['nationality'] = "Nationality";
 ?>

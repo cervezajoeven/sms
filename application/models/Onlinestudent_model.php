@@ -4,9 +4,11 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Onlinestudent_model extends MY_Model {
+class Onlinestudent_model extends MY_Model 
+{
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
         $this->load->library('mailsmsconf');
         $this->load->model('setting_model');
@@ -22,13 +24,15 @@ class Onlinestudent_model extends MY_Model {
         $this->writedb = $this->load->database('write_db', TRUE);
     }
 
-    public function add($data) {    
+    public function add($data) 
+    {    
         $this->db->where('firstname', $data['firstname']);
         $this->db->where('lastname', $data['lastname']);
         $this->db->where('dob', $data['dob']);
         $q = $this->db->get('online_admissions');
 
-        if ($q->num_rows() > 0) {
+        if ($q->num_rows() > 0) 
+        {
             if ($data['is_enroll'] == 0)
             {
                 $rec = $q->row_array();
@@ -39,8 +43,10 @@ class Onlinestudent_model extends MY_Model {
                 $record_id = $rec['id'];
                 $this->log($message, $record_id, $action);
             }
-        } else {
+        } 
+        else {
             $this->writedb->insert('online_admissions', $data);
+            // print_r($this->writedb->error());die();
             $insert_id = $this->writedb->insert_id();
             $message   = INSERT_RECORD_CONSTANT . " On online_admissions id " . $insert_id;
             $action    = "Insert";
@@ -54,13 +60,13 @@ class Onlinestudent_model extends MY_Model {
         return $record_id;
     }
 
-    public function get($id = null,$carray=null) {
-        $this->db->select('online_admissions.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,vehicles.driver_name,
-                           vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,online_admissions.hostel_room_id,
+    public function get($id = null,$carray=null) 
+    {
+        $this->db->select('online_admissions.vehroute_id,
                            class_sections.id as class_section_id,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,online_admissions.id,online_admissions.admission_no , 
                            online_admissions.roll_no,online_admissions.admission_date,online_admissions.firstname,  online_admissions.lastname,online_admissions.image,    online_admissions.mobileno, 
                            online_admissions.email ,online_admissions.state ,   online_admissions.city , online_admissions.pincode , online_admissions.note, online_admissions.religion, online_admissions.cast, 
-                           school_houses.house_name,   online_admissions.dob ,online_admissions.current_address, online_admissions.previous_school, online_admissions.guardian_is, online_admissions.permanent_address,
+                           online_admissions.dob ,online_admissions.current_address, online_admissions.previous_school, online_admissions.guardian_is, online_admissions.permanent_address,
                            IFNULL(online_admissions.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,online_admissions.adhar_no,online_admissions.samagra_id,
                            online_admissions.bank_account_no,online_admissions.bank_name, online_admissions.ifsc_code , online_admissions.guardian_name , online_admissions.father_pic ,online_admissions.height, 
                            online_admissions.weight,online_admissions.measurement_date, online_admissions.mother_pic , online_admissions.guardian_pic , online_admissions.guardian_relation,online_admissions.guardian_phone,
@@ -79,20 +85,30 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.marriage,online_admissions.dom,online_admissions.church,online_admissions.family_together,online_admissions.parents_away,online_admissions.parents_away_state,
                            online_admissions.parents_civil_status,online_admissions.parents_civil_status_other,
                            online_admissions.guardian_address_is_current_address,online_admissions.permanent_address_is_current_address,online_admissions.living_with_parents,online_admissions.living_with_parents_specify,
-                           online_admissions.has_siblings_enrolled, online_admissions.siblings_specify, online_admissions.preferred_education_mode, online_admissions.enrollment_payment_status,
-                           online_admissions.payment_scheme');
+                           online_admissions.has_siblings_enrolled, online_admissions.siblings_specify, online_admissions.preferred_education_mode, online_admissions.enrollment_payment_status,online_admissions.payment_scheme,
+                           online_admissions.has_special_needs,online_admissions.has_assistive_device,online_admissions.general_health_condition,online_admissions.health_complaints,online_admissions.father_work_from_home,online_admissions.mother_work_from_home,online_admissions.guardian_work_from_home,online_admissions.family_pppp,
+                           online_admissions.birth_place,
+                           online_admissions.present_school,
+                           online_admissions.present_school_address,
+                           online_admissions.age_as_of,
+                           online_admissions.nationality,
+                           online_admissions.esc_grantee,
+                           online_admissions.voucher_recipient,
+                           online_admissions.enrolled_here_before,
+                           online_admissions.enrolled_here_before_year,
+                           online_admissions.enrolled_here_before_level,
+                           online_admissions.parents_alumnus,
+                           online_admissions.father_alumnus_batch_gs,
+                           online_admissions.mother_alumnus_batch_gs,
+                           online_admissions.mother_alumnus_batch_hs,
+                           online_admissions.has_internet,
+                           online_admissions.type_of_internet,
+                           online_admissions.siblings');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
         $this->db->join('sections', 'sections.id = class_sections.section_id', 'left');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = online_admissions.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
         $this->db->join('categories', 'online_admissions.category_id = categories.id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = online_admissions.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
         $this->db->where('online_admissions.session_id', $this->current_session);
 
         //echo $this->db->last_query(); die;
@@ -117,12 +133,13 @@ class Onlinestudent_model extends MY_Model {
     }
 
     public function update($data, $action = "save") {
-        $record_update_status = true;
+        $record_update_status = "";
         // var_dump($data);die;
         // print_r($data);die();
 
         if (isset($data['id'])) {
             // $this->writedb->trans_begin();
+            // $this->writedb->trans_strict(false); 
 
             $data_id = $data['id'];
             $class_section_id = $data['class_section_id'];
@@ -167,7 +184,6 @@ class Onlinestudent_model extends MY_Model {
 
                 if ($admission_no_exists) {
                     $insert = false;
-                    $record_update_status = false;
                 }
 
 				//============================
@@ -214,6 +230,7 @@ class Onlinestudent_model extends MY_Model {
                             $data['roll_no'] = $data['admission_no'];
                             $this->writedb->insert('students', $data);
                             $student_id = $this->writedb->insert_id();
+                            // print_r($data);die();
                         }
 
                         // var_dump($student_id);die;
@@ -222,8 +239,12 @@ class Onlinestudent_model extends MY_Model {
                         // print_r($data);die();
                         $data['roll_no'] = $data['admission_no'];
                         $this->writedb->insert('students', $data);
-                        $student_id = $this->writedb->insert_id();                        
-                    }
+                        // print_r($this->writedb->error());die();
+                        $student_id = $this->writedb->insert_id();
+                        // print_r($student_id);die();
+                    }   
+                    
+                    // print_r($data);die();
                    
                     $data_new = array(
                         'student_id' => $student_id,
@@ -239,6 +260,7 @@ class Onlinestudent_model extends MY_Model {
                     $record_id = $student_session_id;
                     
                     $this->log($message, $record_id, $action);
+                    // print_r($data);die();
 
                     // // $student_session_id = $this->student_model->add_student_session($data_new); //-- This updates the existing student session        
 
@@ -271,7 +293,7 @@ class Onlinestudent_model extends MY_Model {
                             }
                         }
                     }
-                    
+
                     $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
                     $data_student_login = array(
@@ -320,7 +342,6 @@ class Onlinestudent_model extends MY_Model {
                         }
                     }
                     //===================================================  
-                    
 
                     $grade_level = $this->GetGradeLevel($this->input->post('class_id'));                            
                     $section = $this->GetSection($this->input->post('section_id'));
@@ -367,6 +388,8 @@ class Onlinestudent_model extends MY_Model {
 
                     $data['is_enroll'] = 1;
                     $data['class_section_id'] = $class_section_id;
+
+                    $record_update_status = $student_id;
                 }
             }            
 
@@ -374,6 +397,7 @@ class Onlinestudent_model extends MY_Model {
 
             $this->writedb->where('id', $data_id);
             $this->writedb->update('online_admissions', $data);
+            // print_r($this->writedb->_error());die();
 			
 			$message      = UPDATE_RECORD_CONSTANT." On  online admissions id ".$data_id;
 			$action       = "Update";
@@ -384,7 +408,7 @@ class Onlinestudent_model extends MY_Model {
             //     $this->writedb->trans_rollback();
             // } else {
             //     $this->writedb->trans_commit();
-            // }
+            // }            
         }
 
         return $record_update_status;
@@ -414,12 +438,11 @@ class Onlinestudent_model extends MY_Model {
 
     public function GetStudentByRollNo($roll_no) 
     {
-        $this->db->select('online_admissions.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,vehicles.driver_name,
-                           vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,online_admissions.hostel_room_id,
+        $this->db->select('online_admissions.vehroute_id,transport_route.route_title,online_admissions.hostel_room_id,
                            class_sections.id as class_section_id,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,online_admissions.id,online_admissions.admission_no , 
                            online_admissions.roll_no,online_admissions.admission_date,online_admissions.firstname,  online_admissions.lastname,online_admissions.image,    online_admissions.mobileno, 
                            online_admissions.email ,online_admissions.state ,   online_admissions.city , online_admissions.pincode , online_admissions.note, online_admissions.religion, 
-                           online_admissions.cast, school_houses.house_name,   online_admissions.dob ,online_admissions.current_address, online_admissions.previous_school,
+                           online_admissions.cast, online_admissions.dob ,online_admissions.current_address, online_admissions.previous_school,
                            online_admissions.guardian_is, online_admissions.permanent_address,IFNULL(online_admissions.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            online_admissions.adhar_no,online_admissions.samagra_id,online_admissions.bank_account_no,online_admissions.bank_name, online_admissions.ifsc_code , 
                            online_admissions.guardian_name , online_admissions.father_pic ,online_admissions.height ,online_admissions.weight,online_admissions.measurement_date, online_admissions.mother_pic , 
@@ -435,20 +458,30 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof_other,
-                           online_admissions.payment_scheme');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof_other,online_admissions.payment_scheme,
+                           online_admissions.has_special_needs,online_admissions.has_assistive_device,online_admissions.general_health_condition,online_admissions.health_complaints,online_admissions.father_work_from_home,online_admissions.mother_work_from_home,online_admissions.guardian_work_from_home,online_admissions.family_pppp,
+                           online_admissions.birth_place,
+                           online_admissions.present_school,
+                           online_admissions.present_school_address,
+                           online_admissions.age_as_of,
+                           online_admissions.nationality,
+                           online_admissions.esc_grantee,
+                           online_admissions.voucher_recipient,
+                           online_admissions.enrolled_here_before,
+                           online_admissions.enrolled_here_before_year,
+                           online_admissions.enrolled_here_before_level,
+                           online_admissions.parents_alumnus,
+                           online_admissions.father_alumnus_batch_gs,
+                           online_admissions.mother_alumnus_batch_gs,
+                           online_admissions.mother_alumnus_batch_hs,
+                           online_admissions.has_internet,
+                           online_admissions.type_of_internet,
+                           online_admissions.siblings');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
         $this->db->join('sections', 'sections.id = class_sections.section_id', 'left');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = online_admissions.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
         $this->db->join('categories', 'online_admissions.category_id = categories.id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = online_admissions.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
         $this->db->where('online_admissions.session_id', $this->current_session);
         $this->db->where('students.roll_no', $roll_no);
 
@@ -458,12 +491,11 @@ class Onlinestudent_model extends MY_Model {
 
     public function GetStudentByLRNNo($lrn_no) 
     {
-        $this->db->select('online_admissions.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,vehicles.driver_name,
-                           vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,online_admissions.hostel_room_id,
+        $this->db->select('online_admissions.vehroute_id,online_admissions.hostel_room_id,
                            class_sections.id as class_section_id,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,online_admissions.id,online_admissions.admission_no , 
                            online_admissions.roll_no,online_admissions.admission_date,online_admissions.firstname,  online_admissions.lastname,online_admissions.image,    online_admissions.mobileno, 
                            online_admissions.email ,online_admissions.state, online_admissions.city, online_admissions.pincode , online_admissions.note, online_admissions.religion, 
-                           online_admissions.cast, school_houses.house_name, online_admissions.dob, online_admissions.current_address, online_admissions.previous_school,
+                           online_admissions.cast, online_admissions.dob, online_admissions.current_address, online_admissions.previous_school,
                            online_admissions.guardian_is, online_admissions.permanent_address,IFNULL(online_admissions.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,
                            online_admissions.adhar_no,online_admissions.samagra_id,online_admissions.bank_account_no,online_admissions.bank_name, online_admissions.ifsc_code , 
                            online_admissions.guardian_name , online_admissions.father_pic ,online_admissions.height ,online_admissions.weight,online_admissions.measurement_date, online_admissions.mother_pic , 
@@ -479,20 +511,30 @@ class Onlinestudent_model extends MY_Model {
                            online_admissions.mother_company_name,online_admissions.mother_company_position,online_admissions.mother_nature_of_business,online_admissions.mother_mobile,online_admissions.mother_email,
                            online_admissions.mother_dob,online_admissions.mother_citizenship,online_admissions.mother_religion,online_admissions.mother_highschool,online_admissions.mother_college,
                            online_admissions.mother_college_course,online_admissions.mother_post_graduate,online_admissions.mother_post_course,online_admissions.mother_prof_affiliation,
-                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof,
-                           online_admissions.payment_scheme');
+                           online_admissions.mother_prof_affiliation_position,online_admissions.mother_tech_prof,online_admissions.mother_tech_prof,online_admissions.payment_scheme,
+                           online_admissions.has_special_needs,online_admissions.has_assistive_device,online_admissions.general_health_condition,online_admissions.health_complaints,online_admissions.father_work_from_home,online_admissions.mother_work_from_home,online_admissions.guardian_work_from_home,online_admissions.family_pppp,
+                           online_admissions.birth_place,
+                           online_admissions.present_school,
+                           online_admissions.present_school_address,
+                           online_admissions.age_as_of,
+                           online_admissions.nationality,
+                           online_admissions.esc_grantee,
+                           online_admissions.voucher_recipient,
+                           online_admissions.enrolled_here_before,
+                           online_admissions.enrolled_here_before_year,
+                           online_admissions.enrolled_here_before_level,
+                           online_admissions.parents_alumnus,
+                           online_admissions.father_alumnus_batch_gs,
+                           online_admissions.mother_alumnus_batch_gs,
+                           online_admissions.mother_alumnus_batch_hs,
+                           online_admissions.has_internet,
+                           online_admissions.type_of_internet,
+                           online_admissions.siblings');
         $this->db->from('online_admissions');
         $this->db->join('class_sections', 'class_sections.id = online_admissions.class_section_id', 'left');
         $this->db->join('classes', 'class_sections.class_id = classes.id', 'left');
         $this->db->join('sections', 'sections.id = class_sections.section_id', 'left');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = online_admissions.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
         $this->db->join('categories', 'online_admissions.category_id = categories.id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = online_admissions.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = online_admissions.school_house_id', 'left');
         $this->db->where('online_admissions.session_id', $this->current_session);
         $this->db->where('students.lrn_no', $lrn_no);
 
@@ -609,4 +651,42 @@ class Onlinestudent_model extends MY_Model {
 
     //     return $result;
     // }
+
+    public function AddStudentSiblings($admissionid, $data) 
+    {
+        // echo "<pre>"; print_r($data); echo"<pre>";die();
+
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); 
+
+        $this->writedb->where('student_admission_id', $admissionid);
+        $this->writedb->delete('student_siblings_admission');
+
+        $this->writedb->insert_batch('student_siblings_admission', $data);
+        
+        // print_r($this->writedb->last_query());
+        // print_r($this->writedb->error());die();
+        $result = ($this->writedb->affected_rows() == 0) ? false : true;
+        // return $result;
+
+        $this->writedb->trans_complete(); # Completing transaction
+
+        if ($this->writedb->trans_status() === false) {
+            # Something went wrong.
+            $this->writedb->trans_rollback();
+            return false;
+
+        } else {
+            return $result;
+        }
+    }
+
+    public function GetStudentSiblings($admissionid)
+    {
+        $this->db->select('name, age, civil_status, grade_occupation, school_company_name');
+        $this->db->from('student_siblings_admission');
+        $this->db->where('student_siblings_admission.student_admission_id', $admissionid);
+        $result = $this->db->get()->result_array();
+        return $result;
+    }
 }

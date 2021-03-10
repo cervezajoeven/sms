@@ -458,27 +458,58 @@ class Student extends Admin_Controller
                 'parents_civil_status'       => $this->input->post('parents_civil_status'),
                 'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
 
-                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
-                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                // 'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address'),
+                // 'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address'),
+                'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address') == "on" ? 1 : 0,
+                'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address') == "on" ? 1 : 0,
                 'living_with_parents' => $this->input->post('living_with_parents'),
                 'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
 
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                 'payment_scheme' => $this->input->post('payment_scheme'),
+
+                //-- March 4, 2021
+                'birth_place' => $this->input->post('birth_place'),
+                'present_school' => $this->input->post('present_school'),
+                'present_school_address' => $this->input->post('present_school_address'),
+                'age_as_of' => $this->input->post('age_as_of'),
+                'nationality' => $this->input->post('nationality'),
+                'esc_grantee' => $this->input->post('esc_grantee'),
+                'voucher_recipient' => $this->input->post('voucher_recipient'),
+                
+                'enrolled_here_before' => $this->input->post('enrolled_here_before'),
+                'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
+                'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
+                'parents_alumnus' => $this->input->post('parents_alumnus'),
+                'father_alumnus_batch_gs' => $this->input->post('father_alumnus_batch_gs'),
+                'mother_alumnus_batch_gs' => $this->input->post('mother_alumnus_batch_gs'),
+                'mother_alumnus_batch_hs' => $this->input->post('mother_alumnus_batch_hs'),
+                'has_internet' => $this->input->post('has_internet'),
+                'type_of_internet' => $this->input->post('type_of_internet'),
+
+                'has_special_needs' => $this->input->post('has_special_needs'),
+                'has_assistive_device' => $this->input->post('has_assistive_device'),
+                'general_health_condition' => $this->input->post('general_health_condition'),
+                'health_complaints' => $this->input->post('health_complaints'),
+                'father_work_from_home' => $this->input->post('father_work_from_home'),
+                'mother_work_from_home' => $this->input->post('mother_work_from_home'),
+                'guardian_work_from_home' => $this->input->post('guardian_work_from_home'),
+                'family_pppp' => $this->input->post('family_pppp'),
             );
 
-            // var_dump($this->input->post('roll_no'));die;
 
-            $house            = $this->input->post('house');
-            $blood_group      = $this->input->post('blood_group');
-            $measurement_date = $this->input->post('measure_date');
+            // print_r(json_encode($data));die();
+
+            // $house            = $this->input->post('house');
+            // $blood_group      = $this->input->post('blood_group');
+            // $measurement_date = $this->input->post('measure_date');
             $roll_no           = $this->input->post('roll_no');
-            $lastname          = $this->input->post('lastname');
+            // $lastname          = $this->input->post('lastname');
             $category_id       = $this->input->post('category_id');
             $religion          = $this->input->post('religion');
             $mobileno          = $this->input->post('mobileno');
             $email             = $this->input->post('email');
-            $admission_date    = $this->input->post('admission_date');
+            // $admission_date    = $this->input->post('admission_date');
             $height            = $this->input->post('height');
             $weight            = $this->input->post('weight');
             $father_name       = $this->input->post('father_name');
@@ -496,9 +527,9 @@ class Student extends Admin_Controller
             //     $data_insert['school_house_id'] = $this->input->post('house');
             // }
 
-            if (isset($blood_group)) {
-                $data_insert['blood_group'] = $this->input->post('blood_group');
-            }
+            // if (isset($blood_group)) {
+            //     $data_insert['blood_group'] = $this->input->post('blood_group');
+            // }
 
             // if (isset($roll_no)) {
             //     $data_insert['roll_no'] = $this->input->post('roll_no');
@@ -618,6 +649,13 @@ class Student extends Admin_Controller
                 $data_insert['admission_no'] = $this->input->post('admission_no');
             }
 
+            $sibling_name = $this->input->post("sibling_name");
+            $sibling_age = $this->input->post("sibling_age");
+            $sibling_civil_status = $this->input->post("sibling_civil_status");
+            $sibling_glo = $this->input->post("sibling_glo");
+            $sibling_nsc = $this->input->post("sibling_nsc");
+            $data_insert['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
             if ($insert) {
                 // var_dump($data_insert);die;
 
@@ -643,7 +681,15 @@ class Student extends Admin_Controller
                     $insert_id = $this->student_model->add($data_insert, $data_setting);
                 }
                 else 
-                    $insert_id = $this->student_model->add($data_insert, $data_setting);                    
+                    $insert_id = $this->student_model->add($data_insert, $data_setting);
+
+                // $sibling_name = $this->input->post("sibling_name");
+                // $sibling_age = $this->input->post("sibling_age");
+                // $sibling_civil_status = $this->input->post("sibling_civil_status");
+                // $sibling_glo = $this->input->post("sibling_glo");
+                // $sibling_nsc = $this->input->post("sibling_nsc");
+
+                // $this->student_model->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
 
                 if (!empty($custom_value_array)) 
                 {
@@ -1394,8 +1440,8 @@ class Student extends Admin_Controller
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['genderList']      = $genderList;
         $session                 = $this->setting_model->getCurrentSession();
-        $vehroute_result         = $this->vehroute_model->get();
-        $data['vehroutelist']    = $vehroute_result;
+        // $vehroute_result         = $this->vehroute_model->get();
+        // $data['vehroutelist']    = $vehroute_result;
         $class                   = $this->class_model->get();
         $setting_result          = $this->setting_model->get();
 
@@ -1403,19 +1449,20 @@ class Student extends Admin_Controller
         $data['classlist']          = $class;
         $category                   = $this->category_model->get();
         $data['categorylist']       = $category;
-        $hostelList                 = $this->hostel_model->get();
-        $data['hostelList']         = $hostelList;
-        $houses                     = $this->student_model->gethouselist();
-        $data['houses']             = $houses;
-        $data["bloodgroup"]         = $this->blood_group;
+        // $hostelList                 = $this->hostel_model->get();
+        // $data['hostelList']         = $hostelList;
+        // $houses                     = $this->student_model->gethouselist();
+        // $data['houses']             = $houses;
+        // $data["bloodgroup"]         = $this->blood_group;
         $siblings                   = $this->student_model->getMySiblings($student['parent_id'], $student['id']);
-        $data['siblings']           = $siblings;
-        $data['siblings_counts']    = count($siblings);
+        $data['siblings_enrolled']           = $siblings;
+        $data['siblings_enrolled_counts']    = count($siblings);
         $custom_fields              = $this->customfield_model->getByBelong('students');
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['enrollment_type_list'] = $this->onlinestudent_model->GetEnrollmentTypes();
         $data['payment_mode_list'] = $this->onlinestudent_model->GetModesOfPayment();
         $data['payment_scheme_list'] = $this->onlinestudent_model->GetPaymentSchemes();
+        // $data['admission_siblings'] = $this->student_model->GetStudentSiblings($id);
 
         foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
             if ($custom_fields_value['validation']) {
@@ -1582,6 +1629,34 @@ class Student extends Admin_Controller
                 'preferred_education_mode' => $this->input->post('preferred_education_mode'),
                 'enrollment_payment_status' => $this->input->post('enrollment_payment_status'),
                 'payment_scheme' => $this->input->post('payment_scheme'),
+
+                //-- March 4, 2021
+                'birth_place' => $this->input->post('birth_place'),
+                'present_school' => $this->input->post('present_school'),
+                'present_school_address' => $this->input->post('present_school_address'),
+                'age_as_of' => $this->input->post('age_as_of'),
+                'nationality' => $this->input->post('nationality'),
+                'esc_grantee' => $this->input->post('esc_grantee'),
+                'voucher_recipient' => $this->input->post('voucher_recipient'),
+                
+                'enrolled_here_before' => $this->input->post('enrolled_here_before'),
+                'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
+                'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
+                'parents_alumnus' => $this->input->post('parents_alumnus'),
+                'father_alumnus_batch_gs' => $this->input->post('father_alumnus_batch_gs'),
+                'mother_alumnus_batch_gs' => $this->input->post('mother_alumnus_batch_gs'),
+                'mother_alumnus_batch_hs' => $this->input->post('mother_alumnus_batch_hs'),
+                'has_internet' => $this->input->post('has_internet'),
+                'type_of_internet' => $this->input->post('type_of_internet'),
+
+                'has_special_needs' => $this->input->post('has_special_needs'),
+                'has_assistive_device' => $this->input->post('has_assistive_device'),
+                'general_health_condition' => $this->input->post('general_health_condition'),
+                'health_complaints' => $this->input->post('health_complaints'),
+                'father_work_from_home' => $this->input->post('father_work_from_home'),
+                'mother_work_from_home' => $this->input->post('mother_work_from_home'),
+                'guardian_work_from_home' => $this->input->post('guardian_work_from_home'),
+                'family_pppp' => $this->input->post('family_pppp'),
             );
 
             $house             = $this->input->post('house');
@@ -1603,17 +1678,14 @@ class Student extends Admin_Controller
             $mother_phone      = $this->input->post('mother_phone');
             $mother_occupation = $this->input->post('mother_occupation');
 
-            if (isset($measurement_date)) {
+            if (isset($measurement_date))
                 $data['measurement_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('measure_date')));
-            }
 
-            if (isset($house)) {
+            if (isset($house))
                 $data['school_house_id'] = $this->input->post('house');
-            }
-            if (isset($blood_group)) {
 
+            if (isset($blood_group))
                 $data['blood_group'] = $this->input->post('blood_group');
-            }
 
             // if (isset($roll_no)) {
             //     $data['roll_no'] = $this->input->post('roll_no');
@@ -1624,75 +1696,54 @@ class Student extends Admin_Controller
             //     $data['lastname'] = $this->input->post('lastname');
             // }
 
-            if (isset($category_id)) {
-
+            if (isset($category_id))
                 $data['category_id'] = $this->input->post('category_id');
-            }
 
-            if (isset($religion)) {
-
+            if (isset($religion))
                 $data['religion'] = $this->input->post('religion');
-            }
 
-            if (isset($mobileno)) {
-
+            if (isset($mobileno))
                 $data['mobileno'] = $this->input->post('mobileno');
-            }
 
-            if (isset($email)) {
-
+            if (isset($email))
                 $data['email'] = $this->input->post('email');
-            }
 
-            if (isset($admission_date)) {
-
+            if (isset($admission_date))
                 $data['admission_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('admission_date')));
-            }
 
-            if (isset($height)) {
-
+            if (isset($height))
                 $data['height'] = $this->input->post('height');
-            }
 
-            if (isset($weight)) {
-
+            if (isset($weight))
                 $data['weight'] = $this->input->post('weight');
-            }
 
-            if (isset($father_name)) {
-
+            if (isset($father_name))
                 $data['father_name'] = $this->input->post('father_name');
-            }
 
-            if (isset($father_phone)) {
-
+            if (isset($father_phone))
                 $data['father_phone'] = $this->input->post('father_phone');
-            }
 
-            if (isset($father_occupation)) {
-
+            if (isset($father_occupation))
                 $data['father_occupation'] = $this->input->post('father_occupation');
-            }
 
-            if (isset($mother_name)) {
-
+            if (isset($mother_name)) 
                 $data['mother_name'] = $this->input->post('mother_name');
-            }
 
-            if (isset($mother_phone)) {
-
+            if (isset($mother_phone)) 
                 $data['mother_phone'] = $this->input->post('mother_phone');
-            }
 
-            if (isset($mother_occupation)) {
-
+            if (isset($mother_occupation)) 
                 $data['mother_occupation'] = $this->input->post('mother_occupation');
-            }
 
-            if (!$this->sch_setting_detail->adm_auto_insert) {
-
+            if (!$this->sch_setting_detail->adm_auto_insert) 
                 $data['admission_no'] = $this->input->post('admission_no');
-            }
+
+            $sibling_name = $this->input->post("sibling_name");
+            $sibling_age = $this->input->post("sibling_age");
+            $sibling_civil_status = $this->input->post("sibling_civil_status");
+            $sibling_glo = $this->input->post("sibling_glo");
+            $sibling_nsc = $this->input->post("sibling_nsc");
+            $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
 
             $this->student_model->add($data);
 
@@ -1706,9 +1757,18 @@ class Student extends Admin_Controller
             
             $insert_id = $this->student_model->add_student_session($data_new);            
 
+            // $sibling_name = $this->input->post("sibling_name");
+            // $sibling_age = $this->input->post("sibling_age");
+            // $sibling_civil_status = $this->input->post("sibling_civil_status");
+            // $sibling_glo = $this->input->post("sibling_glo");
+            // $sibling_nsc = $this->input->post("sibling_nsc");
+            // $this->student_model->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
             // if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
-            if (isset($_FILES["file"])) {
-                if ($_FILES['file']['size'] > 0) {
+            if (isset($_FILES["file"])) 
+            {
+                if ($_FILES['file']['size'] > 0) 
+                {
                     $fileInfo = pathinfo($_FILES["file"]["name"]);
                     $img_name = $id . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1717,8 +1777,10 @@ class Student extends Admin_Controller
                 }                
             }
 
-            if (isset($_FILES["father_pic"])) {
-                if ($_FILES['father_pic']['size'] > 0) {
+            if (isset($_FILES["father_pic"])) 
+            {
+                if ($_FILES['father_pic']['size'] > 0) 
+                {
                     $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
                     $img_name = $id . "father" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1727,8 +1789,10 @@ class Student extends Admin_Controller
                 }
             }
 
-            if (isset($_FILES["mother_pic"])) {
-                if ($_FILES['mother_pic']['size'] > 0) {
+            if (isset($_FILES["mother_pic"])) 
+            {
+                if ($_FILES['mother_pic']['size'] > 0) 
+                {
                     $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
                     $img_name = $id . "mother" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1737,8 +1801,10 @@ class Student extends Admin_Controller
                 }
             }
 
-            if (isset($_FILES["guardian_pic"])) {
-                if ($_FILES['guardian_pic']['size'] > 0) {
+            if (isset($_FILES["guardian_pic"])) 
+            {
+                if ($_FILES['guardian_pic']['size'] > 0) 
+                {
                     $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
                     $img_name = $id . "guardian" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1747,9 +1813,12 @@ class Student extends Admin_Controller
                 }
             }
 
-            if (isset($siblings_counts) && ($total_siblings == $siblings_counts)) {
+            if (isset($siblings_counts) && ($total_siblings == $siblings_counts)) 
+            {
                 //if there is no change in sibling
-            } else if (!isset($siblings_counts) && $sibling_id == 0 && $total_siblings > 0) {
+            } 
+            else if (!isset($siblings_counts) && $sibling_id == 0 && $total_siblings > 0) 
+            {
                 // add for new parent
                 $parent_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
@@ -1765,7 +1834,9 @@ class Student extends Admin_Controller
                     'parent_id' => 0,
                 );
                 $ins_id = $this->user_model->addNewParent($data_parent_login, $update_student);
-            } else if ($sibling_id != 0) {
+            } 
+            else if ($sibling_id != 0) 
+            {
                 //join to student with new parent
                 $student_sibling = $this->student_model->get($sibling_id);
                 $update_student  = array(
@@ -1773,7 +1844,9 @@ class Student extends Admin_Controller
                     'parent_id' => $student_sibling['parent_id'],
                 );
                 $student_sibling = $this->student_model->add($update_student);
-            } else {
+            } 
+            else 
+            {
 
             }
 
@@ -2483,15 +2556,11 @@ class Student extends Admin_Controller
                 print_r($newname);
                 echo "<pre>";
 
-
                 if(rename($original_file, $newname)){
                     echo "rename successful";
                     echo "<pre>";
                     $this->student_model->lms_update("student_doc",$update_data);
                 }
-
-
-
             }
         }
     }
@@ -2747,10 +2816,11 @@ class Student extends Admin_Controller
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['sch_setting']     = $this->sch_setting_detail;
         $data['fields']          = $this->customfield_model->get_custom_fields('students', 1);
+
         $class                   = $this->class_model->get();
         $data['classlist']       = $class;
 
-        $userdata = $this->customlib->getUserData();
+        // $userdata = $this->customlib->getUserData();
         $carray   = array();
 
         if (!empty($data["classlist"])) 
@@ -2877,5 +2947,32 @@ class Student extends Admin_Controller
         $array = $this->student_model->getStudentListPerClassSection($class, $section, $session);
 
         echo json_encode($array);
+    }
+
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+        $maindata = [];
+
+        for($i = 0; $i < count($name); $i++) {
+            $data = [];
+            $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
+            $id = $id.rand(1000,9999);
+
+            $data = array(
+                "id" => $id,
+                "name" => $name[$i],
+                "age" => $age[$i],
+                "civil_status" => $civilstatus[$i],
+                "grade_occupation" => $gradeoccupation[$i],
+                "school_company_name" => $schoolcompany[$i],
+            );
+            
+            if (!empty($name[$i]))
+                array_push($maindata, $data);
+        }
+
+        return json_encode($maindata);
+
+        // echo "<pre>"; print_r($maindata); echo"<pre>";die();        
+        // $this->onlinestudent_model->AddStudentSiblings($admissionid, $maindata);
     }
 }

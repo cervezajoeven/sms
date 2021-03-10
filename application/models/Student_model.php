@@ -28,16 +28,33 @@ class Student_model extends MY_Model
                            students.guardian_address,students.is_active,students.created_at,students.updated_at,students.father_name,students.rte,students.gender,users.id as `user_tbl_id`,users.username,
                            users.password as `user_tbl_password`,users.is_active as `user_tbl_active`,students.app_key,students.parent_app_key,students.mode_of_payment,students.enrollment_type,students.middlename,students.lrn_no,
                            students.father_company_name,students.father_company_position,students.father_nature_of_business,students.father_mobile,students.father_email,
-                          students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
-                          students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
-                          students.father_prof_affiliation_position,students.father_tech_prof,
-                          students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
-                          students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
-                          students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
-                          students.mother_prof_affiliation_position,students.mother_tech_prof,
-                          students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status,
-                          students.payment_scheme');
+                           students.father_dob,students.father_citizenship,students.father_religion,students.father_highschool,students.father_college,
+                           students.father_college_course,students.father_post_graduate,students.father_post_course,students.father_prof_affiliation,
+                           students.father_prof_affiliation_position,students.father_tech_prof,
+                           students.mother_company_name,students.mother_company_position,students.mother_nature_of_business,students.mother_mobile,students.mother_email,
+                           students.mother_dob,students.mother_citizenship,students.mother_religion,students.mother_highschool,students.mother_college,
+                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
+                           students.mother_prof_affiliation_position,students.mother_tech_prof,
+                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -79,8 +96,25 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status,
-                          students.payment_scheme');
+                          students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                          students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                          students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -114,8 +148,25 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status,
-                          students.payment_scheme');
+                          students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                          students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                          students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -150,8 +201,25 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status,
-                          students.payment_scheme');
+                          students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                          students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                          students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
@@ -174,11 +242,10 @@ class Student_model extends MY_Model
 
     public function getStudentByClassSectionID($class_id = null, $section_id = null, $id = null)
     {
-        $this->db->select('student_session.transport_fees,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,
-                           vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,students.hostel_room_id,
+        $this->db->select('student_session.transport_fees,students.vehroute_id,students.hostel_room_id,
                            student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,
                            students.admission_no , students.roll_no,students.admission_date,students.firstname,students.lastname,students.image,students.mobileno, students.email ,students.state,
-                           students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,students.current_address, students.previous_school,
+                           students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,students.current_address, students.previous_school,
                            students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
                            students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
@@ -194,19 +261,29 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status,
-                          students.payment_scheme');
+                          students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                          students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                          students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
         $this->db->join('sections', 'sections.id = student_session.section_id');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = students.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
         $this->db->where('student_session.class_id', $class_id);
@@ -276,11 +353,10 @@ class Student_model extends MY_Model
 
     public function getByStudentSession($student_session_id)
     {
-        $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
-                           hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
+        $this->db->select('student_session.transport_fees,students.app_key,students.vehroute_id,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
                            sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,students.mobileno,
-                           students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
+                           students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,
                            students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date,
                            students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,
@@ -296,19 +372,29 @@ class Student_model extends MY_Model
                           students.mother_college_course,students.mother_post_graduate,students.mother_post_course,students.mother_prof_affiliation,
                           students.mother_prof_affiliation_position,students.mother_tech_prof,
                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                          students.preferred_education_mode, students.enrollment_payment_status,
-                          students.payment_scheme');
+                          students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                          students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                          students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id');
         $this->db->join('sections', 'sections.id = student_session.section_id');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = students.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
         $this->db->where('student_session.session_id', $this->current_session);
@@ -324,11 +410,10 @@ class Student_model extends MY_Model
 
     public function get($id = null)
     {       
-        $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,
-                           hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,
+        $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
                            sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno,
-                           students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,
+                           students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,
                            students.current_address, students.previous_school,students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,
                            students.samagra_id,students.bank_account_no,students.bank_name, students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,
                            students.measurement_date, students.mother_pic , students.guardian_pic , students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,
@@ -346,19 +431,29 @@ class Student_model extends MY_Model
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,'".str_replace("'", "''", $this->schoolname)."' AS school_name");
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,'".str_replace("'", "''", $this->schoolname)."' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
         $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = students.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
         $this->db->where('student_session.session_id', $this->current_session);
@@ -408,8 +503,25 @@ class Student_model extends MY_Model
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,'".$this->schoolname."' AS school_name");
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,'".str_replace("'", "''", $this->schoolname)."' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -440,11 +552,10 @@ class Student_model extends MY_Model
     public function findByAdmission($admission_no = null)
     {
 
-        $this->db->select('student_session.transport_fees,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,
-                           vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,students.hostel_room_id,
+        $this->db->select('student_session.transport_fees,students.vehroute_id,
                            student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,
                            students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,
-                           students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,students.current_address, students.previous_school,
+                           students.city , students.pincode , students.note, students.religion, students.cast, students.dob ,students.current_address, students.previous_school,
                            students.guardian_is,students.parent_id,students.permanent_address,students.category_id,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,
                            students.ifsc_code , students.guardian_name , students.father_pic ,students.height ,students.weight,students.measurement_date, students.mother_pic , students.guardian_pic ,
                            students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active ,students.created_at ,students.updated_at,students.father_name,students.father_phone,
@@ -462,19 +573,29 @@ class Student_model extends MY_Model
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
         $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
-        $this->db->join('hostel_rooms', 'hostel_rooms.id = students.hostel_room_id', 'left');
-        $this->db->join('hostel', 'hostel.id = hostel_rooms.hostel_id', 'left');
-        $this->db->join('room_types', 'room_types.id = hostel_rooms.room_type_id', 'left');
-        $this->db->join('vehicle_routes', 'vehicle_routes.id = students.vehroute_id', 'left');
-        $this->db->join('transport_route', 'vehicle_routes.route_id = transport_route.id', 'left');
-        $this->db->join('vehicles', 'vehicles.id = vehicle_routes.vehicle_id', 'left');
-        $this->db->join('school_houses', 'school_houses.id = students.school_house_id', 'left');
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
         $this->db->where('student_session.session_id', $this->current_session);
@@ -520,8 +641,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -582,8 +720,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -624,8 +779,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -665,8 +837,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -742,8 +931,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -809,8 +1015,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id','left');
@@ -1072,8 +1295,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1380,8 +1620,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1415,8 +1672,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1457,8 +1731,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1495,8 +1786,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1533,8 +1841,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1750,8 +2075,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1783,8 +2125,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1824,8 +2183,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1908,8 +2284,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable);
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -1995,9 +2388,25 @@ return false;
                            students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other,
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
-                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme,' . $field_variable);
+                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -2058,8 +2467,25 @@ return false;
                            students.mother_prof_affiliation_position,students.mother_tech_prof,students.mother_tech_prof_other,
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
-                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.payment_scheme');
+                           students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -2190,8 +2616,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,
                            students.parents_away_state,students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -2240,8 +2683,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,
                            students.parents_away_state,students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -2290,8 +2750,25 @@ return false;
                            students.marriage,students.dom,students.church,students.family_together,students.parents_away,students.parents_away_state,
                            students.parents_civil_status,students.parents_civil_status_other,
                            students.guardian_address_is_current_address,students.permanent_address_is_current_address,students.living_with_parents,students.living_with_parents_specify,
-                           students.preferred_education_mode, students.enrollment_payment_status,
-                           students.payment_scheme');
+                           students.preferred_education_mode, students.enrollment_payment_status,students.payment_scheme,
+                           students.has_special_needs,students.has_assistive_device,students.general_health_condition,students.health_complaints,students.father_work_from_home,students.mother_work_from_home,students.guardian_work_from_home,students.family_pppp,
+                           students.birth_place,
+                           students.present_school,
+                           students.present_school_address,
+                           students.age_as_of,
+                           students.nationality,
+                           students.esc_grantee,
+                           students.voucher_recipient,
+                           students.enrolled_here_before,
+                           students.enrolled_here_before_year,
+                           students.enrolled_here_before_level,
+                           students.parents_alumnus,
+                           students.father_alumnus_batch_gs,
+                           students.mother_alumnus_batch_gs,
+                           students.mother_alumnus_batch_hs,
+                           students.has_internet,
+                           students.type_of_internet,
+                           students.siblings');
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -2536,6 +3013,8 @@ return false;
         
         // return($sql);
         $query = $this->db->query($sql);
+        // print_r($this->db->last_query());die();
+        // print_r($this->db->error());die();
         return $query->result();
     }
 
@@ -2561,5 +3040,43 @@ return false;
         } else {
             return true;
         }
+    }
+
+    public function AddStudentSiblings($student_id, $data) 
+    {
+        // echo "<pre>"; print_r($data); echo"<pre>";die();
+
+        $this->writedb->trans_start(); # Starting Transaction
+        $this->writedb->trans_strict(false); 
+
+        $this->writedb->where('student_id', $student_id);
+        $this->writedb->delete('student_siblings_admitted');
+
+        $this->writedb->insert_batch('student_siblings_admitted', $data);
+        
+        // print_r($this->writedb->last_query());
+        // print_r($this->writedb->error());die();
+        $result = ($this->writedb->affected_rows() == 0) ? false : true;
+        // return $result;
+
+        $this->writedb->trans_complete(); # Completing transaction
+
+        if ($this->writedb->trans_status() === false) {
+            # Something went wrong.
+            $this->writedb->trans_rollback();
+            return false;
+
+        } else {
+            return $result;
+        }
+    }
+
+    public function GetStudentSiblings($student_id)
+    {
+        $this->db->select('name, age, civil_status, grade_occupation, school_company_name');
+        $this->db->from('student_siblings_admitted');
+        $this->db->where('student_id', $student_id);
+        $result = $this->db->get()->result_array();
+        return $result;
     }
 }

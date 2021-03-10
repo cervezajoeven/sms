@@ -132,15 +132,6 @@ if (!$form_admission) {
 </div><!-- /.modal -->
 
 <form id="form1" class="spaceb60 onlineform" action="<?php echo current_url() ?>"  id="employeeform" name="employeeform" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-    <?php
-        if (isset($error_message)) {
-            //echo "<div class='alert alert-danger'>" . $error_message . "</div>";
-        }
-
-        $enrollTypes = array(""=>"Select","new"=>"New","old"=>"Old","old_new"=>"Old (New Data)","returnee"=>"Returnee","transferee"=>"Transferee");
-        $modeofPayment = array(""=>"Select","Reservation"=>"Reservation", "Monthly"=>"Monthly","Quarterly"=>"Quarterly","Semestral"=>"Semestral","Whole Year"=>"Whole Year");
-    ?>
-    
     <div class="row">
         <div class="col-md-12">
             <div class="form-group pull-right">
@@ -762,35 +753,229 @@ if (!$form_admission) {
             </div>  
         </div>
     </div>
+
     <div class="row" id="student_address">
         <div class="wrapper"><h4 class="pagetitleh2"><?php echo $this->lang->line('student_additional_details'); ?></h4><div class="line"></div></div>
+        
         <div class="col-md-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" <?php echo set_value('guardian_address_is_current_address') == "on" ? "checked" : ""; ?>>
-                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
+            <div class="form-group">    
+                <label for="esc_grantee"><?php echo "ESC Grantee (G8 - G10)"; ?></label>
+                <label class="radio-inline">
+                    <input type="radio" name="esc_grantee" <?php echo set_value('esc_grantee') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="esc_grantee" <?php echo set_value('esc_grantee') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
                 </label>
             </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">    
+                <label for="voucher_recipient"><?php echo "Voucher Recipient"; ?></label>
+                <label class="radio-inline">
+                    <input type="radio" name="voucher_recipient" <?php echo set_value('voucher_recipient') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="voucher_recipient" <?php echo set_value('voucher_recipient') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <!-- <div class="form-group form-inline"> -->
+            <div class="form-group">
+                <label for="age_as_of"><?php echo "Age as of Aug. ".$current_year; ?></label>
+                <input id="age_as_of" name="age_as_of" placeholder="" type="number" min="0" class="form-control all-fields"  value="<?php echo set_value('age_as_of'); ?>"/>
+                <span class="text-danger"><?php echo form_error('age_as_of'); ?></span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="nationality"><?php echo $this->lang->line('nationality'); ?></label>
+                <input id="nationality" name="nationality" placeholder="" type="text" class="form-control all-fields"  value="<?php echo set_value('nationality'); ?>"/>
+                <span class="text-danger"><?php echo form_error('nationality'); ?></span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">    
+                <label for="birth_place"><?php echo "Place of Birth"; ?></label>
+                <textarea rows="3" id="birth_place" name="birth_place" placeholder=""  class="form-control" ><?php echo set_value('birth_place'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('birth_place'); ?></span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="present_school"><?php echo "Present School (currently enrolled)"; ?></label>
+                <textarea rows="3" id="present_school" name="present_school" placeholder=""  class="form-control" ><?php echo set_value('present_school'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('present_school'); ?></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="present_school_address"><?php echo "School Address" ?></label><small class="req"> *</small> 
+                <textarea rows="3" id="present_school_address" name="present_school_address" placeholder=""  class="form-control" ><?php echo set_value('present_school_address'); ?></textarea>
+                <span class="text-danger"><?php echo form_error('present_school_address'); ?></span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="enrolled_here_before"><?php echo "Has applicant been enrolled at ".$school_code; ?></label>
+                <label class="radio-inline">
+                    <input type="radio" name="enrolled_here_before" <?php echo set_value('enrolled_here_before') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="enrolled_here_before" <?php echo set_value('enrolled_here_before') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+                <span class="text-danger"><?php echo form_error('enrolled_here_before'); ?></span>
+            </div>
+            
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <input id="enrolled_here_before_year" disabled name="enrolled_here_before_year" placeholder="If yes, what school year?" type="text" class="form-control all-fields"  value="<?php echo set_value('enrolled_here_before_year'); ?>" autocomplete="off"/>                
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <input id="enrolled_here_before_level" disabled name="enrolled_here_before_level" placeholder="What grade level?" type="text" class="form-control all-fields"  value="<?php echo set_value('enrolled_here_before_level'); ?>" autocomplete="off"/>                
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="parents_alumnus"><?php echo "Are applicant's parents an alumnus/alumni of ". $school_code; ?></label>
+                <label class="radio-inline">
+                    <input type="radio" name="parents_alumnus" <?php echo set_value('parents_alumnus') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="parents_alumnus" <?php echo set_value('parents_alumnus') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+
+                <label><?php echo "If yes, what batch?"; ?></label>
+                <span class="text-danger"><?php echo form_error('parents_alumnus'); ?></span>
+            </div>            
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <input id="father_alumnus_batch_gs" disabled name="father_alumnus_batch_gs" placeholder="Father Grade 6" type="text" class="form-control all-fields"  value="<?php echo set_value('father_alumnus_batch_gs'); ?>" autocomplete="off"/>                
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <input id="mother_alumnus_batch_gs" disabled name="mother_alumnus_batch_gs" placeholder="Mother GS" type="text" class="form-control all-fields"  value="<?php echo set_value('mother_alumnus_batch_gs'); ?>" autocomplete="off"/>                
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <input id="mother_alumnus_batch_hs" disabled name="mother_alumnus_batch_hs" placeholder="Mother HS" type="text" class="form-control all-fields"  value="<?php echo set_value('mother_alumnus_batch_hs'); ?>" autocomplete="off"/>                
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="has_internet"><?php echo "Do you have internet connection at home?"; ?></label>
+                <label class="radio-inline">
+                    <input type="radio" name="has_internet" <?php echo set_value('has_internet') == "yes" ? "checked" : ""; ?> value="yes"> <?php echo $this->lang->line('yes'); ?>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="has_internet" <?php echo set_value('has_internet') == "no" ? "checked" : ""; ?> value="no"> <?php echo $this->lang->line('no'); ?>
+                </label>
+                <span class="text-danger"><?php echo form_error('has_internet'); ?></span>
+            </div>            
+        </div>
+
+        <div class="col-md-7">
+            <div class="form-group">
+                <label><?php echo "Type of internet connection"; ?></label>
+                <select class="form-control all-fields" name="type_of_internet" id="type_of_internet" disabled>
+                    <option value=""><?php echo $this->lang->line('select'); ?></option>
+                    <option value="mobile" <?php if (strtolower(set_value('mobile')) == 'mobile') echo "selected"; ?>>Mobile Data</option>
+                    <option value="dsl" <?php if (strtolower(set_value('dsl')) == 'dsl') echo "selected"; ?>>DSL</option>
+                </select>
+                <span class="text-danger"><?php echo form_error('type_of_internet'); ?></span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+            <label><?php echo "Siblings of the applicant starting from the eldest";?></label>
+            <!-- <button class="pull-right" id="addRow">Add new row</button> -->
+            <table id="siblings_admission" class="table table-bordered example" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Name</th>
+                        <th style="width: 10%;">Age</th>
+                        <th style="width: 10%;">Civil Status</th>
+                        <th style="width: 25%;">Grade Level/Occupation</th>
+                        <th style="width: 30%;">Name of School/Company</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                        for($i=0; $i<5; $i++) {?>
+                            <tr>
+                                 <td><input class="form-control" type="text" name="sibling_name[]" value="<?php echo set_value('sibling_name['.$i.']')?>"></td>
+                                 <td><input class="form-control" type="number" name="sibling_age[]" value="<?php echo set_value('sibling_age['.$i.']')?>" min="0"></td>
+                                 <td>
+                                    <select class="form-control" name="sibling_civil_status[]">
+                                        <option value=""></option>
+                                        <option value="single" <?php echo set_value('sibling_civil_status['.$i.']') == 'single' ? 'selected' : ""?>>Single</option>
+                                        <option value="married"<?php echo set_value('sibling_civil_status['.$i.']') == 'married' ? 'selected' : ""?> >Married</option>
+                                        <option value="separated" <?php echo set_value('sibling_civil_status['.$i.']') == 'separated' ? 'selected' : ""?>>Separated</option>
+                                        <option value="widower" <?php echo set_value('sibling_civil_status['.$i.']') == 'widower' ? 'selected' : ""?>>Widower</option>
+                                    </select>
+                                 </td>
+                                 <td><input class="form-control" type="text" name="sibling_glo[]" value="<?php echo set_value('sibling_glo['.$i.']')?>"></td>
+                                <td><input class="form-control" type="text" name="sibling_nsc[]" value="<?php echo set_value('sibling_nsc['.$i.']')?>"></td>
+                            </tr>                            
+                        <?php }
+                    ?>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+            </div>
+        </div>
+
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="current_address"><?php echo $this->lang->line('current_address'); ?></label><small class="req"> *</small> 
                 <textarea rows="3" id="current_address" name="current_address" placeholder=""  class="form-control" ><?php echo set_value('current_address'); ?></textarea>
                 <span class="text-danger"><?php echo form_error('current_address'); ?></span>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" <?php echo set_value('permanent_address_is_current_address') == "on" ? "checked" : ""; ?>>
-                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
-                </label>
-            </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="permanent_address"><?php echo $this->lang->line('permanent_address'); ?></label><small class="req"> *</small> 
                 <textarea rows="3" id="permanent_address" name="permanent_address" placeholder="" class="form-control"><?php echo set_value('current_address'); ?></textarea>
                 <span class="text-danger"><?php echo form_error('permanent_address'); ?></span>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="guardian_address_is_current_address" name="guardian_address_is_current_address" <?php echo set_value('guardian_address_is_current_address') == "on" ? "checked" : ""; ?>>
+                    <?php echo $this->lang->line('if_guardian_address_is_current_address'); ?>
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="permanent_address_is_current_address" name="permanent_address_is_current_address" <?php echo set_value('permanent_address_is_current_address') == "on" ? "checked" : ""; ?>>
+                    <?php echo $this->lang->line('if_permanent_address_is_current_address'); ?>
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">    
                 <label><?php echo $this->lang->line('living_with_parents');?></label><small class="req"> *</small> 
                 <label class="radio-inline">
@@ -804,8 +989,7 @@ if (!$form_admission) {
                 <label><?php echo $this->lang->line('living_with_parents_specify');?></label>
                 <input id="living_with_parents_specify" disabled name="living_with_parents_specify" placeholder="If no, please specify" type="text" class="form-control all-fields"  value="<?php echo set_value('living_with_parents_specify'); ?>" autocomplete="off"/>
             </div>
-        </div>
-        
+        </div>        
     </div>
     <!-- End Guardian Details -->
 
@@ -816,83 +1000,83 @@ if (!$form_admission) {
         <div class="form-group col-md-12">
             <label>Does the learner have special education needs? (i.e. physical, mental, developmental disability, medical condition, giftedness, among others)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
             <label class="radio-inline">
-                <input type="radio" name="special_needs" <?php echo set_value('special_needs') == "yes" ? "checked" : ""; ?>   value="father"> Yes
+                <input type="radio" name="has_special_needs" <?php echo set_value('has_special_needs') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
             </label>
             <label class="radio-inline">
-                <input type="radio" name="special_needs" <?php echo set_value('special_needs') == "no" ? "checked" : ""; ?>   value="mother"> No
+                <input type="radio" name="has_special_needs" <?php echo set_value('has_special_needs') == "no" ? "checked" : ""; ?>   value="no"> No
             </label>
             
-            <span class="text-danger"><?php echo form_error('guardian_is'); ?></span>
+            <span class="text-danger"><?php echo form_error('has_special_needs'); ?></span>
         </div>
 
         <div class="form-group col-md-12">
             <label>Do you have any assistive technology devices available at home? (i.e. screen reader, Braille, DAISY)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
             <label class="radio-inline">
-                <input type="radio" name="assistive_technology" <?php echo set_value('assistive_technology') == "yes" ? "checked" : ""; ?>   value="father"> Yes
+                <input type="radio" name="has_assistive_device" <?php echo set_value('has_assistive_device') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
             </label>
             <label class="radio-inline">
-                <input type="radio" name="assistive_technology" <?php echo set_value('assistive_technology') == "no" ? "checked" : ""; ?>   value="mother"> No
+                <input type="radio" name="has_assistive_device" <?php echo set_value('has_assistive_device') == "no" ? "checked" : ""; ?>   value="no"> No
             </label>
             
-            <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
+            <span class="text-danger"><?php echo form_error('has_assistive_device'); ?></span>
         </div>
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>General Condition of Health<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
-            <textarea rows="3" id="general_condition" name="general_condition" placeholder=""  class="form-control" ><?php echo set_value('general_condition'); ?></textarea>
+            <textarea rows="3" id="general_health_condition" name="general_health_condition" placeholder=""  class="form-control" ><?php echo set_value('general_health_condition'); ?></textarea>
             
-            <span class="text-danger"><?php echo form_error('general_condition'); ?></span>
+            <span class="text-danger"><?php echo form_error('general_health_condition'); ?></span>
         </div>
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>Common Health Complaints<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
-            <textarea rows="3" id="common_complaints" name="common_complaints" placeholder=""  class="form-control" ><?php echo set_value('common_complaints'); ?></textarea>
+            <textarea rows="3" id="health_complaints" name="health_complaints" placeholder=""  class="form-control" ><?php echo set_value('health_complaints'); ?></textarea>
             
-            <span class="text-danger"><?php echo form_error('common_complaints'); ?></span>
+            <span class="text-danger"><?php echo form_error('health_complaints'); ?></span>
         </div>
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>Working from home due to community quarantine? (Father)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
             <label class="radio-inline">
-                <input type="radio" name="work_from_home_father" <?php echo set_value('work_from_home_father') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                <input type="radio" name="father_work_from_home" <?php echo set_value('father_work_from_home') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
             </label>
             <label class="radio-inline">
-                <input type="radio" name="work_from_home_father" <?php echo set_value('work_from_home_father') == "no" ? "checked" : ""; ?>   value="no"> No
+                <input type="radio" name="father_work_from_home" <?php echo set_value('father_work_from_home') == "no" ? "checked" : ""; ?>   value="no"> No
             </label>
             
             <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>Working from home due to community quarantine? (Mother)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
             <label class="radio-inline">
-                <input type="radio" name="work_from_home_mother" <?php echo set_value('work_from_home_mother') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                <input type="radio" name="mother_work_from_home" <?php echo set_value('mother_work_from_home') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
             </label>
             <label class="radio-inline">
-                <input type="radio" name="work_from_home_mother" <?php echo set_value('work_from_home_mother') == "no" ? "checked" : ""; ?>   value="no"> No
+                <input type="radio" name="mother_work_from_home" <?php echo set_value('mother_work_from_home') == "no" ? "checked" : ""; ?>   value="no"> No
             </label>
             
             <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
         </div>
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>Working from home due to community quarantine? (Guardian)<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
             <label class="radio-inline">
-                <input type="radio" name="work_from_home_guardian" <?php echo set_value('work_from_home_guardian') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                <input type="radio" name="guardian_work_from_home" <?php echo set_value('guardian_work_from_home') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
             </label>
             <label class="radio-inline">
-                <input type="radio" name="work_from_home_guardian" <?php echo set_value('work_from_home_guardian') == "no" ? "checked" : ""; ?>   value="no"> No
+                <input type="radio" name="guardian_work_from_home" <?php echo set_value('guardian_work_from_home') == "no" ? "checked" : ""; ?>   value="no"> No
             </label>
             
             <span class="text-danger"><?php echo form_error('assistive_technology'); ?></span>
         </div>
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>Is your family a beneficiary of 4P's?<small class="req"> *</small>&nbsp;&nbsp;&nbsp;</label>
             <label class="radio-inline">
-                <input type="radio" name="beneficiary_4p" <?php echo set_value('beneficiary_4p') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
+                <input type="radio" name="family_pppp" <?php echo set_value('family_pppp') == "yes" ? "checked" : ""; ?>   value="yes"> Yes
             </label>
             <label class="radio-inline">
-                <input type="radio" name="beneficiary_4p" <?php echo set_value('beneficiary_4p') == "no" ? "checked" : ""; ?>   value="no"> No
+                <input type="radio" name="family_pppp" <?php echo set_value('family_pppp') == "no" ? "checked" : ""; ?>   value="no"> No
             </label>
             
             <span class="text-danger"><?php echo form_error('common_complaints'); ?></span>
@@ -1368,7 +1552,7 @@ if (!$form_admission) {
                 }
             }
         }
-    );
+    );    
 
     $('input:radio[name="has_siblings_enrolled"]').change(
         function () {
@@ -1379,6 +1563,54 @@ if (!$form_admission) {
                 }
                 else {
                     $('#siblings_specify').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="enrolled_here_before"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#enrolled_here_before_year').prop('disabled', false);
+                    $('#enrolled_here_before_level').prop('disabled', false);
+                }
+                else {
+                    $('#enrolled_here_before_year').prop('disabled', true);
+                    $('#enrolled_here_before_level').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="parents_alumnus"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#father_alumnus_batch_gs').prop('disabled', false);
+                    $('#mother_alumnus_batch_gs').prop('disabled', false);
+                    $('#mother_alumnus_batch_hs').prop('disabled', false);
+                }
+                else {
+                    $('#father_alumnus_batch_gs').prop('disabled', true);
+                    $('#mother_alumnus_batch_gs').prop('disabled', true);
+                    $('#mother_alumnus_batch_hs').prop('disabled', true);
+                }
+            }
+        }
+    );
+
+    $('input:radio[name="has_internet"]').change(
+        function () {
+            if ($(this).is(':checked')) {
+                var value = $(this).val();
+                if (value === "yes") {
+                    $('#type_of_internet').prop('disabled', false);
+                }
+                else {
+                    $('#type_of_internet').prop('disabled', true);
                 }
             }
         }

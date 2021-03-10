@@ -61,7 +61,7 @@ class Conduct_model extends MY_Model
                 AND student_session.section_id = $section                
                 ORDER BY gender DESC, student_name ASC";
 
-        // print_r($sql);die();s
+        // print_r($sql);die();
 
         $query = $this->db->query($sql);
         return $query->result();
@@ -97,16 +97,6 @@ class Conduct_model extends MY_Model
     {
         $this->writedb->trans_start(); # Starting Transaction
         $this->writedb->trans_strict(false);
-
-        // $this->writedb->where('school_year', $data["school_year"]);
-        // $this->writedb->where('quarter', $data["quarter"]);
-        // $this->writedb->where('student_id', $data["student_id"]);
-        // $this->writedb->where('teacher_id', $data["teacher_id"]);
-        // $this->writedb->where('grade_level', $data["grade_level"]);
-        // $this->writedb->where('section_id', $data["section_id"]);
-        // $this->writedb->delete('grading_conduct_numeric');
-
-        // $this->writedb->insert('grading_conduct_numeric', $data);
         
         // print_r($data);
 
