@@ -503,11 +503,11 @@ class Assessment extends General_Controller {
         $this->writedb->update("survey_sheets", $data);
     }
 
-    public function upload($id){
-        
+    public function upload($id)
+    {
         // print_r(strpos($_FILES['survey_form']['type'], "pdf"));
-
-        if(strpos($_FILES['assessment_form']['type'], "pdf")!==0){
+        if(strpos($_FILES['assessment_form']['type'], "pdf")!==0)
+        {
             $tmp_name = $_FILES['assessment_form']['tmp_name'];
             $file_name = $this->assessment_model->id_generator("assessment").".pdf";
             $dest = FCPATH."uploads/lms_assessment/".$id."/".$file_name;
@@ -516,14 +516,17 @@ class Assessment extends General_Controller {
 			//mkdir(FCPATH."uploads/EMN");
 			$folderCreated = false;
 			
-            if(!is_dir(FCPATH."uploads/lms_assessment/".$id)){
+            if(!is_dir(FCPATH."uploads/lms_assessment/".$id))
+            {
 				try {
 					mkdir(FCPATH."uploads/lms_assessment/".$id);
 					$folderCreated = true;
 				} catch(ErrorException $ex) {
 					echo "<script>alert('Upload failed! (".$ex->getMessage().")');window.location.replace('".site_url('lms/assessment/edit/'.$id)."')</script>";
 				}                
-            }			
+            } 
+            else 
+                $folderCreated = true;
             
 			if ($folderCreated == true) {
 				if(move_uploaded_file($tmp_name, $dest)){
