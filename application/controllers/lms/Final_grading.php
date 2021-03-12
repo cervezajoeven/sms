@@ -151,7 +151,7 @@ class Final_grading extends General_Controller {
         foreach ($grades as $grades_key => $grades_value) {
            $return_data[$grades_value['student_id']] = $grades_value;
         }
-        return $grades;
+        return $return_data;
     }
     
 
