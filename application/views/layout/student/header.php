@@ -368,6 +368,8 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                         <?php }
                         ?>
 
+                        <li class="<?php echo set_Topmenu('Teachers'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/student_grades"><i class="fa fa-book ftlayer"></i> <span>Students Grades</span></a></li>
+
                     </ul>
                 </section>              
             </aside> 
