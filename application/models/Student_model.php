@@ -2236,14 +2236,16 @@ return false;
     public function getClassSection($id)
     {
 
-        $query = $this->db->SELECT("*")->join("sections", "class_sections.section_id = sections.id")->where("class_sections.class_id", $id)->get("class_sections");
+        $query = $this->db->SELECT("*")->join("sections", "class_sections.section_id = sections.id")->where("class_sections.class_id", $id)
+
+        ->get("class_sections");
         return $query->result_array();
     }
 
     public function getStudentClassSection($id, $sessionid)
     {
 
-        $query = $this->db->SELECT("students.firstname,students.id,students.lastname,students.image,student_session.section_id,students.enrollment_payment_status")->join("student_session", "students.id = student_session.student_id")->where("student_session.class_id", $id)->where("student_session.session_id", $sessionid)->where("students.is_active", "yes")->get("students");
+        $query = $this->db->SELECT("students.firstname,students.id,students.lastname,students.image,student_session.section_id,students.enrollment_payment_status")->join("student_session", "students.id = student_session.student_id")->where("student_session.class_id", $id)->where("student_session.session_id", $sessionid)->where("students.is_active", "yes")->order_by("students.lastname","ASC")->get("students");
 
         return $query->result_array();
         //SELECT `students`.`firstname`, `students`.`id`, `students`.`lastname`, `students`.`image`, `student_session`.`section_id` FROM `students` JOIN `student_session` ON `students`.`id` = `student_session`.`student_id` WHERE `student_session`.`class_id` = '1' AND `student_session`.`session_id` = '14' AND `students`.`is_active` = 'yes'
