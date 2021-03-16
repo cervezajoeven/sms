@@ -39,6 +39,7 @@ class Conduct_model extends MY_Model
                 ORDER BY grading_conduct_indicators.id ASC";
 
         $query = $this->db->query($sql);
+        // print_r($this->db->error());die();
         return $query->result();
     }
 

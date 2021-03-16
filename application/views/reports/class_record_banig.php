@@ -15,10 +15,10 @@
                     </div>
 
                     <div class="box-body">    
-                        <form role="form" action="<?php echo site_url('report/class_record_quarterly') ?>" method="post" class="">
+                        <form role="form" action="<?php echo site_url('report/class_record_banig') ?>" method="post" class="">
                             <div class="row">
                                 <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="col-sm-6 col-md-2">
+                                <div class="col-sm-6 col-md-4">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('current_session'); ?></label><small class="req"> *</small>
                                         <select autofocus="" id="session_id" name="session_id" class="form-control" >
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>                                 
 
-                                <div class="col-sm-6 col-md-2">
+                                <div class="col-sm-6 col-md-4">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
                                         <select autofocus="" id="class_id" name="class_id" class="form-control" >
@@ -54,7 +54,7 @@
                                     </div>
                                 </div> 
 
-                                <div class="col-sm-6 col-md-2">
+                                <div class="col-sm-6 col-md-4">
                                     <div class="form-group">  
                                         <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
                                         <select  id="section_id" name="section_id" class="form-control" >
@@ -63,34 +63,6 @@
                                         <span class="text-danger"><?php echo form_error('section_id'); ?></span>
                                     </div>  
                                 </div>
-
-                                <div class="col-sm-6 col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
-                                        <select autofocus="" id="subject_id" name="subject_id" class="form-control" >
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                        </select>
-                                        <span class="text-danger"><?php echo form_error('subject_id'); ?></span>
-                                    </div>
-                                </div> 
-
-                                <div class="col-sm-6 col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo $this->lang->line('teacher'); ?></label><small class="req"> *</small>
-                                        <select autofocus="" id="teacher_id" name="teacher_id" class="form-control" >
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php
-                                            foreach ($teacher_list as $teacher) {
-                                                ?>
-                                                <option value="<?php echo $teacher['id'] ?>" <?php if (set_value('teacher_id') == $teacher['id']) echo "selected=selected" ?>><?php echo $teacher['teacher'] ?></option>
-                                                <?php
-                                                //$count++;
-                                            }
-                                            ?>
-                                        </select>
-                                        <span class="text-danger"><?php echo form_error('teacher_id'); ?></span>
-                                    </div>
-                                </div>                                 
                                 
                                 <div class="form-group">
                                     <div class="col-sm-12">
@@ -103,65 +75,64 @@
             
                     <div class="box box-warning">
                         <div class="box-header ptbnull">
-                            <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Summary of Quarterly Grades<?php //echo $this->lang->line('class_record_summary') ; ?></h3>
+                            <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> DepEd Banig<?php ?></h3>
                         </div>
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) {?>
-                            <div class="download_label"><?php echo $this->lang->line('class_record_summary')."<br>";$this->customlib->get_postmessage();?></div>
-                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
+                            <div class="download_label"><?php echo "DEPED BANIG - ";$this->customlib->get_postmessage();?></div>
+                                <table class="table cell-border nowrap banig" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th rowspan=2>Learner Names</th>
-                                            <th rowspan=2>Gender</th>
+                                            <th rowspan="2" class="text-center">Learner Names</th>
+                                            <th rowspan="2" class="text-center">Gender</th>
                                             <?php
-                                                foreach($quarter_list as $row) {
-                                                    echo "<th class=\"text-center\">".$subject_name."</th>\r\n";
+                                                foreach($subject_list as $row) {
+                                                    echo "<th colspan=\"5\" class=\"text-center\">".$row->subject."</th>\r\n";
                                                 }
                                             ?>
+                                            <th colspan="4" class="text-center">Averages</th>
+                                            <th rowspan="2" class="text-center">COMPUTED AVE.</th>
                                         </tr>
                                         <tr>
                                             <?php
-                                                foreach($quarter_list as $row) {
-                                                    echo "<th class=\"text-center\">".$row->name."</th>\r\n";
+                                                foreach($subject_list as $row) {
+                                                    foreach($quarter_list as $row) {
+                                                        echo "<th class=\"text-center\">".$row->name."</th>\r\n";
+                                                    }
+
+                                                    echo('<th class="text-center">Ave.</th>');
                                                 }
                                             ?>
-                                            <th class="text-center">Average</th>
-                                            <th class="text-center">Final Grade</th>
+                                            <th class="text-center">Q1</th>
+                                            <th class="text-center">Q2</th>
+                                            <th class="text-center">Q3</th>
+                                            <th class="text-center">Q4</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php                                 
-                                        // foreach($resultlist as $row) {
-                                        //     $ctr=0;
-                                        //     $is_zero = false;
-                                        //     echo "<tr>\r\n";
-                                        //     foreach($row as $val) {
-                                        //         if (!is_numeric($val))//($ctr<=1)
-                                        //             echo "<td class='text-left'>".$val."</td>\r\n";
-                                        //         else {
-                                        //             // if ($val == 0) $is_zero = true;
-                                        //             echo "<td class='text-center'>".$val."</td>\r\n";
-                                                    
-                                        //         }
-                                                    
-                                        //         $ctr++;
-                                        //     }
-                                        //     echo "</tr>\r\n";
-                                        // }
-                                        // foreach($resultlist as $row):
-                                        //     $average = ($row->first == 0 || $row->second == 0 || $row->third == 0 || $row->fourth == 0) ? '' : $row->average;
-                                        //     $final = ($row->first == 0 || $row->second == 0 || $row->third == 0 || $row->fourth == 0) ? '' : $row->final_grade;
+                                        foreach($resultlist as $row) 
+                                        {
+                                            $ctr=0;
+                                            $is_zero = false;
+                                            echo "<tr>\r\n";
 
-                                        //     echo "<tr>\r\n";
-                                        //     echo "<td class='text-left'>".$row->student_name."</td>\r\n";
-                                        //     echo "<td class='text-left'>".$row->gender."</td>\r\n";
-                                        //     echo "<td class='text-center".($row->first < 75 ? " text-danger" : ($row->first >= 90 ? " text-success" : ""))."'><b>".($row->first == 0 ? '' : $row->first)."</b></td>\r\n";
-                                        //     echo "<td class='text-center".($row->second < 75 ? " text-danger" : ($row->second >= 90 ? " text-success" : ""))."'><b>".($row->second == 0 ? '' : $row->second)."</b></td>\r\n";
-                                        //     echo "<td class='text-center".($row->third < 75 ? " text-danger" : ($row->third >= 90 ? " text-success" : ""))."'><b>".($row->third == 0 ? '' : $row->third)."</b></td>\r\n";
-                                        //     echo "<td class='text-center".($row->fourth < 75 ? " text-danger" : ($row->fourth >= 90 ? " text-success" : ""))."'><b>".($row->fourth == 0 ? '' : $row->fourth)."</b></td>\r\n";
-                                        //     echo "<td class='text-center".($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : ""))."'><b>$average</b></td>\r\n";
-                                        //     echo "<td class='text-center".($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : ""))."'><b>$final</b></td>\r\n";
-                                        //     echo "</tr>\r\n";
+                                            foreach($row as $value) 
+                                            {
+                                                if (!is_numeric($value))
+                                                    echo "<td class='text-left'>".$value."</td>\r\n";
+                                                else
+                                                    if ($value <= 0)
+                                                        echo "<td class='text-center'></td>\r\n";
+                                                    else
+                                                        echo "<td class='text-center'>".$value."</td>\r\n";
+
+                                                $ctr++;
+                                            }
+
+                                            echo "</tr>\r\n";
+                                        }
+                                        // foreach($resultlist as $row):
                                         // endforeach
                                         ?>
                                     </tbody>
@@ -241,6 +212,82 @@ var base_url = '<?php echo base_url() ?>';
     }
 
     $(document).ready(function () {
+        var table = $('.banig').DataTable({
+            paging: false,
+            ordering: false,
+            searching: false,
+            dom: "Bfrtip",
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="fa fa-files-o"></i>',
+                    titleAttr: 'Copy',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Excel',
+                   
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: 'CSV',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
+                    titleAttr: 'PDF',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                        
+                    }
+                },
+
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Print',
+                    title: $('.download_label').html(),
+                        customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'colvis',
+                    text: '<i class="fa fa-columns"></i>',
+                    titleAttr: 'Columns',
+                    title: $('.download_label').html(),
+                    postfixButtons: ['colvisRestore']
+                },
+            ]
+        });
+
         class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
         var subject_id = '<?php echo set_value('subject_id') ?>';

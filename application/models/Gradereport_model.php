@@ -50,10 +50,10 @@ class Gradereport_model extends CI_Model
         $this->writedb->where('id', $id);
         $this->writedb->delete($table); 
 
-        $message   = DELETE_RECORD_CONSTANT . " On ".$table." id " . $id;
-        $action    = "Delete";
-        $record_id = $id;
-        $this->log($message, $record_id, $action);
+        // $message   = DELETE_RECORD_CONSTANT . " On ".$table." id " . $id;
+        // $action    = "Delete";
+        // $record_id = $id;
+        // $this->log($message, $record_id, $action);
         //======================Code End==============================
         $this->writedb->trans_complete(); # Completing transaction
         /*Optional*/
@@ -152,7 +152,7 @@ class Gradereport_model extends CI_Model
     public function get_subject_list($gradelevel, $schoolyear)
     {
         //-- Get subject list
-        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average, subjects.transmuted
+        $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average, subjects.transmuted, subjects.code
                 FROM subject_groups
                 JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                 JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -337,6 +337,7 @@ class Gradereport_model extends CI_Model
         $resultdata = $this->get_quarter_list();
         $average_columns = "";
         $average_column = "";
+        $subquery = "";
         $colcount = 0;
 
         foreach($resultdata as $row) {
@@ -394,6 +395,7 @@ class Gradereport_model extends CI_Model
 
         // return $sql;
         $query = $this->db->query($sql);
+        // print_r($this->db->last_query());die();
         return $query->result();
     }
 
@@ -494,5 +496,126 @@ class Gradereport_model extends CI_Model
         // // $result = $this->db->get()->result_array();
         // $result = $this->db->get()->row();
         // return $result->conduct_grade;
+    }
+
+    public function generate_Banig($_school_year, $_grade_level, $_section)
+    {
+        $quarter_columns = "";        
+        $average_columns = "";
+        $average_column = "";
+        $subquery = "";
+        $colcount = 0;
+
+        $quarters = $this->get_quarter_list();
+        foreach($quarters as $row) 
+        {
+            if (!empty($average_column)) 
+                $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+            else 
+                $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+
+            $subquery .= " LEFT JOIN 
+                         (
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, teacher_id, 
+                            CASE 
+                            WHEN subjects.transmuted = 1 
+                              THEN fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) 
+                              ELSE CASE
+                                     WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
+                                      THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
+                                      ELSE ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent))
+                                   END
+                            END AS quarterly_grade 
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, teacher_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              FROM vw_class_record
+                              WHERE section_id  = ".$_section." 
+                              AND grade  = ".$_grade_level." 
+                              AND school_year = ".$_school_year." 
+                              AND subject_id = ~replace_with_subject_id~ 
+                              AND quarter = ".$row->id." 
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
+                            GROUP BY school_year, quarter, student_id
+                         ) tbl".$row->id." ON tbl".$row->id.".student_id = students.id ";
+
+            $colcount++;
+        }
+
+        $average_columns = " CEIL((".$average_column.")/".$colcount.") AS average";
+
+        $columns_selected = "";
+        $sql = "";
+        $left_join_on = "";
+        $table_alias = "maintbl";
+        $subject_counter = 1;
+        $quarter_sum = [];
+
+        // $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" .$row->subject. "'" ;
+        $subjects = $this->get_subject_list($_grade_level, $_school_year);
+        foreach($subjects as $row) 
+        {
+            if (!empty($sql))
+            {
+                $sql .= " LEFT JOIN ";
+                $table_alias = "main_".$row->subject_id;
+                $left_join_on = " ON ".$table_alias.".student_name_".$subject_counter." = maintbl.student_name_1 ";                
+            }
+
+            //-- get fields to show
+            if (empty($columns_selected))
+            {
+                $columns_selected .= "maintbl.student_name_".$subject_counter.",maintbl.gender_".$subject_counter;
+            }
+
+            $quarter_columns = "";
+            $arrptr = 0;
+            foreach($quarters as $qrow) 
+            {
+                if (!empty($quarter_columns)) 
+                    $quarter_columns .= ", IFNULL(tbl".$qrow->id.".quarterly_grade, 0) AS ".$qrow->name."_".$subject_counter;
+                else 
+                    $quarter_columns .= " IFNULL(tbl".$qrow->id.".quarterly_grade, 0) AS ".$qrow->name."_".$subject_counter;
+
+                $quarter_sum[$arrptr] .= !empty($quarter_sum[$arrptr]) ? " + " : "";
+                $quarter_sum[$arrptr] .= $table_alias . ".".$qrow->name."_".$subject_counter;
+
+                $columns_selected .= ",".$table_alias . ".".$qrow->name."_".$subject_counter;
+
+                $arrptr++;
+            }
+
+            $columns_selected .= ",average_".$subject_counter;
+            
+            $sql .= "(SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name_".$subject_counter.", UPPER(gender) AS gender_".$subject_counter.", $quarter_columns, ".$average_columns."_".$subject_counter."
+                    FROM students 
+                    LEFT JOIN student_session ON student_session.student_id = students.id 
+                    ".str_replace('~replace_with_subject_id~', $row->subject_id, $subquery)." 
+                    WHERE student_session.class_id = ".$_grade_level." 
+                    AND student_session.section_id = ".$_section." 
+                    AND student_session.session_id = ".$_school_year.") " . $table_alias . $left_join_on;
+
+            $subject_counter++;
+        }
+
+        $main_sql = "SELECT ".$columns_selected.", ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave, 
+                     ROUND(((((~first_sum~)/~subject_count~) + ((~second_sum~)/~subject_count~) + ((~third_sum~)/~subject_count~) + ((~fourth_sum~)/~subject_count~)) / 4), 3) as comp_ave FROM ";
+
+        // $main_sql = "SELECT ".$columns_selected.", ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave FROM ";
+
+        $main_sql = str_replace("~first_sum~", $quarter_sum[0], $main_sql);
+        $main_sql = str_replace("~second_sum~", $quarter_sum[1], $main_sql);
+        $main_sql = str_replace("~third_sum~", $quarter_sum[2], $main_sql);
+        $main_sql = str_replace("~fourth_sum~", $quarter_sum[3], $main_sql);
+
+        $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
+
+        $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
+        // print_r($this->db->last_query());die();
+        // print_r(json_encode($query->result()));die();
+        return $query->result();
     }
 }

@@ -3,6 +3,11 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Report extends Admin_Controller {
 
     function __construct() {
@@ -1763,7 +1768,6 @@ $attd=array();
         $data['session_list'] = $this->session_model->getAllSession();
         $data['teacher_list'] = $this->gradereport_model->get_teacher_list();     
         $data['quarter_list'] = $this->gradereport_model->get_quarter_list();   
-        // print_r("CloudPH Debug Mode 2");die();
         // $carray = array();
 
         // if (!empty($data["classlist"])) { $sch_setting->session_id
@@ -1794,7 +1798,7 @@ $attd=array();
                 $section = $this->input->post('section_id');
                 $subject = $this->input->post('subject_id');
                 $teacher = $this->input->post('teacher_id');
-                
+                // print_r("CloudPH Debug Mode 2");die();
                 $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject, $teacher);
                 // $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject);
                 // print_r($class_record);die();
@@ -1841,7 +1845,7 @@ $attd=array();
             $session = $this->input->post('session_id');
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
-            $student = $this->input->post('student_id');
+            $student_id = $this->input->post('student_id');
             $data['session_id'] = $session;
             $data['class_id'] = $grade_level;
             $data['section_id']  = $section;
@@ -1860,20 +1864,20 @@ $attd=array();
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
-                $student = $this->input->post('student_id');
+                $student_id = $this->input->post('student_id');
 
                 $student_conduct = null;
                 if ($this->sch_setting_detail->conduct_grade_view == 0)
                 {
                     if ($this->sch_setting_detail->conduct_grading_type == 'letter')
-                        $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student);
+                        $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
                     else if ($this->sch_setting_detail->conduct_grading_type == 'number')
-                        $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student);
+                        $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student_id);
                 }
 
                 $data['student_conduct'] = $student_conduct;
 
-                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student, $grade_level, $section);
+                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                 // print_r(json_encode($class_record));die();
                 // print_r($class_record);die();
                 $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
@@ -1882,7 +1886,7 @@ $attd=array();
                 $data['class_id'] = $grade_level;
                 $data['section_id']  = $section;
                 $data['student_id'] = $student_id;
-                $studentinfo = $this->student_model->get($student);
+                $studentinfo = $this->student_model->get($student_id);
                 $data['student'] = $studentinfo;
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/class_record_per_student', $data);
@@ -1910,5 +1914,80 @@ $attd=array();
     //     $this->load->view('parent/student/getclassrecord', $data);
     //     $this->load->view('layout/parent/footer', $data);
     // }
+
+    public function class_record_banig() {        
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'Reports/student_information');
+        $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_banig');
+        
+        $data['title'] = 'Class Record Banig';
+        $class = $this->class_model->get();
+        $data['classlist'] = $class;
+        $data['sch_setting'] = $this->sch_setting_detail;
+        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+        $data['session_list'] = $this->session_model->getAllSession();
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+        
+        $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+
+        if ($this->input->server('REQUEST_METHOD') == "GET") {            
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/class_record_banig', $data);
+            $this->load->view('layout/footer', $data);
+        } else {
+            if ($this->form_validation->run() == false) {
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/class_record_banig', $data);
+                $this->load->view('layout/footer', $data);
+            } 
+            else {
+                $session = $this->input->post('session_id');
+                $grade_level = $this->input->post('class_id');
+                $section = $this->input->post('section_id');
+                   
+                $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session);
+                // print_r("CloudPH Debug Mode 2");die();
+                $class_record = $this->gradereport_model->generate_Banig($session, $grade_level, $section);
+                // print_r($class_record);die();
+
+                // $styleArray = array(
+                //     'borders' => array(
+                //         'outline' => array(
+                //             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+                //             'color' => array('argb' => '00000000'),
+                //         ),
+                //     ),
+                // );
+
+                // //-- Dump the data in excel file the force download to user
+                // $spreadsheet = new Spreadsheet();
+                // $sheet = $spreadsheet->getActiveSheet();
+                // $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+                // // $sheet->getColumnDimension('A')->setAutoSize(true);
+                // $sheet->getStyle('A10:B10')->getAlignment()->setHorizontal('center');
+                // // $sheet ->getStyle('A10')->applyFromArray($styleArray);
+                // // $sheet ->getStyle('A11')->applyFromArray($styleArray);
+
+                // $sheet->setCellValue('A10', 'NAME OF STUDENT');
+                // $sheet->setCellValue('B10', 'GENDER');
+
+                // $writer = new Xlsx($spreadsheet);
+                // $filename = $session."_".$grade_level."_".$section.".xlsx";
+                // $writer->save($filename);
+
+                // die();
+        
+                $data['resultlist'] = $class_record;
+                $data['session_id'] = $session;
+                $data['class_id'] = $grade_level;
+                $data['section_id']  = $section;
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/class_record_banig', $data);
+                $this->load->view('layout/footer', $data);
+            }
+        }
+    }
 }
 ?>

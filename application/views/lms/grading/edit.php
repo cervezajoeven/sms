@@ -105,7 +105,7 @@
 		        			<td>School Year</td>
 		        			<td><?php echo $school_year ?></td>
 		        			<form class="change_grade_section_form class_record" method="post" action="<?php echo base_url('lms/grading/update_grade_section/'.$class_record['id']) ?>">
-		        			<td>First Quarter</td>
+		        			<td>Quarter</td>
 		        			<td>
 		        				<select name="quarter" class="form-control grade_section quarter" disabled>
 			        				<?php foreach ($quarters as $quarter_key => $quarter_value): ?>

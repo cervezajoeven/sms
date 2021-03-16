@@ -84,11 +84,10 @@ class Conduct extends General_Controller {
                 $quarter = $this->input->post('quarter_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
-                $student = $this->input->post('student_id');                
+                $student = $this->input->post('student_id');
 
                 $class_record = $this->conduct_model->get_student_conduct_record($session, $quarter, $grade_level, $section, $student, $data['user_id']);
                 $data['resultlist'] = $class_record;
-                // print_r(json_encode($class_record));die();
                 // print_r($class_record);die();
                 // $data['quarter_list'] = $this->general_model->lms_get('grading_quarter',"","");
                 // $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();                
