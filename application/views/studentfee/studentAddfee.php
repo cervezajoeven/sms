@@ -45,7 +45,7 @@ $language_name = $language["short_code"];
                                         <div class="studentname">
                                             <a class="" href="<?php echo base_url() . "studentfee/addfee/" . $stvalue["id"] ?>">
                                                 <div class="icon"><img src="<?php echo base_url() . $stvalue["image"]; ?>" alt="User Image"></div>
-                                                <div class="student-tittle"><?php echo $stvalue["firstname"] . " " . $stvalue["lastname"]; ?></div></a>
+                                                <div class="student-tittle"><?php echo $stvalue["lastname"] . ", " . $stvalue["firstname"]." ".$stvalue["middlename"]; ?></div></a>
                                         </div>
                                         <?php
                                     }
