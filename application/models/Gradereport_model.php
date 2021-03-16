@@ -613,6 +613,8 @@ class Gradereport_model extends CI_Model
 
         $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
 
+        print_r($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");die();
+
         $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
         // print_r($this->db->last_query());die();
         // print_r(json_encode($query->result()));die();
