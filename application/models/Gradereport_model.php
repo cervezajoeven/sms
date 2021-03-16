@@ -568,7 +568,7 @@ class Gradereport_model extends CI_Model
             //-- get fields to show
             if (empty($columns_selected))
             {
-                $columns_selected .= "maintbl.student_name_".$subject_counter.",maintbl.gender_".$subject_counter;
+                $columns_selected .= "student_name_".$subject_counter.",gender_".$subject_counter;
             }
 
             $quarter_columns = "";
@@ -581,9 +581,9 @@ class Gradereport_model extends CI_Model
                     $quarter_columns .= " IFNULL(tbl".$qrow->id.".quarterly_grade, 0) AS ".$qrow->name."_".$subject_counter;
 
                 $quarter_sum[$arrptr] .= !empty($quarter_sum[$arrptr]) ? " + " : "";
-                $quarter_sum[$arrptr] .= $table_alias . ".".$qrow->name."_".$subject_counter;
+                $quarter_sum[$arrptr] .= $qrow->name."_".$subject_counter;
 
-                $columns_selected .= ",".$table_alias . ".".$qrow->name."_".$subject_counter;
+                $columns_selected .= ",".$qrow->name."_".$subject_counter;
 
                 $arrptr++;
             }
@@ -601,10 +601,11 @@ class Gradereport_model extends CI_Model
             $subject_counter++;
         }
 
-        $main_sql = "SELECT ".$columns_selected.", ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave, 
-                     ROUND(((((~first_sum~)/~subject_count~) + ((~second_sum~)/~subject_count~) + ((~third_sum~)/~subject_count~) + ((~fourth_sum~)/~subject_count~)) / 4), 3) as comp_ave FROM ";
+        // $main_sql = "SELECT ".$columns_selected.", 
+        //              ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave, 
+        //              ROUND(((((~first_sum~)/~subject_count~) + ((~second_sum~)/~subject_count~) + ((~third_sum~)/~subject_count~) + ((~fourth_sum~)/~subject_count~)) / 4), 3) as comp_ave FROM ";
 
-        // $main_sql = "SELECT ".$columns_selected.", ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave FROM ";
+        $main_sql = "SELECT ".$columns_selected.", ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave FROM ";
 
         $main_sql = str_replace("~first_sum~", $quarter_sum[0], $main_sql);
         $main_sql = str_replace("~second_sum~", $quarter_sum[1], $main_sql);
@@ -613,9 +614,13 @@ class Gradereport_model extends CI_Model
 
         $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
 
-        print_r($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");die();
+        print_r("SELECT ".$columns_selected.", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
+                 FROM (". $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC"); die();
 
-        $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
+        $query = $this->db->query("SELECT ".$columns_selected.", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
+                                   FROM (". $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
+        // $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
+        
         // print_r($this->db->last_query());die();
         // print_r(json_encode($query->result()));die();
         return $query->result();
