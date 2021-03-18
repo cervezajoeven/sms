@@ -39,7 +39,12 @@
                         </div>
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
-
+                            <form action="<?php echo base_url('lms/lesson/past')?>" method="POST">
+                                <input type="text" name="lesson_name" class="form-control col-lg-6" placeholder="Search for Lessons" name="">
+                                <button type="submit" class="btn btn-success form-control col-lg-6">Search</button>
+                                <input type="hidden" name="lesson_query" value="past">
+                            </form>
+                            
                             <table class="table table-striped table-bordered table-hover example nowrap">
                                 <thead>
                                     <tr>

@@ -232,7 +232,78 @@ class Lesson extends General_Controller {
         $this->load->view('layout/footer');
     }
 
-    function past($lesson_query="past") {
+    function past($lesson_query="past",$lesson_name="") {
+
+        $this->session->set_userdata('top_menu', 'Download Center');
+        $this->session->set_userdata('sub_menu', 'content/past');
+
+        $data['title'] = 'Lesson';
+
+        $data['role'] = $this->general_model->get_role();
+        $data['real_role'] = $this->general_model->get_real_role();
+        $data['classes'] = $this->general_model->get_classes();
+        $data['subjects'] = $this->general_model->get_subjects(); 
+        $data['user_id'] = $this->general_model->get_account_id(); 
+        $data['heading'] = "Past Lessons";
+        $data['lesson_sched'] = "past";
+        $data['lesson_query'] = $lesson_query;
+        $lesson_name = $_REQUEST['lesson_name'];
+        if($data['role']=='admin'){
+            
+            $this->load->view('layout/header');
+            
+            if($data['real_role']=="7"||$data['real_role']=="1"){
+                if(!$lesson_name){
+                    $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"past");
+                }else{
+                    $data['list'] = $this->lesson_model->admin_lessons_search($this->general_model->get_account_id(),"past",$lesson_name);
+                    
+                }
+                
+                foreach ($data['list'] as $key => $value) {
+                    if($value['zoom_id']){
+                        $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                        $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                    }
+                    
+                    $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                    $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                    $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                    
+
+                }
+            }else{
+                $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(),"past");
+            }
+            
+            
+        }else{
+
+            
+            $this->load->view('layout/student/header');
+            $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(),"past");
+            foreach ($data['list'] as $key => $value) {
+                if($value['zoom_id']){
+                    $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];
+                    $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
+
+                }
+                
+                $teacher_info = $this->lesson_model->lms_get("staff",$value['account_id'],"id")[0];
+                $data['list'][$key]['teacher_name'] = $teacher_info['name'];
+                $data['list'][$key]['google_meet'] = $teacher_info['google_meet'];
+                
+
+            }
+
+        }
+        
+        $this->load->view('lms/lesson/index', $data);
+        $this->load->view('layout/footer');
+    }
+
+    function past_search($lesson_query="past",$search="") {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/past');
@@ -250,7 +321,7 @@ class Lesson extends General_Controller {
         if($data['role']=='admin'){
             $this->load->view('layout/header');
             if($data['real_role']=="7"||$data['real_role']=="1"){
-                $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"past");
+                $data['list'] = $this->lesson_model->admin_lessons_search($this->general_model->get_account_id(),"past",$search);
                 foreach ($data['list'] as $key => $value) {
                     if($value['zoom_id']){
                         $zoom_data = $this->lesson_model->lms_get("conferences",$value['zoom_id'],"id")[0];

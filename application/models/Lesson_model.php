@@ -65,6 +65,32 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
+    public function admin_lessons_search($account_id="",$folder="past",$search=""){
+        date_default_timezone_set('Asia/Manila');
+
+        $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name,staff.google_meet as teacher_google_meet");
+        $this->db->join("subjects","subjects.id = lms_lesson.subject_id");
+        $this->db->join("classes","classes.id = lms_lesson.grade_id","left");
+        $this->db->join("staff","staff.id = lms_lesson.account_id");
+        if($folder=="today"){
+            $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+            $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+        }else if($folder=="upcoming"){
+            $this->db->where('start_date >', date('Y-m-d H:i:s'));
+        }else{
+            $this->db->where('end_date <', date('Y-m-d H:i:s'));
+            $this->db->limit(1000);
+        }
+        
+        $this->db->like('lms_lesson.lesson_name',$search,'both');
+        $this->db->where('lms_lesson.deleted',0);
+        $this->db->order_by('lms_lesson.start_date',"desc");
+        $query = $this->db->get("lms_lesson");
+
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function admin_deleted($account_id="",$folder="today"){
         date_default_timezone_set('Asia/Manila');
         $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name");
