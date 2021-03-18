@@ -31,11 +31,12 @@ class Class_record extends Student_Controller
         
         $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
         $data['resultlist'] = $class_record;
-        $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
+        $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;       
 
         $student_conduct = null;
         if ($this->sch_setting_detail->conduct_grade_view == 0)
         {
+            // print_r("CloudPH Debug Mode");die();
             if ($this->sch_setting_detail->conduct_grading_type == 'letter')
                 $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
             else if ($this->sch_setting_detail->conduct_grading_type == 'number')

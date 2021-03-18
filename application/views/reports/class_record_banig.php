@@ -1,3 +1,19 @@
+<style>
+    thead {
+        border-top: 1px solid #dddddd;
+    }
+
+    th {
+        border-top: 1px solid #dddddd;
+        border-bottom: 1px solid #dddddd;
+        border-right: 1px solid #dddddd;
+    }
+    
+    th:first-child {
+        border-left: 1px solid #dddddd;
+    }
+</style>
+
 <div class="content-wrapper" style="min-height: 946px;">
     <section class="content-header">
         <h1><i class="fa fa-line-chart"></i> <?php echo $this->lang->line('reports'); ?> <small> <?php echo $this->lang->line('filter_by_name1'); ?></small></h1>
@@ -79,7 +95,7 @@
                         </div>
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) {?>
-                            <div class="download_label"><?php echo "DEPED BANIG - ";$this->customlib->get_postmessage();?></div>
+                            <div class="download_label"><?php echo "DEPED BANIG - (".$this->sch_setting_detail->name.")";$this->customlib->get_postmessage();?></div>
                                 <table class="table cell-border nowrap banig" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>

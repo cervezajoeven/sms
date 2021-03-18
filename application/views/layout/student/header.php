@@ -288,9 +288,9 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                             <?php
                         }
 
-                        if ($this->studentmodule_lib->hasActive('grading')) { ?>
+                        //if ($this->studentmodule_lib->hasActive('grading')) { ?>
                             <li class="<?php echo set_Topmenu('Class_Record'); ?>"><a href="<?php echo base_url(); ?>user/class_record"><i class="fa fa-file ftlayer"></i> <span><?php echo $this->lang->line('grades'); ?></span></a></li>
-                        <?php }
+                        <?php //}
                       
                         if ($this->studentmodule_lib->hasActive('examinations')) {
                             ?>
@@ -368,7 +368,7 @@ if($this->studentmodule_lib->hasActive('multi_class')){
                         <?php }
                         ?>
 
-                        <li class="<?php echo set_Topmenu('Teachers'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/student_grades"><i class="fa fa-book ftlayer"></i> <span>Students Grades</span></a></li>
+                        <!-- <li class="<?php //echo set_Topmenu('Teachers'); ?>"><a href="<?php //echo base_url(); ?>lms/final_grading/student_grades"><i class="fa fa-book ftlayer"></i> <span>Students Grades</span></a></li> -->
 
                     </ul>
                 </section>              

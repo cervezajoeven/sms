@@ -2923,6 +2923,7 @@ class Student extends Admin_Controller
             // echo "<pre>"; print_r($data); echo"<pre>";
             $this->student_model->grading_AddAllowedToView($data);                
         }        
+        // die();
     }
 
     function findIDInQuarterList($quarter, $hidden) {

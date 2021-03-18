@@ -809,8 +809,7 @@
                             margin: 5px;
                             z-index: 99999;
                             float: right;
-                            padding: 5px;
-                        "><i class="fas fa-times-circle"></i> Close</div>
+                            padding: 5px;"><i class="fas fa-times-circle"></i> Close</div>
                         
                           <h2 style="padding: 5px 30px;
                               margin: 0px;
@@ -822,9 +821,7 @@
                               font-weight: bolder;
                               margin-top: 0px;"
                               >CMS Teacher Tools</h2>
-                          <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 100%;height: 90%;position: relative;" >
-                            
-                          </iframe>
+                          <iframe id="classroomscreen" src="https://app.classroomscreen.com/" style="width: 100%;height: 90%;position: relative;" ></iframe>
 
                 </div>
 

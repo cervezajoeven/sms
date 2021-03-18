@@ -105,9 +105,12 @@
 		        			<td>School Year</td>
 		        			<td><?php echo $school_year ?></td>
 		        			<form class="change_grade_section_form class_record" method="post" action="<?php echo base_url('lms/grading/update_grade_section/'.$class_record['id']) ?>">
-		        			<td>Quarter</td>
+							
+							<?php $disable = $real_role == 1 || $real_role == 7 ? "" : "disabled"; ?>
+		        			
+							<td>Quarter</td>
 		        			<td>
-		        				<select name="quarter" class="form-control grade_section quarter" disabled>
+		        				<select name="quarter" class="form-control grade_section quarter" <?php echo $disable; ?>>
 			        				<?php foreach ($quarters as $quarter_key => $quarter_value): ?>
 		        						<option <?php echo ($quarter_value['id']==$class_record['quarter'])?"selected":""; ?> value="<?php echo $quarter_value['id'] ?>"><?php echo $quarter_value['description']; ?></option>
 		        					<?php endforeach ?>
@@ -119,7 +122,7 @@
 		        			<td>Grade</td>
 		        			
 		        				<td width="173px">
-			        				<select class="form-control grade_section" name="grade" disabled>
+			        				<select class="form-control grade_section" name="grade" <?php echo $disable; ?>>
 			        					<?php foreach ($classes as $class_key => $class_value): ?>
 			        						<option <?php echo ($class_value['id']==$class_record['grade'])?"selected":""; ?> value="<?php echo $class_value['id'] ?>"><?php echo $class_value['class']; ?></option>
 			        					<?php endforeach ?>
@@ -127,7 +130,7 @@
 			        			</td>
 			        			<td>Section</td>
 			        			<td>
-			        				<select class="form-control grade_section class_record" name="section" disabled>
+			        				<select class="form-control grade_section class_record" name="section" <?php echo $disable; ?>>
 			        					<?php foreach ($sections as $section_key => $section_value): ?>
 			        						<option <?php echo ($section_value['id']==$class_record['section_id'])?"selected":""; ?> value="<?php echo $section_value['id'] ?>"><?php echo $section_value['section']; ?></option>
 			        					<?php endforeach ?>
@@ -138,7 +141,7 @@
 			        			<td>Teacher</td>
 			        			<!-- <td><?php echo $class_record['name'] ?> <?php echo $class_record['surname'] ?></td> -->
 			        			<td>
-			        				<select class="form-control grade_section class_record" name="teacher" disabled>
+			        				<select class="form-control grade_section class_record" name="teacher" <?php echo $disable; ?>>
 			        					<<?php foreach ($teachers as $teacher_key => $teacher_value): ?>
 			        						<option value="<?php echo $teacher_value['id'] ?>" <?php echo ($teacher_value['id']==$class_record['teacher_id'])?"selected":""; ?>><?php echo $teacher_value['name'] ?> <?php echo $teacher_value['surname'] ?></option>
 			        					<?php endforeach ?>
@@ -146,7 +149,7 @@
 			        			</td>
 			        			<td>Subject</td>
 			        			<td>
-			        				<select class="form-control grade_section class_record" name="subject" disabled>
+			        				<select class="form-control grade_section class_record" name="subject" <?php echo $disable; ?>>
 			        					<<?php foreach ($subjects as $subject_key => $subject_value): ?>
 			        						<option value="<?php echo $subject_value['id'] ?>" <?php echo ($subject_value['id']==$class_record['subject_id'])?"selected":""; ?>><?php echo $subject_value['name']; ?></option>
 			        					<?php endforeach ?>
@@ -329,11 +332,13 @@
 	function onlyUnique(value, index, self) {
 	  return self.indexOf(value) === index;
 	}
+
 	$(".column_score").change(function(){
 		// $(this).css("20px solid black");
 		var score = $(this).val();
 		var column_id = $(this).attr("column_id");
 		var student_id = $(this).attr("student_id");
+		
 		var update_column = {
 			score:score,
 			column_id:column_id,
@@ -368,6 +373,7 @@
 		    }
 		});
 	});
+
 	$(".table_input").on('keypress',function(e){
 
 	    if(e.which == 13) {
@@ -379,13 +385,38 @@
 	        
 
 	    }
-	});
-
-	
+	});	
 	
 	$(".grade_section").change(function(){
 		$(".change_grade_section_form").submit();
 	});
+
+	function update_class_record(){		
+		var class_record_id = '<?php echo $class_record['id'] ?>';
+		var region = $(".region").val();
+		var division = $(".division").val();
+		var district = $(".district").val();
+		var school_name = $(".school_name").val();
+		var school_id = $(".school_id").val();
+
+		update_data = {
+			id:class_record_id,
+			region:region,
+			division:division,
+			district:district,
+			school_name:school_name,
+			school_id:school_id,
+		}		
+
+		$.ajax({
+		    url: url+"update_class_record",
+		    type: "POST",
+		    data: update_data,
+		    complete: function(response){
+		    	console.log(response.responseText);
+		    }
+		});
+	}
 
 	function update_highest_score(){
 		var sequence = {};
@@ -504,34 +535,7 @@
 		});
 	}
 
-	function update_class_record(){
-		
-		var class_record_id = '<?php echo $class_record['id'] ?>';
-		var region = $(".region").val();
-		var division = $(".division").val();
-		var district = $(".district").val();
-		var school_name = $(".school_name").val();
-		var school_id = $(".school_id").val();
-		update_data = {
-			id:class_record_id,
-			region:region,
-			division:division,
-			district:district,
-			school_name:school_name,
-			school_id:school_id,
-		}
-
-		
-
-		$.ajax({
-		    url: url+"update_class_record",
-		    type: "POST",
-		    data: update_data,
-		    complete: function(response){
-		    	console.log(response.responseText);
-		    }
-		});
-	}
+	
 
 	$(".class_record").change(function(){
 		update_class_record();
@@ -605,6 +609,26 @@
 
 
 
-
+	function set_local_data(name, value) {
+		try {
+			remove_local_data(name);
+			localStorage.setItem(name, value);
+		} catch (error) { console.log('Error writing to local storage') }   
+	}
+	
+	function read_local_data(name) {
+		var result = null;
+		try {
+			result = localStorage.getItem(name);
+		} catch (error) { console.log('Error reading local storage') }    
+		
+		return result;
+	}
+	
+	function remove_local_data(name) {
+		try {
+			localStorage.removeItem(name);
+		} catch(error) {}    
+	}
 
 </script>

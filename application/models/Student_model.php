@@ -3003,8 +3003,8 @@ return false;
         }
 
         $sql = "SELECT students.id, students.roll_no, student_session.session_id, CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, gender, $quarter_columns,
-                (SELECT id FROM grading_quarter WHERE NAME = 'first') AS q1, (SELECT id FROM grading_quarter WHERE NAME = 'second') AS q2,
-                (SELECT id FROM grading_quarter WHERE NAME = 'third') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'fourth') AS q4 
+                (SELECT id FROM grading_quarter WHERE NAME = 'Q1') AS q1, (SELECT id FROM grading_quarter WHERE NAME = 'Q2') AS q2,
+                (SELECT id FROM grading_quarter WHERE NAME = 'Q3') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'Q4') AS q4 
                 FROM students
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 ".$subquery." 
@@ -3031,6 +3031,8 @@ return false;
 
         if ($data["view_allowed"] == 1)
             $this->writedb->insert('grading_allowed_students', $data);
+
+            // print_r($this->writedb->error());die();
 
         $this->writedb->trans_complete(); # Completing transaction
 

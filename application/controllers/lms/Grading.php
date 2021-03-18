@@ -31,7 +31,7 @@ class Grading extends General_Controller {
         $data['user_id'] = $this->general_model->get_account_id();
         
 
-        $this->db->select("*,grading_class_record.id as id,subjects.name as subject_name, staff.name as teacher_name,staff.surname as teacher_surname");
+        $this->db->select("*,grading_class_record.id as id,subjects.name as subject_name, staff.name as teacher_name,staff.surname as teacher_surname, grading_class_record.created_at AS gcr_created_at");
         $this->db->from("grading_class_record");
         $this->db->join("classes","classes.id = grading_class_record.grade");
         $this->db->join("subjects","subjects.id = grading_class_record.subject_id");
@@ -49,6 +49,7 @@ class Grading extends General_Controller {
         
         
         $data['list'] = $this->db->get()->result_array();
+        // print_r($this->db->last_query());die();
         // echo '<pre>';
         // print_r($data['list']);
         // exit;
@@ -177,8 +178,9 @@ class Grading extends General_Controller {
 
         $data['the_class'] = $this;
 
-        $current_session = $this->setting_model->getCurrentSession();
-        
+        // $current_session = $this->setting_model->getCurrentSession();
+        $data['real_role'] = $this->general_model->get_real_role();
+        // print_r($data['real_role']);die();
         
         
         $this->load->view('lms/grading/edit', $data);

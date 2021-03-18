@@ -248,6 +248,7 @@ class Gradereport_model extends CI_Model
         
         // return($sql);
         $query = $this->db->query($sql);
+        // print_r(json_encode($query->result()));die();
         return $query->result();
     }
 
@@ -323,6 +324,7 @@ class Gradereport_model extends CI_Model
         
         // return($sql);
         $query = $this->db->query($sql);
+        // print_r($this->db->last_query());die();
         return $query->result();
     }
 
@@ -429,6 +431,7 @@ class Gradereport_model extends CI_Model
                 ORDER BY grading_conduct_indicators.id ASC";
 
         $query = $this->db->query($sql);
+        // print_r($this->db->error());die();
         return $query->result();
     }
 
@@ -614,13 +617,13 @@ class Gradereport_model extends CI_Model
 
         $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
 
-        print_r("SELECT ".$columns_selected.", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
-                 FROM (". $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC"); die();
+        // print_r("SELECT ".$columns_selected.", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
+        //          FROM (". $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC"); die();
 
         $query = $this->db->query("SELECT ".$columns_selected.", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
                                    FROM (". $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
         // $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
-        
+
         // print_r($this->db->last_query());die();
         // print_r(json_encode($query->result()));die();
         return $query->result();

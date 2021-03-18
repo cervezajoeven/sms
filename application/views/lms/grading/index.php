@@ -85,7 +85,7 @@
                                             
 
                                             <td class="mailbox-name">
-                                                <?php echo $list_data['created_at']; ?>
+                                                <?php echo $list_data['gcr_created_at']; ?>
                                             </td>
 
                                            
