@@ -473,8 +473,8 @@
 		    var highest_total = parseInt($("."+key.split("_").slice(1).join("_")).text());
 		    var splitted_key = key.split("_").slice(1).join("_");
 		    var ws = parseInt($(".ws-"+key.split("_").slice(1).join("_")).val());
-		    var ps_values = ((sum/highest_total)*100).toFixed(2);
-		    var ws_values = (ps_values*(ws/100)).toFixed(2);
+		    var ps_values = roundNumberV2(((sum/highest_total)*100), 2);
+		    var ws_values = roundNumberV2((ps_values*(ws/100)),2);
 		    $(".ps-"+key).text(ps_values);
 		    $(".ws-"+key).text(ws_values);
 
@@ -492,14 +492,17 @@
 				initial_grade+=parseFloat($(ws_value).text());
 			});
 			if(subject_transmuted=='1'){
-				$(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
+				// $(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
+				$(".initial_grade-"+student_key).text(roundNumberV2(initial_grade, 2));
 
 			}else{
-				$(".initial_grade-"+student_key).text(initial_grade.toFixed(0));
-				if(initial_grade.toFixed(0)<80){
+				// $(".initial_grade-"+student_key).text(initial_grade.toFixed(0));
+				$(".initial_grade-"+student_key).text(roundNumberV2(initial_grade, 0));
+
+				if(roundNumberV2(initial_grade, 0)<80){
 					$(".initial_grade-"+student_key).css("background-color","rgb(255 185 185)");
 				}
-				if(initial_grade.toFixed(0)>=90){
+				if(roundNumberV2(initial_grade, 0)>=90){
 					$(".initial_grade-"+student_key).css("background-color","rgb(191 246 191)");
 				}
 			}
@@ -609,26 +612,73 @@
 
 
 
-	function set_local_data(name, value) {
-		try {
-			remove_local_data(name);
-			localStorage.setItem(name, value);
-		} catch (error) { console.log('Error writing to local storage') }   
-	}
+	// function set_local_data(name, value) {
+	// 	try {
+	// 		remove_local_data(name);
+	// 		localStorage.setItem(name, value);
+	// 	} catch (error) { console.log('Error writing to local storage') }   
+	// }
 	
-	function read_local_data(name) {
-		var result = null;
-		try {
-			result = localStorage.getItem(name);
-		} catch (error) { console.log('Error reading local storage') }    
+	// function read_local_data(name) {
+	// 	var result = null;
+	// 	try {
+	// 		result = localStorage.getItem(name);
+	// 	} catch (error) { console.log('Error reading local storage') }    
 		
-		return result;
-	}
+	// 	return result;
+	// }
 	
-	function remove_local_data(name) {
-		try {
-			localStorage.removeItem(name);
-		} catch(error) {}    
+	// function remove_local_data(name) {
+	// 	try {
+	// 		localStorage.removeItem(name);
+	// 	} catch(error) {}    
+	// }
+
+	function roundNumberV1(num, scale) 
+	{
+		if(!("" + num).includes("e")) 
+			return +(Math.round(num + "e+" + scale)  + "e-" + scale);  
+		else 
+		{
+			var arr = ("" + num).split("e");
+			var sig = ""
+			if(+arr[1] + scale > 0) {
+			sig = "+";
+			}
+			var i = +arr[0] + "e" + sig + (+arr[1] + scale);
+			var j = Math.round(i);
+			var k = +(j + "e-" + scale);
+			return k;  
+		}
+	}
+
+	function roundNumberV2(num, scale) 
+	{
+		if (Math.round(num) != num) 
+		{
+			if (Math.pow(0.1, scale) > num) 
+				return 0;
+
+			var sign = Math.sign(num);
+			var arr = ("" + Math.abs(num)).split(".");
+
+			if (arr.length > 1) 
+			{
+				if (arr[1].length > scale) 
+				{
+					var integ = +arr[0] * Math.pow(10, scale);
+					var dec = integ + (+arr[1].slice(0, scale) + Math.pow(10, scale));
+					var proc = +arr[1].slice(scale, scale + 1)
+
+					if (proc >= 5) 
+						dec = dec + 1;
+
+					dec = sign * (dec - Math.pow(10, scale)) / Math.pow(10, scale);
+					return dec;
+				}
+			}
+		}
+		return num;
 	}
 
 </script>
