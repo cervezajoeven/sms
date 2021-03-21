@@ -14,10 +14,14 @@ class Sessions extends Admin_Controller {
         if (!$this->rbac->hasPrivilege('session_setting', 'can_view')) {
             access_denied();
         }
+
+        print_r("EMN Debug!");die();
+
         $this->session->set_userdata('top_menu', 'System Settings');
         $this->session->set_userdata('sub_menu', 'sessions/index');
         $data['title'] = 'Session List';
         $session_result = $this->session_model->getAllSession();
+        
         $data['sessionlist'] = $session_result;
         $this->load->view('layout/header', $data);
         $this->load->view('session/sessionList', $data);

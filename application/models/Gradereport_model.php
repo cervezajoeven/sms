@@ -440,7 +440,7 @@ class Gradereport_model extends CI_Model
                 tbl3.conduct_grade AS third_quarter, tbl4.conduct_grade AS fourth_quarter
                 FROM
                 (
-                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(ROUND(SUM(conduct_num) / COUNT(teacher_id), 0)) AS 'conduct_grade' 
                 FROM grading_conduct_numeric
                 WHERE school_year = $_school_year
                 AND QUARTER = 1
@@ -451,7 +451,7 @@ class Gradereport_model extends CI_Model
                 
                 LEFT JOIN 
                 (
-                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(ROUND(SUM(conduct_num) / COUNT(teacher_id), 0)) AS 'conduct_grade' 
                 FROM grading_conduct_numeric
                 WHERE school_year = $_school_year
                 AND QUARTER = 2
@@ -462,7 +462,7 @@ class Gradereport_model extends CI_Model
                 
                 LEFT JOIN 
                 (
-                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(ROUND(SUM(conduct_num) / COUNT(teacher_id), 0)) AS 'conduct_grade' 
                 FROM grading_conduct_numeric
                 WHERE school_year = $_school_year
                 AND QUARTER = 3
@@ -473,7 +473,7 @@ class Gradereport_model extends CI_Model
                 
                 LEFT JOIN 
                 (
-                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(SUM(conduct_num) / COUNT(teacher_id)) AS 'conduct_grade' 
+                SELECT grading_conduct_numeric.student_id, fn_conduct_transmuted_grade(ROUND(SUM(conduct_num) / COUNT(teacher_id), 0)) AS 'conduct_grade' 
                 FROM grading_conduct_numeric
                 WHERE school_year = $_school_year
                 AND QUARTER = 4

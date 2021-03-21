@@ -1104,6 +1104,7 @@
                                                     <th style="width: 10%;">Civil Status</th>
                                                     <th style="width: 25%;">Grade Level/Occupation</th>
                                                     <th style="width: 30%;">Name of School/Company</th>
+                                                    <th style="width: 30%;">Deceased</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1123,6 +1124,7 @@
                                                             </td>
                                                             <td><input class="form-control" type="text" name="sibling_glo[]" value="<?php echo set_value('sibling_glo['.$i.']')?>"></td>
                                                             <td><input class="form-control" type="text" name="sibling_nsc[]" value="<?php echo set_value('sibling_nsc['.$i.']')?>"></td>
+                                                            <td align="center"><input class="checkbox" type="checkbox" name="sibling_dec[]" value="<?php echo set_value('sibling_dec['.$i.']') == "on" ? "checked" : "";?>"></td>
                                                         </tr>                            
                                                     <?php }
                                                 ?>

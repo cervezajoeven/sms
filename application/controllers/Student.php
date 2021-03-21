@@ -1743,7 +1743,12 @@ class Student extends Admin_Controller
             $sibling_civil_status = $this->input->post("sibling_civil_status");
             $sibling_glo = $this->input->post("sibling_glo");
             $sibling_nsc = $this->input->post("sibling_nsc");
-            $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+            $sibling_dec = $this->input->post("sibling_dec");
+            print_r($sibling_dec);die();
+
+            $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
+                
+            print_r(json_encode($data));die();
 
             $this->student_model->add($data);
 
@@ -2950,7 +2955,8 @@ class Student extends Admin_Controller
         echo json_encode($array);
     }
 
-    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased) 
+    {
         $maindata = [];
 
         for($i = 0; $i < count($name); $i++) {
@@ -2965,6 +2971,7 @@ class Student extends Admin_Controller
                 "civil_status" => $civilstatus[$i],
                 "grade_occupation" => $gradeoccupation[$i],
                 "school_company_name" => $schoolcompany[$i],
+                "deceased" => $deceased[$i] == "on" ? 1 : 0,
             );
             
             if (!empty($name[$i]))

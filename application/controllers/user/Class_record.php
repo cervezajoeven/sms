@@ -43,7 +43,7 @@ class Class_record extends Student_Controller
                 $student_conduct = $this->gradereport_model->get_student_conduct_numeric($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
         }
             
-        // print_r($student_conduct);die();
+        print_r($student_conduct);die();
         // print_r($class_record);die();        
         $data['student_conduct'] = $student_conduct;
         

@@ -313,7 +313,8 @@ class Onlinestudent extends Admin_Controller
             $sibling_civil_status = $this->input->post("sibling_civil_status");
             $sibling_glo = $this->input->post("sibling_glo");
             $sibling_nsc = $this->input->post("sibling_nsc");
-            $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+            $sibling_dec = $this->input->post("sibling_dec");
+            $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
 
             $student_id = $this->onlinestudent_model->update($data, $this->input->post('save'));            
           
@@ -361,7 +362,8 @@ class Onlinestudent extends Admin_Controller
     //     $this->student_model->AddStudentSiblings($admissionid, $maindata);
     // }
 
-    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased) 
+    {
         $maindata = [];
 
         for($i = 0; $i < count($name); $i++) {
@@ -376,6 +378,7 @@ class Onlinestudent extends Admin_Controller
                 "civil_status" => $civilstatus[$i],
                 "grade_occupation" => $gradeoccupation[$i],
                 "school_company_name" => $schoolcompany[$i],
+                "deceased" => $deceased[$i] == "on" ? 1 : 0,
             );
             
             if (!empty($name[$i]))
@@ -383,5 +386,8 @@ class Onlinestudent extends Admin_Controller
         }
 
         return json_encode($maindata);
+
+        // echo "<pre>"; print_r($maindata); echo"<pre>";die();        
+        // $this->onlinestudent_model->AddStudentSiblings($admissionid, $maindata);
     }
 }

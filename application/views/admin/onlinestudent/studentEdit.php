@@ -1032,12 +1032,15 @@
                                                         <th style="width: 10%;">Civil Status</th>
                                                         <th style="width: 25%;">Grade Level/Occupation</th>
                                                         <th style="width: 30%;">Name of School/Company</th>
+                                                        <th style="width: 30%;">Deceased</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php 
                                                         $admission_siblings = json_decode($student['siblings'], true);
-                                                        foreach ($admission_siblings as $key => $value) {?>
+                                                        // print_r($student['siblings']);die();
+                                                        foreach ($admission_siblings as $key => $value) 
+                                                        { ?>
                                                             <tr>
                                                                 <td><input class="form-control" type="text" name="sibling_name[]" value="<?php echo $value['name']; ?>"></td>
                                                                 <td><input class="form-control" type="number" name="sibling_age[]" value="<?php echo $value['age']; ?>" min="0"></td>
@@ -1052,6 +1055,7 @@
                                                                 </td>
                                                                 <td><input class="form-control" type="text" name="sibling_glo[]" value="<?php echo $value['grade_occupation']; ?>"></td>
                                                                 <td><input class="form-control" type="text" name="sibling_nsc[]" value="<?php echo $value['school_company_name']; ?>"></td>
+                                                                <td align="center"><input class="checkbox" type="checkbox" name="sibling_dec[]" <?php echo ($value['deceased'] == 1 ? "checked" : "");?>></td>
                                                                 </tr>                            
                                                         <?php }
 
@@ -1072,6 +1076,7 @@
                                                                 </td>
                                                                 <td><input class="form-control" type="text" name="sibling_glo[]" value=""></td>
                                                                 <td><input class="form-control" type="text" name="sibling_nsc[]" value=""></td>
+                                                                <td align="center"><input class="checkbox" type="checkbox" name="sibling_dec[]" value=""></td>
                                                             </tr>
                                                         <?php }
                                                     ?>
