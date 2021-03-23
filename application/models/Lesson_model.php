@@ -65,7 +65,7 @@ class Lesson_model extends MY_Model {
         return $result;
     }
 
-    public function admin_lessons_search($account_id="",$folder="past",$search=""){
+    public function admin_lessons_search($account_id="",$folder="past",$search="",$lesson_subject=""){
         date_default_timezone_set('Asia/Manila');
 
         $this->db->select("*, lms_lesson.id as id, subjects.name as subject_name,staff.google_meet as teacher_google_meet");
@@ -81,8 +81,14 @@ class Lesson_model extends MY_Model {
             $this->db->where('end_date <', date('Y-m-d H:i:s'));
             $this->db->limit(1000);
         }
-        
-        $this->db->like('lms_lesson.lesson_name',$search,'both');
+       
+        if($search){
+            $this->db->like('lms_lesson.lesson_name',$search,'both');
+        }
+        if($lesson_subject){
+
+            $this->db->where("subjects.id",$lesson_subject);
+        }
         $this->db->where('lms_lesson.deleted',0);
         $this->db->order_by('lms_lesson.start_date',"desc");
         $query = $this->db->get("lms_lesson");
