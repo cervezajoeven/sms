@@ -232,7 +232,7 @@ class Lesson extends General_Controller {
         $this->load->view('layout/footer');
     }
 
-    function past($lesson_query="past",$lesson_name="") {
+    function past($lesson_query="past",$lesson_name="",$lesson_subject="") {
 
         $this->session->set_userdata('top_menu', 'Download Center');
         $this->session->set_userdata('sub_menu', 'content/past');
@@ -248,15 +248,17 @@ class Lesson extends General_Controller {
         $data['lesson_sched'] = "past";
         $data['lesson_query'] = $lesson_query;
         $lesson_name = $_REQUEST['lesson_name'];
+        $lesson_subject = $_REQUEST['lesson_subject'];
         if($data['role']=='admin'){
             
             $this->load->view('layout/header');
             
             if($data['real_role']=="7"||$data['real_role']=="1"){
-                if(!$lesson_name){
+                if(!$lesson_name&&!$lesson_subject){
                     $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(),"past");
                 }else{
-                    $data['list'] = $this->lesson_model->admin_lessons_search($this->general_model->get_account_id(),"past",$lesson_name);
+                    
+                    $data['list'] = $this->lesson_model->admin_lessons_search($this->general_model->get_account_id(),"past",$lesson_name,$lesson_subject);
                     
                 }
                 

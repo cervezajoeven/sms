@@ -1,5 +1,7 @@
 <script type="text/javascript" src="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,8 +42,23 @@
                         <div class="mailbox-messages table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
                             <form action="<?php echo base_url('lms/lesson/past')?>" method="POST">
-                                <input type="text" name="lesson_name" class="form-control col-lg-6" placeholder="Search for Lessons" name="">
-                                <button type="submit" class="btn btn-success form-control col-lg-6">Search</button>
+                                
+                                <div class="form-group col-lg-6">
+                                    <label for="exampleInputEmail1">Search For Lesson</label><small class="req"> *</small>
+                                    <input type="text" name="lesson_name" class="form-control" placeholder="Search for Lessons" name="">
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
+                                    <select autofocus="" id="subject_id" name="lesson_subject" placeholder="" type="text" class="form-control filter">
+                                        <option value="">Select</option>
+                                        <?php foreach ($subjects as $key => $value) : ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+                                <button type="submit" class="btn btn-success form-control col-lg-6 col-lg-6">Search</button>
                                 <input type="hidden" name="lesson_query" value="past">
                             </form>
                             
@@ -411,4 +428,5 @@
         
         
     });
+    $('.filter').select2();
 </script>

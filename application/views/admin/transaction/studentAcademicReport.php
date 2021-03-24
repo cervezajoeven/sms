@@ -21,7 +21,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                         <div class="box-body">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?><small class="req"> *</small></label>
                                         <select autofocus="" id="class_id" name="class_id" class="form-control" >
@@ -38,7 +38,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                         <span class="text-danger"><?php echo form_error('class_id'); ?></span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('section'); ?></label>
                                         <select  id="section_id" name="section_id" class="form-control" >
@@ -51,6 +51,29 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                                             }
                                             ?>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('section_id'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Month</label>
+                                        <select  id="month_id" name="section_id" class="form-control" >
+                                              <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                              <option value="01">January</option>
+                                              <option value="02">February</option>
+                                              <option value="03">March</option>
+                                              <option value="04">April</option>
+                                              <option value="05">May</option>
+                                              <option value="06">June</option>
+                                              <option value="07">July</option>
+                                              <option value="08">August</option>
+                                              <option value="09">September</option>
+                                              <option value="10">October</option>
+                                              <option value="11">November</option>
+                                              <option value="12">December</option>
+                                  
+                                              
                                         </select>
                                         <span class="text-danger"><?php echo form_error('section_id'); ?></span>
                                     </div>
