@@ -654,7 +654,8 @@ class Student extends Admin_Controller
             $sibling_civil_status = $this->input->post("sibling_civil_status");
             $sibling_glo = $this->input->post("sibling_glo");
             $sibling_nsc = $this->input->post("sibling_nsc");
-            $data_insert['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+            $sibling_dec = $this->input->post("sibling_dec");
+            $data_insert['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
 
             if ($insert) {
                 // var_dump($data_insert);die;
@@ -1744,7 +1745,7 @@ class Student extends Admin_Controller
             $sibling_glo = $this->input->post("sibling_glo");
             $sibling_nsc = $this->input->post("sibling_nsc");
             $sibling_dec = $this->input->post("sibling_dec");
-            print_r($sibling_dec);die();
+            // print_r($sibling_dec);die();
 
             $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
                 
