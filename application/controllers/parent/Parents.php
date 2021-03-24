@@ -722,7 +722,7 @@ class Parents extends Parent_Controller
 
     public function getgrades($student_id) {
         // print_r($student_id);die();
-        $this->auth->validate_child($id);
+        $this->auth->validate_child($student_id);
         $this->session->set_userdata('top_menu', 'Grades');
         $this->session->set_userdata('sub_menu', 'parent/parents/grades');
 
