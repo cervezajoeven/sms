@@ -1,4 +1,4 @@
-s<aside class="main-sidebar" id="alert2">
+<aside class="main-sidebar" id="alert2">
     <?php if ($this->rbac->hasPrivilege('student', 'can_view')) { ?>
         <form class="navbar-form navbar-left search-form2" role="search"  action="<?php echo site_url('admin/admin/search'); ?>" method="POST">
             <?php echo $this->customlib->getCSRF(); ?>
@@ -630,43 +630,39 @@ s<aside class="main-sidebar" id="alert2">
                 }
             }
             
-            if ($this->module_lib->hasActive('download_center')) {
-                if (($this->rbac->hasPrivilege('upload_content', 'can_view'))) {
-                    ?>
-                    <li class="treeview <?php echo set_Topmenu('Download Center'); ?>">
-                        <a href="#">
-                            <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            
-                            <li class="<?php echo set_Submenu('lesson/create'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index_create"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('lesson'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/past'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/past"><i class="fa fa-angle-double-right"></i> Past <?php echo $this->lang->line('lesson'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
-                            
-                            <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
-                            <li class="<?php echo set_Submenu('lms/assessment/create'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/create_index"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('assessment'); ?></a></li>
-                            <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
-                            <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>lms/schedule/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
-                            <!-- <li class="<?php //echo set_Submenu('content/assignment'); ?>"><a href="<?php //echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('lms_usage_report'); ?></a></li> -->
-                           
+            if ($this->module_lib->hasActive('campus_lms')) { ?>
+                <li class="treeview <?php echo set_Topmenu('Download Center'); ?>">
+                    <a href="#">
+                    <i class="fa fa-graduation-cap ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        
+                        <li class="<?php echo set_Submenu('lesson/create'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index_create"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_Submenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_Submenu('content/past'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/past"><i class="fa fa-angle-double-right"></i> Past <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_Submenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
+                        
+                        <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_Submenu('lms/assessment/create'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/create_index"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('assessment'); ?></a></li>
+                        <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
+                        <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
+                        <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>lms/schedule/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
+                        <!-- <li class="<?php //echo set_Submenu('content/assignment'); ?>"><a href="<?php //echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('lms_usage_report'); ?></a></li> -->
+                        
 
-                            <?php if ($this->rbac->hasPrivilege('upload_content', 'can_view')) { ?>
-                                <li class="<?php echo set_Submenu('admin/content'); ?>"><a href="<?php echo base_url(); ?>admin/content"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('upload_content'); ?></a></li>
-                            <?php } ?>
-                            <!-- <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assignments'); ?></a></li> -->
-                            <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>admin/content/studymaterial"><i class="fa fa-angle-double-right"></i> Module/Activities</a></li>
-                            <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>homework"><i class="fa fa-angle-double-right"></i> Homework/Projects</a></li>
-                
-                            <!-- <li class="<?php echo set_Submenu('content/syllabus'); ?>"><a href="<?php echo base_url(); ?>admin/content/syllabus"><i class="fa fa-angle-double-right"></i> Learning Plan </a></li> -->
-                            <!-- <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>admin/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li> -->
-                        </ul>
-                    </li>
-                    <?php
-                }
-            }
+                        <?php if ($this->rbac->hasPrivilege('upload_content', 'can_view')) { ?>
+                            <li class="<?php echo set_Submenu('admin/content'); ?>"><a href="<?php echo base_url(); ?>admin/content"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('upload_content'); ?></a></li>
+                        <?php } ?>
+                        <!-- <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assignments'); ?></a></li> -->
+                        <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>admin/content/studymaterial"><i class="fa fa-angle-double-right"></i> Module/Activities</a></li>
+                        <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>homework"><i class="fa fa-angle-double-right"></i> Homework/Projects</a></li>
+            
+                        <!-- <li class="<?php echo set_Submenu('content/syllabus'); ?>"><a href="<?php echo base_url(); ?>admin/content/syllabus"><i class="fa fa-angle-double-right"></i> Learning Plan </a></li> -->
+                        <!-- <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>admin/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li> -->
+                    </ul>
+                </li>
+            <?php }
             
             /*
             if ($this->module_lib->hasActive('homework')) {
