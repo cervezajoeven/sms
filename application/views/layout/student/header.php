@@ -259,11 +259,10 @@ if($this->studentmodule_lib->hasActive('multi_class')){
 
                               <li class="<?php echo set_Topmenu('apply_leave'); ?>"><a href="<?php echo base_url(); ?>user/apply_leave"><i class="fa fa-calendar-times-o ftlayer"></i> <span><?php echo $this->lang->line('apply_leave'); ?></span></a></li>
                         <?php }
-                        if ($this->studentmodule_lib->hasActive('download_center')) {
-                            ?>
+                        if ($this->studentmodule_lib->hasActive('campus_lms')) { ?>                            
                             <li class="treeview <?php echo set_Topmenu('Downloads'); ?>">
                                 <a href="#">
-                                    <i class="fa fa-download ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                                <i class="fa fa-graduation-cap ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                                 </a> 
                                 <ul class="treeview-menu">
                                     <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
