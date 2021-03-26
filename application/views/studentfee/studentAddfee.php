@@ -477,7 +477,8 @@ $language_name = $language["short_code"];
                                         <td class="text text-left"></td>
 
                                         <td class="text text-right"><?php
-                                            echo ($currency_symbol . number_format($total_discount_amount + $alot_fee_discount, 2, '.', ''));
+                                            // echo ($currency_symbol . number_format($total_discount_amount + $alot_fee_discount, 2, '.', ''));
+                                            echo ($currency_symbol . number_format($total_discount_amount, 2, '.', ''));
                                             ?></td>
                                         <td class="text text-right"><?php
                                             echo ($currency_symbol . number_format($total_fine_amount, 2, '.', ''));
@@ -486,7 +487,8 @@ $language_name = $language["short_code"];
                                             echo ($currency_symbol . number_format($total_deposite_amount, 2, '.', ''));
                                             ?></td>
                                         <td class="text text-right"><?php
-                                            echo ($currency_symbol . number_format($total_balance_amount - $alot_fee_discount, 2, '.', ''));
+                                            // echo ($currency_symbol . number_format($total_balance_amount - $alot_fee_discount, 2, '.', ''));
+                                            echo ($currency_symbol . number_format($total_balance_amount, 2, '.', ''));
 
                                             ?></td>  <td class="text text-right"></td>
                                     </tr>
