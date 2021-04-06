@@ -228,7 +228,6 @@ class Student_model extends MY_Model
         if ($id != null) {
             $this->db->where('students.id', $id);
         } else {
-
         }
         $this->db->order_by('students.id', 'desc');
         $this->db->limit(5);
@@ -402,14 +401,13 @@ class Student_model extends MY_Model
 
         $this->db->where('student_session.id', $student_session_id);
 
-            $query = $this->db->get();
+        $query = $this->db->get();
 
-            return $query->row_array();
-
+        return $query->row_array();
     }
 
     public function get($id = null)
-    {       
+    {
         $this->db->select("student_session.transport_fees,students.app_key,students.vehroute_id,
                            students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
                            sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno,
@@ -449,7 +447,7 @@ class Student_model extends MY_Model
                            students.mother_alumnus_batch_hs,
                            students.has_internet,
                            students.type_of_internet,
-                           students.siblings,'".str_replace("'", "''", $this->schoolname)."' AS school_name");
+                           students.siblings,'" . str_replace("'", "''", $this->schoolname) . "' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
@@ -480,8 +478,8 @@ class Student_model extends MY_Model
 
     public function getStudentDetails($id = null)
     {
-        print_r("Debug Mode On <BR><BR>");
-        print_r($id);die();
+        // print_r("Debug Mode On <BR><BR>");
+        // print_r($id);die();
         $this->db->select("student_session.transport_fees,students.app_key,
                            student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,
                            sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno,
@@ -521,11 +519,11 @@ class Student_model extends MY_Model
                            students.mother_alumnus_batch_hs,
                            students.has_internet,
                            students.type_of_internet,
-                           students.siblings,'".str_replace("'", "''", $this->schoolname)."' AS school_name");
+                           students.siblings,'" . str_replace("'", "''", $this->schoolname) . "' AS school_name");
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id', 'left');
         $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
-        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');   
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
         $this->db->where('student_session.session_id', $this->current_session);
@@ -600,18 +598,17 @@ class Student_model extends MY_Model
 
         $this->db->where('student_session.session_id', $this->current_session);
         $this->db->where('users.role', 'student');
-            $this->db->where('students.is_active', 'yes');
-            $this->db->where('students.admission_no', $admission_no);
+        $this->db->where('students.is_active', 'yes');
+        $this->db->where('students.admission_no', $admission_no);
 
 
 
         $query = $this->db->get();
 
-if ($query->num_rows() > 0) {
-        return $query->row();
-
-}
-return false;
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return false;
     }
 
     public function guardian_credential($parent_id)
@@ -683,7 +680,7 @@ return false;
         $this->db->select()->from('student_doc');
         $this->db->where('student_id', $id);
         $query = $this->db->get()->result_array();
-        
+
         return $query;
     }
 
@@ -819,7 +816,8 @@ return false;
         return $query->result_array();
     }
 
-    public function searchByClassSectionCategoryGenderRte($class_id = null, $section_id = null, $category = null, $gender = null, $rte = null) {
+    public function searchByClassSectionCategoryGenderRte($class_id = null, $section_id = null, $category = null, $gender = null, $rte = null)
+    {
         $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no ,
                            students.roll_no,students.admission_date,students.firstname,  students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city ,
                            students.pincode ,     students.religion,     students.dob ,students.current_address,    students.permanent_address,students.category_id, categories.category,
@@ -886,7 +884,7 @@ return false;
     public function searchFullText($searchterm, $carray = null)
     {
         $userdata = $this->customlib->getUserData();
-        $staff_id=$userdata['id'];
+        $staff_id = $userdata['id'];
         $i               = 1;
         $custom_fields   = $this->customfield_model->get_custom_fields('students', 1);
 
@@ -906,11 +904,11 @@ return false;
             if (!empty($carray)) {
 
                 $this->db->where_in("student_session.class_id", $carray);
-                $sections=$this->teacher_model->get_teacherrestricted_modeallsections($staff_id);
+                $sections = $this->teacher_model->get_teacherrestricted_modeallsections($staff_id);
                 foreach ($sections as $key => $value) {
-                   $sections_id[]=$value['section_id'];
+                    $sections_id[] = $value['section_id'];
                 }
-               $this->db->where_in("student_session.section_id", $sections_id);
+                $this->db->where_in("student_session.section_id", $sections_id);
             } else {
                 $this->db->where_in("student_session.class_id", "");
             }
@@ -991,12 +989,11 @@ return false;
         }
 
         $field_variable = implode(',', $field_var_array);
- if (($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+        if (($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
             if (!empty($carray)) {
 
                 $this->db->where_in("student_session.class_id", $carray);
             } else {
-
             }
         }
         $this->db->select('classes.id AS `class_id`,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,
@@ -1036,9 +1033,9 @@ return false;
                            students.siblings,' . $field_variable);
         $this->db->from('students');
         $this->db->join('student_session', 'student_session.student_id = students.id');
-        $this->db->join('classes', 'student_session.class_id = classes.id','left');
-        $this->db->join('sections', 'sections.id = student_session.section_id','left');
-        $this->db->join('categories', 'students.category_id = categories.id','left');
+        $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
+        $this->db->join('categories', 'students.category_id = categories.id', 'left');
         $this->db->where('student_session.session_id', $this->current_session);
         $this->db->where('students.is_active', 'yes');
         $this->db->group_start();
@@ -1054,7 +1051,6 @@ return false;
         if ($condition != null) {
 
             $this->db->where($condition);
-
         }
 
         $this->db->order_by('students.id');
@@ -1065,40 +1061,37 @@ return false;
         return $query->result_array();
     }
 
-    public function admission_report_joe($searchterm, $carray = null, $condition = null,$other_variables=array("gender"=>"all","enrollment_payment_status"=>"all","class"=>"all"))
+    public function admission_report_joe($searchterm, $carray = null, $condition = null, $other_variables = array("gender" => "all", "enrollment_payment_status" => "all", "class" => "all"))
     {
         $this->db->select("*");
         $this->db->where($condition);
         $this->db->where('student_session.session_id', $this->current_session);
 
-        if(array_key_exists("gender", $other_variables)){
-          if($other_variables['gender']=="male"){
-            $this->db->where('students.gender',"male");
-
-          }else if($other_variables['gender']=="female"){
-            $this->db->where('students.gender',"female");
-          }
-
+        if (array_key_exists("gender", $other_variables)) {
+            if ($other_variables['gender'] == "male") {
+                $this->db->where('students.gender', "male");
+            } else if ($other_variables['gender'] == "female") {
+                $this->db->where('students.gender', "female");
+            }
         }
-        if(array_key_exists("enrollment_payment_status", $other_variables)) {
-          if($other_variables['enrollment_payment_status']=="paid") {
-            $this->db->where('students.enrollment_payment_status',"paid");
-
-          } else if($other_variables['enrollment_payment_status']=="unpaid") {
-            $this->db->where('students.enrollment_payment_status',"unpaid");
-          }
+        if (array_key_exists("enrollment_payment_status", $other_variables)) {
+            if ($other_variables['enrollment_payment_status'] == "paid") {
+                $this->db->where('students.enrollment_payment_status', "paid");
+            } else if ($other_variables['enrollment_payment_status'] == "unpaid") {
+                $this->db->where('students.enrollment_payment_status', "unpaid");
+            }
         }
 
-        if(array_key_exists("class", $other_variables)) {
-          if($other_variables['class']!="all") {
-            $this->db->where('class_sections.class_id',$other_variables['class']);
-          }
+        if (array_key_exists("class", $other_variables)) {
+            if ($other_variables['class'] != "all") {
+                $this->db->where('class_sections.class_id', $other_variables['class']);
+            }
         }
 
-        $this->db->join('online_admissions', 'online_admissions.admission_no = students.admission_no','left');
+        $this->db->join('online_admissions', 'online_admissions.admission_no = students.admission_no', 'left');
         $this->db->join('student_session', 'student_session.student_id = students.id');
-        $this->db->join('classes', 'student_session.class_id = classes.id','left');
-        $this->db->join('sections', 'sections.id = student_session.section_id','left');
+        $this->db->join('classes', 'student_session.class_id = classes.id', 'left');
+        $this->db->join('sections', 'sections.id = student_session.section_id', 'left');
         // $sql = $this->db->get_compiled_select();
         // print_r($sql);die();
         $data = $this->db->get("students")->result_array();
@@ -1153,21 +1146,18 @@ return false;
     //     return $data;
     // }
 
-    public function enrollment_report_joe($searchterm, $carray = null, $condition = null,$other_variables=array("gender"=>"all","enrollment_payment_status"=>"all","class"=>"all"))
+    public function enrollment_report_joe($searchterm, $carray = null, $condition = null, $other_variables = array("gender" => "all", "enrollment_payment_status" => "all", "class" => "all"))
     {
         $this->db->select("*");
         $this->db->where($condition);
 
-        $this->db->where('student_session.session_id',$this->current_session);
-        if(array_key_exists("gender", $other_variables)){
-          if($other_variables['gender']=="male"){
-            $this->db->where('students.gender',"male");
-
-          }else if($other_variables['gender']=="female"){
-            $this->db->where('students.gender',"female");
-
-          }
-
+        $this->db->where('student_session.session_id', $this->current_session);
+        if (array_key_exists("gender", $other_variables)) {
+            if ($other_variables['gender'] == "male") {
+                $this->db->where('students.gender', "male");
+            } else if ($other_variables['gender'] == "female") {
+                $this->db->where('students.gender', "female");
+            }
         }
         // if(array_key_exists("enrollment_payment_status", $other_variables)){
 
@@ -1181,26 +1171,24 @@ return false;
 
         // }
 
-        if(array_key_exists("class", $other_variables)){
+        if (array_key_exists("class", $other_variables)) {
 
-          if($other_variables['class']!="all"){
-            $this->db->where('student_session.class_id',$other_variables['class']);
-
-          }
-
+            if ($other_variables['class'] != "all") {
+                $this->db->where('student_session.class_id', $other_variables['class']);
+            }
         }
 
 
-        $this->db->join('students','students.id = student_session.student_id');
+        $this->db->join('students', 'students.id = student_session.student_id');
         // $this->db->join('class_sections','class_sections.class_section_id = class_sections.id');
-        $this->db->join('classes','student_session.class_id = classes.id');
-        $this->db->join('sections','student_session.section_id = sections.id');
+        $this->db->join('classes', 'student_session.class_id = classes.id');
+        $this->db->join('sections', 'student_session.section_id = sections.id');
         $data = $this->db->get("student_session")->result_array();
         // echo '<pre>';print_r($data);exit();
         return $data;
     }
 
-    public function enrollment_summary_report_joe($searchterm, $carray = null, $condition = null,$other_variables=array("gender"=>"all","enrollment_payment_status"=>"all","class"=>"all"))
+    public function enrollment_summary_report_joe($searchterm, $carray = null, $condition = null, $other_variables = array("gender" => "all", "enrollment_payment_status" => "all", "class" => "all"))
     {
         $this->db->select("classes.class,
           SUM(if(students.gender = 'male',1,0)) as male,
@@ -1209,7 +1197,7 @@ return false;
           ");
         $this->db->where($condition);
 
-        $this->db->where('student_session.session_id',$this->current_session);
+        $this->db->where('student_session.session_id', $this->current_session);
         // if(array_key_exists("gender", $other_variables)){
         //   if($other_variables['gender']=="male"){
         //     $this->db->where('students.gender',"male");
@@ -1242,10 +1230,10 @@ return false;
         // }
 
 
-        $this->db->join('students','students.id = student_session.student_id');
+        $this->db->join('students', 'students.id = student_session.student_id');
         // $this->db->join('class_sections','class_sections.class_section_id = class_sections.id');
-        $this->db->join('classes','student_session.class_id = classes.id');
-        $this->db->join('sections','student_session.section_id = sections.id');
+        $this->db->join('classes', 'student_session.class_id = classes.id');
+        $this->db->join('sections', 'student_session.section_id = sections.id');
         $this->db->group_by('student_session.class_id');
         $data = $this->db->get("student_session")->result_array();
         // echo '<pre>';print_r($data);exit();
@@ -1271,7 +1259,7 @@ return false;
         }
 
         $field_variable = implode(',', $field_var_array);
- if (($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+        if (($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
             if (!empty($carray)) {
 
                 $this->db->where_in("student_session.class_id", $carray);
@@ -1324,7 +1312,6 @@ return false;
         if ($condition != null) {
 
             $this->db->where($condition);
-
         }
         $this->db->group_by('students.admission_no');
         $this->db->order_by('students.id');
@@ -1352,7 +1339,7 @@ return false;
         }
 
         $field_variable = implode(',', $field_var_array);
- if (($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+        if (($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
             if (!empty($carray)) {
 
                 $this->db->where_in("student_session.class_id", $carray);
@@ -1370,7 +1357,6 @@ return false;
         if ($condition != null) {
 
             $this->db->where($condition);
-
         }
         $this->db->group_by('students.parent_id');
         $this->db->group_by('students.admission_no');
@@ -1476,7 +1462,6 @@ return false;
             $action    = "Update";
             $record_id = $insert_id = $data['id'];
             $this->log($message, $record_id, $action);
-
         } else {
             $this->writedb->insert('student_sibling', $data_sibling);
             $insert_id = $this->writedb->insert_id();
@@ -1487,27 +1472,26 @@ return false;
 
             //return $insert_id;
         }
-    //echo $this->writedb->last_query();die;
-            //======================Code End==============================
+        //echo $this->writedb->last_query();die;
+        //======================Code End==============================
 
-            $this->writedb->trans_complete(); # Completing transaction
-            /*Optional*/
+        $this->writedb->trans_complete(); # Completing transaction
+        /*Optional*/
 
-            if ($this->writedb->trans_status() === false) {
-                # Something went wrong.
-                $this->writedb->trans_rollback();
-                return false;
-
-            } else {
-                return $insert_id;
-            }
+        if ($this->writedb->trans_status() === false) {
+            # Something went wrong.
+            $this->writedb->trans_rollback();
+            return false;
+        } else {
+            return $insert_id;
+        }
     }
 
     public function add_student_session($data)
     {
         $this->writedb->trans_start(); # Starting Transaction
         $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
-        $session_id=0;
+        $session_id = 0;
         //=======================Code Start===========================
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
@@ -1532,9 +1516,8 @@ return false;
             $record_id = $session_id;
 
             $this->log($message, $record_id, $action);
-
         }
-    //echo $this->db->last_query();die;
+        //echo $this->db->last_query();die;
         //======================Code End==============================
 
         $this->writedb->trans_complete(); # Completing transaction
@@ -1544,7 +1527,6 @@ return false;
             # Something went wrong.
             $this->writedb->trans_rollback();
             return 0;
-
         } else {
             return $session_id;
         }
@@ -1969,7 +1951,7 @@ return false;
     {
         if (!empty($year)) {
 
-            $data = array('year(admission_date)' => $year,'student_session.class_id'=>$class_id);
+            $data = array('year(admission_date)' => $year, 'student_session.class_id' => $class_id);
         } else {
             $data = array('student_session.class_id' => $class_id);
         }
@@ -1983,7 +1965,7 @@ return false;
 
     public function admissionYear()
     {
-       $query = $this->db->SELECT("distinct(year(admission_date)) as year")->where_not_in('admission_date',array('0000-00-00','1970-01-01'))->get("students");
+        $query = $this->db->SELECT("distinct(year(admission_date)) as year")->where_not_in('admission_date', array('0000-00-00', '1970-01-01'))->get("students");
 
         return $query->result_array();
     }
@@ -2032,14 +2014,13 @@ return false;
 
             $this->db->where(array('class_id' => $class, 'roll_no' => $roll_no));
             $query = $this->db->join("student_session", "students.id = student_session.student_id")->get('students');
-           // echo $this->db->last_query();die;
+            // echo $this->db->last_query();die;
             if ($query->num_rows() > 0) {
                 return true;
             } else {
                 return false;
             }
         }
-
     }
 
     public function gethouselist()
@@ -2238,14 +2219,14 @@ return false;
 
         $query = $this->db->SELECT("*")->join("sections", "class_sections.section_id = sections.id")->where("class_sections.class_id", $id)
 
-        ->get("class_sections");
+            ->get("class_sections");
         return $query->result_array();
     }
 
     public function getStudentClassSection($id, $sessionid)
     {
 
-        $query = $this->db->SELECT("students.firstname,students.id,students.lastname,students.image,student_session.section_id,students.enrollment_payment_status")->join("student_session", "students.id = student_session.student_id")->where("student_session.class_id", $id)->where("student_session.session_id", $sessionid)->where("students.is_active", "yes")->order_by("students.lastname","ASC")->get("students");
+        $query = $this->db->SELECT("students.firstname,students.id,students.lastname,students.image,student_session.section_id,students.enrollment_payment_status")->join("student_session", "students.id = student_session.student_id")->where("student_session.class_id", $id)->where("student_session.session_id", $sessionid)->where("students.is_active", "yes")->order_by("students.lastname", "ASC")->get("students");
 
         return $query->result_array();
         //SELECT `students`.`firstname`, `students`.`id`, `students`.`lastname`, `students`.`image`, `student_session`.`section_id` FROM `students` JOIN `student_session` ON `students`.`id` = `student_session`.`student_id` WHERE `student_session`.`class_id` = '1' AND `student_session`.`session_id` = '14' AND `students`.`is_active` = 'yes'
@@ -2257,7 +2238,7 @@ return false;
         $custom_fields   = $this->customfield_model->get_custom_fields('students');
 
         $field_var_array = array();
-       if (!empty($custom_fields)) {
+        if (!empty($custom_fields)) {
             foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
                 $tb_counter = "table_custom_" . $i;
                 array_push($field_var_array, 'table_custom_' . $i . '.field_value as ' . $custom_fields_value->name);
@@ -2353,7 +2334,6 @@ return false;
     public function currentClassSectionById($studentid, $schoolsessionId)
     {
         return $this->db->select('class_id,section_id')->from('student_session')->where('session_id', $schoolsessionId)->where('student_id', $studentid)->get()->row_array();
-
     }
 
     public function reportClassSection($class_id = null, $section_id = null)
@@ -2510,7 +2490,6 @@ return false;
         $this->db->order_by('students.id', 'desc');
         $query = $this->db->get();
         return $query->result_array();
-
     }
 
     public function bulkdelete($students)
@@ -2519,11 +2498,11 @@ return false;
 
             $this->writedb->trans_start();
             $student_comma_seprate = implode(', ', $students);
-      //delete from students
+            //delete from students
             $this->writedb->where_in('id', $students);
             $this->writedb->delete('students');
 
-      //delete from users
+            //delete from users
             $this->writedb->where_in('user_id', $students);
             $this->writedb->where_in('role', 'student');
             $this->writedb->delete('users');
@@ -2543,7 +2522,6 @@ return false;
             } else {
                 return true;
             }
-
         }
     }
 
@@ -2591,7 +2569,6 @@ return false;
             //     return false;
             // }
         }
-
     }
 
     public function GetStudentByID($id)
@@ -2832,7 +2809,7 @@ return false;
         $this->db->select('DISTINCT(students.lrn_no) AS lrn_no');
         $this->db->from('students');
         if ($lrn != "")
-            $this->db->where("students.lrn_no like '".strtolower(urldecode($lrn))."%'");
+            $this->db->where("students.lrn_no like '" . strtolower(urldecode($lrn)) . "%'");
         $this->db->order_by('students.lrn_no', 'asc');
         $query = $this->db->get();
         $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
@@ -2848,7 +2825,7 @@ return false;
         $this->db->select("DISTINCT(roll_no), studentname");
         $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname FROM students) tbl1");
         if ($name != "")
-            $this->db->where("LOWER(studentname) like '%".strtolower(urldecode($name))."%'");
+            $this->db->where("LOWER(studentname) like '%" . strtolower(urldecode($name)) . "%'");
         $this->db->order_by('studentname', 'asc');
         $query = $this->db->get();
         $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
@@ -2862,9 +2839,9 @@ return false;
         $this->db->from("(SELECT students.roll_no, CONCAT(students.firstname, ' ', students.lastname) AS studentname
                           FROM students
                           JOIN student_session ON students.id = student_session.student_id
-                          WHERE student_session.session_id = ".$this->current_session.") tbl1");
+                          WHERE student_session.session_id = " . $this->current_session . ") tbl1");
         if ($name != "")
-            $this->db->where("LOWER(studentname) like '".strtolower(urldecode($name))."%'");
+            $this->db->where("LOWER(studentname) like '" . strtolower(urldecode($name)) . "%'");
         $this->db->order_by('studentname', 'asc');
         $query = $this->db->get();
         $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
@@ -2877,7 +2854,7 @@ return false;
         $this->db->select("DISTINCT(id), CONCAT(studentname, ' (Birthdate: ', dob, ')') AS studentname");
         $this->db->from("(SELECT students.id, CONCAT(students.firstname, ' ', students.lastname) AS studentname, students.dob FROM students) tbl1");
         if ($name != "")
-            $this->db->where("LOWER(studentname) like '%".strtolower(urldecode($name))."%'");
+            $this->db->where("LOWER(studentname) like '%" . strtolower(urldecode($name)) . "%'");
         $this->db->order_by('studentname', 'asc');
         $query = $this->db->get();
         $result = ($query->num_rows() > 0) ? $query->result_array() : FALSE;
@@ -2943,12 +2920,12 @@ return false;
         $data = array(
             'enrollment_payment_status' => $status,
         );
-        if($status=="paid"){
-          $data = array(
-              'enrollment_payment_status' => $status,
-              'enrollment_payment_date' => date("Y-m-d H:i:s"),
-              'updated_at' => date("Y-m-d H:i:s"),
-          );
+        if ($status == "paid") {
+            $data = array(
+                'enrollment_payment_status' => $status,
+                'enrollment_payment_date' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            );
         }
 
         $this->writedb->trans_start(); # Starting Transaction
@@ -2970,7 +2947,6 @@ return false;
             # Something went wrong.
             $this->writedb->trans_rollback();
             return false;
-
         } else {
             return true;
         }
@@ -2980,19 +2956,19 @@ return false;
         // else
         //     return false;
     }
-	
-	public function grading_GetAllowedToView($schoolyear, $gradelevel, $section) {
+
+    public function grading_GetAllowedToView($schoolyear, $gradelevel, $section)
+    {
         $subquery = "";
         $quarter_columns = "";
-        
-        $dataresult = $this->gradereport_model->get_quarter_list();     
+
+        $dataresult = $this->gradereport_model->get_quarter_list();
         // $dataresult = $this->get_quarter_list();   
 
-        foreach($dataresult as $row) {
+        foreach ($dataresult as $row) {
             if (!empty($quarter_columns)) {
                 $quarter_columns .= ", IFNULL(tbl$row->id.view_allowed, 0) AS '$row->name'";
-            }
-            else {
+            } else {
                 $quarter_columns .= " IFNULL(tbl$row->id.view_allowed, 0) AS '$row->name'";
             }
 
@@ -3007,12 +2983,12 @@ return false;
                 (SELECT id FROM grading_quarter WHERE NAME = 'Q3') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'Q4') AS q4 
                 FROM students
                 LEFT JOIN student_session ON student_session.student_id = students.id 
-                ".$subquery." 
+                " . $subquery . " 
                 WHERE student_session.session_id = $schoolyear
                 AND student_session.class_id = $gradelevel 
                 AND student_session.section_id = $section 
                 ORDER BY gender DESC, student_name ASC";
-        
+
         // return($sql);
         $query = $this->db->query($sql);
         // print_r($this->db->last_query());die();
@@ -3020,7 +2996,8 @@ return false;
         return $query->result();
     }
 
-    public function grading_AddAllowedToView($data) {
+    public function grading_AddAllowedToView($data)
+    {
         $this->writedb->trans_start(); # Starting Transaction
         $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
 
@@ -3032,7 +3009,7 @@ return false;
         if ($data["view_allowed"] == 1)
             $this->writedb->insert('grading_allowed_students', $data);
 
-            // print_r($this->writedb->error());die();
+        // print_r($this->writedb->error());die();
 
         $this->writedb->trans_complete(); # Completing transaction
 
@@ -3040,24 +3017,23 @@ return false;
             # Something went wrong.
             $this->writedb->trans_rollback();
             return false;
-
         } else {
             return true;
         }
     }
 
-    public function AddStudentSiblings($student_id, $data) 
+    public function AddStudentSiblings($student_id, $data)
     {
         // echo "<pre>"; print_r($data); echo"<pre>";die();
 
         $this->writedb->trans_start(); # Starting Transaction
-        $this->writedb->trans_strict(false); 
+        $this->writedb->trans_strict(false);
 
         $this->writedb->where('student_id', $student_id);
         $this->writedb->delete('student_siblings_admitted');
 
         $this->writedb->insert_batch('student_siblings_admitted', $data);
-        
+
         // print_r($this->writedb->last_query());
         // print_r($this->writedb->error());die();
         $result = ($this->writedb->affected_rows() == 0) ? false : true;
@@ -3069,7 +3045,6 @@ return false;
             # Something went wrong.
             $this->writedb->trans_rollback();
             return false;
-
         } else {
             return $result;
         }
