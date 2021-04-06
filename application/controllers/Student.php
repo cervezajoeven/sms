@@ -2,7 +2,7 @@
 
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
-} 
+}
 
 class Student extends Admin_Controller
 {
@@ -43,11 +43,11 @@ class Student extends Admin_Controller
 
         $url = $_SERVER['SERVER_NAME'];
 
-        if (strpos($url,'localhost') !== false) {
+        if (strpos($url, 'localhost') !== false) {
             $this->mode = "offline";
-        }elseif(strpos($url,'192.') !== false||strpos($url,'172.') !== false) {
+        } elseif (strpos($url, '192.') !== false || strpos($url, '172.') !== false) {
             $this->mode = "offline";
-        }else{
+        } else {
             $this->mode = "online";
         }
     }
@@ -78,7 +78,6 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
-
         } else {
             $class                   = $this->class_model->get();
             $data['classlist']       = $class;
@@ -178,9 +177,9 @@ class Student extends Admin_Controller
         if (!$this->rbac->hasPrivilege('student', 'can_view')) {
             access_denied();
         }
-        
+
         $data['title']         = 'Student Details';
-        $student               = $this->student_model->get($id); 
+        $student               = $this->student_model->get($id);
 
         // print_r("Debug Mode On <BR><BR>");
         // print_r($id);die();
@@ -227,7 +226,7 @@ class Student extends Admin_Controller
         if ($student['is_active'] = 'no') {
             $data['reason_data'] = $this->disable_reason_model->get($student['dis_reason']);
         }
-        
+
 
         $this->load->view('layout/header', $data);
         $this->load->view('student/studentShow', $data);
@@ -266,7 +265,7 @@ class Student extends Admin_Controller
         if (!$this->rbac->hasPrivilege('student', 'can_add')) {
             access_denied();
         }
-       
+
         $this->session->set_userdata('top_menu', 'Student Information');
         $this->session->set_userdata('sub_menu', 'student/create');
         $genderList                 = $this->customlib->getGender();
@@ -329,7 +328,7 @@ class Student extends Admin_Controller
 
         $this->form_validation->set_rules('file', $this->lang->line('required'), 'callback_handle_upload');
         $this->form_validation->set_rules('roll_no', $this->lang->line('required'), array('trim', array('check_exists', array($this->student_model, 'valid_student_roll')),));
-        
+
         $this->form_validation->set_rules('enrollment_type', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('mode_of_payment', $this->lang->line('required'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
@@ -337,20 +336,16 @@ class Student extends Admin_Controller
 
         // var_dump($data);die;
 
-        if ($this->form_validation->run() == false) 
-        {
+        if ($this->form_validation->run() == false) {
             $this->load->view('layout/header', $data);
             $this->load->view('student/studentCreate', $data);
             $this->load->view('layout/footer', $data);
-        } 
-        else 
-        {
+        } else {
             // var_dump($data);die;
             $custom_field_post  = $this->input->post("custom_fields[students]");
             $custom_value_array = array();
 
-            if (!empty($custom_field_post)) 
-            {
+            if (!empty($custom_field_post)) {
                 foreach ($custom_field_post as $key => $value) {
                     $check_field_type = $this->input->post("custom_fields[students][" . $key . "]");
                     $field_value      = is_array($check_field_type) ? implode(",", $check_field_type) : $check_field_type;
@@ -375,7 +370,7 @@ class Student extends Admin_Controller
             // if (empty($hostel_room_id)) {
             //     $hostel_room_id = 0;
             // }
-            
+
 
             $data_insert = array(
                 'firstname'           => $this->input->post('firstname'),
@@ -476,7 +471,7 @@ class Student extends Admin_Controller
                 'nationality' => $this->input->post('nationality'),
                 'esc_grantee' => $this->input->post('esc_grantee'),
                 'voucher_recipient' => $this->input->post('voucher_recipient'),
-                
+
                 'enrolled_here_before' => $this->input->post('enrolled_here_before'),
                 'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
                 'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
@@ -517,7 +512,7 @@ class Student extends Admin_Controller
             $father_occupation = $this->input->post('father_occupation');
             $mother_name       = $this->input->post('mother_name');
             $mother_phone      = $this->input->post('mother_phone');
-            $mother_occupation = $this->input->post('mother_occupation');            
+            $mother_occupation = $this->input->post('mother_occupation');
 
             // if (isset($measurement_date)) {
             //     $data_insert['measurement_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('measure_date')));
@@ -612,10 +607,8 @@ class Student extends Admin_Controller
 
             // var_dump($data_insert);die;
 
-            if ($this->sch_setting_detail->adm_auto_insert)
-            {
-                if ($this->sch_setting_detail->adm_update_status)
-                {
+            if ($this->sch_setting_detail->adm_auto_insert) {
+                if ($this->sch_setting_detail->adm_update_status) {
                     $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
 
                     //$last_student         = $this->student_model->lastRecord();
@@ -623,29 +616,24 @@ class Student extends Admin_Controller
                     $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
                     $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
                     $data_insert['admission_no'] = $admission_no;
-                } 
-                else 
-                {
+                } else {
                     $admission_no  = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
                     $data_insert['admission_no'] = $admission_no;
                 }
 
                 //-- Set id number = admission no
-                if ($this->input->post('enrollment_type') != 'old') 
-                {
+                if ($this->input->post('enrollment_type') != 'old') {
                     if (isset($roll_no) && !empty($roll_no))
                         $data_insert['roll_no'] = $roll_no;
                     else
                         $data_insert['roll_no'] = $admission_no;
-                }                    
+                }
 
                 $admission_no_exists = $this->student_model->check_adm_exists($admission_no);
 
-                if ($admission_no_exists) 
+                if ($admission_no_exists)
                     $insert = false;
-            } 
-            else 
-            {
+            } else {
                 $data_insert['admission_no'] = $this->input->post('admission_no');
             }
 
@@ -670,18 +658,16 @@ class Student extends Admin_Controller
                     $data_insert['id'] = $this->input->post('accountid');
                     // var_dump($data_insert);die;
                     $this->student_model->add($data_insert, $data_setting);
-                } 
-                else if ($this->input->post('enrollment_type') == 'old_new') {
+                } else if ($this->input->post('enrollment_type') == 'old_new') {
                     $data_insert["enrollment_type"] = "old";
                     $stud_id = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->onlinestudent_model->GetStudentID($data['roll_no']) : $this->onlinestudent_model->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
-                    
+
                     if (isset($stud_id)) {
                         $data_insert['id'] = $stud_id;
                     }
 
                     $insert_id = $this->student_model->add($data_insert, $data_setting);
-                }
-                else 
+                } else
                     $insert_id = $this->student_model->add($data_insert, $data_setting);
 
                 // $sibling_name = $this->input->post("sibling_name");
@@ -692,8 +678,7 @@ class Student extends Admin_Controller
 
                 // $this->student_model->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
 
-                if (!empty($custom_value_array)) 
-                {
+                if (!empty($custom_value_array)) {
                     if ($this->input->post('enrollment_type') == 'old')
                         $this->customfield_model->updateRecord($custom_value_array, $insert_id, 'students');
                     else
@@ -707,16 +692,14 @@ class Student extends Admin_Controller
                     'session_id'    => $session,
                     'fees_discount' => $fees_discount,
                 );
-                
+
                 $student_session_id = $this->student_model->add_student_session($data_new);
                 $feesmaster = $this->input->post('feesmaster[]');
                 $feesdiscount = $this->input->post('discount[]');
 
                 //-- Assign fees master
-                if (isset($feesmaster)) 
-                {
-                    foreach($feesmaster as $feemaster)
-                    {
+                if (isset($feesmaster)) {
+                    foreach ($feesmaster as $feemaster) {
                         $fee_session_group_id = $this->student_model->GetFeeSessionGroupID($feemaster);
 
                         $insert_array = array(
@@ -729,10 +712,8 @@ class Student extends Admin_Controller
                 }
 
                 //-- Assign discount
-                if (isset($feesdiscount))
-                {
-                    foreach($feesdiscount as $discount_id)
-                    {
+                if (isset($feesdiscount)) {
+                    foreach ($feesdiscount as $discount_id) {
                         $insert_array = array(
                             'student_session_id' => $student_session_id,
                             'fees_discount_id' => $discount_id,
@@ -743,8 +724,7 @@ class Student extends Admin_Controller
                 }
 
                 //-- Generate parent and student login credentials for non old students
-                if ($this->input->post('enrollment_type') != 'old') 
-                {
+                if ($this->input->post('enrollment_type') != 'old') {
                     if ($this->input->post('enrollment_type') == 'old_new')
                         $isOld = $data['roll_no'] != null && $data['roll_no'] != '' ? $this->onlinestudent_model->GetStudentID($data['roll_no']) : $this->onlinestudent_model->GetStudentIDNumberByName($data['firstname'], $data['lastname']);
 
@@ -760,17 +740,14 @@ class Student extends Admin_Controller
                         $this->user_model->add($data_student_login);
 
                         $sibling_id         = $this->input->post('sibling_id');
-                        if ($sibling_id > 0) 
-                        {
+                        if ($sibling_id > 0) {
                             $student_sibling = $this->student_model->get($sibling_id);
                             $update_student  = array(
                                 'id'        => $insert_id,
                                 'parent_id' => $student_sibling['parent_id'],
                             );
                             $student_sibling = $this->student_model->add($update_student);
-                        } 
-                        else 
-                        {
+                        } else {
                             $parent_password   = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
                             $temp              = $insert_id;
                             $data_parent_login = array(
@@ -787,28 +764,25 @@ class Student extends Admin_Controller
                             );
                             $this->student_model->add($update_student);
                         }
-                    }                    
+                    }
                 }
 
-                if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) 
-                {
+                if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                     $fileInfo = pathinfo($_FILES["file"]["name"]);
                     $img_name = $insert_id . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
                     $data_img = array('id' => $insert_id, 'image' => 'uploads/student_images/' . $img_name);
                 }
 
-                if (isset($_FILES["father_pic"]) && !empty($_FILES['father_pic']['name'])) 
-                {
+                if (isset($_FILES["father_pic"]) && !empty($_FILES['father_pic']['name'])) {
                     $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
                     $img_name = $insert_id . "father" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
                     $data_img = array('id' => $insert_id, 'father_pic' => 'uploads/student_images/' . $img_name);
                     $this->student_model->add($data_img);
                 }
-                
-                if (isset($_FILES["mother_pic"]) && !empty($_FILES['mother_pic']['name'])) 
-                {
+
+                if (isset($_FILES["mother_pic"]) && !empty($_FILES['mother_pic']['name'])) {
                     $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
                     $img_name = $insert_id . "mother" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -816,8 +790,7 @@ class Student extends Admin_Controller
                     $this->student_model->add($data_img);
                 }
 
-                if (isset($_FILES["guardian_pic"]) && !empty($_FILES['guardian_pic']['name'])) 
-                {
+                if (isset($_FILES["guardian_pic"]) && !empty($_FILES['guardian_pic']['name'])) {
                     $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
                     $img_name = $insert_id . "guardian" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -825,8 +798,7 @@ class Student extends Admin_Controller
                     $this->student_model->add($data_img);
                 }
 
-                if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) 
-                {
+                if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
                     $uploaddir = './uploads/student_documents/' . $insert_id . '/';
                     if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                         die("Error creating folder $uploaddir");
@@ -841,8 +813,7 @@ class Student extends Admin_Controller
                     $data_img = array('student_id' => $insert_id, 'title' => $first_title, 'doc' => $imp);
                     $this->student_model->adddoc($data_img);
                 }
-                if (isset($_FILES["second_doc"]) && !empty($_FILES['second_doc']['name'])) 
-                {
+                if (isset($_FILES["second_doc"]) && !empty($_FILES['second_doc']['name'])) {
                     $uploaddir = './uploads/student_documents/' . $insert_id . '/';
                     if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                         die("Error creating folder $uploaddir");
@@ -858,8 +829,7 @@ class Student extends Admin_Controller
                     $this->student_model->adddoc($data_img);
                 }
 
-                if (isset($_FILES["fourth_doc"]) && !empty($_FILES['fourth_doc']['name'])) 
-                {
+                if (isset($_FILES["fourth_doc"]) && !empty($_FILES['fourth_doc']['name'])) {
                     $uploaddir = './uploads/student_documents/' . $insert_id . '/';
                     if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                         die("Error creating folder $uploaddir");
@@ -874,8 +844,7 @@ class Student extends Admin_Controller
                     $data_img = array('student_id' => $insert_id, 'title' => $fourth_title, 'doc' => $imp);
                     $this->student_model->adddoc($data_img);
                 }
-                if (isset($_FILES["fifth_doc"]) && !empty($_FILES['fifth_doc']['name'])) 
-                {
+                if (isset($_FILES["fifth_doc"]) && !empty($_FILES['fifth_doc']['name'])) {
                     $uploaddir = './uploads/student_documents/' . $insert_id . '/';
                     if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                         die("Error creating folder $uploaddir");
@@ -889,23 +858,19 @@ class Student extends Admin_Controller
 
                     move_uploaded_file($_FILES["fifth_doc"]["tmp_name"], $img_name);
                     $data_img = array('student_id' => $insert_id, 'title' => $fifth_title, 'doc' => $imp);
-                    $this->student_model->adddoc($data_img);                    
+                    $this->student_model->adddoc($data_img);
                 }
 
                 $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 $this->mailsmsconf->mailsms('student_admission', $sender_details);
-                
+
                 //if ($this->input->post('enrollment_type') != 'old') 
                 {
                     $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
                     $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
-                
-                    if ($sibling_id > 0) 
-                    {
-    
-                    } 
-                    else 
-                    {
+
+                    if ($sibling_id > 0) {
+                    } else {
                         $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                         $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
                     }
@@ -913,9 +878,7 @@ class Student extends Admin_Controller
 
                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
                 redirect('student/create');
-            } 
-            else 
-            {
+            } else {
                 $data['error_message'] = $this->lang->line('admission_no') . ' ' . $admission_no . ' ' . $this->lang->line('already_exists');
                 $this->load->view('layout/header', $data);
                 $this->load->view('student/studentCreate', $data);
@@ -923,7 +886,7 @@ class Student extends Admin_Controller
             }
         }
     }
-  
+
     public function create_doc()
     {
         $this->form_validation->set_rules('first_title', $this->lang->line('title'), 'trim|required|xss_clean');
@@ -932,35 +895,33 @@ class Student extends Admin_Controller
         if ($this->form_validation->run() == false) {
             $msg = array(
                 'first_title'              => form_error('first_title'),
-                'first_doc'              => form_error('first_doc')              
+                'first_doc'              => form_error('first_doc')
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
-        } 
-        else {
+        } else {
             $student_id = $this->input->post('student_id');
             if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
                 $uploaddir = './uploads/student_documents/' . $student_id . '/';
                 if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
                     die("Error creating folder $uploaddir");
                 }
-                
+
                 $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
-                $fileExtension    = pathinfo($_FILES["first_doc"]["name"],PATHINFO_EXTENSION);
+                $fileExtension    = pathinfo($_FILES["first_doc"]["name"], PATHINFO_EXTENSION);
                 $first_title = $this->input->post('first_title');
                 $file_name   = $_FILES['first_doc']['name'];
                 $exp         = explode(' ', $file_name);
                 $imp         = implode('_', $exp);
-                $imp         = $this->student_model->id_generator("student_documents").".".$fileExtension;
+                $imp         = $this->student_model->id_generator("student_documents") . "." . $fileExtension;
                 $img_name    = $uploaddir . basename($imp);
 
                 move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
-                $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
+                $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp, 'document_title' => $fileInfo['basename'], 'date_created' => date('Y-m-d H:i:s'));
                 $this->student_model->adddoc($data_img);
-
             }
 
             $msg   = $this->lang->line('success_message');
-            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
         }
 
         echo json_encode($array);
@@ -970,7 +931,7 @@ class Student extends Admin_Controller
     {
 
         $image_validate = $this->config->item('file_validate');
-      
+
         if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
 
             $file_type         = $_FILES["first_doc"]['type'];
@@ -984,25 +945,23 @@ class Student extends Admin_Controller
             finfo_close($finfo);
 
 
-                if (!in_array($mtype, $allowed_mime_type)) {
-                    $this->form_validation->set_message('handle_uploadcreate_doc', 'File Type Not Allowed');
-                    return false;
-                }
+            if (!in_array($mtype, $allowed_mime_type)) {
+                $this->form_validation->set_message('handle_uploadcreate_doc', 'File Type Not Allowed');
+                return false;
+            }
 
-                if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
-                    $this->form_validation->set_message('handle_uploadcreate_doc', 'Extension Not Allowed');
-                    return false;
-                }
-                if ($file_size > $image_validate['upload_size']) {
-                    $this->form_validation->set_message('handle_uploadcreate_doc', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
-                    return false;
-                }
-     
+            if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
+                $this->form_validation->set_message('handle_uploadcreate_doc', 'Extension Not Allowed');
+                return false;
+            }
+            if ($file_size > $image_validate['upload_size']) {
+                $this->form_validation->set_message('handle_uploadcreate_doc', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                return false;
+            }
+
 
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('handle_uploadcreate_doc', "The File Field is required");
             return false;
         }
@@ -1192,15 +1151,17 @@ class Student extends Admin_Controller
 
         // $fields = array('admission_no', 'roll_no', 'firstname', 'lastname', 'gender', 'dob', 'category_id', 'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
         //$fields = array('admission_no','roll_no','firstname','lastname','middlename','gender','dob','guardian_is','guardian_name','guardian_relation','guardian_phone','enrollment_type','mobileno','email','category_id','religion','cast','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation','mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','bank_account_no','bank_name','ifsc_code','adhar_no','samagra_id','rte','previous_school','note');
-        $fields = array('admission_no','roll_no','lrn_no','firstname','middlename','lastname','gender','dob','guardian_is','guardian_relation','guardian_name','guardian_phone','enrollment_type','category_id',
-                        'religion','cast','mobileno','email','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation',
-                        'mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','previous_school','note');
-                        // ,'father_company_name','father_company_position','father_nature_of_business','father_mobile','father_email','father_dob','father_citizenship','father_religion',
-                        // 'father_highschool','father_college','father_college_course','father_post_graduate','father_post_course','father_prof_affiliation','father_prof_affiliation_position',
-                        // 'father_tech_prof','father_tech_prof_other','mother_company_name','mother_company_position','mother_nature_of_business','mother_mobile','mother_email','mother_dob',
-                        // 'mother_citizenship','mother_religion','mother_highschool','mother_college','mother_college_course','mother_post_graduate','mother_post_course','mother_prof_affiliation',
-                        // 'mother_prof_affiliation_position','mother_tech_prof','mother_tech_prof_other','marriage','dom','church','family_together','parents_away','parents_away_state','parents_civil_status',
-                        // 'parents_civil_status_other');
+        $fields = array(
+            'admission_no', 'roll_no', 'lrn_no', 'firstname', 'middlename', 'lastname', 'gender', 'dob', 'guardian_is', 'guardian_relation', 'guardian_name', 'guardian_phone', 'enrollment_type', 'category_id',
+            'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation',
+            'mother_name', 'mother_phone', 'mother_occupation', 'guardian_email', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'previous_school', 'note'
+        );
+        // ,'father_company_name','father_company_position','father_nature_of_business','father_mobile','father_email','father_dob','father_citizenship','father_religion',
+        // 'father_highschool','father_college','father_college_course','father_post_graduate','father_post_course','father_prof_affiliation','father_prof_affiliation_position',
+        // 'father_tech_prof','father_tech_prof_other','mother_company_name','mother_company_position','mother_nature_of_business','mother_mobile','mother_email','mother_dob',
+        // 'mother_citizenship','mother_religion','mother_highschool','mother_college','mother_college_course','mother_post_graduate','mother_post_course','mother_prof_affiliation',
+        // 'mother_prof_affiliation_position','mother_tech_prof','mother_tech_prof_other','marriage','dom','church','family_together','parents_away','parents_away_state','parents_civil_status',
+        // 'parents_civil_status_other');
 
         $data["fields"]       = $fields;
         $data['categorylist'] = $category;
@@ -1247,16 +1208,14 @@ class Student extends Admin_Controller
 
                             $last_student         = $this->student_model->lastRecordByAdmissionNo();
 
-                            if (!empty($last_student))
-                            {
+                            if (!empty($last_student)) {
                                 $last_admission_digit = str_replace($this->sch_setting_detail->adm_prefix, "", $last_student->admission_no);
                                 $admission_no         = $this->sch_setting_detail->adm_prefix . sprintf("%0" . $this->sch_setting_detail->adm_no_digit . "d", $last_admission_digit + 1);
-                            }
-                            else
+                            } else
                                 $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
-                            
+
                             // var_dump($admission_no);die;
-                            
+
                             $roll_no                           = $student_data[$i]["roll_no"];
                             $adm_no                            = $admission_no; //$student_data[$i]["admission_no"];
 
@@ -1272,25 +1231,18 @@ class Student extends Admin_Controller
                             $data_setting['adm_auto_insert']   = $this->sch_setting_detail->adm_auto_insert;
                             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
 
-                            if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) 
-                            {
-                                if (!empty($roll_no)) 
-                                {
-                                    if ($this->student_model->check_rollno_exists($roll_no, 0, $class_id, $section)) 
-                                    {
+                            if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) {
+                                if (!empty($roll_no)) {
+                                    if ($this->student_model->check_rollno_exists($roll_no, 0, $class_id, $section)) {
                                         $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">' . $this->lang->line('record_already_exists') . '</div>');
                                         $insert_id = "";
-                                    } 
-                                    else 
+                                    } else
                                         $insert_id = $this->student_model->add($student_data[$i], $data_setting);
-                                } 
-                                else 
-                                {
+                                } else {
                                     $student_data[$i]["roll_no"] = $admission_no;
                                     $insert_id = $this->student_model->add($student_data[$i], $data_setting);
-                                }                                    
-                            } 
-                            else 
+                                }
+                            } else
                                 $insert_id = "";
 
                             if (!empty($insert_id)) {
@@ -1332,18 +1284,15 @@ class Student extends Admin_Controller
 
                                 $this->student_model->add($update_student);
 
-                                if ($this->sch_setting_detail->email_on_student_import)
-                                {
-                                    if (!empty($email))
-                                    {
+                                if ($this->sch_setting_detail->email_on_student_import) {
+                                    if (!empty($email)) {
                                         $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $email);
                                         $this->mailsmsconf->mailsms('student_import', $sender_details);
                                     }
                                 }
 
                                 //-- Send login credentials upon import
-                                if (!empty($guardian_email))
-                                {
+                                if (!empty($guardian_email)) {
                                     $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $guardian_email);
                                     $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
 
@@ -1357,7 +1306,6 @@ class Student extends Admin_Controller
 
                                 $rowcount++;
                                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Total ' . count($result) . " records found in CSV file. Total " . $rowcount . ' records imported successfully.</div>');
-
                             } else {
 
                                 $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">' . $this->lang->line('record_already_exists') . '</div>');
@@ -1389,7 +1337,8 @@ class Student extends Admin_Controller
         $error = "";
         if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
             $allowedExts = array('csv');
-            $mimes       = array('text/csv',
+            $mimes       = array(
+                'text/csv',
                 'text/plain',
                 'application/csv',
                 'text/comma-separated-values',
@@ -1398,7 +1347,8 @@ class Student extends Admin_Controller
                 'application/vnd.msexcel',
                 'text/anytext',
                 'application/octet-stream',
-                'application/txt');
+                'application/txt'
+            );
             $temp      = explode(".", $_FILES["file"]["name"]);
             $extension = end($temp);
             if ($_FILES["file"]["error"] > 0) {
@@ -1427,7 +1377,7 @@ class Student extends Admin_Controller
     {
         if (!$this->rbac->hasPrivilege('student', 'can_edit')) {
             access_denied();
-        }        
+        }
 
         // print_r("Debug Mode On <BR><BR>");
         // print_r($id);die();
@@ -1488,7 +1438,7 @@ class Student extends Admin_Controller
         //$this->form_validation->set_rules('roll_no', $this->lang->line('roll_no'), array('trim',array('check_exists', array($this->student_model, 'valid_student_roll')),));
         //$this->form_validation->set_rules('lrn_no', $this->lang->line('lrn_no'), 'trim|required|xss_clean');
 
-        if(!$this->sch_setting_detail->adm_auto_insert) {           
+        if (!$this->sch_setting_detail->adm_auto_insert) {
             $this->form_validation->set_rules('admission_no', $this->lang->line('admission_no'), array('required', array('check_admission_no_exists', array($this->student_model, 'valid_student_admission_no'))));
         }
 
@@ -1639,7 +1589,7 @@ class Student extends Admin_Controller
                 'nationality' => $this->input->post('nationality'),
                 'esc_grantee' => $this->input->post('esc_grantee'),
                 'voucher_recipient' => $this->input->post('voucher_recipient'),
-                
+
                 'enrolled_here_before' => $this->input->post('enrolled_here_before'),
                 'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
                 'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
@@ -1727,16 +1677,16 @@ class Student extends Admin_Controller
             if (isset($father_occupation))
                 $data['father_occupation'] = $this->input->post('father_occupation');
 
-            if (isset($mother_name)) 
+            if (isset($mother_name))
                 $data['mother_name'] = $this->input->post('mother_name');
 
-            if (isset($mother_phone)) 
+            if (isset($mother_phone))
                 $data['mother_phone'] = $this->input->post('mother_phone');
 
-            if (isset($mother_occupation)) 
+            if (isset($mother_occupation))
                 $data['mother_occupation'] = $this->input->post('mother_occupation');
 
-            if (!$this->sch_setting_detail->adm_auto_insert) 
+            if (!$this->sch_setting_detail->adm_auto_insert)
                 $data['admission_no'] = $this->input->post('admission_no');
 
             $sibling_name = $this->input->post("sibling_name");
@@ -1748,8 +1698,8 @@ class Student extends Admin_Controller
             // print_r($sibling_dec);die();
 
             $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
-                
-            print_r(json_encode($data));die();
+
+            // print_r(json_encode($data));die();
 
             $this->student_model->add($data);
 
@@ -1760,8 +1710,8 @@ class Student extends Admin_Controller
                 'session_id'    => $session,
                 'fees_discount' => $fees_discount,
             );
-            
-            $insert_id = $this->student_model->add_student_session($data_new);            
+
+            $insert_id = $this->student_model->add_student_session($data_new);
 
             // $sibling_name = $this->input->post("sibling_name");
             // $sibling_age = $this->input->post("sibling_age");
@@ -1771,22 +1721,18 @@ class Student extends Admin_Controller
             // $this->student_model->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
 
             // if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
-            if (isset($_FILES["file"])) 
-            {
-                if ($_FILES['file']['size'] > 0) 
-                {
+            if (isset($_FILES["file"])) {
+                if ($_FILES['file']['size'] > 0) {
                     $fileInfo = pathinfo($_FILES["file"]["name"]);
                     $img_name = $id . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
                     $data_img = array('id' => $id, 'image' => 'uploads/student_images/' . $img_name);
                     $this->student_model->add($data_img);
-                }                
+                }
             }
 
-            if (isset($_FILES["father_pic"])) 
-            {
-                if ($_FILES['father_pic']['size'] > 0) 
-                {
+            if (isset($_FILES["father_pic"])) {
+                if ($_FILES['father_pic']['size'] > 0) {
                     $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
                     $img_name = $id . "father" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1795,10 +1741,8 @@ class Student extends Admin_Controller
                 }
             }
 
-            if (isset($_FILES["mother_pic"])) 
-            {
-                if ($_FILES['mother_pic']['size'] > 0) 
-                {
+            if (isset($_FILES["mother_pic"])) {
+                if ($_FILES['mother_pic']['size'] > 0) {
                     $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
                     $img_name = $id . "mother" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1807,10 +1751,8 @@ class Student extends Admin_Controller
                 }
             }
 
-            if (isset($_FILES["guardian_pic"])) 
-            {
-                if ($_FILES['guardian_pic']['size'] > 0) 
-                {
+            if (isset($_FILES["guardian_pic"])) {
+                if ($_FILES['guardian_pic']['size'] > 0) {
                     $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
                     $img_name = $id . "guardian" . '.' . $fileInfo['extension'];
                     move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
@@ -1819,12 +1761,9 @@ class Student extends Admin_Controller
                 }
             }
 
-            if (isset($siblings_counts) && ($total_siblings == $siblings_counts)) 
-            {
+            if (isset($siblings_counts) && ($total_siblings == $siblings_counts)) {
                 //if there is no change in sibling
-            } 
-            else if (!isset($siblings_counts) && $sibling_id == 0 && $total_siblings > 0) 
-            {
+            } else if (!isset($siblings_counts) && $sibling_id == 0 && $total_siblings > 0) {
                 // add for new parent
                 $parent_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
@@ -1840,9 +1779,7 @@ class Student extends Admin_Controller
                     'parent_id' => 0,
                 );
                 $ins_id = $this->user_model->addNewParent($data_parent_login, $update_student);
-            } 
-            else if ($sibling_id != 0) 
-            {
+            } else if ($sibling_id != 0) {
                 //join to student with new parent
                 $student_sibling = $this->student_model->get($sibling_id);
                 $update_student  = array(
@@ -1850,10 +1787,7 @@ class Student extends Admin_Controller
                     'parent_id' => $student_sibling['parent_id'],
                 );
                 $student_sibling = $this->student_model->add($update_student);
-            } 
-            else 
-            {
-
+            } else {
             }
 
             $this->session->set_flashdata('msg', '<div student="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
@@ -1925,12 +1859,11 @@ class Student extends Admin_Controller
             $section     = $this->input->post('section_id');
             $search      = $this->input->post('search');
             $search_text = $this->input->post('search_text');
-            
+
             if (isset($search)) {
                 if ($search == 'search_filter') {
                     $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
                     if ($this->form_validation->run() == false) {
-
                     } else {
                         $data['searchby']    = "filter";
                         $data['class_id']    = $this->input->post('class_id');
@@ -1956,7 +1889,7 @@ class Student extends Admin_Controller
             $this->load->view('layout/footer', $data);
         }
     }
- 
+
     public function getByClassAndSection()
     {
         $class      = $this->input->get('class_id');
@@ -2103,7 +2036,6 @@ class Student extends Admin_Controller
 
         $button = $this->input->post('search');
         if ($this->input->server('REQUEST_METHOD') == "GET") {
-
         } else {
             $class       = $this->input->post('class_id');
             $section     = $this->input->post('section_id');
@@ -2113,7 +2045,6 @@ class Student extends Admin_Controller
                 if ($search == 'search_filter') {
                     $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
                     if ($this->form_validation->run() == false) {
-
                     } else {
                         $data['searchby']   = "filter";
                         $data['class_id']   = $this->input->post('class_id');
@@ -2163,7 +2094,7 @@ class Student extends Admin_Controller
     {
 
         $data = array('is_active' => "yes");
-        
+
         $this->student_model->disableStudent($id, $data);
         echo "0";
         //redirect("student/view/" . $id);
@@ -2293,7 +2224,6 @@ class Student extends Admin_Controller
             $students = $this->input->post('student');
 
             foreach ($students as $student_key => $student_value) {
-
             }
 
             $this->student_model->bulkdelete($students);
@@ -2306,7 +2236,7 @@ class Student extends Admin_Controller
     public function GetStudentDetails($idnumber)
     {
         //$data = $this->student_model->GetStudentByLRNNo($idnumber);
-        $data = $this->student_model->GetStudentByRollNo($idnumber);        
+        $data = $this->student_model->GetStudentByRollNo($idnumber);
         echo json_encode($data);
     }
 
@@ -2316,101 +2246,100 @@ class Student extends Admin_Controller
         echo json_encode($data);
     }
 
-    public function AutoCompleteLRN() {
+    public function AutoCompleteLRN()
+    {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
-        $lrn = $_POST['search'];        
+        $lrn = $_POST['search'];
         $lrns = $this->student_model->GetLRNList($lrn);
         //var_dump($lrns);die;
 
-        if(empty($lrns)) 
+        if (empty($lrns))
             $results['error'] = true;
         else {
-            if(!empty($lrns)){
-                foreach ($lrns as $row){
-                    $returnData[] = array("value"=>$row['lrn_no'],"label"=>$row['lrn_no']);
+            if (!empty($lrns)) {
+                foreach ($lrns as $row) {
+                    $returnData[] = array("value" => $row['lrn_no'], "label" => $row['lrn_no']);
                 }
             }
-        }       
-        
+        }
+
         // Return results as json encoded array
-        echo json_encode($returnData); die;
+        echo json_encode($returnData);
+        die;
     }
 
-    public function AutoCompleteStudentName() 
+    public function AutoCompleteStudentName()
     {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
-        $name = $_POST['search'];        
+        $name = $_POST['search'];
         $names = $this->student_model->GetNameList($name);
 
-        if(empty($names)) 
+        if (empty($names))
             $results['error'] = true;
-        else 
-        {
-            if(!empty($names))
-            {
+        else {
+            if (!empty($names)) {
                 foreach ($names as $row)
-                    $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['studentname']);
+                    $returnData[] = array("value" => $row['roll_no'], "label" => $row['studentname']);
             }
-        }       
-        
+        }
+
         // Return results as json encoded array
-        echo json_encode($returnData); die;
+        echo json_encode($returnData);
+        die;
     }
 
-    public function AutoCompleteStudentNameEnrolled() 
+    public function AutoCompleteStudentNameEnrolled()
     {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
-        $name = $_POST['search'];        
+        $name = $_POST['search'];
         $names = $this->student_model->GetNameListEnrolled($name);
 
-        if(empty($names)) 
+        if (empty($names))
             $results['error'] = true;
-        else 
-        {
-            if(!empty($names))
-            {
+        else {
+            if (!empty($names)) {
                 foreach ($names as $row)
-                    $returnData[] = array("value"=>$row['roll_no'],"label"=>$row['studentname']);
+                    $returnData[] = array("value" => $row['roll_no'], "label" => $row['studentname']);
             }
-        }       
-        
+        }
+
         // Return results as json encoded array
-        echo json_encode($returnData); die;
+        echo json_encode($returnData);
+        die;
     }
 
-    public function AutoCompleteStudentNameForAdmission() 
+    public function AutoCompleteStudentNameForAdmission()
     {
         $returnData = array();
         $results = array('error' => false, 'data' => '');
-        $name = $_GET['search'];        
+        $name = $_GET['search'];
         $names = $this->student_model->GetNameListAdmission($name);
 
-        if(empty($names)) 
+        if (empty($names))
             $results['error'] = true;
-        else 
-        {
-            if(!empty($names))
-            {
+        else {
+            if (!empty($names)) {
                 foreach ($names as $row)
-                    $returnData[] = array("value"=>$row['id'],"label"=>$row['studentname']);
+                    $returnData[] = array("value" => $row['id'], "label" => $row['studentname']);
             }
-        }       
-        
-        // Return results as json encoded array
-        echo json_encode($returnData); die;
-    }    
+        }
 
-    public function SendDocs() 
+        // Return results as json encoded array
+        echo json_encode($returnData);
+        die;
+    }
+
+    public function SendDocs()
     {
         // if (!$this->rbac->hasPrivilege('student', 'can_add')) 
         //     access_denied();
 
         $this->session->set_userdata('top_menu', 'Communicate');
         $this->session->set_userdata('sub_menu', 'Communicate/senddocs');
-        
+
         $data['title']           = 'Student Send Documents';
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['sch_setting']     = $this->sch_setting_detail;
@@ -2421,33 +2350,27 @@ class Student extends Admin_Controller
         $userdata = $this->customlib->getUserData();
         $carray   = array();
 
-        if (!empty($data["classlist"])) 
-            foreach ($data["classlist"] as $ckey => $cvalue) 
+        if (!empty($data["classlist"]))
+            foreach ($data["classlist"] as $ckey => $cvalue)
                 $carray[] = $cvalue["id"];
 
         //echo "<pre>";  print_r($carray); echo "<pre>";die;
         $button = $this->input->post('search');
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") 
-        {
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $this->load->view('layout/header', $data);
             $this->load->view('student/studentSendDocs', $data);
             $this->load->view('layout/footer', $data);
-        } 
-        else 
-        {
+        } else {
             $class       = $this->input->post('class_id');
             $section     = $this->input->post('section_id');
             $search      = $this->input->post('search');
-            
+
             $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-            
-            if ($this->form_validation->run() == false) 
-            {
-            } 
-            else 
-            {
+
+            if ($this->form_validation->run() == false) {
+            } else {
                 $data['searchby']    = "filter";
                 $data['class_id']    = $this->input->post('class_id');
                 $data['section_id']  = $this->input->post('section_id');
@@ -2472,44 +2395,37 @@ class Student extends Admin_Controller
 
         $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('docs', $this->lang->line('document'), 'callback_handle_upload_multidocs');
-        
-        if ($this->form_validation->run() == false) 
-        {
+
+        if ($this->form_validation->run() == false) {
             $msg = array(
                 'doctitle' => form_error('doctitle'),
-                'docs' => form_error('docs')              
+                'docs' => form_error('docs')
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
-        }
-        else 
-        {
-            if (isset($student_docs)) 
-            {
+        } else {
+            if (isset($student_docs)) {
                 $stdidx = 0;
-                
-                foreach($student_docs as $key0=>$FILES) 
-                {   
-                    for ($i=0; $i<sizeof($FILES); $i++)
-                    {
-                        if (!empty($FILES[$i]["name"])) 
-                        {
+
+                foreach ($student_docs as $key0 => $FILES) {
+                    for ($i = 0; $i < sizeof($FILES); $i++) {
+                        if (!empty($FILES[$i]["name"])) {
                             $uploaddir = './uploads/student_documents/' . $student_id[$stdidx] . '/';
 
-                            if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
+                            if (!is_dir($uploaddir) && !mkdir($uploaddir))
                                 die("Error creating folder $uploaddir");
-                            
+
                             $fileInfo    = pathinfo($FILES[$i]["name"]);
-                            $fileExtension    = pathinfo($FILES[$i]["name"],PATHINFO_EXTENSION);
+                            $fileExtension    = pathinfo($FILES[$i]["name"], PATHINFO_EXTENSION);
                             $title = $this->input->post('doctitle');
                             $file_name   = $FILES[$i]["name"];
                             $exp         = explode(' ', $file_name);
                             // $imp         = implode('_', $exp);
-                            $imp         = $this->student_model->id_generator("student_documents").".".$fileExtension;
+                            $imp         = $this->student_model->id_generator("student_documents") . "." . $fileExtension;
                             $img_name    = $uploaddir . basename($imp);
                             move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
-                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp,'document_title'=>$fileInfo['basename'],'date_created'=>date('Y-m-d H:i:s'));
+                            $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp, 'document_title' => $fileInfo['basename'], 'date_created' => date('Y-m-d H:i:s'));
 
-                            $this->student_model->adddoc($data_img); 
+                            $this->student_model->adddoc($data_img);
                             // var_dump($FILES[$i]["name"]);
                             // echo ("<BR>");
                         }
@@ -2520,7 +2436,7 @@ class Student extends Admin_Controller
             }
 
             $msg   = $this->lang->line('success_message');
-            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
         }
 
         echo json_encode($array);
@@ -2535,47 +2451,48 @@ class Student extends Admin_Controller
         unset($directories[0]);
         unset($directories[1]);
         unset($directories[2]);
-        unset($directories[$directory_count-1]);
-        unset($directories[$directory_count-2]);
-        $all_student_doc = $this->student_model->lms_get("student_doc","","");
+        unset($directories[$directory_count - 1]);
+        unset($directories[$directory_count - 2]);
+        $all_student_doc = $this->student_model->lms_get("student_doc", "", "");
         // print_r($all_student_doc);
 
         foreach ($all_student_doc as $all_student_doc_key => $all_student_doc_value) {
-            if(!$all_student_doc_value['document_title']){
+            if (!$all_student_doc_value['document_title']) {
                 $generated_id = $this->student_model->id_generator("student_documents");
-                $extension = pathinfo($all_student_doc_value['doc'],PATHINFO_EXTENSION);
-                $new_doc = $generated_id.".".$extension;
+                $extension = pathinfo($all_student_doc_value['doc'], PATHINFO_EXTENSION);
+                $new_doc = $generated_id . "." . $extension;
                 $update_data['id'] = $all_student_doc_value['id'];
                 $update_data['doc'] = $new_doc;
                 $update_data['document_title'] = $all_student_doc_value['doc'];
                 $update_data['date_updated'] = date("Y-m-d H:i:s");
-                $update_directory = './uploads/student_documents/'.$all_student_doc_value['student_id'];
+                $update_directory = './uploads/student_documents/' . $all_student_doc_value['student_id'];
 
-                $original_file_url = base_url()."uploads/student_documents/".$all_student_doc_value['student_id']."/".$all_student_doc_value['doc'];
+                $original_file_url = base_url() . "uploads/student_documents/" . $all_student_doc_value['student_id'] . "/" . $all_student_doc_value['doc'];
                 // print_r(file_get_contents($original_file_url));
 
-                $original_file = $update_directory."/".$all_student_doc_value['doc'];
-                $newname = $update_directory."/".$new_doc;
+                $original_file = $update_directory . "/" . $all_student_doc_value['doc'];
+                $newname = $update_directory . "/" . $new_doc;
 
-                print_r($original_file);
-                echo "<pre>";
-                print_r($newname);
-                echo "<pre>";
+                // print_r($original_file);
+                // echo "<pre>";
+                // print_r($newname);
+                // echo "<pre>";
 
-                if(rename($original_file, $newname)){
+                if (rename($original_file, $newname)) {
                     echo "rename successful";
                     echo "<pre>";
-                    $this->student_model->lms_update("student_doc",$update_data);
+                    $this->student_model->lms_update("student_doc", $update_data);
                 }
             }
         }
     }
 
-    function reArrayFilesMultiple() {
+    function reArrayFilesMultiple()
+    {
         $uploads = array();
-        foreach($_FILES as $key0=>$FILES) {
-            foreach($FILES as $key=>$value) {
-                foreach($value as $key2=>$value2) {
+        foreach ($_FILES as $key0 => $FILES) {
+            foreach ($FILES as $key => $value) {
+                foreach ($value as $key2 => $value2) {
                     $uploads[$key0][$key2][$key] = $value2;
                 }
             }
@@ -2591,12 +2508,9 @@ class Student extends Admin_Controller
         $student_docs = $this->reArrayFilesMultiple();
         $isempty = true;
 
-        if (isset($student_docs)) 
-        {
-            foreach($student_docs as $key0=>$FILES) 
-            {   
-                if (sizeof($FILES) < 6)
-                {
+        if (isset($student_docs)) {
+            foreach ($student_docs as $key0 => $FILES) {
+                if (sizeof($FILES) < 6) {
                     // var_dump($FILES);
                     // echo "<BR>";
                     // $fsize = sizeof($FILES);
@@ -2604,12 +2518,10 @@ class Student extends Admin_Controller
                     // echo "<BR>";
                     // echo "<BR>";
 
-                    for ($i=0; $i<sizeof($FILES); $i++)
-                    {
+                    for ($i = 0; $i < sizeof($FILES); $i++) {
                         // var_dump($FILES[$i]["name"]);
                         // echo "<BR>";
-                        if (!empty($FILES[$i]["name"])) 
-                        {
+                        if (!empty($FILES[$i]["name"])) {
                             $file_type         = $FILES[$i]['type'];
                             $file_size         = $FILES[$i]["size"];
                             $file_name         = $FILES[$i]["name"];
@@ -2619,48 +2531,39 @@ class Student extends Admin_Controller
                             $finfo = finfo_open(FILEINFO_MIME_TYPE);
                             $mtype = finfo_file($finfo, $FILES[$i]['tmp_name']);
                             finfo_close($finfo);
-    
-                            if (!in_array($mtype, $allowed_mime_type)) 
-                            {
+
+                            if (!in_array($mtype, $allowed_mime_type)) {
                                 $this->form_validation->set_message('handle_upload_multidocs', 'File Type Not Allowed');
                                 return false;
                             }
-                            if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) 
-                            {
+                            if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
                                 $this->form_validation->set_message('handle_upload_multidocs', 'Extension Not Allowed');
                                 return false;
                             }
-                            if ($file_size > $image_validate['upload_size']) 
-                            {
+                            if ($file_size > $image_validate['upload_size']) {
                                 $this->form_validation->set_message('handle_upload_multidocs', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
                                 return false;
                             }
 
                             $isempty = false;
-                        } 
-                        else 
-                        {
+                        } else {
                             // $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
                             // return false;
                         }
                     }
                     // echo "<BR>";
                     // echo "<BR>";
-                }
-                else
-                    $this->form_validation->set_message('handle_upload_multidocs', "Only maximum of 5 files per student is allowed");            
+                } else
+                    $this->form_validation->set_message('handle_upload_multidocs', "Only maximum of 5 files per student is allowed");
             }
 
-            if ($isempty)
-            {
+            if ($isempty) {
                 $this->form_validation->set_message('handle_upload_multidocs', "There are no documents to send.");
                 return false;
             }
-            
+
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
             return false;
         }
@@ -2668,21 +2571,18 @@ class Student extends Admin_Controller
         return true;
     }
 
-    public function Upload_Documents() 
+    public function Upload_Documents()
     {
         $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('docs', $this->lang->line('document'), 'callback_handle_upload_doc');
 
-        if ($this->form_validation->run() == false) 
-        {
+        if ($this->form_validation->run() == false) {
             $msg = array(
                 'doctitle' => form_error('doctitle'),
-                'docs' => form_error('docs')              
+                'docs' => form_error('docs')
             );
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
-        } 
-        else 
-        {
+        } else {
             $student_id = $this->input->post('id_num');
             $student_docs = $_FILES["docs"];
             // var_dump($this->input->post('doctitle'));die;
@@ -2690,17 +2590,14 @@ class Student extends Admin_Controller
             // var_dump($student_docs);
             // var_dump($studcnt); die;
 
-            if (isset($_FILES['docs'])) 
-            {
-                for($i = 0; $i < count($student_docs["name"]); $i++) 
-                {
-                    if (!empty($student_docs["name"][$i])) 
-                    {
+            if (isset($_FILES['docs'])) {
+                for ($i = 0; $i < count($student_docs["name"]); $i++) {
+                    if (!empty($student_docs["name"][$i])) {
                         $uploaddir = './uploads/student_documents/' . $student_id[$i] . '/';
 
-                        if (!is_dir($uploaddir) && !mkdir($uploaddir)) 
+                        if (!is_dir($uploaddir) && !mkdir($uploaddir))
                             die("Error creating folder $uploaddir");
-    
+
                         $fileInfo    = pathinfo($student_docs["name"][$i]);
                         $title = $this->input->post('doctitle');
                         $file_name   = $student_docs["name"][$i];
@@ -2709,13 +2606,13 @@ class Student extends Admin_Controller
                         $img_name    = $uploaddir . basename($imp);
                         move_uploaded_file($student_docs["tmp_name"][$i], $img_name);
                         $data_img = array('student_id' => (int)$student_id[$i], 'title' => $title, 'doc' => $imp);
-                        $this->student_model->adddoc($data_img);    
+                        $this->student_model->adddoc($data_img);
                     }
                 }
             }
 
             $msg   = $this->lang->line('success_message');
-            $array = array('status' => 'success', 'error' => '', 'message' => $msg);        
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
         }
 
         echo json_encode($array);
@@ -2724,13 +2621,11 @@ class Student extends Admin_Controller
     public function handle_upload_doc()
     {
         $image_validate = $this->config->item('file_validate');
-      
+
         if (isset($_FILES["docs"])) // && !empty($_FILES['docs']['name'])) 
-        { 
-            for($i = 0; $i < count($_FILES["docs"]["name"]); $i++) 
-            {
-                if (!empty($_FILES['docs']['name'][$i])) 
-                {
+        {
+            for ($i = 0; $i < count($_FILES["docs"]["name"]); $i++) {
+                if (!empty($_FILES['docs']['name'][$i])) {
                     $file_type         = $_FILES["docs"]['type'][$i];
                     $file_size         = $_FILES["docs"]["size"][$i];
                     $file_name         = $_FILES["docs"]["name"][$i];
@@ -2741,33 +2636,26 @@ class Student extends Admin_Controller
                     $mtype = finfo_file($finfo, $_FILES["docs"]['tmp_name'][$i]);
                     finfo_close($finfo);
 
-                    if (!in_array($mtype, $allowed_mime_type)) 
-                    {
+                    if (!in_array($mtype, $allowed_mime_type)) {
                         $this->form_validation->set_message('handle_upload_doc', 'File Type Not Allowed');
                         return false;
                     }
-                    if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) 
-                    {
+                    if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
                         $this->form_validation->set_message('handle_upload_doc', 'Extension Not Allowed');
                         return false;
                     }
-                    if ($file_size > $image_validate['upload_size']) 
-                    {
+                    if ($file_size > $image_validate['upload_size']) {
                         $this->form_validation->set_message('handle_upload_doc', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
                         return false;
                     }
-                } 
-                else 
-                {
+                } else {
                     $this->form_validation->set_message('handle_upload_doc', "The File Field is required");
                     return false;
-                }                
+                }
             }
 
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('handle_upload_doc', "The File Field is required");
             return false;
         }
@@ -2796,28 +2684,25 @@ class Student extends Admin_Controller
         $enrollment_payment_status = $this->input->post('enrollment_payment_status');
         $result = $this->student_model->UpdateEnrollmentPaymentStatus($idnumber, $enrollment_payment_status);
 
-        if ($result)
-        {
+        if ($result) {
             $msg   = $this->lang->line('success_message');
             $array = array('status' => 'success', 'error' => '', 'message' => $msg);
             echo json_encode($array);
-        }
-        else 
-        {
+        } else {
             $msg   = $this->lang->line('failed_message');
             $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
             echo json_encode($array);
         }
     }
 
-    public function grading_StudentsAllowedToView() 
+    public function grading_StudentsAllowedToView()
     {
-        if (!$this->rbac->hasPrivilege('student', 'can_add')) 
+        if (!$this->rbac->hasPrivilege('student', 'can_add'))
             access_denied();
 
         $this->session->set_userdata('top_menu', 'Student Information');
         $this->session->set_userdata('sub_menu', 'student/grading_StudentsAllowedToView');
-        
+
         $data['title']           = 'Allow Grade Viewing';
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['sch_setting']     = $this->sch_setting_detail;
@@ -2829,34 +2714,28 @@ class Student extends Admin_Controller
         // $userdata = $this->customlib->getUserData();
         $carray   = array();
 
-        if (!empty($data["classlist"])) 
-            foreach ($data["classlist"] as $ckey => $cvalue) 
+        if (!empty($data["classlist"]))
+            foreach ($data["classlist"] as $ckey => $cvalue)
                 $carray[] = $cvalue["id"];
 
         //echo "<pre>";  print_r($carray); echo "<pre>";die;
         // $button = $this->input->post('search');
         // echo "<pre>";  print_r($data); echo "<pre>";die;
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") 
-        {
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $this->load->view('layout/header', $data);
             $this->load->view('student/grading_StudentsAllowedToView', $data);
             $this->load->view('layout/footer', $data);
-        } 
-        else 
-        {
+        } else {
             $class       = $this->input->post('class_id');
             $section     = $this->input->post('section_id');
             $search      = $this->input->post('search');
-            
+
             $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
             $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-            
-            if ($this->form_validation->run() == false) 
-            {
-            } 
-            else 
-            {
+
+            if ($this->form_validation->run() == false) {
+            } else {
                 $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
                 $data['class_id'] = $this->input->post('class_id');
                 $data['section_id'] = $this->input->post('section_id');
@@ -2871,7 +2750,8 @@ class Student extends Admin_Controller
         }
     }
 
-    public function grading_AllowStudentsToView() {
+    public function grading_AllowStudentsToView()
+    {
         try {
             // $student_ids = $this->input->post('student_id');
             $q1 = $this->input->post('q1');
@@ -2892,50 +2772,51 @@ class Student extends Admin_Controller
             $this->addQuarterViewValues($q4, $q4hidden);
 
             $msg   = $this->lang->line('success_message');
-            $array = array('status' => 'success', 'error' => '', 'message' => $msg);    
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
         } catch (Exception $e) {
             $msg   = $this->lang->line('failed_message');
             $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
         }
-        
+
         echo json_encode($array);
     }
 
-    function addQuarterViewValues($quarter, $qtrhidden) {
-        for($i = 0; $i < count($qtrhidden); $i++) {
+    function addQuarterViewValues($quarter, $qtrhidden)
+    {
+        for ($i = 0; $i < count($qtrhidden); $i++) {
             $hiddenarr = explode("_", $qtrhidden[$i]);
             $data = [];
-            $id = "allowed_students_".$this->mode."_".microtime(true)*10000;
-            $id = $id.rand(1000,9999);
+            $id = "allowed_students_" . $this->mode . "_" . microtime(true) * 10000;
+            $id = $id . rand(1000, 9999);
 
             if ($this->findIDInQuarterList($quarter, $hiddenarr)) {
                 $data = array(
                     "id" => $id,
                     "student_id" => $hiddenarr[0],
-                    "session_id" => $hiddenarr[1],                
+                    "session_id" => $hiddenarr[1],
                     "quarter_id" => $hiddenarr[2],
                     "view_allowed" => 1,
                 );
-            }
-            else {
+            } else {
                 $data = array(
                     "id" => $id,
                     "student_id" => $hiddenarr[0],
-                    "session_id" => $hiddenarr[1],                
+                    "session_id" => $hiddenarr[1],
                     "quarter_id" => $hiddenarr[2],
                     "view_allowed" => 0,
                 );
             }
             // echo "<pre>"; print_r($data); echo"<pre>";
-            $this->student_model->grading_AddAllowedToView($data);                
-        }        
+            $this->student_model->grading_AddAllowedToView($data);
+        }
         // die();
     }
 
-    function findIDInQuarterList($quarter, $hidden) {
+    function findIDInQuarterList($quarter, $hidden)
+    {
         $retVal = false;
 
-        for($i=0; $i < count($quarter); $i++) {
+        for ($i = 0; $i < count($quarter); $i++) {
             $qtr = explode("_", $quarter[$i]);
 
             if ($qtr[0] == $hidden[0] && $qtr[1] == $hidden[1] && $qtr[1] == $hidden[1]) {
@@ -2943,11 +2824,12 @@ class Student extends Admin_Controller
                 break;
             }
         }
-        
+
         return $retVal;
     }
 
-    function getStudentListPerClassSection() {
+    function getStudentListPerClassSection()
+    {
         $class = $this->input->get('class_id');
         $section = $this->input->get('section_id');
         $session = $this->input->get('school_year_id');
@@ -2956,14 +2838,14 @@ class Student extends Admin_Controller
         echo json_encode($array);
     }
 
-    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased) 
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased)
     {
         $maindata = [];
 
-        for($i = 0; $i < count($name); $i++) {
+        for ($i = 0; $i < count($name); $i++) {
             $data = [];
-            $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
-            $id = $id.rand(1000,9999);
+            $id = "admission_sibling_" . $this->mode . "_" . microtime(true) * 10000;
+            $id = $id . rand(1000, 9999);
 
             $data = array(
                 "id" => $id,
@@ -2974,7 +2856,7 @@ class Student extends Admin_Controller
                 "school_company_name" => $schoolcompany[$i],
                 "deceased" => $deceased[$i] == "on" ? 1 : 0,
             );
-            
+
             if (!empty($name[$i]))
                 array_push($maindata, $data);
         }
