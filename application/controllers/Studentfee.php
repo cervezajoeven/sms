@@ -468,33 +468,32 @@ class Studentfee extends Admin_Controller
 
     public function allFees()
     {
-        // $student_due_fee = $this->studentfeemaster_model->getStudentFeesAll();
+        $student_due_fee = $this->studentfeemaster_model->getStudentFeesAll();
         
-        // $data = [
+        $data = [
             
-        // ];
-        // foreach ($student_due_fee as $key => $value) {
-        //     $student_data = [
-        //         $student_due_fee[$key]->id_number,
-        //         $student_due_fee[$key]->name,
-        //         $student_due_fee[$key]->fees[0]->code,
-        //         $student_due_fee[$key]->amount,
-        //         $student_due_fee[$key]->fees[0]->student_fees_deposite_id."/".json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['inv_no'],
-        //         json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['payment_mode'],
-        //         date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['date'])),
-        //         json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['or_number'],
-        //         json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
-        //         json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_discount'],
-        //         json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount'],
-        //     ];
-        //     array_push($data, $student_data);
-        // }
+        ];
+        foreach ($student_due_fee as $key => $value) {
+            $student_data = [
+                $student_due_fee[$key]->id_number,
+                $student_due_fee[$key]->name,
+                $student_due_fee[$key]->fees[0]->code,
+                $student_due_fee[$key]->amount,
+                $student_due_fee[$key]->fees[0]->student_fees_deposite_id."/".json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['inv_no'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['payment_mode'],
+                date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['date'])),
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['or_number'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_discount'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount'],
+            ];
+            array_push($data, $student_data);
+        }
         
         
         
-        echo "applied with library loading CAPITALIZED";
-        exit;
-        // $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
+        
+        $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
 
     }
 
