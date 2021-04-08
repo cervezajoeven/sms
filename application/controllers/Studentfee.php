@@ -492,7 +492,8 @@ class Studentfee extends Admin_Controller
         
         
         
-
+        echo "applied";
+        exit;
         $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
 
     }
