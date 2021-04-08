@@ -12,7 +12,7 @@ class Studentfee extends Admin_Controller
         parent::__construct();
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
-        // $this->load->library('simplexlsxgen');
+        $this->load->library('simplexlsxgen');
 
         $this->load->model('setting_model');
         $this->load->model('class_model');
@@ -492,7 +492,7 @@ class Studentfee extends Admin_Controller
         
         
         
-        echo "applied";
+        echo "applied with library loading";
         exit;
         // $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
 
