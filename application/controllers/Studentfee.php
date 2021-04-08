@@ -12,6 +12,7 @@ class Studentfee extends Admin_Controller
         parent::__construct();
         $this->load->library('smsgateway');
         $this->load->library('mailsmsconf');
+        $this->load->library('simplexlsxgen');
 
         $this->load->model('setting_model');
         $this->load->model('class_model');
@@ -444,7 +445,8 @@ class Studentfee extends Admin_Controller
         $data['title']   = 'Student Detail';
         $student         = $this->student_model->getByStudentSession($id);
         $data['student'] = $student;
-        $student_due_fee = $this->studentfeemaster_model->getStudentFees($id);      
+        $student_due_fee = $this->studentfeemaster_model->getStudentFees($id);
+        
         $student_discount_fee = $this->feediscount_model->getStudentFeesDiscount($id);
 
         $data['student_discount_fee'] = $student_discount_fee;
@@ -462,6 +464,37 @@ class Studentfee extends Admin_Controller
         $this->load->view('layout/header', $data);
         $this->load->view('studentfee/studentAddfee', $data);
         $this->load->view('layout/footer', $data);
+    }
+
+    public function allFees()
+    {
+        $student_due_fee = $this->studentfeemaster_model->getStudentFeesAll();
+        
+        $data = [
+            
+        ];
+        foreach ($student_due_fee as $key => $value) {
+            $student_data = [
+                $student_due_fee[$key]->id_number,
+                $student_due_fee[$key]->name,
+                $student_due_fee[$key]->fees[0]->code,
+                $student_due_fee[$key]->amount,
+                $student_due_fee[$key]->fees[0]->student_fees_deposite_id."/".json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['inv_no'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['payment_mode'],
+                date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['date'])),
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['or_number'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_discount'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount'],
+            ];
+            array_push($data, $student_data);
+        }
+        
+        
+        
+
+        SimpleXLSXGen::fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
+
     }
 
     public function deleteTransportFee()
