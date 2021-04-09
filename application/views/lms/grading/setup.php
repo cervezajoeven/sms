@@ -68,7 +68,7 @@
                                         <option value="penmanship">Penmanship</option>
                                         <option value="epp_comp">EPP/COMP</option>
                                         <option value="cled">CLEd</option>
-                                        <?php if($this->school_code=="localhost"): ?>
+                                        <?php if($this->school_code=="csl"): ?>
                                             <option value="csl_college">CSL College</option>
                                             <option value="csl_elem">CSL Elem & SHS</option>
                                         <?php endif; ?>
