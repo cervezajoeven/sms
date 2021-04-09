@@ -61,16 +61,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Quarter</label><small class="req"> *</small>
-                                    <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter">
-                                        <?php foreach ($quarters as $key => $value) : ?>
-                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="exampleInputEmail1">Template</label><small class="req"> *</small>
                                     <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control filter">
                                         <option value="original">Original</option>
@@ -78,13 +68,25 @@
                                         <option value="penmanship">Penmanship</option>
                                         <option value="epp_comp">EPP/COMP</option>
                                         <option value="cled">CLEd</option>
-                                        <?php if($this->school_code=="csl"): ?>
+                                        <?php if($this->school_code=="localhost"): ?>
                                             <option value="csl_college">CSL College</option>
                                             <option value="csl_elem">CSL Elem & SHS</option>
                                         <?php endif; ?>
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Quarter</label><small class="req"> *</small>
+                                    <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
+                                        <?php foreach ($quarters as $key => $value) : ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+
+                                
 
                             </div><!-- /.box-body -->
 
@@ -150,5 +152,23 @@
         });
         
         
+    });
+    $("#template_id").change(function(){
+        $('.filter2').select2();
+        $('.filter2').select2('destroy');
+        if($(this).val()=="csl_college"){
+
+
+            $("#quarter_id").find("option[value='1']").text("Prelim");
+            $("#quarter_id").find("option[value='2']").text("Midterm");
+            $("#quarter_id").find("option[value='3']").text("Semifinal");
+            $("#quarter_id").find("option[value='4']").text("Final");
+        }else{
+            $("#quarter_id").find("option[value='1']").text("1st Quarter");
+            $("#quarter_id").find("option[value='2']").text("2nd Quarter");
+            $("#quarter_id").find("option[value='3']").text("3rd Quarter");
+            $("#quarter_id").find("option[value='4']").text("4th Quarter");
+        }
+        $('.filter2').select2();
     });
 </script>
