@@ -474,24 +474,53 @@ class Studentfee extends Admin_Controller
             
         ];
         foreach ($student_due_fee as $key => $value) {
+            if($student_due_fee[$key]->fees[0]->amount!=0){
+                if($student_due_fee[$key]->amount == $student_due_fee[$key]->fees[0]->amount){
+                    $status = "paid";
+                }
+                if($student_due_fee[$key]->fees[0]->amount < $student_due_fee[$key]->amount){
+                    $status = "partial";
+                }
+            }else{
+                $status = "unpaid";
+            }
+
             $student_data = [
                 $student_due_fee[$key]->id_number,
+                $student_due_fee[$key]->grade_name,
+                $student_due_fee[$key]->section,
+                $student_due_fee[$key]->firstname." ".$student_due_fee[$key]->lastname,
+                $student_due_fee[$key]->gender,
+                $student_due_fee[$key]->enrollment_date,
+                $student_due_fee[$key]->enrollment_type,
+                $student_due_fee[$key]->payment_scheme,
                 $student_due_fee[$key]->name,
                 $student_due_fee[$key]->fees[0]->code,
+                $student_due_fee[$key]->description,
+                $student_due_fee[$key]->fees[0]->due_date,
+                $status,
+
                 $student_due_fee[$key]->amount,
                 $student_due_fee[$key]->fees[0]->student_fees_deposite_id."/".json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['inv_no'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['payment_mode'],
                 date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['date'])),
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['or_number'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
+                $student_due_fee[$key]->fees[0]->code,
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_discount'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_fine'],
+                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount'],
             ];
             array_push($data, $student_data);
         }
         
         
-        
+
+        // echo '<pre>';
+        // print_r($data);
+        // exit;
         
         $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
 
