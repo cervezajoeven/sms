@@ -471,7 +471,31 @@ class Studentfee extends Admin_Controller
         $student_due_fee = $this->studentfeemaster_model->getStudentFeesAll();
         
         $data = [
-            
+            ["ID Number",
+"Level/Class",
+"Section",
+"Student Name",
+"Gender",
+"Date enrolled",
+"enrollment type",
+"Payment Scheme",
+"Payment Group",
+"payment type code",
+"Payment type name",
+"Due Date",
+"Status",
+"Amount (₱)",
+"Payment Id",
+"Mode",
+"Date",
+"O.R.",
+"Note",
+"payment discount code",
+"payment discount name",
+"Discount (₱)",
+"Fine (₱)",
+"Paid (₱)",
+"Balance (₱)",],
         ];
         foreach ($student_due_fee as $key => $value) {
             if($student_due_fee[$key]->fees[0]->amount!=0){
