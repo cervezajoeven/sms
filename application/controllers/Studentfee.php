@@ -511,6 +511,12 @@ class Studentfee extends Admin_Controller
                 $status = "unpaid";
             }
 
+            if(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_discount']>0){
+                $discount_name = $student_due_fee[$key]->fees[0]->name;
+            }else{
+                $discount_name = "";
+            }
+
             $student_data = [
                 $student_due_fee[$key]->id_number,
                 $student_due_fee[$key]->grade_name,
@@ -521,19 +527,22 @@ class Studentfee extends Admin_Controller
                 $student_due_fee[$key]->enrollment_type,
                 $student_due_fee[$key]->payment_scheme,
                 $student_due_fee[$key]->name,
-                $student_due_fee[$key]->code,
                 $student_due_fee[$key]->mode_of_payment,
+                $student_due_fee[$key]->code,
                 $student_due_fee[$key]->fees[0]->due_date,
+
                 $status,
 
                 $student_due_fee[$key]->amount,
+
                 $student_due_fee[$key]->fees[0]->student_fees_deposite_id."/".json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['inv_no'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['payment_mode'],
                 date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['date'])),
+                
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['or_number'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
                 $student_due_fee[$key]->fees[0]->code,
-                json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
+                $discount_name,
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_discount'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount_fine'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['amount'],
