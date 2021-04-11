@@ -521,7 +521,7 @@ class Studentfee extends Admin_Controller
                 $student_due_fee[$key]->enrollment_type,
                 $student_due_fee[$key]->payment_scheme,
                 $student_due_fee[$key]->name,
-                $student_due_fee[$key]->fees[0]->code,
+                $student_due_fee[$key]->code,
                 $student_due_fee[$key]->description,
                 $student_due_fee[$key]->fees[0]->due_date,
                 $status,
