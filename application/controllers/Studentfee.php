@@ -538,7 +538,7 @@ class Studentfee extends Admin_Controller
                 $student_due_fee[$key]->fees[0]->student_fees_deposite_id."/".json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['inv_no'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['payment_mode'],
                 date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat(json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['date'])),
-                
+
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['or_number'],
                 json_decode($student_due_fee[$key]->fees[0]->amount_detail,true)[1]['description'],
                 $student_due_fee[$key]->fees[0]->code,
@@ -558,6 +558,40 @@ class Studentfee extends Admin_Controller
         // exit;
         
         $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_fees_'.date('M d, Y H:i:s').'.xlsx');
+
+    }
+
+    public function alldiscounts()
+    {
+        $student_discounts = $this->studentfeemaster_model->getStudentDiscountsAll();
+
+        $data = [
+            [
+                "ID Number",
+                "Payment discount code",
+                "Payment discount name",
+                "Discount (₱)",
+            ],
+        ];
+        foreach ($student_discounts as $key => $value) {
+
+
+            $student_data = [
+               $value->roll_no,
+               $value->name,
+               $value->code,
+               $value->amount,
+            ];
+
+            array_push($data, $student_data);
+        }
+        
+
+        // echo '<pre>';
+        // print_r($data);
+        // exit;
+        
+        $this->simplexlsxgen->fromArray( $data )->downloadAs('all_student_discounts_'.date('M d, Y H:i:s').'.xlsx');
 
     }
 

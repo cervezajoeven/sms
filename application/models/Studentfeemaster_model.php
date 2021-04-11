@@ -267,9 +267,31 @@ class Studentfeemaster_model extends MY_Model
         return $result;
     }
 
+    public function getStudentDiscountsAll()
+    {
+        $sql= "
+            SELECT students.roll_no,
+                fees_discounts.name,
+                fees_discounts.code,
+                fees_discounts.amount,
+                fees_discounts.description
+            FROM student_fees_discounts 
+            LEFT JOIN student_session ON student_fees_discounts.student_session_id = student_session.id
+            LEFT JOIN fees_discounts ON student_fees_discounts.fees_discount_id = fees_discounts.id
+            LEFT JOIN students ON student_session.student_id = students.id
+            WHERE student_fees_discounts.status = 'applied'
+            ";
+        $query  = $this->db->query($sql);
+        $result = $query->result();
+        // echo '<pre>';
+        // print_r($result);
+        // exit;
+        return $result;
+    }
+
     public function getDueFeeByFeeSessionGroup($fee_session_groups_id, $student_fees_master_id)
     {
-        $sql = "SELECT student_fees_master.*,fee_groups_feetype.id as `fee_groups_feetype_id`,fee_groups_feetype.amount,fee_groups_feetype.due_date,fee_groups_feetype.fee_groups_id,fee_groups.name,fee_groups_feetype.feetype_id,feetype.code,feetype.type, IFNULL(student_fees_deposite.id,0) as `student_fees_deposite_id`, IFNULL(student_fees_deposite.amount_detail,0) as `amount_detail` FROM `student_fees_master` INNER JOIN fee_session_groups on fee_session_groups.id = student_fees_master.fee_session_group_id INNER JOIN fee_groups_feetype on  fee_groups_feetype.fee_session_group_id = fee_session_groups.id  INNER JOIN fee_groups on fee_groups.id=fee_groups_feetype.fee_groups_id INNER JOIN feetype on feetype.id=fee_groups_feetype.feetype_id LEFT JOIN student_fees_deposite on student_fees_deposite.student_fees_master_id=student_fees_master.id and student_fees_deposite.fee_groups_feetype_id=fee_groups_feetype.id WHERE student_fees_master.fee_session_group_id =" . $fee_session_groups_id . " and student_fees_master.id=" . $student_fees_master_id . " order by fee_groups_feetype.due_date ASC";
+        $sql = "SELECT student_fees_master.*,fee_groups_feetype.id as `fee_groups_feetype_id`,fee_groups_feetype.amount,fee_groups_feetype.due_date,fee_groups_feetype.fee_groups_id,fee_groups.name,fee_groups_feetype.feetype_id,feetype.code,feetype.type, IFNULL(student_fees_deposite.id,0) as `student_fees_deposite_id`, IFNULL(student_fees_deposite.amount_detail,0) as `amount_detail`,feetype.type as feetype_name, feetype.code as feetype_code FROM `student_fees_master` INNER JOIN fee_session_groups on fee_session_groups.id = student_fees_master.fee_session_group_id INNER JOIN fee_groups_feetype on  fee_groups_feetype.fee_session_group_id = fee_session_groups.id  INNER JOIN fee_groups on fee_groups.id=fee_groups_feetype.fee_groups_id INNER JOIN feetype on feetype.id=fee_groups_feetype.feetype_id LEFT JOIN student_fees_deposite on student_fees_deposite.student_fees_master_id=student_fees_master.id and student_fees_deposite.fee_groups_feetype_id=fee_groups_feetype.id WHERE student_fees_master.fee_session_group_id =" . $fee_session_groups_id . " and student_fees_master.id=" . $student_fees_master_id . " order by fee_groups_feetype.due_date ASC";
 
         $query = $this->db->query($sql);
         return $query->result();
