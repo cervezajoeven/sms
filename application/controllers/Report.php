@@ -1766,7 +1766,7 @@ $attd=array();
         $data['sch_setting'] = $this->sch_setting_detail;
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
-        $data['teacher_list'] = $this->gradereport_model->get_teacher_list();     
+        $data['teacher_list'] = $this->gradereport_model->get_teacher_list();
         $data['quarter_list'] = $this->gradereport_model->get_quarter_list();   
         // $carray = array();
 
@@ -1990,4 +1990,3 @@ $attd=array();
         }
     }
 }
-?>

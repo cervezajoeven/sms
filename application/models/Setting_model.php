@@ -3,28 +3,33 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Setting_model extends MY_Model {
+class Setting_model extends MY_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         //-- Load database for writing
         $this->writedb = $this->load->database('write_db', TRUE);
     }
 
-    public function getMysqlVersion() {
+    public function getMysqlVersion()
+    {
         $mysqlVersion = $this->db->query('SELECT VERSION() as version')->row();
         return $mysqlVersion;
     }
 
-    public function getSqlMode() {
+    public function getSqlMode()
+    {
 
         $sqlMode = $this->db->query('SELECT @@sql_mode as mode')->row();
         return $sqlMode;
     }
 
-    public function get($id = null) 
+    public function get($id = null)
     {
-        $this->db->select('sch_settings.id,sch_settings.lang_id,sch_settings.languages,sch_settings.class_teacher,sch_settings.is_rtl,sch_settings.cron_secret_key, sch_settings.timezone,
+        $this->db->select(
+            'sch_settings.id,sch_settings.lang_id,sch_settings.languages,sch_settings.class_teacher,sch_settings.is_rtl,sch_settings.cron_secret_key, sch_settings.timezone,
                            sch_settings.name,sch_settings.email,sch_settings.biometric,sch_settings.biometric_device,sch_settings.time_format,sch_settings.phone,languages.language,sch_settings.attendence_type,
                            sch_settings.address,sch_settings.dise_code,sch_settings.date_format,sch_settings.currency,sch_settings.currency_symbol,sch_settings.currency_place,sch_settings.start_month,
                            sch_settings.session_id,sch_settings.fee_due_days,sch_settings.image,sch_settings.theme,sessions.session,sch_settings.online_admission,sch_settings.is_duplicate_fees_invoice,
@@ -61,23 +66,28 @@ class Setting_model extends MY_Model {
         }
     }
 
-    public function get_studentlang($id) {
+    public function get_studentlang($id)
+    {
         $data = $this->db->select('users.lang_id')->from('users')->where('user_id', $id)->get()->row_array();
         return $data;
     }
 
-    public function get_parentlang($id) {
+    public function get_parentlang($id)
+    {
         $data = $this->db->select('users.lang_id')->from('users')->where('id', $id)->get()->row_array();
         return $data;
     }
 
-    public function get_stafflang($id) {
+    public function get_stafflang($id)
+    {
         $data = $this->db->select('staff.lang_id')->from('staff')->where('id', $id)->get()->row_array();
         return $data;
     }
 
-    public function getSchoolDetail($id = null) {
-        $this->db->select('sch_settings.id,sch_settings.lang_id,sch_settings.is_rtl,sch_settings.timezone,
+    public function getSchoolDetail($id = null)
+    {
+        $this->db->select(
+            'sch_settings.id,sch_settings.lang_id,sch_settings.is_rtl,sch_settings.timezone,
           sch_settings.name,sch_settings.email,sch_settings.biometric,sch_settings.biometric_device,sch_settings.phone,languages.language,
           sch_settings.address,sch_settings.dise_code,sch_settings.date_format,sch_settings.currency,sch_settings.currency_symbol,sch_settings.start_month,sch_settings.session_id,sch_settings.image,sch_settings.theme,sessions.session,sch_settings.zoom_api_key,sch_settings.zoom_api_secret'
         );
@@ -89,7 +99,8 @@ class Setting_model extends MY_Model {
         return $query->row();
     }
 
-    public function getSetting() {
+    public function getSetting()
+    {
 
         $this->db->select('sch_settings.id,sch_settings.attendence_type,sch_settings.lang_id,sch_settings.is_rtl,sch_settings.fee_due_days,sch_settings.class_teacher,
                            sch_settings.cron_secret_key,sch_settings.timezone,sch_settings.name,sch_settings.email,sch_settings.biometric,sch_settings.biometric_device,
@@ -111,8 +122,8 @@ class Setting_model extends MY_Model {
                            sch_settings.staff_work_location,sch_settings.staff_leaves,sch_settings.staff_account_details,sch_settings.staff_social_media,sch_settings.staff_upload_documents,
                            sch_settings.admin_logo,sch_settings.admin_small_logo,sch_settings.mobile_api_url,sch_settings.app_primary_color_code,sch_settings.app_secondary_color_code,
                            sch_settings.app_logo,languages.short_code as `language_code`,sch_settings.zoom_api_key,sch_settings.zoom_api_secret,
-                           sch_settings.email_on_student_import,sch_settings.data_privacy_chkbox_text, sch_settings.conduct_grade_view, sch_settings.conduct_grading_type'
-        );
+                           sch_settings.email_on_student_import,sch_settings.data_privacy_chkbox_text, sch_settings.conduct_grade_view, sch_settings.conduct_grading_type,
+                           sch_settings.kampuspay_access_key, sch_settings.kampuspay_key');
 
         $this->db->from('sch_settings');
         $this->db->join('sessions', 'sessions.id = sch_settings.session_id');
@@ -122,7 +133,8 @@ class Setting_model extends MY_Model {
         return $query->row();
     }
 
-    public function remove($id) {
+    public function remove($id)
+    {
         $this->writedb->trans_start();
         $this->writedb->trans_strict(false);
         $this->writedb->where('id', $id);
@@ -136,11 +148,11 @@ class Setting_model extends MY_Model {
             $this->writedb->trans_rollback();
             return false;
         } else {
-            
         }
     }
 
-    public function add($data) {
+    public function add($data)
+    {
         $this->writedb->trans_start();
         $this->writedb->trans_strict(false);
         if (isset($data['id'])) {
@@ -167,13 +179,15 @@ class Setting_model extends MY_Model {
         }
     }
 
-    public function getCurrentSession() {
+    public function getCurrentSession()
+    {
         $session_result = $this->get();
 
         return $session_result[0]['session_id'];
     }
 
-    public function getOnlineAdmissionStatus() {
+    public function getOnlineAdmissionStatus()
+    {
         $setting_result = $this->get();
 
         if ($setting_result[0]['online_admission']) {
@@ -182,80 +196,95 @@ class Setting_model extends MY_Model {
         return false;
     }
 
-    public function getCurrentSessionName() {
+    public function getCurrentSessionName()
+    {
         $session_result = $this->get();
         return $session_result[0]['session'];
     }
 
-    public function getCurrentSchoolName() {
+    public function getCurrentSchoolName()
+    {
         $session_result = $this->get();
         return $session_result[0]['name'];
     }
 
-    public function getCurrentSchoolCode() {
+    public function getCurrentSchoolCode()
+    {
         $session_result = $this->get();
         return $session_result[0]['dise_code'];
     }
 
-    public function getStartMonth() {
+    public function getStartMonth()
+    {
         $session_result = $this->get();
         return $session_result[0]['start_month'];
     }
 
-    public function getCurrentSessiondata() {
+    public function getCurrentSessiondata()
+    {
         $session_result = $this->get();
         return $session_result[0];
     }
 
-    public function getCurrency() {
+    public function getCurrency()
+    {
         $session_result = $this->get();
         return $session_result[0]['currency'];
     }
 
-    public function getCurrencySymbol() {
+    public function getCurrencySymbol()
+    {
         $session_result = $this->get();
         return $session_result[0]['currency_symbol'];
     }
 
-    public function getDateYmd() {
+    public function getDateYmd()
+    {
         return date('Y-m-d');
     }
 
-    public function getDateDmy() {
+    public function getDateDmy()
+    {
         return date('d-m-Y');
     }
 
-    public function add_cronsecretkey($data, $id) {
+    public function add_cronsecretkey($data, $id)
+    {
 
         $this->writedb->where("id", $id)->update("sch_settings", $data);
     }
 
-    public function getLanguage() {
+    public function getLanguage()
+    {
 
         $query = $this->db->select('languages.language,languages.short_code')->where('id', $this->session->userdata['admin']['language']['lang_id'])->get('languages');
         return $query->row_array();
     }
 
-    public function getAdminlogo() {
+    public function getAdminlogo()
+    {
         $query = $this->db->select('admin_logo')->get('sch_settings');
         $logo = $query->row_array();
         echo $logo['admin_logo'];
     }
 
-    public function getAdminsmalllogo() {
+    public function getAdminsmalllogo()
+    {
         $query = $this->db->select('admin_small_logo')->get('sch_settings');
         $logo = $query->row_array();
         echo $logo['admin_small_logo'];
     }
 
-    public function get_appname() {
+    public function get_appname()
+    {
 
         $query = $this->db->select('name')->get('sch_settings');
         $name = $query->row_array();
         echo $name['name'];
     }
 
-    public function check_haederimage($type) {
+    public function check_haederimage($type)
+    {
         $check = $this->db->select('*')->from('print_headerfooter')->where('print_type', $type)->get()->row_array();
         if (empty($check['header_image'])) {
             return 0;
@@ -264,49 +293,57 @@ class Setting_model extends MY_Model {
         }
     }
 
-    public function add_printheader($data) {
+    public function add_printheader($data)
+    {
         $this->writedb->where('print_type', $data['print_type']);
         $this->writedb->update('print_headerfooter', $data);
     }
 
-    public function get_printheader() {
+    public function get_printheader()
+    {
         return $this->db->select('*')->from('print_headerfooter')->get()->result_array();
     }
 
-    public function get_receiptheader() {
+    public function get_receiptheader()
+    {
         $image = $this->db->select('header_image')->from('print_headerfooter')->where('print_type', 'student_receipt')->get()->row_array();
         echo $image['header_image'];
     }
 
-    public function unlink_receiptheader() {
+    public function unlink_receiptheader()
+    {
         $image = $this->db->select('header_image')->from('print_headerfooter')->where('print_type', 'student_receipt')->get()->row_array();
         return $image['header_image'];
     }
 
-    public function get_receiptfooter() {
+    public function get_receiptfooter()
+    {
         $image = $this->db->select('footer_content')->from('print_headerfooter')->where('print_type', 'student_receipt')->get()->row_array();
         echo $image['footer_content'];
     }
 
-    public function get_payslipheader() {
+    public function get_payslipheader()
+    {
         $image = $this->db->select('header_image')->from('print_headerfooter')->where('print_type', 'staff_payslip')->get()->row_array();
         echo $image['header_image'];
     }
 
-    public function unlink_payslipheader() {
+    public function unlink_payslipheader()
+    {
         $image = $this->db->select('header_image')->from('print_headerfooter')->where('print_type', 'staff_payslip')->get()->row_array();
         return $image['header_image'];
     }
 
-    public function get_payslipfooter() {
+    public function get_payslipfooter()
+    {
         $image = $this->db->select('footer_content')->from('print_headerfooter')->where('print_type', 'staff_payslip')->get()->row_array();
         echo $image['footer_content'];
     }
 
-    public function getDataPrivacyChkboxText() {
-        $query=$this->db->select('data_privacy_chkbox_text')->get('sch_settings');
-        $name=$query->row_array();
+    public function getDataPrivacyChkboxText()
+    {
+        $query = $this->db->select('data_privacy_chkbox_text')->get('sch_settings');
+        $name = $query->row_array();
         echo $name['data_privacy_chkbox_text'];
     }
-
 }

@@ -12,7 +12,7 @@ class ClassRecord extends Admin_Controller {
 
     function index() {
         //--
-        echo 'me';
+        // echo 'me';
     }
 
     function quarter() 
@@ -310,5 +310,3 @@ class ClassRecord extends Admin_Controller {
         redirect('admin/classrecord/transmutedgrades');
     }
 }
-
-?>

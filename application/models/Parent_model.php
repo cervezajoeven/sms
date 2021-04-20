@@ -3,13 +3,16 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Parent_model extends CI_Model {
+class Parent_model extends CI_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function get() {
+    public function get()
+    {
 
         $sql = "SELECT * FROM `users` WHERE role='parent' order by id desc";
         $query = $this->db->query($sql);
@@ -20,7 +23,8 @@ class Parent_model extends CI_Model {
         return $parents;
     }
 
-    public function getParentList() {
+    public function getParentList()
+    {
         $sql = "SELECT students.*,users.username,users.password,users.role,users.is_active FROM `students` INNER JOIN users on users.id = students.parent_id WHERE parent_id != 0 GROUP BY parent_id";
 
         $query = $this->db->query($sql);
@@ -29,4 +33,16 @@ class Parent_model extends CI_Model {
         return $parents;
     }
 
+    public function getUserName($id)
+    {
+        $this->db->select('username')->from('users');
+        $this->db->where('id', $id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        // print_r($this->db->last_query());
+        // die();
+
+        $ret = $query->row()->username;
+        return $ret;
+    }
 }

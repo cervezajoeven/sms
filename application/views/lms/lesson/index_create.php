@@ -5,16 +5,17 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-download"></i> <?php echo $this->lang->line('download_center'); ?></h1>
+            <i class="fa fa-download"></i> <?php echo $this->lang->line('download_center'); ?>
+        </h1>
 
     </section>
- 
+
     <!-- Main content -->
     <section class="content">
         <div class="row">
             <?php
             if ($this->rbac->hasPrivilege('upload_content', 'can_add')) {
-                ?>
+            ?>
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box box-primary">
@@ -23,7 +24,7 @@
                         </div><!-- /.box-header -->
                         <!-- form start -->
 
-                        <form id="form1" action="<?php echo site_url('lms/lesson/save') ?>"  id="lesson" name="employeeform" method="post"  enctype='multipart/form-data' accept-charset="utf-8">
+                        <form id="form1" action="<?php echo site_url('lms/lesson/save') ?>" id="lesson" name="employeeform" method="post" enctype='multipart/form-data' accept-charset="utf-8">
                             <div class="box-body">
                                 <?php if ($this->session->flashdata('msg')) { ?>
                                     <?php echo $this->session->flashdata('msg') ?>
@@ -31,7 +32,7 @@
                                 <?php echo $this->customlib->getCSRF(); ?>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Lesson Title</label><small class="req"> *</small>
-                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control"  value="<?php echo set_value('content_title'); ?>" />
+                                    <input autofocus="" id="content_title" name="content_title" placeholder="" type="text" class="form-control" value="<?php echo set_value('content_title'); ?>" />
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
                                 <div class="form-group">
@@ -43,6 +44,7 @@
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Grade/Level</label><small class="req"> *</small>
                                     <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control filter">
@@ -53,7 +55,7 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
                                     <select autofocus="" id="" name="education_level" placeholder="" type="text" class="form-control">
                                         <option value="pre_school">Pre-School</option>
@@ -63,7 +65,18 @@
                                         <option value="tertiary">Tertiary</option>
                                         <option value="all_levels">All Levels</option>
                                     </select>
-                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                    <span class="text-danger"><?php //echo form_error('content_title'); 
+                                                                ?></span>
+                                </div> -->
+
+                                <div class="form-group">
+                                    <label for="">
+                                        <?php echo $this->lang->line('subject') . ' Schedule'; ?>
+                                    </label><small class="req"> *</small>
+                                    <select id="subject_timetable_id" name="subject_timetable_id" class="form-control">
+                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('subject_timetable_id'); ?></span>
                                 </div>
 
                                 <div class="form-group">
@@ -77,7 +90,7 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
-                                
+
                             </div><!-- /.box-body -->
 
                             <div class="box-footer">
@@ -86,13 +99,14 @@
                         </form>
                     </div>
 
-                </div><!--/.col (right) -->
+                </div>
+                <!--/.col (right) -->
                 <!-- left column -->
-            <!-- <?php } ?> -->
-            
+                <!-- <?php } ?> -->
 
 
-            <!-- right column -->
+
+                <!-- right column -->
 
         </div>
         <div class="row">
@@ -105,49 +119,96 @@
 
                 <!-- general form elements disabled -->
 
-            </div><!--/.col (right) -->
-        </div>   <!-- /.row -->
+            </div>
+            <!--/.col (right) -->
+        </div> <!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
 
 <script>
+    var teacher_id = <?php echo $accountid; ?>;
+    var role_id = <?php echo $real_role; ?>;
 
     $('.filter').select2();
-    function check_class(lesson_id){
-        var url = "<?php echo base_url('lms/lesson/check_class/');?>"+lesson_id;
+
+    function check_class(lesson_id) {
+        var url = "<?php echo base_url('lms/lesson/check_class/'); ?>" + lesson_id;
 
         $.ajax({
             url: url,
-            method:"POST",
+            method: "POST",
         }).done(function(data) {
             var parsed_data = JSON.parse(data);
             alert("If the zoom or google meet wont appear please turn off the pop-up blocker on your browser.");
-            if(parsed_data.video!=""){
-                window.open(parsed_data.video,"_blank");
+            if (parsed_data.video != "") {
+                window.open(parsed_data.video, "_blank");
             }
-            if(parsed_data.lms!=""){
+            if (parsed_data.lms != "") {
                 window.location.href = parsed_data.lms;
             }
         });
     }
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.detail_popover').popover({
             placement: 'right',
             trigger: 'hover',
             container: 'body',
             html: true,
-            content: function () {
+            content: function() {
                 return $(this).closest('td').find('.fee_detail_popover').html();
             }
         });
 
-        $(".lesson_status").change(function(){
+        $(".lesson_status").change(function() {
             var lesson_status_val = $(this).val();
-            
+
             alert($(this).val());
         });
-        
-        
+
+
+    });
+
+    function getSubjects(grade_id, subject_id, teacher_id, role_id, subject_timetable_id) {
+        if (grade_id != "" && subject_id != '') {
+            $('#subject_timetable_id').html("");
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+                type: "POST",
+                url: baseurl + "admin/subjectgroup/getSubjectByGradeAndTeacher",
+                data: {
+                    'grade_id': grade_id,
+                    'subject_id': subject_id,
+                    'teacher_id': teacher_id,
+                    'role_id': role_id
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#subject_timetable_id').html("");
+
+                    $.each(data, function(i, obj) {
+                        var select = "";
+                        if (subject_timetable_id == obj.id) {
+                            var select = "selected=selected";
+                        }
+
+                        div_data += "<option value=" + obj.id + " " + select + ">" + obj.subject_name + " (" + obj.day + " " + obj.time_from + " - " + obj.time_to + ") (" + obj.name + " " + obj.surname + ")" + "</option>";
+                    });
+                    $('#subject_timetable_id').append(div_data);
+                }
+            });
+        }
+    }
+
+    $(document).on('change', '#grade_id', function(e) {
+        var grade_id = $('#grade_id').val();
+        var subject_id = $('#subject_id').val();
+        getSubjects(grade_id, subject_id, teacher_id, role_id, 0);
+    });
+
+    $(document).on('change', '#subject_id', function(e) {
+        var grade_id = $('#grade_id').val();
+        var subject_id = $('#subject_id').val();
+        getSubjects(grade_id, subject_id, teacher_id, role_id, 0);
     });
 </script>
