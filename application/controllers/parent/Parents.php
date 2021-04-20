@@ -937,7 +937,7 @@ class Parents extends Parent_Controller
         // die();
 
         $data_array =  array(
-            "access_key" => "$access_key",
+            "access_key" => $access_key,
             "partner_uid" => $partner_uid,
             "pay_way" => "bananapay",
             "ts" => $ts,
@@ -974,14 +974,52 @@ class Parents extends Parent_Controller
         $error = $result['errno'];
         $message = $result['message'];
         $data = $result['results'];
+        $url1 = $data['url'];
+
+        $sign = strtoupper(md5("access_key=" . $access_key . "&partner_uid=" . $partner_uid . "&pay_way=bananapay&ts=" . $ts . "&type=unbind&key=" . $key));
+
+        $data_array =  array(
+            "access_key" => $access_key,
+            "partner_uid" => $partner_uid,
+            "pay_way" => "bananapay",
+            "ts" => $ts,
+            "type" => "unbind",
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayBindUid';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
 
         // echo ("<PRE>");
         // print_r($result);
         // echo ("<PRE>");
         // die();
 
+        $result = json_decode($response, true);
+        $error = $result['errno'];
+        $message = $result['message'];
+        $data = $result['results'];
+        $url2 = $data['url'];
+
         // echo json_encode($data);
-        $linking_page = 'https://test-cloudph.bananapay.com.ph/index.php?bindlink=' . $data['url'] . "&unbindlink=[url2]";
+        $linking_page = 'https://test-cloudph.bananapay.com.ph/index.php?bindlink=' . $url1 . "&unbindlink=" . $url2;
         return $linking_page;
     }
 }

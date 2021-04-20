@@ -441,7 +441,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="form-group">
                     <div>
-                        <div id="notyetlinked" class="pull-left">Account not yet linked? <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here.</a></div>
+                        <div id="notyetlinked" class="pull-left">Account not yet linked to KampusPay? <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here.</a></div>
                     </div>
                 </div>
             </div>
