@@ -426,7 +426,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="form-group">
                     <label for="amount">Amount</label>
-                    <input type="number" class="form-control" id="amount" name="amount" min="1" placeholder="Enter the amount" autocomplete="off" onkeypress="return onlyNumberKey(event)">
+                    <!-- <input class="form-control" id="amount" name="amount" placeholder="Enter the amount" autocomplete="off"> -->
+                    <input id="amount" class="form-control" placeholder="Enter the amount">
                 </div>
                 <div class="form-group">
                     <div>
@@ -461,6 +462,29 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/js/jquery.qrcode.min.js"></script>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+                textbox.addEventListener(event, function() {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        this.value = "";
+                    }
+                });
+            });
+        }
+
+        setInputFilter(document.getElementById("amount"), function(value) {
+            return /^-?\d*[.,]?\d*$/.test(value);
+        });
+    });
+
     function ShowKampusPayment() {
         $('#feetype').val('');
         $('#amount').val('')
@@ -509,15 +533,5 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-    }
-
-    function onlyNumberKey(evt) {
-        // Only ASCII charactar in that range allowed
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-            return false;
-
-        return true;
     }
 </script>
