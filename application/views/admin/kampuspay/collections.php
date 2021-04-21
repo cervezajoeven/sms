@@ -34,8 +34,8 @@
                                 <div class="tab-pane active table-responsive no-padding">
                                     <table class="table table-striped table-bordered table-hover nowrap kampuspay_collections">
                                         <thead>
-                                            <th class="text-left">Transaction ID</th>
-                                            <th class="text-left">Name</th>
+                                            <th class="text-left">Transaction #</th>
+                                            <th class="text-left">Reference #</th>
                                             <th class="text-left">Fee Type</th>
                                             <th class="text-left">Amount</th>
                                             <th class="text-left">Rebates</th>

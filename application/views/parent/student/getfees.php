@@ -443,6 +443,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 <div class="form-group">
                     <div>
                         <div id="notyetlinked" class="pull-left">Account not yet linked to KampusPay? <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here.</a></div>
+
                     </div>
                 </div>
             </div>
@@ -450,6 +451,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="GetQRCode()">Get QR Code</button>
+                <div id="btnstatus" class="pull-left"></div>
             </div>
 
         </div><!-- /.modal-content -->
@@ -525,10 +527,39 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             text: resp.results.qrcode
                         });
                         $('#instruction').text('Please scan this QR with your Banana Pay app to proceed with your payment.');
+
+                        $('#btnstatus').html('');
+                        $('#btnstatus').html('<button type="button" class="btn btn-success" onclick="GetPaymentStatus(\'' + resp.results.out_trade_no + '\')">Check Payment Status</button>')
                     }
                 }
             });
         }
+    }
+
+    function GetPaymentStatus(out_trade_no) {
+        var prompt = $.dialog({
+            title: 'KampusPay',
+            content: 'Checking payment status...',
+        });
+
+        var url = '<?php echo site_url("parent/parents/getKampusPayPaymentStatus") ?>';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                out_trade_no: out_trade_no
+            },
+            dataType: 'json',
+            success: function(resp) {
+                prompt.close();
+
+                prompt = $.alert({
+                    title: 'KampusPay',
+                    content: resp.message,
+                });
+            }
+        });
     }
 
     function formatNumber(num) {

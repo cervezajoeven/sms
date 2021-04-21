@@ -44,6 +44,7 @@ class Parents extends Parent_Controller
 
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->payment_method = $this->paymentsetting_model->getActiveMethod();
+        $this->out_trade_no = null;
     }
 
     public function unauthorized()
@@ -912,11 +913,8 @@ class Parents extends Parent_Controller
         // die();
 
         $result = json_decode($response, true);
-        $error = $result['errno'];
-        $message = $result['message'];
-        $data = $result;
 
-        echo json_encode($data);
+        echo json_encode($result);
     }
 
     public function getKampusPayBindUidURL()
@@ -1021,5 +1019,62 @@ class Parents extends Parent_Controller
         // echo json_encode($data);
         $linking_page = 'https://test-cloudph.bananapay.com.ph/index.php?bindlink=' . urlencode($url1) . "&unbindlink=" . urlencode($url2);
         return $linking_page;
+    }
+
+    public function getKampusPayPaymentStatus()
+    {
+        $out_trade_no = $this->input->post('out_trade_no');
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&ts=" . $ts . "&key=" . $key));
+
+        // echo ("<PRE>");
+        // print_r("access_key=" . $access_key . "&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&ts=" . $ts . "&key=" . $key);
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&ts=" . $ts . "&key=" . $key)));
+        // echo ("<PRE>");
+        // die();
+
+        $data_array =  array(
+            "access_key" => "$access_key",
+            "out_trade_no" => $out_trade_no,
+            "pay_way" => "bananapay",
+            "ts" => $ts,
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.QueryOrder';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // echo ("<PRE>");
+        // print_r($response);
+        // echo ("<PRE>");
+
+        $data = json_decode($response, true);
+
+        // echo ("<PRE>");
+        // print_r($data);
+        // echo ("<PRE>");
+        // die();
+
+        echo json_encode($data);
     }
 }
