@@ -1019,7 +1019,7 @@ class Parents extends Parent_Controller
         $url2 = $data['url'];
 
         // echo json_encode($data);
-        $linking_page = 'https://test-cloudph.bananapay.com.ph/index.php?bindlink=' . $url1 . "&unbindlink=" . $url2;
+        $linking_page = 'https://test-cloudph.bananapay.com.ph/index.php?bindlink=' . urlencode($url1) . "&unbindlink=" . urlencode($url2);
         return $linking_page;
     }
 }
