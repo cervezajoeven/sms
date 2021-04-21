@@ -502,6 +502,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
         var tprice = $('#amount').val();
 
         if ($('#feetype').val() != '' && $('#amount').val() != '') {
+            $('#btnstatus').html('');
+            $('#qrcodehere').html('');
             var prompt = $.dialog({
                 title: 'KampusPay',
                 content: 'Generating QR code please wait...',

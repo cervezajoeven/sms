@@ -1,9 +1,5 @@
 <div class="content-wrapper">
     <section class="content-header">
-        <h1><i class="fa fa-sitemap"></i> <?php echo $this->lang->line('human_resource'); ?>
-        </h1>
-
-
     </section>
     <!-- Main content -->
     <section class="content">
@@ -44,12 +40,12 @@
                                         <tbody>
                                         </tbody>
                                         <tfoot>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right"></td>
+                                            <td></td>
                                         </tfoot>
                                     </table>
                                 </div>
@@ -133,10 +129,10 @@
             // "ordering": true,
             // "scrollX": true,
             pageLength: 15,
-            // columnDefs: [{
-            //     targets: [3],
-            //     className: "text-right"
-            // }],
+            columnDefs: [{
+                targets: [3, 4],
+                className: "text-right"
+            }],
             aaSorting: [
                 [5, 'desc']
             ],

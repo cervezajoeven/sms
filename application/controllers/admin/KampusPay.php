@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class KampusPay extends Admin_Controller
+class Kampuspay extends Admin_Controller
 {
 
     function __construct()
@@ -31,13 +31,6 @@ class KampusPay extends Admin_Controller
 
         $userdata = $this->customlib->getUserData();
         $data["staff_id"] = $userdata["id"];
-        // $data['access_key'] = $this->sch_setting_detail->kampuspay_access_key;
-        // $data['key'] = $this->sch_setting_detail->kampuspay_key;
-        // $data['sign'] = strtoupper(md5("access_key=" . $data['access_key'] . "&ts=1618649846873&key=" . $data['key']));
-        // $data['ts'] = strtotime("now");
-
-        // $timestamp=1486830234542;
-        // echo date('Y-m-d H:i:s', $timestamp/1000);
 
         $this->load->view("layout/header", $data);
         $this->load->view("admin/kampuspay/collections", $data);
@@ -95,7 +88,7 @@ class KampusPay extends Admin_Controller
                 $value['out_trade_no'],
                 $value['goods_name'],
                 $value['goods_ext_price'],
-                $value['goods_ext_price'] * .025,
+                number_format((float)($value['goods_ext_price'] * .005), 2, '.', ''),
                 date("m-d-Y H:i:s a", $value['pay_time'])
             );
         }
