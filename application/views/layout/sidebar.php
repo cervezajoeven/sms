@@ -153,7 +153,7 @@
                 ?>
                     <li class="treeview <?php echo set_Topmenu('Fees Collection'); ?>">
                         <a href="#">
-                            <i class="fa fa-money ftlayer"></i> <span> <?php echo $this->lang->line('fees_management'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-money ftlayer"></i> <span> <?php echo $this->lang->line('cashier'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <?php if ($this->rbac->hasPrivilege('collect_fees', 'can_view')) { ?>
@@ -661,7 +661,7 @@
                         <!-- <li class="<?php //echo set_Submenu('content/assignment'); 
                                         ?>"><a href="<?php //echo base_url(); 
                                                         ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('lms_usage_report'); 
-                                                                                                                                                                                ?></a></li> -->
+                                                                                                                                ?></a></li> -->
 
 
                         <?php if ($this->rbac->hasPrivilege('upload_content', 'can_view')) { ?>
@@ -1161,7 +1161,7 @@
                             <!-- <li class="<?php //echo set_Submenu('admin/paymentsettings'); 
                                             ?>"><a href="<?php //echo base_url(); 
                                                             ?>admin/paymentsettings"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('payment_methods'); 
-                                                                                                                                                                                ?></a></li> -->
+                                                                                                                                ?></a></li> -->
                             <?php //}
 
                             if ($this->rbac->hasPrivilege('print_header_footer', 'can_view')) {
