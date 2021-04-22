@@ -100,8 +100,17 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             </div>
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#newKampusPayment">Make a payment using KampusPay</button></small> -->
                                     <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small>
+                                    <?php //if ($account_linked) { 
+                                    ?>
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small> -->
+                                    <?php //} else { 
+                                    ?>
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-danger btn-sm pull-right" onclick="LinkToKampusPay()">Link my account to KampusPay</button></small> -->
+                                    <?php //} 
+                                    ?>
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#newKampusPayment">Make a payment using KampusPay</button></small> -->
+
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -442,7 +451,12 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="form-group">
                     <div>
-                        <div id="notyetlinked" class="pull-left">Account not yet linked to KampusPay? <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here.</a></div>
+                        <?php
+                        $disabled = "";
+                        if (!$account_linked) {
+                            $disabled = "disabled"; ?>
+                            <div id="notyetlinked" class="pull-left" style="color:red;">Your account is not yet linked to KampusPay. <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here</a> to link.</div>
+                        <?php } ?>
 
                     </div>
                 </div>
@@ -450,7 +464,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="GetQRCode()">Get QR Code</button>
+                <button type="button" class="btn btn-primary" onclick="GetQRCode()" <?php echo $disabled; ?>>Get QR Code</button>
                 <div id="btnstatus" class="pull-left"></div>
             </div>
 
@@ -497,6 +511,10 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
         $('#newKampusPayment').modal('show');
     }
 
+    function LinkToKampusPay() {
+        window.open('<?php echo $linking_page; ?>', '_blank');
+    }
+
     function GetQRCode() {
         var url = '<?php echo site_url("parent/parents/getKampusPayQRCode") ?>';
         var tname = $('#feetype').val() + '<?php echo ' for ' . $student['firstname'] . ' ' . $student['lastname'] . ' - ' . $student['class'] . ' (' . $student['section'] . ')' ?>';
@@ -505,6 +523,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
         if ($('#feetype').val() != '' && $('#amount').val() != '') {
             $('#btnstatus').html('');
             $('#qrcodehere').html('');
+            $('#instruction').html('');
             var prompt = $.dialog({
                 title: 'KampusPay',
                 content: 'Generating QR code please wait...',

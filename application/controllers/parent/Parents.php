@@ -276,6 +276,8 @@ class Parents extends Parent_Controller
         $data['student']              = $student;
         $data['fee_types'] = $this->feetype_model->get();
         $data['linking_page'] = $this->getKampusPayBindUidURL();
+        $userbind = $this->getUserQueryBindData();
+        $data['account_linked'] = $userbind == null ? false : true;
         $this->load->view('layout/parent/header', $data);
         $this->load->view('parent/student/getfees', $data);
         $this->load->view('layout/parent/footer', $data);
@@ -764,9 +766,31 @@ class Parents extends Parent_Controller
     {
         $this->session->set_userdata('top_menu', 'Fees');
         $this->session->set_userdata('sub_menu', 'parent/parents/kampuspay_transactions');
-
-        // $userdata = $this->customlib->getUserData();
         $data['title'] = 'KampusPay Transactions';
+
+        $userbind = $this->getUserQueryBindData();
+
+        // print_r($userbind);
+        // die();
+
+        // if ($userbind != null) {
+        //     // $userdata = $this->customlib->getUserData();
+
+        //     $this->load->view('layout/parent/header', $data);
+        //     $this->load->view("parent/kampuspay_transactions", $data);
+        //     $this->load->view('layout/parent/footer', $data);
+        // } else {
+        //     $linking_page = $this->getKampusPayBindUidURL();
+        //     $data['linking_page'] = $linking_page;
+        //     // print_r($linking_page);
+        //     // die();
+        //     // header('Location: ' . $linking_page);
+        //     // echo '<script>window.open("' . $linking_page . '","_blank")</script>';
+        //     $this->load->view('layout/parent/header', $data);
+        //     $this->load->view("parent/kampuspay_link_account", $data);
+        //     $this->load->view('layout/parent/footer', $data);
+        // }
+
         $this->load->view('layout/parent/header', $data);
         $this->load->view("parent/kampuspay_transactions", $data);
         $this->load->view('layout/parent/footer', $data);
@@ -1099,5 +1123,61 @@ class Parents extends Parent_Controller
         // die();
 
         echo json_encode($data);
+    }
+
+    function getUserQueryBindData()
+    {
+        $sessionData = $this->customlib->getLoggedInUserData();
+        $username = $this->parent_model->getUserName($sessionData['id']);
+        $app_user_id = $username;
+
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
+
+        $data_array =  array(
+            "access_key" => "$access_key",
+            "app_user_id" => $app_user_id,
+            "pay_way" => "bananapay",
+            "platform" => "Fucent",
+            "ts" => $ts,
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key)));
+        // echo ("<PRE>");
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayQueryBind';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        // $data = json_decode(file_get_contents('php://input'), true);
+        $result = json_decode($response, true);
+        $data = $result['results']['user'];
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data));
+        // echo ("<PRE>");
+        // die();
+
+        // echo json_encode($data);
+        return $data;
     }
 }
