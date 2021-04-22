@@ -77,9 +77,24 @@
     var end_date = "";
     var kampuspay_collections;
     var isadmin = <?php echo strpos(strtolower($staffrole), 'admin') == null ? -1 : strpos(strtolower($staffrole), 'admin'); ?>;
+    var Today = new Date();
 
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 
     $("#datefilter").daterangepicker({
@@ -92,8 +107,9 @@
             // alert("You are " + years + " years old!");
             // start_date = start.format('YYYY-MM-DD');
             // end_date = end.format('YYYY-MM-DD');
+            // $('#datefilter').val(start.format('YYYY-MM-DD'));
         }
-    });
+    }).val(formatDate(Today) + " - " + formatDate(Today));
 
     $('#datefilter').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
@@ -111,10 +127,12 @@
     $(document).ready(function() {
         var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
 
-        $('#u_date').datepicker({
-            format: date_format,
-            autoclose: true
-        });
+        // var Today = new Date();
+        // Today.setDate(Today.getDate());
+        // $('#datefilter').daterangepicker('setDate', Today);
+        // $("#datefilter").data().daterangepicker.startDate = moment();
+        // $("#datefilter").data().daterangepicker.endDate = moment();
+        // $("#datefilter").data().daterangepicker.updateCalendars();
 
         kampuspay_collections = $('.kampuspay_collections').DataTable({
             prerender: true,
@@ -246,7 +264,9 @@
     });
 
     function ShowResult() {
-        var url = '<?php echo site_url("admin/kampuspay/getKampusPayCollections/") ?>';
+        kampuspay_collections.clear().draw();
+
+        var url = '<?php echo site_url("admin/kampuspay/getKampusPayCollections/") ?>' + (start_date == "" ? formatDate(Today) : start_date) + "/" + (end_date == "" ? formatDate(Today) : end_date);
         kampuspay_collections.ajax.url(url);
         kampuspay_collections.ajax.reload();
     }

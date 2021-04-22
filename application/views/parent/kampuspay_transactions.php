@@ -81,9 +81,24 @@
     var end_date = "";
     var kampuspay_transactions;
     var isadmin = <?php echo strpos(strtolower($staffrole), 'admin') == null ? -1 : strpos(strtolower($staffrole), 'admin'); ?>;
+    var Today = new Date();
 
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 
     $("#datefilter").daterangepicker({
@@ -96,8 +111,9 @@
             // alert("You are " + years + " years old!");
             // start_date = start.format('YYYY-MM-DD');
             // end_date = end.format('YYYY-MM-DD');
+            // $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         }
-    });
+    }).val(formatDate(Today) + " - " + formatDate(Today));
 
     $('#datefilter').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
@@ -115,10 +131,10 @@
     $(document).ready(function() {
         var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
 
-        $('#u_date').datepicker({
-            format: date_format,
-            autoclose: true
-        });
+        // $('#u_date').datepicker({
+        //     format: date_format,
+        //     autoclose: true
+        // });
 
         kampuspay_transactions = $('.kampuspay_transactions').DataTable({
             prerender: true,
@@ -133,10 +149,13 @@
             // "ordering": true,
             // "scrollX": true,
             pageLength: 15,
-            // columnDefs: [{
-            //     targets: [3],
-            //     className: "text-right"
-            // }],
+            columnDefs: [{
+                // targets: [3],
+                // className: "text-right",
+                data: null,
+                defaultContent: "No data available",
+                targets: ['_all']
+            }],
             aaSorting: [
                 [4, 'desc']
             ],
@@ -240,7 +259,11 @@
     });
 
     function ShowResult() {
-        var url = '<?php echo site_url("parent/parents/getKampusPayTransactions/") ?>';
+        var url = '<?php echo site_url("parent/parents/getKampusPayTransactions/") ?>' + (start_date == "" ? formatDate(Today) : start_date) + "/" + (end_date == "" ? formatDate(Today) : end_date);
+        // kampuspay_transactions.ajax.data({
+        //     startdate: start_date,
+        //     enddate: end_date
+        // });
         kampuspay_transactions.ajax.url(url);
         kampuspay_transactions.ajax.reload();
     }

@@ -41,6 +41,7 @@ class Parents extends Parent_Controller
         $this->load->model('conduct_model');
         $this->load->model('parent_model');
         $this->load->model('feetype_model');
+        $this->load->model('kampuspay_model');
 
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->payment_method = $this->paymentsetting_model->getActiveMethod();
@@ -771,8 +772,10 @@ class Parents extends Parent_Controller
         $this->load->view('layout/parent/footer', $data);
     }
 
-    public function getKampusPayTransactions()
+    public function getKampusPayTransactions($startdate, $enddate)
     {
+        $start = strtotime($startdate);
+        $end = strtotime($enddate);
         $sessionData = $this->customlib->getLoggedInUserData();
         // print_r($sessionData['id']);
         // die();
@@ -782,12 +785,13 @@ class Parents extends Parent_Controller
         $access_key = $this->sch_setting_detail->kampuspay_access_key;
         $key = strtoupper($this->sch_setting_detail->kampuspay_key);
         $ts = strval(strtotime("now"));
-        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key));
+        // $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
 
         // echo ("<PRE>");
-        // print_r("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key);
+        // print_r("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key);
         // echo ("<PRE>");
-        // print_r(strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key)));
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key)));
         // echo ("<PRE>");
         // die();
 
@@ -796,8 +800,11 @@ class Parents extends Parent_Controller
             "app_user_id" => $app_user_id,
             "bill_state" => "COMPLETED",
             "bill_type" => "PAYMENT",
+            "end" => $end,
+            "limit" => "3000",
             "pay_way" => "bananapay",
             "platform" => "Fucent",
+            "start" => $start,
             "ts" => $ts,
             "sign" => $sign
         );
@@ -827,6 +834,8 @@ class Parents extends Parent_Controller
         $message = $result['message'];
         $data = $result['results']['orders'];
 
+        $retVal = array('data' => array());
+
         foreach ($data as $key => $value) {
             $retVal['data'][$key] = array(
                 $value['trade_no'],
@@ -840,12 +849,6 @@ class Parents extends Parent_Controller
         // print_r(json_encode($retVal));
         // echo ('<PRE>');
         // echo ('<PRE>');
-
-        // $date = array_column($retVal, 'gmt_payment');
-        // array_multisort($date, SORT_DESC, $retVal);
-
-        // print_r(json_encode($retVal));
-        // die();
 
         echo json_encode($retVal);
     }
@@ -911,6 +914,15 @@ class Parents extends Parent_Controller
         // print_r($response);
         // echo ("<PRE>");
         // die();
+
+        if ($response != null) {
+            $data_transact =  array(
+                "client_username" => $username,
+                "transaction_details" => json_encode($data_array)
+            );
+
+            $this->kampuspay_model->m_saveTransaction($data_transact);
+        }
 
         $result = json_decode($response, true);
 

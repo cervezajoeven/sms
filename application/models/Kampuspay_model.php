@@ -9,6 +9,7 @@ class Kampuspay_model extends MY_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->writedb = $this->load->database('write_db', TRUE);
     }
 
     // public function getUnixTimestamp()
@@ -20,4 +21,16 @@ class Kampuspay_model extends MY_Model
     //     $ret = $query->row()->timestamp;
     //     return $ret;
     // }
+
+    public function m_saveTransaction($data)
+    {
+        // echo ("<PRE>");
+        // print_r($data);
+        // echo ("<PRE>");
+        // die();
+        $retVal = $this->writedb->insert('kampuspay_transaction_attempts', $data);
+        // print_r($this->writedb->error());
+
+        return $retVal;
+    }
 }

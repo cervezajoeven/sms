@@ -492,6 +492,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
         $('#amount').val('')
         $('#qrcodehere').html('');
         $('#instruction').text('');
+        $('#btnstatus').html('');
 
         $('#newKampusPayment').modal('show');
     }
@@ -532,6 +533,11 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 
                         $('#btnstatus').html('');
                         $('#btnstatus').html('<button type="button" class="btn btn-success" onclick="GetPaymentStatus(\'' + resp.results.out_trade_no + '\')">Check Payment Status</button>')
+                    } else {
+                        prompt = $.alert({
+                            title: 'KampusPay',
+                            content: resp.message,
+                        });
                     }
                 }
             });

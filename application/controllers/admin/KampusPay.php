@@ -37,23 +37,30 @@ class Kampuspay extends Admin_Controller
         $this->load->view("layout/footer", $data);
     }
 
-    public function getKampusPayCollections()
+    public function getKampusPayCollections($startdate, $enddate)
     {
+        // $startdate = $this->input->post('startdate');
+        // $enddate = $this->input->post('enddate');
         $access_key = $this->sch_setting_detail->kampuspay_access_key;
         $key = strtoupper($this->sch_setting_detail->kampuspay_key);
         $ts = strval(strtotime("now"));
-        $sign = strtoupper(md5("access_key=" . $access_key . "&ts=" . $ts . "&key=" . $key));
+        // $sign = strtoupper(md5("access_key=" . $access_key . "&ts=" . $ts . "&key=" . $key));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&dateend=" . $enddate . "&datestart=" . $startdate . "&page_index=0&page_size=3000&ts=" . $ts . "&key=" . $key));
 
         // echo ("<PRE>");
-        // print_r("access_key=" . $access_key . "&ts=" . $ts . "&key=" . $key);
+        // print_r("access_key=" . $access_key . "&dateend=" . $enddate . "&datestart=" . $startdate . "&ts=" . $ts . "&key=" . $key);
         // echo ("<PRE>");
-        // print_r(md5("access_key=" . $access_key . "&ts=" . $ts . "&key=" . $key));
+        // print_r(md5("access_key=" . $access_key . "&dateend=" . $enddate . "&datestart=" . $startdate . "&ts=" . $ts . "&key=" . $key));
         // echo ("<PRE>");
         // die();
 
         $data_array =  array(
             "access_key" => "$access_key",
             "ts" => $ts,
+            "dateend" => $enddate,
+            "datestart" => $startdate,
+            "page_index" => "0",
+            "page_size" => "3000",
             "sign" => $sign
         );
 
@@ -82,6 +89,8 @@ class Kampuspay extends Admin_Controller
         $message = $result['message'];
         $data = $result['results']['order_collection'];
 
+        $retVal = array('data' => array());
+
         foreach ($data as $key => $value) {
             $retVal['data'][$key] = array(
                 $value['transaction_id'],
@@ -95,71 +104,4 @@ class Kampuspay extends Admin_Controller
 
         echo json_encode($retVal);
     }
-
-    // public function getKampusPayTransactions()
-    // {
-    //     $userdata = $this->customlib->getUserData();
-    //     $app_user_id = $userdata["id"];
-
-
-    //     $access_key = $this->sch_setting_detail->kampuspay_access_key;
-    //     $key = strtoupper($this->sch_setting_detail->kampuspay_key);
-    //     $ts = strval(strtotime("now"));
-    //     $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
-
-    //     // echo ("<PRE>");
-    //     // print_r("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key);
-    //     // echo ("<PRE>");
-    //     // print_r(strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key)));
-    //     // echo ("<PRE>");
-    //     // die();
-
-    //     $data_array =  array(
-    //         "access_key" => "$access_key",
-    //         "app_user_id" => $app_user_id,
-    //         "bill_state" => "COMPLETED",
-    //         "bill_type" => "PAYMENT",
-    //         "pay_way" => "bananapay",
-    //         "platform" => "Fucent",
-    //         "ts" => $ts,
-    //         "sign" => $sign
-    //     );
-
-    //     // echo ("<PRE>");
-    //     // print_r(json_encode($data_array));
-    //     // echo ("<PRE>");
-    //     // die();
-
-    //     $data_string = json_encode($data_array);
-
-    //     $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayGlobalBillQuery';
-    //     $ch = curl_init($url);
-
-    //     curl_setopt_array($ch, array(
-    //         CURLOPT_POST => true,
-    //         CURLOPT_POSTFIELDS => $data_string,
-    //         CURLOPT_RETURNTRANSFER => true,
-    //         CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
-    //     ));
-
-    //     $response = curl_exec($ch);
-    //     curl_close($ch);
-    //     // $data = json_decode(file_get_contents('php://input'), true);
-    //     $result = json_decode($response, true);
-    //     $error = $result['errno'];
-    //     $message = $result['message'];
-    //     $data = $result['results']['orders'];
-
-    //     foreach ($data as $key => $value) {
-    //         $retVal['data'][$key] = array(
-    //             $value['trade_no'],
-    //             $value['out_trade_no'],
-    //             $value['subject'],
-    //             $value['pay_amount'],
-    //             $value['gmt_payment']
-    //         );
-    //     }
-
-    //     echo json_encode($retVal);
-    // }
 }
