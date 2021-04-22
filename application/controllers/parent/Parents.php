@@ -785,8 +785,8 @@ class Parents extends Parent_Controller
         $access_key = $this->sch_setting_detail->kampuspay_access_key;
         $key = strtoupper($this->sch_setting_detail->kampuspay_key);
         $ts = strval(strtotime("now"));
-        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key));
-        // $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
+        // $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
 
         // echo ("<PRE>");
         // print_r("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key);
@@ -795,16 +795,27 @@ class Parents extends Parent_Controller
         // echo ("<PRE>");
         // die();
 
+        // $data_array =  array(
+        //     "access_key" => "$access_key",
+        //     "app_user_id" => $app_user_id,
+        //     "bill_state" => "COMPLETED",
+        //     "bill_type" => "PAYMENT",
+        //     "end" => $end,
+        //     "limit" => "3000",
+        //     "pay_way" => "bananapay",
+        //     "platform" => "Fucent",
+        //     "start" => $start,
+        //     "ts" => $ts,
+        //     "sign" => $sign
+        // );
+
         $data_array =  array(
             "access_key" => "$access_key",
             "app_user_id" => $app_user_id,
             "bill_state" => "COMPLETED",
             "bill_type" => "PAYMENT",
-            "end" => $end,
-            "limit" => "3000",
             "pay_way" => "bananapay",
             "platform" => "Fucent",
-            "start" => $start,
             "ts" => $ts,
             "sign" => $sign
         );
@@ -830,8 +841,7 @@ class Parents extends Parent_Controller
         curl_close($ch);
         // $data = json_decode(file_get_contents('php://input'), true);
         $result = json_decode($response, true);
-        $error = $result['errno'];
-        $message = $result['message'];
+
         $data = $result['results']['orders'];
 
         $retVal = array('data' => array());
@@ -846,9 +856,10 @@ class Parents extends Parent_Controller
             );
         }
 
+        // echo ("<PRE>");
         // print_r(json_encode($retVal));
-        // echo ('<PRE>');
-        // echo ('<PRE>');
+        // echo ("<PRE>");
+        // die();
 
         echo json_encode($retVal);
     }

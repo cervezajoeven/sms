@@ -16,7 +16,7 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="flex-row">
-                            <div class="col-sm-6 col-md-3">
+                            <!-- <div class="col-sm-6 col-md-3">
                                 <div class="form-group">
                                     <input type="text" id="datefilter" name="datefilter" class="form-control input-md col-sm-6" value="" placeholder="Select Date Range" readonly />
                                 </div>
@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <small><button id="btn-show" onclick="ShowResult()" type="button" class="btn btn-default btn-sm">Show</button></small>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <?php //if (empty($timesheet_search)) { 
                             ?>
@@ -149,13 +149,13 @@
             // "ordering": true,
             // "scrollX": true,
             pageLength: 15,
-            columnDefs: [{
-                // targets: [3],
-                // className: "text-right",
-                data: null,
-                defaultContent: "No data available",
-                targets: ['_all']
-            }],
+            // columnDefs: [{
+            //     // targets: [3],
+            //     // className: "text-right",
+            //     data: null,
+            //     defaultContent: "No data available",
+            //     targets: ['_all']
+            // }],
             aaSorting: [
                 [4, 'desc']
             ],
