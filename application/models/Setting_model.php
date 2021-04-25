@@ -123,8 +123,9 @@ class Setting_model extends MY_Model
                            sch_settings.admin_logo,sch_settings.admin_small_logo,sch_settings.mobile_api_url,sch_settings.app_primary_color_code,sch_settings.app_secondary_color_code,
                            sch_settings.app_logo,languages.short_code as `language_code`,sch_settings.zoom_api_key,sch_settings.zoom_api_secret,
                            sch_settings.email_on_student_import,sch_settings.data_privacy_chkbox_text, sch_settings.conduct_grade_view, sch_settings.conduct_grading_type,
-                           sch_settings.kampuspay_access_key, sch_settings.kampuspay_key');
+                           sch_settings.kampuspay_access_key, sch_settings.kampuspay_key, sch_settings.admission_access_key');
 
+        // $this->db->select('*');
         $this->db->from('sch_settings');
         $this->db->join('sessions', 'sessions.id = sch_settings.session_id');
         $this->db->join('languages', 'languages.id = sch_settings.lang_id');

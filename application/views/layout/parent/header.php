@@ -254,7 +254,9 @@
                                 <i class="fa fa-money ftlayer"></i> <span><?php echo $this->lang->line('fees'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="<?php echo set_Submenu('parent/parents/kampuspay_transactions'); ?>"><a href="<?php echo base_url(); ?>parent/parents/kampuspay_transactions"><i class="fa fa-angle-double-right"></i> KampusPay Transactions</a></li>
+                                <!-- <li class="<?php //echo set_Submenu('parent/parents/kampuspay_transactions'); 
+                                                ?>"><a href="<?php //echo base_url(); 
+                                                                                                                                ?>parent/parents/kampuspay_transactions"><i class="fa fa-angle-double-right"></i> KampusPay Transactions</a></li> -->
                                 <?php
                                 $ch = $this->session->userdata('parent_childs');
                                 foreach ($ch as $key_ch => $value_ch) {

@@ -100,7 +100,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             </div>
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small>
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small> -->
                                     <?php //if ($account_linked) { 
                                     ?>
                                     <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small> -->
