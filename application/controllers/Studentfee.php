@@ -466,6 +466,151 @@ class Studentfee extends Admin_Controller
         $this->load->view('layout/footer', $data);
     }
 
+    public function addfeeAll()
+    {
+
+        $the_data = [
+            [
+                "ID Number",
+                "Level/Class",
+                "Section",
+                "First Name",
+                "Last Name",
+                "Middle Name",
+                "Payment Group",
+                "Payment Code",
+                "Due Date",
+                "Status",
+                "Amount",
+                "Payment ID",
+                "Mode",
+                "Date",
+                "O.R.",
+                "Note",
+                "Discount",
+                "Fine",
+                "Paid",
+                "Balance",
+            ],
+        ];
+
+        $this->db->select("id");
+        $this->db->from("students");
+        
+        $the_students = $this->db->get()->result_array();
+
+        
+        foreach ($the_students as $the_students_key => $the_students_value) {
+            $id = $the_students_value['id'];
+            $data['title']   = 'Student Detail';
+            $student         = $this->student_model->getByStudentSession($id);
+            $data['student'] = $student;
+            $student_due_fee = $this->studentfeemaster_model->getStudentFees($id);
+            
+            $student_discount_fee = $this->feediscount_model->getStudentFeesDiscount($id);
+
+            $data['student_discount_fee'] = $student_discount_fee;
+            $data['student_due_fee']      = $student_due_fee;
+            // $category                     = $this->category_model->get();
+            // $data['categorylist']         = $category;
+            $class_section                = $this->student_model->getClassSection($student["class_id"]);
+            $data["class_section"]        = $class_section;
+            $session                      = $this->setting_model->getCurrentSession();
+            $studentlistbysection         = $this->student_model->getStudentClassSection($student["class_id"], $session);
+            $data["studentlistbysection"] = $studentlistbysection;
+            
+            $total_amount = 0;
+            $total_deposite_amount = 0;
+            $total_fine_amount = 0;
+            $total_discount_amount = 0;
+            $total_balance_amount = 0;
+            $alot_fee_discount = 0;
+            $stud_details_shown = false;
+
+            foreach ($student_due_fee as $key => $fee) {
+                foreach ($fee->fees as $fee_key => $fee_value) {
+                    $fee_paid = 0;
+                    $fee_discount = 0;
+                    $fee_fine = 0;
+
+
+                    if (!empty($fee_value->amount_detail)) {
+                        $fee_deposits = json_decode(($fee_value->amount_detail));
+
+                        foreach ($fee_deposits as $fee_deposits_key => $fee_deposits_value) {
+                            $fee_paid = $fee_paid + $fee_deposits_value->amount;
+                            $fee_discount = $fee_discount + $fee_deposits_value->amount_discount;
+                            $fee_fine = $fee_fine + $fee_deposits_value->amount_fine;
+                        }
+                    }
+                    $total_amount = $total_amount + $fee_value->amount;
+                    $total_discount_amount = $total_discount_amount + $fee_discount;
+
+                    $total_deposite_amount = $total_deposite_amount + $fee_paid;
+                    $total_fine_amount = $total_fine_amount + $fee_fine;
+                    $feetype_balance = $fee_value->amount - ($fee_paid + $fee_discount);
+                    $total_balance_amount = $total_balance_amount + $feetype_balance;
+
+
+                    if ($fee_value->due_date == "0000-00-00") {
+                    } else {
+                        $the_due_date = date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_value->due_date));
+                    }
+                    if ($feetype_balance == 0) {
+                        $the_status = "paid";
+                    }else if (!empty($fee_value->amount_detail)) { 
+                        $the_status = "partial";
+
+                    }else{
+                        $the_status = "unpaid";
+                    }
+                    if (!empty($fee_value->amount_detail)){
+                        $the_payment_id = $fee_value->student_fees_deposite_id . "/" . $fee_deposits_value->inv_no;
+                        $the_payment_mode = $fee_deposits_value->payment_mode;
+                        $the_date = date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date));
+                        $the_or = $fee_deposits_value->or_number;
+                    }else{
+                        $the_payment_id = "";
+                        $the_payment_mode = "";
+                        $the_date = "";
+                        $the_or = "";
+                    }
+
+                    $display_none = "ss-none";
+                    if ($feetype_balance > 0) {
+                        $display_none = "";
+                        $the_balance = number_format($feetype_balance, 2, '.', '');
+                    }
+                    
+                    $student_data = [
+                        $student['roll_no'],
+                        $student['class'],
+                        $student['section'],
+                        $student['firstname'],
+                        $student['lastname'],
+                        $student['middlename'],
+                        $fee_value->type,
+                        $the_due_date,
+                        $the_status,
+                        $fee_value->amount,
+                        $the_payment_id,
+                        $the_payment_mode,
+                        $the_date,
+                        $the_or,
+                        $fee_deposits_value->description,
+                        number_format($fee_discount, 2, '.', ''),
+                        number_format($fee_fine, 2, '.', ''),
+                        number_format($fee_paid, 2, '.', ''),
+                    ];
+                    array_push($the_data, $student_data);
+                }
+            }
+        }
+        
+        $this->simplexlsxgen->fromArray( $the_data )->downloadAs('all_student_fees_'.date('M d, Y H_i_s').'.xlsx');
+
+    }
+
     public function allFees()
     {
         $student_due_fee = $this->studentfeemaster_model->getStudentFeesAll();
