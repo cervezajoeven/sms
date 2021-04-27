@@ -105,17 +105,20 @@
                             if ($this->rbac->hasPrivilege('student', 'can_add')) { ?>
                                 <li class="<?php echo set_Submenu('student/grading_StudentsAllowedToView'); ?>"><a href="<?php echo base_url(); ?>student/grading_StudentsAllowedToView"><i class="fa fa-angle-double-right"></i> Grade View Permission</a></li>
                                 <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> On-Site Enrollment</a></li>
-                                <?php }
+                            <?php }
+
+                            //if ($this->module_lib->hasActive('online_admission')) {
+                            //if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { 
+                            ?>
+                            <!-- <li class="<?php //echo set_Submenu('onlinestudent'); 
+                                            ?>"><a href="<?php //echo site_url('admin/onlinestudent'); 
+                                                            ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li> -->
+                            <?php //}
+                            //}
 
                             if ($this->module_lib->hasActive('online_admission')) {
                                 if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
-                                    <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
-                                <?php }
-                            }
-
-                            if ($this->module_lib->hasActive('online_admission')) {
-                                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
-                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/newEnrollmentPage'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment V2</a></li>
+                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/newEnrollmentPage'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
                                 <?php }
                             }
 
@@ -166,14 +169,11 @@
                                 <li class="<?php echo set_Submenu('studentfee/index'); ?>"><a href="<?php echo base_url(); ?>studentfee"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('collect_fees'); ?></a></li>
                             <?php
                             }
-                            //if ($this->rbac->hasPrivilege('kampuspay', 'can_view')) { 
+                            if ($this->rbac->hasPrivilege('kampuspay', 'can_view')) {
                             ?>
-                            <!-- <li class="<?php //echo set_Submenu('admin/kampuspay_collections'); 
-                                            ?>"><a href="<?php //echo base_url(); 
-                                                            ?>admin/kampuspay/collections"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('kampuspay_collections'); 
-                                                                                                                                    ?></a></li> -->
+                                <li class="<?php echo set_Submenu('admin/kampuspay_collections'); ?>"><a href="<?php echo base_url(); ?>admin/kampuspay/collections"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('kampuspay_collections'); ?></a></li>
                             <?php
-                            //}
+                            }
                             if ($this->rbac->hasPrivilege('search_fees_payment', 'can_view')) {
                             ?>
                                 <li class="<?php echo set_Submenu('studentfee/searchpayment'); ?>"><a href="<?php echo base_url(); ?>studentfee/searchpayment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('search_fees_payment'); ?></a></li>

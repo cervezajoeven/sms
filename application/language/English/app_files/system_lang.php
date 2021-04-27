@@ -1569,3 +1569,13 @@ $lang['timein'] = "Time In";
 $lang['timeout'] = "Time Out";
 
 $lang['kampuspay_collections'] = "KampusPay Collections";
+
+$lang['student_registration'] = "Online Registration";
+$lang['student_interview'] = "Online Interview Sched";
+$lang['student_entrance_exam'] = "Online Entrance Exam Sched";
+$lang['student_enrollment'] = "Online Enrollment";
+$lang['fail_interview'] = "Online Interview Failed";
+$lang['fail_exam'] = "Online Exam Failed";
+$lang['approve_interview'] = "Online Interview Approved";
+$lang['approve_exam'] = "Online Exam Approved";
+$lang['student_enrollment_userpassword'] = "Enrollment Username/Password";
