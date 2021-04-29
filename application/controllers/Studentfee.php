@@ -556,7 +556,7 @@ class Studentfee extends Admin_Controller
 
                     if ($fee_value->due_date == "0000-00-00") {
                     } else {
-                        $the_due_date = date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_value->due_date));
+                        $the_due_date = date("M d, Y",strtotime($fee_value->due_date));
                     }
                     if ($feetype_balance == 0) {
                         $the_status = "paid";
@@ -569,7 +569,7 @@ class Studentfee extends Admin_Controller
                     if (!empty($fee_value->amount_detail)){
                         $the_payment_id = $fee_value->student_fees_deposite_id . "/" . $fee_deposits_value->inv_no;
                         $the_payment_mode = $fee_deposits_value->payment_mode;
-                        $the_date = date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($fee_deposits_value->date));
+                        $the_date = date("M d, Y",strtotime($fee_deposits_value->date));
                         $the_or = $fee_deposits_value->or_number;
                     }else{
                         $the_payment_id = "";
@@ -610,6 +610,10 @@ class Studentfee extends Admin_Controller
                 }
             }
         }
+
+        // echo '<pre>';
+        // print_r($the_data);
+        // exit;
         
         $this->simplexlsxgen->fromArray( $the_data )->downloadAs('all_student_fees_'.date('M d, Y H_i_s').'.xlsx');
 
