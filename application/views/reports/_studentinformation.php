@@ -56,6 +56,7 @@
                             <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_quarterly'); ?>"><a href="<?php echo base_url(); ?>report/class_record_quarterly"><i class="fa fa-file-text-o"></i> Summary of Quarterly Grades</a></li>
                             <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/class_record_per_student"><i class="fa fa-file-text-o"></i> Quarterly Grades Per Student</a></li>
                             <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_banig'); ?>"><a href="<?php echo base_url(); ?>report/class_record_banig"><i class="fa fa-file-text-o"></i> Generate DepEd Banig</a></li>
+                            <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/class_record_banig"><i class="fa fa-file-text-o"></i> Print Card Per Section</a></li>
                         <?php } ?>
                         </ul>
                     </div>
