@@ -1579,3 +1579,4 @@ $lang['fail_exam'] = "Online Exam Failed";
 $lang['approve_interview'] = "Online Interview Approved";
 $lang['approve_exam'] = "Online Exam Approved";
 $lang['student_enrollment_userpassword'] = "Enrollment Username/Password";
+$lang['student_assessment'] = "Student Enrollment Assessment";

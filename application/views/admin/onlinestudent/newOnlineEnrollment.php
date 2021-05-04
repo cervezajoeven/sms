@@ -24,3 +24,42 @@
         </div>
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<!-- <style type="text/css">
+    body {
+        overflow: auto;
+    }
+</style>
+
+<div class="content-wrapper">
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body table-responsive">
+                        <div class="mailbox-messages">
+                            <iframe id="external" src="http://lms.campuscloudph.com/staff/login/<?php echo $id . "/" . $access_key ?>"" style=" position:block; top:0; left:0; bottom:0; right:0; width:70vw; height:80vh; border:none; margin:0; padding:0; overflow:auto; z-index:999999;">
+                                Your browser doesn't support iframes
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        SetIframeSize();
+    });
+    $(window).on('resize', function() {
+        SetIframeSize();
+    });
+
+    function SetIframeSize() {
+        $("#external").width($(window).width() - 18);
+        $("#external").height($(window).height() - 35);
+    }
+</script> -->
