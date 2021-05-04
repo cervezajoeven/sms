@@ -55,7 +55,7 @@
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
 
-                                <!-- <div class="form-group">
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Education Level</label><small class="req"> *</small>
                                     <select autofocus="" id="" name="education_level" placeholder="" type="text" class="form-control">
                                         <option value="pre_school">Pre-School</option>
@@ -67,17 +67,9 @@
                                     </select>
                                     <span class="text-danger"><?php //echo form_error('content_title'); 
                                                                 ?></span>
-                                </div> -->
-
-                                <div class="form-group">
-                                    <label for="">
-                                        <?php echo $this->lang->line('subject') . ' Schedule'; ?>
-                                    </label><small class="req"> *</small>
-                                    <select id="subject_timetable_id" name="subject_timetable_id" class="form-control">
-                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                    </select>
-                                    <span class="text-danger"><?php echo form_error('subject_timetable_id'); ?></span>
                                 </div>
+
+                                
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
