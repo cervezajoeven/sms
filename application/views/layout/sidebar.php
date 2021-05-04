@@ -118,7 +118,13 @@
 
                             if ($this->module_lib->hasActive('online_admission')) {
                                 if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
-                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/newEnrollmentPage'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
+                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
+                                <?php }
+                            }
+
+                            if ($this->module_lib->hasActive('online_admission')) {
+                                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
+                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/newEnrollmentPage'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment V2</a></li>
                                 <?php }
                             }
 
