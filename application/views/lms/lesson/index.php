@@ -43,18 +43,30 @@
                             <div class="download_label"><?php echo $this->lang->line('content_list'); ?></div>
                             <form action="<?php echo base_url('lms/lesson/past')?>" method="POST">
                                 
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <label for="exampleInputEmail1">Search For Lesson</label><small class="req"> *</small>
                                     <input type="text" name="lesson_name" class="form-control" placeholder="Search for Lessons" name="">
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
                                     <select autofocus="" id="subject_id" name="lesson_subject" placeholder="" type="text" class="form-control filter">
                                         <option value="">Select</option>
                                         <?php foreach ($subjects as $key => $value) : ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
                                         <?php endforeach; ?>
+                                    </select>
+                                    <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
+                                    <select autofocus="" id="lesson_quarter" name="lesson_quarter" placeholder="" type="text" class="form-control filter">
+                                        <option value="">Select</option>
+                                        <option value="1">1st</option>
+                                        <option value="2">2nd</option>
+                                        <option value="3">3rd</option>
+                                        <option value="4">4th</option>
+                                        
                                     </select>
                                     <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                                 </div>
