@@ -3,9 +3,11 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Stdtransfer extends Admin_Controller {
+class Stdtransfer extends Admin_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         // $this->load->model("classteacher_model");
         $this->load->model('class_model');
@@ -14,7 +16,8 @@ class Stdtransfer extends Admin_Controller {
         $this->load->model('student_model');
     }
 
-    function index() {
+    function index()
+    {
         if (!$this->rbac->hasPrivilege('promote_student', 'can_view')) {
             access_denied();
         }
@@ -23,7 +26,7 @@ class Stdtransfer extends Admin_Controller {
         $data['title'] = 'Exam Schedule';
         $class = $this->class_model->get('', $classteacher = 'yes');
         $data['classlist'] = $class;
-        $userdata = $this->customlib->getUserData();       
+        $userdata = $this->customlib->getUserData();
 
         $feecategory = $this->feecategory_model->get();
         $data['feecategorylist'] = $feecategory;
@@ -48,7 +51,8 @@ class Stdtransfer extends Admin_Controller {
         }
     }
 
-    public function promote() {
+    public function promote()
+    {
         $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('session_id', $this->lang->line('session'), 'required|trim|xss_clean');
         $this->form_validation->set_rules('class_promote_id', $this->lang->line('class'), 'required|trim|xss_clean');
@@ -62,11 +66,23 @@ class Stdtransfer extends Admin_Controller {
             echo json_encode(array('status' => 'fail', 'msg' => $errors));
         } else {
             $student_list = $this->input->post('student_list');
+            // print_r($student_list);
+            // die();
+            // $dataAll = array();
+
             foreach ($student_list as $key => $value) {
                 $student_id = $value;
                 $result = $this->input->post('result_' . $value);
                 $session_status = $this->input->post('next_working_' . $value);
-                if ($result == "pass" && $session_status == "countinue") {
+
+                // print_r($result);
+                // echo (' == ');
+                // print_r($session_status);
+                // echo ('<BR>');
+
+                if ($result == 'pass' && $session_status == 'continue') {
+                    // print_r('Passed');
+
                     $promoted_class = $this->input->post('class_promote_id');
                     $promoted_section = $this->input->post('section_promote_id');
                     $promoted_session = $this->input->post('session_id');
@@ -78,8 +94,13 @@ class Stdtransfer extends Admin_Controller {
                         'transport_fees' => 0,
                         'fees_discount' => 0
                     );
+
+                    // array_push($dataAll, $data_new);                    
+                    // print_r($data_new);
                     $this->student_model->add_student_session($data_new);
-                } elseif ($result == "fail" && $session_status == "countinue") {
+                } elseif ($result == "fail" && $session_status == "continue") {
+                    // print_r('Failed');
+
                     $promoted_session = $this->input->post('session_id');
                     $class_post = $this->input->post('class_post');
                     $promoted_section = $this->input->post('section_promote_id');
@@ -92,13 +113,14 @@ class Stdtransfer extends Admin_Controller {
                         'transport_fees' => 0,
                         'fees_discount' => 0
                     );
+
+                    // array_push($dataAll, $data_new);                    
+                    // print_r($data_new);
                     $this->student_model->add_student_session($data_new);
                 }
             }
+
             echo json_encode(array('status' => 'success', 'msg' => ""));
         }
     }
-
 }
-
-?>
