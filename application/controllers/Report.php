@@ -52,6 +52,7 @@ class Report extends Admin_Controller {
         $this->load->model('session_model');
         $this->load->model('subject_model');  
         $this->load->model('conduct_model');     
+        $this->load->model('lesson_model');     
           
         
         $this->search_type=$this->customlib->get_searchtype();
@@ -2018,6 +2019,18 @@ $attd=array();
         $studentinfo = $this->student_model->get($student_id);
         $data['student'] = $studentinfo;
 
+        $this->db->select("*");
+        $this->db->where("session_id",$session);
+        $this->db->where("class_id",$grade_level);
+        $this->db->where("section_id",$section);
+        $this->db->where("student_id",$student_id);
+        $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+        if($student_attendance){
+            $data['student_attendance'] = $student_attendance;
+        }else{
+            $data['student_attendance'] = array();
+        }
+
         $this->load->view('reports/student_report_card', $data);
 
         
@@ -2026,6 +2039,144 @@ $attd=array();
 
 
     }
+
+    public function attendance_by_month()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'Reports/student_information');
+        $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
+        
+        $data['title'] = 'Class Record Per Student';
+        $class = $this->class_model->get();
+        $data['classlist'] = $class;
+        $data['sch_setting'] = $this->sch_setting_detail;
+        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+        $data['session_list'] = $this->session_model->getAllSession();
+        $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
+        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+        
+        $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
+
+        if ($this->input->server('REQUEST_METHOD') == "GET") {   
+            $session = $this->input->post('session_id');
+            $grade_level = $this->input->post('class_id');
+            $section = $this->input->post('section_id');
+            $student_id = $this->input->post('student_id');
+            $data['session_id'] = $session;
+            $data['class_id'] = $grade_level;
+            $data['section_id']  = $section;
+            $data['student_id'] = $student_id;
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/attendance_by_month', $data);
+            $this->load->view('layout/footer', $data);
+        } else {
+            if ($this->form_validation->run() == false) {
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/attendance_by_month', $data);
+                $this->load->view('layout/footer', $data);
+            } 
+            else {                
+                $session = $this->input->post('session_id');
+                $grade_level = $this->input->post('class_id');
+                $section = $this->input->post('section_id');
+                $student_id = $this->input->post('student_id');
+
+                $student_conduct = null;
+                if ($this->sch_setting_detail->conduct_grade_view == 0)
+                {
+                    if ($this->sch_setting_detail->conduct_grading_type == 'letter')
+                        $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
+                    else if ($this->sch_setting_detail->conduct_grading_type == 'number')
+                        $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student_id);
+                }
+
+                $data['student_conduct'] = $student_conduct;
+
+                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
+                // print_r(json_encode($class_record));die();
+                // print_r($class_record);die();
+                $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
+                $data['resultlist'] = $class_record;
+                $data['session_id'] = $session;
+                $data['class_id'] = $grade_level;
+                $data['section_id']  = $section;
+                $data['student_id'] = $student_id;
+                $studentinfo = $this->student_model->get($student_id);
+                $data['student'] = $studentinfo;
+
+                $this->db->select("*");
+                $this->db->where("session_id",$session);
+                $this->db->where("class_id",$grade_level);
+                $this->db->where("section_id",$section);
+                $this->db->where("student_id",$student_id);
+                $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+                if($student_attendance){
+                    $data['student_attendance'] = $student_attendance;
+                }else{
+                    $data['student_attendance'] = array();
+                }
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/attendance_by_month', $data);
+                $this->load->view('layout/footer', $data);
+            }
+        }
+
+    }
+    public function save_attendance()
+    {
+        $data['session_id'] = $_POST['session_id'];
+        $data['class_id'] = $_POST['class_id'];
+        $data['section_id'] = $_POST['section_id'];
+        $data['student_id'] = $_POST['student_id'];
+        
+        $attendance = $_POST['months'];
+        $absent = $_POST['absent'];
+        $tardy = $_POST['tardy'];
+        foreach ($attendance as $key => $value) {
+            if(!$value){
+                $attendance[$key] = 0;
+            }
+        }
+        foreach ($absent as $key => $value) {
+            if(!$value){
+                $absent[$key] = 0;
+            }
+        }
+        foreach ($tardy as $key => $value) {
+            if(!$value){
+                $tardy[$key] = 0;
+            }
+        }
+        $data['attendance'] = json_encode($attendance);
+        $data['absent'] = json_encode($absent);
+        $data['tardy'] = json_encode($tardy);
+        $this->db->select("*");
+        $this->db->where("session_id",$data['session_id']);
+        $this->db->where("class_id",$data['class_id']);
+        $this->db->where("section_id",$data['section_id']);
+        $this->db->where("student_id",$data['student_id']);
+        $checker = $this->db->get("attendance_by_month")->result_array();
+
+        if($checker){
+            echo "update";
+            $update_data['attendance'] = $data['attendance'];
+            $update_data['absent'] = $data['absent'];
+            $update_data['tardy'] = $data['tardy'];
+            $update_data['id'] = $checker[0]['id'];
+            var_dump($this->lesson_model->lms_update("attendance_by_month",$update_data));
+            echo "<script>alert('Updated Successfully'); window.location.replace('".site_url('report/attendance_by_month')."');</script>";
+
+        }else{
+            echo "new";
+            $this->lesson_model->lms_create("attendance_by_month",$data,FALSE);
+            echo "<script>alert('Saved Successfully'); window.location.replace('".site_url('report/attendance_by_month')."');</script>";
+        }
+    }
+
 
     // public function getgrades($student_id) {
     //     // print_r($stud_entid);die();

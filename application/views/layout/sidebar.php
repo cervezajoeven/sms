@@ -308,7 +308,7 @@
                             } else {
                                 if ($this->rbac->hasPrivilege('student_attendance', 'can_view')) {
                                 ?>
-                                    <li class="<?php echo set_Submenu('subjectattendence/index'); ?>"><a href="<?php echo base_url(); ?>admin/attendance_by_month"><i class="fa fa-angle-double-right"></i> Attendance By Month</a></li>
+                                    <li class="<?php echo set_Submenu('subjectattendence/index'); ?>"><a href="<?php echo base_url(); ?>report/attendance_by_month"><i class="fa fa-angle-double-right"></i> Attendance By Month</a></li>
                                     <li class="<?php echo set_Submenu('subjectattendence/index'); ?>"><a href="<?php echo base_url(); ?>admin/subjectattendence"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('period') . " " . $this->lang->line('attendance'); ?></a></li>
                                 <?php
                                 }
