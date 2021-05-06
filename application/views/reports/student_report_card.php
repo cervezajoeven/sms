@@ -10,10 +10,10 @@
 .tg .tg-za14{border-color:inherit;text-align:left;vertical-align:bottom}
 </style>
 
-<table class="tg" style="width: 100%" onload="window.print()">
+<table class="tg" style="width: 100%; line-height: .9" onload="window.print()">
 <thead>
   <tr>
-    <th class="tg-pb0m" colspan="8">San Isidro Catholic School</th>
+    <th class="tg-pb0m" colspan="8" border="0">San Isidro Catholic School</th>
   </tr>
 </thead>
 <tbody>
@@ -24,17 +24,15 @@
     <td class="tg-pb0m" colspan="8">Report Card</td>
   </tr>
   <tr>
-    <td class="tg-0pky">Name</td>
-    <td class="tg-za14"><?php echo $student['firstname'] . " " . $student['lastname']. " ".$student['middlename']."."; ?></td>
+    <td class="tg-0pky" colspan="2">Name</td>
+    <td class="tg-za14" colspan="4"><?php echo $student['firstname'] . " " . $student['lastname']. " ".$student['middlename']."."; ?></td>
     <td class="tg-za14">LRN</td>
-    <td class="tg-za14" colspan="3"><?php echo $student['admission_no']; ?></td>
-    <td class="tg-za14">Age </td>
-    <td class="tg-0pky"></td>
+    <td class="tg-za14"><?php echo $student['admission_no']; ?></td>
   </tr>
   <tr>
-    <td class="tg-za14">Grade &amp; Section</td>
-    <td class="tg-za14"><?php echo $student['class']; ?> - <?php echo $student['section']; ?></td>
-    <td class="tg-za14" colspan="6">SY&nbsp;&nbsp;&nbsp;2020 - 2021</td>
+    <td class="tg-za14" colspan="2">Grade &amp; Section</td>
+    <td class="tg-za14" colspan="4"><?php echo $student['class']; ?> - <?php echo $student['section']; ?></td>
+    <td class="tg-za14" colspan="2">SY&nbsp;&nbsp;&nbsp;2020 - 2021</td>
   </tr>
   <tr>
     <td class="tg-za14" colspan="2">Learning&nbsp;&nbsp;&nbsp;Areas</td>
@@ -64,13 +62,151 @@
     </tr>                                                                  
  <?php endforeach; ?>
   <tr>
-    <td class="tg-za14" colspan="2">Extra&nbsp;&nbsp;&nbsp;Curricular</td>
-    <td class="tg-0pky" colspan="4"></td>
-    <td class="tg-c3ow"></td>
-    <td class="tg-0pky"></td>
+    <td class="tg-za14" colspan="8"></td>
+
   </tr>
 </tbody>
 </table>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-8d8j{text-align:center;vertical-align:bottom}
+.tg .tg-7zrl{text-align:left;vertical-align:bottom}
+</style>
+<table class="tg" width="100%">
+<thead>
+  <tr>
+    <th class="tg-8d8j" colspan="13">Report On Attendance</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-7zrl"></td>
+    <td class="tg-7zrl">Jun</td>
+    <td class="tg-7zrl">Jul</td>
+    <td class="tg-7zrl">Aug</td>
+    <td class="tg-7zrl">Sep</td>
+    <td class="tg-7zrl">Oct</td>
+    <td class="tg-7zrl">Nov</td>
+    <td class="tg-7zrl">Dec</td>
+    <td class="tg-7zrl">Jan</td>
+    <td class="tg-7zrl">Feb</td>
+    <td class="tg-7zrl">Mar</td>
+    <td class="tg-7zrl">Apr</td>
+    <td class="tg-7zrl">Total</td>
+  </tr>
+  <tr>
+    <td class="tg-7zrl">No. of School Days</td>
+    <td class="tg-7zrl">12</td>
+    <td class="tg-7zrl">23</td>
+    <td class="tg-7zrl">19</td>
+    <td class="tg-7zrl">21</td>
+    <td class="tg-7zrl">23</td>
+    <td class="tg-7zrl">20</td>
+    <td class="tg-7zrl">14</td>
+    <td class="tg-7zrl">20</td>
+    <td class="tg-7zrl">19</td>
+    <td class="tg-7zrl">22</td>
+    <td class="tg-7zrl">1</td>
+    <td class="tg-7zrl">194</td>
+  </tr>
+  <tr>
+    <td class="tg-7zrl">No. of Days Present</td>
+    <?php if($student_attendance): ?>
+      <?php $attendance_total = 0; ?>
+      <?php foreach (json_decode($student_attendance['attendance']) as $key => $value): ?>
+          <?php $attendance_total += $value; ?>
+          <td class="tg-7zrl"><?php echo $value; ?></td>
+      <?php endforeach; ?>
+      <td class="tg-7zrl"><?php echo $attendance_total ?></td>
+    <?php else: ?>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+    <?php endif; ?>
+    
+  </tr>
+  <tr>
+    <td class="tg-7zrl">No. of Days Absent</td>
+    <?php if($student_attendance): ?>
+      <?php $absent_total = 0; ?>
+      <?php foreach (json_decode($student_attendance['absent']) as $key => $value): ?>
+          <?php $absent_total += $value; ?>
+          <td class="tg-7zrl"><?php echo $value; ?></td>
+      <?php endforeach; ?>
+      <td class="tg-7zrl"><?php echo $absent_total ?></td>
+    <?php else: ?>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+    <?php endif; ?>
+  </tr>
+  <tr>
+    <td class="tg-7zrl">No. of Times Tardy</td>
+    <?php if($student_attendance): ?>
+      <?php $tardy_total = 0; ?>
+      <?php foreach (json_decode($student_attendance['tardy']) as $key => $value): ?>
+          <?php $tardy_total += $value; ?>
+          <td class="tg-7zrl"><?php echo $value; ?></td>
+      <?php endforeach; ?>
+      <td class="tg-7zrl"><?php echo $tardy_total ?></td>
+    <?php else: ?>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+      <td class="tg-7zrl">0</td>
+    <?php endif; ?>
+  </tr>
+</tbody>
+</table>
+<center><hr></center>
+<center><p>Certificate of Transfer</p></center>
+<table width="100%">
+  <tr>
+    <td colspan="2">Egligible for transfer and admission to </td>
+    <td>_________________________________________</td>
+
+    <td>Date __________</td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-top: 25px"><center>____________________________</center></td>
+    <td colspan="2" style="padding-top: 25px"><center>____________________________</center></td>
+  </tr>
+  <tr>
+    <td colspan="2"><center>Principal</center></td>
+    <td colspan="2"><center>Registrar</center></td>
+  </tr>
+</table>
 <script type="text/javascript">
-    window.onload = function() { window.print(); }
+    // window.onload = function() { window.print(); }
 </script>
