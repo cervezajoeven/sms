@@ -1879,7 +1879,7 @@ $attd=array();
                 $data['student_conduct'] = $student_conduct;
 
                 $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
-                // print_r(json_encode($class_record));die();
+                // print_r(json_encode($student_id));die();
                 // print_r($class_record);die();
                 $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
                 $data['resultlist'] = $class_record;
@@ -1896,79 +1896,6 @@ $attd=array();
         }
     }
 
-    public function print_card_per_section() {
-        
-        $this->session->set_userdata('top_menu', 'Reports');
-        $this->session->set_userdata('sub_menu', 'Reports/student_information');
-        $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
-        
-        $data['title'] = 'Class Record Per Student';
-        $class = $this->class_model->get();
-        $data['classlist'] = $class;
-        $data['sch_setting'] = $this->sch_setting_detail;
-        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
-        $data['session_list'] = $this->session_model->getAllSession();
-        $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
-        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
-        
-        $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
-
-        if ($this->input->server('REQUEST_METHOD') == "GET") {   
-            $session = $this->input->post('session_id');
-            $grade_level = $this->input->post('class_id');
-            $section = $this->input->post('section_id');
-            $student_id = $this->input->post('student_id');
-            $data['session_id'] = $session;
-            $data['class_id'] = $grade_level;
-            $data['section_id']  = $section;
-            $data['student_id'] = $student_id;
-
-            $this->load->view('layout/header', $data);
-            $this->load->view('reports/class_record_per_student', $data);
-            $this->load->view('layout/footer', $data);
-        } else {
-            if ($this->form_validation->run() == false) {
-                $this->load->view('layout/header', $data);
-                $this->load->view('reports/class_record_per_student', $data);
-                $this->load->view('layout/footer', $data);
-            } 
-            else {                
-                $session = $this->input->post('session_id');
-                $grade_level = $this->input->post('class_id');
-                $section = $this->input->post('section_id');
-                $student_id = $this->input->post('student_id');
-
-                $student_conduct = null;
-                if ($this->sch_setting_detail->conduct_grade_view == 0)
-                {
-                    if ($this->sch_setting_detail->conduct_grading_type == 'letter')
-                        $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
-                    else if ($this->sch_setting_detail->conduct_grading_type == 'number')
-                        $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student_id);
-                }
-
-                $data['student_conduct'] = $student_conduct;
-
-                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
-                // print_r(json_encode($class_record));die();
-                // print_r($class_record);die();
-                $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
-                $data['resultlist'] = $class_record;
-                $data['session_id'] = $session;
-                $data['class_id'] = $grade_level;
-                $data['section_id']  = $section;
-                $data['student_id'] = $student_id;
-                $studentinfo = $this->student_model->get($student_id);
-                $data['student'] = $studentinfo;
-                $this->load->view('layout/header', $data);
-                $this->load->view('reports/class_record_per_student', $data);
-                $this->load->view('layout/footer', $data);
-            }
-        }
-    }
 
     public function student_report_card() {
        
@@ -2033,9 +1960,133 @@ $attd=array();
 
         $this->load->view('reports/student_report_card', $data);
 
-        
 
+    }
+
+    public function print_cards_per_section() {
+       
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'Reports/student_information');
+        $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
         
+        $data['title'] = 'Class Record Per Student';
+        $class = $this->class_model->get();
+        $data['classlist'] = $class;
+        $data['sch_setting'] = $this->sch_setting_detail;
+        $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+        $data['session_list'] = $this->session_model->getAllSession();
+        $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
+        $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+        
+        $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
+
+        if ($this->input->server('REQUEST_METHOD') == "GET") {   
+            $session = $this->input->post('session_id');
+            $grade_level = $this->input->post('class_id');
+            $section = $this->input->post('section_id');
+            $student_id = $this->input->post('student_id');
+            $data['session_id'] = $session;
+            $data['class_id'] = $grade_level;
+            $data['section_id']  = $section;
+            $data['student_id'] = $student_id;
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/print_cards_per_section', $data);
+            $this->load->view('layout/footer', $data);
+        } else {
+            if ($this->form_validation->run() == false) {
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/print_cards_per_section', $data);
+                $this->load->view('layout/footer', $data);
+            } 
+            else {                
+                $session = $this->input->post('session_id');
+                $grade_level = $this->input->post('class_id');
+                $section = $this->input->post('section_id');
+                $student_id = $this->input->post('student_id');
+
+                $student_conduct = null;
+                if ($this->sch_setting_detail->conduct_grade_view == 0)
+                {
+                    if ($this->sch_setting_detail->conduct_grading_type == 'letter')
+                        $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
+                    else if ($this->sch_setting_detail->conduct_grading_type == 'number')
+                        $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student_id);
+                }
+
+                $data['student_conduct'] = $student_conduct;
+
+                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
+                // print_r(json_encode($class_record));die();
+                // print_r($class_record);die();
+                $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
+                $data['resultlist'] = $class_record;
+                $data['session_id'] = $session;
+                $data['class_id'] = $grade_level;
+                $data['section_id']  = $section;
+                $data['student_id'] = $student_id;
+                $studentinfo = $this->student_model->get($student_id);
+                $data['student'] = $studentinfo;
+                $this->load->view('layout/header', $data);
+                $this->load->view('reports/print_cards_per_section', $data);
+                $this->load->view('layout/footer', $data);
+            }
+        }
+
+
+    }
+
+    public function print_section_cards() {
+        $session = $this->input->post('session_id');
+        $grade_level = $this->input->post('class_id');
+        $section = $this->input->post('section_id');
+
+        $this->db->select("
+            students.id,
+            students.firstname,
+            students.lastname,
+            students.middlename,
+            students.admission_no,
+            classes.class,
+            sections.section,
+            sessions.session,
+        ");
+        $this->db->where("session_id",$session);
+        $this->db->where("class_id",$grade_level);
+        $this->db->where("section_id",$section);
+        $this->db->join("students","student_session.student_id = students.id");
+        $this->db->join("classes","student_session.class_id = classes.id");
+        $this->db->join("sections","student_session.section_id = sections.id");
+        $this->db->join("sessions","student_session.session_id = sessions.id");
+        $students = $this->db->get("student_session")->result_array();
+
+        foreach ($students as $key => $value) {
+            if ($this->sch_setting_detail->conduct_grading_type == 'letter')
+                $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $value['id']);
+            else if ($this->sch_setting_detail->conduct_grading_type == 'number')
+                $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $value['id']);
+
+            $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $value['id'], $grade_level, $section);
+
+            $this->db->select("*");
+            $this->db->where("session_id",$session);
+            $this->db->where("class_id",$grade_level);
+            $this->db->where("section_id",$section);
+            $this->db->where("student_id",$value['id']);
+            $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+
+            $students[$key]['student_conduct'] = $student_conduct;
+            $students[$key]['resultlist'] = $class_record;
+            $students[$key]['student_attendance'] = $student_attendance;
+            $students[$key]['quarter_list'] = $this->gradereport_model->get_quarter_list();
+        }
+
+        $data['students'] = $students;
+
+        $this->load->view('reports/print_section_cards', $data);
 
 
     }
@@ -2162,16 +2213,16 @@ $attd=array();
         $checker = $this->db->get("attendance_by_month")->result_array();
 
         if($checker){
-            echo "update";
+            // echo "update";
             $update_data['attendance'] = $data['attendance'];
             $update_data['absent'] = $data['absent'];
             $update_data['tardy'] = $data['tardy'];
             $update_data['id'] = $checker[0]['id'];
-            var_dump($this->lesson_model->lms_update("attendance_by_month",$update_data));
+            $this->lesson_model->lms_update("attendance_by_month",$update_data);
             echo "<script>alert('Updated Successfully'); window.location.replace('".site_url('report/attendance_by_month')."');</script>";
 
         }else{
-            echo "new";
+            // echo "new";
             $this->lesson_model->lms_create("attendance_by_month",$data,FALSE);
             echo "<script>alert('Saved Successfully'); window.location.replace('".site_url('report/attendance_by_month')."');</script>";
         }
