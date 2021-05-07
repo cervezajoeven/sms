@@ -396,7 +396,7 @@ class Student_model extends MY_Model
         $this->db->join('sections', 'sections.id = student_session.section_id');
         $this->db->join('users', 'users.user_id = students.id', 'left');
 
-        $this->db->where('student_session.session_id', $this->current_session);
+        // $this->db->where('student_session.session_id', $this->current_session);
         $this->db->where('users.role', 'student');
 
         $this->db->where('student_session.id', $student_session_id);
