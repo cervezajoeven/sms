@@ -158,16 +158,16 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <?php if($student_attendance) :?>
-                                                                                        <input class="absent_edit" type="number" edittype="absent" name="months[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$value) ?>" min="0" />
+                                                                                        <input class="absent_edit" type="number" edittype="absent" name="absent[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$value) ?>" min="0" />
                                                                                     <?php else: ?>
-                                                                                        <input class="absent_edit" type="number" edittype="absent" name="months[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
+                                                                                        <input class="absent_edit" type="number" edittype="absent" name="absent[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
                                                                                     <?php endif; ?>
                                                                                 </td>
                                                                                 <td>
                                                                                     <?php if($student_attendance) :?>
-                                                                                        <input class="tardy_edit" type="number" edittype="tardy" name="months[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$value) ?>" min="0" />
+                                                                                        <input class="tardy_edit" type="number" edittype="tardy" name="tardy[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$value) ?>" min="0" />
                                                                                     <?php else: ?>
-                                                                                        <input class="tardy_edit" type="number" edittype="tardy" name="months[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
+                                                                                        <input class="tardy_edit" type="number" edittype="tardy" name="tardy[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
                                                                                     <?php endif; ?>
                                                                                     
                                                                                 </td>

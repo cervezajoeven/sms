@@ -8,6 +8,9 @@
 .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
 .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
 .tg .tg-za14{border-color:inherit;text-align:left;vertical-align:bottom}
+@media print {
+  footer {page-break-after: always;}
+}
 </style>
 
 <table class="tg" style="width: 100%; line-height: .9" onload="window.print()">
@@ -61,10 +64,7 @@
         <td class="tg-pb0m"><?php echo ($final == 0 ? "No Remarks" : ($final >= 75 ? "Passed":"" )) ?></td>
     </tr>                                                                  
  <?php endforeach; ?>
-  <tr>
-    <td class="tg-za14" colspan="8"></td>
-
-  </tr>
+ 
 </tbody>
 </table>
 
@@ -207,6 +207,48 @@
     <td colspan="2"><center>Registrar</center></td>
   </tr>
 </table>
+<footer></footer>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-8d8j{text-align:center;vertical-align:bottom}
+.tg .tg-7zrl{text-align:left;vertical-align:bottom}
+</style>
+<table width="100%" class="tg">
+<thead>
+  <tr>
+    <th class="tg-8d8j" colspan="7">Conduct Grades</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-7zrl">Indicator ID</td>
+    <td class="tg-7zrl">DepEd Indicator</td>
+    <td class="tg-7zrl">Indicator</td>
+    <td class="tg-7zrl">1st Qtr</td>
+    <td class="tg-7zrl">2nd Qtr</td>
+    <td class="tg-7zrl">3rd Qtr</td>
+    <td class="tg-7zrl">4rth Qtr</td>
+  </tr>
+  <?php foreach ($student_conduct as $row): ?>
+    <tr>
+    <td class="tg-7zrl"><?php echo $row->id; ?></td>
+    <td class="tg-7zrl"><?php echo $row->deped_indicators; ?></td>
+    <td class="tg-7zrl"><?php echo $row->indicators; ?></td>
+    <td class="tg-7zrl"><?php echo $row->first_quarter; ?></td>
+    <td class="tg-7zrl"><?php echo $row->second_quarter; ?></td>
+    <td class="tg-7zrl"><?php echo $row->third_quarter; ?></td>
+    <td class="tg-7zrl"><?php echo $row->fourth_quarter; ?></td>
+  </tr>
+  <?php endforeach; ?>
+  
+  
+</tbody>
+</table>
+<footer></footer>
 <script type="text/javascript">
-    // window.onload = function() { window.print(); }
+    window.onload = function() { window.print(); }
 </script>

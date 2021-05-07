@@ -496,16 +496,24 @@ class Studentfee extends Admin_Controller
 
         $this->db->select("id");
         $this->db->from("student_session");
+
         
         $the_students = $this->db->get()->result_array();
 
-        // echo '<pre>';
-        // print_r($the_students);
-        // exit;
+        echo '<pre>';
+        
+
+
         foreach ($the_students as $the_students_key => $the_students_value) {
+            ;
             $id = $the_students_value['id'];
             $student         = $this->student_model->getByStudentSession($id);
+            /*$this->db->select("*");
+            $this->db->from("students");
+            $this->db->where("id",$id);
+            $student = $this->db->get()->result_array()[0];*/
             $data['student'] = $student;
+            
 
             $student_due_fee = $this->studentfeemaster_model->getStudentFees($id);
             
@@ -584,7 +592,6 @@ class Studentfee extends Admin_Controller
                         $the_balance = number_format($feetype_balance, 2, '.', '');
                     }
 
-
                     $student_data = [
                         $student['roll_no'],
                         $student['class'],
@@ -611,8 +618,8 @@ class Studentfee extends Admin_Controller
             }
         }
 
-        // echo '<pre>';
-        // print_r($the_data);
+        
+        
         // exit;
         
         $this->simplexlsxgen->fromArray( $the_data )->downloadAs('all_student_fees_'.date('M d, Y H_i_s').'.xlsx');
