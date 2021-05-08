@@ -169,11 +169,14 @@
                                 <li class="<?php echo set_Submenu('studentfee/index'); ?>"><a href="<?php echo base_url(); ?>studentfee"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('collect_fees'); ?></a></li>
                             <?php
                             }
-                            if ($this->rbac->hasPrivilege('kampuspay', 'can_view')) {
+                            //if ($this->rbac->hasPrivilege('kampuspay', 'can_view')) {
                             ?>
-                                <li class="<?php echo set_Submenu('admin/kampuspay_collections'); ?>"><a href="<?php echo base_url(); ?>admin/kampuspay/collections"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('kampuspay_collections'); ?></a></li>
+                            <!-- <li class="<?php //echo set_Submenu('admin/kampuspay_collections'); 
+                                            ?>"><a href="<?php //echo base_url(); 
+                                                                                                                    ?>admin/kampuspay/collections"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('kampuspay_collections'); 
+                                                                                                                                                                                                                    ?></a></li> -->
                             <?php
-                            }
+                            //}
                             if ($this->rbac->hasPrivilege('search_fees_payment', 'can_view')) {
                             ?>
                                 <li class="<?php echo set_Submenu('studentfee/searchpayment'); ?>"><a href="<?php echo base_url(); ?>studentfee/searchpayment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('search_fees_payment'); ?></a></li>
