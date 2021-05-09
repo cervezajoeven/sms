@@ -126,7 +126,6 @@ if ($HTTP_HOST == "localhost") {
 	$database = $local_db;
 	$hostname = "localhost";
 } else if (in_array($database_name, $campuscloudph)) {
-
 	$username = 'admin';
 	$password = 'J10o15e5V22n!4';
 	$database = 'campus_' . $database_name;
