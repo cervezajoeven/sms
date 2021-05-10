@@ -85,7 +85,7 @@
                     <div class="">
                         <div class="box-header ptbnull"></div> 
                         <div class="box-header ptbnull">
-                            <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Student Attendance <?php echo $class_id ?><?php //echo $this->lang->line('class_record_summary') ; ?></h3>
+                            <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Student Attendance </h3>
                         </div>
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) {?>
@@ -114,8 +114,6 @@
                                                     
                                                     <div class="table-responsive">
                                                         <?php $months = array(
-                                                            'Jun',
-                                                            'Jul',
                                                             'Aug',
                                                             'Sep',
                                                             'Oct',
@@ -381,4 +379,24 @@ $(".tardy_edit").change(function(){
 
     $("#total_tardy").text(total_month_values);
 });
+var input_status;
+var input_index;
+$("input").click(function(){
+    input_status = $(this).attr("class");
+    
+    input_index = $("."+input_status).index(this);
+
+});
+
+$(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+
+      console.log(input_status);
+      console.log(input_index);
+      $("."+input_status).eq(input_index+1).focus();
+      input_index = input_index+1;
+
+    }
+  });
 </script>

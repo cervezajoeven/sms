@@ -1,15 +1,19 @@
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:10px;
+  overflow:hidden;padding:5px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:10px;
+  font-weight:normal;overflow:hidden;padding:5px 5px;word-break:normal;}
 .tg .tg-pb0m{border-color:inherit;text-align:center;vertical-align:bottom}
 .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
 .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
 .tg .tg-za14{border-color:inherit;text-align:left;vertical-align:bottom}
 @media print {
   footer {page-break-after: always;}
+}
+td {
+  height: 30px!important;
+  padding: 5px 5px!important;
 }
 </style>
 <?php foreach($students as $student): ?>
@@ -22,7 +26,10 @@
   <table class="tg" style="width: 100%; line-height: .9" onload="window.print()">
   <thead>
     <tr>
-      <th class="tg-pb0m" colspan="8" border="0">San Isidro Catholic School</th>
+      <th class="tg-pb0m" colspan="8" border="0">
+        <img style="" src="http://campuscloudph.com/sics/resources/version_1/images/general/school.png" height="40x" width="50px">
+        <div >San Isidro Catholic School</div>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -92,8 +99,6 @@
   <tbody>
     <tr>
       <td class="tg-7zrl"></td>
-      <td class="tg-7zrl">Jun</td>
-      <td class="tg-7zrl">Jul</td>
       <td class="tg-7zrl">Aug</td>
       <td class="tg-7zrl">Sep</td>
       <td class="tg-7zrl">Oct</td>
@@ -107,18 +112,16 @@
     </tr>
     <tr>
       <td class="tg-7zrl">No. of School Days</td>
-      <td class="tg-7zrl">12</td>
-      <td class="tg-7zrl">23</td>
-      <td class="tg-7zrl">19</td>
       <td class="tg-7zrl">21</td>
+      <td class="tg-7zrl">26</td>
+      <td class="tg-7zrl">26</td>
       <td class="tg-7zrl">23</td>
-      <td class="tg-7zrl">20</td>
-      <td class="tg-7zrl">14</td>
-      <td class="tg-7zrl">20</td>
-      <td class="tg-7zrl">19</td>
+      <td class="tg-7zrl">15</td>
+      <td class="tg-7zrl">24</td>
       <td class="tg-7zrl">22</td>
-      <td class="tg-7zrl">1</td>
-      <td class="tg-7zrl">194</td>
+      <td class="tg-7zrl">27</td>
+      <td class="tg-7zrl">22</td>
+      <td class="tg-7zrl">206</td>
     </tr>
     <tr>
       <td class="tg-7zrl">No. of Days Present</td>
@@ -130,8 +133,6 @@
         <?php endforeach; ?>
         <td class="tg-7zrl"><?php echo $attendance_total ?></td>
       <?php else: ?>
-        <td class="tg-7zrl">0</td>
-        <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
@@ -165,8 +166,6 @@
         <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
-        <td class="tg-7zrl">0</td>
-        <td class="tg-7zrl">0</td>
       <?php endif; ?>
     </tr>
     <tr>
@@ -189,8 +188,6 @@
         <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
         <td class="tg-7zrl">0</td>
-        <td class="tg-7zrl">0</td>
-        <td class="tg-7zrl">0</td>
       <?php endif; ?>
     </tr>
   </tbody>
@@ -200,9 +197,9 @@
   <table width="100%">
     <tr>
       <td colspan="2">Egligible for transfer and admission to </td>
-      <td>_________________________________________</td>
+      <td>______________________________________</td>
 
-      <td>Date __________</td>
+      <td><span>Date</span><span>__________</span></td>
     </tr>
     <tr>
       <td colspan="2" style="padding-top: 25px"><center>____________________________</center></td>

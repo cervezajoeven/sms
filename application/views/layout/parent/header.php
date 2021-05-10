@@ -254,9 +254,23 @@
                                 <i class="fa fa-money ftlayer"></i> <span><?php echo $this->lang->line('fees'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <!-- <li class="<?php //echo set_Submenu('parent/parents/kampuspay_transactions'); 
-                                                ?>"><a href="<?php //echo base_url(); 
-                                                                                                                                ?>parent/parents/kampuspay_transactions"><i class="fa fa-angle-double-right"></i> KampusPay Transactions</a></li> -->
+                                
+                                <?php
+                                $ch = $this->session->userdata('parent_childs');
+                                foreach ($ch as $key_ch => $value_ch) {
+                                ?>
+                                    <li class="<?php echo set_Submenu('parent/parents/getFees'); ?>"><a href="<?php echo base_url(); ?>parent/parents/getfees/<?php echo $value_ch['student_id'] ?>"><i class="fa fa-angle-double-right"></i> <?php echo $value_ch['name'] ?></a></li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
+                        </li>
+                        <li class="treeview <?php echo set_Topmenu('Fees'); ?>">
+                            <a href="#">
+                                <i class="fa fa-money ftlayer"></i> <span>Kampus Pay</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="<?php echo set_Submenu('parent/parents/getFees'); ?>"><a href="site_url('lms_v2/index.php/lms/assessment/initialize/');"><i class="fa fa-angle-double-right"></i> <?php echo $value_ch['name'] ?></a></li>
                                 <?php
                                 $ch = $this->session->userdata('parent_childs');
                                 foreach ($ch as $key_ch => $value_ch) {

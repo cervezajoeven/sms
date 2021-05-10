@@ -2211,7 +2211,19 @@ $attd=array();
         $this->db->where("section_id",$data['section_id']);
         $this->db->where("student_id",$data['student_id']);
         $checker = $this->db->get("attendance_by_month")->result_array();
-
+        $data_array = array(
+            $data['session_id'],
+            $data['class_id'],
+            $data['section_id'],
+            $data['student_id'],
+        );
+        $data_string = join("/",$data_array);
+        echo "<form action='".site_url('report/attendance_by_month/')."' method='POST' id='theForm'>";
+            echo "<input type='hidden' name='session_id' value='".$data['session_id']."'>";
+            echo "<input type='hidden' name='class_id' value='".$data['class_id']."'>";
+            echo "<input type='hidden' name='section_id' value='".$data['section_id']."'>";
+            echo "<input type='hidden' name='student_id' value='".$data['student_id']."'>";
+        echo "</form>";
         if($checker){
             // echo "update";
             $update_data['attendance'] = $data['attendance'];
@@ -2219,12 +2231,13 @@ $attd=array();
             $update_data['tardy'] = $data['tardy'];
             $update_data['id'] = $checker[0]['id'];
             $this->lesson_model->lms_update("attendance_by_month",$update_data);
-            echo "<script>alert('Updated Successfully'); window.location.replace('".site_url('report/attendance_by_month')."');</script>";
+            
+            echo "<script>alert('Updated Successfully');document.getElementById('theForm').submit();</script>";
 
         }else{
             // echo "new";
             $this->lesson_model->lms_create("attendance_by_month",$data,FALSE);
-            echo "<script>alert('Saved Successfully'); window.location.replace('".site_url('report/attendance_by_month')."');</script>";
+            echo "<script>alert('Saved Successfully');document.getElementById('theForm').submit();</script>";
         }
     }
 
