@@ -21,8 +21,8 @@ td {
 <thead>
   <tr>
     <th class="tg-pb0m" colspan="8" border="0">
-      <img style="" src="http://campuscloudph.com/sics/resources/version_1/images/general/school.png" height="40x" width="50px">
-      <div style="display: inline">San Isidro Catholic School</div>
+      <img style="" src="http://campuscloudph.com/sics/resources/version_1/images/general/school.png" height="40px" width="50px">
+      <div style="">San Isidro Catholic School</div>
     </th>
   </tr>
 </thead>
