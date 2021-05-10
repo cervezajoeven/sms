@@ -105,9 +105,9 @@
                         </div>
                         <div class="box-body table-responsive">
                             <?php if (isset($resultlist)) { ?>
-                                <div class="download_label"><?php echo $this->lang->line('class_record_summary') . "<br>";
-                                                            $this->customlib->get_postmessage(); ?></div>
-                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
+                                <div class="download_label"><?php echo 'Summary of Quarterly Grades' //$this->customlib->get_postmessage(); 
+                                                            ?></div>
+                                <table class="table table-striped table-bordered table-hover classrecord nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th rowspan=2>Learner Names</th>
@@ -243,6 +243,81 @@
     }
 
     $(document).ready(function() {
+        var table = $('.classrecord').DataTable({
+            paging: false,
+            ordering: false,
+            searching: false,
+            dom: "Bfrtip",
+            buttons: [{
+                    extend: 'copyHtml5',
+                    text: '<i class="fa fa-files-o"></i>',
+                    titleAttr: 'Copy',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Excel',
+
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: 'CSV',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
+                    titleAttr: 'PDF',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+
+                    }
+                },
+
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Print',
+                    title: $('.download_label').html(),
+                    customize: function(win) {
+                        $(win.document.body)
+                            .css('font-size', '10pt');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    },
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'colvis',
+                    text: '<i class="fa fa-columns"></i>',
+                    titleAttr: 'Columns',
+                    title: $('.download_label').html(),
+                    postfixButtons: ['colvisRestore']
+                },
+            ]
+        });
+
         class_id = $('#class_id').val();
         var section_id = '<?php echo set_value('section_id') ?>';
         var subject_id = '<?php echo set_value('subject_id') ?>';
