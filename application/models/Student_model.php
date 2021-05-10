@@ -1440,6 +1440,8 @@ class Student_model extends MY_Model
                 }
                 $this->writedb->insert('students', $data);
                 $insert_id = $this->writedb->insert_id();
+                // print_r($this->writedb->last_query());
+                // die();
                 $message   = INSERT_RECORD_CONSTANT . " On students id " . $insert_id;
                 $action    = "Insert";
                 $record_id = $insert_id;

@@ -1152,9 +1152,9 @@ class Student extends Admin_Controller
         // $fields = array('admission_no', 'roll_no', 'firstname', 'lastname', 'gender', 'dob', 'category_id', 'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
         //$fields = array('admission_no','roll_no','firstname','lastname','middlename','gender','dob','guardian_is','guardian_name','guardian_relation','guardian_phone','enrollment_type','mobileno','email','category_id','religion','cast','admission_date','blood_group','school_house_id','height','weight','measurement_date','father_name','father_phone','father_occupation','mother_name','mother_phone','mother_occupation','guardian_email','guardian_occupation','guardian_address','current_address','permanent_address','bank_account_no','bank_name','ifsc_code','adhar_no','samagra_id','rte','previous_school','note');
         $fields = array(
-            'admission_no', 'roll_no', 'lrn_no', 'firstname', 'middlename', 'lastname', 'gender', 'dob', 'guardian_is', 'guardian_relation', 'guardian_name', 'guardian_phone', 'enrollment_type', 'category_id',
-            'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation',
-            'mother_name', 'mother_phone', 'mother_occupation', 'guardian_email', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'previous_school', 'note'
+            'admission_no', 'roll_no', 'lrn_no', 'firstname', 'middlename', 'lastname', 'gender', 'dob', 'guardian_is', 'guardian_relation', 'guardian_name', 'guardian_phone', 'enrollment_type',
+            'religion', 'mobileno', 'email', 'admission_date', 'father_name', 'father_phone', 'father_occupation',
+            'mother_name', 'mother_phone', 'mother_occupation', 'guardian_email', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'previous_school'
         );
         // ,'father_company_name','father_company_position','father_nature_of_business','father_mobile','father_email','father_dob','father_citizenship','father_religion',
         // 'father_highschool','father_college','father_college_course','father_post_graduate','father_post_course','father_prof_affiliation','father_prof_affiliation_position',
@@ -1214,7 +1214,8 @@ class Student extends Admin_Controller
                             } else
                                 $admission_no = $this->sch_setting_detail->adm_prefix . $this->sch_setting_detail->adm_start_from;
 
-                            // var_dump($admission_no);die;
+                            // print_r($admission_no);
+                            // die;
 
                             $roll_no                           = $student_data[$i]["roll_no"];
                             $adm_no                            = $admission_no; //$student_data[$i]["admission_no"];
@@ -1230,6 +1231,9 @@ class Student extends Admin_Controller
                             $data_setting['id']                = $this->sch_setting_detail->id;
                             $data_setting['adm_auto_insert']   = $this->sch_setting_detail->adm_auto_insert;
                             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
+
+                            // print_r($data_setting);
+                            // die();
 
                             if ($this->form_validation->is_unique($adm_no, 'students.admission_no')) {
                                 if (!empty($roll_no)) {

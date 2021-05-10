@@ -1216,7 +1216,6 @@ $lang['rank'] = "Rank";
 $lang['rate'] = "Rate";
 $lang['rating'] = "Rating";
 $lang['record_already_exists'] = "Record already exists";
-$lang['record_already_exists'] = 'Record already exists.';
 $lang['record_this_action_is_irreversible']  = "Record, this action is irreversible.";
 $lang['records_found_in_CSV_file_total'] = "records found in CSV file. Total ";
 $lang['records_imported_successfully'] = " records imported successfully";
