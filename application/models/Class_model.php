@@ -53,13 +53,13 @@ class Class_model extends MY_Model
             if ($userdata["class_teacher"] == 'yes') {
                 $classlist = $this->teacher_model->get_teacherrestricted_mode($userdata["id"]);
             }
-        } 
-        else {
+        } else {
             $this->db->select()->from('classes');
             if ($id != null) {
                 $this->db->where('id', $id);
             } else {
-                $this->db->order_by('id');
+                $this->db->order_by('sort_order');
+                // $this->db->order_by('id');
             }
             $query = $this->db->get();
             if ($id != null) {
@@ -154,20 +154,17 @@ class Class_model extends MY_Model
     public function check_classteacher_exists($class, $section, $teacher)
     {
 
-        $this->db->where(array('class_id' => $class, 'section_id' => $section,'session_id'=>$this->current_session));
+        $this->db->where(array('class_id' => $class, 'section_id' => $section, 'session_id' => $this->current_session));
         // $this->db->where_in('staff_id', $teacher);
 
         $query = $this->db->get('class_teacher');
         if ($query->num_rows() > 0) {
 
             return $query->row();
-
         } else {
 
             return false;
         }
-
-      
     }
 
     public function class_teacher_exists($str)
@@ -182,7 +179,7 @@ class Class_model extends MY_Model
         if ($res) {
             $prev_class_id = $this->input->post('prev_class_id');
             $prev_section_id = $this->input->post('prev_section_id');
-            if (isset($prev_class_id) && isset($prev_section_id) ) {
+            if (isset($prev_class_id) && isset($prev_section_id)) {
                 if ($prev_class_id == $class && $prev_section_id == $section) {
                     return true;
                 }
@@ -192,12 +189,11 @@ class Class_model extends MY_Model
         } else {
             return true;
         }
-
     }
 
     public function getClassTeacher()
     {
-        $query = $this->db->query('SELECT class_teacher.*,classes.class,sections.section FROM `class_teacher` INNER JOIN classes on classes.id=class_teacher.class_id INNER JOIN sections on sections.id=class_teacher.section_id where class_teacher.session_id="'.$this->current_session.'" GROUP BY class_teacher.class_id , class_teacher.section_id ORDER by length(classes.class), classes.class');
+        $query = $this->db->query('SELECT class_teacher.*,classes.class,sections.section FROM `class_teacher` INNER JOIN classes on classes.id=class_teacher.class_id INNER JOIN sections on sections.id=class_teacher.section_id where class_teacher.session_id="' . $this->current_session . '" GROUP BY class_teacher.class_id , class_teacher.section_id ORDER by length(classes.class), classes.class');
 
         //     $query = $this->db->query('SELECT distinct class_id AS class_id ,section_id,
         //  (SELECT C.class FROM classes C WHERE C.ID = CT.CLASS_ID) class,
@@ -213,7 +209,5 @@ class Class_model extends MY_Model
     {
 
         return $this->db->select('sections.id,sections.section')->from('class_sections')->join('sections', 'class_sections.section_id=sections.id')->where('class_id', $id)->get()->result_array();
-
     }
-
 }
