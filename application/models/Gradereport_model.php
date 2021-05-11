@@ -519,6 +519,8 @@ class Gradereport_model extends CI_Model
         $subquery = "";
         $colcount = 0;
 
+        $averageColumnsForMain = "";
+
         $quarters = $this->get_quarter_list();
         foreach ($quarters as $row) {
             if (!empty($average_column))
@@ -607,6 +609,11 @@ class Gradereport_model extends CI_Model
                     AND student_session.section_id = " . $_section . " 
                     AND student_session.session_id = " . $_school_year . ") " . $table_alias . $left_join_on;
 
+            if (empty($averageColumnsForMain))
+                $averageColumnsForMain .= "average_" . $subject_counter;
+            else
+                $averageColumnsForMain .= "+average_" . $subject_counter;
+
             $subject_counter++;
         }
 
@@ -623,10 +630,10 @@ class Gradereport_model extends CI_Model
 
         $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
 
-        // print_r("SELECT ".$columns_selected.", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
-        //          FROM (". $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC"); die();
+        // $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
+        //                            FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
 
-        $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
+        $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((" . $averageColumnsForMain . ")/" . count($subjects) . "), 3) AS computed_ave
                                    FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
         // $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
 
