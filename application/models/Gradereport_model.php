@@ -559,6 +559,7 @@ class Gradereport_model extends CI_Model
 
         $average_columns = " ROUND((" . $average_column . ")/" . $colcount . ") AS average";
 
+
         $columns_selected = "";
         $sql = "";
         $left_join_on = "";
