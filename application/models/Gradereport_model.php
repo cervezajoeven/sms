@@ -557,7 +557,7 @@ class Gradereport_model extends CI_Model
             $colcount++;
         }
 
-        $average_columns = " ROUND((" . $average_column . ")/" . $colcount . ") AS average";
+        $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
 
         $columns_selected = "";
@@ -630,7 +630,8 @@ class Gradereport_model extends CI_Model
                                    FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
         // $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
 
-        // print_r($this->db->last_query());die();
+        // print_r($this->db->last_query());
+        // die();
         // print_r(json_encode($query->result()));die();
         return $query->result();
     }
