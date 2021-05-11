@@ -633,7 +633,7 @@ class Gradereport_model extends CI_Model
         // $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
         //                            FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
 
-        $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((" . $averageColumnsForMain . ")/" . count($subjects) . "), 3) AS computed_ave
+        $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((" . $averageColumnsForMain . ")/" . count($subjects) . "), 3) AS computed_ave, ROUND(CAST(((" . $averageColumnsForMain . ")/" . count($subjects) . ") AS DECIMAL(8,1))) AS rounded_computed_ave
                                    FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
         // $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
 
