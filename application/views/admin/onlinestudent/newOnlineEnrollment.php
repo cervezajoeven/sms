@@ -17,7 +17,7 @@
                             <?php
                             $host = $_SERVER['HTTP_HOST'];
                             // $enrollmentUrl = "https://admission." . $host . ".s3-website.us-east-2.amazonaws.com/staff/login/";
-                            $enrollmentUrl = "https://admission." . $host . "/staff/login/";
+                            $enrollmentUrl = "https://admission." . str_replace('www.', '', $host) . "/staff/login/";
                             //"http://admission.aphsrizal.com.s3-website.us-east-2.amazonaws.com"; 
                             ?>
                             <!-- <p>You will redirected to a new page for the new version of online enrollment.</p><a href="http://lms.campuscloudph.com/staff/login/<?php //echo $id . "/" . $access_key 

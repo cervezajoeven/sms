@@ -106,6 +106,7 @@ class Gradereport_model extends CI_Model
 
             if ($row->transmuted)
                 $quarterly_grade = "fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) AS quarterly_grade";
+            // $quarterly_grade = "fn_transmuted_grade(ROUND(CAST(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2) AS DECIMAL(8,1))) AS quarterly_grade";
             // $quarterly_grade = "IFNULL(fn_transmuted_grade(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 2)), 0) AS quarterly_grade";
             else
                 $quarterly_grade = "CASE
@@ -122,19 +123,20 @@ class Gradereport_model extends CI_Model
                                SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
                                SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
                                FROM vw_class_record 
+                               WHERE subject_id = " . $row->subject_id . " 
+                               AND section_id  = " . $section . " 
+                               AND grade  = " . $grade_level . " 
+                               AND school_year = " . $school_year . " 
+                               AND quarter = " . $quarter . " 
                                GROUP BY student_id, criteria_id, label 
-                             ) tbl 
-                             WHERE subject_id = " . $row->subject_id . " 
-                             AND section_id  = " . $section . " 
-                             AND grade_level  = " . $grade_level . " 
-                             AND school_year = " . $school_year . " 
-                             AND quarter = " . $quarter . " 
+                             ) tbl                              
                              GROUP BY school_year, quarter, student_id 
                            ) tbl" . $row->subject_id . " ON tbl" . $row->subject_id . ".student_id = students.id";
         }
 
         // $average_column = " AVG(".$average_column.") AS average";
         $average_column = " ((" . $average_column . ")/" . $colcount . ") AS average";
+        // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
         $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender) as gender, " . $subject_columns . ", " . $average_column . " 
                 FROM students 
@@ -149,6 +151,7 @@ class Gradereport_model extends CI_Model
         // die();
         $query = $this->db->query($sql);
         // print_r($this->db->last_query());
+        // die();
         // print_r($this->db->error());
         // die();
         return $query->result();
