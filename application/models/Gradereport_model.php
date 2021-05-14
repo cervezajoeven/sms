@@ -136,7 +136,7 @@ class Gradereport_model extends CI_Model
 
         // $average_column = " AVG(".$average_column.") AS average";
         $average_column = " ((" . $average_column . ")/" . $colcount . ") AS average";
-        // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
+        // $average_column = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
         $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender) as gender, " . $subject_columns . ", " . $average_column . " 
                 FROM students 
@@ -235,8 +235,9 @@ class Gradereport_model extends CI_Model
         }
 
         $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
+        // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
-        $sql = "SELECT subject AS Subjects, $quarter_columns, $average_columns, ROUND((" . $average_column . ")/" . $colcount . ") AS final_grade 
+        $sql = "SELECT subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade 
                 FROM 
                 (
                     SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
@@ -311,8 +312,9 @@ class Gradereport_model extends CI_Model
         }
 
         $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
+        // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
-        $sql = "SELECT subject AS Subjects, $quarter_columns, $average_columns, ROUND((" . $average_column . ")/" . $colcount . ") AS final_grade 
+        $sql = "SELECT subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade 
                 FROM 
                 (
                     SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
@@ -393,7 +395,8 @@ class Gradereport_model extends CI_Model
             $colcount++;
         }
 
-        $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
+        // $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
+        $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
         $sql = "SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, UPPER(gender) AS gender, $quarter_columns, $average_columns, ROUND((" . $average_column . ")/" . $colcount . ") AS final_grade 
                 FROM students 
@@ -563,7 +566,6 @@ class Gradereport_model extends CI_Model
         }
 
         $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
-
 
         $columns_selected = "";
         $sql = "";
