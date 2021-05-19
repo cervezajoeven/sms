@@ -123,6 +123,16 @@
         <td class="tg-pb0m"><?php echo ($final == 0 ? "No Remarks" : ($final >= 75 ? "Passed" : "")) ?></td>
       </tr>
     <?php endforeach; ?>
+    <?php if($student['class_id']=='14'||$student['class_id']=='15'): ?>
+      <tr>
+        <td colspan="2" class="tg-7zrl">ACP</td>
+          <td colspan="4" class="tg-center"></td>
+
+          <td class="tg-center"><?php echo $student_attendance['acp']?></td>
+          <td class="tg-center"></td>
+         
+      </tr>
+    <?php endif; ?>
 
   </tbody>
 </table>
@@ -222,6 +232,7 @@
       <?php endif; ?>
 
     </tr>
+    
     <tr>
       <td class="tg-7zrl">No. of Days Absent</td>
       <?php if ($student_attendance) : ?>
@@ -266,6 +277,7 @@
         <td class="tg-center">0</td>
       <?php endif; ?>
     </tr>
+    
   </tbody>
 </table>
 <center>

@@ -171,6 +171,7 @@
                                                                                 </td>
                                                                             </tr>
                                                                         <?php endforeach; ?>
+
                                                                         <tr>
                                                                             <td id="total">Total</td>
                                                                             <td id="total_present"><?php echo $total_present ?></td>
@@ -178,7 +179,20 @@
                                                                             <td id="total_tardy"><?php echo $total_tardy ?></td>
                                                                             
                                                                         </tr>
-                                                                        
+                                                                        <?php if($class_id == '14'||$class_id == '15'): ?>
+                                                                            <tr>
+                                                                            
+                                                                                <td id="acp">ACP</td>
+                                                                                <td id="acp_input_td" colspan="3">
+                                                                                    <select name="acp" class="form-control">
+                                                                                        <option value="P" <?php echo ($student_attendance['acp']=='P')?"selected":""; ?>>P</option>
+                                                                                        <option value="F" <?php echo ($student_attendance['acp']=='F')?"selected":""; ?>>F</option>
+                                                                                    </select>
+                                                                                </td>
+                                                                                
+                                                                                
+                                                                            </tr>
+                                                                        <?php endif; ?>
                                                                 </tbody>
                                                                 <tfoot>
                                                                     <!-- <tr>

@@ -2187,6 +2187,8 @@ $attd=array();
         $attendance = $_POST['months'];
         $absent = $_POST['absent'];
         $tardy = $_POST['tardy'];
+        $acp = isset($_POST['acp'])?$_POST['acp']:"";
+        
         foreach ($attendance as $key => $value) {
             if(!$value){
                 $attendance[$key] = 0;
@@ -2205,6 +2207,8 @@ $attd=array();
         $data['attendance'] = json_encode($attendance);
         $data['absent'] = json_encode($absent);
         $data['tardy'] = json_encode($tardy);
+        $data['acp'] = $acp;
+
         $this->db->select("*");
         $this->db->where("session_id",$data['session_id']);
         $this->db->where("class_id",$data['class_id']);
