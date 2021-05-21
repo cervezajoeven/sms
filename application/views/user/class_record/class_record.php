@@ -14,166 +14,168 @@
                     <div class="box-body">
                         <div class="table-responsive">
                             <div class="download_label"><?php echo $this->lang->line('class_ticlass_recordmetable'); ?></div>
-                            <?php //if (!empty($resultlist)) { ?>
-                                <table id="class_record" class="table table-stripped display nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left">Subjects</th>
-                                            <?php
-                                                foreach($quarter_list as $row) {
-                                                    echo "<th class=\"text-center\">".$row->description."</th>\r\n";
-                                                }
-                                            ?>
-                                            <th class="text-center">Average</th>
-                                            <th class="text-center">Final Grade</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php                                 
-                                        // foreach($resultlist as $row) {
-                                        //     $ctr=0;
-                                        //     echo "<tr>\r\n";
-                                        //     foreach($row as $val) {
-                                        //         if (!is_numeric($val)) //($ctr==0)
-                                        //             echo "<td class='text-left'>".$val."</td>\r\n";
-                                        //         else 
-                                        //             echo "<td class='text-center'>".$val."</td>\r\n";
-                                        //         $ctr++;
-                                        //     }
-                                        //     echo "</tr>\r\n";
-                                        // } 
-                                        foreach($resultlist as $row) {
-                                            $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->third == 0 || $row->Q4 == 0) ? '' : $row->average;
-                                            $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->third == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
-                                            echo "<tr>\r\n";
-                                            echo "<td class='text-left'>".$row->Subjects."</td>\r\n";
-                                            echo "<td class='text-center".($row->Q1 < 75 ? " text-danger" : ($row->Q1 >= 90 ? " text-success" : ""))."'><b>".($row->Q1 == 0 ? '' : $row->Q1)."</b></td>\r\n";
-                                            echo "<td class='text-center".($row->Q2 < 75 ? " text-danger" : ($row->Q2 >= 90 ? " text-success" : ""))."'><b>".($row->Q2 == 0 ? '' : $row->Q2)."</b></td>\r\n";
-                                            echo "<td class='text-center".($row->Q3 < 75 ? " text-danger" : ($row->Q3 >= 90 ? " text-success" : ""))."'><b>".($row->Q3 == 0 ? '' : $row->Q3)."</b></td>\r\n";
-                                            echo "<td class='text-center".($row->Q4 < 75 ? " text-danger" : ($row->Q4 >= 90 ? " text-success" : ""))."'><b>".($row->Q4 == 0 ? '' : $row->Q4)."</b></td>\r\n";
-                                            echo "<td class='text-center".($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : ""))."'><b>".($average == 0 ? '' : $average)."</b></td>\r\n";
-                                            echo "<td class='text-center".($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : ""))."'><b>".($final == 0 ? '' : $final)."</b></td>\r\n";
-                                            echo "</tr>\r\n";
+                            <?php //if (!empty($resultlist)) { 
+                            ?>
+                            <table id="class_record" class="table table-stripped display nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Subjects</th>
+                                        <?php
+                                        foreach ($quarter_list as $row) {
+                                            echo "<th class=\"text-center\">" . $row->description . "</th>\r\n";
                                         }
                                         ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <!-- <tr>
+                                        <th class="text-center">Average</th>
+                                        <th class="text-center">Final Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // foreach($resultlist as $row) {
+                                    //     $ctr=0;
+                                    //     echo "<tr>\r\n";
+                                    //     foreach($row as $val) {
+                                    //         if (!is_numeric($val)) //($ctr==0)
+                                    //             echo "<td class='text-left'>".$val."</td>\r\n";
+                                    //         else 
+                                    //             echo "<td class='text-center'>".$val."</td>\r\n";
+                                    //         $ctr++;
+                                    //     }
+                                    //     echo "</tr>\r\n";
+                                    // } 
+                                    foreach ($resultlist as $row) {
+                                        $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->average;
+                                        $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
+                                        echo "<tr>\r\n";
+                                        echo "<td class='text-left'>" . $row->Subjects . "</td>\r\n";
+                                        echo "<td class='text-center" . ($row->Q1 < 75 ? " text-danger" : ($row->Q1 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q1 == 0 ? '' : $row->Q1) . "</b></td>\r\n";
+                                        echo "<td class='text-center" . ($row->Q2 < 75 ? " text-danger" : ($row->Q2 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q2 == 0 ? '' : $row->Q2) . "</b></td>\r\n";
+                                        echo "<td class='text-center" . ($row->Q3 < 75 ? " text-danger" : ($row->Q3 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q3 == 0 ? '' : $row->Q3) . "</b></td>\r\n";
+                                        echo "<td class='text-center" . ($row->Q4 < 75 ? " text-danger" : ($row->Q4 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q4 == 0 ? '' : $row->Q4) . "</b></td>\r\n";
+                                        echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
+                                        echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
+                                        echo "</tr>\r\n";
+                                    }
+                                    ?>
+                                </tbody>
+                                <tfoot>
+                                    <!-- <tr>
                                             <th>Average</th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
                                         </tr> -->
-                                    </tfoot>
-                                </table>
-                            <?php //} ?>                            
-                        </div>                     
+                                </tfoot>
+                            </table>
+                            <?php //} 
+                            ?>
+                        </div>
                     </div>
                     <div class="table-responsive">
-                        <?php if (isset($student_conduct)) {?>
+                        <?php if (isset($student_conduct)) { ?>
                             <section class="content-header">
-                                    <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
-                                </section>
-                                <!-- Main content -->
-                                <section class="content">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="box box-primary">
-                                                <div class="box-body box-profile">
-                                                    <h3 class="profile-username text-center">Legend</h3>
-                                                    <ul class="list-group list-group-unbordered">
-                                                        <?php foreach($legend_list as $legendrow) { ?>
-                                                                <li class="list-group-item">
-                                                                    <b><?php echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php echo $legendrow->description; ?></span>
-                                                                </li>
-                                                        <?php } ?>
-                                                    </ul>
-                                                </div>
+                                <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
+                            </section>
+                            <!-- Main content -->
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="box box-primary">
+                                            <div class="box-body box-profile">
+                                                <h3 class="profile-username text-center">Legend</h3>
+                                                <ul class="list-group list-group-unbordered">
+                                                    <?php foreach ($legend_list as $legendrow) { ?>
+                                                        <li class="list-group-item">
+                                                            <b><?php echo $legendrow->conduct_grade; ?></b> <span class="pull-right"><?php echo $legendrow->description; ?></span>
+                                                        </li>
+                                                    <?php } ?>
+                                                </ul>
                                             </div>
-                                        </div>                                 
-                                        <div class="col-md-10">
-                                            <div class="box box-warning">
-                                                <div class="box-header ptbnull">
-                                                    <h3 class="box-title titlefix"> Conduct Grades</h3>
-                                                    <div class="box-tools pull-right"></div>
-                                                </div>
-                                                <div class="box-body">
-                                                    <div class="table-responsive">
-                                                        <?php if (!empty($student_conduct)) { 
-                                                            
-                                                            if ($conduct_grading_type == "letter") {?>
-                                                                <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th class="text-left">Indicator ID</th>
-                                                                            <th class="text-left">DepEd Indicator</th>
-                                                                            <th class="text-left">Indicator</th>
-                                                                            <th class="text-left">1st Qtr</th>
-                                                                            <th class="text-left">2nd Qtr</th>
-                                                                            <th class="text-left">3rd Qtr</th>
-                                                                            <th class="text-left">4rth Qtr</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <?php
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="box box-warning">
+                                            <div class="box-header ptbnull">
+                                                <h3 class="box-title titlefix"> Conduct Grades</h3>
+                                                <div class="box-tools pull-right"></div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="table-responsive">
+                                                    <?php if (!empty($student_conduct)) {
 
-                                                                        foreach($student_conduct as $row) {
-                                                                            echo "<tr>\r\n";
-                                                                            echo "<td class='text-center'>$row->id</td>\r\n";
-                                                                            echo "<td class='text-left'>$row->deped_indicators</td>\r\n";
-                                                                            echo "<td class='text-left'>$row->indicators</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->first_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->second_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->third_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
-                                                                            echo "</tr>\r\n";
-                                                                        }
-                                                                        ?>
-                                                                    </tbody>
-                                                                    <tfoot>
-                                                                    </tfoot>
-                                                                </table>
-                                                            <?php } else if ($conduct_grading_type == "number") {?>
-                                                                <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th class="text-center">ID</th>
-                                                                            <th class="text-center">1st Qtr</th>
-                                                                            <th class="text-center">2nd Qtr</th>
-                                                                            <th class="text-center">3rd Qtr</th>
-                                                                            <th class="text-center">4rth Qtr</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <?php
-                                                                        foreach($student_conduct as $row) {
-                                                                            echo "<tr>\r\n";
-                                                                            echo "<td class='text-center'>&nbsp;</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->first_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->second_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->third_quarter</td>\r\n";
-                                                                            echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
-                                                                            echo "</tr>\r\n";
-                                                                        } 
-                                                                        ?>
-                                                                    </tbody>
-                                                                    <tfoot>
-                                                                    </tfoot>
-                                                                </table>
-                                                            <?php }
-                                                        } ?>                            
-                                                    </div>                                                                          
+                                                        if ($conduct_grading_type == "letter") { ?>
+                                                            <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="text-left">Indicator ID</th>
+                                                                        <th class="text-left">DepEd Indicator</th>
+                                                                        <th class="text-left">Indicator</th>
+                                                                        <th class="text-left">1st Qtr</th>
+                                                                        <th class="text-left">2nd Qtr</th>
+                                                                        <th class="text-left">3rd Qtr</th>
+                                                                        <th class="text-left">4rth Qtr</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+
+                                                                    foreach ($student_conduct as $row) {
+                                                                        echo "<tr>\r\n";
+                                                                        echo "<td class='text-center'>$row->id</td>\r\n";
+                                                                        echo "<td class='text-left'>$row->deped_indicators</td>\r\n";
+                                                                        echo "<td class='text-left'>$row->indicators</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->first_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->second_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->third_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
+                                                                        echo "</tr>\r\n";
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                </tfoot>
+                                                            </table>
+                                                        <?php } else if ($conduct_grading_type == "number") { ?>
+                                                            <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="text-center">ID</th>
+                                                                        <th class="text-center">1st Qtr</th>
+                                                                        <th class="text-center">2nd Qtr</th>
+                                                                        <th class="text-center">3rd Qtr</th>
+                                                                        <th class="text-center">4rth Qtr</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+                                                                    foreach ($student_conduct as $row) {
+                                                                        echo "<tr>\r\n";
+                                                                        echo "<td class='text-center'>&nbsp;</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->first_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->second_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->third_quarter</td>\r\n";
+                                                                        echo "<td class='text-center'>$row->fourth_quarter</td>\r\n";
+                                                                        echo "</tr>\r\n";
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                </tfoot>
+                                                            </table>
+                                                    <?php }
+                                                    } ?>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group">
+                                </div>
+                                <!-- <div class="form-group">
                                         <div class="col-sm-12">
                                             <button type="submit" name="save_conduct" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-save"></i> <?php echo $this->lang->line('save'); ?></button>
                                         </div>
                                     </div>    -->
-                                </section>
+                            </section>
                         <?php } ?>
                     </div>
                 </div>
@@ -183,15 +185,14 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         $("#class_record").DataTable({
-            "paging" : false,
+            "paging": false,
             "scrollX": true,
             "fixedHeader": true,
             "dom": 'Bfrtip',
-            buttons: [
-                {
+            buttons: [{
                     extend: 'copyHtml5',
                     footer: 'true',
                     text: '<i class="fa fa-files-o"></i>',
@@ -204,18 +205,18 @@
                 {
                     extend: 'excelHtml5',
                     footer: 'true',
-                    text : '<i class="fa fa-file-excel-o"></i>',
+                    text: '<i class="fa fa-file-excel-o"></i>',
                     titleAttr: 'XLS',
-                    customize: function (xlsx) {
+                    customize: function(xlsx) {
                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                    
+
                         $('c[r=A1] t', sheet).text('Class Record');
                     },
                     filename: function() {
                         var d = new Date();
                         var n = d.getTime();
                         return 'Class Record' + '-' + n;
-                    }, 
+                    },
                 },
 
                 {
@@ -256,13 +257,13 @@
                     text: '<i class="fa fa-print"></i>',
                     titleAttr: 'Print',
                     title: $('.download_label').html(),
-                    customize: function (win) {
+                    customize: function(win) {
                         $(win.document.body)
-                                .css('font-size', '10pt');
+                            .css('font-size', '10pt');
 
                         $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
                     },
                     exportOptions: {
                         columns: ':visible'
@@ -276,11 +277,11 @@
                     titleAttr: 'Columns',
                     title: $('.download_label').html(),
                     postfixButtons: ['colvisRestore']
-                },                
+                },
             ],
             // "footerCallback": function (settings, json) {
             //     var api = this.api(), data;
-    
+
             //     // Remove the formatting to get integer data for summation
             //     var intVal = function (i) {
             //         return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
@@ -309,7 +310,7 @@
         });
 
         var table = $('.conductTable').DataTable({
-            "aaSorting": [],           
+            "aaSorting": [],
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
@@ -319,8 +320,7 @@
             ordering: false,
             searching: false,
             dom: "Bfrtip",
-            buttons: [
-                {
+            buttons: [{
                     extend: 'copyHtml5',
                     text: '<i class="fa fa-files-o"></i>',
                     titleAttr: 'Copy',
@@ -334,7 +334,7 @@
                     extend: 'excelHtml5',
                     text: '<i class="fa fa-file-excel-o"></i>',
                     titleAttr: 'Excel',
-                   
+
                     title: $('.download_label').html(),
                     exportOptions: {
                         columns: ':visible'
@@ -358,7 +358,7 @@
                     title: $('.download_label').html(),
                     exportOptions: {
                         columns: ':visible'
-                        
+
                     }
                 },
 
@@ -367,14 +367,14 @@
                     text: '<i class="fa fa-print"></i>',
                     titleAttr: 'Print',
                     title: $('.download_label').html(),
-                        customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '10pt' );
- 
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' );
-                },
+                    customize: function(win) {
+                        $(win.document.body)
+                            .css('font-size', '10pt');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    },
                     exportOptions: {
                         columns: ':visible'
                     }
@@ -388,14 +388,11 @@
                     postfixButtons: ['colvisRestore']
                 },
             ],
-            "columnDefs": [
-                {
-                    "targets": [0],
-                    "visible": false,
-                    "searchable": false
-                }
-            ]
+            "columnDefs": [{
+                "targets": [0],
+                "visible": false,
+                "searchable": false
+            }]
         });
     });
-
 </script>
