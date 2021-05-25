@@ -51,6 +51,12 @@
     vertical-align: bottom
   }
 
+  .tg .tg-center {
+    border-color: inherit;
+    text-align: center;
+    vertical-align: middle
+  }
+
   @media print {
     footer {
       page-break-after: always;
@@ -73,7 +79,7 @@
     <thead>
       <tr>
         <th class="tg-pb0m" colspan="8" border="0">
-          <img style="" src="http://campuscloudph.com/sics/resources/version_1/images/general/school.png" height="40x" width="50px">
+          <img style="" src="http://campuscloudph.com/sics/resources/version_1/images/general/school.png" height="65px" width="50px">
           <div>San Isidro Catholic School</div>
         </th>
       </tr>
@@ -87,7 +93,7 @@
       </tr>
       <tr>
         <td class="tg-0pky" colspan="2">Name</td>
-        <td class="tg-za14" colspan="4"><?php echo $student['firstname'] . " " . $student['lastname'] . " " . $student['middlename'] . "."; ?></td>
+        <td class="tg-za14" colspan="4"><?php echo ucfirst($student['lastname']) . ", " . ucfirst($student['firstname']) . " " . ucfirst($student['middlename']) . "."; ?></td>
         <td class="tg-za14">LRN</td>
         <td class="tg-za14"><?php echo $student['lrn_no']; ?></td>
       </tr>

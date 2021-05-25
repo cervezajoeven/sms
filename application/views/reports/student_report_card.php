@@ -87,7 +87,7 @@
     </tr>
     <tr>
       <td class="tg-za14" colspan="2">Name</td>
-      <td class="tg-za14" colspan="4"><?php echo $student['firstname'] . " " . $student['lastname'] . " " . $student['middlename'] . "."; ?></td>
+      <td class="tg-za14" colspan="4"><?php echo ucfirst($student['lastname']) . ", " . ucfirst($student['firstname']) . " " . ucfirst($student['middlename']) . "."; ?></td>
       <td class="tg-za14">LRN</td>
       <td class="tg-za14"><?php echo $student['lrn_no']; ?></td>
     </tr>
