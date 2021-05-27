@@ -181,6 +181,34 @@ if ($HTTP_HOST == "localhost") {
 
 	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+} else if ($HTTP_HOST == "smac-valenzuela.com") {
+	$username = 'admin';
+	$password = 'J10o15e5V22n!4';
+	$database = 'campus_smacv';
+
+	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+} else if ($HTTP_HOST == "smac-pampanga.com") {
+	$username = 'admin';
+	$password = 'J10o15e5V22n!4';
+	$database = 'campus_smacp';
+
+	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+} else if ($HTTP_HOST == "mca-mandaluyong.com") {
+	$username = 'admin';
+	$password = 'J10o15e5V22n!4';
+	$database = 'campus_mcam';
+
+	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+} else if ($HTTP_HOST == "lordsjubileechristianschool.com") {
+	$username = 'admin';
+	$password = 'J10o15e5V22n!4';
+	$database = 'campus_ljcs';
+
+	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else {
 	$username = 'admin';
 	$password = 'J10o15e5V22n!4';

@@ -1,5 +1,5 @@
 <?php
- 
+
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -8,14 +8,16 @@ if (!defined('BASEPATH'))
 // use PhpOffice\PhpSpreadsheet\Spreadsheet;
 // use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class Report extends Admin_Controller {
+class Report extends Admin_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
-        
+
         $this->time = strtotime(date('d-m-Y H:i:s'));
-     
-        $this->payment_mode= $this->customlib->payment_mode();     
+
+        $this->payment_mode = $this->customlib->payment_mode();
         $this->load->model('gradereport_model');
         $this->load->model('general_model');
         $this->load->model('setting_model');
@@ -50,16 +52,17 @@ class Report extends Admin_Controller {
         $this->load->model('customfield_model');
         $this->load->model('stuattendence_model');
         $this->load->model('session_model');
-        $this->load->model('subject_model');  
-        $this->load->model('conduct_model');     
-        $this->load->model('lesson_model');     
-          
-        
-        $this->search_type=$this->customlib->get_searchtype();
-        $this->sch_setting_detail = $this->setting_model->getSetting();        
+        $this->load->model('subject_model');
+        $this->load->model('conduct_model');
+        $this->load->model('lesson_model');
+
+
+        $this->search_type = $this->customlib->get_searchtype();
+        $this->sch_setting_detail = $this->setting_model->getSetting();
     }
 
-    function pdfStudentFeeRecord() {
+    function pdfStudentFeeRecord()
+    {
         $data = [];
         $class_id = $this->uri->segment(3);
         $section_id = $this->uri->segment(4);
@@ -85,7 +88,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function pdfByInvoiceNo() {
+    function pdfByInvoiceNo()
+    {
         $data = [];
         $invoice_id = $this->uri->segment(3);
         $setting_result = $this->setting_model->get();
@@ -99,7 +103,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function pdfDepositeFeeByStudent($id) {
+    function pdfDepositeFeeByStudent($id)
+    {
         $data = [];
         $data['title'] = 'Student Detail';
         $student = $this->student_model->get($id);
@@ -135,7 +140,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function pdfStudentListByText() {
+    function pdfStudentListByText()
+    {
         $data = [];
         $search_text = $this->uri->segment(3);
         $setting_result = $this->setting_model->get();
@@ -149,7 +155,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function marksreport() {
+    function marksreport()
+    {
         $setting_result = $this->setting_model->get();
         $data['settinglist'] = $setting_result;
         $exam_id = $this->uri->segment(3);
@@ -211,7 +218,8 @@ class Report extends Admin_Controller {
         $this->load->view('reports/marksreport', $data);
     }
 
-    function pdfStudentListByClassSection() {
+    function pdfStudentListByClassSection()
+    {
         $data = [];
         $class_id = $this->uri->segment(3);
         $section_id = $this->uri->segment(4);
@@ -228,7 +236,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function pdfStudentListDifferentCriteria() {
+    function pdfStudentListDifferentCriteria()
+    {
         $data = [];
         $class_id = $this->input->get('class_id');
         $section_id = $this->input->get('section_id');
@@ -262,7 +271,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function pdfStudentListByClass() {
+    function pdfStudentListByClass()
+    {
         $data = [];
         $class_id = $this->uri->segment(3);
         $section_id = "";
@@ -279,7 +289,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function transactionSearch() {
+    function transactionSearch()
+    {
         $data = [];
         $date_from = $this->input->get('datefrom');
         $date_to = $this->input->get('dateto');
@@ -299,7 +310,8 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
 
-    function pdfExamschdule() {
+    function pdfExamschdule()
+    {
         $data = [];
         $setting_result = $this->setting_model->get();
         $data['settinglist'] = $setting_result;
@@ -320,414 +332,398 @@ class Report extends Admin_Controller {
         $this->m_pdf->pdf->WriteHTML($html);
         $this->m_pdf->pdf->Output($pdfFilePath, "D");
     }
-    function get_betweendate($type){
+    function get_betweendate($type)
+    {
 
-    $this->load->view('reports/betweenDate');
+        $this->load->view('reports/betweenDate');
+    }
 
-} 
-
-function class_subject(){
+    function class_subject()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_subject_report');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;     
+        $data['searchlist'] = $this->search_type;
         $class = $this->class_model->get('', $classteacher = 'yes');
         $data['classlist'] = $class;
-        $data['search_type']='';
-        $data['class_id']=$class_id  = $this->input->post('class_id');
-        $data['section_id']=$section_id = $this->input->post('section_id');
+        $data['search_type'] = '';
+        $data['class_id'] = $class_id  = $this->input->post('class_id');
+        $data['section_id'] = $section_id = $this->input->post('section_id');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
-        $data['subjects']=array();
-        }else{
-        $data['section_list']=$this->section_model->getClassBySection($this->input->post('class_id'));
+            $data['subjects'] = array();
+        } else {
+            $data['section_list'] = $this->section_model->getClassBySection($this->input->post('class_id'));
 
-        $data['resultlist']=$this->subjecttimetable_model->getSubjectByClassandSection($class_id, $section_id);
-    
-        $subject=array();
-        foreach($data['resultlist'] as $value){ 
-            $subject[$value->subject_id][]=$value;       
-        }  
+            $data['resultlist'] = $this->subjecttimetable_model->getSubjectByClassandSection($class_id, $section_id);
 
-        $data['subjects']=$subject;
+            $subject = array();
+            foreach ($data['resultlist'] as $value) {
+                $subject[$value->subject_id][] = $value;
+            }
+
+            $data['subjects'] = $subject;
         }
-       
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/class_subject', $data);
         $this->load->view('layout/footer', $data);
+    }
 
-}
-
-function admission_report(){
+    function admission_report()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/admission_report');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;
-		$data['sch_setting']        = $this->sch_setting_detail;
-		$data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $searchterm='';
+        $data['searchlist'] = $this->search_type;
+        $data['sch_setting']        = $this->sch_setting_detail;
+        $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
+        $searchterm = '';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
         foreach ($data['classlist'] as $key => $value) {
-           $carray[]=$value['id'];
+            $carray[] = $value['id'];
         }
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
-         $data['search_type']=$search_type=$_POST['search_type'];
-        }else{
+            $between_date = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $search_type = $_POST['search_type'];
+        } else {
 
-        $between_date=$this->customlib->get_betweendate('this_year');
-        $data['search_type']=$search_type='';
+            $between_date = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = $search_type = '';
         }
 
-        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
+        $from_date = date('Y-m-d', strtotime($between_date['from_date']));
 
-        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
+        $to_date = date('Y-m-d', strtotime($between_date['to_date']));
         // echo '<pre>';print_r($to_date);exit();
-        $condition=" date_format(online_admissions.admission_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
-        $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
-        $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
-        
+        $condition = " date_format(online_admissions.admission_date,'%Y-%m-%d') between  '" . $from_date . "' and '" . $to_date . "'";
+        $data['filter_label'] = date($this->customlib->getSchoolDateFormat(), strtotime($from_date)) . " To " . date($this->customlib->getSchoolDateFormat(), strtotime($to_date));
+        $this->form_validation->set_rules('search_type', $this->lang->line('search') . " " . $this->lang->line('type'), 'trim|required|xss_clean');
+
         $data['classes'] = $this->general_model->get_classes();
         if ($this->form_validation->run() == false) {
 
-            $data['resultlist']=array();
-        }else{
-            
+            $data['resultlist'] = array();
+        } else {
+
             $other_variables['gender'] = $_REQUEST['gender'];
             $other_variables['enrollment_payment_status'] = $_REQUEST['enrollment_payment_status'];
             $other_variables['class'] = $_REQUEST['class'];
             $data['other_variables'] = $other_variables;
-            $data['resultlist']=$this->student_model->admission_report_joe($searchterm, $carray ,$condition,$other_variables);
-           
+            $data['resultlist'] = $this->student_model->admission_report_joe($searchterm, $carray, $condition, $other_variables);
         }
-        
-        
+
+
 
         $this->load->view('layout/header', $data);
         $this->load->view('reports/admission_report', $data);
         $this->load->view('layout/footer', $data);
+    }
 
-}
-
-function enrollment_report(){
+    function enrollment_report()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/enrollment_report');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;
+        $data['searchlist'] = $this->search_type;
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $searchterm='';
+        $searchterm = '';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
         foreach ($data['classlist'] as $key => $value) {
-           $carray[]=$value['id'];
+            $carray[] = $value['id'];
         }
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
-         $data['search_type']=$search_type=$_POST['search_type'];
-        }else{
+            $between_date = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $search_type = $_POST['search_type'];
+        } else {
 
-        $between_date=$this->customlib->get_betweendate('this_year');
-        $data['search_type']=$search_type='';
+            $between_date = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = $search_type = '';
         }
 
-        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
+        $from_date = date('Y-m-d', strtotime($between_date['from_date']));
 
-        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
+        $to_date = date('Y-m-d', strtotime($between_date['to_date']));
         // echo '<pre>';print_r($to_date);exit();
-        $condition="date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
-        $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
-        $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
-        
+        $condition = "date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '" . $from_date . "' and '" . $to_date . "'";
+        $data['filter_label'] = date($this->customlib->getSchoolDateFormat(), strtotime($from_date)) . " To " . date($this->customlib->getSchoolDateFormat(), strtotime($to_date));
+        $this->form_validation->set_rules('search_type', $this->lang->line('search') . " " . $this->lang->line('type'), 'trim|required|xss_clean');
+
         $data['classes'] = $this->general_model->get_classes();
         if ($this->form_validation->run() == false) {
 
-            $data['resultlist']=array();
-        }else{
-            
+            $data['resultlist'] = array();
+        } else {
+
             $other_variables['gender'] = $_REQUEST['gender'];
             $other_variables['enrollment_payment_status'] = $_REQUEST['enrollment_payment_status'];
             $other_variables['class'] = $_REQUEST['class'];
             $data['other_variables'] = $other_variables;
-            $data['resultlist']=$this->student_model->enrollment_report_joe($searchterm, $carray ,$condition,$other_variables);
-           
+            $data['resultlist'] = $this->student_model->enrollment_report_joe($searchterm, $carray, $condition, $other_variables);
         }
-        
-        
+
+
 
         $this->load->view('layout/header', $data);
         $this->load->view('reports/enrollment_report', $data);
         $this->load->view('layout/footer', $data);
+    }
 
-}
-
-function enrollment_summary_report(){
+    function enrollment_summary_report()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/enrollment_summary_report');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;
+        $data['searchlist'] = $this->search_type;
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $searchterm='';
+        $searchterm = '';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
         foreach ($data['classlist'] as $key => $value) {
-           $carray[]=$value['id'];
+            $carray[] = $value['id'];
         }
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
-         $data['search_type']=$search_type=$_POST['search_type'];
-        }else{
+            $between_date = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $search_type = $_POST['search_type'];
+        } else {
 
-        $between_date=$this->customlib->get_betweendate('this_year');
-        $data['search_type']=$search_type='';
+            $between_date = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = $search_type = '';
         }
 
-        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
+        $from_date = date('Y-m-d', strtotime($between_date['from_date']));
 
-        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
+        $to_date = date('Y-m-d', strtotime($between_date['to_date']));
         // echo '<pre>';print_r($to_date);exit();
-        $condition="date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
-        $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
-        $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
-        
+        $condition = "date_format(students.enrollment_payment_date,'%Y-%m-%d') between  '" . $from_date . "' and '" . $to_date . "'";
+        $data['filter_label'] = date($this->customlib->getSchoolDateFormat(), strtotime($from_date)) . " To " . date($this->customlib->getSchoolDateFormat(), strtotime($to_date));
+        $this->form_validation->set_rules('search_type', $this->lang->line('search') . " " . $this->lang->line('type'), 'trim|required|xss_clean');
+
         $data['classes'] = $this->general_model->get_classes();
         if ($this->form_validation->run() == false) {
 
-            $data['resultlist']=array();
-        }else{
-            
+            $data['resultlist'] = array();
+        } else {
+
             $other_variables['gender'] = $_REQUEST['gender'];
             $other_variables['enrollment_payment_status'] = $_REQUEST['enrollment_payment_status'];
             $other_variables['class'] = $_REQUEST['class'];
             $data['other_variables'] = $other_variables;
-            $data['resultlist']=$this->student_model->enrollment_summary_report_joe($searchterm, $carray ,$condition,$other_variables);
-           
+            $data['resultlist'] = $this->student_model->enrollment_summary_report_joe($searchterm, $carray, $condition, $other_variables);
         }
-        
-        
+
+
 
         $this->load->view('layout/header', $data);
         $this->load->view('reports/enrollment_summary_report', $data);
         $this->load->view('layout/footer', $data);
+    }
 
-}
-
-	function sibling_report(){
+    function sibling_report()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/sibling_report');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;
-		$data['sch_setting']        = $this->sch_setting_detail;
-		$data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $searchterm='';
-        $condition=array();
+        $data['searchlist'] = $this->search_type;
+        $data['sch_setting']        = $this->sch_setting_detail;
+        $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
+        $searchterm = '';
+        $condition = array();
         $class = $this->class_model->get('', $classteacher = 'yes');
         $data['classlist'] = $class;
-       
-        $data['class_id']=$class_id  = $this->input->post('class_id');
-        $data['section_id']=$section_id = $this->input->post('section_id');
-        $data['section_list']=$this->section_model->getClassBySection($this->input->post('class_id'));
-      
 
-       if(isset($_POST['class_id']) && $_POST['class_id']!=''){
-      
-        $condition['classes.id']=$_POST['class_id'];
+        $data['class_id'] = $class_id  = $this->input->post('class_id');
+        $data['section_id'] = $section_id = $this->input->post('section_id');
+        $data['section_list'] = $this->section_model->getClassBySection($this->input->post('class_id'));
 
-       }
 
-       if(isset($_POST['section_id']) && $_POST['section_id']!=''){
-      
-        $condition['sections.id']=$_POST['section_id'];
+        if (isset($_POST['class_id']) && $_POST['class_id'] != '') {
 
-       }
+            $condition['classes.id'] = $_POST['class_id'];
+        }
 
-          
+        if (isset($_POST['section_id']) && $_POST['section_id'] != '') {
+
+            $condition['sections.id'] = $_POST['section_id'];
+        }
+
+
 
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
-            $data['resultlist']=array();
-        }else{
-           $data['sibling_list']=$this->student_model->sibling_reportsearch($searchterm, $carray = null,$condition);
+            $data['resultlist'] = array();
+        } else {
+            $data['sibling_list'] = $this->student_model->sibling_reportsearch($searchterm, $carray = null, $condition);
 
-         $sibling_parent=array();
+            $sibling_parent = array();
 
-         foreach($data['sibling_list'] as $value){
+            foreach ($data['sibling_list'] as $value) {
 
-             $sibling_parent[]=$value['parent_id'];
-         }
-        
-        $data['resultlist']=$this->student_model->sibling_report($searchterm, $carray = null);
-      //  echo $this->db->last_query();die;
-        //echo "<pre>"; print_r($data['resultlist']); echo "<pre>";die;
-        $sibling=array();
+                $sibling_parent[] = $value['parent_id'];
+            }
 
-        foreach($data['resultlist'] as $value){
+            $data['resultlist'] = $this->student_model->sibling_report($searchterm, $carray = null);
+            //  echo $this->db->last_query();die;
+            //echo "<pre>"; print_r($data['resultlist']); echo "<pre>";die;
+            $sibling = array();
 
-           if(in_array($value['parent_id'],$sibling_parent)){
+            foreach ($data['resultlist'] as $value) {
 
-            $sibling[$value['parent_id']][]=$value;
+                if (in_array($value['parent_id'], $sibling_parent)) {
 
-         }
-
-        } 
-        $data['resultlist']=$sibling;
+                    $sibling[$value['parent_id']][] = $value;
+                }
+            }
+            $data['resultlist'] = $sibling;
         }
 
-        
-       
+
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/sibling_report', $data);
         $this->load->view('layout/footer', $data);
+    }
 
-}
-
-function onlinefees_report(){
+    function onlinefees_report()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
-        $this->session->set_userdata('sub_menu', 'Reports/finance'); 
-        $this->session->set_userdata('subsub_menu', 'Reports/finance/onlinefees_report'); 
-         $data['searchlist'] = $this->customlib->get_searchtype();
+        $this->session->set_userdata('sub_menu', 'Reports/finance');
+        $this->session->set_userdata('subsub_menu', 'Reports/finance/onlinefees_report');
+        $data['searchlist'] = $this->customlib->get_searchtype();
         $data['group_by'] = $this->customlib->get_groupby();
-      
-       
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
 
-        }else{
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
+
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $collection=array();
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-        $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
-         
+        $collection = array();
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+        $this->form_validation->set_rules('search_type', $this->lang->line('search') . " " . $this->lang->line('type'), 'trim|required|xss_clean');
+
 
         if ($this->form_validation->run() == false) {
-      
-        $data['collectlist']=array();
 
-        }else{
+            $data['collectlist'] = array();
+        } else {
 
-        $data['collectlist']=$this->studentfeemaster_model->getOnlineFeeCollectionReport($start_date,$end_date);
-        
+            $data['collectlist'] = $this->studentfeemaster_model->getOnlineFeeCollectionReport($start_date, $end_date);
         }
-       
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/onlineFeesReport', $data);
         $this->load->view('layout/footer', $data);
+    }
 
-}
-
-public function studentbookissuereport(){
+    public function studentbookissuereport()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
-        $this->session->set_userdata('sub_menu', 'Reports/library'); 
-        $this->session->set_userdata('subsub_menu', 'Reports/library/book_issue_report'); 
+        $this->session->set_userdata('sub_menu', 'Reports/library');
+        $this->session->set_userdata('subsub_menu', 'Reports/library/book_issue_report');
         $data['searchlist'] = $this->customlib->get_searchtype();
-         if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
-        
-        if(isset($_POST['members_type']) && $_POST['members_type']!=''){
 
-            $data['member_id']=$_POST['members_type'];
+        if (isset($_POST['members_type']) && $_POST['members_type'] != '') {
 
-        }else{
+            $data['member_id'] = $_POST['members_type'];
+        } else {
 
-            $data['member_id']='';
-
+            $data['member_id'] = '';
         }
-        
-        $data['members']=array(''=>$this->lang->line('all'),'student'=>$this->lang->line('student'),'teacher'=>$this->lang->line('teacher'));
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
 
-        $data['issued_books']=$this->bookissue_model->studentBookIssue_report($start_date,$end_date);
-       
+        $data['members'] = array('' => $this->lang->line('all'), 'student' => $this->lang->line('student'), 'teacher' => $this->lang->line('teacher'));
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+
+        $data['issued_books'] = $this->bookissue_model->studentBookIssue_report($start_date, $end_date);
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/studentBookIssueReport', $data);
         $this->load->view('layout/footer', $data);
-}
+    }
 
 
- 
 
-public function bookduereport(){
+
+    public function bookduereport()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
-        $this->session->set_userdata('sub_menu', 'Reports/library'); 
-        $this->session->set_userdata('subsub_menu', 'Reports/library/bookduereport'); 
+        $this->session->set_userdata('sub_menu', 'Reports/library');
+        $this->session->set_userdata('subsub_menu', 'Reports/library/bookduereport');
         $data['searchlist'] = $this->customlib->get_searchtype();
-        
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        }else{
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        if(isset($_POST['members_type']) && $_POST['members_type']!=''){
+        if (isset($_POST['members_type']) && $_POST['members_type'] != '') {
 
-            $data['member_id']=$_POST['members_type'];
+            $data['member_id'] = $_POST['members_type'];
+        } else {
 
-        }else{
-
-            $data['member_id']='';
-            
+            $data['member_id'] = '';
         }
-        
-        $data['members']=array(''=>$this->lang->line('all'),'student'=>$this->lang->line('student'),'teacher'=>$this->lang->line('teacher'));
-        
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $data['issued_books'] = $this->bookissue_model->bookduereport($start_date,$end_date);
-       
+
+        $data['members'] = array('' => $this->lang->line('all'), 'student' => $this->lang->line('student'), 'teacher' => $this->lang->line('teacher'));
+
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $data['issued_books'] = $this->bookissue_model->bookduereport($start_date, $end_date);
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/bookduereport', $data);
         $this->load->view('layout/footer', $data);
-}
+    }
 
-public function bookinventory(){
+    public function bookinventory()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/library');
@@ -735,111 +731,113 @@ public function bookinventory(){
 
         $data['searchlist'] = $this->customlib->get_searchtype();
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $listbook = $this->book_model->bookinventory($start_date,$end_date);
-   
+
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $listbook = $this->book_model->bookinventory($start_date, $end_date);
+
         $data['listbook'] = $listbook;
-        
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/bookinventory', $data);
         $this->load->view('layout/footer', $data);
-}//
+    } //
 
-public function feescollectionreport(){
+    public function feescollectionreport()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/fees_collection');
-         $this->session->set_userdata('subsub_menu', '');
+        $this->session->set_userdata('subsub_menu', '');
 
-        
+
         $this->load->view('layout/header');
         $this->load->view('reports/feescollectionreport');
         $this->load->view('layout/footer');
-}
+    }
 
 
-public function gerenalincomereport(){
+    public function gerenalincomereport()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'reports/bookinventory');
 
         $data['searchlist'] = $this->customlib->get_searchtype();
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $listbook = $this->book_model->bookinventory($start_date,$end_date);
-     
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $listbook = $this->book_model->bookinventory($start_date, $end_date);
+
         $data['listbook'] = $listbook;
-        
+
         $this->load->view('layout/header', $data);
         $this->load->view('reports/gerenalincomereport', $data);
         $this->load->view('layout/footer', $data);
-}
+    }
 
-public function studentinformation() {    
-    $this->session->set_userdata('top_menu', 'Reports');
-    $this->session->set_userdata('sub_menu', 'Reports/student_information');
-    $this->session->set_userdata('subsub_menu', '');
+    public function studentinformation()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
+        $this->session->set_userdata('sub_menu', 'Reports/student_information');
+        $this->session->set_userdata('subsub_menu', '');
 
-    
-    $this->load->view('layout/header');
-    $this->load->view('reports/studentinformation');
-    $this->load->view('layout/footer');
-}
 
-public function attendance(){
+        $this->load->view('layout/header');
+        $this->load->view('reports/studentinformation');
+        $this->load->view('layout/footer');
+    }
+
+    public function attendance()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/attendance');
-         $this->session->set_userdata('subsub_menu', '');
+        $this->session->set_userdata('subsub_menu', '');
 
         $this->load->view('layout/header');
         $this->load->view('reports/attendance');
         $this->load->view('layout/footer');
-}
+    }
 
-public function examinations(){
-    if (!$this->rbac->hasPrivilege('rank_report', 'can_view')) {
+    public function examinations()
+    {
+        if (!$this->rbac->hasPrivilege('rank_report', 'can_view')) {
             access_denied();
         }
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/examinations');
-         $this->session->set_userdata('subsub_menu', '');
+        $this->session->set_userdata('subsub_menu', '');
 
         $this->load->view('layout/header');
         $this->load->view('reports/examinations');
         $this->load->view('layout/footer');
-}
+    }
 
-public function library(){
+    public function library()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/library');
@@ -848,10 +846,10 @@ public function library(){
         $this->load->view('layout/header');
         $this->load->view('reports/library');
         $this->load->view('layout/footer');
+    }
 
-}
-
-public function inventory(){
+    public function inventory()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/inventory');
@@ -860,281 +858,262 @@ public function inventory(){
         $this->load->view('layout/header');
         $this->load->view('reports/inventory');
         $this->load->view('layout/footer');
+    }
 
-}
 
-
-public function onlineexams(){
+    public function onlineexams()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/online_examinations');
         $this->session->set_userdata('subsub_menu', 'Reports/online_examinations/onlineexams');
-        $condition="";
+        $condition = "";
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
 
-        $data['date_typeid']='';
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        $data['date_typeid'] = '';
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-        if(isset($_POST['date_type']) && $_POST['date_type']!=''){
-            
-            $data['date_typeid']=$_POST['date_type'];
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
 
-                if($_POST['date_type']=='exam_from_date'){
+        if (isset($_POST['date_type']) && $_POST['date_type'] != '') {
 
-                $condition=" date_format(exam_from,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'";
+            $data['date_typeid'] = $_POST['date_type'];
 
-                }elseif($_POST['date_type']=='exam_to_date'){
+            if ($_POST['date_type'] == 'exam_from_date') {
 
-                $condition=" date_format(exam_to,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'";
+                $condition = " date_format(exam_from,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
+            } elseif ($_POST['date_type'] == 'exam_to_date') {
 
-                }
-
-        }else{
-
-                $condition=" date_format(created_at,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'"; 
-
+                $condition = " date_format(exam_to,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
             }
+        } else {
 
-        
-        $data['resultlist']=$this->onlineexam_model->onlineexamReport($condition);
-     
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/onlineexams',$data);
-        $this->load->view('layout/footer',$data);
+            $condition = " date_format(created_at,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
+        }
 
+
+        $data['resultlist'] = $this->onlineexam_model->onlineexamReport($condition);
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/onlineexams', $data);
+        $this->load->view('layout/footer', $data);
     }
 
-    public function onlineexamsresult(){
+    public function onlineexamsresult()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/examinations');
         $this->session->set_userdata('subsub_menu', 'Reports/examinations/onlineexamsresult');
-        $condition="";
+        $condition = "";
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
 
-        $data['date_typeid']='';
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        $data['date_typeid'] = '';
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-        if(isset($_POST['date_type']) && $_POST['date_type']!=''){
-            
-            $data['date_typeid']=$_POST['date_type'];
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
 
-                if($_POST['date_type']=='exam_from_date'){
+        if (isset($_POST['date_type']) && $_POST['date_type'] != '') {
 
-                $condition=" date_format(exam_from,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'";
+            $data['date_typeid'] = $_POST['date_type'];
 
-                }elseif($_POST['date_type']=='exam_to_date'){
+            if ($_POST['date_type'] == 'exam_from_date') {
 
-                $condition=" date_format(exam_to,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'";
+                $condition = " date_format(exam_from,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
+            } elseif ($_POST['date_type'] == 'exam_to_date') {
 
-                }
-
-        }else{
-
-                $condition=" date_format(created_at,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'"; 
-
+                $condition = " date_format(exam_to,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
             }
+        } else {
 
-        
-        $data['resultlist']=$this->onlineexam_model->onlineexamReport($condition);
-       // echo $this->db->last_query();die;
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/onlineexamsresult',$data);
-        $this->load->view('layout/footer',$data);
+            $condition = " date_format(created_at,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
+        }
+
+
+        $data['resultlist'] = $this->onlineexam_model->onlineexamReport($condition);
+        // echo $this->db->last_query();die;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/onlineexamsresult', $data);
+        $this->load->view('layout/footer', $data);
     }
 
 
-    public function onlineexamattend(){
+    public function onlineexamattend()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/online_examinations');
         $this->session->set_userdata('subsub_menu', 'Reports/online_examinations/onlineexamattend');
-        $condition="";
+        $condition = "";
 
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
 
-        $data['date_typeid']='';
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        $data['date_typeid'] = '';
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-        if(isset($_POST['date_type']) && $_POST['date_type']!=''){
-            
-                $data['date_typeid']=$_POST['date_type'];
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
 
-                if($_POST['date_type']=='exam_from_date'){
+        if (isset($_POST['date_type']) && $_POST['date_type'] != '') {
 
-                $condition=" and date_format(onlineexam.exam_from,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'";
+            $data['date_typeid'] = $_POST['date_type'];
 
-                }elseif($_POST['date_type']=='exam_to_date'){
+            if ($_POST['date_type'] == 'exam_from_date') {
 
-                $condition=" and date_format(onlineexam.exam_to,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'";
+                $condition = " and date_format(onlineexam.exam_from,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
+            } elseif ($_POST['date_type'] == 'exam_to_date') {
 
-                }
-
-        }else{
-
-                $condition=" and  date_format(onlineexam.created_at,'%Y-%m-%d') between '".$start_date."' and '".$end_date."'"; 
-
+                $condition = " and date_format(onlineexam.exam_to,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
             }
-     
-       $data['resultlist']=$this->onlineexam_model->onlineexamatteptreport($condition); 
-    
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/onlineexamattend',$data);
-        $this->load->view('layout/footer',$data);
+        } else {
+
+            $condition = " and  date_format(onlineexam.created_at,'%Y-%m-%d') between '" . $start_date . "' and '" . $end_date . "'";
+        }
+
+        $data['resultlist'] = $this->onlineexam_model->onlineexamatteptreport($condition);
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/onlineexamattend', $data);
+        $this->load->view('layout/footer', $data);
     }
 
- public function onlineexamrank(){
-        
+    public function onlineexamrank()
+    {
+
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/online_examinations');
         $this->session->set_userdata('subsub_menu', 'Reports/online_examinations/onlineexamrank');
-       
-        $exam_id=$class_id=$section_id=$condition='';
-        $studentrecord=array();
-        $getResultByStudent1=array();
-      
+
+        $exam_id = $class_id = $section_id = $condition = '';
+        $studentrecord = array();
+        $getResultByStudent1 = array();
+
         $examList         = $this->onlineexam_model->get();
         $data['examList'] = $examList;
         $class             = $this->class_model->get();
         $data['classlist'] = $class;
 
-            if(isset($_POST['class_id']) && $_POST['class_id']!=''){
-                $class_id=$_POST['class_id'];
+        if (isset($_POST['class_id']) && $_POST['class_id'] != '') {
+            $class_id = $_POST['class_id'];
+        }
+
+        if (isset($_POST['section_id']) && $_POST['section_id'] != '') {
+            $section_id = $_POST['section_id'];
+        }
+
+        if (isset($_POST['exam_id']) && $_POST['exam_id'] != '') {
+            $exam_id = $_POST['exam_id'];
+        }
+
+        $data['resultlist'] = $this->onlineexamresult_model->getStudentResult($exam_id, $class_id, $section_id);
+
+        foreach ($data['resultlist'] as $examresult_key => $examresult_value) {
+
+            $studentrecord[$examresult_value['onlineexam_student_id']] = $examresult_value;
+            $onlineexam_student_id = $examresult_value['onlineexam_student_id'];
+            $examid = $examresult_value['exam_id'];
+            $getResultByStudent = $this->onlineexamresult_model->onlineexamrank($onlineexam_student_id, $examid);
+
+            if (!empty($getResultByStudent)) {
+                $rank_array = array(
+                    'onlineexam_student_id' => $getResultByStudent[0]['onlineexam_student_id'],
+                    'correct_answer' => $getResultByStudent[0]['correct_answer'],
+                    'incorrect_answer' => $getResultByStudent[0]['incorrect_answer'],
+                    'total_questions' => $getResultByStudent[0]['total_questions'],
+                    'percentage' => (($getResultByStudent[0]['correct_answer'] / $getResultByStudent[0]['total_questions']) * 100),
+                );
+                $getResultByStudent1[$onlineexam_student_id] = $rank_array;
             }
 
-            if(isset($_POST['section_id']) && $_POST['section_id']!=''){
-                 $section_id=$_POST['section_id'];
-            }
+            $getResultByStudent = array();
+        }
 
-            if(isset($_POST['exam_id']) && $_POST['exam_id']!=''){
-                $exam_id=$_POST['exam_id'];
-            }
 
-     $data['resultlist']=$this->onlineexamresult_model->getStudentResult($exam_id, $class_id, $section_id);
-   
-     foreach($data['resultlist'] as $examresult_key => $examresult_value) {
 
-        $studentrecord[$examresult_value['onlineexam_student_id']]=$examresult_value;
-        $onlineexam_student_id=$examresult_value['onlineexam_student_id'];
-        $examid=$examresult_value['exam_id'];
-        $getResultByStudent=$this->onlineexamresult_model->onlineexamrank($onlineexam_student_id,$examid);
+        if (!empty($getResultByStudent1)) {
+            usort($getResultByStudent1, function ($a, $b) {
+                return $a['percentage'] - $b['percentage'];
+            });
+        }
+        //echo "<pre>"; print_r($getResultByStudent1); echo "<pre>";die;
+        $this->form_validation->set_rules('exam_id', $this->lang->line('exam'), 'required');
 
-     if(!empty($getResultByStudent)){
-        $rank_array=array(
-            'onlineexam_student_id'=>$getResultByStudent[0]['onlineexam_student_id'],
-            'correct_answer'=>$getResultByStudent[0]['correct_answer'],
-            'incorrect_answer'=>$getResultByStudent[0]['incorrect_answer'],
-            'total_questions'=>$getResultByStudent[0]['total_questions'],
-            'percentage'=>(($getResultByStudent[0]['correct_answer']/$getResultByStudent[0]['total_questions'])*100),
-        );
-        $getResultByStudent1[$onlineexam_student_id]=$rank_array; 
-     }
-       
-$getResultByStudent=array();
-     
-
-     }
-
-     
-
-     if(!empty($getResultByStudent1)){
- usort($getResultByStudent1, function($a,$b){return $a['percentage']-$b['percentage'];});
-     }
-//echo "<pre>"; print_r($getResultByStudent1); echo "<pre>";die;
-     $this->form_validation->set_rules('exam_id', $this->lang->line('exam'), 'required');
-       
 
         if ($this->form_validation->run() == FALSE) {
 
-            $data['studentrecord']='';
-            $data['final_result']='';
-
-         }else{
+            $data['studentrecord'] = '';
+            $data['final_result'] = '';
+        } else {
             $fdata = array();
-            $data['studentrecord']=$studentrecord;
+            $data['studentrecord'] = $studentrecord;
 
-            if(!empty($getResultByStudent1)){
+            if (!empty($getResultByStudent1)) {
 
-            foreach ($getResultByStudent1 as $key => $value) {
+                foreach ($getResultByStudent1 as $key => $value) {
 
-            if($value['onlineexam_student_id']!=''){
-            $fdata[]=$value;
+                    if ($value['onlineexam_student_id'] != '') {
+                        $fdata[] = $value;
+                    }
+                }
             }
 
-            }
-            
-            }
-            
-            
-            $data['final_result']=$fdata;  
 
-         }
-    $this->load->view('layout/header',$data);
-    $this->load->view('reports/onlineexamrank',$data);
-    $this->load->view('layout/footer',$data);
-
+            $data['final_result'] = $fdata;
+        }
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/onlineexamrank', $data);
+        $this->load->view('layout/footer', $data);
     }
 
-    public function inventorystock(){
+    public function inventorystock()
+    {
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/inventory');
         $this->session->set_userdata('subsub_menu', 'Reports/inventory/inventorystock');
-        $data['stockresult']=$this->itemstock_model->get_currentstock();
-     
-       $this->load->view('layout/header',$data);
-        $this->load->view('reports/inventorystock',$data);
-        $this->load->view('layout/footer',$data); 
+        $data['stockresult'] = $this->itemstock_model->get_currentstock();
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/inventorystock', $data);
+        $this->load->view('layout/footer', $data);
     }
 
-    public function additem(){
+    public function additem()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/inventory');
@@ -1142,33 +1121,32 @@ $getResultByStudent=array();
 
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $data['itemresult']=$this->itemstock_model->get_ItemByBetweenDate($start_date,$end_date);
-      
-       $this->load->view('layout/header',$data);
-       $this->load->view('reports/additem',$data);
-       $this->load->view('layout/footer',$data); 
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $data['itemresult'] = $this->itemstock_model->get_ItemByBetweenDate($start_date, $end_date);
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/additem', $data);
+        $this->load->view('layout/footer', $data);
     }
 
 
-public function issueinventory(){
+    public function issueinventory()
+    {
 
 
         $this->session->set_userdata('top_menu', 'Reports');
@@ -1177,346 +1155,338 @@ public function issueinventory(){
 
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
- 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $data['itemissueList']=$this->itemissue_model->get_IssueInventoryReport($start_date,$end_date);
-     
-   
-       $this->load->view('layout/header',$data);
-       $this->load->view('reports/issueinventory',$data);
-       $this->load->view('layout/footer',$data); 
-}
 
-public function finance(){
-         $this->session->set_userdata('top_menu', 'Reports');
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $data['itemissueList'] = $this->itemissue_model->get_IssueInventoryReport($start_date, $end_date);
+
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/issueinventory', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function finance()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/finance');
         $this->session->set_userdata('subsub_menu', '');
-        $data['stockresult']=$this->itemstock_model->get_currentstock();
-      
-       $this->load->view('layout/header',$data);
-        $this->load->view('reports/finance',$data);
-        $this->load->view('layout/footer',$data); 
-}
+        $data['stockresult'] = $this->itemstock_model->get_currentstock();
 
-public function income(){
-         $this->session->set_userdata('top_menu', 'Reports');
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/finance', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function income()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/finance');
         $this->session->set_userdata('subsub_menu', 'Reports/finance/income');
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
+
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
         $incomeList = $this->income_model->search("", $start_date, $end_date);
 
-    $data['incomeList'] = $incomeList;
-       $this->load->view('layout/header',$data);
-        $this->load->view('reports/income',$data);
-        $this->load->view('layout/footer',$data); 
-}
+        $data['incomeList'] = $incomeList;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/income', $data);
+        $this->load->view('layout/footer', $data);
+    }
 
-public function expense(){
-         $this->session->set_userdata('top_menu', 'Reports');
+    public function expense()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/finance');
         $this->session->set_userdata('subsub_menu', 'Reports/finance/expense');
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $expenseList = $this->expense_model->search("", $start_date, $end_date);
-        
-   $data['expenseList'] = $expenseList;
-       $this->load->view('layout/header',$data);
-        $this->load->view('reports/expense',$data);
-        $this->load->view('layout/footer',$data); 
-}
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-public function payroll(){
-         $this->session->set_userdata('top_menu', 'Reports');
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $expenseList = $this->expense_model->search("", $start_date, $end_date);
+
+        $data['expenseList'] = $expenseList;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/expense', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function payroll()
+    {
+        $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/finance');
         $this->session->set_userdata('subsub_menu', 'Reports/finance/payroll');
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-        $data['payment_mode']=$this->payment_mode;
-        
-        $result = $this->payroll_model->getbetweenpayrollReport($start_date, $end_date);
-        
-       $data['payrollList']=$result;
-       $this->load->view('layout/header',$data);
-       $this->load->view('reports/payroll',$data);
-       $this->load->view('layout/footer',$data); 
-}
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-public function incomegroup(){
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $data['payment_mode'] = $this->payment_mode;
+
+        $result = $this->payroll_model->getbetweenpayrollReport($start_date, $end_date);
+
+        $data['payrollList'] = $result;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/payroll', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function incomegroup()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/finance');
         $this->session->set_userdata('subsub_menu', 'Reports/finance/incomegroup');
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
-        $data['head_id']=$head_id="";
-        if(isset($_POST['head']) && $_POST['head']!=''){
-            $data['head_id']=$head_id=$_POST['head'];
+        $data['head_id'] = $head_id = "";
+        if (isset($_POST['head']) && $_POST['head'] != '') {
+            $data['head_id'] = $head_id = $_POST['head'];
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
-         $incomeList = $this->income_model->searchincomegroup($start_date, $end_date,$head_id);
-    
-       $data['headlist']=$this->incomehead_model->get();
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-       $data['incomeList'] = $incomeList;
-       $this->load->view('layout/header',$data);
-       $this->load->view('reports/incomegroup',$data);
-       $this->load->view('layout/footer',$data); 
-}
-public function expensegroup(){
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
+        $incomeList = $this->income_model->searchincomegroup($start_date, $end_date, $head_id);
+
+        $data['headlist'] = $this->incomehead_model->get();
+
+        $data['incomeList'] = $incomeList;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/incomegroup', $data);
+        $this->load->view('layout/footer', $data);
+    }
+    public function expensegroup()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/finance');
         $this->session->set_userdata('subsub_menu', 'Reports/finance/expensegroup');
         $data['searchlist'] = $this->customlib->get_searchtype();
         $data['date_type'] = $this->customlib->date_type();
-        $data['date_typeid']='';
+        $data['date_typeid'] = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-          $dates=$this->customlib->get_betweendate($_POST['search_type']);
-          $data['search_type']=$_POST['search_type'];
+            $dates = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $_POST['search_type'];
+        } else {
 
-        }else{
-
-          $dates=$this->customlib->get_betweendate('this_year');
-          $data['search_type']=''; 
-           
+            $dates = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = '';
         }
 
-         $data['head_id']=$head_id="";
-        if(isset($_POST['head']) && $_POST['head']!=''){
-            $data['head_id']=$head_id=$_POST['head'];
+        $data['head_id'] = $head_id = "";
+        if (isset($_POST['head']) && $_POST['head'] != '') {
+            $data['head_id'] = $head_id = $_POST['head'];
         }
 
-        $start_date=date('Y-m-d',strtotime($dates['from_date']));
-        $end_date=date('Y-m-d',strtotime($dates['to_date']));
-       
-        $data['label']=date($this->customlib->getSchoolDateFormat(),strtotime($start_date))." ".$this->lang->line('to')." ".date($this->customlib->getSchoolDateFormat(),strtotime($end_date));
+        $start_date = date('Y-m-d', strtotime($dates['from_date']));
+        $end_date = date('Y-m-d', strtotime($dates['to_date']));
 
-        $result = $this->expensehead_model->searchexpensegroup($start_date, $end_date,$head_id);
-  
-        $data['headlist']=$this->expensehead_model->get();
-         
-        $data['expenselist']=$result;
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/expensegroup',$data);
-        $this->load->view('layout/footer',$data); 
-}
+        $data['label'] = date($this->customlib->getSchoolDateFormat(), strtotime($start_date)) . " " . $this->lang->line('to') . " " . date($this->customlib->getSchoolDateFormat(), strtotime($end_date));
 
-public function student_profile(){
+        $result = $this->expensehead_model->searchexpensegroup($start_date, $end_date, $head_id);
 
-       
-         $this->session->set_userdata('top_menu', 'Reports');
+        $data['headlist'] = $this->expensehead_model->get();
+
+        $data['expenselist'] = $result;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/expensegroup', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function student_profile()
+    {
+
+
+        $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/student_profile');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;
+        $data['searchlist'] = $this->search_type;
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $searchterm='';
+        $searchterm = '';
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
-         $data['search_type']=$search_type=$_POST['search_type'];
-        }else{
+            $between_date = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $search_type = $_POST['search_type'];
+        } else {
 
-        $between_date=$this->customlib->get_betweendate('this_year');
-        $data['search_type']=$search_type='';
+            $between_date = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = $search_type = '';
         }
-        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
-        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
-        $condition=" date_format(admission_date,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
-        $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
-             
+        $from_date = date('Y-m-d', strtotime($between_date['from_date']));
+        $to_date = date('Y-m-d', strtotime($between_date['to_date']));
+        $condition = " date_format(admission_date,'%Y-%m-%d') between  '" . $from_date . "' and '" . $to_date . "'";
+        $data['filter_label'] = date($this->customlib->getSchoolDateFormat(), strtotime($from_date)) . " To " . date($this->customlib->getSchoolDateFormat(), strtotime($to_date));
+
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
 
-        $this->form_validation->set_rules('search_type', $this->lang->line('search')." ".$this->lang->line('type'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('search_type', $this->lang->line('search') . " " . $this->lang->line('type'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == false) {
-            $data['resultlist']=array();
-        }else{
-            $data['resultlist']=$this->student_model->student_profile($condition);
+            $data['resultlist'] = array();
+        } else {
+            $data['resultlist'] = $this->student_model->student_profile($condition);
         }
 
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/student_profile',$data);
-        $this->load->view('layout/footer',$data); 
-}
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/student_profile', $data);
+        $this->load->view('layout/footer', $data);
+    }
 
-public function staff_report(){
+    public function staff_report()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/human_resource');
         $this->session->set_userdata('subsub_menu', 'Reports/human_resource/staff_report');
         $data['title'] = 'Add Fees Type';
-        $data['searchlist']=$this->search_type;
+        $data['searchlist'] = $this->search_type;
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $searchterm='';
-        $condition="";
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        $searchterm = '';
+        $condition = "";
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
-        $data['search_type']=$search_type=$_POST['search_type'];
+            $between_date = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $search_type = $_POST['search_type'];
+        } else {
 
-        }else{
-
-        $between_date=$this->customlib->get_betweendate('this_year');
-        $data['search_type']=$search_type='';
-
+            $between_date = $this->customlib->get_betweendate('this_year');
+            $data['search_type'] = $search_type = '';
         }
 
-        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
+        $from_date = date('Y-m-d', strtotime($between_date['from_date']));
 
-        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
+        $to_date = date('Y-m-d', strtotime($between_date['to_date']));
 
-        $condition.=" and date_format(date_of_joining,'%Y-%m-%d') between  '".$from_date."' and '".$to_date."'";
+        $condition .= " and date_format(date_of_joining,'%Y-%m-%d') between  '" . $from_date . "' and '" . $to_date . "'";
 
-        $data['filter_label']=date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
+        $data['filter_label'] = date($this->customlib->getSchoolDateFormat(), strtotime($from_date)) . " To " . date($this->customlib->getSchoolDateFormat(), strtotime($to_date));
 
-        if(isset($_POST['staff_status']) && $_POST['staff_status']!='' ){
-            if($_POST['staff_status']=='both'){
+        if (isset($_POST['staff_status']) && $_POST['staff_status'] != '') {
+            if ($_POST['staff_status'] == 'both') {
 
-                $search_status="1,2";
+                $search_status = "1,2";
+            } elseif ($_POST['staff_status'] == '2') {
 
-            }elseif($_POST['staff_status']=='2'){
+                $search_status = "0";
+            } else {
 
-                 $search_status="0";
-
-            }else{
-
-                $search_status="1";
-
+                $search_status = "1";
             }
-            $condition.=" and `staff`.`is_active` in (".$search_status.")";
-            $data['status_val']=$_POST['staff_status'];
-        }else{
-            $data['status_val']=1;
+            $condition .= " and `staff`.`is_active` in (" . $search_status . ")";
+            $data['status_val'] = $_POST['staff_status'];
+        } else {
+            $data['status_val'] = 1;
         }
 
-        if(isset($_POST['role']) && $_POST['role']!=''){
-            $condition.=" and `staff_roles`.`role_id`=".$_POST['role'];
-            $data['role_val']=$_POST['role'];
+        if (isset($_POST['role']) && $_POST['role'] != '') {
+            $condition .= " and `staff_roles`.`role_id`=" . $_POST['role'];
+            $data['role_val'] = $_POST['role'];
         }
 
-        if(isset($_POST['designation']) && $_POST['designation']!=''){
-            $condition.=" and `staff_designation`.`id`=".$_POST['designation'];
-            $data['designation_val']=$_POST['designation'];
+        if (isset($_POST['designation']) && $_POST['designation'] != '') {
+            $condition .= " and `staff_designation`.`id`=" . $_POST['designation'];
+            $data['designation_val'] = $_POST['designation'];
         }
 
-        $data['resultlist']=$this->staff_model->staff_report($condition);
-     
-       $leave_type=$this->leavetypes_model->getLeaveType();
-       foreach ($leave_type as $key => $leave_value) {
-         $data['leave_type'][$leave_value['id']]=$leave_value['type'];
-       }
-       $data['status']=$this->customlib->staff_status();
-       $data['roles']=$this->role_model->get();
-       $data['designation']=$this->designation_model->get();
-      
-       $data['fields'] = $this->customfield_model->get_custom_fields('staff',1);
-       $data['sch_setting']        = $this->sch_setting_detail;
-       $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/staff_report',$data);
-        $this->load->view('layout/footer',$data); 
-}
+        $data['resultlist'] = $this->staff_model->staff_report($condition);
 
-public function attendancereport(){
+        $leave_type = $this->leavetypes_model->getLeaveType();
+        foreach ($leave_type as $key => $leave_value) {
+            $data['leave_type'][$leave_value['id']] = $leave_value['type'];
+        }
+        $data['status'] = $this->customlib->staff_status();
+        $data['roles'] = $this->role_model->get();
+        $data['designation'] = $this->designation_model->get();
+
+        $data['fields'] = $this->customfield_model->get_custom_fields('staff', 1);
+        $data['sch_setting']        = $this->sch_setting_detail;
+        $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/staff_report', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function attendancereport()
+    {
 
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/attendance');
         $this->session->set_userdata('subsub_menu', 'Reports/attendence/attendancereport');
-        $data['searchlist']=$this->search_type;
+        $data['searchlist'] = $this->search_type;
         $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
         $class = $this->input->post('class_id');
@@ -1525,131 +1495,118 @@ public function attendancereport(){
         $data['section_id'] = $section;
         $class = $this->class_model->get();
         $data['classlist'] = $class;
-        $searchterm='';
-        $condition="";
-        $date_condition="";
+        $searchterm = '';
+        $condition = "";
+        $date_condition = "";
 
-        if(isset($_POST['search_type']) && $_POST['search_type']!=''){
+        if (isset($_POST['search_type']) && $_POST['search_type'] != '') {
 
-        $between_date=$this->customlib->get_betweendate($_POST['search_type']);
-        $data['search_type']=$search_type=$_POST['search_type'];
+            $between_date = $this->customlib->get_betweendate($_POST['search_type']);
+            $data['search_type'] = $search_type = $_POST['search_type'];
+        } else {
 
-        }else{
-
-        $between_date=$this->customlib->get_betweendate('this_week');
-        $data['search_type']=$search_type='this_week';
-
+            $between_date = $this->customlib->get_betweendate('this_week');
+            $data['search_type'] = $search_type = 'this_week';
         }
 
-        $from_date=date('Y-m-d',strtotime($between_date['from_date']));
-        $to_date=date('Y-m-d',strtotime($between_date['to_date']));
+        $from_date = date('Y-m-d', strtotime($between_date['from_date']));
+        $to_date = date('Y-m-d', strtotime($between_date['to_date']));
         $dates = array();
-        $off_date= array();
+        $off_date = array();
         $current = strtotime($from_date);
         $last = strtotime($to_date);
 
-        while($current <= $last ) {
+        while ($current <= $last) {
 
-        $date=date('Y-m-d', $current);
-        $day= date("D", strtotime($date));
-        $holiday=$this->stuattendence_model->checkholidatbydate($date);
+            $date = date('Y-m-d', $current);
+            $day = date("D", strtotime($date));
+            $holiday = $this->stuattendence_model->checkholidatbydate($date);
 
 
-        if($day=='Sun' || $holiday>0){  
-        $off_date[]=$date; 
-        }else{
-          $dates[] = $date;
+            if ($day == 'Sun' || $holiday > 0) {
+                $off_date[] = $date;
+            } else {
+                $dates[] = $date;
+            }
+
+            $current = strtotime('+1 day', $current);
         }
 
-        $current = strtotime('+1 day', $current);
 
-        }
- 
- 
-        $data['filter'] = date($this->customlib->getSchoolDateFormat(),strtotime($from_date))." To ".date($this->customlib->getSchoolDateFormat(),strtotime($to_date));
-        $data['attendance_type']=$this->attendencetype_model->getstdAttType('2');
-       $this->form_validation->set_rules('attendance_type', $this->lang->line('attendence')." ".$this->lang->line('type'), 'trim|required|xss_clean');
-       $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $data['filter'] = date($this->customlib->getSchoolDateFormat(), strtotime($from_date)) . " To " . date($this->customlib->getSchoolDateFormat(), strtotime($to_date));
+        $data['attendance_type'] = $this->attendencetype_model->getstdAttType('2');
+        $this->form_validation->set_rules('attendance_type', $this->lang->line('attendence') . " " . $this->lang->line('type'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == FALSE) {
 
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/stuattendance',$data);
-        $this->load->view('layout/footer',$data);
-
-        }else{
-
-
-        $data['attendance_type_id']=$attendance_type_id=$this->input->post('attendance_type');
-        $condition.=" and `student_attendences`.`attendence_type_id`=".$this->input->post('attendance_type');
-        foreach ($dates as $key => $value) {
-            
-        }
-        
-
-        if($data['class_id']!=''){
-        $condition.=' and class_id='.$data['class_id'];
-        }
-        $condition.=" and date_format(student_attendences.date,'%Y-%m-%d') between '".$from_date."' and '".$to_date."'";
-        if($data['section_id']!=''){
-        $condition.=' and section_id='.$data['section_id'];
-        }
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/stuattendance', $data);
+            $this->load->view('layout/footer', $data);
+        } else {
 
 
-        $data['student_attendences']=$this->stuattendence_model->student_attendences($condition,$date_condition);
-       
-$attd=array();
-      
-       foreach ($data['student_attendences'] as $value) {
-           $std_id=$value['id'];
-           $attd[$std_id][]=$value;
-       }
-     
-
-        foreach ($attd as $key=>$att_value) {
-           $all_week=1;
-            foreach($att_value as $value){
-
-                if(in_array($value['date'],$off_date)){
-
-                }else{
-                     if (in_array($value['date'], $dates))
-              {
-              //echo "Match found";
-              }
-            else
-              {
-             $all_week=0;
-              }
-                }
-                 
-            
-            }
-            if($all_week==1){
-                $fdata[]=$att_value[0];
+            $data['attendance_type_id'] = $attendance_type_id = $this->input->post('attendance_type');
+            $condition .= " and `student_attendences`.`attendence_type_id`=" . $this->input->post('attendance_type');
+            foreach ($dates as $key => $value) {
             }
 
 
+            if ($data['class_id'] != '') {
+                $condition .= ' and class_id=' . $data['class_id'];
+            }
+            $condition .= " and date_format(student_attendences.date,'%Y-%m-%d') between '" . $from_date . "' and '" . $to_date . "'";
+            if ($data['section_id'] != '') {
+                $condition .= ' and section_id=' . $data['section_id'];
+            }
+
+
+            $data['student_attendences'] = $this->stuattendence_model->student_attendences($condition, $date_condition);
+
+            $attd = array();
+
+            foreach ($data['student_attendences'] as $value) {
+                $std_id = $value['id'];
+                $attd[$std_id][] = $value;
+            }
+
+
+            foreach ($attd as $key => $att_value) {
+                $all_week = 1;
+                foreach ($att_value as $value) {
+
+                    if (in_array($value['date'], $off_date)) {
+                    } else {
+                        if (in_array($value['date'], $dates)) {
+                            //echo "Match found";
+                        } else {
+                            $all_week = 0;
+                        }
+                    }
                 }
-        
-        $dates=" '".$from_date."' and '".$to_date."'";
-        
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/stuattendance',$data);
-        $this->load->view('layout/footer',$data); 
+                if ($all_week == 1) {
+                    $fdata[] = $att_value[0];
+                }
+            }
+
+            $dates = " '" . $from_date . "' and '" . $to_date . "'";
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/stuattendance', $data);
+            $this->load->view('layout/footer', $data);
         }
-        
     }
- 
-    public function biometric_attlog($offset=0){
+
+    public function biometric_attlog($offset = 0)
+    {
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/attendance');
         $this->session->set_userdata('subsub_menu', 'Reports/attendence/biometric_attlog');
-      $data['sch_setting']        = $this->sch_setting_detail;
+        $data['sch_setting']        = $this->sch_setting_detail;
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
-        
+
         $config['total_rows'] = $this->stuattendence_model->biometric_attlogcount();
 
-        $config['base_url'] = base_url()."report/biometric_attlog";
+        $config['base_url'] = base_url() . "report/biometric_attlog";
         $config['per_page'] = 100;
         $config['uri_segment'] = '3';
 
@@ -1682,30 +1639,31 @@ $attd=array();
         $this->pagination->initialize($config);
 
 
-        $query = $this->stuattendence_model->biometric_attlog(100,$this->uri->segment(3));
+        $query = $this->stuattendence_model->biometric_attlog(100, $this->uri->segment(3));
 
         $data['resultlist'] = $query;
-        $this->load->view('layout/header',$data);
-        $this->load->view('reports/biometric_attlog',$data);
-        $this->load->view('layout/footer',$data); 
+        $this->load->view('layout/header', $data);
+        $this->load->view('reports/biometric_attlog', $data);
+        $this->load->view('layout/footer', $data);
     }
 
-    public function class_record_summary() {
+    public function class_record_summary()
+    {
         // if (!$this->rbac->hasPrivilege('class_record_summary', 'can_view')) {
         //     access_denied();
         // }
-        
+
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_summary');
-        
+
         $data['title'] = 'Summary of Consolidated Grades';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
         $data['sch_setting'] = $this->sch_setting_detail;
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
-        $data['quarter_list'] = $this->general_model->get_quarter_list();        
+        $data['quarter_list'] = $this->general_model->get_quarter_list();
         // $carray = array();
 
         // if (!empty($data["classlist"])) { $sch_setting->session_id
@@ -1713,7 +1671,7 @@ $attd=array();
         //         $carray[] = $cvalue["id"];
         //     }
         // }
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('quarter_id', $this->lang->line('quarter'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -1728,15 +1686,14 @@ $attd=array();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/class_record_summary', $data);
                 $this->load->view('layout/footer', $data);
-            } 
-            else {
+            } else {
                 $session = $this->input->post('session_id');
                 $quarter = $this->input->post('quarter_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
-                
+
                 $class_record = $this->gradereport_model->get_class_record($session, $quarter, $grade_level, $section);
-                
+
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['quarter_id'] = $quarter;
@@ -1752,15 +1709,16 @@ $attd=array();
         }
     }
 
-    public function class_record_quarterly() {
+    public function class_record_quarterly()
+    {
         // if (!$this->rbac->hasPrivilege('class_record_quarterly', 'can_view')) {
         //     access_denied();
         // }
-        
+
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_quarterly');
-        
+
         $data['title'] = 'Class Record Quarterly';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -1768,7 +1726,7 @@ $attd=array();
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
         $data['teacher_list'] = $this->gradereport_model->get_teacher_list();
-        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();   
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
         // $carray = array();
 
         // if (!empty($data["classlist"])) { $sch_setting->session_id
@@ -1776,14 +1734,14 @@ $attd=array();
         //         $carray[] = $cvalue["id"];
         //     }
         // }
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('teacher_id', $this->lang->line('teacher'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('subject_id', $this->lang->line('subject'), 'trim|required|xss_clean');
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") {            
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $this->load->view('layout/header', $data);
             $this->load->view('reports/class_record_quarterly', $data);
             $this->load->view('layout/footer', $data);
@@ -1792,8 +1750,7 @@ $attd=array();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/class_record_quarterly', $data);
                 $this->load->view('layout/footer', $data);
-            } 
-            else {                
+            } else {
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
@@ -1819,15 +1776,16 @@ $attd=array();
         }
     }
 
-    public function class_record_per_student() {
+    public function class_record_per_student()
+    {
         // if (!$this->rbac->hasPrivilege('class_record_quarterly', 'can_view')) {
         //     access_denied();
         // }
-        
+
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
-        
+
         $data['title'] = 'Class Record Per Student';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -1836,13 +1794,13 @@ $attd=array();
         $data['session_list'] = $this->session_model->getAllSession();
         $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
         $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") {   
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $session = $this->input->post('session_id');
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
@@ -1860,16 +1818,14 @@ $attd=array();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/class_record_per_student', $data);
                 $this->load->view('layout/footer', $data);
-            } 
-            else {                
+            } else {
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
                 $student_id = $this->input->post('student_id');
 
                 $student_conduct = null;
-                if ($this->sch_setting_detail->conduct_grade_view == 0)
-                {
+                if ($this->sch_setting_detail->conduct_grade_view == 0) {
                     if ($this->sch_setting_detail->conduct_grading_type == 'letter')
                         $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
                     else if ($this->sch_setting_detail->conduct_grading_type == 'number')
@@ -1881,7 +1837,7 @@ $attd=array();
                 $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                 // print_r(json_encode($student_id));die();
                 // print_r($class_record);die();
-                $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
+                $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['class_id'] = $grade_level;
@@ -1897,12 +1853,13 @@ $attd=array();
     }
 
 
-    public function student_report_card() {
-       
+    public function student_report_card()
+    {
+
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
-        
+
         $data['title'] = 'Class Record Per Student';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -1911,21 +1868,20 @@ $attd=array();
         $data['session_list'] = $this->session_model->getAllSession();
         $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
         $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
 
-                       
+
         $session = $this->input->get('session_id');
         $grade_level = $this->input->get('class_id');
         $section = $this->input->get('section_id');
         $student_id = $this->input->get('student_id');
 
         $student_conduct = null;
-        if ($this->sch_setting_detail->conduct_grade_view == 0)
-        {
+        if ($this->sch_setting_detail->conduct_grade_view == 0) {
             if ($this->sch_setting_detail->conduct_grading_type == 'letter')
                 $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
             else if ($this->sch_setting_detail->conduct_grading_type == 'number')
@@ -1937,7 +1893,7 @@ $attd=array();
         $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
         // print_r(json_encode($class_record));die();
         // print_r($class_record);die();
-        $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
         $data['resultlist'] = $class_record;
         $data['session_id'] = $session;
         $data['class_id'] = $grade_level;
@@ -1947,28 +1903,28 @@ $attd=array();
         $data['student'] = $studentinfo;
 
         $this->db->select("*");
-        $this->db->where("session_id",$session);
-        $this->db->where("class_id",$grade_level);
-        $this->db->where("section_id",$section);
-        $this->db->where("student_id",$student_id);
+        $this->db->where("session_id", $session);
+        $this->db->where("class_id", $grade_level);
+        $this->db->where("section_id", $section);
+        $this->db->where("student_id", $student_id);
         $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
-        if($student_attendance){
+
+        if ($student_attendance) {
             $data['student_attendance'] = $student_attendance;
-        }else{
+        } else {
             $data['student_attendance'] = array();
         }
 
         $this->load->view('reports/student_report_card', $data);
-
-
     }
 
-    public function print_cards_per_section() {
-       
+    public function print_cards_per_section()
+    {
+
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
-        
+
         $data['title'] = 'Class Record Per Student';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -1977,13 +1933,13 @@ $attd=array();
         $data['session_list'] = $this->session_model->getAllSession();
         $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
         $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") {   
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $session = $this->input->post('session_id');
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
@@ -2001,16 +1957,14 @@ $attd=array();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/print_cards_per_section', $data);
                 $this->load->view('layout/footer', $data);
-            } 
-            else {                
+            } else {
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
                 $student_id = $this->input->post('student_id');
 
                 $student_conduct = null;
-                if ($this->sch_setting_detail->conduct_grade_view == 0)
-                {
+                if ($this->sch_setting_detail->conduct_grade_view == 0) {
                     if ($this->sch_setting_detail->conduct_grading_type == 'letter')
                         $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
                     else if ($this->sch_setting_detail->conduct_grading_type == 'number')
@@ -2022,7 +1976,7 @@ $attd=array();
                 $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                 // print_r(json_encode($class_record));die();
                 // print_r($class_record);die();
-                $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
+                $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['class_id'] = $grade_level;
@@ -2035,11 +1989,10 @@ $attd=array();
                 $this->load->view('layout/footer', $data);
             }
         }
-
-
     }
 
-    public function print_section_cards() {
+    public function print_section_cards()
+    {
         $session = $this->input->post('session_id');
         $grade_level = $this->input->post('class_id');
         $section = $this->input->post('section_id');
@@ -2054,13 +2007,13 @@ $attd=array();
             sections.section,
             sessions.session,
         ");
-        $this->db->where("session_id",$session);
-        $this->db->where("class_id",$grade_level);
-        $this->db->where("section_id",$section);
-        $this->db->join("students","student_session.student_id = students.id");
-        $this->db->join("classes","student_session.class_id = classes.id");
-        $this->db->join("sections","student_session.section_id = sections.id");
-        $this->db->join("sessions","student_session.session_id = sessions.id");
+        $this->db->where("session_id", $session);
+        $this->db->where("class_id", $grade_level);
+        $this->db->where("section_id", $section);
+        $this->db->join("students", "student_session.student_id = students.id");
+        $this->db->join("classes", "student_session.class_id = classes.id");
+        $this->db->join("sections", "student_session.section_id = sections.id");
+        $this->db->join("sessions", "student_session.session_id = sessions.id");
         $students = $this->db->get("student_session")->result_array();
 
         foreach ($students as $key => $value) {
@@ -2072,10 +2025,10 @@ $attd=array();
             $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $value['id'], $grade_level, $section);
 
             $this->db->select("*");
-            $this->db->where("session_id",$session);
-            $this->db->where("class_id",$grade_level);
-            $this->db->where("section_id",$section);
-            $this->db->where("student_id",$value['id']);
+            $this->db->where("session_id", $session);
+            $this->db->where("class_id", $grade_level);
+            $this->db->where("section_id", $section);
+            $this->db->where("student_id", $value['id']);
             $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
 
             $students[$key]['student_conduct'] = $student_conduct;
@@ -2087,8 +2040,6 @@ $attd=array();
         $data['students'] = $students;
 
         $this->load->view('reports/print_section_cards', $data);
-
-
     }
 
     public function attendance_by_month()
@@ -2096,7 +2047,7 @@ $attd=array();
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
-        
+
         $data['title'] = 'Class Record Per Student';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -2105,19 +2056,20 @@ $attd=array();
         $data['session_list'] = $this->session_model->getAllSession();
         $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
         $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") {   
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $session = $this->input->post('session_id');
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
             $student_id = $this->input->post('student_id');
             $data['session_id'] = $session;
             $data['class_id'] = $grade_level;
+            //-- ToDo: add new field (has_acp) from classes table for ACP values
             $data['section_id']  = $section;
             $data['student_id'] = $student_id;
 
@@ -2129,16 +2081,14 @@ $attd=array();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/attendance_by_month', $data);
                 $this->load->view('layout/footer', $data);
-            } 
-            else {                
+            } else {
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
                 $student_id = $this->input->post('student_id');
 
                 $student_conduct = null;
-                if ($this->sch_setting_detail->conduct_grade_view == 0)
-                {
+                if ($this->sch_setting_detail->conduct_grade_view == 0) {
                     if ($this->sch_setting_detail->conduct_grading_type == 'letter')
                         $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
                     else if ($this->sch_setting_detail->conduct_grading_type == 'number')
@@ -2150,7 +2100,7 @@ $attd=array();
                 $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                 // print_r(json_encode($class_record));die();
                 // print_r($class_record);die();
-                $data['quarter_list'] = $this->gradereport_model->get_quarter_list(); 
+                $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['class_id'] = $grade_level;
@@ -2160,14 +2110,14 @@ $attd=array();
                 $data['student'] = $studentinfo;
 
                 $this->db->select("*");
-                $this->db->where("session_id",$session);
-                $this->db->where("class_id",$grade_level);
-                $this->db->where("section_id",$section);
-                $this->db->where("student_id",$student_id);
+                $this->db->where("session_id", $session);
+                $this->db->where("class_id", $grade_level);
+                $this->db->where("section_id", $section);
+                $this->db->where("student_id", $student_id);
                 $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
-                if($student_attendance){
+                if ($student_attendance) {
                     $data['student_attendance'] = $student_attendance;
-                }else{
+                } else {
                     $data['student_attendance'] = array();
                 }
                 $this->load->view('layout/header', $data);
@@ -2175,7 +2125,6 @@ $attd=array();
                 $this->load->view('layout/footer', $data);
             }
         }
-
     }
     public function save_attendance()
     {
@@ -2183,24 +2132,24 @@ $attd=array();
         $data['class_id'] = $_POST['class_id'];
         $data['section_id'] = $_POST['section_id'];
         $data['student_id'] = $_POST['student_id'];
-        
+
         $attendance = $_POST['months'];
         $absent = $_POST['absent'];
         $tardy = $_POST['tardy'];
-        $acp = isset($_POST['acp'])?$_POST['acp']:"";
-        
+        $acp = isset($_POST['acp']) ? $_POST['acp'] : "";
+
         foreach ($attendance as $key => $value) {
-            if(!$value){
+            if (!$value) {
                 $attendance[$key] = 0;
             }
         }
         foreach ($absent as $key => $value) {
-            if(!$value){
+            if (!$value) {
                 $absent[$key] = 0;
             }
         }
         foreach ($tardy as $key => $value) {
-            if(!$value){
+            if (!$value) {
                 $tardy[$key] = 0;
             }
         }
@@ -2210,10 +2159,10 @@ $attd=array();
         $data['acp'] = $acp;
 
         $this->db->select("*");
-        $this->db->where("session_id",$data['session_id']);
-        $this->db->where("class_id",$data['class_id']);
-        $this->db->where("section_id",$data['section_id']);
-        $this->db->where("student_id",$data['student_id']);
+        $this->db->where("session_id", $data['session_id']);
+        $this->db->where("class_id", $data['class_id']);
+        $this->db->where("section_id", $data['section_id']);
+        $this->db->where("student_id", $data['student_id']);
         $checker = $this->db->get("attendance_by_month")->result_array();
         $data_array = array(
             $data['session_id'],
@@ -2221,26 +2170,25 @@ $attd=array();
             $data['section_id'],
             $data['student_id'],
         );
-        $data_string = join("/",$data_array);
-        echo "<form action='".site_url('report/attendance_by_month/')."' method='POST' id='theForm'>";
-            echo "<input type='hidden' name='session_id' value='".$data['session_id']."'>";
-            echo "<input type='hidden' name='class_id' value='".$data['class_id']."'>";
-            echo "<input type='hidden' name='section_id' value='".$data['section_id']."'>";
-            echo "<input type='hidden' name='student_id' value='".$data['student_id']."'>";
+        $data_string = join("/", $data_array);
+        echo "<form action='" . site_url('report/attendance_by_month/') . "' method='POST' id='theForm'>";
+        echo "<input type='hidden' name='session_id' value='" . $data['session_id'] . "'>";
+        echo "<input type='hidden' name='class_id' value='" . $data['class_id'] . "'>";
+        echo "<input type='hidden' name='section_id' value='" . $data['section_id'] . "'>";
+        echo "<input type='hidden' name='student_id' value='" . $data['student_id'] . "'>";
         echo "</form>";
-        if($checker){
+        if ($checker) {
             // echo "update";
             $update_data['attendance'] = $data['attendance'];
             $update_data['absent'] = $data['absent'];
             $update_data['tardy'] = $data['tardy'];
             $update_data['id'] = $checker[0]['id'];
-            $this->lesson_model->lms_update("attendance_by_month",$update_data);
-            
-            echo "<script>alert('Updated Successfully');document.getElementById('theForm').submit();</script>";
+            $this->lesson_model->lms_update("attendance_by_month", $update_data);
 
-        }else{
+            echo "<script>alert('Updated Successfully');document.getElementById('theForm').submit();</script>";
+        } else {
             // echo "new";
-            $this->lesson_model->lms_create("attendance_by_month",$data,FALSE);
+            $this->lesson_model->lms_create("attendance_by_month", $data, FALSE);
             echo "<script>alert('Saved Successfully');document.getElementById('theForm').submit();</script>";
         }
     }
@@ -2266,11 +2214,12 @@ $attd=array();
     //     $this->load->view('layout/parent/footer', $data);
     // }
 
-    public function class_record_banig() {        
+    public function class_record_banig()
+    {
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'Reports/student_information');
         $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_banig');
-        
+
         $data['title'] = 'Class Record Banig';
         $class = $this->class_model->get();
         $data['classlist'] = $class;
@@ -2278,12 +2227,12 @@ $attd=array();
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['session_list'] = $this->session_model->getAllSession();
         $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
-        
+
         $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
 
-        if ($this->input->server('REQUEST_METHOD') == "GET") {            
+        if ($this->input->server('REQUEST_METHOD') == "GET") {
             $this->load->view('layout/header', $data);
             $this->load->view('reports/class_record_banig', $data);
             $this->load->view('layout/footer', $data);
@@ -2292,12 +2241,11 @@ $attd=array();
                 $this->load->view('layout/header', $data);
                 $this->load->view('reports/class_record_banig', $data);
                 $this->load->view('layout/footer', $data);
-            } 
-            else {
+            } else {
                 $session = $this->input->post('session_id');
                 $grade_level = $this->input->post('class_id');
                 $section = $this->input->post('section_id');
-                   
+
                 $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session);
                 // print_r("CloudPH Debug Mode 2");die();
                 $class_record = $this->gradereport_model->generate_Banig($session, $grade_level, $section);
@@ -2329,7 +2277,7 @@ $attd=array();
                 // $writer->save($filename);
 
                 // die();
-        
+
                 $data['resultlist'] = $class_record;
                 $data['session_id'] = $session;
                 $data['class_id'] = $grade_level;

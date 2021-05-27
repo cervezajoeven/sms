@@ -82,6 +82,27 @@
                 }
             }
 
+            if ($this->module_lib->hasActive('online_admission')) {
+                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
+
+                    <li class="treeview <?php echo set_Topmenu('Admission'); ?>">
+                        <a href="#">
+                            <i class="fa fa-user-plus ftlayer"></i> <span>Admission</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <?php
+
+                            if ($this->module_lib->hasActive('online_admission')) {
+                                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
+                                    <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
+                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/newEnrollmentPage'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment (new)</a></li>
+                            <?php }
+                            } ?>
+                        </ul>
+                    </li>
+                <?php }
+            }
+
             if ($this->module_lib->hasActive('student_information')) {
                 if (($this->rbac->hasPrivilege('student', 'can_view') ||
                     $this->rbac->hasPrivilege('student', 'can_add') ||
@@ -103,22 +124,9 @@
                             <?php }
 
                             if ($this->rbac->hasPrivilege('student', 'can_add')) { ?>
+                                <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> Add New Student</a></li>
                                 <li class="<?php echo set_Submenu('student/grading_StudentsAllowedToView'); ?>"><a href="<?php echo base_url(); ?>student/grading_StudentsAllowedToView"><i class="fa fa-angle-double-right"></i> Grade View Permission</a></li>
-                                <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> On-Site Enrollment</a></li>
-                                <?php }
-
-                            if ($this->module_lib->hasActive('online_admission')) {
-                                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) {
-                                ?>
-                                    <li class="<?php echo set_Submenu('onlinestudent'); ?>"><a href="<?php echo site_url('admin/onlinestudent'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment</a></li>
-                                <?php }
-                            }
-
-                            if ($this->module_lib->hasActive('online_admission')) {
-                                if ($this->rbac->hasPrivilege('online_admission', 'can_view')) { ?>
-                                    <li class="<?php echo set_Submenu('new_enrollment_page'); ?>"><a href="<?php echo site_url('admin/onlinestudent/newEnrollmentPage'); ?>"><i class="fa fa-angle-double-right"></i> Online Enrollment V2</a></li>
-                                <?php }
-                            }
+                            <?php }
 
                             if ($this->rbac->hasPrivilege('disable_student', 'can_view')) { ?>
                                 <li class="<?php echo set_Submenu('student/disablestudentslist'); ?>"><a href="<?php echo base_url(); ?>student/disablestudentslist"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disabled_students'); ?></a></li>
@@ -172,7 +180,7 @@
                             <!-- <li class="<?php //echo set_Submenu('admin/kampuspay_collections'); 
                                             ?>"><a href="<?php //echo base_url(); 
                                                             ?>admin/kampuspay/collections"><i class="fa fa-angle-double-right"></i> <?php //echo $this->lang->line('kampuspay_collections'); 
-                                                                                                                                                                                            ?></a></li> -->
+                                                                                                                                    ?></a></li> -->
                             <?php
                             //}
                             if ($this->rbac->hasPrivilege('search_fees_payment', 'can_view')) {

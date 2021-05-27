@@ -236,16 +236,22 @@ class Parents extends Parent_Controller
         $section_id                   = $student['section_id'];
         $data['title']                = 'Student Details';
         $student_session_id           = $student['student_session_id'];
-        $student_due_fee              = $this->studentfeemaster_model->getStudentFees($student_session_id);
-        $student_discount_fee         = $this->feediscount_model->getStudentFeesDiscount($student_session_id);
-        $data['student_discount_fee'] = $student_discount_fee;
-        $data['student_due_fee']      = $student_due_fee;
-        $examList                     = $this->examschedule_model->getExamByClassandSection($student['class_id'], $student['section_id']);
-        $data['exam_grade']           = $this->grade_model->getGradeDetails();
 
-        $data['exam_result'] = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true, true);
+        if ($student_session_id != '') //-- Check if student is already enrolled
+        {
+            $student_due_fee              = $this->studentfeemaster_model->getStudentFees($student_session_id);
+            $student_discount_fee         = $this->feediscount_model->getStudentFeesDiscount($student_session_id);
+            $data['student_discount_fee'] = $student_discount_fee;
+            $data['student_due_fee']      = $student_due_fee;
+            $examList                     = $this->examschedule_model->getExamByClassandSection($student['class_id'], $student['section_id']);
+            $data['exam_grade']           = $this->grade_model->getGradeDetails();
 
-        $data['student'] = $student;
+            $data['exam_result'] = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true, true);
+
+            $data['student'] = $student;
+        }
+
+
         $this->load->view('layout/parent/header', $data);
         $this->load->view('parent/student/getstudent', $data);
         $this->load->view('layout/parent/footer', $data);

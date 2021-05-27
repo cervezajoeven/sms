@@ -16,8 +16,14 @@
                         <div class="mailbox-messages">
                             <?php
                             $host = $_SERVER['HTTP_HOST'];
-                            // $enrollmentUrl = "https://admission." . $host . ".s3-website.us-east-2.amazonaws.com/staff/login/";
+
+                            // if (str_contains($host, 'campuscloudph'))
+                            //     $enrollmentUrl = "https://admission." . str_replace('www.', '', $host) . "/staff/login/";
+                            // else
                             $enrollmentUrl = "https://admission." . str_replace('www.', '', $host) . "/staff/login/";
+
+                            // $enrollmentUrl = "https://admission." . $host . ".s3-website.us-east-2.amazonaws.com/staff/login/";
+
                             //"http://admission.aphsrizal.com.s3-website.us-east-2.amazonaws.com"; 
                             ?>
                             <!-- <p>You will redirected to a new page for the new version of online enrollment.</p><a href="http://lms.campuscloudph.com/staff/login/<?php //echo $id . "/" . $access_key 
@@ -46,7 +52,8 @@
                 <div class="box box-primary">
                     <div class="box-body table-responsive">
                         <div class="mailbox-messages">
-                            <iframe id="external" src="http://lms.campuscloudph.com/staff/login/<?php echo $id . "/" . $access_key ?>"" style=" position:block; top:0; left:0; bottom:0; right:0; width:70vw; height:80vh; border:none; margin:0; padding:0; overflow:auto; z-index:999999;">
+                            <iframe id="external" src="http://lms.campuscloudph.com/staff/login/<?php //echo $id . "/" . $access_key 
+                                                                                                ?>"" style=" position:block; top:0; left:0; bottom:0; right:0; width:70vw; height:80vh; border:none; margin:0; padding:0; overflow:auto; z-index:999999;">
                                 Your browser doesn't support iframes
                             </iframe>
                         </div>

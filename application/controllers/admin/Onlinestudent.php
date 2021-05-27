@@ -68,7 +68,7 @@ class Onlinestudent extends Admin_Controller
             access_denied();
         }
 
-        $this->session->set_userdata('top_menu', 'Student Information');
+        $this->session->set_userdata('top_menu', 'Admission');
         $this->session->set_userdata('sub_menu', 'new_enrollment_page');
         $data['title']  = 'Student List';
         $sessionData = $this->customlib->getLoggedInUserData();
