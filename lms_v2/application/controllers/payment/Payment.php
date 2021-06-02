@@ -65,8 +65,6 @@ class Payment extends JOE_Controller {
 		$data['cvc'] = $_REQUEST['cvc'];
 		$data['amount'] = $_REQUEST['amount'];
 		$data['purpose'] = $_REQUEST['purpose'];
-
-		$data['payment_channel'] = $_REQUEST['payment_channel'];
 		
 		$payment_method = $this->create_payment_method($data);
 		
