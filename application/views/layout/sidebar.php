@@ -166,6 +166,15 @@
                     $this->rbac->hasPrivilege('fees_discount', 'can_view') ||
                     $this->rbac->hasPrivilege('accountants', 'can_view'))) {
                 ?>
+
+                <li class="treeview <?php echo set_Topmenu('Fees Collection'); ?>">
+                        <a href="#">
+                            <i class="fa fa-money ftlayer"></i> <span> Kampus Pay</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="<?php echo set_Submenu('studentfee/searchpayment'); ?>"><a href="<?php echo base_url(); ?>lms_v2/payment/payment_history/initialize/<?php echo $this->session->userdata()['admin']['id']?>/admin/index"><i class="fa fa-angle-double-right"></i>Payment History</a></li>
+                        </ul>
+                </li>
                     <li class="treeview <?php echo set_Topmenu('Fees Collection'); ?>">
                         <a href="#">
                             <i class="fa fa-money ftlayer"></i> <span> <?php echo $this->lang->line('cashier'); ?></span> <i class="fa fa-angle-left pull-right"></i>
@@ -186,6 +195,7 @@
                             if ($this->rbac->hasPrivilege('search_fees_payment', 'can_view')) {
                             ?>
                                 <li class="<?php echo set_Submenu('studentfee/searchpayment'); ?>"><a href="<?php echo base_url(); ?>studentfee/searchpayment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('search_fees_payment'); ?></a></li>
+                                
                             <?php
                             }
                             if ($this->rbac->hasPrivilege('search_due_fees', 'can_view')) {
