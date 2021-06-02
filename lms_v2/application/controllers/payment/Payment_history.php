@@ -33,11 +33,13 @@ class Payment_history extends JOE_Controller {
 		);
 
 		$this->session->set_userdata($userdata);
-    
+    	
+    	
+    	
 	    if($role=="parent"){
 	      redirect(site_url('payment/'.$function.'/'));
 	    }else{
-	      // redirect(site_url('lms/payment/payment_history/'));
+	      redirect(base_url('payment/payment_history/'.$function.'/'));
 	    }
 		
 	}
@@ -45,7 +47,13 @@ class Payment_history extends JOE_Controller {
 	public function index(){
 
 		$data['resources'] = $this->resources;
-		$data['payment_history'] = $this->payment_model->lms_get("payment_history");
+
+		if($this->session->userdata('user_id')=="parent"){
+			$data['payment_history'] = $this->payment_model->get_payment_info_parent($this->session->userdata('user_id'));
+		}else{
+			$data['payment_history'] = $this->payment_model->get_payment_info();
+		}
+		
 		$data['user_info'] = $this->payment_model->lms_get("users",$this->session->userdata('user_id'),"id")[0];
 
 		$this->load->view('layouts/header',$data);

@@ -27,4 +27,21 @@ class Payment_model extends JOE_Model {
         return $query->result();
     }
 
+    public function get_payment_info(){
+
+        $this->db->select('payment_history.*,students.firstname,students.lastname')->from('payment_history');
+        $this->db->join('students','payment_history.student_id = students.id');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    public function get_payment_info_parent($account_id){
+
+        $this->db->select('payment_history.*,students.firstname,students.lastname')->from('payment_history');
+        $this->db->where('payment_history.account_id',$account_id);
+        $this->db->join('students','payment_history.student_id = students.id');
+        $query = $this->db->get();
+        return $query->result();
+        
+    }
 }

@@ -22,7 +22,6 @@
         <div class="row">
           <div class="col-12">
             
-
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">DataTable with default features</h3>
@@ -46,15 +45,15 @@
                   <tbody>
                     <?php foreach($payment_history as $payments): ?>
                       <tr>
-                        <td>Card/E-wallet</td>
-                        <td>#10001</td>
-                        <td>₱<?php echo $payments['amount'] ?></td>
-                        <td><?php echo $payments['name'] ?></td>
+                        <td><?php echo ucfirst($payments->payment_channel) ?></td>
+                        <td>#<?php echo $payments->reference_number ?></td>
+                        <td>₱<?php echo $payments->amount ?></td>
+                        <td><?php echo $payments->name ?></td>
                         <td>Student A. Name</td>
-                        <td><?php echo $payments['email'] ?></td>
+                        <td><?php echo $payments->email ?></td>
                         <td>Paid</td>
-                        <td><?php echo $payments['purpose'] ?></td>
-                        <td><?php echo $payments['date_created'] ?></td>
+                        <td><?php echo ucfirst($payments->payment) ?></td>
+                        <td><?php echo $payments->date_created ?></td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
