@@ -14,7 +14,7 @@ s0.parentNode.insertBefore(s1,s0);
 
 <script src="<?php echo base_url(); ?>backend/dist/js/moment.min.js"></script>
 <footer class="main-footer">
-    &copy;  <?php echo date('Y'); ?> 
+    &copy; <?php echo date('Y'); ?>
     <?php echo $this->customlib->getAppName(); ?> <?php echo $this->customlib->getAppVersion(); ?>
 </footer>
 <div class="control-sidebar-bg"></div>
@@ -24,12 +24,14 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 <?php
 $language = $this->customlib->getLanguage();
-  $language_name = $language["short_code"];
+$language_name = $language["short_code"];
 
- ?>
-<link rel="stylesheet"  href="<?php echo base_url(); ?>backend/toast-alert/toastr.css"/>
+?>
+<link rel="stylesheet" href="<?php echo base_url(); ?>backend/toast-alert/toastr.css" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/select2/select2.min.css">
 <script src="<?php echo base_url(); ?>backend/toast-alert/toastr.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> -->
+<script src="<?php echo base_url(); ?>backend/popper.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/bootstrap/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/select2/select2.full.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/input-mask/jquery.inputmask.js"></script>
@@ -43,26 +45,30 @@ $language = $this->customlib->getLanguage();
 <script src="<?php echo base_url(); ?>backend/dist/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <!--language js-->
-<!-- <script type="text/javascript" src="<?php //echo base_url(); ?>backend/dist/js/bootstrap-select.min.js"></script> -->
+<!-- <script type="text/javascript" src="<?php //echo base_url(); 
+                                            ?>backend/dist/js/bootstrap-select.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
- <script type="text/javascript">
-    $(function(){
-      $('.languageselectpicker').selectpicker();
-   });
+<script type="text/javascript">
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    $(function() {
+        $('.languageselectpicker').selectpicker();
+    });
 </script>
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $(".studentsidebar").mCustomScrollbar({
             theme: "minimal"
         });
 
-        $('.studentsideclose, .overlay').on('click', function () {
+        $('.studentsideclose, .overlay').on('click', function() {
             $('.studentsidebar').removeClass('active');
             $('.overlay').fadeOut();
         });
 
-        $('#sidebarCollapse').on('click', function () {
+        $('#sidebarCollapse').on('click', function() {
             $('.studentsidebar').addClass('active');
             $('.overlay').fadeIn();
             $('.collapse.in').toggleClass('in');
@@ -76,7 +82,7 @@ $language = $this->customlib->getLanguage();
 <script src="<?php echo base_url(); ?>backend/plugins/datepicker/bootstrap-datepicker.js"></script>
 <?php
 if ($language_name != 'en') {
-    ?>
+?>
     <script src="<?php echo base_url(); ?>backend/plugins/datepicker/locales/bootstrap-datepicker.<?php echo $language_name ?>.js"></script>
     <script src="<?php echo base_url(); ?>backend/dist/js/locale/<?php echo $language_name ?>.js"></script>
 
@@ -85,7 +91,8 @@ if ($language_name != 'en') {
 
 <script src="<?php echo base_url(); ?>backend/plugins/chartjs/Chart.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/fastclick/fastclick.min.js"></script>
-<!-- <script type="text/javascript" src="<?php //echo base_url();   ?>backend/dist/js/bootstrap-filestyle.min.js"></script> -->
+<!-- <script type="text/javascript" src="<?php //echo base_url();   
+                                            ?>backend/dist/js/bootstrap-filestyle.min.js"></script> -->
 <script src="<?php echo base_url(); ?>backend/dist/js/app.min.js"></script>
 
 <!--nprogress-->
@@ -100,16 +107,17 @@ if ($language_name != 'en') {
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/vfs_fonts.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/buttons.html5.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/buttons.print.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/buttons.colVis.min.js" ></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/dataTables.responsive.min.js" ></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/ss.custom.js" ></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/datatables/js/ss.custom.js"></script>
 <!-- <script src="<?php echo base_url(); ?>backend/dist/datatables/js/datetime-moment.js"></script>
  -->
 
 
- <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+<!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
 
 </body>
+
 </html>
 <!-- jQuery 3 -->
 <!--script src="<?php echo base_url(); ?>backend/dist/js/pages/dashboard2.js"></script-->
@@ -119,28 +127,27 @@ if ($language_name != 'en') {
     <script src="<?php echo base_url() ?>backend/fullcalendar/dist/locale/<?php echo $language_name ?>.js"></script>
 <?php } ?>
 <script type="text/javascript">
+    $(document).ready(function() {
 
-    $(document).ready(function () {
-
-<?php
-if ($this->session->flashdata('success_msg')) {
-    ?>
+        <?php
+        if ($this->session->flashdata('success_msg')) {
+        ?>
             successMsg("<?php echo $this->session->flashdata('success_msg'); ?>");
-    <?php
-} else if ($this->session->flashdata('error_msg')) {
-    ?>
+        <?php
+        } else if ($this->session->flashdata('error_msg')) {
+        ?>
             errorMsg("<?php echo $this->session->flashdata('error_msg'); ?>");
-    <?php
-} else if ($this->session->flashdata('warning_msg')) {
-    ?>
+        <?php
+        } else if ($this->session->flashdata('warning_msg')) {
+        ?>
             infoMsg("<?php echo $this->session->flashdata('warning_msg'); ?>");
-    <?php
-} else if ($this->session->flashdata('info_msg')) {
-    ?>
+        <?php
+        } else if ($this->session->flashdata('info_msg')) {
+        ?>
             warningMsg("<?php echo $this->session->flashdata('info_msg'); ?>");
-    <?php
-}
-?>
+        <?php
+        }
+        ?>
     });
 
 
@@ -149,16 +156,18 @@ if ($this->session->flashdata('success_msg')) {
         $.ajax({
             url: "<?php echo site_url("admin/calendar/markcomplete/") ?>" + id,
             type: "POST",
-            data: {id: id, active: status},
+            data: {
+                id: id,
+                active: status
+            },
             dataType: 'json',
 
-            success: function (res)
-            {
+            success: function(res) {
 
                 if (res.status == "fail") {
 
                     var message = "";
-                    $.each(res.error, function (index, value) {
+                    $.each(res.error, function(index, value) {
 
                         message += value;
                     });
@@ -178,7 +187,7 @@ if ($this->session->flashdata('success_msg')) {
 
     function markc(id) {
 
-        $('#newcheck' + id).change(function () {
+        $('#newcheck' + id).change(function() {
 
             if (this.checked) {
 
@@ -190,7 +199,6 @@ if ($this->session->flashdata('success_msg')) {
 
         });
     }
-
 </script>
 
 
@@ -223,7 +231,6 @@ if ($this->session->flashdata('success_msg')) {
 <?php $this->load->view('layout/routine_update'); ?>
 
 <script type="text/javascript">
-
     function savedata(eventData) {
         var base_url = '<?php echo base_url() ?>';
         $.ajax({
@@ -231,7 +238,7 @@ if ($this->session->flashdata('success_msg')) {
             type: 'POST',
             data: eventData,
             dataType: "json",
-            success: function (msg) {
+            success: function(msg) {
                 alert(msg);
 
             }
@@ -246,10 +253,10 @@ if ($this->session->flashdata('success_msg')) {
     d = today.getDate();
     var viewtitle = 'month';
     var pagetitle = "<?php
-if (isset($title)) {
-    echo $title;
-}
-?>";
+                        if (isset($title)) {
+                            echo $title;
+                        }
+                        ?>";
 
     if (pagetitle == "Dashboard") {
 
@@ -257,7 +264,7 @@ if (isset($title)) {
     }
 
     $calendar.fullCalendar({
-        viewRender: function (view, element) {
+        viewRender: function(view, element) {
             // We make sure that we activate the perfect scrollbar when the view isn't on Month
             //if (view.name != 'month'){
             //  $(element).find('.fc-scroller').perfectScrollbar();
@@ -274,9 +281,9 @@ if (isset($title)) {
         selectable: true,
         selectHelper: true,
         views: {
-            month: {// name of view
+            month: { // name of view
                 titleFormat: 'MMMM YYYY'
-                        // other view-specific options here
+                // other view-specific options here
             },
             week: {
                 titleFormat: " MMMM D YYYY"
@@ -287,7 +294,7 @@ if (isset($title)) {
         },
         timezone: "Asia/Kolkata",
         draggable: false,
-         lang: '<?php echo $language_name ?>',
+        lang: '<?php echo $language_name ?>',
         editable: false,
         eventLimit: false, // allow "more" link when too many events
 
@@ -298,24 +305,24 @@ if (isset($title)) {
 
         },
 
-        eventRender: function (event, element) {
+        eventRender: function(event, element) {
             element.attr('title', event.title);
             element.attr('onclick', event.onclick);
             element.attr('data-toggle', 'tooltip');
             if ((!event.url) && (event.event_type != 'task')) {
                 element.attr('title', event.title + '-' + event.description);
-                element.click(function () {
+                element.click(function() {
                     view_event(event.id);
                 });
             }
         },
-        dayClick: function (date, jsEvent, view) {
+        dayClick: function(date, jsEvent, view) {
             var d = date.format();
             if (!$.fullCalendar.moment(d).hasTime()) {
                 d += ' 05:30';
             }
             //var vformat = (app_time_format == 24 ? app_date_format + ' H:i' : app_date_format + ' g:i A');
-<?php if ($this->rbac->hasPrivilege('calendar_to_do_list', 'can_add')) { ?>
+            <?php if ($this->rbac->hasPrivilege('calendar_to_do_list', 'can_add')) { ?>
 
 
                 $("#input-field").val('');
@@ -323,22 +330,28 @@ if (isset($title)) {
                 $("#date-field").daterangepicker({
                     startDate: date,
                     endDate: date,
-                    timePicker: true, timePickerIncrement: 5, locale: {
+                    timePicker: true,
+                    timePickerIncrement: 5,
+                    locale: {
                         format: 'MM/DD/YYYY hh:mm a'
                     }
                 });
                 $('#newEventModal').modal('show');
 
-<?php } ?>
+            <?php } ?>
             return false;
         }
 
     });
 
-    $(document).ready(function () {
-        $("#date-field").daterangepicker({timePicker: true, timePickerIncrement: 5, locale: {
+    $(document).ready(function() {
+        $("#date-field").daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 5,
+            locale: {
                 format: 'MM/DD/YYYY hh:mm A'
-            }});
+            }
+        });
 
 
     });
@@ -346,11 +359,12 @@ if (isset($title)) {
     function datepic() {
         $("#date-field").daterangepicker();
     }
+
     function view_event(id) {
-        
+
         $('.selectevent').find('.cpicker-big').removeClass('cpicker-big').addClass('cpicker-small');
         var base_url = '<?php echo base_url() ?>';
-        if (typeof (id) == 'undefined') {
+        if (typeof(id) == 'undefined') {
             return;
         }
         $.ajax({
@@ -358,7 +372,7 @@ if (isset($title)) {
             type: 'POST',
             //data: '',
             dataType: "json",
-            success: function (msg) {
+            success: function(msg) {
 
 
                 $("#event_title").val(msg.event_title);
@@ -385,7 +399,9 @@ if (isset($title)) {
                 $("#eventdates").daterangepicker({
                     startDate: msg.startdate,
                     endDate: msg.enddate,
-                    timePicker: true, timePickerIncrement: 5, locale: {
+                    timePicker: true,
+                    timePickerIncrement: 5,
+                    locale: {
                         format: 'MM/DD/YYYY hh:mm A'
                     }
                 });
@@ -401,8 +417,8 @@ if (isset($title)) {
 
     }
 
-    $(document).ready(function (e) {
-        $("#addevent_form").on('submit', (function (e) {
+    $(document).ready(function(e) {
+        $("#addevent_form").on('submit', (function(e) {
 
             e.preventDefault();
             $.ajax({
@@ -413,13 +429,12 @@ if (isset($title)) {
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function (res)
-                {
+                success: function(res) {
 
                     if (res.status == "fail") {
 
                         var message = "";
-                        $.each(res.error, function (index, value) {
+                        $.each(res.error, function(index, value) {
 
                             message += value;
                         });
@@ -439,8 +454,8 @@ if (isset($title)) {
     });
 
 
-    $(document).ready(function (e) {
-        $("#updateevent_form").on('submit', (function (e) {
+    $(document).ready(function(e) {
+        $("#updateevent_form").on('submit', (function(e) {
 
             e.preventDefault();
             $.ajax({
@@ -451,13 +466,12 @@ if (isset($title)) {
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function (res)
-                {
+                success: function(res) {
 
                     if (res.status == "fail") {
 
                         var message = "";
-                        $.each(res.error, function (index, value) {
+                        $.each(res.error, function(index, value) {
 
                             message += value;
                         });
@@ -477,7 +491,7 @@ if (isset($title)) {
     });
 
     function deleteevent(id, msg) {
-        if (typeof (id) == 'undefined') {
+        if (typeof(id) == 'undefined') {
             return;
         }
         if (confirm("Are you sure to delete this " + msg + " !")) {
@@ -486,7 +500,7 @@ if (isset($title)) {
                 type: 'POST',
                 //data: '',
                 dataType: "json",
-                success: function (res) {
+                success: function(res) {
                     if (res.status == "fail") {
 
 
@@ -507,7 +521,7 @@ if (isset($title)) {
     }
 
 
-    $("body").on('click', '.cpicker', function () {
+    $("body").on('click', '.cpicker', function() {
         var color = $(this).data('color');
         // Clicked on the same selected color
         if ($(this).hasClass('cpicker-big')) {
@@ -526,12 +540,12 @@ if (isset($title)) {
 
 
 
-    $(document).ready(function () {
-            
-        $("body").delegate(".date", "focusin", function () {
-        var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
+    $(document).ready(function() {
 
-        $(this).datepicker({
+        $("body").delegate(".date", "focusin", function() {
+            var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
+
+            $(this).datepicker({
                 todayHighlight: false,
                 format: date_format,
                 autoclose: true,
@@ -540,70 +554,72 @@ if (isset($title)) {
         });
 
         var datetime_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(true, true), ['d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY', 'H' => 'hh', 'i' => 'mm',]) ?>';
-        $("body").delegate(".datetime", "focusin", function () {
+        $("body").delegate(".datetime", "focusin", function() {
             $(this).datetimepicker({
                 format: datetime_format,
-                locale:'<?php echo $language_name ?>',
+                locale: '<?php echo $language_name ?>',
             });
         });
-           // loadDate();
+        // loadDate();
     });
 
-        function loadDate(){
+    function loadDate() {
 
-            var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
+        var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
 
-            $('.date').datetimepicker({
-                format: datetime_format,
-                locale:
-                        '<?php echo $language_name ?>',
+        $('.date').datetimepicker({
+            format: datetime_format,
+            locale: '<?php echo $language_name ?>',
 
-            });
-        }
+        });
+    }
 
-        showdate('this_year');
+    showdate('this_year');
 
-       function showdate(type){
-        
-        <?php 
-        if(isset($_POST['date_from']) && $_POST['date_from']!='' && isset($_POST['date_to']) && $_POST['date_to']!='') {
+    function showdate(type) {
 
-                ?>
-                var date_from='<?php echo date($this->customlib->getSchoolDateFormat(),strtotime($_POST['date_from'])); ?>';
-                 var date_to='<?php echo date($this->customlib->getSchoolDateFormat(),strtotime($_POST['date_to'])); ?>';
+        <?php
+        if (isset($_POST['date_from']) && $_POST['date_from'] != '' && isset($_POST['date_to']) && $_POST['date_to'] != '') {
+
+        ?>
+            var date_from = '<?php echo date($this->customlib->getSchoolDateFormat(), strtotime($_POST['date_from'])); ?>';
+            var date_to = '<?php echo date($this->customlib->getSchoolDateFormat(), strtotime($_POST['date_to'])); ?>';
 
 
-                <?php
+        <?php
 
-        }else{
-            ?>
-            var date_from='<?php echo date($this->customlib->getSchoolDateFormat()); ?>';
-             var date_to='<?php echo date($this->customlib->getSchoolDateFormat()); ?>';
-            <?php
+        } else {
+        ?>
+            var date_from = '<?php echo date($this->customlib->getSchoolDateFormat()); ?>';
+            var date_to = '<?php echo date($this->customlib->getSchoolDateFormat()); ?>';
+        <?php
         }
 
         ?>
-       
-        if(type=='period'){
 
-               $.ajax({
-                url: base_url+'Report/get_betweendate/'+type,
-                type: 'POST', 
-              data:{date_from:date_from,date_to:date_to},
-                success: function (res) {
-                     
-                  $('#date_result').html(res);
+        if (type == 'period') {
 
-                  loadDate();
+            $.ajax({
+                url: base_url + 'Report/get_betweendate/' + type,
+                type: 'POST',
+                data: {
+                    date_from: date_from,
+                    date_to: date_to
+                },
+                success: function(res) {
+
+                    $('#date_result').html(res);
+
+                    loadDate();
                 }
 
 
             });
 
-        }else{
+        } else {
             $('#date_result').html('');
         }
-    
+
 
     }
 </script>
