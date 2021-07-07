@@ -291,7 +291,7 @@
                <div class="folder tooltip" style="width: 33.33%">Lesson Proper
                   <span class="tooltiptext">Explain and Extend</span>
                </div>
-               <div class="folder tooltip" style="width: 33.33%">Examination
+               <div class="folder tooltip" style="width: 33.33%">Formative Assessment
                   <span class="tooltiptext">Evaluate</span>
                </div>
 

@@ -1583,3 +1583,6 @@ $lang['student_assessment'] = "Student Enrollment Assessment";
 $lang['applicant_interview_exam'] = "Applicant Interview/Exam Schedule";
 
 $lang['student_admission_onhold'] = "Admission On Hold";
+$lang['summative_assessment'] = 'Summative Assessment';
+$lang['formative_assessment'] = 'Formative Assessment';
+$lang['url_link'] = 'URL Link';
