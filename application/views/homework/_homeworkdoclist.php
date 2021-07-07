@@ -13,6 +13,8 @@ foreach ($docs as $value) { ?>
          <?php if ($value['docs'] != '') { ?>
             <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php ?>/<?php echo $value['docs']; ?>" title="" data-original-title="Evaluation"><i class="fa fa-download"></i></a>
          <?php } ?>
+
+
       </td>
    </tr>
 <?php }
