@@ -174,7 +174,7 @@
             preg_match_all('~>\K[^<>]*(?=<)~', $str, $match);
             $urldesc = $match[0][1] . '</a>';
             $urlshortdesc = substr($match[0][1], 0, 36);
-            $description = str_replace($urldesc, $urlshortdesc . '...</a>', $str);
+            $description = str_replace($urldesc, (strlen($urlshortdesc) > 35 ?  $urlshortdesc . '...' : $urlshortdesc) . '</a>', $str);
             // print_r($description);
 
             ?>
