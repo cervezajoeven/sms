@@ -124,99 +124,99 @@ if ($HTTP_HOST == "localhost") {
    $password = 'J10o15e5V22n!4';
    $database = 'campus_' . $database_name;
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "stschopampanga.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_ssapamp';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "josephianslp.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_sjalp';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "stillwaters-educamp.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_seai';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "scholaangelicus.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_scholaangelicus';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "jsmjcrizal.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_jsmjc';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "aphsrizal.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_aphs';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "smhsrizal.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_smhs';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "sunnyvalechristian.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_sunnyvale';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "smac-valenzuela.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_smacv';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "smac-pampanga.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_smacp';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "mca-mandaluyong.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_mcam';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "lordsjubileechristianschool.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_ljcs';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "lpmsedu.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
    $database = 'campus_lpms';
 
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
@@ -247,24 +247,24 @@ $db['default'] = array(
    'failover' => array(),
    'save_queries' => TRUE
 );
-// $db['read'] = array(
-//    'dsn'   => '',
-//    'hostname' => $hostname_read,
-//    'username' => $username,
-//    'password' => $password,
-//    'database' => $database,
-//    'dbdriver' => 'mysqli',
-//    'dbprefix' => '',
-//    'pconnect' => FALSE,
-//    'db_debug' => (ENVIRONMENT !== 'production'),
-//    'cache_on' => FALSE,
-//    'cachedir' => '',
-//    'char_set' => 'utf8',
-//    'dbcollat' => 'utf8_general_ci',
-//    'swap_pre' => '',
-//    'encrypt' => FALSE,
-//    'compress' => FALSE,
-//    'stricton' => FALSE,
-//    'failover' => array(),
-//    'save_queries' => TRUE
-// );
+$db['read'] = array(
+   'dsn'   => '',
+   'hostname' => $hostname_read,
+   'username' => $username,
+   'password' => $password,
+   'database' => $database,
+   'dbdriver' => 'mysqli',
+   'dbprefix' => '',
+   'pconnect' => FALSE,
+   'db_debug' => (ENVIRONMENT !== 'production'),
+   'cache_on' => FALSE,
+   'cachedir' => '',
+   'char_set' => 'utf8',
+   'dbcollat' => 'utf8_general_ci',
+   'swap_pre' => '',
+   'encrypt' => FALSE,
+   'compress' => FALSE,
+   'stricton' => FALSE,
+   'failover' => array(),
+   'save_queries' => TRUE
+);
