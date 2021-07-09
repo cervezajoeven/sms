@@ -685,7 +685,7 @@
                   <?php } ?>
                   <!-- <li class="<?php echo set_Submenu('content/assignment'); ?>"><a href="<?php echo base_url(); ?>admin/content/assignment"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assignments'); ?></a></li> -->
                   <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>admin/content/studymaterial"><i class="fa fa-angle-double-right"></i> Module/Activities</a></li>
-                  <li class="<?php echo set_Submenu('content/studymaterial'); ?>"><a href="<?php echo base_url(); ?>homework"><i class="fa fa-angle-double-right"></i> Homework/Projects</a></li>
+                  <li class="<?php echo set_Submenu('content/homework'); ?>"><a href="<?php echo base_url(); ?>homework"><i class="fa fa-angle-double-right"></i> Homework/Projects</a></li>
 
                   <!-- <li class="<?php echo set_Submenu('content/syllabus'); ?>"><a href="<?php echo base_url(); ?>admin/content/syllabus"><i class="fa fa-angle-double-right"></i> Learning Plan </a></li> -->
                   <!-- <li class="<?php echo set_Submenu('content/other'); ?>"><a href="<?php echo base_url(); ?>admin/content/other"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('other_downloads'); ?></a></li> -->
@@ -726,7 +726,8 @@
                   <ul class="treeview-menu">
 
                      <li class="<?php echo set_Submenu('book/getall'); ?>">
-                        <a href="http://sophiameycauayan.campuscloudph.com/worldbook_login/"><i class="fa fa-angle-double-right"></i>Resources</a>
+                        <!-- <a href="http://sophiameycauayan.campuscloudph.com/worldbook_login/"><i class="fa fa-angle-double-right"></i>Resources</a> -->
+                        <a href="#"><i class="fa fa-angle-double-right"></i>Resources</a>
                      </li>
 
                      <?php if ($this->rbac->hasPrivilege('books', 'can_view')) { ?>

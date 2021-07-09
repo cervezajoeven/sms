@@ -331,7 +331,7 @@ class Lesson extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'content/past');
+      $this->session->set_userdata('sub_menu', 'content/lesson_bin');
 
       $data['title'] = 'Lesson';
 
@@ -1367,18 +1367,29 @@ class Lesson extends General_Controller
       $data['api_secret'] = 'BsryxBYn3QYBcJM8tYw987P3aIzPKshcpJPI';
       // $data['api_key'] = 'aIiAONgbR6SG_A1rC4Q2zw';
       // $data['api_secret'] = 'qsrKyRSAC2l9z9vPHZsUriybMn4NuPg1P06N';
+
       $params = array(
          'zoom_api_key' => $data['api_key'],
          'zoom_api_secret' => $data['api_secret'],
       );
+
       $this->load->library('zoom_api', $params);
+
+      // print_r($data);
+      // die();
+
       $data['lesson_id'] = $lesson_id;
 
       $this->db->select("*");
       $this->db->order_by("id");
+
+
       $data['zoom_accounts'] = $this->db->get("lms_zoom_accounts")->result_array();
       $data['account_id'] = $this->general_model->get_account_id();
       $data['real_role'] = $this->general_model->get_real_role();
+
+      // print_r($data);
+      // die();
 
       foreach ($data['zoom_accounts'] as $key => $value) {
          if ($value['conference_id']) {

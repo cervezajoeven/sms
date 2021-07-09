@@ -139,11 +139,11 @@ $(document).ready(function(){
       $(".loader").hide();
    });
 
-   var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
+   // var key = "AIzaSyDPVDhRW5LcKc7giRwsZtyHSDE_3O2TXsI";
    var cx = "005829641482717962768:2e59rdva9xk";
 
    var youtube_keys = [
-      "AIzaSyCx7YrUF-mXM_aXURtM61zou-32RqSgN60", //- emn account
+      "AIzaSyCx7YrUF-mXM_aXURtM61zou-32RqSgN60", //- emn
       "AIzaSyCBMWyhZGzvFO-CeeddXz71r4iInpEj8Vg",
       "AIzaSyAzxjsw0yjrnAdLnSSgc_kq-8cQjIiRNmY",
       "AIzaSyAiibtIDTDaH6ppxXUPgClmviFY2wDcpf0",
