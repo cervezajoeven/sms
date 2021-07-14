@@ -245,14 +245,14 @@
       <div class="modal-content">
 
          <h3 style="color: white">Add Text</h3>
-         <input type="text" id="text_title" name="" style="padding: 10px; width: 100%;" placeholder="Text Title">
+         <input type="text" id="text_title" name="" style="padding: 10px; margin-right: 15px; width: 100%;" placeholder="Text Title">
          <div id="view_text">
 
          </div>
          <div id="add_text">
 
          </div>
-         <button class="add_text_done add_text_close">Done</button>
+         <button class="add_text_done">Done</button>
          <button class="add_text_close">Close</button>
       </div>
 
@@ -543,7 +543,8 @@
                            <label>Email Notification</label>
                         </div>
                      </div>
-                     <button id="send_emails_now" style="padding: 10px;border-radius: 10px;border: 0px;cursor: pointer;width: 30%;background-color: #428bca;color: white;">Send Now</button>
+                     <!-- <button id="send_emails_now" disabled style="padding: 10px;border-radius: 10px;border: 0px;cursor: default;width: 30%;background-color: #428bca;color: white;">Send Now</button> -->
+                     <button id="send_emails_now" disabled style="padding: 10px;border-radius: 10px;border: 0px;cursor: default;width: 30%;background-color: ccc;color: white;">Send Now</button>
                   </div>
                   <h3>Save</h3>
                   <button class="assign_save" style="    padding: 10px;width: 30%;border-radius: 10px;border: 0px;cursor: pointer;background-color: #428bca;color: white;">Save/Assign</button>
@@ -1089,6 +1090,7 @@
 
    <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
    <script src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
+   <!-- <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

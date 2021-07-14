@@ -569,7 +569,9 @@ $(document).ready(function(){
                   $(".html_content").show();
                   $(".html_content").css("height",screen.height-180);
                   $(".html_content").css("background-color","#d2cece");
-                  view_text.setContents(JSON.parse(unescapeHtml(active_content_data.content.text_value)));
+                  var contents = JSON.parse(unescapeHtml(active_content_data.content.text_value));
+                  // contents = contents.replace('/(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)/', '<a target=_blank href="$1">$1</a>');
+                  view_text.setContents(contents);
                   var rendered_text = view_text.container.innerHTML;
                   $(rendered_text).find("div[contenteditable*='true']").attr("contenteditable","false");
                   $(".html_content").html($(rendered_text).html());
@@ -1368,19 +1370,37 @@ $(document).ready(function(){
       vimeo_modal.style.display = "none";
       }
    }
-
-   
+      
    var learning_plan = new Quill('#learning_plan_text', {
       theme: 'snow',
       modules: {
             table: true,
       }
    });
+
    var objective = new Quill('#objective_text', {
       theme: 'snow',
    });
+
    var add_text = new Quill('#add_text', {
+      // modules: {
+      //    'syntax': true,
+      //    'toolbar': [
+      //       [{ 'font': [] }, { 'size': [] }],
+      //       [ 'bold', 'italic', 'underline', 'strike' ],
+      //       [{ 'color': [] }, { 'background': [] }],
+      //       [{ 'script': 'super' }, { 'script': 'sub' }],
+      //       [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block' ],
+      //       [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+      //       [ 'direction', { 'align': [] }],
+      //       [ 'link', 'image', 'video', 'formula' ],
+      //       [ 'clean' ]
+      //    ]
+      // },
       theme: 'snow',
+      modules: {
+         table: true,
+   }
    });
 
 
@@ -1398,6 +1418,7 @@ $(document).ready(function(){
       
             success: function(data)
             {
+               modal.style.display = "none";
                console.log(data);
                $("div[portal='my_resources']").click();
             },
@@ -1405,8 +1426,11 @@ $(document).ready(function(){
                alert("Something Went Wrong");
             }
       });
-
    });
+
+   // $(".add_text_close").click(function(){
+   //    modal.style.display = "none";
+   // });
 
    $(".vimeo_modal_done").click(function(){
       var link = $("#vimeo_url").val();
