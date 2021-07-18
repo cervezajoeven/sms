@@ -1184,7 +1184,7 @@ class Lesson extends General_Controller
          'class_id' => 3,
          'section_id' => 63,
          'duration' => 60,
-         'password' => "Campuscloudph123",
+         'password' => "cloudph", //"Campuscloudph123",
          'created_id' => $lesson_data['account_id'],
          'api_type' => $api_type,
          'host_video' => "1",
