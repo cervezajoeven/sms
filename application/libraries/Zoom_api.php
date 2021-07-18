@@ -51,8 +51,8 @@ class Zoom_api
       // print_r($request_url);
       // die();
 
-      print_r($headers);
-      die();
+      // print_r($headers);
+      // die();
 
       $postFields = json_encode($data);
 
