@@ -48,7 +48,10 @@ class Zoom_api
          'content-type: application/json',
       );
 
-      print_r($request_url);
+      // print_r($request_url);
+      // die();
+
+      print_r($headers);
       die();
 
       $postFields = json_encode($data);
