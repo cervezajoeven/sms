@@ -1165,17 +1165,16 @@ class Lesson extends General_Controller
    {
 
       $api_type = 'global';
-
-
       $params = array(
          'zoom_api_key' => $lesson_data['zoom_api_key'],
          'zoom_api_secret' => $lesson_data['zoom_api_secret'],
       );
+
       $this->load->library('zoom_api', $params);
+
       $account_data = $this->lesson_model->lms_get("staff", $lesson_data['account_id'], "id")[0];
       $title = $this->lesson_model->lms_get("lms_lesson", $lesson_data['lesson_id'], "id")[0]['lesson_name'];
       $zoom_email = $lesson_data['zoom_email'];
-
 
       $insert_array = array(
          'staff_id' => $lesson_data['account_id'],
@@ -1185,7 +1184,7 @@ class Lesson extends General_Controller
          'class_id' => 3,
          'section_id' => 63,
          'duration' => 60,
-         'password' => "cloudph",
+         'password' => "Campuscloudph123",
          'created_id' => $lesson_data['account_id'],
          'api_type' => $api_type,
          'host_video' => "1",
@@ -1194,8 +1193,15 @@ class Lesson extends General_Controller
          'timezone' => $this->customlib->getTimeZone(),
       );
 
-      $response = $this->zoom_api->createAMeeting($insert_array);
+      // print_r($params);
+      // die();
+
       // print_r($insert_array);
+      // die();
+
+      $response = $this->zoom_api->createAMeeting($insert_array);
+
+
       // echo "response";
       // print_r($response);
       if ($response) {
@@ -1422,16 +1428,20 @@ class Lesson extends General_Controller
       $data['api_key'] = $zoom_data['api_key'];
       $data['api_secret'] = $zoom_data['api_secret'];
 
-
       $params = array(
          'zoom_api_key' => $data['api_key'],
          'zoom_api_secret' => $data['api_secret'],
       );
       $this->load->library('zoom_api', $params);
 
+      // print_r($data);
+      // die();
 
 
       if ($zoom_data['account_id']) {
+         // print_r($data);
+         // die();
+
          if ($zoom_data['account_id'] == $teacher_account_id) {
             $conference = $this->lesson_model->lms_get("conferences", $zoom_data['conference_id'], "id")[0];
             $start_url = json_decode($conference['return_response'])->start_url;
@@ -1441,16 +1451,24 @@ class Lesson extends General_Controller
             echo "<h1>You can close this window.</h1>";
          }
       } else {
-
          $lesson_data['zoom_api_key'] = $data['api_key'];
          $lesson_data['zoom_api_secret'] = $data['api_secret'];
+
          $lesson_data['account_id'] = $the_lesson['account_id'];
+
+
          $lesson_data['lesson_id'] = $lesson_id;
          $lesson_data['start_date'] = date("Y-m-d H:i:s");
          $lesson_data['zoom_email'] = $zoom_id;
          $lesson_data['name'] = $teacher_name['name'];
          $lesson_data['surname'] = $teacher_name['surname'];
+
+         // print_r($lesson_data);
+         // die();
+
          $conference_id = $this->add_lms_lesson($lesson_data);
+
+
 
          $conference = $this->lesson_model->lms_get("conferences", $conference_id, "id")[0];
          $start_url = json_decode($conference['return_response'])->start_url;

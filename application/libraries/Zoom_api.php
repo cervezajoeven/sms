@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use \Firebase\JWT\JWT;
 
-// require_once APPPATH . 'third_party/omnipay/vendor/autoload.php';
+require_once APPPATH . 'third_party/omnipay/vendor/autoload.php';
 
 class Zoom_api
 {
@@ -48,7 +48,11 @@ class Zoom_api
          'content-type: application/json',
       );
 
+      // print_r($request_url);
+      // die();
+
       $postFields = json_encode($data);
+
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -56,10 +60,12 @@ class Zoom_api
       curl_setopt($ch, CURLOPT_POST, 1);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
       $response = curl_exec($ch);
       $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
       $err = curl_error($ch);
       curl_close($ch);
+
       if (!$response) {
 
          return false;
@@ -75,6 +81,7 @@ class Zoom_api
          "iss" => $key,
          "exp" => time() + 3600,
       );
+
       return JWT::encode($token, $secret);
    }
 
@@ -174,7 +181,6 @@ class Zoom_api
 
    public function createAMeeting($data = array())
    {
-
       $post_time = $data['date'];
       $start_time = date("Y-m-d\TH:i:s", strtotime($post_time));
       $data['join_before_host'] = false;
@@ -204,6 +210,7 @@ class Zoom_api
          'auto_recording' => !empty($data['option_auto_recording']) ? $data['option_auto_recording'] : "none",
          'alternative_hosts' => isset($alternative_host_ids) ? $alternative_host_ids : "",
       );
+
       $zoom_email = $data['zoom_email'];
 
       return $this->sendRequest($createAMeetingArray, $zoom_email);
