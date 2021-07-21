@@ -486,62 +486,7 @@
             </div>
          </div>
       </div>
-      <div class="part ben_right" style="width: 0%">
-         <div class="navigation">
-            <div class="title_container">
-               <input type="text" disabled="" value="Campus LMS Resources Search" name="">
 
-            </div>
-            <div class="search_container">
-
-               <input type="text" id="search_portal" placeholder="Content Search" name="search_portal">
-               <button class="submit_button"><img src="<?php echo $resources . 'images/search.png' ?>"></button>
-            </div>
-         </div>
-
-         <ul id="result_container" class="connectedSortable">
-
-            <li class="ui-state-default content search_content content_hidden" result_id="">
-               <div class="content_header theme">
-                  <span>Default</span>
-                  <img class="content_close" src="<?php echo $resources . 'images/close.png' ?>">
-               </div>
-               <div class="content_body">
-                  <div class="download_status_container">
-                     <span>Ready</span>
-                  </div>
-                  <img src="<?php echo $resources . 'images/website.png' ?>">
-
-               </div>
-
-               <div class="content_footer theme">
-                  <textarea>Default Description</textarea>
-               </div>
-
-            </li>
-
-
-            <div class="instruction instructions">
-               <h2>How It Works: </h2>
-               <h3>1. Find Resources.</h3>
-               <h3>2. Open Results.</h3>
-               <h3>3. Drag and Drop.</h3>
-            </div>
-            <div class="instruction my_resources_instructions">
-               <h2>My Resources</h2>
-               <h3>1. Find/Upload Resources.</h3>
-               <h3>2. Drag and Drop. </h3>
-            </div>
-            <div class="instruction cms_resources_instructions">
-               <h2>How It Works: </h2>
-               <h3>1. Find Resources.</h3>
-               <h3>2. Open Results.</h3>
-               <h3>3. Drag and Drop.</h3>
-            </div>
-         </ul>
-
-
-      </div>
 
       <div class="part extremeright" style="width: 0%">
          <div class="extremeright_filler">

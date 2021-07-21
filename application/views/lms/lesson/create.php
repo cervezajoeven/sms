@@ -226,19 +226,12 @@
       }
 
       .html_content {
-         background-color: rgb(210, 206, 206);
+         /* background-color: rgb(210, 206, 206); */
+         background-color: #ffffff;
          display: block;
          /* height: 100%; */
          /* width: 95%; */
          height: calc(100vh - 130px);
-         padding: 50px;
-         overflow-y: auto;
-      }
-
-      .text-content {
-         background-color: #D2CECE;
-         display: block;
-         height: calc(100vh - 50px);
          padding: 50px;
          overflow-y: auto;
       }
@@ -285,10 +278,8 @@
    </div>
 
    <div id="vimeo_modal" class="modal">
-
       <!-- Modal content -->
       <div class="modal-content">
-
          <h3 style="color: white">External Link Url</h3>
          <input type="text" class="joe_text" id="vimeo_title" name="" style="padding: 10px; width: 100%;" placeholder="Title">
          <input type="text" class="joe_text" id="vimeo_url" name="" style="padding: 10px; width: 100%;" placeholder="https://">
@@ -764,33 +755,35 @@
 
             <li class="ui-state-default content search_content content_hidden" result_id="">
                <!-- <div class="flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
+                  <div class="flip-card-inner">
+                  <div class="flip-card-front">
 
-                <div class="content_header theme">
-                  <span>Default</span>
-                  <img class="content_close" src="<?php echo $resources . 'images/close.png' ?>">
-                </div>
-                <div class="content_body">
-                  <div class="download_status_container">
-                    <span>Ready</span>
+                     <div class="content_header theme">
+                        <span>Default</span>
+                        <img class="content_close" src="<?php //echo $resources . 'images/close.png' 
+                                                         ?>">
+                     </div>
+                     <div class="content_body">
+                        <div class="download_status_container">
+                        <span>Ready</span>
+                        </div>
+                        <img src="<?php //echo $resources . 'images/website.png' 
+                                    ?>">
+
+                     </div>
+
+                     <div class="content_footer theme">
+                        <textarea>Default Description</textarea>
+                     </div>
+
                   </div>
-                  <img src="<?php echo $resources . 'images/website.png' ?>">
-
-                </div>
-
-                <div class="content_footer theme">
-                  <textarea>Default Description</textarea>
-                </div>
-
-              </div>
-              <div class="flip-card-back">
-                <h1>John Doe</h1>
-                <p>Architect & Engineer</p>
-                <p>We love that guy</p>
-              </div>
-            </div>
-          </div> -->
+                  <div class="flip-card-back">
+                     <h1>John Doe</h1>
+                     <p>Architect & Engineer</p>
+                     <p>We love that guy</p>
+                  </div>
+                  </div>
+               </div> -->
 
                <div class="content_header theme">
                   <span>Default</span>

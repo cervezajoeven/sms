@@ -143,36 +143,35 @@ $(document).ready(function(){
    var cx = "005829641482717962768:2e59rdva9xk";
 
    var youtube_keys = [
-      "AIzaSyCx7YrUF-mXM_aXURtM61zou-32RqSgN60", //- emn
-      "AIzaSyCBMWyhZGzvFO-CeeddXz71r4iInpEj8Vg",
-      "AIzaSyAzxjsw0yjrnAdLnSSgc_kq-8cQjIiRNmY",
-      "AIzaSyAiibtIDTDaH6ppxXUPgClmviFY2wDcpf0",
-      "AIzaSyBR50wUUMEaeb5NY0AKAA9Wyri-d7E_nao",      
-      "AIzaSyD2pH0KuQUH48O_Z9EgwyuDfNNItFCwKds",
-      "AIzaSyA1ig8-aHcawi3pBjUW6YP0OfKBih8M_S0",
-      "AIzaSyAKooxjsSsBj1oFptEEWEo3E3kw-S3rBvA",
-      "AIzaSyCQUc7nmCSeKJr_C9MyQJEVlKzCjd42paE",
-      "AIzaSyATD5iy0t48Zn5QCwvWWlLfdLikuIjajZY",
-      "AIzaSyBzuyQ4dvrWLnTbRJPp4Y_p2j688U-X04M",
-      "AIzaSyAmmhR5f2_KXxzYgnJdZZG3KTLN4ey0KBY",
-      "AIzaSyC-aejMB2Tnzl5sA57qpxrC940MFFnC14Y",
-      "AIzaSyBEOXSBWT3OLO6dNRJfKy0IsA6KcGYoh-g",
-      "AIzaSyAk_mWGChxK9Qg3sK0BaZON_2VRAik2nrs",
-      "AIzaSyBuwal8ykIhQM9ZZ7lPjSIsMZD2L3gbw4I",
-      "AIzaSyAqquSKQ7lxFR22WKfezl5Rp1LOLLt-_O4",
-      "AIzaSyB35Bp_Y8lOyrUoKCeuVolf5VOXaVIeh18",
-      "AIzaSyAO5eqqo3UaytvwhEvIWXMs-xjKtHTduUY",
-      "AIzaSyAlPES2VQh5wlujS4E1eqPEN3tbOySJ1vw",
-      "AIzaSyBIheNJiIKIx5l0NDM6vioVMjjaeYCKilw",
-      "AIzaSyDe-s55aipxwsu7vhTsUVUgBXuHMr876C8",
-      "AIzaSyAioQbTZzoIaDQjTfy-ncgKXLb0vCkF5b0",
-      "AIzaSyDmiIsw90TxnibAhUjI4B_sZJNeszGxmG8",
-      "AIzaSyDfQnhWyr1rHlA4eOYaOiP8vswxEr4_JNI",
-      "AIzaSyBKIGpLSGtGoZ0xCiO3frR877MaH-96ExU",
-      "AIzaSyCa8WkVWNE51h2VpOuwtk6SFFCceFstYV8",      
-      "AIzaSyBvukyMqntGoIyzI_ApqXog6mvGisJ9alo",
-      "AIzaSyBE9QAYLpEsKsBaR1oQNbNOBupzEJ8xQOE",
-      "AIzaSyCZClpwTfTDtHZUOvgcSSyMbpfgPe6UxLg",
+      "AIzaSyCBMWyhZGzvFO-CeeddXz71r4iInpEj8Vg", //-- not working
+      "AIzaSyAzxjsw0yjrnAdLnSSgc_kq-8cQjIiRNmY", //-- not working
+      "AIzaSyAiibtIDTDaH6ppxXUPgClmviFY2wDcpf0", //-- not working
+      "AIzaSyBR50wUUMEaeb5NY0AKAA9Wyri-d7E_nao", //-- not working     
+      "AIzaSyD2pH0KuQUH48O_Z9EgwyuDfNNItFCwKds", //-- not working
+      "AIzaSyA1ig8-aHcawi3pBjUW6YP0OfKBih8M_S0", //-- not working
+      "AIzaSyAKooxjsSsBj1oFptEEWEo3E3kw-S3rBvA", //-- not working
+      "AIzaSyCQUc7nmCSeKJr_C9MyQJEVlKzCjd42paE", //-- not working
+      "AIzaSyATD5iy0t48Zn5QCwvWWlLfdLikuIjajZY", //-- not working
+      "AIzaSyBzuyQ4dvrWLnTbRJPp4Y_p2j688U-X04M", //-- not working
+      "AIzaSyAmmhR5f2_KXxzYgnJdZZG3KTLN4ey0KBY", //-- not working
+      "AIzaSyC-aejMB2Tnzl5sA57qpxrC940MFFnC14Y", //-- not working
+      "AIzaSyBEOXSBWT3OLO6dNRJfKy0IsA6KcGYoh-g", //-- not working
+      "AIzaSyAk_mWGChxK9Qg3sK0BaZON_2VRAik2nrs", //-- not working
+      "AIzaSyBuwal8ykIhQM9ZZ7lPjSIsMZD2L3gbw4I", //-- not working
+      "AIzaSyAqquSKQ7lxFR22WKfezl5Rp1LOLLt-_O4", //-- not working
+      "AIzaSyB35Bp_Y8lOyrUoKCeuVolf5VOXaVIeh18", //-- not working
+      "AIzaSyAO5eqqo3UaytvwhEvIWXMs-xjKtHTduUY", //-- not working
+      "AIzaSyAlPES2VQh5wlujS4E1eqPEN3tbOySJ1vw", //-- not working
+      "AIzaSyBIheNJiIKIx5l0NDM6vioVMjjaeYCKilw", //-- not working
+      "AIzaSyDe-s55aipxwsu7vhTsUVUgBXuHMr876C8", //-- not working
+      "AIzaSyAioQbTZzoIaDQjTfy-ncgKXLb0vCkF5b0", //-- not working
+      "AIzaSyDmiIsw90TxnibAhUjI4B_sZJNeszGxmG8", //-- not working
+      "AIzaSyDfQnhWyr1rHlA4eOYaOiP8vswxEr4_JNI", //-- not working
+      "AIzaSyBKIGpLSGtGoZ0xCiO3frR877MaH-96ExU", //-- not working
+      "AIzaSyCa8WkVWNE51h2VpOuwtk6SFFCceFstYV8", //-- not working
+      "AIzaSyBvukyMqntGoIyzI_ApqXog6mvGisJ9alo", //-- not working
+      "AIzaSyBE9QAYLpEsKsBaR1oQNbNOBupzEJ8xQOE", //-- not working
+      "AIzaSyCZClpwTfTDtHZUOvgcSSyMbpfgPe6UxLg", //-- not working
       "AIzaSyBZRyffCijnVZvK_QnUk-_jadiLZ8_6f00",
       "AIzaSyCzw6qFXj0wd48AAI6XU8ke5ngln7OiEwA",
       "AIzaSyDy2ih9XPH9xbPHT2qCYCUlQXUdu86osyc",
@@ -219,6 +218,7 @@ $(document).ready(function(){
       "AIzaSyBv92Gt2tCitmZ1TVB7kE3AG_4k0ljiXtA",
       "AIzaSyCFDwzAWrZj81nQQzQDiCN4U3eOTW6YlY8",
       "AIzaSyC_d8_zOFnAOh2HmIRzc-FqmV7qSnA0tTo",
+      "AIzaSyCx7YrUF-mXM_aXURtM61zou-32RqSgN60", //- emn
    ];
 
    var google_keys = [
@@ -234,96 +234,109 @@ $(document).ready(function(){
       "AIzaSyD56J-2bn71BRuN2NA8xvk1DSFszKpyvnI",
    ];
    // window.addEventListener("resize", adjust_iframe());
-   function youtube_search(query,maxResults = 20){
+   function youtube_search(query,maxResults = 20) {
       var youtube_api = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+query+"&type=video&maxResults="+maxResults+"&key="+youtube_keys[youtube_looper];
-      $.ajax({
-         url: youtube_api,
-         context: document.body
-      }).done(function(data) {
-         console.log("Youtube key "+youtube_keys[youtube_looper]+" worked");
-         var processed_data = process_data(data,"youtube");
-         result_pool = processed_data;
-         populate_search_content(processed_data);
-      }).error(function() {         
-         if (youtube_looper < youtube_keys.length) {
-            console.log("Youtube key "+google_keys[google_looper]+" did not work!");
-            youtube_looper++;
-            youtube_search();
-         } else {
-            console.log("Youtube keys did not work!");
-         }
-      });
+
+      if (query != "") {
+         $.ajax({
+            url: youtube_api,
+            context: document.body
+         }).done(function(data) {
+            console.log("Youtube key "+youtube_keys[youtube_looper]+" worked");
+            var processed_data = process_data(data,"youtube");
+            result_pool = processed_data;
+            populate_search_content(processed_data);
+         }).error(function() {         
+            if (youtube_looper < youtube_keys.length) {
+               console.log("Youtube key "+google_keys[google_looper]+" did not work!");
+               youtube_looper++;
+               youtube_search();
+            } else {
+               console.log("Youtube keys did not work!");
+            }
+         });
+      }      
    }
 
    function google_search(query,maxResults = 20){
       var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&q="+query;
-      $.ajax({
-         url: api,
-         context: document.body
-      }).done(function(data) {
-         console.log("Google key "+google_keys[google_looper]+" Worked");
-         var processed_data = process_data(data,"google");
-         result_pool = processed_data;
-         populate_search_content(processed_data);
-      }).error(function() {
 
-         if (google_looper < google_keys.length) {
-            console.log("Google key "+google_keys[google_looper]+" Did not work!");
-            google_looper++;
-            google_search();
-         } else {
-            console.log("Google keys did not work!");
-         }
-         
-      });
+      if (query != "") {
+         $.ajax({
+            url: api,
+            context: document.body
+         }).done(function(data) {
+            console.log("Google key "+google_keys[google_looper]+" Worked");
+            var processed_data = process_data(data,"google");
+            result_pool = processed_data;
+            populate_search_content(processed_data);
+         }).error(function() {
+   
+            if (google_looper < google_keys.length) {
+               console.log("Google key "+google_keys[google_looper]+" Did not work!");
+               google_looper++;
+               google_search();
+            } else {
+               console.log("Google keys did not work!");
+            }
+            
+         });
+      }      
    }
 
    function google_image_search(query,maxResults = 20){
       var api = "https://www.googleapis.com/customsearch/v1?key="+google_keys[google_looper]+"&cx="+cx+"&searchType=image&q="+query;
-      $.ajax({
+
+      if (query != "") {
+         $.ajax({
             url: api,
             context: document.body
-      }).done(function(data) {
-            console.log("Google key "+google_keys[google_looper]+" Worked");
-            var processed_data = process_data(data,"google_image");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-      }).error(function(){
-         if (google_looper < google_keys.length) {
-            console.log("Google key "+google_keys[google_looper]+" Did not work!");
-            google_looper++;
-            google_search();
-         } else {
-            console.log("Google keys did not work!");
-         }
-      });
+         }).done(function(data) {
+               console.log("Google key "+google_keys[google_looper]+" Worked");
+               var processed_data = process_data(data,"google_image");
+               result_pool = processed_data;
+               populate_search_content(processed_data);
+         }).error(function(){
+            if (google_looper < google_keys.length) {
+               console.log("Google key "+google_keys[google_looper]+" Did not work!");
+               google_looper++;
+               google_search();
+            } else {
+               console.log("Google keys did not work!");
+            }
+         });
+      }      
    }
 
    function my_resources_search(query){
       var api = url+"my_resources/"+query;
 
-      $.ajax({
+      //if (query != "") {
+         $.ajax({
             url: api,
             context: document.body
-      }).done(function(data) {
-            var processed_data = process_data(data,"my_resources");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-      });
+         }).done(function(data) {
+               var processed_data = process_data(data,"my_resources");
+               result_pool = processed_data;
+               populate_search_content(processed_data);
+         });
+      //}      
    }
 
    function cms_resources_search(query){
       var api = url+"cms_resources/"+query;
 
-      $.ajax({
+      //if (query != "") {
+         $.ajax({
             url: api,
             context: document.body
-      }).done(function(data) {
+         }).done(function(data) {
 
-            var processed_data = process_data(data,"cms_resources");
-            result_pool = processed_data;
-            populate_search_content(processed_data);
-      });
+               var processed_data = process_data(data,"cms_resources");
+               result_pool = processed_data;
+               populate_search_content(processed_data);
+         });
+      //}      
    }
 
    function reset_result_pool(){
@@ -568,7 +581,7 @@ $(document).ready(function(){
                case "text":
                   $(".html_content").show();
                   // $(".html_content").css("height",screen.height-280);
-                  $(".html_content").css("background-color","#d2cece");
+                  // $(".html_content").css("background-color","#d2cece");
                   var contents = JSON.parse(unescapeHtml(active_content_data.content.text_value));
                   // contents = contents.replace('/(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)/', '<a target=_blank href="$1">$1</a>');
                   view_text.setContents(contents);
@@ -882,7 +895,7 @@ $(document).ready(function(){
    });   
 
    function populate_search_content(data){
-      var populous = $(".content_hidden").clone();
+      // var populous = $(".content_hidden").clone();
       
       data.forEach(function(item, index, arr){
             populous = $(".content_hidden").clone();
@@ -1356,6 +1369,7 @@ $(document).ready(function(){
 
    // When the user clicks on the button, open the modal
    vimeo_btn.onclick = function() {
+
       vimeo_modal.style.display = "block";
    }
 
@@ -1418,7 +1432,9 @@ $(document).ready(function(){
       
             success: function(data)
             {
-               add_text.setContents([{ insert: '\n' }]);
+               // add_text.setContents([{ insert: '\n' }]);
+               var element = document.getElementsByClassName("ql-editor");
+               element[0].innerHTML = "";
                modal.style.display = "none";
                console.log(data);
                $("div[portal='my_resources']").click();
