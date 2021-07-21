@@ -219,6 +219,29 @@
          color: white;
          transform: rotateY(180deg);
       }
+
+      .mheight {
+         height: calc(100vh - 380px);
+         overflow-y: auto;
+      }
+
+      .html_content {
+         background-color: rgb(210, 206, 206);
+         display: block;
+         /* height: 100%; */
+         /* width: 95%; */
+         height: calc(100vh - 130px);
+         padding: 50px;
+         overflow-y: auto;
+      }
+
+      .text-content {
+         background-color: #D2CECE;
+         display: block;
+         height: calc(100vh - 50px);
+         padding: 50px;
+         overflow-y: auto;
+      }
    </style>
 </head>
 
@@ -245,11 +268,14 @@
       <div class="modal-content">
 
          <h3 style="color: white">Add Text</h3>
-         <input type="text" id="text_title" name="" style="padding: 10px; margin-right: 15px; width: 100%;" placeholder="Text Title">
+         <div class="title_container">
+            <input type="text" id="text_title" name="" style="padding: 10px; margin-right: 15px; width: 50%;" placeholder="Text Title">
+         </div>
+
          <div id="view_text">
 
          </div>
-         <div id="add_text">
+         <div id="add_text" class="mheight">
 
          </div>
          <button class="add_text_done">Done</button>
@@ -930,21 +956,12 @@
             </div>
 
          </div>
-         <style type="text/css">
-            .html_content {
-               background-color: rgb(210, 206, 206);
-               display: block;
-               height: 100%;
-               /* width: 95%; */
-               padding: 50px;
-               overflow: auto;
-            }
-         </style>
          <div class="student_view_content">
 
             <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0"></iframe>
             <img class="content_type image_content" src="" data-magnify="gallery" data-caption="Image Caption 1" data-src="1.jpg" />
             <div class="content_type html_content" style="background-color: white;"></div>
+            <!-- <div class="content_type" style="background-color: rgb(210, 206, 206); display: block; height: calc(100vh - 250px); padding: 50px;  overflow: auto;"></div> -->
             <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
          </div>
          <style type="text/css">

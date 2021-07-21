@@ -567,7 +567,7 @@ $(document).ready(function(){
                break;
                case "text":
                   $(".html_content").show();
-                  $(".html_content").css("height",screen.height-180);
+                  // $(".html_content").css("height",screen.height-280);
                   $(".html_content").css("background-color","#d2cece");
                   var contents = JSON.parse(unescapeHtml(active_content_data.content.text_value));
                   // contents = contents.replace('/(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)/', '<a target=_blank href="$1">$1</a>');
@@ -1418,6 +1418,7 @@ $(document).ready(function(){
       
             success: function(data)
             {
+               add_text.setContents([{ insert: '\n' }]);
                modal.style.display = "none";
                console.log(data);
                $("div[portal='my_resources']").click();
@@ -1428,7 +1429,7 @@ $(document).ready(function(){
       });
    });
 
-   // $(".add_text_close").click(function(){
+   // $(".add_text_close").click(function() {
    //    modal.style.display = "none";
    // });
 
