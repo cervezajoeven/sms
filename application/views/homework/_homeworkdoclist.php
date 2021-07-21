@@ -6,7 +6,9 @@ function displayTextWithLinks($s)
 
 foreach ($docs as $value) { ?>
    <tr>
-      <td><?php echo $value["lastname"] . ", " . $value['firstname'] . " (" . $value["admission_no"] . ")"; ?></td>
+      <!-- <td><?php //echo $value["lastname"] . ", " . $value['firstname'] . " (" . $value["admission_no"] . ")"; 
+               ?></td> -->
+      <td><?php echo $value["lastname"] . ", " . $value['firstname']; ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["message"])); ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["url_link"])); ?></td>
       <td><?php echo $value["created_at"]; ?></td>
