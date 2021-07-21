@@ -101,7 +101,44 @@ class Homework_model extends MY_model
 
    public function get_homeworkDocById($homework_id)
    {
-      $query = $this->db->select('students.*,submit_assignment.docs,submit_assignment.message,submit_assignment.url_link')->from('submit_assignment')->join('students', 'students.id=submit_assignment.student_id', 'inner')->where('submit_assignment.homework_id', $homework_id)->get();
+      //$query = $this->db->select('students.*,submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at')->from('submit_assignment')->join('students', 'students.id=submit_assignment.student_id', 'inner')->where('submit_assignment.homework_id', $homework_id)->get();
+      $this->db->select('students.*,submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at');
+      $this->db->join('students', 'students.id=submit_assignment.student_id', 'right');
+      $this->db->where('submit_assignment.homework_id', $homework_id);
+      $query = $this->db->get('submit_assignment');
+
+      return $query->result_array();
+   }
+
+   public function get_homeworkDocById2($homework_id, $classid, $sectionid, $sessionid)
+   {
+      $sql   = "select * from
+               (
+               select students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at
+               from students
+               join student_session on student_session.student_id = students.id
+               left join submit_assignment on submit_assignment.student_id = students.id
+               where student_session.class_id = $classid
+               and student_session.section_id = $sectionid
+               and student_session.session_id = $sessionid
+               and students.id not in (select student_id from submit_assignment where homework_id = $homework_id)
+               
+               union 
+               
+               select students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at
+               from students
+               left join student_session on student_session.student_id = students.id
+               left join submit_assignment on submit_assignment.student_id = students.id
+               where submit_assignment.homework_id = $homework_id
+               and student_session.class_id = $classid
+               and student_session.section_id = $sectionid
+               and student_session.session_id = $sessionid
+               ) tbl
+               order by lastname";
+      // print_r($sql);
+      // print_r($sql);
+      // die();
+      $query = $this->db->query($sql);
       return $query->result_array();
    }
 
@@ -130,6 +167,10 @@ class Homework_model extends MY_model
       $this->db->where('subject_groups.session_id', $this->current_session);
       $this->db->order_by('homework.homework_date', 'DESC');
       $query = $this->db->get("homework");
+
+      // print_r($this->db->last_query());
+      // die();
+
       return $query->result_array();
    }
 

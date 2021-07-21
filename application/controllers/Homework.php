@@ -89,7 +89,19 @@ class Homework extends Admin_Controller
 
    public function homework_docs($id)
    {
+      $session_id = $this->setting_model->getCurrentSession();
+
       $result = $this->homework_model->get_homeworkDocByid($id);
+
+      $data['docs'] = $result;
+      $this->load->view('homework/_homeworkdoclist', $data);
+   }
+
+   public function homework_docs2($id, $classid, $sectionid)
+   {
+      $session_id = $this->setting_model->getCurrentSession();
+
+      $result = $this->homework_model->get_homeworkDocByid2($id, $classid, $sectionid, $session_id);
 
       $data['docs'] = $result;
       $this->load->view('homework/_homeworkdoclist', $data);

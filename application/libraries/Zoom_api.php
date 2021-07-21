@@ -69,6 +69,9 @@ class Zoom_api
       $err = curl_error($ch);
       curl_close($ch);
 
+      // print_r($response);
+      // die();
+
       if (!$response) {
 
          return false;
@@ -215,6 +218,9 @@ class Zoom_api
       );
 
       $zoom_email = $data['zoom_email'];
+
+      // print_r($zoom_email);
+      // die();
 
       return $this->sendRequest($createAMeetingArray, $zoom_email);
    }

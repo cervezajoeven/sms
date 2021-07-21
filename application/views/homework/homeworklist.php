@@ -2,6 +2,91 @@
 $language = $this->customlib->getLanguage();
 $language_name = $language["short_code"];
 ?>
+
+<style type="text/css">
+   /* The Modal (background) */
+   /* #image-viewer {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.9);
+   }
+
+   .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      animation-name: zoom;
+      animation-duration: 0.6s;
+   }
+
+   @keyframes zoom {
+      from {
+         transform: scale(0)
+      }
+
+      to {
+         transform: scale(1)
+      }
+   }
+
+   #image-viewer .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+   }
+
+   #image-viewer .close:hover,
+   #image-viewer .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+   }
+
+   @media only screen and (max-width: 700px) {
+      .modal-content {
+         width: 100%;
+      }
+   } */
+
+   .img-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 800px;
+      animation-name: zoom;
+      animation-duration: 0.6s;
+   }
+
+   @keyframes zoom {
+      from {
+         transform: scale(0)
+      }
+
+      to {
+         transform: scale(1)
+      }
+   }
+
+   .modal-body>.content-responsive {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+   }
+</style>
+
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <script src="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
@@ -152,8 +237,8 @@ $language_name = $language["short_code"];
                                        }
                                        if ($homework["assignments"] > 0) {
                                        ?>
-                                          <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php echo $homework['id']; ?>);" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments'); ?>">
-                                             <i class="fa fa-download"></i></a>
+                                          <!-- <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php echo $homework['id']; ?>);" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments'); ?>"><i class="fa fa-download"></i></a> -->
+                                          <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php echo $homework['id']; ?>, <?php echo $homework['class_id']; ?>, <?php echo $homework['section_id']; ?>);" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments'); ?>"><i class="fa fa-download"></i></a>
 
                                        <?php }
                                        if ($this->rbac->hasPrivilege('homework', 'can_edit')) { ?>
@@ -300,7 +385,7 @@ $language_name = $language["short_code"];
 
 
 <div class="modal fade" id="evaluation" tabindex="-1" role="dialog" aria-labelledby="evaluation" style="padding-left: 0 !important">
-   <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content modal-media-content">
          <div class="modal-header modal-media-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -312,7 +397,7 @@ $language_name = $language["short_code"];
    </div>
 </div>
 <div class="modal fade" id="homework_docs" tabindex="-1" role="dialog" aria-labelledby="evaluation" style="padding-left: 0 !important">
-   <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content modal-media-content">
          <div class="modal-header modal-media-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -330,6 +415,7 @@ $language_name = $language["short_code"];
                                     <th><?php echo $this->lang->line('name') ?></th>
                                     <th><?php echo $this->lang->line('message') ?></th>
                                     <th><?php echo "File URL Link" ?></th>
+                                    <th class="text-right"><?php echo "Date Submitted" ?></th>
                                     <th class="text-right"><?php echo $this->lang->line('action') ?></th>
                                  </tr>
 
@@ -348,8 +434,71 @@ $language_name = $language["short_code"];
       </div>
    </div>
 </div>
+
+<div class="modal fade" id="document_view_modal" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title"></h4>
+         </div>
+
+         <div class="modal-body">
+            <!-- <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" /> -->
+            <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="document_view_modal_img" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title"></h4>
+         </div>
+
+         <div class="modal-body">
+            <img class="document_img img-content content-responsive" src="">
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="document_view_modal_vid" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title"></h4>
+         </div>
+
+         <div class="modal-body">
+            <video class="document_vid content-responsive" width="640" height="264" controls>
+               <source src="" type="">
+               <!-- <source src="movie.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            Your browser does not support the video tag. -->
+            </video>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div id="image-viewer">
+   <span class="close">&times;</span>
+   <img class="modal-content" id="full-image">
+</div>
 <!-- -->
 <script type="text/javascript">
+   $("#image-viewer .close").click(function() {
+      $('#image-viewer').hide();
+   });
+
    $(document).ready(function() {
 
       var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy']) ?>';
@@ -365,13 +514,26 @@ $language_name = $language["short_code"];
 
    });
 
-   function homework_docs(id) {
+   // function homework_docs(id) {
+   //    $('#homework_docs').modal('show');
+   //    $.ajax({
+   //       url: '<?php echo base_url(); ?>homework/homework_docs/' + id,
+   //       success: function(data) {
+   //          $('#homework_docs_result').html(data);
+
+   //       },
+   //       error: function() {
+   //          alert("Fail")
+   //       }
+   //    });
+   // }
+
+   function homework_docs(id, classid, sectionid) {
       $('#homework_docs').modal('show');
       $.ajax({
-         url: '<?php echo base_url(); ?>homework/homework_docs/' + id,
+         url: '<?php echo base_url(); ?>homework/homework_docs2/' + id + "/" + classid + "/" + sectionid,
          success: function(data) {
             $('#homework_docs_result').html(data);
-
          },
          error: function() {
             alert("Fail")
@@ -837,5 +999,17 @@ $language_name = $language["short_code"];
 
          });
       }
-   })
+   });
+
+   // $(".document_view_btn").click(function() {
+   //    var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
+   //    var file_location = $(this).attr("file_location");
+   //    $(".document_iframe").attr("src", pdfjs + file_location);
+
+   //    $('#document_view_modal').modal({
+   //       backdrop: 'static',
+   //       keyboard: false,
+   //       show: true
+   //    });
+   // });
 </script>

@@ -36,7 +36,7 @@
 
          <table class="table">
             <tr>
-               <th>Zoom Email</th>
+               <th>Level/Section</th>
                <th>Start Class / Reconnect</th>
                <th>Teacher</th>
                <th>Lesson</th>

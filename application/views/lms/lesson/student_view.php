@@ -454,8 +454,8 @@
                         <input type="checkbox" id="allow_view" <?php if ($lesson['allow_view'] == "") {
                                                                   echo "checked";
                                                                } ?> <?php if ($lesson['allow_view'] == "1") {
-                                                                                                                              echo "checked";
-                                                                                                                           } ?> />
+                                                                        echo "checked";
+                                                                     } ?> />
                         <div class="state p-primary">
                            <label>Allow</label>
                         </div>
@@ -857,8 +857,9 @@
                background-color: rgb(210, 206, 206);
                display: block;
                height: 100%;
-               width: 100%;
+               /* width: 100%; */
                padding: 50px;
+               overflow: auto;
             }
          </style>
          <div class="student_view_content">

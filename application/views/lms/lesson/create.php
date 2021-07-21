@@ -935,8 +935,9 @@
                background-color: rgb(210, 206, 206);
                display: block;
                height: 100%;
-               width: 100%;
+               /* width: 95%; */
                padding: 50px;
+               overflow: auto;
             }
          </style>
          <div class="student_view_content">
