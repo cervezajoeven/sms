@@ -415,8 +415,8 @@ $language_name = $language["short_code"];
                                     <th><?php echo $this->lang->line('name') ?></th>
                                     <th><?php echo $this->lang->line('message') ?></th>
                                     <th><?php echo "File URL Link" ?></th>
-                                    <th class="text-right"><?php echo "Date Submitted" ?></th>
-                                    <th class="text-right"><?php echo $this->lang->line('action') ?></th>
+                                    <th><?php echo "Date Submitted" ?></th>
+                                    <th><?php echo $this->lang->line('action') ?></th>
                                  </tr>
 
                               </thead>

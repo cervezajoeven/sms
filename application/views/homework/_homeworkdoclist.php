@@ -9,8 +9,8 @@ foreach ($docs as $value) { ?>
       <td><?php echo $value["lastname"] . ", " . $value['firstname'] . " (" . $value["admission_no"] . ")"; ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["message"])); ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["url_link"])); ?></td>
-      <td class="text-right"><?php echo $value["created_at"]; ?></td>
-      <td class="mailbox-date pull-right">
+      <td><?php echo $value["created_at"]; ?></td>
+      <td>
          <?php if ($value['docs'] != '') { ?>
             <!-- <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php ?>/<?php echo $value['docs']; ?>" title="" data-original-title="Evaluation"><i class="fa fa-eye"></i></a> -->
             <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
