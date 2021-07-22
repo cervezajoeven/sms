@@ -1313,21 +1313,47 @@ $(document).ready(function(){
    $(".upload_form").on("submit",function(e){
       e.preventDefault();
       var upload_url = url+"upload/my_resources/"+lesson_id;
+
+      Swal.fire({
+         title: 'Uploading file please wait...',
+         allowEscapeKey: false,
+         allowOutsideClick: false,
+         // timer: 2000,
+         didOpen: () => {
+           swal.showLoading();
+         }
+      });
+
       $.ajax({
             url: upload_url,
             type: "POST",
             data:  new FormData(this),
             contentType: false,
             cache: false,
-            processData:false,
+            processData:false,            
       
-            success: function(data)
-            {
+            success: function(data) {
+               Swal.close();
+
+               Swal.fire({
+                  icon: 'success',
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Upload Resource',
+                  text: 'Upload successful!',
+                  // footer: '<a href="">Why do I have this issue?</a>'
+                })
+
                console.log(data);
                $("div[portal='my_resources']").click();
             },
             error: function(e){
-               alert("error");
+               Swal.fire({
+                  icon: 'error',
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Upload Resource',
+                  text: 'Uploading failed!'
+                  // footer: '<a href="">Why do I have this issue?</a>'
+                })
             }
       });
    });

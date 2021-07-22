@@ -12,6 +12,7 @@
    <link rel="stylesheet" href="<?php echo $resources . 'font-awesome.min.css' ?>">
    <link rel="stylesheet" href="<?php echo $resources . 'fontawesome/css/all.css' ?>">
    <link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet" />
+   <link rel="stylesheet" href="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.css">
 
    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
@@ -22,6 +23,10 @@
    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
    <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+   <!-- <script src="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.min.js"></script> -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
    <style type="text/css">
       .ql-snow {
