@@ -31,11 +31,9 @@ class Assessment extends General_Controller
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
 
-
       if ($data['role'] == 'admin') {
-
          $this->load->view('layout/header');
-         if ($data['real_role'] == 7) {
+         if ($data['real_role'] == 7 || $data['real_role'] == 1) {
             $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id());
          } else {
             $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());

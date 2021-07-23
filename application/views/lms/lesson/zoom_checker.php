@@ -78,7 +78,7 @@
 
                   <td>
                      <?php if ($zoom_lister_value['conference_id']) : ?>
-                        <a href="<?php echo $zoom_lister_value['join_url'] ?>" target="_blank"><button class="btn btn-default">Join / Observe Meeting</button></a>
+                        <a href="<?php echo $zoom_lister_value['join_url'] ?>" target="_blank"><button class="btn btn-default">Join/Observe Class</button></a>
                      <?php endif; ?>
                   </td>
                </tr>
