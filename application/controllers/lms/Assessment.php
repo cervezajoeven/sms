@@ -543,7 +543,11 @@ class Assessment extends General_Controller
                mkdir(FCPATH . "uploads/lms_assessment/" . $id);
                $folderCreated = true;
             } catch (ErrorException $ex) {
-               echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               // echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+
+               $data['status'] = 'failed';
+               $data['message'] = 'Upload failed!';
+               echo json_encode($data);
             }
          } else
             $folderCreated = true;
@@ -555,13 +559,22 @@ class Assessment extends General_Controller
 
                $this->assessment_model->lms_update("lms_assessment", $data);
 
-               echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               $data['status'] = 'success';
+               $data['message'] = 'Upload Successful!';
+               echo json_encode($data);
             } else {
-               echo "<script>alert('Upload failed!');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               // echo "<script>alert('Upload failed!');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               $data['status'] = 'failed';
+               $data['message'] = 'Upload failed!';
+               echo json_encode($data);
             }
          }
       } else {
-         echo "<script>alert('Only PDF files are allowed');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+         // echo "<script>alert('Only PDF files are allowed');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+         $data['status'] = 'failed';
+         $data['message'] = 'Only PDF files are allowed';
+         echo json_encode($data);
       }
    }
 

@@ -148,26 +148,41 @@
       </div> <!-- /.row -->
    </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script type="text/javascript">
    function duplicate_confirm(url) {
 
-      if (confirm("Are you sure you want to duplicate this assessment?")) {
-         window.location.href = url;
-      }
+      // if (confirm("Are you sure you want to duplicate this assessment?")) {
+      //    window.location.href = url;
+      // }
+      Swal.fire({
+         text: 'Are you sure you want to duplicate this assessment?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            // Swal.fire('Saved!', '', 'success')
+            window.location.href = url;
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+         }
+      })
    }
+
    $(document).ready(function() {
-
-
       $("#btnreset").click(function() {
-
          $("#form1")[0].reset();
       });
-
-
 
       var class_id = $('#class_id').val();
       var section_id = '<?php echo set_value('section_id') ?>';
       getSectionByClass(class_id, section_id);
+
       $(document).on('change', '#class_id', function(e) {
          $('#section_id').html("");
          var class_id = $(this).val();
@@ -264,9 +279,25 @@
    });
 
    function take_quiz(url) {
-      if (confirm("Are you sure you want to take this quiz?")) {
-         window.location.replace(url);
-      }
+      // if (confirm("Are you sure you want to take this quiz?")) {
+      //    window.location.replace(url);
+      // }
+
+      Swal.fire({
+         text: 'Are you sure you want to take this quiz?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            // Swal.fire('Saved!', '', 'success')
+            window.location.replace(url);
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+         }
+      })
    }
 
    function delete_assessment() {

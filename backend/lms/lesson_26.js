@@ -1310,6 +1310,7 @@ $(document).ready(function(){
    $(".upload_input").change(function(){
       $(".upload_form").submit();
    });
+
    $(".upload_form").on("submit",function(e){
       e.preventDefault();
 
@@ -1322,7 +1323,7 @@ $(document).ready(function(){
             allowOutsideClick: false,
             // timer: 2000,
             didOpen: () => {
-            swal.showLoading();
+               swal.showLoading();
             }
          });
 
@@ -1342,7 +1343,7 @@ $(document).ready(function(){
                   Swal.fire({
                      icon: 'success',
                      confirmButtonColor: '#3085d6',
-                     // title: 'Upload Resource',
+                     title: 'Hurray!',
                      text: 'Upload successful!',
                      // footer: '<a href="">Why do I have this issue?</a>'
                   })
@@ -1354,8 +1355,8 @@ $(document).ready(function(){
                   Swal.fire({
                      icon: 'error',
                      confirmButtonColor: '#3085d6',
-                     // title: 'Upload Resource',
-                     text: 'Uploading failed!'
+                     title: 'Ooops!',
+                     text: 'Upload failed!',
                      // footer: '<a href="">Why do I have this issue?</a>'
                   })
                }
@@ -1523,7 +1524,14 @@ $(document).ready(function(){
 
    $(".assign_save").click(function(){
       change_detected();
-      alert("Lesson has been assigned successfully");
+      // alert("Lesson has been assigned successfully");
+      Swal.fire({
+         icon: 'info',
+         confirmButtonColor: '#3085d6',
+         title: "Hurray!",
+         text: 'Lesson has been assigned successfully!'
+         // footer: '<a href="">Why do I have this issue?</a>'
+      })
    });
 
    $(".date_range").change(function(e){
@@ -1583,7 +1591,17 @@ $(document).ready(function(){
       var send_email_notification_url = $("#url").val()+"new_send_email_notification";
       var student_ids = [];
 
-      alert("Sending Email Notifications. You can check the logs on the action button on the lesson lists.");
+      // alert("Sending Email Notifications. You can check the logs on the action button on the lesson lists.");
+      Swal.fire({
+         text: 'Sending Email Notifications. You can check the logs on the action button on the lesson lists.',
+         allowEscapeKey: false,
+         allowOutsideClick: false,
+         // timer: 2000,
+         didOpen: () => {
+            swal.showLoading();
+         }
+      });
+
       $.each(jstree.jstree("get_checked",null,true),function(key,value){
             
             if(value.includes('student')){
@@ -1605,7 +1623,15 @@ $(document).ready(function(){
             success: function(data)
             {
                console.log(data);
-               alert("Emails sent successfully. Emails sent to the guardians may be found in their inboxes or spam folders.");
+               // alert("Emails sent successfully. Emails sent to the guardians may be found in their inboxes or spam folders.");
+               Swal.close();
+               Swal.fire({
+                  icon: 'info',
+                  confirmButtonColor: '#3085d6',
+                  title: "Hurray!",
+                  text: 'Emails sent successfully.',
+                  footer: 'Emails sent to the guardians may be found in their inboxes or spam folders.'
+               })
                // var the_data = JSON.parse(data);
                
             },
