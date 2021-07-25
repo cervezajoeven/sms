@@ -256,7 +256,7 @@
                   <li class="<?php echo set_Topmenu('apply_leave'); ?>"><a href="<?php echo base_url(); ?>user/apply_leave"><i class="fa fa-calendar-times-o ftlayer"></i> <span><?php echo $this->lang->line('apply_leave'); ?></span></a></li>
                <?php }
                if ($this->studentmodule_lib->hasActive('campus_lms')) { ?>
-                  <li class="treeview <?php echo set_Topmenu('Downloads'); ?>">
+                  <li class="treeview <?php echo set_Topmenu('Download Center'); ?>">
                      <a href="#">
                         <i class="fa fa-graduation-cap ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                      </a>
