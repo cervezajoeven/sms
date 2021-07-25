@@ -27,6 +27,8 @@ class Lesson_model extends MY_Model
       $this->db->join("classes", "classes.id = lms_lesson.grade_id", "left");
       $this->db->join("staff", "staff.id = lms_lesson.account_id");
       $this->db->where("lms_lesson.account_id", $account_id);
+
+
       if ($folder == "today") {
          $this->db->where('start_date <=', date('Y-m-d H:i:s'));
          $this->db->where('end_date >=', date('Y-m-d H:i:s'));
@@ -51,6 +53,8 @@ class Lesson_model extends MY_Model
       $this->db->join("subjects", "subjects.id = lms_lesson.subject_id");
       $this->db->join("classes", "classes.id = lms_lesson.grade_id", "left");
       $this->db->join("staff", "staff.id = lms_lesson.account_id");
+      // $this->db->where('published', 1);
+
       if ($folder == "today") {
          $this->db->where('start_date <=', date('Y-m-d H:i:s'));
          $this->db->where('end_date >=', date('Y-m-d H:i:s'));
@@ -81,6 +85,8 @@ class Lesson_model extends MY_Model
       $this->db->join("subjects", "subjects.id = lms_lesson.subject_id");
       $this->db->join("classes", "classes.id = lms_lesson.grade_id", "left");
       $this->db->join("staff", "staff.id = lms_lesson.account_id");
+      // $this->db->where('published', 1);
+
       if ($folder == "today") {
          $this->db->where('start_date <=', date('Y-m-d H:i:s'));
          $this->db->where('end_date >=', date('Y-m-d H:i:s'));
@@ -101,7 +107,7 @@ class Lesson_model extends MY_Model
       if ($lesson_quarter) {
          $this->db->where("lms_lesson.term", $lesson_quarter);
       }
-      print_r($lesson_quarter);
+      // print_r($lesson_quarter);
       $this->db->where('lms_lesson.deleted', 0);
       $this->db->order_by('lms_lesson.start_date', "desc");
       $query = $this->db->get("lms_lesson");
@@ -211,6 +217,8 @@ class Lesson_model extends MY_Model
       $this->db->join("subjects", "subjects.id = lms_lesson.subject_id");
       $this->db->join("classes", "classes.id = lms_lesson.grade_id");
       $this->db->join("staff", "staff.id = lms_lesson.account_id");
+      $this->db->where('published', 1);
+
       if ($folder == "today") {
          $this->db->where('start_date <=', date('Y-m-d H:i:s'));
          $this->db->where('end_date >=', date('Y-m-d H:i:s'));

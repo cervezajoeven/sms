@@ -227,8 +227,8 @@ class Lesson extends General_Controller
       $lesson_name = $_REQUEST['lesson_name'];
       $lesson_subject = $_REQUEST['lesson_subject'];
       $lesson_quarter = $_REQUEST['lesson_quarter'];
-      if ($data['role'] == 'admin') {
 
+      if ($data['role'] == 'admin') {
          $this->load->view('layout/header');
 
          if ($data['real_role'] == "7" || $data['real_role'] == "1") {
@@ -253,10 +253,9 @@ class Lesson extends General_Controller
             $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(), "past");
          }
       } else {
-
-
          $this->load->view('layout/student/header');
          $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(), "past");
+
          foreach ($data['list'] as $key => $value) {
             if ($value['zoom_id']) {
                $zoom_data = $this->lesson_model->lms_get("conferences", $value['zoom_id'], "id")[0];
@@ -1621,5 +1620,27 @@ class Lesson extends General_Controller
 
       $this->load->view('lms/lesson/lesson_attendance', $data);
       $this->load->view('layout/footer');
+   }
+
+   public function publish_lesson($lesson_id)
+   {
+      $data['id'] = $lesson_id;
+      $data['published'] = 1;
+      $this->lesson_model->lms_update("lms_lesson", $data);
+
+      // redirect(site_url() . "lms/lesson/index/");
+      $data['result'] = 'Publish successful!';
+      echo json_encode($data);
+   }
+
+   public function unpublish_lesson($lesson_id)
+   {
+      $data['id'] = $lesson_id;
+      $data['published'] = 0;
+      $this->lesson_model->lms_update("lms_lesson", $data);
+
+      // redirect(site_url() . "lms/lesson/index/");
+      $data['result'] = 'Unpublish successful!';
+      echo json_encode($data);
    }
 }
