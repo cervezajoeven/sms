@@ -332,6 +332,7 @@
 
             </div>
          </div>
+
          <div id="" class="slider close discussion_slider">
 
             <div class="slider_container">
@@ -440,6 +441,61 @@
 
             </div>
          </div>
+
+
+         <ul id="result_container" class="connectedSortable">
+
+            <li class="ui-state-default content search_content content_hidden" result_id="">
+               <!-- <div class="flip-card">
+                  <div class="flip-card-inner">
+                  <div class="flip-card-front">
+
+                     <div class="content_header theme">
+                        <span>Default</span>
+                        <img class="content_close" src="<?php //echo $resources . 'images/close.png' 
+                                                         ?>">
+                     </div>
+                     <div class="content_body">
+                        <div class="download_status_container">
+                        <span>Ready</span>
+                        </div>
+                        <img src="<?php //echo $resources . 'images/website.png' 
+                                    ?>">
+
+                     </div>
+
+                     <div class="content_footer theme">
+                        <textarea>Default Description</textarea>
+                     </div>
+
+                  </div>
+                  <div class="flip-card-back">
+                     <h1>John Doe</h1>
+                     <p>Architect & Engineer</p>
+                     <p>We love that guy</p>
+                  </div>
+                  </div>
+               </div> -->
+
+               <div class="content_header theme">
+                  <span>Default</span>
+                  <img class="content_close" src="<?php echo $resources . 'images/close.png' ?>">
+               </div>
+               <div class="content_body">
+                  <div class="download_status_container">
+                     <span>Ready</span>
+                  </div>
+                  <img src="<?php echo $resources . 'images/website.png' ?>">
+
+               </div>
+
+               <div class="content_footer theme">
+                  <textarea>Default Description</textarea>
+               </div>
+            </li>
+         </ul>
+
+
          <div class="footer" style="width: 100%">
 
             <div class="actions_container">

@@ -560,14 +560,19 @@ class Lesson extends General_Controller
 
    function import($id)
    {
-
+      $date = date('m/d/Y h:i:s a', time());
       $data['id'] = $id;
       $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
       $data['lesson']['account_id'] = $this->general_model->get_account_id();
       $data['lesson']['shared'] = 0;
+      $data['lesson']['lesson_name'] = "(" . $date . ") " . $data['lesson']['lesson_name'];
       unset($data['lesson']['id']);
       unset($data['lesson']['assigned']);
-      $this->lesson_model->lms_create("lms_lesson", $data['lesson']);
+
+      // print_r($data);
+      // die();
+
+      $this->lesson_model->lms_create("lms_lesson", $data['lesson'], false);
       $data['resources'] = site_url('backend/lms/');
       if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
          mkdir(FCPATH . "uploads/lms_lesson/" . $id);

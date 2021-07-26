@@ -321,8 +321,8 @@ function save(){
             Swal.fire({
                icon: 'info',
                confirmButtonColor: '#3085d6',
-               title: 'Hurray!',
-               text: 'Quiz has been saved successfully!',
+               //title: 'Hurray!',
+               title: 'Quiz has been saved successfully!',
                // footer: 'Please use the latest version of chrome or firefox.'
             });
 

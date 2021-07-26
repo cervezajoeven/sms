@@ -1343,8 +1343,8 @@ $(document).ready(function(){
                   Swal.fire({
                      icon: 'success',
                      confirmButtonColor: '#3085d6',
-                     title: 'Hurray!',
-                     text: 'Upload successful!',
+                     // title: 'Hurray!',
+                     title: 'Upload successful!',
                      // footer: '<a href="">Why do I have this issue?</a>'
                   })
 
@@ -1528,8 +1528,8 @@ $(document).ready(function(){
       Swal.fire({
          icon: 'info',
          confirmButtonColor: '#3085d6',
-         title: "Hurray!",
-         text: 'Lesson has been assigned successfully!'
+         // title: "Hurray!",
+         title: 'Lesson has been assigned successfully!'
          // footer: '<a href="">Why do I have this issue?</a>'
       })
    });
@@ -1628,8 +1628,8 @@ $(document).ready(function(){
                Swal.fire({
                   icon: 'info',
                   confirmButtonColor: '#3085d6',
-                  title: "Hurray!",
-                  text: 'Emails sent successfully.',
+                  // title: "Hurray!",
+                  title: 'Emails sent successfully.',
                   footer: 'Emails sent to the guardians may be found in their inboxes or spam folders.'
                })
                // var the_data = JSON.parse(data);

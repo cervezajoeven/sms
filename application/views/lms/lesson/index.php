@@ -132,14 +132,16 @@
                                           <i class="fa fa-envelope"></i>
                                        </a>
                                        <?php if ($list_data['published'] == 1) { ?>
-                                          <!-- <a data-placement="left" href="<?php echo site_url('lms/lesson/unpublish_lesson/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish">
+                                          <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/unpublish_lesson/' . $list_data['id']); 
+                                                                              ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a> -->
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish" onclick="unpublish_lesson('<?php echo $list_data['id'] ?>');">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a>
                                        <?php } else { ?>
-                                          <!-- <a data-placement="left" href="<?php echo site_url('lms/lesson/publish_lesson/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish">
+                                          <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/publish_lesson/' . $list_data['id']); 
+                                                                              ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a> -->
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish" onclick="publish_lesson('<?php echo $list_data['id'] ?>');">
@@ -147,13 +149,23 @@
                                           </a>
                                        <?php } ?>
 
-                                       <a data-placement="left" href="<?php echo site_url('lms/lesson/import/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="return confirm('Are you sure you want to duplicate this lesson?');">
+                                       <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/import/' . $list_data['id']); 
+                                                                           ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="return confirm('Are you sure you want to duplicate this lesson?');">
+                                          <i class="fa fa-files-o"></i>
+                                       </a> -->
+                                       <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="duplicate_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-files-o"></i>
                                        </a>
                                        <a data-placement="left" href="<?php echo site_url('lms/lesson/create/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                           <i class="fa fa-edit"></i>
                                        </a>
-                                       <a data-placement="left" href="<?php echo site_url('lms/lesson/delete/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
+                                       <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/delete/' . $list_data['id']); 
+                                                                           ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php //echo $this->lang->line('delete'); 
+                                                                                                                                             ?>" onclick="return confirm('<?php //echo $this->lang->line('delete_confirm') 
+                                                                                                                                                                           ?>');">
+                                          <i class="fa fa-remove"></i>
+                                       </a> -->
+                                       <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="delete_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-remove"></i>
                                        </a>
                                     <?php elseif ($role == "student") : ?>
@@ -369,6 +381,8 @@
    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
    var table = $('#myTable').DataTable();
    var attendance_table = $('#attendance_table').DataTable();
@@ -476,25 +490,119 @@
 
    function unpublish_lesson(lesson_id) {
       var url = "<?php echo base_url('lms/lesson/unpublish_lesson/'); ?>" + lesson_id;
-      $.ajax({
-         url: url,
-         method: "POST",
-      }).done(function(data) {
-         var parsed_data = JSON.parse(data);
-         alert(parsed_data.result);
-         location.reload();
+      Swal.fire({
+         title: "Unpublish Lesson",
+         text: 'Are you sure you wan\'t to unpublish this lesson?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               // alert(parsed_data.result);
+               // location.reload();
+               Swal.fire({
+                  icon: 'success',
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: parsed_data.result,
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+            Swal.close();
+         }
       });
    }
 
    function publish_lesson(lesson_id) {
       var url = "<?php echo base_url('lms/lesson/publish_lesson/'); ?>" + lesson_id;
-      $.ajax({
-         url: url,
-         method: "POST",
-      }).done(function(data) {
-         var parsed_data = JSON.parse(data);
-         alert(parsed_data.result);
-         location.reload();
+
+      Swal.fire({
+         title: "Publish Lesson",
+         text: 'Are you sure you wan\'t to publish this lesson?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               // alert(parsed_data.result);
+               // location.reload();
+               Swal.fire({
+                  icon: 'success',
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: parsed_data.result,
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+            Swal.close();
+         }
+      });
+
+   }
+
+   function duplicate_lesson(lesson_id) {
+      var url = "<?php echo base_url('lms/lesson/import/'); ?>" + lesson_id;
+
+      // Are you sure you want to duplicate this lesson?
+      Swal.fire({
+         title: "Duplicate Lesson",
+         text: 'Are you sure you wan\'t to duplicate this lesson?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            // Swal.fire('Saved!', '', 'success')
+            window.location.href = url;
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+         }
+      });
+   }
+
+   function delete_lesson(lesson_id) {
+      var url = "<?php echo base_url('lms/lesson/delete/'); ?>" + lesson_id;
+
+      // Are you sure you want to duplicate this lesson?
+      Swal.fire({
+         title: "Delete Lesson",
+         text: 'Are you sure you wan\'t to delete this lesson?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            // Swal.fire('Saved!', '', 'success')
+            window.location.href = url;
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+         }
       });
    }
 </script>

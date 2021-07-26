@@ -304,8 +304,8 @@
                Swal.fire({
                   icon: 'success',
                   confirmButtonColor: '#3085d6',
-                  title: 'Hurray!',
-                  text: 'Upload successful!',
+                  // title: 'Hurray!',
+                  title: 'Upload successful!',
                   // footer: '<a href="">Why do I have this issue?</a>'
                }).then(function() {
                   location.reload();
