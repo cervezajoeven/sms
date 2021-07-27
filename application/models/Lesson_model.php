@@ -188,6 +188,7 @@ class Lesson_model extends MY_Model
       $this->db->where("lms_lesson.shared", "1");
       $this->db->where('deleted', 0);
       $this->db->order_by('lms_lesson.date_created', 'asc');
+      $this->db->limit(2000);
       $query = $this->db->get("lms_lesson");
 
       $result = $query->result_array();
