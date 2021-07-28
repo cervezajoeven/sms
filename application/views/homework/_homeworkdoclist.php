@@ -24,7 +24,7 @@ foreach ($docs as $value) {
                strpos(strtoupper($value['docs']), ".XLSX") !== false || strpos(strtoupper($value['docs']), ".PPTX") !== false
             ) { ?>
 
-               <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+               <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>uploads/homework/assignment/<?php echo $value['docs']; ?>&embedded=true" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
             <?php } else { ?>
                <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
             <?php } ?>
