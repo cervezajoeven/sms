@@ -4,18 +4,30 @@ function displayTextWithLinks($s)
    return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a target=_blank href="$1">$1</a>', $s);
 }
 
-foreach ($docs as $value) { ?>
+foreach ($docs as $value) {
+   print_r($value['docs']);
+?>
    <tr>
       <!-- <td><?php //echo $value["lastname"] . ", " . $value['firstname'] . " (" . $value["admission_no"] . ")"; 
                ?></td> -->
       <td><?php echo $value["lastname"] . ", " . $value['firstname']; ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["message"])); ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["url_link"])); ?></td>
+
       <td><?php echo $value["created_at"]; ?></td>
       <td>
          <?php if ($value['docs'] != '') { ?>
             <!-- <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php ?>/<?php echo $value['docs']; ?>" title="" data-original-title="Evaluation"><i class="fa fa-eye"></i></a> -->
-            <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+            <?php if (
+               strpos(strtoupper($value['docs']), ".DOC") !== false || strpos(strtoupper($value['docs']), ".XLS") !== false ||
+               strpos(strtoupper($value['docs']), ".PPT") !== false || strpos(strtoupper($value['docs']), ".DOCX") !== false ||
+               strpos(strtoupper($value['docs']), ".XLSX") !== false || strpos(strtoupper($value['docs']), ".PPTX") !== false
+            ) { ?>
+
+               <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+            <?php } else { ?>
+               <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+            <?php } ?>
             <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
          <?php } ?>
 
