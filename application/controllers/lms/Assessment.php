@@ -271,55 +271,6 @@ class Assessment extends General_Controller
       }
    }
 
-   public function duplicate($id)
-   {
-      if ($id) {
-         $assessment = $this->assessment_model->lms_get('lms_assessment', $id, "id")[0];
-         $duplicated = $assessment;
-         $duplicated['assessment_name'] = $assessment['assessment_name'] . " (" . date("F d, Y h:i A") . ")";
-         $duplicated['assigned'] = "";
-         $duplicated['assessment_file'] = $assessment['assessment_file'];
-         unset($duplicated['id']);
-         unset($duplicated['date_created']);
-         unset($duplicated['date_updated']);
-         unset($duplicated['date_read']);
-         unset($duplicated['date_deleted']);
-
-         $newAssessmentID = $this->assessment_model->lms_create('lms_assessment', $duplicated, FALSE);
-
-         $this->copyQuestionaire($id, $newAssessmentID, $assessment['assessment_file']);
-
-         redirect(site_url('lms/assessment/index'));
-      }
-   }
-
-   public function copyQuestionaire($oldAssessmentID, $newAssessmentID, $file_name)
-   {
-      $folderCreated = false;
-
-      if (!is_dir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID)) {
-         try {
-            mkdir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID);
-            $folderCreated = true;
-         } catch (ErrorException $ex) {
-            echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
-         }
-      } else
-         $folderCreated = true;
-
-      $source = FCPATH . "uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
-      $dest = FCPATH . "uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
-
-      if ($folderCreated == true) {
-         copy($source, $dest);
-
-         $data['id'] = $newAssessmentID;
-         $data['assessment_file'] = $file_name;
-         $this->assessment_model->lms_update("lms_assessment", $data);
-         // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
-      }
-   }
-
    public function assigned()
    {
 
@@ -578,13 +529,82 @@ class Assessment extends General_Controller
       }
    }
 
+   public function duplicate($id)
+   {
+      if ($id) {
+         $assessment = $this->assessment_model->lms_get('lms_assessment', $id, "id")[0];
+         $duplicated = $assessment;
+         $duplicated['assessment_name'] = $assessment['assessment_name'] . " (" . date("F d, Y h:i A") . ")";
+         $duplicated['assigned'] = "";
+         $duplicated['assessment_file'] = $assessment['assessment_file'];
+         unset($duplicated['id']);
+         unset($duplicated['date_created']);
+         unset($duplicated['date_updated']);
+         unset($duplicated['date_read']);
+         unset($duplicated['date_deleted']);
+
+         $newAssessmentID = null;
+
+         $newAssessmentID = $this->assessment_model->lms_create('lms_assessment', $duplicated, FALSE);
+
+         if ($newAssessmentID != null) {
+            $this->copyQuestionaire($id, $newAssessmentID, $assessment['assessment_file']);
+
+            $data['result'] = 'success';
+            $data['message'] = 'Duplicate successful!';
+         } else {
+            $data['result'] = 'error';
+            $data['message'] = 'Duplicate failed!';
+         }
+
+         echo json_encode($data);
+
+         // redirect(site_url('lms/assessment/index'));
+      }
+   }
+
+   public function copyQuestionaire($oldAssessmentID, $newAssessmentID, $file_name)
+   {
+      $folderCreated = false;
+
+      if (!is_dir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID)) {
+         try {
+            mkdir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID);
+            $folderCreated = true;
+         } catch (ErrorException $ex) {
+            echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+         }
+      } else
+         $folderCreated = true;
+
+      $source = FCPATH . "uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
+      $dest = FCPATH . "uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
+
+      if ($folderCreated == true) {
+         copy($source, $dest);
+
+         $data['id'] = $newAssessmentID;
+         $data['assessment_file'] = $file_name;
+         $this->assessment_model->lms_update("lms_assessment", $data);
+         // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+      }
+   }
+
    public function delete($id)
    {
       $data['id'] = $id;
       $data['deleted'] = 1;
+
       if ($this->assessment_model->lms_update("lms_assessment", $data)) {
-         redirect(site_url("lms/assessment/index"));
+         // redirect(site_url("lms/assessment/index"));
+         $data['result'] = 'success';
+         $data['message'] = 'Delete successful!';
+      } else {
+         $data['result'] = 'error';
+         $data['message'] = 'Delete failed!';
       }
+
+      echo json_encode($data);
    }
 
    public function answer_submit()

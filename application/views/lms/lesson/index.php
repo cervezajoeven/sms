@@ -568,7 +568,7 @@
       // Are you sure you want to duplicate this lesson?
       Swal.fire({
          title: "Duplicate Lesson",
-         text: 'Are you sure you wan\'t to duplicate this lesson?',
+         text: 'Are you sure you want to duplicate this lesson?',
          showCancelButton: true,
          confirmButtonText: `Yes`,
          confirmButtonColor: '#3085d6',
@@ -576,8 +576,32 @@
       }).then((result) => {
          /* Read more about isConfirmed, isDenied below */
          if (result.isConfirmed) {
-            // Swal.fire('Saved!', '', 'success')
-            window.location.href = url;
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               Swal.fire({
+                  icon: 'success',
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: "Duplicate successful",
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
+
+            // Swal.fire({
+            //    icon: 'success',
+            //    confirmButtonColor: '#3085d6',
+            //    // title: 'Hurray!',
+            //    title: "Duplicate successful",
+            //    // footer: '<a href="">Why do I have this issue?</a>'
+            // }).then(function() {
+            //    window.location.href = url;
+            //    // location.reload();
+            // });
          } else if (result.isDenied) {
             // Swal.fire('Changes are not saved', '', 'info')
          }
@@ -590,7 +614,7 @@
       // Are you sure you want to duplicate this lesson?
       Swal.fire({
          title: "Delete Lesson",
-         text: 'Are you sure you wan\'t to delete this lesson?',
+         text: 'Are you sure you want to delete this lesson?',
          showCancelButton: true,
          confirmButtonText: `Yes`,
          confirmButtonColor: '#3085d6',
@@ -598,8 +622,21 @@
       }).then((result) => {
          /* Read more about isConfirmed, isDenied below */
          if (result.isConfirmed) {
-            // Swal.fire('Saved!', '', 'success')
-            window.location.href = url;
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               Swal.fire({
+                  icon: 'success',
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: "Delete successful",
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
          } else if (result.isDenied) {
             // Swal.fire('Changes are not saved', '', 'info')
          }

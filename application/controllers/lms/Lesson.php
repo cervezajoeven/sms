@@ -579,7 +579,12 @@ class Lesson extends General_Controller
          mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
          mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
       }
-      redirect(site_url() . "lms/lesson/index/" . $id);
+
+      $data['result'] = 'success';
+      $data['message'] = 'Import successful!';
+      echo json_encode($data);
+
+      // redirect(site_url() . "lms/lesson/index/" . $id);
       // $this->load->view('lms/lesson/show', $data);
 
    }
@@ -971,8 +976,10 @@ class Lesson extends General_Controller
       $data['deleted'] = 1;
       $this->lesson_model->lms_update("lms_lesson", $data);
 
-
-      redirect(site_url() . "lms/lesson/index/");
+      $data['result'] = 'success';
+      $data['message'] = 'Delete successful!';
+      echo json_encode($data);
+      // redirect(site_url() . "lms/lesson/index/");
    }
 
    public function retrieve($id)

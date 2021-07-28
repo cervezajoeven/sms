@@ -51,18 +51,19 @@
                                  <td class="mailbox-date pull-right">
                                     <?php if ($role == "admin") : ?>
 
-                                       <a data-placement="right" href="#" class="btn btn-default btn-xs duplicate" onclick="duplicate_confirm('<?php echo site_url('lms/assessment/duplicate/' . $list_data['id']) ?>')" data-toggle="tooltip" title="Duplicate">
-                                          <i class="fa fa-files-o"></i>
-                                       </a>
-
                                        <a data-placement="right" href="<?php echo site_url('lms/assessment/reports/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Reports">
                                           <i class="fa fa-file"></i>
+                                       </a>
+
+                                       <a data-placement="right" href="#" class="btn btn-default btn-xs duplicate" onclick="duplicate_confirm('<?php echo site_url('lms/assessment/duplicate/' . $list_data['id']) ?>')" data-toggle="tooltip" title="Duplicate">
+                                          <i class="fa fa-files-o"></i>
                                        </a>
 
                                        <a data-placement="left" href="<?php echo site_url('lms/assessment/edit/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                           <i class="fa fa-edit"></i>
                                        </a>
-                                       <a data-placement="left" href="<?php echo site_url('lms/assessment/delete/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');">
+
+                                       <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="delete_confirm('<?php echo site_url('lms/assessment/delete/' . $list_data['id']); ?>')">
                                           <i class="fa fa-remove"></i>
                                        </a>
 
@@ -158,6 +159,7 @@
       //    window.location.href = url;
       // }
       Swal.fire({
+         title: 'Duplicate Assessment',
          text: 'Are you sure you want to duplicate this assessment?',
          showCancelButton: true,
          confirmButtonText: `Yes`,
@@ -166,8 +168,53 @@
       }).then((result) => {
          /* Read more about isConfirmed, isDenied below */
          if (result.isConfirmed) {
-            // Swal.fire('Saved!', '', 'success')
-            window.location.href = url;
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               Swal.fire({
+                  icon: parsed_data.result,
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: parsed_data.message,
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+         }
+      })
+   }
+
+   function delete_confirm(url) {
+      Swal.fire({
+         title: 'Delete Assessment',
+         text: 'Are you sure you want to delete this assessment?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               Swal.fire({
+                  icon: parsed_data.result,
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: parsed_data.message,
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
          } else if (result.isDenied) {
             // Swal.fire('Changes are not saved', '', 'info')
          }
