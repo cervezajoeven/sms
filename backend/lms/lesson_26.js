@@ -22,12 +22,13 @@ $(document).ready(function(){
    var role = $("#role").val();
    var role2 = $("#role").val();
    var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
-   var folder_names = "Engage,Explore,Explain,Explain,Explore";
+   // var folder_names = "Engage,Explore,Explain,Explain,Explore";
+   var folder_names = "Introduction,Lesson Proper,Formative Assessment";
    var youtube_looper = 0;
    var google_looper = 0;
 
    if(education_level=="tertiary"){
-      folder_names = "Introduction,Lesson Proper,Examination";
+      folder_names = "Introduction,Lesson Proper,Formative Assessment";
       folders = "#folder_1,#folder_2,#folder_3";
    }
    var the_learning_plan = tinymce.init({
@@ -372,8 +373,10 @@ $(document).ready(function(){
       content_order = [];
       $.each($(".folder_contents"),function(key,ul) {
 
-            $.each($(ul).find("li"),function(li_key,li_value){
-               content_order.push($(li_value).attr("result_id"));
+            $.each($(ul).find("li"),function(li_key,li_value) {
+
+               if ($(li_value).attr("result_id") != undefined)
+                  content_order.push($(li_value).attr("result_id"));
             });
       });
       change_detected();
@@ -627,9 +630,12 @@ $(document).ready(function(){
       var end_order = content_order.length-1;
       var current_order = get_current_order();
       
-      if(current_order<end_order){
+      if(current_order<end_order) {
             var next_order = current_order+1;
             active_content_data = get_content_data(content_order[next_order]);
+
+            // if (active_content_data == undefined) get_next();
+
             active_content = content_order[next_order];
             render_student_view();
       }else{
@@ -658,6 +664,7 @@ $(document).ready(function(){
             new_slide.find("img").attr("src",new_slide_data);
             $(".student_view_slides").append(new_slide);
       });
+
       check_active_thumbnail();
    }
 
@@ -759,7 +766,8 @@ $(document).ready(function(){
             allow_view:allow_view,
             learning_plan:tinymce.get('the_learning_plan').getContent(),
             assigned:student_ids.join(','),
-            folder_names:"Engage,Explore,Explain,Extend,LAS",
+            // folder_names:"Engage,Explore,Explain,Extend,LAS",
+            folder_names:"Introduction,Lesson Proper,Formative Assessment",            
             subject_id:subject_id,
             grade_id:grade_id,
             education_level:education_level,
