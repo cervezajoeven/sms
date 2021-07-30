@@ -424,7 +424,11 @@ class Assessment extends General_Controller
       $this->db->where("id", $assessment_sheet_id);
       $this->db->delete("lms_assessment_sheets");
 
-      redirect(site_url('lms/assessment/reports/' . $assessment_sheet_data['assessment_id']));
+      // redirect(site_url('lms/assessment/reports/' . $assessment_sheet_data['assessment_id']));
+
+      $data['result'] = 'success';
+      $data['message'] = 'The student may now retake the exam';
+      echo json_encode($data);
    }
 
    public function update()

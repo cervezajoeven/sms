@@ -160,3 +160,4 @@
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
 <script type="text/javascript" src="<?php echo $resources . 'answer_11.js' ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

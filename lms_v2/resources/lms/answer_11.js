@@ -434,10 +434,19 @@ function auto_save() {
     }		
 }
 $(".submit").click(function() {
-	if(confirm("Are you sure you want to submit this quiz?")) {
-		var json = [];
+   Swal.fire({
+      title: 'Submit Answer',
+      text: 'Are you sure you want to submit your answers?',
+      // footer: 'This will reset his answers and timer on the latest attempt.',
+      showCancelButton: true,
+      confirmButtonText: `Yes`,
+      confirmButtonColor: '#3085d6',
+      icon: 'question',
+   }).then((result) => {
+      var json = [];
 		var options = $(".option-container-actual");
-		$.each(options,function(key,value) {
+
+      $.each(options,function(key,value) {
 			var the_option_type = $(value).attr("option_type");
 
 			if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer") {
@@ -475,34 +484,127 @@ $(".submit").click(function() {
 			}
 			json.push(option_json);
 		});
-		
-        final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
 
-		if (final_json.length === 0) {
-			alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
-		}
-        else {
-            set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
+      final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
+
+      if (final_json.length === 0) {
+			// alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
+         Swal.fire({
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            title: 'Oops!',
+            text: 'There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.',
+            // footer: '<a href="">Why do I have this issue?</a>'
+         });
+		} else {
+         set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
 
 			$.ajax({
 			    url: site_url+'answer_submit',
 			    type: "POST",
 			    data: final_json,
 			    complete: function(response) {
-                    // remove_local_data(assessment_id + "_" + assessment_sheet_id);
-                    if (response.responseText != "") {
-                        localStorage.clear();
-                        console.log(response.responseText);
-                        alert("Quiz has been successfully submitted!");
-                        window.location.replace(old_url+'review/'+assessment_id);
-                    }
-                    else {
-                        alert("Oops! There seems to be a problem submitting your answers. Please try to submit again.");
-                    }                    
+               // remove_local_data(assessment_id + "_" + assessment_sheet_id);
+               if (response.responseText != "") {
+                  localStorage.clear();
+                  console.log(response.responseText);
+
+                  // alert("Quiz has been successfully submitted!");
+                  // window.location.replace(old_url+'review/'+assessment_id);
+                  Swal.fire({
+                     icon: 'success',
+                     confirmButtonColor: '#3085d6',
+                     title: 'Successful!',
+                     text: 'Your answers has been successfully submitted!',
+                     // footer: '<a href="">Why do I have this issue?</a>'
+                  }).then(function() {
+                     window.location.replace(old_url+'review/'+assessment_id);
+                  });
+               }
+               else {
+                  // alert("Oops! There seems to be a problem submitting your answers. Please try to submit again.");
+                  Swal.fire({
+                     icon: 'error',
+                     confirmButtonColor: '#3085d6',
+                     title: 'Oops!',
+                     text: 'There seems to be a problem submitting your answers. Please try to submit again.',
+                     // footer: '<a href="">Why do I have this issue?</a>'
+                  });
+               }                    
 			    }
 			});
-		}		
-	}
+		}
+   });
+
+	// if(confirm("Are you sure you want to submit this quiz?")) {
+	// 	var json = [];
+	// 	var options = $(".option-container-actual");
+	// 	$.each(options,function(key,value) {
+	// 		var the_option_type = $(value).attr("option_type");
+
+	// 		if(the_option_type=="multiple_choice"||the_option_type=="multiple_answer") {
+	// 			var answer_val = [];
+	// 			$.each($(value).find(".option"),function(option_key,option_value){
+
+	// 				 if($(option_value).find(".option_type").find("input").eq(0).is(':checked')){
+	// 				 	answer_val.push("1");
+	// 				 }else{
+	// 				 	answer_val.push("0");
+	// 				 }
+	// 			});
+
+	// 			option_json = {
+	// 				"type":the_option_type,
+	// 				"answer":answer_val.join(","),
+	// 			};
+
+	// 		} 
+   //          else if(the_option_type=="short_answer") {
+
+	// 			var short_answer_val = $(value).find(".option").find("input").eq(0).val();
+
+	// 			option_json = {
+	// 				"type":the_option_type,
+	// 				"answer": short_answer_val,
+	// 			};
+	// 		}
+   //          else {
+	// 			var answer_val = $(value).find(".option").find("textarea").eq(0).val();
+	// 			option_json = {
+	// 				"type":the_option_type,
+	// 				"answer":answer_val,
+	// 			};
+	// 		}
+	// 		json.push(option_json);
+	// 	});
+		
+   //      final_json = {id:assessment_sheet_id,assessment_id:assessment_id,answer:JSON.stringify(json)};
+
+	// 	if (final_json.length === 0) {
+	// 		alert("There seems to have a problem on saving using this device or browser. Please use the latest version of the browser.");
+	// 	}
+   //      else {
+   //          set_local_data(assessment_id + "_" + assessment_sheet_id, JSON.stringify(json));
+
+	// 		$.ajax({
+	// 		    url: site_url+'answer_submit',
+	// 		    type: "POST",
+	// 		    data: final_json,
+	// 		    complete: function(response) {
+   //                  // remove_local_data(assessment_id + "_" + assessment_sheet_id);
+   //                  if (response.responseText != "") {
+   //                      localStorage.clear();
+   //                      console.log(response.responseText);
+   //                      alert("Quiz has been successfully submitted!");
+   //                      window.location.replace(old_url+'review/'+assessment_id);
+   //                  }
+   //                  else {
+   //                      alert("Oops! There seems to be a problem submitting your answers. Please try to submit again.");
+   //                  }                    
+	// 		    }
+	// 		});
+	// 	}		
+	// }
 });
 
 
