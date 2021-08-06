@@ -139,9 +139,12 @@ class Lesson_model extends MY_Model
       $this->db->join("classes", "classes.id = lms_lesson.grade_id", "left");
       $this->db->join("staff", "staff.id = " . $account_id);
       $this->db->where('lms_lesson.deleted', 1);
+      $this->db->where("lms_lesson.account_id", $account_id);
       $this->db->order_by('lms_lesson.start_date', "desc");
       $query = $this->db->get("lms_lesson");
 
+      // print_r($this->db->last_query());
+      // die();
       $result = $query->result_array();
       return $result;
    }
@@ -218,6 +221,7 @@ class Lesson_model extends MY_Model
       $this->db->join("subjects", "subjects.id = lms_lesson.subject_id");
       $this->db->join("classes", "classes.id = lms_lesson.grade_id");
       $this->db->join("staff", "staff.id = lms_lesson.account_id");
+      // $this->db->join("staff", "staff.id = '" . $account_id . "'");
       $this->db->where('published', 1);
 
       if ($folder == "today") {
@@ -234,7 +238,8 @@ class Lesson_model extends MY_Model
       $this->db->order_by('lms_lesson.start_date', "desc");
       $query = $this->db->get("lms_lesson");
 
-      // print_r($this->db->last_query());die();
+      // print_r($this->db->last_query());
+      // die();
       $result = $query->result_array();
       return $result;
    }
@@ -304,5 +309,47 @@ class Lesson_model extends MY_Model
       $query = $this->db->get("lms_cms_resources");
       $result = $query->result_array();
       return $result;
+   }
+
+   public function get_subject_timetable($gradelevel)
+   {
+      $subject_condition = "";
+      $userdata = $this->customlib->getUserData();
+      $role_id = $userdata["role_id"];
+
+      if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+         if ($userdata["class_teacher"] == 'yes') {
+
+            $my_classes = $this->teacher_model->my_classes($userdata['id']);
+
+            if (!empty($my_classes)) {
+               if (in_array($gradelevel, $my_classes)) {
+                  $subject_condition = "";
+               } else {
+
+                  // $my_subjects = $this->teacher_model->get_subjectby_classid($class_id, $section_id, $userdata['id']);
+                  // $subject_condition = " and subject_group_subjects.id in(" . $my_subjects['subject'] . ")";
+                  $subject_condition = " and subject_timetable.staff_id = " . $userdata['id'];
+               }
+            } else {
+               // $my_subjects = $this->teacher_model->get_subjectby_classid($class_id, $section_id, $userdata['id']);
+               // $subject_condition = " and subject_group_subjects.id in(" . $my_subjects['subject'] . ")";
+               $subject_condition = " and subject_timetable.staff_id = " . $userdata['id'];
+            }
+         }
+      }
+
+      $subject_condition = $subject_condition . " and staff.is_active=1";
+
+      $sql = "SELECT `subject_group_subjects`.`subject_id`,subjects.name as `subject_name`,subjects.code,subjects.type,staff.name,staff.surname,staff.employee_id,`subject_timetable`.* 
+              FROM `subject_timetable` 
+              JOIN `subject_group_subjects` ON `subject_timetable`.`subject_group_subject_id` = `subject_group_subjects`.`id` 
+              inner JOIN subjects on subject_group_subjects.subject_id = subjects.id 
+              INNER JOIN staff on staff.id=subject_timetable.staff_id 
+              WHERE `subject_timetable`.`class_id` = " . $gradelevel .
+         " AND `subject_timetable`.`session_id` = " . $this->current_session . " " . $subject_condition;
+
+      $query = $this->db->query($sql);
+      return $query->result();
    }
 }

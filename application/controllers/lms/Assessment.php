@@ -548,7 +548,6 @@ class Assessment extends General_Controller
          unset($duplicated['date_deleted']);
 
          $newAssessmentID = null;
-
          $newAssessmentID = $this->assessment_model->lms_create('lms_assessment', $duplicated, FALSE);
 
          if ($newAssessmentID != null) {

@@ -10,6 +10,8 @@ class Homework_model extends MY_model
    public function __construct()
    {
       parent::__construct();
+      $this->load->model('general_model');
+
       $this->current_session = $this->setting_model->getCurrentSession();
       $this->writedb = $this->load->database('write_db', TRUE);
    }
@@ -114,10 +116,11 @@ class Homework_model extends MY_model
    {
       $sql   = "select * from
                (
-               select students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at
+               select students.id, students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at, submit_assignment.homework_id, homework_evaluation.score, homework_evaluation.remarks, student_session.id as session_id
                from students
                join student_session on student_session.student_id = students.id
                left join submit_assignment on submit_assignment.student_id = students.id
+               left join homework_evaluation on homework_evaluation.homework_id = submit_assignment.homework_id
                where student_session.class_id = $classid
                and student_session.section_id = $sectionid
                and student_session.session_id = $sessionid
@@ -125,17 +128,17 @@ class Homework_model extends MY_model
                
                union 
                
-               select students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at
+               select students.id, students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at, submit_assignment.homework_id, homework_evaluation.score, homework_evaluation.remarks, student_session.id as session_id
                from students
                left join student_session on student_session.student_id = students.id
                left join submit_assignment on submit_assignment.student_id = students.id
+               left join homework_evaluation on homework_evaluation.homework_id = submit_assignment.homework_id
                where submit_assignment.homework_id = $homework_id
                and student_session.class_id = $classid
                and student_session.section_id = $sectionid
                and student_session.session_id = $sessionid
                ) tbl
                order by lastname";
-      // print_r($sql);
       // print_r($sql);
       // die();
       $query = $this->db->query($sql);
@@ -184,10 +187,23 @@ class Homework_model extends MY_model
 
    public function getStudents($id)
    {
-      $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,IFNULL(homework_evaluation.score,0) as homework_evaluation_score,IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks,student_session.*,students.firstname,students.lastname,students.admission_no from student_session inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($id) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id inner join students on students.id=student_session.student_id and students.is_active='yes' left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($id) . "   order by students.id desc";
+      $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,IFNULL(homework_evaluation.score,0) as homework_evaluation_score,IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks,student_session.*,students.firstname,students.lastname,students.admission_no from student_session inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($id) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id inner join students on students.id=student_session.student_id and students.is_active='yes' left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($id) . "   order by students.lastname asc";
 
       // $sql = "select students.id,students.firstname,students.lastname,students.admission_no from students where students.id in (select student_session.student_id from student_session where student_session.class_id = " . $this->db->escape($class_id) . " and student_session.section_id = " . $this->db->escape($section_id) . " GROUP by student_session.student_id and student_session.session_id=$this->current_session) and students.is_active = 'yes'";
       $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result_array();
+   }
+
+   public function getStudentHomeworkEval($homeworkid, $studentid)
+   {
+      $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,IFNULL(homework_evaluation.score,0) as homework_evaluation_score,IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks,student_session.*,students.firstname,students.lastname,students.admission_no from student_session inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($homeworkid) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id inner join students on students.id=student_session.student_id and students.is_active='yes' left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($homeworkid) . " where student_session.student_id = " . $this->db->escape($studentid) . " order by students.lastname asc";
+
+      // $sql = "select students.id,students.firstname,students.lastname,students.admission_no from students where students.id in (select student_session.student_id from student_session where student_session.class_id = " . $this->db->escape($class_id) . " and student_session.section_id = " . $this->db->escape($section_id) . " GROUP by student_session.student_id and student_session.session_id=$this->current_session) and students.is_active = 'yes'";
+      $query = $this->db->query($sql);
+      print_r($this->db->last_query());
+      die();
       return $query->result_array();
    }
 
@@ -217,7 +233,7 @@ class Homework_model extends MY_model
       }
    }
 
-   public function addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by, $score_array = array(), $remarks_array = array())
+   public function addEvaluations($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by, $score_array = array(), $remarks_array = array())
    {
       $this->writedb->trans_start(); # Starting Transaction
       $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
@@ -237,6 +253,44 @@ class Homework_model extends MY_model
             $insert_prev[] = $this->writedb->insert_id();
          }
       }
+      $this->writedb->where('homework_id', $homework_id);
+      $this->writedb->where_not_in('id', $insert_prev);
+      $this->writedb->delete('homework_evaluation');
+      //======================Code End==============================
+      $this->writedb->trans_complete(); # Completing transaction
+      /* Optional */
+      if ($this->writedb->trans_status() === false) {
+         # Something went wrong.
+         $this->writedb->trans_rollback();
+         return false;
+      } else {
+         return true;
+      }
+   }
+
+   public function addEvaluation($homework_id, $student_session_id, $score, $remarks)
+   {
+      $this->writedb->trans_start(); # Starting Transaction
+      $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
+      //=======================Code Start===========================
+
+      $evaluation_date = $this->customlib->dateFormatToYYYYMMDD(date("Y/m/d H:i:s"));
+      $evaluated_by = $this->customlib->getStaffID();
+
+      $homework = array('evaluation_date' => $evaluation_date, 'evaluated_by' => $evaluated_by);
+      $this->writedb->where("id", $homework_id)->update("homework", $homework);
+
+      $insert_student = array(
+         'homework_id' => $homework_id,
+         'student_session_id' => $student_session_id,
+         'score' =>  $score,
+         'remarks' => $remarks,
+         'status' => 'Complete',
+      );
+
+      $this->writedb->insert("homework_evaluation", $insert_student);
+      $insert_prev[] = $this->writedb->insert_id();
+
       $this->writedb->where('homework_id', $homework_id);
       $this->writedb->where_not_in('id', $insert_prev);
       $this->writedb->delete('homework_evaluation');

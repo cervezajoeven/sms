@@ -5,7 +5,7 @@ function displayTextWithLinks($s)
 }
 
 foreach ($docs as $value) {
-   print_r($value['docs']);
+   // print_r($value['docs']);
 ?>
    <tr>
       <!-- <td><?php //echo $value["lastname"] . ", " . $value['firstname'] . " (" . $value["admission_no"] . ")"; 
@@ -15,7 +15,9 @@ foreach ($docs as $value) {
       <td><?php echo displayTextWithLinks(strip_tags($value["url_link"])); ?></td>
 
       <td><?php echo $value["created_at"]; ?></td>
-      <td>
+      <td><?php echo $value["score"]; ?></td>
+      <td><?php echo $value["remarks"]; ?></td>
+      <td class="text-right">
          <?php if ($value['docs'] != '') { ?>
             <!-- <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php ?>/<?php echo $value['docs']; ?>" title="" data-original-title="Evaluation"><i class="fa fa-eye"></i></a> -->
             <?php if (
@@ -29,41 +31,25 @@ foreach ($docs as $value) {
                <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
             <?php } ?>
             <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+            <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
          <?php } ?>
 
 
       </td>
    </tr>
-<?php }
-?>
-
-<!-- <div class="modal fade" id="document_view_modal" role="dialog">
-   <div class="modal-dialog" style="width: 100%;">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title"></h4>
-         </div>
-
-         <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" />
-         <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
-
-      </div>
-   </div>
-</div> -->
+<?php } ?>
 
 <script type="text/javascript">
-   // $(".document_view_btn").click(function() {
-   //    var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
-   //    var file_location = $(this).attr("file_location");
-   //    $(".document_iframe").attr("src", pdfjs + file_location);
-
-   //    $('#document_view_modal').modal({
-   //       backdrop: 'static',
-   //       keyboard: false,
-   //       show: true
-   //    });
-   // });
+   $(".evaluatebtn").click(function() {
+      $("#eval_student").html($(this).attr("student-name"));
+      $("#student_session_id").attr("value", $(this).attr("student-session-id"));
+      $("#homework_id").attr("value", $(this).attr("homework-id"));
+      $('#evaluate_student').modal({
+         backdrop: 'static',
+         keyboard: false,
+         show: true
+      });
+   });
 
    $(".document_view_btn").click(function() {
       var file_location = $(this).attr("file_location");

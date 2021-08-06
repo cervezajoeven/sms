@@ -16,6 +16,10 @@ class Lesson extends General_Controller
       $this->load->model('notification_model');
       $this->load->model('notificationsetting_model');
 
+      $this->load->model('studentsubjectattendence_model');
+      $this->load->model('subjecttimetable_model');
+      $this->load->model('student_model');
+
       $this->load->library('mailsmsconf');
       $this->mailer;
       $this->load->model(array('conference_model', 'conferencehistory_model', 'class_model'));
@@ -341,7 +345,8 @@ class Lesson extends General_Controller
       $data['heading'] = "Past Lessons";
       $data['lesson_sched'] = "past";
 
-
+      // print_r($data);
+      // die();
 
       if ($data['role'] == 'admin') {
          $this->load->view('layout/header');
@@ -363,10 +368,10 @@ class Lesson extends General_Controller
             $data['list'] = $this->lesson_model->deleted_lessons($this->general_model->get_account_id(), "past");
          }
       } else {
-
          // $data['lesson_query'] = $lesson_query;
          $this->load->view('layout/student/header');
          $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(), "past");
+
          foreach ($data['list'] as $key => $value) {
             if ($value['zoom_id']) {
                $zoom_data = $this->lesson_model->lms_get("conferences", $value['zoom_id'], "id")[0];
@@ -456,6 +461,8 @@ class Lesson extends General_Controller
       $data['lesson_type'] = $lesson_type;
       $data['account_id'] = $this->general_model->get_account_id();
       $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
+      $data['start_date'] = date("Y/m/d H:i:s");
+      $data['end_date'] = date("Y/m/d H:i:s", strtotime('now +1 hour'));
 
       $lesson_data = array(
          "account_id" => $this->general_model->get_account_id(),
@@ -495,6 +502,9 @@ class Lesson extends General_Controller
       $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
       $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
       $data['lms_google_meet'] = $data['lesson']['google_meet'];
+
+      // print_r($data);
+      // die();
 
       if ($data['google_meet'] == "") {
          $data['virtual_status'] = "available";
@@ -633,12 +643,37 @@ class Lesson extends General_Controller
       $data['term'] = $_REQUEST['term'];
       $data['shared'] = $_REQUEST['shared'];
       $data['allow_view'] = $_REQUEST['allow_view'];
+      $gradeSection = $_REQUEST['grade_section'];
 
+      $this->lesson_model->lms_update("lms_lesson", $data);
+      // print_r($this->lesson_model->lms_update("lms_lesson", $data));
 
+      //-- Create period attendance entries
+      $grade_sections = explode(",", $gradeSection);
+      $grade_section = null;
 
+      // foreach ($grade_sections as $key => $value) {
+      //    $grade_section = explode("_", $value);
 
+      //    $class_id = $grade_section[0];
+      //    $section_id = $grade_section[1];
+      //    // $date = $_REQUEST['start_date'];
+      //    // $day = date('l', $this->customlib->datetostrtotime($date));
+      //    // $resultlist = $this->studentsubjectattendence_model->searchByStudentsAttendanceByDate($class_id, $section_id, $day, date('Y-m-d', $this->customlib->datetostrtotime($date)));
 
-      print_r($this->lesson_model->lms_update("lms_lesson", $data));
+      //    $result = $this->student_model->searchByClassSection($class_id, $section_id);
+
+      //    //Get subject_timetable_id
+
+      //    // $arr = array(
+      //    //    'student_session_id'   => $value,
+      //    //    'attendence_type_id'   => 4,
+      //    //    'remark'               => $this->input->post("remark" . $value),
+      //    //    'subject_timetable_id' => $subject_timetable_id,
+      //    //    'date'                 => date('Y-m-d', $this->customlib->datetostrtotime($date)),
+      //    // );
+      // }
+
 
 
       // thumbnails

@@ -473,7 +473,6 @@
                <div class="col-lg-6" style="margin-bottom: 1000px;height: 5000px">
                   <h2>Assign to Students</h2>
                   <div id="jstree_demo_div">
-
                      <ul>
                         <?php foreach ($classes as $classes_key => $classes_value) : ?>
                            <li data-jstree='{"icon":"https://img.icons8.com/bubbles/2x/classroom.png"}'><?php echo $classes_value['class'] ?>
@@ -484,7 +483,6 @@
                                           <ul>
                                              <?php foreach ($students as $students_key => $students_value) : ?>
                                                 <?php if ($students_value['class_id'] == $class_sections_value['class_id'] && $students_value['section_id'] == $class_sections_value['section_id']) : ?>
-
                                                    <li data-jstree='{"icon":"https://cdn.clipart.email/08211c36d197d37bb0d0761bbfeb8efd_square-academic-cap-graduation-ceremony-clip-art-graduation-hat-_1008-690.png"}' class="student" id="student_<?php echo $students_value['id'] ?>"><?php echo ucfirst(strtolower($students_value['lastname'])) ?>, <?php echo ucfirst(strtolower($students_value['firstname'])) ?> <?php echo ucfirst(strtolower($students_value['middlename'])) ?></li>
                                                 <?php endif; ?>
                                              <?php endforeach; ?>
@@ -496,11 +494,10 @@
                            </li>
                         <?php endforeach; ?>
                      </ul>
-
                   </div>
                </div>
-               <div class="col-lg-6" style="margin-bottom: 400px">
 
+               <div class="col-lg-6" style="margin-bottom: 400px">
                   <h3>Assign Date</h3>
                   <?php if ($lesson['start_date'] == '0000-00-00 00:00:00') : ?>
                      <?php $lesson['start_date'] = ""; ?>
@@ -511,7 +508,6 @@
                   <input type="text" value="" class="form-control date_range" name="" style="width: 80%;padding: 10px;">
                   <h3>Mode of Delivery <span class="zoom_email_used"></span></h3>
                   <div class="select-box">
-
                      <label for="lesson_type" class="label select-box1"><span class="label-desc">Lesson Type</span> </label>
                      <select id="lesson_type" class="select">
                         <option <?php if ($lesson['lesson_type'] == "classroom") {
@@ -535,9 +531,7 @@
 
                   <div class="student_view_control">
                      <h3>Student Viewing</h3>
-
                      <div class="pretty p-switch p-fill">
-
                         <input type="checkbox" id="allow_view" <?php if ($lesson['allow_view'] == "") {
                                                                   echo "checked";
                                                                } ?> <?php if ($lesson['allow_view'] == "1") {
@@ -547,10 +541,7 @@
                            <label>Allow</label>
                         </div>
                      </div>
-
                   </div>
-
-
 
                   <div class="notification_control">
                      <h3>Notification</h3>

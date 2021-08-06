@@ -396,9 +396,8 @@ class Homework extends Admin_Controller
       $this->load->view("homework/evaluation_modal", $data);
    }
 
-   public function add_evaluation()
+   public function add_evaluations()
    {
-
       if (!$this->rbac->hasPrivilege('homework_evaluation', 'can_add')) {
          access_denied();
       }
@@ -430,10 +429,33 @@ class Homework extends Admin_Controller
          // print_r($this->input->post("score"));
          $evaluation_date = $this->customlib->dateFormatToYYYYMMDD($this->input->post('evaluation_date'));
          $evaluated_by    = $this->customlib->getStaffID();
-         $this->homework_model->addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by, $score_array, $remarks_array);
+         $this->homework_model->addEvaluations($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by, $score_array, $remarks_array);
          $msg   = $this->lang->line('evaluation_completed_message');
          $array = array('status' => 'success', 'error' => '', 'message' => $msg);
       }
+      echo json_encode($array);
+   }
+
+   public function add_evaluation()
+   {
+      if (!$this->rbac->hasPrivilege('homework_evaluation', 'can_add')) {
+         access_denied();
+      }
+
+      // $this->form_validation->set_rules('student_list[]', $this->lang->line('students'), 'trim|required|xss_clean');
+
+      $homework_id = $this->input->post("homework_id");
+      $student_session_id = $this->input->post("student_session_id");
+      $score  = $this->input->post("score");
+      $remarks  = $this->input->post("remarks");
+
+      // print_r($homework_id . " == " . $student_session_id . " == " . $score . " == " . $remarks);
+      // die();
+      // print_r($this->input->post("score"));
+      $this->homework_model->addEvaluation($homework_id, $student_session_id, $score, $remarks);
+      $msg   = $this->lang->line('evaluation_completed_message');
+      $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+
       echo json_encode($array);
    }
 

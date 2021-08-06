@@ -85,6 +85,37 @@ $language_name = $language["short_code"];
       margin-left: auto;
       margin-right: auto;
    }
+
+   /* .modal-dialog {
+      height: calc(100% - 80px);
+   }
+
+   .modal-content {
+      height: 100%;
+   } */
+
+   /* .modal-header {
+      height: 50px;
+
+   }
+
+   .model-footer {
+      height: 75px;
+   } */
+
+   /* .modal-body {
+      height: calc(100% - 70px);
+      overflow-y: scroll;
+   } */
+
+   /* modal backdrop fix */
+   /* .modal:nth-of-type(even) {
+      z-index: 1052 !important;
+   }
+
+   .modal-backdrop.show:nth-of-type(even) {
+      z-index: 1051 !important;
+   } */
 </style>
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -396,14 +427,16 @@ $language_name = $language["short_code"];
       </div>
    </div>
 </div>
-<div class="modal fade" id="homework_docs" tabindex="-1" role="dialog" aria-labelledby="evaluation" style="padding-left: 0 !important">
-   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content modal-media-content">
-         <div class="modal-header modal-media-header">
+
+
+<div class="modal fade" id="homework_docs" tabindex="-1" role="dialog" aria-labelledby="homework_docs" style="padding-left: 0 !important" data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="box-title"><?php echo $this->lang->line('homework') . " " . $this->lang->line('assignments'); ?></h4>
          </div>
-         <div class="modal-body pt0 pb0">
+         <div class="modal-body">
             <div class="row">
                <div class="col-md-12">
                   <div class="">
@@ -414,9 +447,11 @@ $language_name = $language["short_code"];
                                  <tr>
                                     <th><?php echo $this->lang->line('name') ?></th>
                                     <th><?php echo $this->lang->line('message') ?></th>
-                                    <th><?php echo "File URL Link" ?></th>
-                                    <th><?php echo "Date Submitted" ?></th>
-                                    <th><?php echo $this->lang->line('action') ?></th>
+                                    <th>File URL Link</th>
+                                    <th>Date Submitted</th>
+                                    <th>Score</th>
+                                    <th>Remarks</th>
+                                    <th class="text-right"><?php echo $this->lang->line('action') ?></th>
                                  </tr>
 
                               </thead>
@@ -435,12 +470,50 @@ $language_name = $language["short_code"];
    </div>
 </div>
 
+<div class="modal fade" id="evaluate_student" role="dialog">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="box-title"><?php echo $this->lang->line('evaluate_homework'); ?></h4>
+         </div>
+
+         <form id="eval_data" method="post" enctype="multipart/form-data">
+            <div class="modal-body" id="evaluation_input">
+               <div class="row">
+                  <div class="col-md-12">
+                     <li class="list-group-item">
+                        <label id="eval_student"></label>
+
+                        <input type="hidden" id="student_session_id" value="">
+                        <input type="hidden" id="homework_id" value="">
+                        <div>
+                           <input type="number" class="form-control" name="score" id="score" placeholder="Score" value="">
+                        </div>
+                        <div>
+                           <textarea class="form-control" name="remarks" id="remarks" placeholder="Remarks"></textarea>
+                        </div>
+
+                     </li>
+                  </div>
+               </div>
+            </div>
+            <div class="box-footer">
+               <div class="pull-right paddA10">
+                  <button type="submit" class="btn btn-info pull-right" id="saveEvaluation" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save') ?></button>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
 <div class="modal fade" id="document_view_modal" role="dialog">
    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title"></h4>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Document</h4>
          </div>
 
          <div class="modal-body">
@@ -457,7 +530,7 @@ $language_name = $language["short_code"];
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title"></h4>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Image</h4>
          </div>
 
          <div class="modal-body">
@@ -473,7 +546,7 @@ $language_name = $language["short_code"];
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title"></h4>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Video</h4>
          </div>
 
          <div class="modal-body">
@@ -540,14 +613,12 @@ $language_name = $language["short_code"];
          }
       });
    }
-</script>
-<script>
+
    $(function() {
 
       $("#compose-textarea,#desc-textarea").wysihtml5();
    });
-</script>
-<script type="text/javascript">
+
    var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'MM', 'Y' => 'yyyy']) ?>';
 
 
@@ -725,12 +796,25 @@ $language_name = $language["short_code"];
       });
    }
 
-   function addhomework() {
+   function evaluate_student(id) {
+      $('#evaluate_student').modal('show');
+      // $('#evaluation_input').html("");
 
+      // $.ajax({
+      //    url: '<?php echo base_url(); ?>homework/evaluation/' + id,
+      //    success: function(data) {
+      //       $('#evaluation_details').html(data);
+      //    },
+      //    error: function() {
+      //       alert("Fail")
+      //    }
+      // });
+   }
+
+   function addhomework() {
       $('iframe').contents().find('.wysihtml5-editor').html("");
    }
-</script>
-<script type="text/javascript">
+
    var save_method; //for save method string
    var update_id; //for save method string
 
@@ -766,7 +850,6 @@ $language_name = $language["short_code"];
       }
    }
 
-
    $(document).ready(function() {
       $('#myModal').modal({
          backdrop: 'static',
@@ -786,11 +869,9 @@ $language_name = $language["short_code"];
          $('#modal_record_id').val(0);
          $('#myModal .box-title').text('<?php echo $this->lang->line('add_homework'); ?>');
          $('#myModal').modal('show');
-      } else {
-
-      }
-
+      } else {}
    });
+
    $(document).on('change', '#modal_section_id', function() {
       var class_id = $('.modal_class_id').val();
       var section_id = $(this).val();
@@ -803,27 +884,24 @@ $language_name = $language["short_code"];
       getSubjectGroup(class_id, section_id, 0, 'subject_group_id');
    });
 
-
    $(document).on('change', '#modal_subject_group_id', function() {
       var class_id = $('.modal_class_id').val();
       var section_id = $('.modal_section_id').val();
       var subject_group_id = $(this).val();
 
       getsubjectBySubjectGroup(class_id, section_id, subject_group_id, 0, 'modal_subject_id');
-
    });
+
    $(document).on('change', '#subject_group_id', function() {
       var class_id = $('#searchclassid').val();
       var section_id = $('#secid').val();
       var subject_group_id = $(this).val();
 
       getsubjectBySubjectGroup(class_id, section_id, subject_group_id, 0, 'subid');
-
    });
 
    $("#formadd").on('submit', (function(e) {
       e.preventDefault();
-
       var $this = $(this).find("button[type=submit]:focus");
 
       $.ajax({
@@ -836,23 +914,18 @@ $language_name = $language["short_code"];
          processData: false,
          beforeSend: function() {
             $this.button('loading');
-
          },
          success: function(res) {
-
             if (res.status == "fail") {
-
                var message = "";
-               $.each(res.error, function(index, value) {
 
+               $.each(res.error, function(index, value) {
                   message += value;
                });
+
                errorMsg(message);
-
             } else {
-
                successMsg(res.message);
-
                window.location.reload(true);
             }
          },
@@ -863,10 +936,8 @@ $language_name = $language["short_code"];
          complete: function() {
             $this.button('reset');
          }
-
       });
    }));
-
 
    $(document).on('change', '.modal_class_id', function() {
 
@@ -913,7 +984,6 @@ $language_name = $language["short_code"];
             }
          });
       }
-
    }
 
    function getsubjectBySubjectGroup(class_id, section_id, subject_group_id, subject_group_subject_id, subject_target) {
@@ -954,10 +1024,7 @@ $language_name = $language["short_code"];
       }
    }
 
-
    $('#myModal').on('shown.bs.modal', function() {
-
-
       if (save_method == "edit") {
          $.ajax({
             url: base_url + "homework/getRecord",
@@ -966,15 +1033,11 @@ $language_name = $language["short_code"];
                id: update_id
             },
             dataType: 'json',
-
             beforeSend: function() {
-
                $('#myModal').addClass('modal_loading');
             },
             success: function(res) {
-
                $('#modal_record_id').val(res.id);
-
                $('#submit_date').val(new Date(res.submit_date).toString(date_format));
                $('#homework_date').val(new Date(res.homework_date).toString(date_format));
                $('.modal_class_id').val(res.class_id);
@@ -982,12 +1045,9 @@ $language_name = $language["short_code"];
                $('.wysihtml5-sandbox').contents().find('.wysihtml5-editor').html(res.description);
                $('.modal_class_id option[value=' + res.class_id + ']').attr('selected', 'selected');
                getSectionByClass(res.class_id, res.section_id, 'modal_section_id');
-
                getSubjectGroup(res.class_id, res.section_id, res.subject_groups_id, 'modal_subject_group_id');
                getsubjectBySubjectGroup(res.class_id, res.section_id, res.subject_groups_id, res.subject_group_subject_id, 'modal_subject_id');
                $('#myModal').removeClass('modal_loading');
-
-
             },
             error: function(xhr) { // if error occured
                alert("Error occured.please try again");
@@ -996,13 +1056,13 @@ $language_name = $language["short_code"];
             complete: function() {
                $('#myModal').removeClass('modal_loading');
             }
-
          });
       }
    });
 
    // $(".document_view_btn").click(function() {
-   //    var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
+   //    var pdfjs = "<?php //echo site_url('backend/lms/pdfjs/web/viewer.html?file='); 
+                        ?>";
    //    var file_location = $(this).attr("file_location");
    //    $(".document_iframe").attr("src", pdfjs + file_location);
 
@@ -1012,4 +1072,49 @@ $language_name = $language["short_code"];
    //       show: true
    //    });
    // });
+
+   $(document).on('hidden.bs.modal', '.modal', function() {
+      $('.modal:visible').length && $(document.body).addClass('modal-open');
+   });
+
+   $("#eval_data").on('submit', (function(e) {
+      e.preventDefault();
+
+      // var data = new FormData(this);
+
+      $.ajax({
+         url: "<?php echo site_url("homework/add_evaluation") ?>",
+         type: "POST",
+         data: {
+            homework_id: $("#homework_id").val(),
+            student_session_id: $("#student_session_id").val(),
+            score: $("#score").val(),
+            remarks: $("#remarks").val(),
+         },
+         dataType: 'JSON',
+         success: function(res) {
+            console.log(res);
+
+            if (res.status == "fail") {
+               errorMsg(res.message);
+            } else {
+               successMsg(res.message);
+               // window.location.reload(true);
+
+               $.ajax({
+                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#student_session_id").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val(),
+                  success: function(data) {
+                     $("#score").val("");
+                     $("#remarks").val("");
+                     $("#evaluate_student").modal('hide');
+                     $('#homework_docs_result').html(data);
+                  },
+                  error: function() {
+                     alert("Fail")
+                  }
+               });
+            }
+         }
+      });
+   }));
 </script>

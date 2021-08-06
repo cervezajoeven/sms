@@ -252,7 +252,7 @@
 
          e.preventDefault();
          $.ajax({
-            url: "<?php echo site_url("homework/add_evaluation") ?>",
+            url: "<?php echo site_url("homework/add_evaluations") ?>",
             type: "POST",
             data: new FormData(this),
             dataType: 'JSON',
