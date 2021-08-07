@@ -140,8 +140,8 @@ class Homework_model extends MY_model
                ) tbl
                order by lastname";
 
-      // print_r($sql);
-      // die();
+      print_r($sql);
+      die();
       $query = $this->db->query($sql);
       return $query->result_array();
    }
