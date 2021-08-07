@@ -782,13 +782,13 @@ $(document).ready(function(){
          data: lesson_data,
       }).done(function(data) {
          console.log(data);
-         Swal.fire({
-            icon: 'info',
-            confirmButtonColor: '#3085d6',
-            title: "Lesson Save/Assign",
-            text: 'Lesson has been assigned successfully!'
-            // footer: '<a href="">Why do I have this issue?</a>'
-         })
+         // Swal.fire({
+         //    icon: 'info',
+         //    confirmButtonColor: '#3085d6',
+         //    title: "Lesson Save/Assign",
+         //    text: 'Lesson has been assigned successfully!'
+         //    // footer: '<a href="">Why do I have this issue?</a>'
+         // })
       });
    }
 
@@ -1519,13 +1519,13 @@ $(document).ready(function(){
    $(".assign_save").click(function(){
       change_detected();
       // alert("Lesson has been assigned successfully");
-      // Swal.fire({
-      //    icon: 'info',
-      //    confirmButtonColor: '#3085d6',
-      //    title: "Lesson Save/Assign",
-      //    text: 'Lesson has been assigned successfully!'
-      //    // footer: '<a href="">Why do I have this issue?</a>'
-      // })
+      Swal.fire({
+         icon: 'info',
+         confirmButtonColor: '#3085d6',
+         title: "Lesson Save/Assign",
+         text: 'Lesson has been assigned successfully!'
+         // footer: '<a href="">Why do I have this issue?</a>'
+      })
    });
 
    $(".date_range").change(function(e){
