@@ -121,7 +121,8 @@ class Homework_model extends MY_model
                join student_session on student_session.student_id = students.id
                left join submit_assignment on submit_assignment.student_id = students.id
                left join homework_evaluation on homework_evaluation.homework_id = submit_assignment.homework_id and homework_evaluation.student_session_id = student_session.id
-               where student_session.class_id = $classid
+               where submit_assignment.homework_id = $homework_id
+               and student_session.class_id = $classid
                and student_session.section_id = $sectionid
                and student_session.session_id = $sessionid
                and students.id not in (select student_id from submit_assignment where homework_id = $homework_id)
