@@ -243,12 +243,13 @@ $language_name = $language["short_code"];
                                     <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
                                     <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['submit_date'])); ?></td>
                                     <td><?php
-
                                           $evl_date = "";
+
                                           if ($homework['evaluation_date'] != "0000-00-00") {
                                              echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateYYYYMMDDtoStrtotime($homework['evaluation_date']));
                                           }
-                                          ?></td>
+                                          ?>
+                                    </td>
                                     <!-- <td> -->
                                     <?php //if ($homework["assignments"] > 0) echo "Yes";
                                     //else echo "No";
