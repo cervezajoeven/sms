@@ -114,6 +114,8 @@ class Homework_model extends MY_model
 
    public function get_homeworkDocById2($homework_id, $classid, $sectionid, $sessionid)
    {
+
+      //and students.id not in (select student_id from submit_assignment where homework_id = $homework_id)
       $sql   = "select * from
                (
                select students.id, students.firstname, students.lastname, students.admission_no, submit_assignment.docs,submit_assignment.message,submit_assignment.url_link, submit_assignment.created_at, submit_assignment.homework_id, homework_evaluation.score, homework_evaluation.remarks, student_session.id as session_id
@@ -121,11 +123,10 @@ class Homework_model extends MY_model
                join student_session on student_session.student_id = students.id
                left join submit_assignment on submit_assignment.student_id = students.id
                left join homework_evaluation on homework_evaluation.homework_id = submit_assignment.homework_id and homework_evaluation.student_session_id = student_session.id
-               where submit_assignment.homework_id = $homework_id
-               and student_session.class_id = $classid
+               where student_session.class_id = $classid
                and student_session.section_id = $sectionid
                and student_session.session_id = $sessionid
-               and students.id not in (select student_id from submit_assignment where homework_id = $homework_id)
+               and students.id not in (select student_id from submit_assignment where homework_id = $homework_id or homework_id <> $homework_id)
                
                union 
                
