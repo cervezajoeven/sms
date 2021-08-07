@@ -38,6 +38,10 @@ $(document).ready(function(){
       toolbar_mode: 'floating',
       paste_data_images: true,
       height : "700",
+      init_instance_callback : function(editor) {
+         var freeTiny = document.querySelector('.tox .tox-notification--in');
+        freeTiny.style.display = 'none';
+       }
    });
 
    var jstree = $('#jstree_demo_div').jstree({
