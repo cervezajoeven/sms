@@ -254,6 +254,7 @@ class Homework_model extends MY_model
             $insert_prev[] = $this->writedb->insert_id();
          }
       }
+
       $this->writedb->where('homework_id', $homework_id);
       $this->writedb->where_not_in('id', $insert_prev);
       $this->writedb->delete('homework_evaluation');
@@ -278,6 +279,10 @@ class Homework_model extends MY_model
       $evaluation_date = $this->customlib->dateFormatToYYYYMMDD(date("Y/m/d H:i:s"));
       $evaluated_by = $this->customlib->getStaffID();
 
+      $this->writedb->where('homework_id', $homework_id);
+      $this->writedb->where('student_session_id', $student_session_id);
+      $this->writedb->delete('homework_evaluation');
+
       $homework = array('evaluation_date' => $evaluation_date, 'evaluated_by' => $evaluated_by);
       $this->writedb->where("id", $homework_id)->update("homework", $homework);
 
@@ -291,10 +296,6 @@ class Homework_model extends MY_model
 
       $this->writedb->insert("homework_evaluation", $insert_student);
       $insert_prev[] = $this->writedb->insert_id();
-
-      $this->writedb->where('homework_id', $homework_id);
-      $this->writedb->where_not_in('id', $insert_prev);
-      $this->writedb->delete('homework_evaluation');
       //======================Code End==============================
       $this->writedb->trans_complete(); # Completing transaction
       /* Optional */

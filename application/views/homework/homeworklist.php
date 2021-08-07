@@ -1103,7 +1103,7 @@ $language_name = $language["short_code"];
                // window.location.reload(true);
 
                $.ajax({
-                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#student_session_id").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val(),
+                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#homework_id").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val() + "/" + $("#student_session_id").val(),
                   success: function(data) {
                      $("#score").val("");
                      $("#remarks").val("");
