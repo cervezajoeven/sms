@@ -123,7 +123,7 @@
                         <li class="<?php echo set_Submenu('student/search'); ?>"><a href="<?php echo base_url(); ?>student/search"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('student_information'); ?></a></li>
                      <?php }
 
-                     if ($this->rbac->hasPrivilege('student', 'can_add')) { ?>
+                     if ($this->rbac->hasPrivilege('student', 'can_add') && $this->module_lib->hasActive('grading')) { ?>
                         <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> Add New Student</a></li>
                         <li class="<?php echo set_Submenu('student/grading_StudentsAllowedToView'); ?>"><a href="<?php echo base_url(); ?>student/grading_StudentsAllowedToView"><i class="fa fa-angle-double-right"></i> Grade View Permission</a></li>
                      <?php }
@@ -521,13 +521,13 @@
                         <li class="<?php echo set_Submenu('sections/index'); ?>"><a href="<?php echo base_url(); ?>sections"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('sections'); ?></a></li>
                      <?php
                      }
-                     ?>
 
-                     <li class="<?php echo set_Submenu('grading/create'); ?>"><a href="<?php echo base_url(); ?>lms/grading/setup"><i class="fa fa-angle-double-right"></i> Create Grading </a></li>
-                     <li class="<?php echo set_Submenu('grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/grading/index"><i class="fa fa-angle-double-right"></i> Edit Grading </a></li>
-                     <li class="<?php echo set_Submenu('final_grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/index"><i class="fa fa-angle-double-right"></i> Final Grading Encoding </a></li>
-                     <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
-
+                     if ($this->module_lib->hasActive('grading')) { ?>
+                        <li class="<?php echo set_Submenu('grading/create'); ?>"><a href="<?php echo base_url(); ?>lms/grading/setup"><i class="fa fa-angle-double-right"></i> Create Grading </a></li>
+                        <li class="<?php echo set_Submenu('grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/grading/index"><i class="fa fa-angle-double-right"></i> Edit Grading </a></li>
+                        <li class="<?php echo set_Submenu('final_grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/index"><i class="fa fa-angle-double-right"></i> Final Grading Encoding </a></li>
+                        <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
+                     <?php } ?>
                   </ul>
                </li>
             <?php

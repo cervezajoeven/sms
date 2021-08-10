@@ -41,9 +41,38 @@ class Studentsubjectattendence_model extends CI_Model
       }
    }
 
-   public function searchAttendenceClassSection($class_id, $section_id, $subject_timetable_id, $date)
+   // public function searchAttendenceClassSection($class_id, $section_id, $subject_timetable_id, $date)
+   // {
+   //    $sql = "SELECT  IFNULL(student_subject_attendances.id, '0') as student_subject_attendance_id,student_subject_attendances.subject_timetable_id,student_subject_attendances.attendence_type_id, 
+   //            IFNULL(student_subject_attendances.date, 'xxx') as date,student_subject_attendances.remark,students.*,student_session.id as student_session_id 
+   //            FROM students 
+   //            INNER JOIN student_session on students.id=student_session.student_id and student_session.class_id=" . $this->db->escape($class_id) . " and student_session.section_id =" . $this->db->escape($section_id) . "  
+   //            AND student_session.session_id=" . $this->db->escape($this->current_session) . 
+   //            " LEFT JOIN student_subject_attendances on student_session.id=student_subject_attendances.student_session_id and student_subject_attendances.subject_timetable_id=" . $this->db->escape($subject_timetable_id) . 
+   //            " and date=" . $this->db->escape($date) . 
+   //            " where `students`.`is_active`='yes' ORDER BY students.lastname";
+
+   //    $query = $this->db->query($sql);
+   //    // print_r($this->db->last_query());
+   //    // die();
+   //    return $query->result_array();
+   // }
+
+   public function searchAttendenceClassSection($class_id, $section_id, $subject_timetable_id, $date, $lessonid)
    {
-      $sql = "SELECT  IFNULL(student_subject_attendances.id, '0') as student_subject_attendance_id,student_subject_attendances.subject_timetable_id,student_subject_attendances.attendence_type_id, IFNULL(student_subject_attendances.date, 'xxx') as date,student_subject_attendances.remark,students.*,student_session.id as student_session_id FROM students INNER JOIN student_session on students.id=student_session.student_id and student_session.class_id=" . $this->db->escape($class_id) . " and student_session.section_id =" . $this->db->escape($section_id) . "  AND student_session.session_id=" . $this->db->escape($this->current_session) . " LEFT JOIN student_subject_attendances on student_session.id=student_subject_attendances.student_session_id and student_subject_attendances.subject_timetable_id=" . $this->db->escape($subject_timetable_id) . " and date=" . $this->db->escape($date) . " where `students`.`is_active`='yes' ORDER BY students.lastname";
+      $sql = "SELECT  IFNULL(student_subject_attendances.id, '0') as student_subject_attendance_id,student_subject_attendances.subject_timetable_id,student_subject_attendances.attendence_type_id, 
+              IFNULL(student_subject_attendances.date, 'xxx') as date,student_subject_attendances.remark,students.*,student_session.id as student_session_id, DATE_FORMAT(lms_lesson_logs.date_created, '%b %d, %Y %h:%i %p') as time_entered, DATE_FORMAT(lms_lesson.start_date, '%b %d, %Y %h:%i %p') as start_date 
+              FROM students 
+              INNER JOIN student_session on students.id=student_session.student_id and student_session.class_id=" . $this->db->escape($class_id) . " and student_session.section_id =" . $this->db->escape($section_id) . "  
+              AND student_session.session_id=" . $this->db->escape($this->current_session) .
+         " LEFT JOIN student_subject_attendances on student_session.id=student_subject_attendances.student_session_id and student_subject_attendances.subject_timetable_id=" . $this->db->escape($subject_timetable_id) .
+         " and date=" . $this->db->escape($date) . " and student_subject_attendances.lesson_id = '$lessonid' " .
+         "LEFT JOIN `lms_lesson_logs` ON `lms_lesson_logs`.`account_id` = `students`.`id` and `lms_lesson_logs`.`lesson_id` = '$lessonid' 
+         left join lms_lesson on lms_lesson.id = lms_lesson_logs.lesson_id " .
+         " where `students`.`is_active`='yes' 
+              GROUP BY `students`.`lastname`, `students`.`firstname`
+              ORDER BY students.lastname";
+
       $query = $this->db->query($sql);
       // print_r($this->db->last_query());
       // die();

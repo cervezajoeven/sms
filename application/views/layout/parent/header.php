@@ -267,9 +267,9 @@
                      </ul>
                   </li>
                   <li class="treeview <?php echo set_Topmenu('Fees'); ?>">
-                     <a href="#">
+                     <!-- <a href="#">
                         <i class="fa fa-money ftlayer"></i> <span>Kampus Pay</span> <i class="fa fa-angle-left pull-right"></i>
-                     </a>
+                     </a> -->
                      <ul class="treeview-menu">
                         <li class="<?php echo set_Submenu('parent/parents/getFees'); ?>"><a href="site_url('lms_v2/index.php/lms/assessment/initialize/');"><i class="fa fa-angle-double-right"></i> <?php echo $value_ch['name'] ?></a></li>
                         <?php

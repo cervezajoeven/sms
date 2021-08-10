@@ -352,4 +352,48 @@ class Lesson_model extends MY_Model
       $query = $this->db->query($sql);
       return $query->result();
    }
+
+   public function get_lessons_by_level_subject($account_id = "", $levelid, $subjectid)
+   {
+      $this->db->select("lms_lesson.id, concat('(', DATE_FORMAT(lms_lesson.date_updated, '%b %d, %Y %h:%i %p'), ') ', lms_lesson.lesson_name) as lesson_name");
+
+      if ($account_id != "")
+         $this->db->where("lms_lesson.account_id", $account_id);
+
+      $this->db->where("lms_lesson.subject_id", $subjectid);
+      $this->db->where("lms_lesson.grade_id", $levelid);
+      $this->db->where('lms_lesson.assigned <>', null);
+      $this->db->where('lms_lesson.deleted', 0);
+      $this->db->where('end_date <', date('Y-m-d H:i:s'));
+      $this->db->order_by('lms_lesson.date_updated', "desc");
+      $this->db->order_by('lms_lesson.lesson_name', "asc");
+      $query = $this->db->get("lms_lesson");
+
+      // print_r($this->db->last_query());
+      // die();
+
+      $result = $query->result_array();
+      return $result;
+   }
+
+   public function get_lesson_logs($lessonid, $levelid, $sectionid)
+   {
+      $this->db->select("concat(lastname, ', ', firstname) as name, DATE_FORMAT(lms_lesson_logs.date_created, '%b %d, %Y %h:%i %p') as jointime");
+      // $this->db->select("lms_lesson_logs.date_created as join_time");
+      $this->db->join("student_session", "student_session.student_id = students.id", "left");
+      $this->db->join("lms_lesson_logs", "lms_lesson_logs.account_id = students.id and lms_lesson_logs.lesson_id = '$lessonid'", "left");
+      $this->db->where("student_session.class_id", $levelid);
+      $this->db->where("student_session.section_id", $sectionid);
+      $this->db->where("student_session.session_id", $this->current_session);
+      $this->db->group_by("students.lastname, students.firstname");
+      $this->db->order_by("students.lastname", "asc");
+      $this->db->order_by("students.firstname", "asc");
+      $this->db->order_by("lms_lesson_logs.date_created", "asc");
+      $return_data = $this->db->get("students")->result_array();
+
+      // print_r($this->db->last_query());
+      // die();
+
+      return $return_data;
+   }
 }

@@ -96,6 +96,7 @@ class Lesson extends General_Controller
       $return_data = $this->db->get("lms_lesson_email_logs")->result_array();
       echo json_encode($return_data);
    }
+
    function attendance($lesson_id)
    {
       $this->db->select("students.firstname,students.lastname,lms_lesson_logs.date_created as timestamp");
@@ -104,6 +105,10 @@ class Lesson extends General_Controller
       $this->db->group_by("students.id");
       $this->db->order_by("students.firstname", "desc");
       $return_data = $this->db->get("lms_lesson_logs")->result_array();
+
+      // print_r($this->db->last_query());
+      // die();
+
       echo json_encode($return_data);
    }
 
@@ -1559,7 +1564,7 @@ class Lesson extends General_Controller
 
       $this->lesson_model->lms_update("lms_zoom_accounts", $lms_zoom_accounts, "email");
 
-      redirect(base_url('lms/lesson/zoom_checker/' . $lesson_id));
+      redirect(base_url('lms/lesson/zoom_checker/' . $zoom_id));
    }
 
    public function check_class($lesson_id, $user_id)
@@ -1689,5 +1694,41 @@ class Lesson extends General_Controller
       // redirect(site_url() . "lms/lesson/index/");
       $data['result'] = 'Unpublish successful!';
       echo json_encode($data);
+   }
+
+   public function get_lesssons_by_level_subject($account_id, $level_id, $subject_id)
+   {
+      // $level_id = $_REQUEST['level_id'];
+      // $subject_id = $_REQUEST['subject_id'];
+
+      $real_role = $this->general_model->get_real_role();
+      $account_id = "";
+
+      if ($real_role != 1 && $real_role != 7)
+         $account_id = $this->general_model->get_account_id();
+
+      // print_r($real_role . "==" . $level_id . " == " . $subject_id);
+      // die();
+
+      $data = $this->lesson_model->get_lessons_by_level_subject($account_id, $level_id, $subject_id);
+      echo json_encode($data);
+   }
+
+   public function get_lesson_logs($lesson_id, $levelid, $sectionid)
+   {
+      $result = array('data' => array());
+      $data = $this->lesson_model->get_lesson_logs($lesson_id, $levelid, $sectionid);
+
+      $radio = "";
+
+      foreach ($data as $key => $value) {
+         $radio = '<input type="text" id="" value="' . $value['jointime'] . '" disabled style="width: 100%">';
+
+         $result['data'][$key] = array(
+            $radio
+         );
+      } // /foreach
+
+      echo json_encode($result);
    }
 }
