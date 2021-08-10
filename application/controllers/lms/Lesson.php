@@ -533,7 +533,6 @@ class Lesson extends General_Controller
 
       $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
 
-
       $data['resources'] = site_url('backend/lms/');
       if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
          mkdir(FCPATH . "uploads/lms_lesson/" . $id);
@@ -1555,7 +1554,6 @@ class Lesson extends General_Controller
 
    public function end_zoom($zoom_id)
    {
-
       $zoom_data = $this->lesson_model->lms_get("lms_zoom_accounts", $zoom_id, "email")[0];
       $lms_zoom_accounts['email'] = $zoom_id;
       $lms_zoom_accounts['account_id'] = "";
@@ -1569,7 +1567,6 @@ class Lesson extends General_Controller
 
    public function check_class($lesson_id, $user_id)
    {
-
       $the_lesson = $this->lesson_model->lms_get("lms_lesson", $lesson_id, "id")[0];
       // $lms2_link = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$user_id.'/student/'.$lesson_id);
       $lms2_link = base_url('lms/lesson/create/' . $lesson_id);
@@ -1579,11 +1576,11 @@ class Lesson extends General_Controller
          $end_date = strtotime($the_lesson['end_date']);
          $current_date = strtotime(date("Y-m-d H:i:s"));
          $open['lesson_type'] = "zoom_google";
+
          if ($current_date > $end_date) {
             $open['video'] = "";
             $open['lms'] = $lms2_link;
          } else {
-
             if ($the_lesson['lesson_type'] == "virtual") {
                $teacher = $this->lesson_model->lms_get("staff", $the_lesson['account_id'], "id", "name,google_meet")[0];
 
@@ -1596,6 +1593,7 @@ class Lesson extends General_Controller
                   $open['lms'] = "";
                }
             }
+
             if ($the_lesson['lesson_type'] == "zoom") {
                if ($the_lesson['zoom_id']) {
                   $conference = json_decode($this->lesson_model->lms_get("conferences", $the_lesson['zoom_id'], "id", "return_response")[0]['return_response'])->join_url;
@@ -1618,9 +1616,7 @@ class Lesson extends General_Controller
                   }
                }
 
-
                // print_r($the_lesson['zoom_id']);
-
             }
          }
       } else {
@@ -1632,14 +1628,13 @@ class Lesson extends General_Controller
       $lesson_log_data['lesson_id'] = $lesson_id;
       $lesson_log_data['account_id'] = $this->general_model->get_account_id();
       $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
-      $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+      // $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
 
       echo json_encode($open);
    }
 
    public function lesson_attendance($lesson_id = "", $date = "")
    {
-
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'lesson/attendance');
       date_default_timezone_set('Asia/Manila');
@@ -1651,10 +1646,13 @@ class Lesson extends General_Controller
       $data['subjects'] = $this->general_model->get_subjects();
       $data['heading'] = "Current Lessons";
       $data['lesson_sched'] = "today";
+
       if ($data['role'] == 'admin') {
          $this->load->view('layout/header');
+
          if ($data['real_role'] == "7" || $data['real_role'] == "1") {
             $data['list'] = $this->lesson_model->admin_deleted($this->general_model->get_account_id(), "today");
+
             foreach ($data['list'] as $key => $value) {
                if ($value['zoom_id']) {
                   $zoom_data = $this->lesson_model->lms_get("conferences", $value['zoom_id'], "id")[0];
@@ -1730,5 +1728,19 @@ class Lesson extends General_Controller
       } // /foreach
 
       echo json_encode($result);
+   }
+
+   public function enter_video_con($lesson_id)
+   {
+      $lesson_log_data['lesson_id'] = $lesson_id;
+      $lesson_log_data['account_id'] = $this->general_model->get_account_id();
+      $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+      $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+
+      // echo '<script>alert("' . $vid_con_link . '")</script>';
+      // echo '<script>window.open("' . $vid_con_link . '","_blank")</script>';
+      // echo "<script type=\"text/javascript\">window.open('" . $vid_con_link . "', '_blank')</script>";
+      $data['result'] = 'Logging successful!';
+      echo json_encode($data);
    }
 }

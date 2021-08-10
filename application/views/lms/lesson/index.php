@@ -260,11 +260,11 @@
    </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <div class="modal fade" id="initial" tabindex="-1" role="dialog" aria-labelledby="initial" style="padding-left: 0 !important">
-   <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-dialog" role="document">
       <div class="modal-content modal-media-content">
          <div class="modal-header modal-media-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="box-title">Enter Class.</h4>
+            <h4 class="box-title">Enter Class</h4>
          </div>
          <div class="modal-body pt0 pb0" id="">
             <!-- <div class="container"> -->
@@ -281,10 +281,26 @@
                </tr>
                <tr>
                   <td>
-                     <center><a href="" id="view_lesson" target="_blank"><button class="btn btn-success">View Lesson</button></a></center>
+                     <div class="row">
+                        <div class="col-md-12 text-right">
+                           <div class="btn-group">
+                              <a href="" id="view_lesson" target="_blank"><button type="button" class="btn btn-success">View Lesson</button></a>
+                              <!-- <a href="" id="enter_video" target="_blank" onclick=""><button class="btn btn-primary">Enter Video Conference</button></a> -->
+                              <!-- <a href="#" id="enter_video" onclick=""><button type="button" class="btn btn-primary">Enter Video Conference</button></a> -->
+                           </div>
+                        </div>
+                     </div>
                   </td>
                   <td>
-                     <center><a href="" id="enter_video" target="_blank"><button class="btn btn-primary">Enter Video Conference</button></a></center>
+                     <div class="row">
+                        <div class="col-md-12 text-left">
+                           <div class="btn-group">
+                              <!-- <a href="" id="view_lesson" target="_blank"><button type="button" class="btn btn-success">View Lesson</button></a> -->
+                              <!-- <a href="" id="enter_video" target="_blank" onclick=""><button class="btn btn-primary">Enter Video Conference</button></a> -->
+                              <a href="#" id="enter_video" onclick=""><button type="button" class="btn btn-primary">Enter Video Conference</button></a>
+                           </div>
+                        </div>
+                     </div>
                   </td>
                </tr>
             </table>
@@ -388,9 +404,23 @@
    var attendance_table = $('#attendance_table').DataTable();
    var user_id = '<?php echo $user_id ?>';
 
+   function enterVideoCon(vidconlink, lesson_id) {
+      var url = "<?php echo base_url('lms/lesson/enter_video_con/'); ?>" + lesson_id;
+
+      $.ajax({
+         url: url,
+         method: "POST",
+      }).done(function(data) {
+         var parsed_data = JSON.parse(data);
+
+         window.open(vidconlink, '_blank');
+      });
+   }
+
    function check_class(lesson_id) {
       var url = "<?php echo base_url('lms/lesson/check_class/'); ?>" + lesson_id + '/' + user_id;
       console.log(url);
+
       $.ajax({
          url: url,
          method: "POST",
@@ -398,10 +428,11 @@
          console.log(data);
          var parsed_data = JSON.parse(data);
          $('#initial').modal('show');
-         if (parsed_data.video != "") {
 
+         if (parsed_data.video != "") {
             $("#enter_video").show();
-            $("#enter_video").attr("href", parsed_data.video);
+            // $("#enter_video").attr("href", parsed_data.video);
+            $("#enter_video").attr("onclick", "enterVideoCon('" + parsed_data.video + "', '" + lesson_id + "')");
          } else {
             $("#enter_video").hide();
             $(".note").text("The teacher have not started the zoom class yet.");
@@ -416,11 +447,9 @@
                } else {
                   $(".note").text("The teacher haven't started the class yet. But you are allowed to view the lesson");
                }
-
             } else {
                $(".note").text("Please select an action.");
             }
-
 
          } else {
             $("#view_lesson").hide();
