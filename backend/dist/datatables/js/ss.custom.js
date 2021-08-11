@@ -4,7 +4,7 @@ $(document).ready(function () {
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
-            pageLength: 100,
+            pageLength: 15,
             //responsive: 'false',
             dom: "Bfrtip",
             buttons: [
