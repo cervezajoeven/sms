@@ -136,6 +136,7 @@
                <div class="box-header with-border">
                   <h3 class="box-title"><i class="fa fa-search"></i> <?php echo $this->lang->line('select_criteria'); ?></h3>
                </div>
+
                <form id='form1' action="<?php echo site_url('admin/subjectattendence') ?>" method="post" accept-charset="utf-8">
                   <div class="box-body">
 
@@ -183,7 +184,7 @@
                         <div class="col-md-3">
                            <div class="form-group">
                               <label for="">
-                                 <?php echo $this->lang->line('subject'); ?>
+                                 <?php echo $this->lang->line('subject') . " Schedule"; ?>
                               </label><small class="req"> *</small>
                               <select id="subject_timetable_id" name="subject_timetable_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
@@ -194,7 +195,7 @@
                         <div class="col-md-3">
                            <div class="form-group">
                               <label for="">
-                                 Lesson
+                                 Lesson Period
                               </label><small class="req"> *</small>
                               <select autofocus="" id="lesson_id" name="lesson_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
@@ -209,12 +210,9 @@
                         </div>
                      </div>
                   </div>
-
                </form>
 
-               <?php
-               if (isset($resultlist)) {
-               ?>
+               <?php if (isset($resultlist)) { ?>
                   <div class="">
                      <div class="box-header ptbnull"></div>
                      <div class="box-header with-border">
@@ -401,6 +399,7 @@
          ?>
    </section>
 </div>
+
 <script type="text/javascript">
    var date_format = '<?php echo $result = strtr($this->customlib->getSchoolDateFormat(), ['d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy',]) ?>';
    var subjects;
@@ -423,7 +422,6 @@
       var subject_id_post = "<?php echo set_value('subject_id'); ?>";
       var lesson_id_post = "<?php echo set_value('lesson_id'); ?>";
 
-
       populateSection(section_id_post, class_id_post);
       getSubjects(class_id_post, section_id_post, date_post, subject_timetable_id);
 
@@ -431,8 +429,8 @@
          if (section_id_post != "" && class_id_post != "") {
 
             $('#section_id').html("");
-
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
             $.ajax({
                type: "GET",
                url: baseurl + "sections/getByClass",
@@ -448,6 +446,7 @@
                      }
                      div_data += "<option value=" + obj.section_id + " " + select + ">" + obj.section + "</option>";
                   });
+
                   $('#section_id').append(div_data);
                }
             });
@@ -479,8 +478,8 @@
                      //  div_data += "<option value=" + obj.id + " " + select + ">" + obj.subject_name + " (" + obj.time_from + "- " + obj.time_to + ") By " + obj.name + " (" + obj.employee_id + ")" + "</option>";
                      div_data += "<option value=" + obj.id + " " + select + ">" + obj.subject_name + " (" + obj.time_from + "- " + obj.time_to + ") " + obj.name + " " + obj.surname + "</option>";
                   });
-                  $('#subject_timetable_id').append(div_data);
 
+                  $('#subject_timetable_id').append(div_data);
                   getLessons(subject_timetable_id, class_id);
                }
             });
@@ -523,10 +522,11 @@
 
       $(document).on('change', '#class_id', function(e) {
          $('#section_id').html("");
-         var class_id = $(this).val();
 
+         var class_id = $(this).val();
          var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
          var url = "";
+
          $.ajax({
             type: "GET",
             url: baseurl + "sections/getByClass",
@@ -612,21 +612,23 @@
                   icon: 'glyphicon glyphicon-unchecked'
                }
             };
+
          $button.on('click', function() {
             $checkbox.prop('checked', !$checkbox.is(':checked'));
             $checkbox.triggerHandler('change');
             updateDisplay();
          });
+
          $checkbox.on('change', function() {
             updateDisplay();
          });
 
          function updateDisplay() {
             var isChecked = $checkbox.is(':checked');
+
             $button.data('state', (isChecked) ? "on" : "off");
-            $button.find('.state-icon')
-               .removeClass()
-               .addClass('state-icon ' + settings[$button.data('state')].icon);
+            $button.find('.state-icon').removeClass().addClass('state-icon ' + settings[$button.data('state')].icon);
+
             if (isChecked) {
                $button
                   .removeClass('btn-success')
@@ -640,10 +642,12 @@
 
          function init() {
             updateDisplay();
+
             if ($button.find('.state-icon').length == 0) {
                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
             }
          }
+
          init();
       });
    });
@@ -651,15 +655,12 @@
    $('#checkbox1').change(function() {
       if (this.checked) {
          var returnVal = confirm("Are you sure?");
+
          $(this).prop("checked", returnVal);
-
          $("input[type=radio]").attr('disabled', true);
-
-
       } else {
          $("input[type=radio]").attr('disabled', false);
          $("input[type=radio][value='1']").attr("checked", "checked");
-
       }
 
    });
