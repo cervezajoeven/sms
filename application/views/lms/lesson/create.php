@@ -859,6 +859,21 @@
                <img src="<?php echo $resources . 'images/cms.png' ?>">
             </center>
          </div>
+         <div class="extremeright_icon" title="Kahoot" portal="kahoot">
+            <center>
+               <a href="https://kahoot.it" target="_blank"><img src="<?php echo $resources . 'images/kahoot.png' ?>"></a>
+            </center>
+         </div>
+         <div class="extremeright_icon" title="Mentimeter" portal="mentimeter">
+            <center>
+               <a href="https://www.mentimeter.com/login" target="_blank"><img src="<?php echo $resources . 'images/mentimeter.png' ?>"></a>
+            </center>
+         </div>
+         <div class="extremeright_icon" title="Google Forms" portal="google_forms">
+            <center>
+               <a href="https://docs.google.com/forms/u/0/" target="_blank"><img src="<?php echo $resources . 'images/google-forms.svg' ?>"></a>
+            </center>
+         </div>
       </div>
 
    </div>
