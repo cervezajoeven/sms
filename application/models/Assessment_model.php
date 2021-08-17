@@ -14,14 +14,13 @@ class Assessment_model extends MY_Model
       $this->db->where('lms_assessment.deleted', 0);
       $this->db->where('lms_assessment.account_id', $account_id);
       $this->db->order_by('lms_assessment.date_created', "desc");
-      $this->db->limit(1000);
+      $this->db->limit(2500);
 
       $query = $this->db->get();
       // print_r($this->db->last_query());
       // die();
 
       $return = $query->result_array();
-
       return $return;
    }
 
@@ -34,14 +33,13 @@ class Assessment_model extends MY_Model
       $this->db->join('staff', 'staff.id = lms_assessment.account_id', 'left');
       $this->db->where('lms_assessment.deleted', 0);
       $this->db->order_by('lms_assessment.date_created', "desc");
-      $this->db->limit(1000);
+      $this->db->limit(2500);
 
       $query = $this->db->get();
       // print_r($this->db->last_query());
       // die();
 
       $return = $query->result_array();
-
       return $return;
    }
 
@@ -56,7 +54,6 @@ class Assessment_model extends MY_Model
       $this->db->order_by('lms_assessment.date_created', "desc");
 
       $query = $this->db->get();
-
       $return = $query->result_array();
 
       return $return;
@@ -64,7 +61,6 @@ class Assessment_model extends MY_Model
 
    public function assigned_assessment($account_id)
    {
-
       $this->db->select('*,lms_assessment.id as id,(SELECT COUNT(lms_assessment_sheets.id) FROM lms_assessment_sheets WHERE lms_assessment_sheets.assessment_id = lms_assessment.id AND lms_assessment_sheets.account_id = ' . $account_id . ' AND lms_assessment_sheets.response_status = 1 ) as student_attempt');
       $this->db->from('lms_assessment');
       $this->db->join('staff', "staff.id = lms_assessment.account_id");
@@ -78,20 +74,20 @@ class Assessment_model extends MY_Model
       // echo '<pre>';
       // print_r($this->db->last_query());
       // exit();
+
       return $return;
    }
 
    public function assessment_sheets($assessment_id)
    {
-
       $this->db->select('*');
       $this->db->from('lms_assessment_sheets');
       $this->db->where("assessment_id", $assessment_id);
       $this->db->where("deleted", 0);
 
       $query = $this->db->get();
-
       $return = $query->result_array();
+
       return $return;
    }
 
