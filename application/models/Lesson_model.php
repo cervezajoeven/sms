@@ -62,7 +62,7 @@ class Lesson_model extends MY_Model
          $this->db->where('start_date >', date('Y-m-d H:i:s'));
       } else {
          $this->db->where('end_date <', date('Y-m-d H:i:s'));
-         $this->db->limit(1000);
+         $this->db->limit(2500);
       }
 
       $this->db->where('lms_lesson.deleted', 0);
@@ -94,7 +94,7 @@ class Lesson_model extends MY_Model
          $this->db->where('start_date >', date('Y-m-d H:i:s'));
       } else {
          $this->db->where('end_date <', date('Y-m-d H:i:s'));
-         $this->db->limit(1000);
+         $this->db->limit(2500);
       }
 
       if ($search) {
@@ -191,7 +191,7 @@ class Lesson_model extends MY_Model
       $this->db->where("lms_lesson.shared", "1");
       $this->db->where('deleted', 0);
       $this->db->order_by('lms_lesson.date_created', 'asc');
-      $this->db->limit(2000);
+      $this->db->limit(2500);
       $query = $this->db->get("lms_lesson");
 
       $result = $query->result_array();
