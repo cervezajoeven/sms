@@ -18,7 +18,7 @@
             <!-- general form elements -->
             <div class="box box-primary">
                <div class="box-header ptbnull">
-                  <h3 class="box-title titlefix">Assessment List</h3>
+                  <h3 class="box-title titlefix">Upcoming Assessment</h3>
                   <div class="box-tools pull-right">
 
                   </div><!-- /.box-tools -->
@@ -55,36 +55,26 @@
                                           <i class="fa fa-file"></i>
                                        </a>
 
-                                       <?php if ($list_data['shared'] == 1) { ?>
-                                          <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unshare" onclick="unshare_assessment('<?php echo $list_data['id'] ?>');">
-                                             <i class="fa fa-newspaper-o"></i>
-                                          </a>
-                                       <?php } else { ?>
-                                          <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Share" onclick="share_assessment('<?php echo $list_data['id'] ?>');">
-                                             <i class="fa fa-newspaper-o"></i>
-                                          </a>
-                                       <?php } ?>
-
                                        <a data-placement="right" href="#" class="btn btn-default btn-xs duplicate" onclick="duplicate_confirm('<?php echo site_url('lms/assessment/duplicate/' . $list_data['id']) ?>')" data-toggle="tooltip" title="Duplicate">
                                           <i class="fa fa-files-o"></i>
                                        </a>
 
-                                       <a data-placement="right" href="<?php echo site_url('lms/assessment/edit/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                       <a data-placement="left" href="<?php echo site_url('lms/assessment/edit/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                           <i class="fa fa-edit"></i>
                                        </a>
 
-                                       <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="delete_confirm('<?php echo site_url('lms/assessment/delete/' . $list_data['id']); ?>')">
+                                       <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="delete_confirm('<?php echo site_url('lms/assessment/delete/' . $list_data['id']); ?>')">
                                           <i class="fa fa-remove"></i>
                                        </a>
 
                                     <?php elseif ($role == "student") : ?>
                                        <?php if ($list_data['student_attempt'] >= 1) : ?>
-                                          <a data-placement="right" href="<?php echo site_url('lms/assessment/review/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="View Answer">
+                                          <a data-placement="left" href="<?php echo site_url('lms/assessment/review/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="View Answer">
                                              <i class="fa fa-eye"></i>
                                           </a>
                                        <?php endif; ?>
                                        <?php if ($list_data['student_attempt'] < $list_data['attempts']) : ?>
-                                          <span data-placement="right" href="" class="btn btn-default btn-xs" data-toggle="tooltip" title="Answer" onclick="take_quiz('<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/' . $user_id . '/student/' . $list_data['id']); ?>')">
+                                          <span data-placement="left" href="" class="btn btn-default btn-xs" data-toggle="tooltip" title="Answer" onclick="take_quiz('<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/' . $user_id . '/student/' . $list_data['id']); ?>')">
                                              <i class="fa fa-edit"></i>
                                           </span>
                                        <?php endif; ?>
@@ -359,77 +349,5 @@
 
    function delete_assessment() {
       alert("fire");
-   }
-
-   function unshare_assessment(lesson_id) {
-      var url = "<?php echo base_url('lms/assessment/unshare/'); ?>" + lesson_id;
-      Swal.fire({
-         title: "Unshare Assessment",
-         text: 'Are you sure you wan\'t to unshare this assessment?',
-         showCancelButton: true,
-         confirmButtonText: `Yes`,
-         confirmButtonColor: '#3085d6',
-         icon: 'question',
-      }).then((result) => {
-         /* Read more about isConfirmed, isDenied below */
-         if (result.isConfirmed) {
-            $.ajax({
-               url: url,
-               method: "POST",
-            }).done(function(data) {
-               var parsed_data = JSON.parse(data);
-               Swal.fire({
-                  icon: 'success',
-                  confirmButtonColor: '#3085d6',
-                  // title: 'Hurray!',
-                  title: parsed_data.result,
-                  // footer: '<a href="">Why do I have this issue?</a>'
-               }).then(function() {
-                  location.reload();
-               });
-            });
-         } else if (result.isDenied) {
-            // Swal.fire('Changes are not saved', '', 'info')
-            Swal.close();
-         }
-      });
-   }
-
-   function share_assessment(lesson_id) {
-      var url = "<?php echo base_url('lms/assessment/share/'); ?>" + lesson_id;
-
-      Swal.fire({
-         title: "Share Assessment",
-         text: 'Are you sure you wan\'t to share this lesson?',
-         showCancelButton: true,
-         confirmButtonText: `Yes`,
-         confirmButtonColor: '#3085d6',
-         icon: 'question',
-      }).then((result) => {
-         /* Read more about isConfirmed, isDenied below */
-         if (result.isConfirmed) {
-            $.ajax({
-               url: url,
-               method: "POST",
-            }).done(function(data) {
-               var parsed_data = JSON.parse(data);
-               // alert(parsed_data.result);
-               // location.reload();
-               Swal.fire({
-                  icon: 'success',
-                  confirmButtonColor: '#3085d6',
-                  // title: 'Hurray!',
-                  title: parsed_data.result,
-                  // footer: '<a href="">Why do I have this issue?</a>'
-               }).then(function() {
-                  location.reload();
-               });
-            });
-         } else if (result.isDenied) {
-            // Swal.fire('Changes are not saved', '', 'info')
-            Swal.close();
-         }
-      });
-
    }
 </script>

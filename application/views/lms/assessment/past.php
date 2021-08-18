@@ -18,7 +18,7 @@
             <!-- general form elements -->
             <div class="box box-primary">
                <div class="box-header ptbnull">
-                  <h3 class="box-title titlefix">Assessment List</h3>
+                  <h3 class="box-title titlefix">Past Assessment</h3>
                   <div class="box-tools pull-right">
 
                   </div><!-- /.box-tools -->
@@ -430,6 +430,5 @@
             Swal.close();
          }
       });
-
    }
 </script>

@@ -34,17 +34,86 @@ class Assessment extends General_Controller
       if ($data['role'] == 'admin') {
          $this->load->view('layout/header');
          if ($data['real_role'] == 7 || $data['real_role'] == 1) {
-            $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id());
+            $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id(), "current");
          } else {
-            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id());
+            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id(), "current");
          }
       } else {
-
          $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
          $this->load->view('layout/student/header');
       }
 
       $this->load->view('lms/assessment/index', $data);
+      $this->load->view('layout/footer');
+   }
+
+   public function upcoming()
+   {
+      $this->session->set_userdata('top_menu', 'Download Center');
+      $this->session->set_userdata('sub_menu', 'Assessment');
+      $this->session->set_userdata('sub_menu', 'lms/assessment/upcoming');
+      $data['user_id'] = $this->general_model->get_account_id();
+      $data['role'] = $this->general_model->get_role();
+      $data['real_role'] = $this->general_model->get_real_role();
+
+      if ($data['role'] == 'admin') {
+         $this->load->view('layout/header');
+         if ($data['real_role'] == 7 || $data['real_role'] == 1) {
+            $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id(), "upcoming");
+         } else {
+            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id(), "upcoming");
+         }
+      } else {
+         $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
+         $this->load->view('layout/student/header');
+      }
+
+      $this->load->view('lms/assessment/upcoming', $data);
+      $this->load->view('layout/footer');
+   }
+
+   public function past()
+   {
+      $this->session->set_userdata('top_menu', 'Download Center');
+      $this->session->set_userdata('sub_menu', 'Assessment');
+      $this->session->set_userdata('sub_menu', 'lms/assessment/past');
+      $data['user_id'] = $this->general_model->get_account_id();
+      $data['role'] = $this->general_model->get_role();
+      $data['real_role'] = $this->general_model->get_real_role();
+
+      if ($data['role'] == 'admin') {
+         $this->load->view('layout/header');
+         if ($data['real_role'] == 7 || $data['real_role'] == 1) {
+            $data['list'] = $this->assessment_model->admin_all_assessment($this->general_model->get_account_id(), "past");
+         } else {
+            $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id(), "past");
+         }
+      } else {
+         $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
+         $this->load->view('layout/student/header');
+      }
+
+      $this->load->view('lms/assessment/past', $data);
+      $this->load->view('layout/footer');
+   }
+
+   public function shared()
+   {
+      $this->session->set_userdata('top_menu', 'Download Center');
+      $this->session->set_userdata('sub_menu', 'lms/assessment/shared');
+      $data['user_id'] = $this->general_model->get_account_id();
+      $data['role'] = $this->general_model->get_role();
+      $data['real_role'] = $this->general_model->get_real_role();
+
+      if ($data['role'] == 'admin') {
+         $this->load->view('layout/header');
+         $data['list'] = $this->assessment_model->shared_assessment($this->general_model->get_account_id());
+      } else {
+         $this->load->view('layout/student/header');
+         $data['list'] = $this->assessment_model->shared_assessment($this->general_model->get_account_id());
+      }
+
+      $this->load->view('lms/assessment/shared', $data);
       $this->load->view('layout/footer');
    }
 
@@ -962,5 +1031,27 @@ class Assessment extends General_Controller
       $answer = $this->assessment_model->lms_get('lms_assessment_sheets', $id, "id", "answer")[0]['answer'];
       // echo '<pre>';print_r($answer);exit();
       echo $answer;
+   }
+
+   public function share($lesson_id)
+   {
+      $data['id'] = $lesson_id;
+      $data['shared'] = 1;
+      $this->assessment_model->lms_update("lms_assessment", $data);
+
+      // redirect(site_url() . "lms/lesson/index/");
+      $data['result'] = 'Share successful!';
+      echo json_encode($data);
+   }
+
+   public function unshare($lesson_id)
+   {
+      $data['id'] = $lesson_id;
+      $data['shared'] = 0;
+      $this->assessment_model->lms_update("lms_assessment", $data);
+
+      // redirect(site_url() . "lms/lesson/index/");
+      $data['result'] = 'Unshare successful!';
+      echo json_encode($data);
    }
 }

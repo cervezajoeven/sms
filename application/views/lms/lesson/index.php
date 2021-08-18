@@ -95,7 +95,6 @@
                                  <th>Shared</th>
                               <?php endif; ?>
                               <!-- <th>Status</th> -->
-
                            </tr>
                         </thead>
                         <tbody>
@@ -414,6 +413,11 @@
          var parsed_data = JSON.parse(data);
 
          window.open(vidconlink, '_blank');
+
+         // var parentOpener = window.opener; 
+         // window.opener = null; 
+         // window.open(vidconlink, '_blank');
+         // window.opener = parentOpener;          
       });
    }
 

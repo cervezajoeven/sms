@@ -60,7 +60,7 @@
                            <th>Analysis Report</th>
                            <td>
                               <a href="<?php echo site_url('lms/assessment/analysis/') . $assessment['id'] ?>">
-                                 <button class="form-control btn btn-primary">Item Analysis</button>
+                                 <button class="btn btn-primary">Item Analysis</button>
                               </a>
                            </td>
                         </tr>
@@ -68,7 +68,7 @@
                            <th>Check Essays</th>
                            <td>
                               <a href="<?php echo site_url('lms/assessment/check_essays/') . $assessment['id'] ?>">
-                                 <button class="form-control btn btn-primary">Check Essays</button>
+                                 <button class="btn btn-primary">Check Essays</button>
                               </a>
                            </td>
                         </tr>
@@ -76,7 +76,7 @@
                            <th>Recheck Answers</th>
                            <td>
                               <a href="<?php echo site_url('lms/assessment/recheck_answers/') . $assessment['id'] ?>">
-                                 <button class="form-control btn btn-primary">Recheck Answers</button>
+                                 <button class="btn btn-primary">Recheck Answers</button>
                               </a>
                            </td>
                         </tr>
