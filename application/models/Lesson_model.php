@@ -365,7 +365,7 @@ class Lesson_model extends MY_Model
       $this->db->where('lms_lesson.assigned <>', null);
       $this->db->where('lms_lesson.deleted', 0);
       $this->db->where('end_date <', date('Y-m-d H:i:s'));
-      $this->db->order_by('lms_lesson.date_updated', "desc");
+      $this->db->order_by('lms_lesson.start_date', "desc");
       $this->db->order_by('lms_lesson.lesson_name', "asc");
       $query = $this->db->get("lms_lesson");
 
