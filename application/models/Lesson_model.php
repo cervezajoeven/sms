@@ -355,7 +355,7 @@ class Lesson_model extends MY_Model
 
    public function get_lessons_by_level_subject($account_id = "", $levelid, $subjectid)
    {
-      $this->db->select("lms_lesson.id, concat('(', DATE_FORMAT(lms_lesson.date_updated, '%b %d, %Y %h:%i %p'), ') ', lms_lesson.lesson_name) as lesson_name");
+      $this->db->select("lms_lesson.id, concat('(', DATE_FORMAT(lms_lesson.start_date, '%b %d, %Y %h:%i %p'), ') ', lms_lesson.lesson_name) as lesson_name");
 
       if ($account_id != "")
          $this->db->where("lms_lesson.account_id", $account_id);

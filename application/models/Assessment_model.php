@@ -14,14 +14,14 @@ class Assessment_model extends MY_Model
       $this->db->where('lms_assessment.deleted', 0);
       $this->db->where('lms_assessment.account_id', $account_id);
 
-      if ($timeperiod == "current") {
-         $this->db->where('lms_assessment.start_date <= now()');
-         $this->db->where('lms_assessment.end_date >= now()');
-      } else if ($timeperiod == "past") {
-         $this->db->where('now() > lms_assessment.end_date');
-      } else if ($timeperiod == "upcoming") {
-         $this->db->where('lms_assessment.start_date > now()');
-      }
+      // if ($timeperiod == "current") {
+      //    $this->db->where('lms_assessment.start_date <= now()');
+      //    $this->db->where('lms_assessment.end_date >= now()');
+      // } else if ($timeperiod == "past") {
+      //    $this->db->where('now() > lms_assessment.end_date');
+      // } else if ($timeperiod == "upcoming") {
+      //    $this->db->where('lms_assessment.start_date > now()');
+      // }
 
       $this->db->order_by('lms_assessment.date_created', "desc");
       $this->db->limit(2500);
@@ -43,14 +43,14 @@ class Assessment_model extends MY_Model
       $this->db->join('staff', 'staff.id = lms_assessment.account_id', 'left');
       $this->db->where('lms_assessment.deleted', 0);
 
-      if ($timeperiod == "current") {
-         $this->db->where('lms_assessment.start_date <= now()');
-         $this->db->where('lms_assessment.end_date >= now()');
-      } else if ($timeperiod == "past") {
-         $this->db->where('now() > lms_assessment.end_date');
-      } else if ($timeperiod == "upcoming") {
-         $this->db->where('lms_assessment.start_date > now()');
-      }
+      // if ($timeperiod == "current") {
+      //    $this->db->where('lms_assessment.start_date <= now()');
+      //    $this->db->where('lms_assessment.end_date >= now()');
+      // } else if ($timeperiod == "past") {
+      //    $this->db->where('now() > lms_assessment.end_date');
+      // } else if ($timeperiod == "upcoming") {
+      //    $this->db->where('lms_assessment.start_date > now()');
+      // }
 
       $this->db->order_by('lms_assessment.date_created', "desc");
       $this->db->limit(2500);
