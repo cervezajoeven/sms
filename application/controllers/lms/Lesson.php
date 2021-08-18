@@ -1436,10 +1436,8 @@ class Lesson extends General_Controller
       $data['lesson_id'] = $lesson_id;
 
       $this->db->select("*");
-      $this->db->order_by("id");
-
-
-      $data['zoom_accounts'] = $this->db->get("lms_zoom_accounts")->order_by('sort_order')->result_array();
+      $this->db->order_by("sort_order");
+      $data['zoom_accounts'] = $this->db->get("lms_zoom_accounts")->result_array();
       $data['account_id'] = $this->general_model->get_account_id();
       $data['real_role'] = $this->general_model->get_real_role();
 
