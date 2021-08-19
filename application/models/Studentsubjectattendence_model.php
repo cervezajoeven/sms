@@ -195,7 +195,14 @@ class Studentsubjectattendence_model extends CI_Model
    public function searchByStudentsAttendanceByDate($class_id, $section_id, $day, $date)
    {
 
-      $sql = "SELECT subject_timetable.*,subjects.id as `subject_id`,subjects.name,subjects.code,subjects.type FROM `subject_timetable` INNER JOIN subject_group_subjects on subject_group_subjects.id=subject_timetable.subject_group_subject_id INNER JOIN subjects on subjects.id=subject_group_subjects.subject_id WHERE subject_timetable.class_id=" . $this->db->escape($class_id) . " AND subject_timetable.section_id=" . $this->db->escape($section_id) . " and subject_timetable.session_id=" . $this->db->escape($this->current_session) . " and subject_timetable.day=" . $this->db->escape($day);
+      $sql = "SELECT subject_timetable.*,subjects.id as `subject_id`,subjects.name,subjects.code,subjects.type 
+              FROM `subject_timetable` 
+              INNER JOIN subject_group_subjects on subject_group_subjects.id=subject_timetable.subject_group_subject_id 
+              INNER JOIN subjects on subjects.id=subject_group_subjects.subject_id 
+              WHERE subject_timetable.class_id=" . $this->db->escape($class_id) . " 
+              AND subject_timetable.section_id=" . $this->db->escape($section_id) . " 
+              AND subject_timetable.session_id=" . $this->db->escape($this->current_session) . " 
+              AND subject_timetable.day=" . $this->db->escape($day);
 
       $query = $this->db->query($sql);
       //echo $this->db->last_query();die;
@@ -205,12 +212,18 @@ class Studentsubjectattendence_model extends CI_Model
          $count = 1;
          $append_sql = "";
          $append_param = "";
+
          foreach ($subjects as $subject_key => $subject_value) {
             $append_param .= ",student_subject_attendances_" . $count . ".attendence_type_id as attendence_type_id_" . $count;
             $append_sql .= " LEFT JOIN student_subject_attendances as student_subject_attendances_" . $count . " on  student_subject_attendances_" . $count . ".student_session_id=student_session.id and student_subject_attendances_" . $count . ".subject_timetable_id=" . $this->db->escape($subject_value->id) . " and student_subject_attendances_" . $count . ".date=" . $this->db->escape($date);
             $count++;
          }
-         $sql_student_record = "SELECT students.id,students.firstname,students.lastname,students.admission_no " . $append_param . " FROM `students` INNER JOIN student_session on students.id=student_session.student_id and student_session.class_id=" . $this->db->escape($class_id) . " AND student_session.section_id=" . $this->db->escape($section_id) . " AND student_session.session_id=" . $this->db->escape($this->current_session) . $append_sql . " ORDER BY students.lastname";
+
+         $sql_student_record = "SELECT students.id,students.firstname,students.lastname,students.admission_no " . $append_param .
+            " FROM `students` INNER JOIN student_session on students.id=student_session.student_id and student_session.class_id=" . $this->db->escape($class_id) .
+            " AND student_session.section_id=" . $this->db->escape($section_id) .
+            " AND student_session.session_id=" . $this->db->escape($this->current_session) . $append_sql .
+            " ORDER BY students.lastname";
          $query = $this->db->query($sql_student_record);
          $student_record = $query->result();
 
