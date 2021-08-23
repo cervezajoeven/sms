@@ -25,9 +25,12 @@ class Subjectattendence extends Admin_Controller
 
    public function reportbymonthstudent()
    {
-      $this->session->set_userdata('top_menu', 'Reports');
-      $this->session->set_userdata('sub_menu', 'Reports/attendence');
-      $this->session->set_userdata('subsub_menu', 'Reports/attendence/reportbymonthstudent');
+      // $this->session->set_userdata('top_menu', 'Reports');
+      // $this->session->set_userdata('sub_menu', 'Reports/attendence');
+      // $this->session->set_userdata('subsub_menu', 'Reports/attendence/reportbymonthstudent');
+
+      $this->session->set_userdata('top_menu', 'Attendance');
+      $this->session->set_userdata('sub_menu', 'subjectattendence/attendance_by_month');
       $data              = array();
       $class             = $this->class_model->get('', $classteacher = 'yes');
       $data['classlist'] = $class;
@@ -70,9 +73,9 @@ class Subjectattendence extends Admin_Controller
    public function reportbymonth()
    {
 
-      $this->session->set_userdata('top_menu', 'Reports');
-      $this->session->set_userdata('sub_menu', 'Reports/attendence');
-      $this->session->set_userdata('subsub_menu', 'Reports/attendence/reportbymonth');
+      $this->session->set_userdata('top_menu', 'Attendance');
+      $this->session->set_userdata('sub_menu', 'subjectattendence/attendance_by_month');
+      // $this->session->set_userdata('subsub_menu', 'Reports/attendence/reportbymonth');
       $data              = array();
       $class             = $this->class_model->get('', $classteacher = 'yes');
       $data['classlist'] = $class;

@@ -313,7 +313,7 @@
                      } else {
                         if ($this->rbac->hasPrivilege('student_attendance', 'can_view')) {
                         ?>
-                           <li class="<?php echo set_Submenu('subjectattendence/index'); ?>"><a href="<?php echo base_url(); ?>report/attendance_by_month"><i class="fa fa-angle-double-right"></i> Attendance By Month</a></li>
+                           <li class="<?php echo set_Submenu('subjectattendence/attendance_by_month'); ?>"><a href="<?php echo base_url(); ?>report/attendance_by_month"><i class="fa fa-angle-double-right"></i> Attendance By Month</a></li>
                            <li class="<?php echo set_Submenu('subjectattendence/index'); ?>"><a href="<?php echo base_url(); ?>admin/subjectattendence"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('period') . " " . $this->lang->line('attendance'); ?></a></li>
                         <?php
                         }
@@ -671,10 +671,10 @@
                   <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
 
                   <li class="<?php echo set_Submenu('lms/assessment/create'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/create_index"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('summative_assessment'); ?></a></li>
-                  <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo "" . $this->lang->line('assessment'); ?></a></li>
-                  <!-- <li class="<?php echo set_Submenu('lms/assessment/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming Assessment</a></li>
+                  <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo "Current " . $this->lang->line('assessment'); ?></a></li>
+                  <li class="<?php echo set_Submenu('lms/assessment/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming Assessment</a></li>
                   <li class="<?php echo set_Submenu('lms/assessment/past'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/past"><i class="fa fa-angle-double-right"></i> Past Assessment</a></li>
-                  <li class="<?php echo set_Submenu('lms/assessment/shared'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/shared"><i class="fa fa-angle-double-right"></i> Shared Assessment</a></li> -->
+                  <li class="<?php echo set_Submenu('lms/assessment/shared'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/shared"><i class="fa fa-angle-double-right"></i> Shared Assessment</a></li>
 
                   <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
                   <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>lms/schedule/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>
