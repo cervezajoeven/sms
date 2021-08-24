@@ -15,21 +15,23 @@ foreach ($docs as $value) {
       <td><?php echo $value["score"]; ?></td>
       <td><?php echo $value["remarks"]; ?></td>
       <td class="text-right">
-         <?php if ($value['docs'] != '') { ?>
-            <?php if (
-               strpos(strtoupper($value['docs']), ".DOC") !== false || strpos(strtoupper($value['docs']), ".XLS") !== false ||
-               strpos(strtoupper($value['docs']), ".PPT") !== false || strpos(strtoupper($value['docs']), ".DOCX") !== false ||
-               strpos(strtoupper($value['docs']), ".XLSX") !== false || strpos(strtoupper($value['docs']), ".PPTX") !== false
-            ) { ?>
+         <?php if ($value["url_link"] != '' || $value['docs'] != '') {
+            if ($value['docs'] != '') { ?>
+               <?php if (
+                  strpos(strtoupper($value['docs']), ".DOC") !== false || strpos(strtoupper($value['docs']), ".XLS") !== false ||
+                  strpos(strtoupper($value['docs']), ".PPT") !== false || strpos(strtoupper($value['docs']), ".DOCX") !== false ||
+                  strpos(strtoupper($value['docs']), ".XLSX") !== false || strpos(strtoupper($value['docs']), ".PPTX") !== false
+               ) { ?>
 
-               <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>uploads/homework/assignment/<?php echo $value['docs']; ?>&embedded=true" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
-            <?php } else { ?>
-               <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>uploads/homework/assignment/<?php echo $value['docs']; ?>&embedded=true" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+               <?php } else { ?>
+                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+               <?php } ?>
+               <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
             <?php } ?>
-            <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-         <?php } ?>
 
-         <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
+            <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
+         <?php } ?>
       </td>
    </tr>
 <?php } ?>
