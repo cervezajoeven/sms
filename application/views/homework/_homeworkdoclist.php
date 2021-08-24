@@ -8,18 +8,14 @@ foreach ($docs as $value) {
    // print_r($value['docs']);
 ?>
    <tr>
-      <!-- <td><?php //echo $value["lastname"] . ", " . $value['firstname'] . " (" . $value["admission_no"] . ")"; 
-               ?></td> -->
       <td><?php echo $value["lastname"] . ", " . $value['firstname']; ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["message"])); ?></td>
       <td><?php echo displayTextWithLinks(strip_tags($value["url_link"])); ?></td>
-
       <td><?php echo $value["created_at"]; ?></td>
       <td><?php echo $value["score"]; ?></td>
       <td><?php echo $value["remarks"]; ?></td>
       <td class="text-right">
          <?php if ($value['docs'] != '') { ?>
-            <!-- <a class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php ?>/<?php echo $value['docs']; ?>" title="" data-original-title="Evaluation"><i class="fa fa-eye"></i></a> -->
             <?php if (
                strpos(strtoupper($value['docs']), ".DOC") !== false || strpos(strtoupper($value['docs']), ".XLS") !== false ||
                strpos(strtoupper($value['docs']), ".PPT") !== false || strpos(strtoupper($value['docs']), ".DOCX") !== false ||
@@ -31,10 +27,9 @@ foreach ($docs as $value) {
                <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
             <?php } ?>
             <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-            <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
          <?php } ?>
 
-
+         <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
       </td>
    </tr>
 <?php } ?>
