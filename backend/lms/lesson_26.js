@@ -593,7 +593,9 @@ $(document).ready(function(){
             default:
                $(".student_view_content_iframe").show();
                $(".student_view_content_iframe").css("height",screen.height-180);
-               $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');            
+               // $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
+               $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');                  
+               
                break;
          }
 
@@ -1816,10 +1818,10 @@ $(".teacher_tools_button").click(function(){
 });
 
 $(".formula_board_button").click(function(){
-   $(".formula_board").toggle();
-   // var width = document.getElementById('formula_board').offsetWidth;
    $(".student_view_slides").hide();
    $(".student_view_content").toggle();
+   $(".formula_board").toggle();
+   // var width = document.getElementById('formula_board').offsetWidth;   
    // $("#classroomscreen").css("width",width+70);
 });
 
@@ -1851,4 +1853,10 @@ $(".discussion_board_button").click(function(){
    // $(".student_view_slides").hide();
    // $(".student_view_content").toggle();
    // $("#classroomscreen").css("width",width+70);
+});
+
+$(".jamboard_button").click(function(){
+   $(".student_view_slides").hide();
+   $(".student_view_content").toggle();
+   $(".jamboard").toggle();   
 });
