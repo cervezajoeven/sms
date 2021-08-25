@@ -662,7 +662,6 @@
                   <i class="fa fa-graduation-cap ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                </a>
                <ul class="treeview-menu">
-
                   <li class="<?php echo set_Submenu('lesson/create'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index_create"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('lesson'); ?></a></li>
                   <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
                   <li class="<?php echo set_Submenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
