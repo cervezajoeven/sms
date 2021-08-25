@@ -160,7 +160,7 @@
    </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
    function duplicate_confirm(url) {

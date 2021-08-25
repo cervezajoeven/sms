@@ -14,13 +14,13 @@
    <link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet" />
 
    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   <script type="text/javascript" src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-   <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+   <script type="text/javascript" src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
    <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
 
    <style type="text/css">
@@ -160,29 +160,22 @@
    <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
 
    <div id="myModal" class="modal">
-
       <!-- Modal content -->
       <div class="modal-content">
-
          <h3 style="color: white">Add Text</h3>
          <input type="text" id="text_title" name="" style="padding: 10px; width: 100%;" placeholder="Text Title">
          <div id="view_text">
-
          </div>
          <div id="add_text">
-
          </div>
          <button class="add_text_done add_text_close">Done</button>
          <button class="add_text_close">Close</button>
       </div>
-
    </div>
 
    <div id="vimeo_modal" class="modal">
-
       <!-- Modal content -->
       <div class="modal-content">
-
          <h3 style="color: white">External Link Url</h3>
          <input type="text" class="joe_text" id="vimeo_title" name="" style="padding: 10px; width: 100%;" placeholder="Title">
          <input type="text" class="joe_text" id="vimeo_url" name="" style="padding: 10px; width: 100%;" placeholder="https://">
@@ -190,18 +183,15 @@
          <button class="vimeo_modal_done vimeo_modal_close">Done</button>
          <button class="vimeo_modal_close">Close</button>
       </div>
-
    </div>
 
    <div class="edit_area">
-
       <div class="part ben_left">
          <div class="navigation">
-
             <div class="title_container">
                <input type="text" class="title" placeholder="Lesson Name Here..." value="<?php echo $lesson['lesson_name'] ?>" name="">
-
             </div>
+
             <div class="folders_container">
                <div class="folder folder_active" style="width: 33.33%">
                   <!-- <input type="text" placeholder="Engage" value="Engage" name=""> -->
@@ -249,126 +239,125 @@
                               ?> -->
 
             </div>
-
          </div>
 
          <div class="folder_container">
-
             <ul id="folder_1" class="folder_contents connectedSortable">
-
             </ul>
          </div>
+
          <div class="folder_container">
             <ul id="folder_2" class="folder_contents connectedSortable">
 
             </ul>
          </div>
+
          <div class="folder_container">
             <ul id="folder_3" class="folder_contents connectedSortable">
 
             </ul>
          </div>
+
          <div class="folder_container">
             <ul id="folder_4" class="folder_contents connectedSortable">
 
             </ul>
          </div>
+
          <div class="folder_container">
             <ul id="folder_5" class="folder_contents connectedSortable">
 
             </ul>
          </div>
+
          <div id="" class="slider close learning_plan_slider">
             <h2 style="margin: 5px;">Learning Outcomes <button id="learning_plan_save"> Save </button></h2>
             <div class="slider_container">
-               <!-- <div id="learning_plan_text" style="color: black(); ">
-                        
+               <!-- <div id="learning_plan_text" style="color: black(); ">                        
                         </div> -->
-
                <textarea class="tinymce" id="the_learning_plan">
-
-                        <?php if ($lesson['learning_plan'] != "") : ?>
-                           <?php echo $lesson['learning_plan'] ?>
-                        <?php else : ?>
-                           <table style="height: 600px;" border="1">
-                              <tr>
-                              <th rowspan="2">Learning Competencies (MELCS)</th>
-                              <th rowspan="2">Objectives</th>
-                              <th rowspan="2">Virtual Session Schedule <span style="font-size: 10px;">(10,20,30,40,50,60,70,80,90)</span></th>
-                              <th rowspan="2">Campus LMS Resources</th>
-                              <th rowspan="2" colspan="2">Learning Experiences</th>
-                              <th colspan="2">Hybrid Learning Modes</th>  
-                              </tr>
-                              <tr>
-                              <th>Synchronous</th>
-                              <th>Asynchronous</th>
-                              </tr>
-                              <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: red;font-size: 14px;"><h3>Engage</h3></td>
-                              <td>How will you capture the student's interest? What questions should students ask themselves?</td>
-                              <td></td>
-                              <td></td>
-                              </tr>
-                              <tr style="font-size: 10px;">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: blue;font-size: 14px;"><h3>Explore</h3></td>
-                              <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
-                              <td></td>
-                              <td></td>
-                              </tr>
-                              <tr style="font-size: 10px;">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: violet;font-size: 14px;"><h3>Explain</h3></td>
-                              <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
-                              <td></td>
-                              <td></td>
-                              </tr>
-                              <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: green;font-size: 14px;"><h3>Extend</h3></td>
-                              <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
-                              <td></td>
-                              <td></td>
-                              </tr>
-                              <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: brown;font-size: 14px;"><h3>Evaluate</h3></td>
-                              <td>How will students demonstrate that they have achieved the lesson objective?</td>
-                              <td></td>
-                              <td></td>
-                              </tr>
-                              <tr style="font-size: 10px">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td style="color: orange;font-size: 14px;"><h3>Life Long Learning</h3></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              </tr>
-                           </table>
-                        <?php endif; ?>
-                        
-                        </textarea>
+                  <?php if ($lesson['learning_plan'] != "") : ?>
+                     <?php echo $lesson['learning_plan'] ?>
+                  <?php else : ?>
+                     <table style="height: 600px;" border="1">
+                        <tr>
+                        <th rowspan="2">Learning Competencies (MELCS)</th>
+                        <th rowspan="2">Objectives</th>
+                        <th rowspan="2">Virtual Session Schedule <span style="font-size: 10px;">(10,20,30,40,50,60,70,80,90)</span></th>
+                        <th rowspan="2">Campus LMS Resources</th>
+                        <th rowspan="2" colspan="2">Learning Experiences</th>
+                        <th colspan="2">Hybrid Learning Modes</th>  
+                        </tr>
+                        <tr>
+                        <th>Synchronous</th>
+                        <th>Asynchronous</th>
+                        </tr>
+                        <tr style="font-size: 10px">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: red;font-size: 14px;"><h3>Engage</h3></td>
+                        <td>How will you capture the student's interest? What questions should students ask themselves?</td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr style="font-size: 10px;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: blue;font-size: 14px;"><h3>Explore</h3></td>
+                        <td>Describe what kinds of hands-on/minds-on activities students will be doing?</td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr style="font-size: 10px;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: violet;font-size: 14px;"><h3>Explain</h3></td>
+                        <td>List higher order thinking questions which teachers will use to solicit student explanations and help them to justify their explanations.</td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr style="font-size: 10px">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: green;font-size: 14px;"><h3>Extend</h3></td>
+                        <td>Describe how students will develop a more sophisticated understanding of the concept?</td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr style="font-size: 10px">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: brown;font-size: 14px;"><h3>Evaluate</h3></td>
+                        <td>How will students demonstrate that they have achieved the lesson objective?</td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr style="font-size: 10px">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="color: orange;font-size: 14px;"><h3>Life Long Learning</h3></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                     </table>
+                  <?php endif; ?>                  
+               </textarea>
             </div>
          </div>
+
          <!-- <div id="" class="slider close objective_slider">
                   <div class="slider_container">
                         <h2>Objective</h2>
@@ -378,6 +367,7 @@
                         </div>
                   </div>
                </div> -->
+
          <div id="" class="slider close assign_slider" style="background-color: rgb(84, 130, 53);">
             <div class="slider_container">
                <div class="col-lg-6" style="margin-bottom: 1000px;">
@@ -413,8 +403,8 @@
                      </li>
                   </div>
                </div>
-               <div class="col-lg-6" style="margin-bottom: 400px">
 
+               <div class="col-lg-6" style="margin-bottom: 400px">
                   <h3>Assign Date</h3>
                   <?php if ($lesson['start_date'] == '0000-00-00 00:00:00') : ?>
                      <?php $lesson['start_date'] = ""; ?>
@@ -444,14 +434,11 @@
                                     echo "selected=''";
                                  } ?> value="zoom"><img src="">Zoom Live Class</option>
                      </select>
-
                   </div>
 
                   <div class="student_view_control">
                      <h3>Student Viewing</h3>
-
                      <div class="pretty p-switch p-fill">
-
                         <input type="checkbox" id="allow_view" <?php if ($lesson['allow_view'] == "") {
                                                                   echo "checked";
                                                                } ?> <?php if ($lesson['allow_view'] == "1") {
@@ -461,16 +448,11 @@
                            <label>Allow</label>
                         </div>
                      </div>
-
                   </div>
-
-
 
                   <div class="notification_control">
                      <h3>Notification</h3>
-
                      <div class="pretty p-switch p-fill" style="display: none">
-
                         <input type="checkbox" id="email_notification" <?php if ($lesson['email_notification'] == "1") {
                                                                            echo "checked";
                                                                         } ?> checked />
@@ -480,26 +462,14 @@
                         </div>
                      </div>
                      <button id="send_emails_now" style="padding: 10px;border-radius: 10px;border: 0px;cursor: pointer;width: 30%;background-color: #428bca;color: white;">Send Now</button>
-
                   </div>
-
-
-
-
-
                   <h3>Save</h3>
-
                   <button class="assign_save" style="    padding: 10px;width: 30%;border-radius: 10px;border: 0px;cursor: pointer;background-color: #428bca;color: white;">Save/Assign</button>
-
                </div>
-
-
-
-
             </div>
          </div>
-         <div id="" class="slider close discussion_slider">
 
+         <div id="" class="slider close discussion_slider">
             <div class="slider_container">
                <style type="text/css">
                   .teacher_chat_container {
@@ -508,9 +478,6 @@
                </style>
                <h2>Discussion Board</h2>
                <div class="dicussion_container teacher_chat_container">
-
-
-
                </div>
                <div class="chat_discussion" style="position: relative;">
                   <textarea class="chat_text" style="bottom: 0;"></textarea>
@@ -518,6 +485,7 @@
                </div>
             </div>
          </div>
+
          <div id="" class="slider close settings_slider">
             <div class="slider_container">
                <h2>Settings</h2>
@@ -615,7 +583,6 @@
          </div>
 
          <div class="footer">
-
             <div class="actions_container">
                <div class="actions">
                   <a href="<?php echo site_url('lms/lesson/index'); ?>">
@@ -647,8 +614,8 @@
                </a>
 
             </div>
-
          </div>
+
          <div class="result_actions">
             <form class="upload_form" method="post" enctype="multipart/form-data">
                <input type="file" class="upload_input hidden" name="upload_file[]" multiple="">
@@ -672,6 +639,7 @@
             </div>
          </div>
       </div>
+
       <div class="part ben_right">
          <div class="navigation">
             <div class="title_container">
@@ -841,7 +809,7 @@
                <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-pen"></i> Annotate</div>
                <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
             <?php endif; ?>
-            <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div>
+            <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
             <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
 
 
@@ -902,22 +870,21 @@
          </div>
 
          <div id="" class="formula_board">
-
-            <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;">
-
-            </iframe>
+            <!-- <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe> -->
+            <iframe id="" src="https://equatio.texthelp.com/space" style="width: 100%;height: 100%;position: relative;"></iframe>
          </div>
-         <div id="" class="discussion_board">
+
+         <!-- <div id="" class="discussion_board">
             <h2>Discussion: </h2>
             <div class="dicussion_container student_chat_container" style="height:90%;width: 100%">
 
             </div>
-            <div class="chat_discussion" style="">
 
+            <div class="chat_discussion" style="">
                <textarea class="chat_text student_chat" name="" style="width: 30%"></textarea>
                <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="position: absolute;height: 37px;width: 15%;">Send</button>
             </div>
-         </div>
+         </div> -->
 
          <canvas id="canvas" class="annotate" width="1000" height="1000">
 
@@ -1013,9 +980,9 @@
    <script src="<?php echo $resources . 'jquery-ui.js' ?>"></script>
    <script src="<?php echo $resources . 'jquery.mousewheel.min.js' ?>"></script>
 
-   <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
-   <script src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+   <script type="text/javascript" src="https://vjs.zencdn.net/7.7.5/video.js"></script>
+   <script type="text/javascript" src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
    <script src="<?php echo $resources . 'drawing-table.js' ?>" type="text/javascript"></script>

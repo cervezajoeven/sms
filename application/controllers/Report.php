@@ -2044,9 +2044,11 @@ class Report extends Admin_Controller
 
    public function attendance_by_month()
    {
-      $this->session->set_userdata('top_menu', 'Reports');
-      $this->session->set_userdata('sub_menu', 'Reports/student_information');
-      $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
+      // $this->session->set_userdata('top_menu', 'Reports');
+      // $this->session->set_userdata('sub_menu', 'Reports/student_information');
+      // $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
+      $this->session->set_userdata('top_menu', 'Attendance');
+      $this->session->set_userdata('sub_menu', 'subjectattendence/attendance_by_month');
 
       $data['title'] = 'Class Record Per Student';
       $class = $this->class_model->get();

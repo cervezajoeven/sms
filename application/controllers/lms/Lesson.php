@@ -34,7 +34,8 @@ class Lesson extends General_Controller
    function index($lesson_query = "today")
    {
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'content/lesson');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'content/lesson');
 
       $data['title'] = 'Lesson';
 
@@ -115,7 +116,8 @@ class Lesson extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'lesson/create');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'lesson/create');
 
       $data['title'] = 'Lesson';
 
@@ -167,7 +169,8 @@ class Lesson extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'content/upcoming');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'content/upcoming');
 
       $data['title'] = 'Lesson';
 
@@ -220,7 +223,8 @@ class Lesson extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'content/past');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'content/past');
 
       $data['title'] = 'Lesson';
 
@@ -338,7 +342,8 @@ class Lesson extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'content/lesson_bin');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'content/lesson_bin');
 
       $data['title'] = 'Lesson';
 
@@ -407,7 +412,8 @@ class Lesson extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'content/shared_lesson');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'content/shared_lesson');
 
       $data['title'] = 'Lesson';
 

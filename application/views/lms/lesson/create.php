@@ -15,20 +15,20 @@
    <link rel="stylesheet" href="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.css">
 
    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   <script type="text/javascript" src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 
-   <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+   <script type="text/javascript" src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
    <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
    <!-- <script src="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.min.js"></script> -->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
    <style type="text/css">
@@ -905,6 +905,14 @@
             background-color: rgb(220 0 0);
          }
 
+         .yellow {
+            background-color: rgb(217, 206, 0);
+         }
+
+         .skyblue {
+            background-color: rgb(8 184 249);
+         }
+
          .navigation_tools {
             width: 10%;
             max-height: 20px;
@@ -938,8 +946,8 @@
             width: 10%;
          }
       </style>
-      <div class="student_view_container">
 
+      <div class="student_view_container">
          <div class="student_view_navigation">
             <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div>
             <div class="student_view_buttons student_view_title">Title</div>
@@ -947,35 +955,36 @@
 
             <?php if ($role == "admin") : ?>
                <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div>
-               <div class="student_view_buttons navigation_tools orange formula_board_button"><i class="fas fa-square-root-alt"></i> Formula Board</div>
+               <div class="student_view_buttons navigation_tools skyblue formula_board_button"><i class="fas fa-square-root-alt"></i> Formula Board</div>
                <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-pen"></i> Annotate</div>
-               <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
+               <div class="student_view_buttons navigation_tools orange jamboard_button"><i class="fas fa-wrench"></i> Jamboard</div>
             <?php endif; ?>
-            <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div>
+
+            <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
             <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
-
-
          </div>
+
          <div class="student_view_slides" id="student_view_slides">
             <div class="slide slide_clone" style="display: none;">
                <div class="dimmer"></div>
                <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Panthera_tigris_tigris_Tidoba_20150306.jpg">
             </div>
-
          </div>
-         <div class="student_view_content">
 
+         <div class="student_view_content">
             <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0"></iframe>
             <img class="content_type image_content" src="" data-magnify="gallery" data-caption="Image Caption 1" data-src="1.jpg" />
             <div class="content_type html_content" style="background-color: white;"></div>
             <!-- <div class="content_type" style="background-color: rgb(210, 206, 206); display: block; height: calc(100vh - 250px); padding: 50px;  overflow: auto;"></div> -->
             <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
          </div>
+
          <style type="text/css">
             .teacher_tools {
                width: 100%;
             }
          </style>
+
          <div id="teacher_tools" class="teacher_tools">
             <div class="student_view_buttons close_action teacher_tools_button" style="
                             width: 12%;
@@ -996,30 +1005,30 @@
                               font-weight: bolder;
                               margin-top: 0px;">CMS Teacher Tools</h2>
             <iframe id="classroomscreen" src="https://app.classroomscreen.com/" style="width: 100%;height: 90%;position: relative;"></iframe>
-
          </div>
 
-         <div id="" class="formula_board">
-
-            <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;">
-
-            </iframe>
+         <div id="formula_board" class="formula_board">
+            <!-- <iframe id="" src="<?php //echo base_url() 
+                                    ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe> -->
+            <iframe id="" src="https://equatio.texthelp.com" style="width: 100%;height: 100%;position: relative;"></iframe>
          </div>
-         <div id="" class="discussion_board">
+
+         <div id="jamboard" class="jamboard">
+            <iframe id="" src="https://jamboard.google.com/" style="width: 100%;height: 100%;position: relative;"></iframe>
+         </div>
+
+         <!-- <div id="" class="discussion_board">
             <h2>Discussion: </h2>
             <div class="dicussion_container student_chat_container" style="height:90%;width: 100%">
 
             </div>
             <div class="chat_discussion" style="">
-
                <textarea class="chat_text student_chat" name="" style="width: 30%"></textarea>
                <button class="chat_submit" onclick="send_chat($('.student_chat').val())" style="position: absolute;height: 37px;width: 15%;">Send</button>
             </div>
-         </div>
+         </div> -->
 
-         <canvas id="canvas" class="annotate" width="1000" height="1000">
-
-         </canvas>
+         <canvas id="canvas" class="annotate" width="1000" height="1000"></canvas>
 
       </div>
       <!-- <div class="student_view_right"> -->
@@ -1113,14 +1122,14 @@
    <script src="<?php echo $resources . 'jquery-ui.js' ?>"></script>
    <script src="<?php echo $resources . 'jquery.mousewheel.min.js' ?>"></script>
 
-   <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
-   <script src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
+   <script type="text/javascript" src="https://vjs.zencdn.net/7.7.5/video.js"></script>
+   <script type="text/javascript" src="https://cdn.quilljs.com/2.0.0-dev.2/quill.js"></script>
    <!-- <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script> -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-   <script src="<?php echo $resources . 'drawing-table.js' ?>" type="text/javascript"></script>
-   <script src="<?php echo $resources . 'lesson_26.js' ?>"></script>
+   <script type="text/javascript" src="<?php echo $resources . 'drawing-table.js' ?>" type="text/javascript"></script>
+   <script type="text/javascript" src="<?php echo $resources . 'lesson_26.js' ?>"></script>
    <script type="text/javascript">
 
    </script>

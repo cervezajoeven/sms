@@ -26,7 +26,8 @@ class Assessment extends General_Controller
    public function index()
    {
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'lms/assessment');
+      $this->session->set_userdata('sub_menu', 'Assessment');
+      $this->session->set_userdata('subsub_menu', 'lms/assessment');
       $data['user_id'] = $this->general_model->get_account_id();
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
@@ -51,7 +52,7 @@ class Assessment extends General_Controller
    {
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'Assessment');
-      $this->session->set_userdata('sub_menu', 'lms/assessment/upcoming');
+      $this->session->set_userdata('subsub_menu', 'lms/assessment/upcoming');
       $data['user_id'] = $this->general_model->get_account_id();
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
@@ -76,7 +77,7 @@ class Assessment extends General_Controller
    {
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'Assessment');
-      $this->session->set_userdata('sub_menu', 'lms/assessment/past');
+      $this->session->set_userdata('subsub_menu', 'lms/assessment/past');
       $data['user_id'] = $this->general_model->get_account_id();
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
@@ -100,7 +101,9 @@ class Assessment extends General_Controller
    public function shared()
    {
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'lms/assessment/shared');
+      $this->session->set_userdata('sub_menu', 'Assessment');
+      $this->session->set_userdata('subsub_menu', 'lms/assessment/shared');
+
       $data['user_id'] = $this->general_model->get_account_id();
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
@@ -121,7 +124,9 @@ class Assessment extends General_Controller
    {
 
       $this->session->set_userdata('top_menu', 'Download Center');
-      $this->session->set_userdata('sub_menu', 'lms/assessment/create');
+      $this->session->set_userdata('sub_menu', 'Assessment');
+      $this->session->set_userdata('subsub_menu', 'lms/assessment/create');
+
       $data['user_id'] = $this->general_model->get_account_id();
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();

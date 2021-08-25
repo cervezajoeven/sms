@@ -276,6 +276,22 @@ class Lesson_model extends MY_Model
       return $result;
    }
 
+   public function get_students_per_level($gradelevel)
+   {
+      $current_session = $this->setting_model->getCurrentSession();
+      $this->db->select("students.id,students.firstname,students.lastname,students.middlename,student_session.class_id,student_session.section_id,students.is_active");
+      $this->db->join("students", "students.id = student_session.student_id");
+      $this->db->where("session_id", $current_session);
+      $this->db->where("students.is_active", "yes");
+      $this->db->where("student_session.class_id", $gradelevel);
+      $this->db->order_by("students.lastname", "asc");
+
+      $query = $this->db->get("student_session");
+
+      $result = $query->result_array();
+      return $result;
+   }
+
    public function get_class_sections()
    {
       $this->db->select("*");

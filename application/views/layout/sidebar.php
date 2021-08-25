@@ -662,19 +662,33 @@
                   <i class="fa fa-graduation-cap ftlayer"></i> <span><?php echo $this->lang->line('campus_lms'); ?></span> <i class="fa fa-angle-left pull-right"></i>
                </a>
                <ul class="treeview-menu">
-                  <li class="<?php echo set_Submenu('lesson/create'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index_create"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('lesson'); ?></a></li>
-                  <li class="<?php echo set_Submenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
-                  <li class="<?php echo set_Submenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
-                  <li class="<?php echo set_Submenu('content/past'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/past"><i class="fa fa-angle-double-right"></i> Past <?php echo $this->lang->line('lesson'); ?></a></li>
-                  <li class="<?php echo set_Submenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
-                  <li class="<?php echo set_Submenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
+                  <li class="treeview <?php echo set_Submenu('Lesson'); ?>">
+                     <a href="#">
+                        <i class="fa fa-angle-double-right"></i><span>Lesson</span> <i class="fa fa-angle-left pull-right"></i>
+                     </a>
+                     <ul class="treeview-menu">
+                        <li class="<?php echo set_SubSubmenu('lesson/create'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index_create"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_SubSubmenu('content/lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/index"><i class="fa fa-angle-double-right"></i> Current <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_SubSubmenu('content/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_SubSubmenu('content/past'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/past"><i class="fa fa-angle-double-right"></i> Past <?php echo $this->lang->line('lesson'); ?></a></li>
+                        <li class="<?php echo set_SubSubmenu('content/lesson_bin'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/lesson_bin"><i class="fa fa-angle-double-right"></i> Lesson Bin</a></li>
+                        <li class="<?php echo set_SubSubmenu('content/shared_lesson'); ?>"><a href="<?php echo base_url(); ?>lms/lesson/shared"><i class="fa fa-angle-double-right"></i> Shared <?php echo $this->lang->line('lesson'); ?></a></li>
+                     </ul>
+                  </li>
 
-                  <li class="<?php echo set_Submenu('lms/assessment/create'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/create_index"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('summative_assessment'); ?></a></li>
-                  <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('assessment'); ?></a></li>
-                  <!-- <li class="<?php echo set_Submenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo "Current " . $this->lang->line('assessment'); ?></a></li>
-                  <li class="<?php echo set_Submenu('lms/assessment/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming Assessment</a></li>
-                  <li class="<?php echo set_Submenu('lms/assessment/past'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/past"><i class="fa fa-angle-double-right"></i> Past Assessment</a></li>
-                  <li class="<?php echo set_Submenu('lms/assessment/shared'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/shared"><i class="fa fa-angle-double-right"></i> Shared Assessment</a></li> -->
+                  <li class="treeview <?php echo set_Submenu('Assessment'); ?>">
+                     <a href="#">
+                        <i class="fa fa-angle-double-right"></i><span>Assessment</span> <i class="fa fa-angle-left pull-right"></i>
+                     </a>
+                     <ul class="treeview-menu">
+                        <li class="<?php echo set_SubSubmenu('lms/assessment/create'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/create_index"><i class="fa fa-angle-double-right"></i> Create <?php echo $this->lang->line('summative_assessment'); ?></a></li>
+                        <!-- <li class="<?php echo set_SubSubmenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo "Current " . $this->lang->line('assessment'); ?></a></li> -->
+                        <li class="<?php echo set_SubSubmenu('lms/assessment'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/index"><i class="fa fa-angle-double-right"></i> <?php echo "Current " . $this->lang->line('assessment'); ?></a></li>
+                        <li class="<?php echo set_SubSubmenu('lms/assessment/upcoming'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/upcoming"><i class="fa fa-angle-double-right"></i> Upcoming Assessment</a></li>
+                        <li class="<?php echo set_SubSubmenu('lms/assessment/past'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/past"><i class="fa fa-angle-double-right"></i> Past Assessment</a></li>
+                        <li class="<?php echo set_SubSubmenu('lms/assessment/shared'); ?>"><a href="<?php echo base_url(); ?>lms/assessment/shared"><i class="fa fa-angle-double-right"></i> Shared Assessment</a></li>
+                     </ul>
+                  </li>
 
                   <li class="<?php echo set_Submenu('content/lms_survey'); ?>"><a href="<?php echo base_url(); ?>lms/survey/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_survey'); ?></a></li>
                   <li class="<?php echo set_Submenu('content/lms_schedule'); ?>"><a href="<?php echo base_url(); ?>lms/schedule/index"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('lms_schedule'); ?></a></li>

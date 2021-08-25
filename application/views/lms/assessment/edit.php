@@ -260,15 +260,14 @@
 </html>
 <script type="text/javascript" src="<?php echo $resources . 'jquery-1.12.4.js' ?>"></script>
 <script type="text/javascript" src="<?php echo $resources . 'jquery-ui.js' ?>"></script>
+<script type="text/javascript" src="<?php echo $resources . 'assessment_10.js' ?>"></script>
 
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
 <script type="text/javascript" src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo $resources . 'assessment_10.js' ?>"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
    $("#upload_form").on("submit", function(e) {
