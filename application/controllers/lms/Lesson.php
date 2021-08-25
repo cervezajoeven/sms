@@ -485,16 +485,81 @@ class Lesson extends General_Controller
       }
 
       redirect(site_url() . "lms/lesson/create/" . $id);
+      // redirect(site_url() . "lms/lesson/create2/" . $id . "/" . $_REQUEST['grade']);
    }
 
    function create($id)
    {
       $data['id'] = $id;
+      $data['role'] = $this->general_model->get_role();
+      // echo '<pre>';
+      // print_r($data['students']);
+      // exit();
+      // $current_session = $this->setting_model->getCurrentSession();
 
-      $current_session = $this->setting_model->getCurrentSession();
-      $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
+      if ($data['role'] != "student") {
+         $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
+
+         // $data['classes'] = $this->class_model->getAll();
+         $data['class_sections'] = $this->lesson_model->get_class_sections();
+
+         $data['classes'] = $this->general_model->get_classes();
+         $data['subjects'] = $this->general_model->get_subjects();
+
+         $data['account_id'] = $this->general_model->get_account_id();
+         $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
+         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+         $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
+         $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
+         $data['lms_google_meet'] = $data['lesson']['google_meet'];
+      }
+
+      // print_r($data);
+      // die();
+
+      if ($data['google_meet'] == "") {
+         $data['virtual_status'] = "available";
+      } else {
+         $data['virtual_status'] = "not_available";
+      }
+
+      if ($data['role'] != "student") {
+         if ($data['google_meet'] != $data['lms_google_meet']) {
+
+            $update_google_meet_data['google_meet'] = $data['google_meet'];
+            $update_google_meet_data['id'] = $data['id'];
+            $this->lesson_model->lms_update("lms_lesson", $update_google_meet_data);
+         }
+      } else {
+         $lesson_log_data['lesson_id'] = $id;
+         $lesson_log_data['account_id'] = $this->general_model->get_account_id();
+         $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+         $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+      }
+
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+
+      $data['resources'] = site_url('backend/lms/');
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+      if ($data['role'] != "student") {
+         $this->load->view('lms/lesson/create', $data);
+      } else {
+         $this->load->view('lms/lesson/student_view', $data);
+      }
+   }
+
+   function create2($id, $gradelevel)
+   {
+      $data['id'] = $id;
+
+      // $current_session = $this->setting_model->getCurrentSession();
+      $data['students'] = $this->lesson_model->get_students_per_level("lms_lesson", $id, "id", $gradelevel);
       // echo '<pre>';print_r($data['students']);exit();
-      $data['classes'] = $this->class_model->getAll();
+      // $data['classes'] = $this->class_model->getAll();
       $data['class_sections'] = $this->lesson_model->get_class_sections();
       $data['role'] = $this->general_model->get_role();
       $data['classes'] = $this->general_model->get_classes();
