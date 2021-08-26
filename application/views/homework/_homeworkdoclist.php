@@ -89,9 +89,10 @@ foreach ($docs as $value) {
          file_location.toLocaleUpperCase().includes(".PPT") || file_location.toLocaleUpperCase().includes(".DOCX") ||
          file_location.toLocaleUpperCase().includes(".XLSX") || file_location.toLocaleUpperCase().includes(".PPTX")) {
          var officedoc = "https://view.officeapps.live.com/op/view.aspx?src=";
+         // var officedoc = "https://docs.google.com/gview?url=";
          var file_location = $(this).attr("file_location");
 
-         $(".document_iframe").attr("src", officedoc + file_location);
+         $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location) + "&embedded=true");
          $('#document_view_modal').modal({
             backdrop: 'static',
             keyboard: false,
