@@ -197,300 +197,301 @@ class Admin extends Admin_Controller
       $staffid       = $this->customlib->getStaffID();
       $notifications = $this->notification_model->getUnreadStaffNotification($staffid, $role_id);
       $data['notifications'] = $notifications;
-      $input                 = $this->setting_model->getCurrentSessionName();
 
-      list($a, $b)  = explode('-', $input);
-      $Current_year = $a;
-      if (strlen($b) == 2) {
-         $Next_year = substr($a, 0, 2) . $b;
-      } else {
-         $Next_year = $b;
-      }
-      $data['mysqlVersion'] = $this->setting_model->getMysqlVersion();
-      $data['sqlMode']      = $this->setting_model->getSqlMode();
-      //========================== Current Attendence ==========================
-      $current_date       = date('Y-m-d');
-      $data['title']      = 'Dashboard';
-      $Current_start_date = date('01');
-      $Current_date       = date('d');
-      $Current_month      = date('m');
-      $month_collection   = 0;
-      $month_expense      = 0;
-      $total_students     = 0;
-      $total_teachers     = 0;
-      $ar                 = $this->startmonthandend();
-      $year_str_month     = $Current_year . '-' . $ar[0] . '-01';
-      $year_end_month     = date("Y-m-t", strtotime($Next_year . '-' . $ar[1] . '-01'));
-      $getDepositeAmount  = $this->studentfeemaster_model->getDepositAmountBetweenDate($year_str_month, $year_end_month);
+      // $input                 = $this->setting_model->getCurrentSessionName();
 
-      //======================Current Month Collection ==============================
-      $first_day_this_month = date('Y-m-01');
+      // list($a, $b)  = explode('-', $input);
+      // $Current_year = $a;
+      // if (strlen($b) == 2) {
+      //    $Next_year = substr($a, 0, 2) . $b;
+      // } else {
+      //    $Next_year = $b;
+      // }
+      // $data['mysqlVersion'] = $this->setting_model->getMysqlVersion();
+      // $data['sqlMode']      = $this->setting_model->getSqlMode();
+      // //========================== Current Attendence ==========================
+      // $current_date       = date('Y-m-d');
+      // $data['title']      = 'Dashboard';
+      // $Current_start_date = date('01');
+      // $Current_date       = date('d');
+      // $Current_month      = date('m');
+      // $month_collection   = 0;
+      // $month_expense      = 0;
+      // $total_students     = 0;
+      // $total_teachers     = 0;
+      // $ar                 = $this->startmonthandend();
+      // $year_str_month     = $Current_year . '-' . $ar[0] . '-01';
+      // $year_end_month     = date("Y-m-t", strtotime($Next_year . '-' . $ar[1] . '-01'));
+      // $getDepositeAmount  = $this->studentfeemaster_model->getDepositAmountBetweenDate($year_str_month, $year_end_month);
 
-      $month_collection = $this->whatever($getDepositeAmount, $first_day_this_month, $current_date);
-      $expense          = $this->expense_model->getTotalExpenseBwdate($first_day_this_month, $current_date);
-      if (!empty($expense)) {
-         $month_expense = $month_expense + $expense->amount;
-      }
+      // //======================Current Month Collection ==============================
+      // $first_day_this_month = date('Y-m-01');
 
-      $data['month_collection'] = $month_collection;
-      $data['month_expense']    = $month_expense;
+      // $month_collection = $this->whatever($getDepositeAmount, $first_day_this_month, $current_date);
+      // $expense          = $this->expense_model->getTotalExpenseBwdate($first_day_this_month, $current_date);
+      // if (!empty($expense)) {
+      //    $month_expense = $month_expense + $expense->amount;
+      // }
 
-      $tot_students = $this->studentsession_model->getTotalStudentBySession();
-      if (!empty($tot_students)) {
-         $total_students = $tot_students->total_student;
-      }
+      // $data['month_collection'] = $month_collection;
+      // $data['month_expense']    = $month_expense;
 
-      $data['total_students'] = $total_students;
+      // $tot_students = $this->studentsession_model->getTotalStudentBySession();
+      // if (!empty($tot_students)) {
+      //    $total_students = $tot_students->total_student;
+      // }
 
-      $tot_roles = $this->role_model->get();
+      // $data['total_students'] = $total_students;
 
-      foreach ($tot_roles as $key => $value) {
-         // if ($value["id"] != 1) {
-         $count_roles[$value["name"]] = $this->role_model->count_roles($value["id"]);
-         // }
-      }
-      $data["roles"] = $count_roles;
+      // $tot_roles = $this->role_model->get();
 
-      //======================== get collection by month ==========================
-      $start_month = strtotime($year_str_month);
-      $start       = strtotime($year_str_month);
-      $end         = strtotime($year_end_month);
-      $coll_month  = array();
-      $s           = array();
-      $total_month = array();
-      while ($start_month <= $end) {
-         $total_month[] = date('M', $start_month);
-         $month_start   = date('Y-m-d', $start_month);
-         $month_end     = date("Y-m-t", $start_month);
-         $return        = $this->whatever($getDepositeAmount, $month_start, $month_end);
-         if ($return) {
-            $s[] = $return;
-         } else {
-            $s[] = "0.00";
-         }
+      // foreach ($tot_roles as $key => $value) {
+      //    // if ($value["id"] != 1) {
+      //    $count_roles[$value["name"]] = $this->role_model->count_roles($value["id"]);
+      //    // }
+      // }
+      // $data["roles"] = $count_roles;
 
-         $start_month = strtotime("+1 month", $start_month);
-      }
-      //======================== getexpense by month ==============================
-      $ex                  = array();
-      $start_session_month = strtotime($year_str_month);
-      while ($start_session_month <= $end) {
+      // //======================== get collection by month ==========================
+      // $start_month = strtotime($year_str_month);
+      // $start       = strtotime($year_str_month);
+      // $end         = strtotime($year_end_month);
+      // $coll_month  = array();
+      // $s           = array();
+      // $total_month = array();
+      // while ($start_month <= $end) {
+      //    $total_month[] = date('M', $start_month);
+      //    $month_start   = date('Y-m-d', $start_month);
+      //    $month_end     = date("Y-m-t", $start_month);
+      //    $return        = $this->whatever($getDepositeAmount, $month_start, $month_end);
+      //    if ($return) {
+      //       $s[] = $return;
+      //    } else {
+      //       $s[] = "0.00";
+      //    }
 
-         $month_start = date('Y-m-d', $start_session_month);
-         $month_end   = date("Y-m-t", $start_session_month);
+      //    $start_month = strtotime("+1 month", $start_month);
+      // }
+      // //======================== getexpense by month ==============================
+      // $ex                  = array();
+      // $start_session_month = strtotime($year_str_month);
+      // while ($start_session_month <= $end) {
 
-         $expense_monthly = $this->expense_model->getTotalExpenseBwdate($month_start, $month_end);
+      //    $month_start = date('Y-m-d', $start_session_month);
+      //    $month_end   = date("Y-m-t", $start_session_month);
 
-         if (!empty($expense_monthly)) {
-            $amt  = 0;
-            $ex[] = $amt + $expense_monthly->amount;
-         }
+      //    $expense_monthly = $this->expense_model->getTotalExpenseBwdate($month_start, $month_end);
 
-         $start_session_month = strtotime("+1 month", $start_session_month);
-      }
+      //    if (!empty($expense_monthly)) {
+      //       $amt  = 0;
+      //       $ex[] = $amt + $expense_monthly->amount;
+      //    }
 
-      $data['yearly_collection'] = $s;
-      $data['yearly_expense']    = $ex;
-      $data['total_month']       = $total_month;
+      //    $start_session_month = strtotime("+1 month", $start_session_month);
+      // }
 
-      //======================= current month collection /expense ===================
-      // hardcoded '01' for first day
-      $startdate       = date('m/01/Y');
-      $enddate         = date('m/t/Y');
-      $start           = strtotime($startdate);
-      $end             = strtotime($enddate);
-      $currentdate     = $start;
-      $month_days      = array();
-      $days_collection = array();
-      while ($currentdate <= $end) {
-         $cur_date          = date('Y-m-d', $currentdate);
-         $month_days[]      = date('d', $currentdate);
-         $coll_amt          = $this->whatever($getDepositeAmount, $cur_date, $cur_date);
-         $days_collection[] = $coll_amt;
-         $currentdate       = strtotime('+1 day', $currentdate);
-      }
-      $data['current_month_days'] = $month_days;
-      $data['days_collection']    = $days_collection;
+      // $data['yearly_collection'] = $s;
+      // $data['yearly_expense']    = $ex;
+      // $data['total_month']       = $total_month;
 
-      //======================= current month /expense ==============================
-      // hardcoded '01' for first day
+      // //======================= current month collection /expense ===================
+      // // hardcoded '01' for first day
+      // $startdate       = date('m/01/Y');
+      // $enddate         = date('m/t/Y');
+      // $start           = strtotime($startdate);
+      // $end             = strtotime($enddate);
+      // $currentdate     = $start;
+      // $month_days      = array();
+      // $days_collection = array();
+      // while ($currentdate <= $end) {
+      //    $cur_date          = date('Y-m-d', $currentdate);
+      //    $month_days[]      = date('d', $currentdate);
+      //    $coll_amt          = $this->whatever($getDepositeAmount, $cur_date, $cur_date);
+      //    $days_collection[] = $coll_amt;
+      //    $currentdate       = strtotime('+1 day', $currentdate);
+      // }
+      // $data['current_month_days'] = $month_days;
+      // $data['days_collection']    = $days_collection;
 
-      $startdate    = date('m/01/Y');
-      $enddate      = date('m/t/Y');
-      $start        = strtotime($startdate);
-      $end          = strtotime($enddate);
-      $currentdate  = $start;
-      $days_expense = array();
-      while ($currentdate <= $end) {
-         $cur_date       = date('Y-m-d', $currentdate);
-         $month_days[]   = date('d', $currentdate);
-         $currentdate    = strtotime('+1 day', $currentdate);
-         $ct             = $this->getExpensebyday($cur_date);
-         $days_expense[] = $ct;
-      }
+      // //======================= current month /expense ==============================
+      // // hardcoded '01' for first day
 
-      $data['days_expense']        = $days_expense;
-      $student_fee_history         = $this->studentfee_model->getTodayStudentFees();
-      $data['student_fee_history'] = $student_fee_history;
+      // $startdate    = date('m/01/Y');
+      // $enddate      = date('m/t/Y');
+      // $start        = strtotime($startdate);
+      // $end          = strtotime($enddate);
+      // $currentdate  = $start;
+      // $days_expense = array();
+      // while ($currentdate <= $end) {
+      //    $cur_date       = date('Y-m-d', $currentdate);
+      //    $month_days[]   = date('d', $currentdate);
+      //    $currentdate    = strtotime('+1 day', $currentdate);
+      //    $ct             = $this->getExpensebyday($cur_date);
+      //    $days_expense[] = $ct;
+      // }
 
-      $event_colors         = array("#03a9f4", "#c53da9", "#757575", "#8e24aa", "#d81b60", "#7cb342", "#fb8c00", "#fb3b3b");
-      $data["event_colors"] = $event_colors;
-      $userdata             = $this->customlib->getUserData();
-      $data["role"]         = $userdata["user_type"];
-      $start_date           = date('Y-m-01');
-      $end_date             = date('Y-m-t');
-      $student_due_fee      = $this->studentfeemaster_model->getFeesAwaiting($start_date, $end_date);
-      // echo "<pre>";
-      $data['fees_awaiting'] = $student_due_fee;
-      $total_fess            = 0;
-      $total_paid            = 0;
+      // $data['days_expense']        = $days_expense;
+      // $student_fee_history         = $this->studentfee_model->getTodayStudentFees();
+      // $data['student_fee_history'] = $student_fee_history;
 
-      foreach ($data['fees_awaiting'] as $value) {
+      // $event_colors         = array("#03a9f4", "#c53da9", "#757575", "#8e24aa", "#d81b60", "#7cb342", "#fb8c00", "#fb3b3b");
+      // $data["event_colors"] = $event_colors;
+      // $userdata             = $this->customlib->getUserData();
+      // $data["role"]         = $userdata["user_type"];
+      // $start_date           = date('Y-m-01');
+      // $end_date             = date('Y-m-t');
+      // $student_due_fee      = $this->studentfeemaster_model->getFeesAwaiting($start_date, $end_date);
+      // // echo "<pre>";
+      // $data['fees_awaiting'] = $student_due_fee;
+      // $total_fess            = 0;
+      // $total_paid            = 0;
 
-         $total_fess++;
-         $total_amount   = $value->amount;
-         $amount_details = json_decode($value->amount_detail, true);
-         $aa[] = $amount_details;
-         $paid_amout = 0;
-         $partial    = 0;
-         if (!empty($amount_details)) {
+      // foreach ($data['fees_awaiting'] as $value) {
 
-            foreach ($amount_details as $key => $key_value) {
+      //    $total_fess++;
+      //    $total_amount   = $value->amount;
+      //    $amount_details = json_decode($value->amount_detail, true);
+      //    $aa[] = $amount_details;
+      //    $paid_amout = 0;
+      //    $partial    = 0;
+      //    if (!empty($amount_details)) {
 
-               $paid_amout += $key_value['amount'];
-            }
-         }
+      //       foreach ($amount_details as $key => $key_value) {
 
-         if ($total_amount == $paid_amout && ($total_amount = $paid_amout != 0)) {
+      //          $paid_amout += $key_value['amount'];
+      //       }
+      //    }
 
-            $total_paid++;
-         } else {
-            $partial++;
-         }
-      }
+      //    if ($total_amount == $paid_amout && ($total_amount = $paid_amout != 0)) {
+
+      //       $total_paid++;
+      //    } else {
+      //       $partial++;
+      //    }
+      // }
 
 
 
-      $data['incomegraph'] = $this->income_model->getIncomeHeadsData($start_date, $end_date);
+      // $data['incomegraph'] = $this->income_model->getIncomeHeadsData($start_date, $end_date);
 
-      $data['expensegraph'] = $this->expense_model->getExpenseHeadData($start_date, $end_date);
+      // $data['expensegraph'] = $this->expense_model->getExpenseHeadData($start_date, $end_date);
 
-      $enquiry = $this->admin_model->getAllEnquiryCount($start_date, $end_date);
+      // $enquiry = $this->admin_model->getAllEnquiryCount($start_date, $end_date);
 
-      if ($total_fess > 0) {
-         $data['fees_overview'] = array(
-            'total_unpaid'     => ($total_fess - $total_paid) - $partial,
-            'unpaid_progress'  => ((($total_fess - $total_paid) - $partial) * 100) / $total_fess,
-            'total_partial'    => $partial,
-            'total_paid' => $total_paid,
-            'partial_progress' => ($partial * 100) / $total_fess,
-            'total_paid'       => $total_paid,
-            'paid_progress'    => ($total_paid * 100) / $total_fess,
-         );
-      } else {
-         $data['fees_overview'] = array(
-            'total_unpaid'     => 0,
-            'unpaid_progress'  => 0,
-            'total_partial'    => 0,
-            'partial_progress' => 0,
-            'total_paid'       => 0,
-            'paid_progress'    => 0,
-         );
-      }
+      // if ($total_fess > 0) {
+      //    $data['fees_overview'] = array(
+      //       'total_unpaid'     => ($total_fess - $total_paid) - $partial,
+      //       'unpaid_progress'  => ((($total_fess - $total_paid) - $partial) * 100) / $total_fess,
+      //       'total_partial'    => $partial,
+      //       'total_paid' => $total_paid,
+      //       'partial_progress' => ($partial * 100) / $total_fess,
+      //       'total_paid'       => $total_paid,
+      //       'paid_progress'    => ($total_paid * 100) / $total_fess,
+      //    );
+      // } else {
+      //    $data['fees_overview'] = array(
+      //       'total_unpaid'     => 0,
+      //       'unpaid_progress'  => 0,
+      //       'total_partial'    => 0,
+      //       'partial_progress' => 0,
+      //       'total_paid'       => 0,
+      //       'paid_progress'    => 0,
+      //    );
+      // }
 
-      $total_enquiry = $enquiry['total'];
+      // $total_enquiry = $enquiry['total'];
 
-      if ($total_enquiry > 0) {
+      // if ($total_enquiry > 0) {
 
-         $data['enquiry_overview'] = array(
-            'won'              => $enquiry['complete'],
-            'won_progress'     => ($enquiry['complete'] * 100) / $total_enquiry,
-            'active'           => $enquiry['active'],
-            'active_progress'  => ($enquiry['active'] * 100) / $total_enquiry,
-            'passive'          => $enquiry['passive'],
-            'passive_progress' => ($enquiry['passive'] * 100) / $total_enquiry,
-            'dead'             => $enquiry['dead'],
-            'dead_progress'    => ($enquiry['dead'] * 100) / $total_enquiry,
-            'lost'             => $enquiry['lost'],
-            'lost_progress'    => ($enquiry['lost'] * 100) / $total_enquiry,
-         );
-      } else {
+      //    $data['enquiry_overview'] = array(
+      //       'won'              => $enquiry['complete'],
+      //       'won_progress'     => ($enquiry['complete'] * 100) / $total_enquiry,
+      //       'active'           => $enquiry['active'],
+      //       'active_progress'  => ($enquiry['active'] * 100) / $total_enquiry,
+      //       'passive'          => $enquiry['passive'],
+      //       'passive_progress' => ($enquiry['passive'] * 100) / $total_enquiry,
+      //       'dead'             => $enquiry['dead'],
+      //       'dead_progress'    => ($enquiry['dead'] * 100) / $total_enquiry,
+      //       'lost'             => $enquiry['lost'],
+      //       'lost_progress'    => ($enquiry['lost'] * 100) / $total_enquiry,
+      //    );
+      // } else {
 
-         $data['enquiry_overview'] = array(
-            'won'              => 0,
-            'won_progress'     => 0,
-            'active'           => 0,
-            'active_progress'  => 0,
-            'passive'          => 0,
-            'passive_progress' => 0,
-            'dead'             => 0,
-            'dead_progress'    => 0,
-            'lost'             => 0,
-            'lost_progress'    => 0,
-         );
-      }
+      //    $data['enquiry_overview'] = array(
+      //       'won'              => 0,
+      //       'won_progress'     => 0,
+      //       'active'           => 0,
+      //       'active_progress'  => 0,
+      //       'passive'          => 0,
+      //       'passive_progress' => 0,
+      //       'dead'             => 0,
+      //       'dead_progress'    => 0,
+      //       'lost'             => 0,
+      //       'lost_progress'    => 0,
+      //    );
+      // }
 
-      $data['total_paid'] = $total_paid;
-      $data['total_fees'] = $total_fess;
-      if ($total_fess > 0) {
-         $data['fessprogressbar'] = ($total_paid * 100) / $total_fess;
-      } else {
-         $data['fessprogressbar'] = 0;
-      }
+      // $data['total_paid'] = $total_paid;
+      // $data['total_fees'] = $total_fess;
+      // if ($total_fess > 0) {
+      //    $data['fessprogressbar'] = ($total_paid * 100) / $total_fess;
+      // } else {
+      //    $data['fessprogressbar'] = 0;
+      // }
 
-      $data['total_enquiry']  = $total_enquiry  = $enquiry['total'];
-      $data['total_complete'] = $complete_enquiry = $enquiry['complete'];
-      if ($total_enquiry > 0) {
-         $data['fenquiryprogressbar'] = ($complete_enquiry * 100) / $total_enquiry;
-      } else {
-         $data['fenquiryprogressbar'] = 0;
-      }
+      // $data['total_enquiry']  = $total_enquiry  = $enquiry['total'];
+      // $data['total_complete'] = $complete_enquiry = $enquiry['complete'];
+      // if ($total_enquiry > 0) {
+      //    $data['fenquiryprogressbar'] = ($complete_enquiry * 100) / $total_enquiry;
+      // } else {
+      //    $data['fenquiryprogressbar'] = 0;
+      // }
 
-      $bookoverview  = $this->book_model->bookoverview($start_date, $end_date);
-      $bookduereport = $this->bookissue_model->dueforreturn($start_date, $end_date);
-      $forreturndata = $this->bookissue_model->forreturn($start_date, $end_date);
-      //  echo $this->db->last_query();die;
-      $dueforreturn      = $bookduereport[0]['total'];
-      $forreturn         = $forreturndata[0]['total'];
-      $total_qty         = $bookoverview[0]['qty'];
-      $total_issued      = $bookoverview[0]['total_issue'];
-      $availble          = '0';
-      $availble_progress = 0;
-      $issued_progress   = 0;
-      if ($total_qty > 0) {
-         $availble          = $total_qty - $total_issued;
-         $availble_progress = ($availble * 100) / $total_qty;
-         $issued_progress   = ($total_issued * 100) / $total_qty;
-      }
-      $data['book_overview'] = array(
-         'total'             => $total_qty,
-         'total_progress'    => 100,
-         'availble'          => $availble,
-         'availble_progress' => $availble_progress,
-         'total_issued'      => $total_issued,
-         'issued_progress'   => $issued_progress,
-         'dueforreturn'      => $dueforreturn,
-         'forreturn'         => $forreturn,
-      );
+      // $bookoverview  = $this->book_model->bookoverview($start_date, $end_date);
+      // $bookduereport = $this->bookissue_model->dueforreturn($start_date, $end_date);
+      // $forreturndata = $this->bookissue_model->forreturn($start_date, $end_date);
+      // //  echo $this->db->last_query();die;
+      // $dueforreturn      = $bookduereport[0]['total'];
+      // $forreturn         = $forreturndata[0]['total'];
+      // $total_qty         = $bookoverview[0]['qty'];
+      // $total_issued      = $bookoverview[0]['total_issue'];
+      // $availble          = '0';
+      // $availble_progress = 0;
+      // $issued_progress   = 0;
+      // if ($total_qty > 0) {
+      //    $availble          = $total_qty - $total_issued;
+      //    $availble_progress = ($availble * 100) / $total_qty;
+      //    $issued_progress   = ($total_issued * 100) / $total_qty;
+      // }
+      // $data['book_overview'] = array(
+      //    'total'             => $total_qty,
+      //    'total_progress'    => 100,
+      //    'availble'          => $availble,
+      //    'availble_progress' => $availble_progress,
+      //    'total_issued'      => $total_issued,
+      //    'issued_progress'   => $issued_progress,
+      //    'dueforreturn'      => $dueforreturn,
+      //    'forreturn'         => $forreturn,
+      // );
 
-      $Attendence              = $this->stuattendence_model->getTodayDayAttendance($total_students);
+      // $Attendence              = $this->stuattendence_model->getTodayDayAttendance($total_students);
 
-      $data['attendence_data'] = $Attendence;
+      // $data['attendence_data'] = $Attendence;
 
-      $Staffattendence              = $this->staff_model->getTodayDayAttendance();
-      $data['Staffattendence_data'] = $Staffattendence;
+      // $Staffattendence              = $this->staff_model->getTodayDayAttendance();
+      // $data['Staffattendence_data'] = $Staffattendence;
 
-      $getTotalStaff              = $this->Staff_model->getTotalStaff();
+      // $getTotalStaff              = $this->Staff_model->getTotalStaff();
 
-      $data['getTotalStaff_data'] = $getTotalStaff;
+      // $data['getTotalStaff_data'] = $getTotalStaff;
 
-      if ($getTotalStaff > 0) {
-         $percentTotalStaff_data = ($Staffattendence * 100) / ($getTotalStaff);
-      } else {
-         $percentTotalStaff_data = '0';
-      }
+      // if ($getTotalStaff > 0) {
+      //    $percentTotalStaff_data = ($Staffattendence * 100) / ($getTotalStaff);
+      // } else {
+      //    $percentTotalStaff_data = '0';
+      // }
 
-      $data['percentTotalStaff_data'] = $percentTotalStaff_data;
+      // $data['percentTotalStaff_data'] = $percentTotalStaff_data;
 
       // print_r($data);die();
 

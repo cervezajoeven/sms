@@ -15,20 +15,20 @@
    <link rel="stylesheet" href="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.css">
 
    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   <script type="text/javascript" src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 
-   <script type="text/javascript" src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+   <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
    <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
 
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
    <!-- <script src="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.min.js"></script> -->
-   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
    <style type="text/css">
@@ -954,10 +954,10 @@
             <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
 
             <?php if ($role == "admin") : ?>
-               <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div>
+               <!-- <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div> -->
+               <div class="student_view_buttons navigation_tools orange jamboard_button"><i class="fas fa-wrench"></i> Jamboard</div>
                <div class="student_view_buttons navigation_tools skyblue formula_board_button"><i class="fas fa-square-root-alt"></i> Formula Board</div>
                <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-pen"></i> Annotate</div>
-               <div class="student_view_buttons navigation_tools orange jamboard_button"><i class="fas fa-wrench"></i> Jamboard</div>
             <?php endif; ?>
 
             <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
@@ -985,7 +985,7 @@
             }
          </style>
 
-         <div id="teacher_tools" class="teacher_tools">
+         <!-- <div id="teacher_tools" class="teacher_tools">
             <div class="student_view_buttons close_action teacher_tools_button" style="
                             width: 12%;
                             background-color: green;
@@ -1005,7 +1005,7 @@
                               font-weight: bolder;
                               margin-top: 0px;">CMS Teacher Tools</h2>
             <iframe id="classroomscreen" src="https://app.classroomscreen.com/" style="width: 100%;height: 90%;position: relative;"></iframe>
-         </div>
+         </div> -->
 
          <div id="formula_board" class="formula_board">
             <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe>

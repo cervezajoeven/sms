@@ -13,7 +13,7 @@
    <link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet" />
 
    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   <script type="text/javascript" src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -635,11 +635,11 @@
    <script src="<?php echo $resources . 'jquery-ui.js' ?>"></script>
    <script src="<?php echo $resources . 'jquery.mousewheel.min.js' ?>"></script>
 
-   <script type="text/javascript" src="https://vjs.zencdn.net/7.7.5/video.js"></script>
-   <script type="text/javascript" src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-   <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+   <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
+   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
    <script src="<?php echo $resources . 'lesson_show.js' ?>"></script>
 </body>
 

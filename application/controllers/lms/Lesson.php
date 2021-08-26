@@ -12,17 +12,19 @@ class Lesson extends General_Controller
       $this->load->model('lesson_model');
       $this->load->model('general_model');
       $this->load->model('discussion_model');
-
       $this->load->model('notification_model');
       $this->load->model('notificationsetting_model');
-
       $this->load->model('studentsubjectattendence_model');
       $this->load->model('subjecttimetable_model');
       $this->load->model('student_model');
+      $this->load->model('conference_model');
+      $this->load->model('conferencehistory_model');
+      $this->load->model('class_model');
+
+      // $this->load->model(array('conference_model', 'conferencehistory_model', 'class_model'));
 
       $this->load->library('mailsmsconf');
       $this->mailer;
-      $this->load->model(array('conference_model', 'conferencehistory_model', 'class_model'));
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'content/lesson');
       $this->writedb = $this->load->database('write_db', TRUE);
@@ -54,7 +56,6 @@ class Lesson extends General_Controller
             $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(), "today");
 
             foreach ($data['list'] as $key => $value) {
-
                if ($value['zoom_id']) {
                   $zoom_data = $this->lesson_model->lms_get("conferences", $value['zoom_id'], "id")[0];
                   $data['list'][$key]['student_zoom_link'] = json_decode($zoom_data['return_response'])->join_url;
@@ -114,13 +115,11 @@ class Lesson extends General_Controller
 
    function index_create($lesson_query = "today")
    {
-
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'Lesson');
       $this->session->set_userdata('subsub_menu', 'lesson/create');
 
       $data['title'] = 'Lesson';
-
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
       $data['classes'] = $this->general_model->get_classes();
@@ -167,13 +166,11 @@ class Lesson extends General_Controller
 
    function upcoming($lesson_query = "upcoming")
    {
-
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'Lesson');
       $this->session->set_userdata('subsub_menu', 'content/upcoming');
 
       $data['title'] = 'Lesson';
-
       $data['role'] = $this->general_model->get_role();
       $data['real_role'] = $this->general_model->get_real_role();
       $data['classes'] = $this->general_model->get_classes();
@@ -181,6 +178,7 @@ class Lesson extends General_Controller
       $data['heading'] = "Upcoming Lessons";
       $data['lesson_sched'] = "upcoming";
       $data['lesson_query'] = $lesson_query;
+
       if ($data['role'] == 'admin') {
          $this->load->view('layout/header');
          if ($data['real_role'] == "7" || $data['real_role'] == "1") {
@@ -199,8 +197,6 @@ class Lesson extends General_Controller
             $data['list'] = $this->lesson_model->get_lessons($this->general_model->get_account_id(), "upcoming");
          }
       } else {
-
-
          $this->load->view('layout/student/header');
          $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id(), "upcoming");
          foreach ($data['list'] as $key => $value) {

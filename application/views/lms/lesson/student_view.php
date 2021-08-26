@@ -14,13 +14,13 @@
    <link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet" />
 
    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-   <script type="text/javascript" src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-   <script type="text/javascript" src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+   <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
    <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
 
    <style type="text/css">
@@ -146,7 +146,7 @@
    <div style="position: relative;height: 100%;width: 100%;background-color: white;z-index: 9999" class="loader">
       <img style="position: absolute;top: 0%;left: 50%;margin: 13% 0px 0px -10%;" src="<?php echo $resources . 'images/loader.gif' ?>">
    </div>
-   <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
+   <!-- <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
    <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
    <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
    <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
@@ -157,7 +157,7 @@
    <input type="hidden" id="image_resources" value="<?php echo $resources . 'images/' ?>" name="" />
    <input type="hidden" id="start_url" value="<?php echo $start_url ?>" name="" />
    <input type="hidden" id="google_meet" value="<?php echo $google_meet ?>" name="" />
-   <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
+   <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" /> -->
 
    <div id="myModal" class="modal">
       <!-- Modal content -->
@@ -205,39 +205,6 @@
                   <!-- <input type="text" placeholder="Explain" value="Explain" name=""> -->
                   <span>Formative Assessment</span>
                </div>
-
-               <!-- <?php //if($lesson['education_level']=='tertiary'): 
-                     ?>
-                                 <div class="folder folder_active" style="width: 33.33%">
-                                       <span>Introduction</span>
-                                 </div>
-                                 <div class="folder" style="width: 33.33%">
-                                       <span>Lesson Proper</span>
-                                 </div>
-                                 <div class="folder" style="width: 33.33%">
-                                       <span>Examination</span>
-                                 </div>
-                                 
-                                 <?php //else: 
-                                 ?>
-                                 <div class="folder folder_active">
-                                    <span>Engage</span>
-                                 </div>
-                                 <div class="folder">
-                                       <span>Explore</span>
-                                 </div>
-                                 <div class="folder">
-                                       <span>Explain</span>
-                                 </div>
-                                 <div class="folder">
-                                       <span>Extend</span>
-                                 </div>
-                                 <div class="folder">
-                                       <span>Evaluation</span>
-                                 </div>
-                              <?php //endif; 
-                              ?> -->
-
             </div>
          </div>
 
@@ -831,6 +798,7 @@
                overflow: auto;
             }
          </style>
+
          <div class="student_view_content">
 
             <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0"></iframe>
@@ -843,7 +811,8 @@
                width: 100%;
             }
          </style>
-         <div id="teacher_tools" class="teacher_tools">
+
+         <!-- <div id="teacher_tools" class="teacher_tools">
             <div class="student_view_buttons close_action teacher_tools_button" style="
                            width: 12%;
                            background-color: green;
@@ -867,12 +836,12 @@
 
             </iframe>
 
-         </div>
+         </div> -->
 
-         <div id="" class="formula_board">
-            <!-- <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe> -->
+         <!-- <div id="" class="formula_board">
+            <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe>
             <iframe id="" src="https://equatio.texthelp.com/space" style="width: 100%;height: 100%;position: relative;"></iframe>
-         </div>
+         </div> -->
 
          <!-- <div id="" class="discussion_board">
             <h2>Discussion: </h2>
@@ -987,9 +956,6 @@
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
    <script src="<?php echo $resources . 'drawing-table.js' ?>" type="text/javascript"></script>
    <script src="<?php echo $resources . 'lesson_student_view.js' ?>"></script>
-   <script type="text/javascript">
-
-   </script>
 </body>
 
 </html>

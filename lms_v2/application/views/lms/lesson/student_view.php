@@ -145,13 +145,13 @@
 
 
 
-   <script type="text/javascript" src="<?php echo $resources . 'jquery-1.12.4.js' ?>"></script>
-   <script type="text/javascript" src="<?php echo $resources . 'jquery.magnify.js' ?>"></script>
-   <script type="text/javascript" src="<?php echo $resources . 'jquery-ui.js' ?>"></script>
-   <script type="text/javascript" src="<?php echo $resources . 'jquery.mousewheel.min.js' ?>"></script>
+   <script src="<?php echo $resources . 'jquery-1.12.4.js' ?>"></script>
+   <script src="<?php echo $resources . 'jquery.magnify.js' ?>"></script>
+   <script src="<?php echo $resources . 'jquery-ui.js' ?>"></script>
+   <script src="<?php echo $resources . 'jquery.mousewheel.min.js' ?>"></script>
 
    <!-- <script src="https://vjs.zencdn.net/7.7.5/video.js"></script> -->
-   <script type="text/javascript" src="<?php echo $resources . 'lesson_student_view.js' ?>"></script>
+   <script src="<?php echo $resources . 'lesson_student_view.js' ?>"></script>
 
 </body>
 
