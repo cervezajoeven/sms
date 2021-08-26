@@ -223,9 +223,6 @@ class Admin extends Admin_Controller
       $year_end_month     = date("Y-m-t", strtotime($Next_year . '-' . $ar[1] . '-01'));
       $getDepositeAmount  = $this->studentfeemaster_model->getDepositAmountBetweenDate($year_str_month, $year_end_month);
 
-      print_r($data);
-      die();
-
       //======================Current Month Collection ==============================
       $first_day_this_month = date('Y-m-01');
 
@@ -495,8 +492,7 @@ class Admin extends Admin_Controller
 
       $data['percentTotalStaff_data'] = $percentTotalStaff_data;
 
-      print_r($data);
-      die();
+      // print_r($data);die();
 
       $this->load->view('layout/header', $data);
       $this->load->view('admin/dashboard', $data);
