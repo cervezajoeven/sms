@@ -89,14 +89,12 @@ class Messages_model extends MY_Model {
 
     public function get_classname($id){
         $filter_class=$this->db->select('class')->from('classes')->where('id',$id)->get()->row_array();
-        // return $this->lang->line('class')." ".$this->lang->line('name')." : ".$filter_class['class'];
-        return " ".$filter_class['class'];
+        return $this->lang->line('class')." ".$this->lang->line('name')." : ".$filter_class['class'];
     }
 
     public function get_sectionname($id){
         $filter_section=$this->db->select('section')->from('sections')->where('id',$id)->get()->row_array();
-        // return $this->lang->line('section')." ".$this->lang->line('name')." : ".$filter_section['section'];
-        return " ".$filter_section['section'];
+        return $this->lang->line('section')." ".$this->lang->line('name')." : ".$filter_section['section'];
     }
 
     public function get_categoryname($id){
@@ -167,8 +165,7 @@ $filter_get_exam=$this->db->select('exam')->from('onlineexam')->where('onlineexa
 
         $filter_get_sessionname=$this->db->select('session')->from('sessions')->where('sessions.id',$id)->get()->row_array();
 
-        // return $this->lang->line('session')." : ".$filter_get_sessionname['session'];
-        return " ".$filter_get_sessionname['session'];
+        return $this->lang->line('session')." : ".$filter_get_sessionname['session'];
     }
 
     public function get_rolename($id){

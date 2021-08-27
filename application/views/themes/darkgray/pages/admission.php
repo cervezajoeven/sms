@@ -917,16 +917,15 @@ if (!$form_admission) {
                         <th style="width: 10%;">Civil Status</th>
                         <th style="width: 25%;">Grade Level/Occupation</th>
                         <th style="width: 30%;">Name of School/Company</th>
-                        <th style="width: 30%;">Deceased</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                         for($i=0; $i<5; $i++) {?>
                             <tr>
-                                <td><input class="form-control" type="text" name="sibling_name[]" value="<?php echo set_value('sibling_name['.$i.']')?>"></td>
-                                <td><input class="form-control" type="number" name="sibling_age[]" value="<?php echo set_value('sibling_age['.$i.']')?>" min="0"></td>
-                                <td>
+                                 <td><input class="form-control" type="text" name="sibling_name[]" value="<?php echo set_value('sibling_name['.$i.']')?>"></td>
+                                 <td><input class="form-control" type="number" name="sibling_age[]" value="<?php echo set_value('sibling_age['.$i.']')?>" min="0"></td>
+                                 <td>
                                     <select class="form-control" name="sibling_civil_status[]">
                                         <option value=""></option>
                                         <option value="single" <?php echo set_value('sibling_civil_status['.$i.']') == 'single' ? 'selected' : ""?>>Single</option>
@@ -934,10 +933,9 @@ if (!$form_admission) {
                                         <option value="separated" <?php echo set_value('sibling_civil_status['.$i.']') == 'separated' ? 'selected' : ""?>>Separated</option>
                                         <option value="widower" <?php echo set_value('sibling_civil_status['.$i.']') == 'widower' ? 'selected' : ""?>>Widower</option>
                                     </select>
-                                </td>
-                                <td><input class="form-control" type="text" name="sibling_glo[]" value="<?php echo set_value('sibling_glo['.$i.']')?>"></td>
+                                 </td>
+                                 <td><input class="form-control" type="text" name="sibling_glo[]" value="<?php echo set_value('sibling_glo['.$i.']')?>"></td>
                                 <td><input class="form-control" type="text" name="sibling_nsc[]" value="<?php echo set_value('sibling_nsc['.$i.']')?>"></td>
-                                <td align="center"><input class="checkbox" type="checkbox" name="sibling_dec[]" value="<?php echo set_value('sibling_dec['.$i.']') == "on" ? "checked" : "";?>"></td>
                             </tr>                            
                         <?php }
                     ?>

@@ -789,8 +789,7 @@ class Welcome extends Front_Controller
                                 $sibling_civil_status = $this->input->post("sibling_civil_status");
                                 $sibling_glo = $this->input->post("sibling_glo");
                                 $sibling_nsc = $this->input->post("sibling_nsc");
-                                $sibling_dec = $this->input->post("sibling_dec");
-                                $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
+                                $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
 
                                 $insert_id = $this->onlinestudent_model->add($data);
 
@@ -872,8 +871,7 @@ class Welcome extends Front_Controller
     //     $this->onlinestudent_model->AddStudentSiblings($admissionid, $maindata);
     // }
 
-    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased) 
-    {
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
         $maindata = [];
 
         for($i = 0; $i < count($name); $i++) {
@@ -888,7 +886,6 @@ class Welcome extends Front_Controller
                 "civil_status" => $civilstatus[$i],
                 "grade_occupation" => $gradeoccupation[$i],
                 "school_company_name" => $schoolcompany[$i],
-                "deceased" => $deceased[$i] == "on" ? 1 : 0,
             );
             
             if (!empty($name[$i]))

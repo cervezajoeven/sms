@@ -420,15 +420,15 @@ function auto_save() {
                     }
                 });
 
-                $.ajax({
-                    url: site_url+'assessment_answer_history',
-                    type: "POST",
-                    data: final_json,
-                    complete: function(response){
-                        console.log("Assessment History");
-                        console.log(response.responseText);
-                    }
-                });	
+                // $.ajax({
+                //     url: site_url+'assessment_answer_history',
+                //     type: "POST",
+                //     data: final_json,
+                //     complete: function(response){
+                //         console.log("Assessment History");
+                //         console.log(response.responseText);
+                //     }
+                // });	
             }
         }
     }		

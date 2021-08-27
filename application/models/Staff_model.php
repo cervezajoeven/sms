@@ -32,20 +32,21 @@ class Staff_model extends MY_Model
     public function getrat()
     {
 
-        $this->db->select('staff.id,staff.employee_id,CONCAT_WS(" ",staff.name,staff.surname,"(",staff.employee_id,")") as name,roles.name as user_type,roles.id as role_id,staff_rating.rate,staff_rating.status,staff_rating.comment,staff_rating.id as rate_id,CONCAT_WS(" ",students.firstname,students.lastname,"(",students.admission_no,")") as student_name')->from('staff')->join("staff_roles", "staff_roles.staff_id = staff.id", "left")->join("roles", "staff_roles.role_id = roles.id", "left")->join("staff_rating", "staff_rating.staff_id = staff.id", "inner")->join("users", "users.id=staff_rating.user_id", "left")->join("students", "students.id=users.user_id", "left");
+        $this->db->select('staff.id,staff.employee_id,CONCAT_WS(" ",staff.name,staff.surname,"(",staff.employee_id,")") as name,roles.name as user_type,roles.id as role_id,staff_rating.rate,staff_rating.status,staff_rating.comment,staff_rating.id as rate_id,CONCAT_WS(" ",students.firstname,students.lastname,"(",students.admission_no,")") as student_name')->from('staff')->join("staff_roles", "staff_roles.staff_id = staff.id", "left")->join("roles", "staff_roles.role_id = roles.id", "left")->join("staff_rating", "staff_rating.staff_id = staff.id", "inner")->join("users","users.id=staff_rating.user_id","left")->join("students","students.id=users.user_id","left");
         $this->db->where('staff.is_active', 1);
         $this->db->where_not_in('roles.id', 7);
 
         $this->db->order_by('staff.id');
         $query = $this->db->get();
         return $query->result_array();
+
     }
 
     public function getTodayDayAttendance()
     {
 
         $date = date('Y-m-d');
-
+       
         $this->db->select('staff_id');
         $this->db->from("staff_attendance");
         $this->db->where('date = ', $date);
@@ -58,14 +59,14 @@ class Staff_model extends MY_Model
 
     public function getTotalStaff()
     {
-
+       
         $this->db->select('staff.id');
         $this->db->from("staff");
-
-        $this->db->where("staff.is_active", 1);
-
+        
+        $this->db->where("staff.is_active",1);
+        
         $query = $this->db->get();
-
+    
         $q = $query->result_array();
         return count($q);
     }
@@ -144,6 +145,7 @@ class Staff_model extends MY_Model
             $action    = "Update";
             $record_id = $id = $data['id'];
             $this->log($message, $record_id, $action);
+
         } else {
             $this->writedb->insert('staff', $data);
             $id        = $this->writedb->insert_id();
@@ -151,6 +153,7 @@ class Staff_model extends MY_Model
             $action    = "Insert";
             $record_id = $id;
             $this->log($message, $record_id, $action);
+
         }
         //echo $this->db->last_query();die;
         //======================Code End==============================
@@ -162,6 +165,7 @@ class Staff_model extends MY_Model
             # Something went wrong.
             $this->writedb->trans_rollback();
             return false;
+
         } else {
             return $id;
         }
@@ -187,6 +191,7 @@ class Staff_model extends MY_Model
             # Something went wrong.
             $this->writedb->trans_rollback();
             return false;
+
         } else {
             //return $return_value;
         }
@@ -283,8 +288,9 @@ class Staff_model extends MY_Model
         } else {
 
             $this->writedb->trans_commit();
-            return true;
+            return $staff_id;
         }
+
     }
 
     public function add_staff_leave_details($data2)
@@ -350,10 +356,12 @@ class Staff_model extends MY_Model
         if ($this->check_data_exists($name, $id, $staff_id)) {
             $this->form_validation->set_message('username_check', 'Record already exists');
             return false;
+
         } else {
 
             return true;
         }
+
     }
 
     public function check_data_exists($name, $id, $staff_id)
@@ -637,6 +645,7 @@ class Staff_model extends MY_Model
 
     public function get_stafflang($id)
     {
+
     }
 
     public function searchFullText($searchterm, $active)
@@ -827,6 +836,7 @@ class Staff_model extends MY_Model
         } else {
             return false;
         }
+
     }
 
     public function lastRecord()
@@ -854,6 +864,7 @@ class Staff_model extends MY_Model
             # Something went wrong.
             $this->writedb->trans_rollback();
             return false;
+
         } else {
             //return $return_value;
         }
@@ -894,16 +905,17 @@ class Staff_model extends MY_Model
     public function all_rating()
     {
         $this->db->select('sum(`rate`) as rate, count(*) as total,staff_id')->from('staff_rating');
-        $this->db->where('status', '1');
+        $this->db->where('status','1');
         $this->db->group_by('staff_id');
 
         $query = $this->db->get();
 
         return $query->result_array();
+
     }
 
-    public function get_ratingbyuser($user_id, $role)
-    {
+    public function get_ratingbyuser($user_id,$role){
+
         $this->db->select('*')->from('staff_rating');
         $this->db->where('user_id', $user_id);
         $this->db->where('role', $role);
@@ -914,6 +926,7 @@ class Staff_model extends MY_Model
 
     public function staff_ratingById($id)
     {
+ 
         $this->db->select('sum(`rate`) as rate, count(*) as total')->from('staff_rating');
         $this->db->where('staff_id', $id);
         $this->db->where('status', 1);
@@ -955,161 +968,9 @@ class Staff_model extends MY_Model
         return $query->result_array();
     }
 
-    public function inventry_staff()
-    {
-        return $this->db->select("CONCAT_WS(' ',staff.name,staff.surname) as name,staff.employee_id")->from('staff')->where('staff.is_active', 1)->get()->result_array();
+    public function inventry_staff(){
+       return $this->db->select("CONCAT_WS(' ',staff.name,staff.surname) as name,staff.employee_id")->from('staff')->where('staff.is_active',1)->get()->result_array();
+
     }
 
-    public function m_GetTimesheetToday($staffid)
-    {
-        $date = new DateTime("now");
-        $curr_date = $date->format('Y-m-d ');
-
-        $this->db->select("concat(name, ' ', surname) as name, staff_timesheet.date, TIME_FORMAT(time_in, '%r') AS timein, TIME_FORMAT(time_out, '%r') AS timeout, TIME_TO_SEC(TIMEDIFF(time_out, time_in))/3600 AS hours, updated_at, notes");
-        $this->db->from('staff_timesheet');
-        $this->db->join('staff', 'staff_timesheet.staff_id = staff.id', 'left');
-        $this->db->where('staff_id', $staffid);
-        $this->db->where('date', $curr_date);
-        $this->db->order_by('date', 'DESC');
-        $this->db->order_by('time_in', 'DESC');
-        $query = $this->db->get();
-
-        // $sql = "SELECT name, staff_timesheet.date, TIME_FORMAT(time_in, '%r') as time, TIME_FORMAT(time_out, '%r'), notes 
-        //         FROM staff_timesheet 
-        //         LEFT JOIN staff ON staff_timesheet.staff_id = staff.id 
-        //         WHERE staff_id = " . $staffid . "
-        //         AND date = '" . $curr_date . "'
-        //         ORDER BY date DESC, time_in DESC";
-
-        // $query = $this->db->query($sql);
-        // print_r($this->db->last_query());
-        // die();
-        return $query->result_array();
-    }
-
-    public function m_GetTimesheetByDateRangeByID($staffid, $datetimefrom, $datetimeto)
-    {
-        $this->db->select("staff_timesheet.id, concat(name, ' ', surname) as name, staff_timesheet.date, TIME_FORMAT(time_in, '%r') AS time_in, TIME_FORMAT(time_out, '%r') AS time_out, TIME_TO_SEC(TIMEDIFF(time_out, time_in))/3600 AS hours, updated_at, notes");
-        $this->db->from('staff_timesheet');
-        $this->db->join('staff', 'staff_timesheet.staff_id = staff.id', 'left');
-        if ($staffid != "all")
-            $this->db->where('staff_id', $staffid);
-        $this->db->where('date >=', $datetimefrom);
-        $this->db->where('date <=', $datetimeto);
-        $this->db->order_by('date', 'ASC');
-        $this->db->order_by('time_in', 'ASC');
-
-        $query = $this->db->get();
-        // print_r($this->db->last_query());
-        // die();
-        return $query->result_array();
-    }
-
-    public function m_GetTimesheetByDateRange($datetimefrom, $datetimeto)
-    {
-    }
-
-    public function m_TimeIn($data)
-    {
-        // print_r($data);
-        // die();
-        $retVal = $this->writedb->insert('staff_timesheet', $data);
-        // print_r($this->writedb->error());
-        // die();
-
-        return $retVal;
-    }
-
-    public function m_TimeOUt($data)
-    {
-        $timesheet = $this->getLastTimeIn($data['staff_id']);
-
-        // if ($timesheet->dtdiff > 0) {
-        //     $id = $data['id'];
-        //     unset($data['id']);
-        //     $data['time_out'] = '23:59:59';
-        //     $this->writedb->where('id', $timesheet->id);
-        //     $this->writedb->update('staff_timesheet', $data);
-
-        //     $data['id'] = $id;
-        //     $data['date'] = date("Y-m-d");
-        //     $data['time_in'] = '00:00:00';
-        //     $data['time_out'] = date("H:i:s");
-        //     $retVal = $this->m_TimeIn($data);
-        //     return $retVal;
-        //     // print_r($data);
-        //     // die();
-        //     // return $this->writedb->insert('staff_timesheet', $data);
-        // } else {
-        //     $this->writedb->where('id', $timesheet->id);
-        //     return $this->writedb->update('staff_timesheet', $data);
-        // }
-
-        $this->writedb->where('id', $timesheet->id);
-        return $this->writedb->update('staff_timesheet', $data);
-    }
-
-    function getLastTimeIn($staffid)
-    {
-        $this->db->select('id, DATEDIFF(CURRENT_DATE(), date) AS dtdiff')->from('staff_timesheet');
-        $this->db->where('staff_id', $staffid);
-        $this->db->where('time_out', null);
-        $this->db->order_by('date', 'DESC');
-        $this->db->order_by('time_in', 'DESC');
-        $this->db->limit(1);
-        $query = $this->db->get();
-
-        $ret = $query->row();
-        return $ret;
-    }
-
-    public function m_HasTimeOut($staffid)
-    {
-        $date = new DateTime("now");
-        $curr_date = $date->format('Y-m-d ');
-
-        $this->db->select('time_in, time_out')->from('staff_timesheet');
-        $this->db->where('staff_id', $staffid);
-        $this->db->where('date', $curr_date);
-        $this->db->order_by('date', 'DESC');
-        $this->db->order_by('time_in', 'DESC');
-        $this->db->limit(1);
-        $query = $this->db->get();
-
-        $ret = $query->row();
-
-        return ($ret->time_in != null && $ret->time_out == null) ? false : (($ret->time_in == null && $ret->time_out == null) || ($ret->time_in != null && $ret->time_out != null) ? true : false);
-    }
-
-    public function getEmployeeList()
-    {
-        $sql = "SELECT id, 
-                CASE WHEN surname IS NULL OR surname = '' THEN NAME ELSE CONCAT(surname, ', ', NAME) END AS fullname
-                FROM staff
-                WHERE is_active = 1
-                ORDER BY surname";
-
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
-    public function _getStaffRole($staffid)
-    {
-        $this->db->select('staff_id, name')->from('staff_roles');
-        $this->db->join('roles', 'roles.id = staff_roles.role_id', 'left');
-        $this->db->where('staff_id', $staffid);
-        $this->db->limit(1);
-        $query = $this->db->get();
-        // print_r($this->db->last_query());
-        // die();
-
-        $ret = $query->row()->name;
-        return $ret;
-    }
-
-    public function m_UpdateTimesheet($data)
-    {
-        $this->writedb->where('id', $data['id']);
-        return $this->writedb->update('staff_timesheet', $data);
-    }
 }

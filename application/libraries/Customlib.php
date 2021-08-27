@@ -1512,17 +1512,10 @@ class Customlib
 
         }
 
-        $val = "";
-
-        foreach ($filter_record as $key => $value) 
-        {
-            if (!empty($val))
-                $val = "," . $value;
-            else 
-                $val = $value;
-
-            echo $val;
+        foreach ($filter_record as $key => $value) {
+            echo $value . ", ";
         }
+
     }
 
     public function is_biometricAttendence()

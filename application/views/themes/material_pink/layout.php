@@ -86,7 +86,7 @@
         <?php echo $front_setting->google_analytics; ?>
     </head>
     <body>
-        <!-- <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
+        <div id="dialog" style="display:none;" title="Browser Compatibility Alert">
             <p>This Application is best viewed in any of the following browsers:</p>
             <ul>
             <li><a target="_blank" href="https://www.google.com/chrome/thank-you.html?brand=CHBD&statcb=1&installdataindex=empty&defaultbrowser=0"><img src="<?php echo base_url('snoci/chrome.jpg') ?>" alt="" width="16" height="16">&nbsp;Google Chrome</a></li>
@@ -94,7 +94,7 @@
             <li><a target="_blank" href="https://www.opera.com/computer/thanks?ni=stable&os=windows"><img src="<?php echo base_url('snoci/opera.jpg') ?>" alt="" width="16" height="16">&nbsp;Opera</a></li>
             </ul>
             <p>Please make sure that you have installed the <b style="color:blue">latest version</b> of the browsers mentioned.</p>
-        </div> -->
+        </div>
         <section class="newsarea">
             <div class="container">
                 <div class="row">

@@ -32,7 +32,6 @@ class MY_Controller extends CI_Controller
         }else{
             $this->mode = "online";
         }
-        $this->school_code = explode('.', $_SERVER['HTTP_HOST'])[0];
 
         if ($this->session->has_userdata('admin')) {
 
