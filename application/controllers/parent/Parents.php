@@ -39,9 +39,13 @@ class Parents extends Parent_Controller
         $this->load->model('apply_leave_model');
         $this->load->model('gradereport_model');
         $this->load->model('conduct_model');
+        $this->load->model('parent_model');
+        $this->load->model('feetype_model');
+        $this->load->model('kampuspay_model');
 
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->payment_method = $this->paymentsetting_model->getActiveMethod();
+        $this->out_trade_no = null;
     }
 
     public function unauthorized()
@@ -51,7 +55,7 @@ class Parents extends Parent_Controller
         $this->load->view('unauthorized', $data);
         $this->load->view('layout/parent/footer');
     }
- 
+
     public function dashboard()
     {
         $this->session->set_userdata('top_menu', 'My Children');
@@ -73,9 +77,9 @@ class Parents extends Parent_Controller
 
     public function user_language($lang_id)
     {
-            $session=$this->session->userdata('student');
-         $id              = $session['id'];
-        
+        $session = $this->session->userdata('student');
+        $id              = $session['id'];
+
         $data['lang_id'] = $lang_id;
         $language_result = $this->language_model->set_parentlang($id, $data);
 
@@ -90,8 +94,6 @@ class Parents extends Parent_Controller
         $student['language'] = $language_array;
         $this->session->set_userdata('student', $student);
         $session         = $this->session->userdata('student');
-       
-
     }
 
     public function download($student_id, $doc)
@@ -175,7 +177,6 @@ class Parents extends Parent_Controller
         $this->form_validation->set_rules('new_username', 'New username', 'trim|required|xss_clean|matches[confirm_username]');
         $this->form_validation->set_rules('confirm_username', 'Confirm username', 'trim|required|xss_clean');
         if ($this->form_validation->run() == false) {
-
         } else {
 
             $data_array = array(
@@ -235,21 +236,27 @@ class Parents extends Parent_Controller
         $section_id                   = $student['section_id'];
         $data['title']                = 'Student Details';
         $student_session_id           = $student['student_session_id'];
-        $student_due_fee              = $this->studentfeemaster_model->getStudentFees($student_session_id);
-        $student_discount_fee         = $this->feediscount_model->getStudentFeesDiscount($student_session_id);
-        $data['student_discount_fee'] = $student_discount_fee;
-        $data['student_due_fee']      = $student_due_fee;
-        $examList                     = $this->examschedule_model->getExamByClassandSection($student['class_id'], $student['section_id']);
-        $data['exam_grade']           = $this->grade_model->getGradeDetails();
 
-        $data['exam_result'] = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true,true);
+        if ($student_session_id != '') //-- Check if student is already enrolled
+        {
+            $student_due_fee              = $this->studentfeemaster_model->getStudentFees($student_session_id);
+            $student_discount_fee         = $this->feediscount_model->getStudentFeesDiscount($student_session_id);
+            $data['student_discount_fee'] = $student_discount_fee;
+            $data['student_due_fee']      = $student_due_fee;
+            $examList                     = $this->examschedule_model->getExamByClassandSection($student['class_id'], $student['section_id']);
+            $data['exam_grade']           = $this->grade_model->getGradeDetails();
 
-        $data['student'] = $student;
+            $data['exam_result'] = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true, true);
+
+            $data['student'] = $student;
+        }
+
+
         $this->load->view('layout/parent/header', $data);
         $this->load->view('parent/student/getstudent', $data);
         $this->load->view('layout/parent/footer', $data);
     }
-  
+
     public function getfees($id = null)
     {
         $this->auth->validate_child($id);
@@ -273,6 +280,10 @@ class Parents extends Parent_Controller
         $data['student_discount_fee'] = $student_discount_fee;
         $data['student_due_fee']      = $student_due_fee;
         $data['student']              = $student;
+        $data['fee_types'] = $this->feetype_model->get();
+        $data['linking_page'] = $this->getKampusPayBindUidURL();
+        $userbind = $this->getUserQueryBindData();
+        $data['account_linked'] = $userbind == null ? false : true;
         $this->load->view('layout/parent/header', $data);
         $this->load->view('parent/student/getfees', $data);
         $this->load->view('layout/parent/footer', $data);
@@ -337,10 +348,8 @@ class Parents extends Parent_Controller
 
         if ($setting_result['attendence_type']) {
             $this->load->view('parent/student/attendenceSubject', $data);
-
         } else {
             $this->load->view('parent/student/getattendence', $data);
-
         }
 
         $this->load->view('layout/parent/footer', $data);
@@ -405,7 +414,7 @@ class Parents extends Parent_Controller
 
         $data['exam_grade'] = $this->grade_model->getGradeDetails();
 
-        $data['exam_result'] = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true,true);
+        $data['exam_result'] = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true, true);
 
         $data['examSchedule'] = array();
 
@@ -565,7 +574,7 @@ class Parents extends Parent_Controller
         $data['class_id']   = $class_id   = $currentClassSectionById['class_id'];
         $data['section_id'] = $section_id = $currentClassSectionById['section_id'];
         $data['resultlist'] = $this->subjecttimetable_model->getTeacherByClassandSection($class_id, $section_id);
-      
+
         $subject            = array();
         $teachers           = array();
         foreach ($data['resultlist'] as $value) {
@@ -600,7 +609,7 @@ class Parents extends Parent_Controller
         $this->load->view('parent/teacher/teacherList', $data);
         $this->load->view('layout/parent/footer', $data);
     }
-    
+
     public function getdaysubattendence()
     {
         $date = $this->input->post('date');
@@ -624,7 +633,6 @@ class Parents extends Parent_Controller
         $result['attendence']          = $this->studentsubjectattendence_model->studentAttendanceByDate($class_id, $section_id, $day, $date, $student_session_id);
         $result_page                   = $this->load->view('parent/student/_getdaysubattendence', $result, true);
         echo json_encode(array('status' => 1, 'result_page' => $result_page));
-
     }
 
     public function excuse_letter()
@@ -636,7 +644,7 @@ class Parents extends Parent_Controller
         $ch = $this->session->userdata('parent_childs');
         foreach ($ch as $key_ch => $value_ch) {
             $array_childs[] = $this->student_model->get($value_ch['student_id']);
-        }        
+        }
         $data['student_list'] = $array_childs;
 
         $class = $this->class_model->get();
@@ -654,13 +662,14 @@ class Parents extends Parent_Controller
         $this->load->view('layout/parent/footer', $data);
     }
 
-    public function excuse_letter_add() {        
-		$student_id = '';
-         
-        $this->form_validation->set_rules('apply_date', $this->lang->line('apply')." ".$this->lang->line('date'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('from_date', $this->lang->line('from')." ".$this->lang->line('date'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('to_date', $this->lang->line('to')." ".$this->lang->line('date'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('student', $this->lang->line('student'),'trim|required|xss_clean');
+    public function excuse_letter_add()
+    {
+        $student_id = '';
+
+        $this->form_validation->set_rules('apply_date', $this->lang->line('apply') . " " . $this->lang->line('date'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('from_date', $this->lang->line('from') . " " . $this->lang->line('date'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('to_date', $this->lang->line('to') . " " . $this->lang->line('date'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('student', $this->lang->line('student'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == FALSE) {
             $msg = array(
@@ -671,28 +680,26 @@ class Parents extends Parent_Controller
             );
 
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
-        }
-        else {
+        } else {
             // //$student_session_id = $this->apply_leave_model->get_studentsessionId($_POST['class'], $_POST['section'], $_POST['student']);
             $student_session_id = $this->apply_leave_model->get_studentsessionId2($_POST['student']);
 
-        	$data = array(
-        		'apply_date' => date('Y-m-d',strtotime($this->input->post('apply_date'))),
-        		'from_date' => date('Y-m-d',strtotime($this->input->post('from_date'))),
-        		'to_date' => date('Y-m-d',strtotime($this->input->post('to_date'))),
+            $data = array(
+                'apply_date' => date('Y-m-d', strtotime($this->input->post('apply_date'))),
+                'from_date' => date('Y-m-d', strtotime($this->input->post('from_date'))),
+                'to_date' => date('Y-m-d', strtotime($this->input->post('to_date'))),
                 'student_session_id' => $student_session_id['id'],
                 'reason' => $this->input->post('message'),
-                'request_type' => '1'                
-        	);
-            
+                'request_type' => '1'
+            );
+
             if ($this->input->post('leave_id') == '') {
-                 $leave_id = $this->apply_leave_model->add($data);
-            } 
-            else {
-                $data['id'] = $this->input->post('leave_id');               
+                $leave_id = $this->apply_leave_model->add($data);
+            } else {
+                $data['id'] = $this->input->post('leave_id');
                 $this->apply_leave_model->add($data);
             }
-			
+
             if (isset($_FILES["userfile"]) && !empty($_FILES['userfile']['name'])) {
                 $fileInfo = pathinfo($_FILES["userfile"]["name"]);
                 $img_name = $leave_id . '.' . $fileInfo['extension'];
@@ -700,29 +707,32 @@ class Parents extends Parent_Controller
                 $data = array('id' => $leave_id, 'docs' => $img_name);
                 $this->apply_leave_model->add($data);
             }
-           
+
             $array = array('status' => 'success', 'error' => '', 'message' => $this->lang->line('success_message'));
         }
 
         echo json_encode($array);
     }
-    
-    public function get_details($id){
-        $data=$this->apply_leave_model->get($id,null,null);
-        $data['from_date']=date($this->customlib->getSchoolDateFormat(),strtotime($data['from_date']));
-        $data['to_date']=date($this->customlib->getSchoolDateFormat(),strtotime($data['to_date']));
-        $data['apply_date']=date($this->customlib->getSchoolDateFormat(),strtotime($data['apply_date']));
+
+    public function get_details($id)
+    {
+        $data = $this->apply_leave_model->get($id, null, null);
+        $data['from_date'] = date($this->customlib->getSchoolDateFormat(), strtotime($data['from_date']));
+        $data['to_date'] = date($this->customlib->getSchoolDateFormat(), strtotime($data['to_date']));
+        $data['apply_date'] = date($this->customlib->getSchoolDateFormat(), strtotime($data['apply_date']));
         echo json_encode($data);
     }
 
-    public function remove_leave($id) {    
+    public function remove_leave($id)
+    {
         $this->apply_leave_model->remove_leave($id);
         redirect('parent/student/excuseletter');
     }
 
-    public function getgrades($student_id) {
+    public function getgrades($student_id)
+    {
         // print_r($student_id);die();
-        $this->auth->validate_child($id);
+        $this->auth->validate_child($student_id);
         $this->session->set_userdata('top_menu', 'Grades');
         $this->session->set_userdata('sub_menu', 'parent/parents/grades');
 
@@ -731,7 +741,7 @@ class Parents extends Parent_Controller
         $class_id = $student['class_id'];
         $section_id = $student['section_id'];
         $student_current_class = $this->customlib->getStudentCurrentClsSection();
-        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();        
+        $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
         $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
         $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
         $data['resultlist'] = $class_record;
@@ -741,11 +751,10 @@ class Parents extends Parent_Controller
         // if ($this->sch_setting_detail->conduct_grade_view == 0)
         //     $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
 
-        
+
 
         $student_conduct = null;
-        if ($this->sch_setting_detail->conduct_grade_view == 0)
-        {
+        if ($this->sch_setting_detail->conduct_grade_view == 0) {
             if ($this->sch_setting_detail->conduct_grading_type == 'letter')
                 $student_conduct = $this->gradereport_model->get_student_conduct($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
             else if ($this->sch_setting_detail->conduct_grading_type == 'number')
@@ -757,5 +766,424 @@ class Parents extends Parent_Controller
         $this->load->view('layout/parent/header', $data);
         $this->load->view('parent/student/getclassrecord', $data);
         $this->load->view('layout/parent/footer', $data);
+    }
+
+    public function kampuspay_transactions()
+    {
+        $this->session->set_userdata('top_menu', 'Fees');
+        $this->session->set_userdata('sub_menu', 'parent/parents/kampuspay_transactions');
+        $data['title'] = 'KampusPay Transactions';
+
+        $userbind = $this->getUserQueryBindData();
+
+        // print_r($userbind);
+        // die();
+
+        // if ($userbind != null) {
+        //     // $userdata = $this->customlib->getUserData();
+
+        //     $this->load->view('layout/parent/header', $data);
+        //     $this->load->view("parent/kampuspay_transactions", $data);
+        //     $this->load->view('layout/parent/footer', $data);
+        // } else {
+        //     $linking_page = $this->getKampusPayBindUidURL();
+        //     $data['linking_page'] = $linking_page;
+        //     // print_r($linking_page);
+        //     // die();
+        //     // header('Location: ' . $linking_page);
+        //     // echo '<script>window.open("' . $linking_page . '","_blank")</script>';
+        //     $this->load->view('layout/parent/header', $data);
+        //     $this->load->view("parent/kampuspay_link_account", $data);
+        //     $this->load->view('layout/parent/footer', $data);
+        // }
+
+        $this->load->view('layout/parent/header', $data);
+        $this->load->view("parent/kampuspay_transactions", $data);
+        $this->load->view('layout/parent/footer', $data);
+    }
+
+    public function getKampusPayTransactions($startdate, $enddate)
+    {
+        $start = strtotime($startdate);
+        $end = strtotime($enddate);
+        $sessionData = $this->customlib->getLoggedInUserData();
+        // print_r($sessionData['id']);
+        // die();
+        $username = $this->parent_model->getUserName($sessionData['id']);
+        $app_user_id = $username;
+
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        // $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
+
+        // echo ("<PRE>");
+        // print_r("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key);
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&bill_state=COMPLETED&bill_type=PAYMENT&end=" . $end . "&limit=3000&pay_way=bananapay&platform=Fucent&start=" . $start . "&ts=" . $ts . "&key=" . $key)));
+        // echo ("<PRE>");
+        // die();
+
+        // $data_array =  array(
+        //     "access_key" => "$access_key",
+        //     "app_user_id" => $app_user_id,
+        //     "bill_state" => "COMPLETED",
+        //     "bill_type" => "PAYMENT",
+        //     "end" => $end,
+        //     "limit" => "3000",
+        //     "pay_way" => "bananapay",
+        //     "platform" => "Fucent",
+        //     "start" => $start,
+        //     "ts" => $ts,
+        //     "sign" => $sign
+        // );
+
+        $data_array =  array(
+            "access_key" => "$access_key",
+            "app_user_id" => $app_user_id,
+            "bill_state" => "COMPLETED",
+            "bill_type" => "PAYMENT",
+            "pay_way" => "bananapay",
+            "platform" => "Fucent",
+            "ts" => $ts,
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayGlobalBillQuery';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        // $data = json_decode(file_get_contents('php://input'), true);
+        $result = json_decode($response, true);
+
+        $data = $result['results']['orders'];
+
+        $retVal = array('data' => array());
+
+        foreach ($data as $key => $value) {
+            $retVal['data'][$key] = array(
+                $value['trade_no'],
+                $value['out_trade_no'],
+                $value['subject'],
+                $value['pay_amount'] / 100,
+                $value['gmt_payment']
+            );
+        }
+
+        // echo ("<PRE>");
+        // print_r(json_encode($retVal));
+        // echo ("<PRE>");
+        // die();
+
+        echo json_encode($retVal);
+    }
+
+    public function getKampusPayQRCode()
+    {
+        $tname = $this->input->post('tname');
+        $tprice = $this->input->post('tprice');
+
+        $sessionData = $this->customlib->getLoggedInUserData();
+        // print_r($sessionData['id']);
+        // die();
+        $username = $this->parent_model->getUserName($sessionData['id']);
+
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        $out_trade_no = $username . '-' . $ts;
+        $sign = strtoupper(md5("access_key=" . $access_key . "&expire=60&fee_type=PHP&notify_url=https://www.google.com&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&platform=Fucent&tname=" . $tname . "&tprice=" . $tprice . "&ts=" . $ts . "&key=" . $key));
+
+        // echo ("<PRE>");
+        // print_r("access_key=" . $access_key . "&expire=60&fee_type=PHP&notify_url=https://www.google.com&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&platform=Fucent&tname=" . $tname . "&tprice=" . $tprice . "&ts=" . $ts . "&key=" . $key);
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&expire=60&fee_type=PHP&notify_url=https://www.google.com&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&platform=Fucent&tname=" . $tname . "&tprice=" . $tprice . "&ts=" . $ts . "&key=" . $key)));
+        // echo ("<PRE>");
+        // die();
+
+        $data_array =  array(
+            "access_key" => "$access_key",
+            "expire" => "60",
+            "fee_type" => "PHP",
+            "notify_url" => "https://www.google.com",
+            "out_trade_no" => $out_trade_no,
+            "pay_way" => "bananapay",
+            "platform" => "Fucent",
+            "tname" => $tname,
+            "tprice" => $tprice,
+            "ts" => $ts,
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.ScanPay';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // echo ("<PRE>");
+        // print_r($response);
+        // echo ("<PRE>");
+        // die();
+
+        if ($response != null) {
+            $data_transact =  array(
+                "client_username" => $username,
+                "transaction_details" => json_encode($data_array)
+            );
+
+            $this->kampuspay_model->m_saveTransaction($data_transact);
+        }
+
+        $result = json_decode($response, true);
+
+        echo json_encode($result);
+    }
+
+    public function getKampusPayBindUidURL()
+    {
+        $sessionData = $this->customlib->getLoggedInUserData();
+        $partner_uid = $this->parent_model->getUserName($sessionData['id']);
+
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&partner_uid=" . $partner_uid . "&pay_way=bananapay&ts=" . $ts . "&type=bind&key=" . $key));
+
+        // echo ("<PRE>");
+        // print_r("access_key=" . $access_key . "&partner_uid=" . $partner_uid . "&pay_way=bananapay&ts=" . $ts . "&type=bind&key=" . $key);
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&partner_uid=" . $partner_uid . "&pay_way=bananapay&ts=" . $ts . "&type=bind&key=" . $key)));
+        // echo ("<PRE>");
+        // die();
+
+        $data_array =  array(
+            "access_key" => $access_key,
+            "partner_uid" => $partner_uid,
+            "pay_way" => "bananapay",
+            "ts" => $ts,
+            "type" => "bind",
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayBindUid';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // echo ("<PRE>");
+        // print_r($response);
+        // echo ("<PRE>");
+        // die();
+
+        $result = json_decode($response, true);
+        $error = $result['errno'];
+        $message = $result['message'];
+        $data = $result['results'];
+        $url1 = $data['url'];
+
+        $sign = strtoupper(md5("access_key=" . $access_key . "&partner_uid=" . $partner_uid . "&pay_way=bananapay&ts=" . $ts . "&type=unbind&key=" . $key));
+
+        $data_array =  array(
+            "access_key" => $access_key,
+            "partner_uid" => $partner_uid,
+            "pay_way" => "bananapay",
+            "ts" => $ts,
+            "type" => "unbind",
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayBindUid';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // echo ("<PRE>");
+        // print_r($result);
+        // echo ("<PRE>");
+        // die();
+
+        $result = json_decode($response, true);
+        $error = $result['errno'];
+        $message = $result['message'];
+        $data = $result['results'];
+        $url2 = $data['url'];
+
+        // echo json_encode($data);
+        $linking_page = 'https://test-cloudph.bananapay.com.ph/index.php?bindlink=' . urlencode($url1) . "&unbindlink=" . urlencode($url2);
+        return $linking_page;
+    }
+
+    public function getKampusPayPaymentStatus()
+    {
+        $out_trade_no = $this->input->post('out_trade_no');
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&ts=" . $ts . "&key=" . $key));
+
+        // echo ("<PRE>");
+        // print_r("access_key=" . $access_key . "&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&ts=" . $ts . "&key=" . $key);
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&out_trade_no=" . $out_trade_no . "&pay_way=bananapay&ts=" . $ts . "&key=" . $key)));
+        // echo ("<PRE>");
+        // die();
+
+        $data_array =  array(
+            "access_key" => "$access_key",
+            "out_trade_no" => $out_trade_no,
+            "pay_way" => "bananapay",
+            "ts" => $ts,
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.QueryOrder';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // echo ("<PRE>");
+        // print_r($response);
+        // echo ("<PRE>");
+
+        $data = json_decode($response, true);
+
+        // echo ("<PRE>");
+        // print_r($data);
+        // echo ("<PRE>");
+        // die();
+
+        echo json_encode($data);
+    }
+
+    function getUserQueryBindData()
+    {
+        $sessionData = $this->customlib->getLoggedInUserData();
+        $username = $this->parent_model->getUserName($sessionData['id']);
+        $app_user_id = $username;
+
+        $access_key = $this->sch_setting_detail->kampuspay_access_key;
+        $key = strtoupper($this->sch_setting_detail->kampuspay_key);
+        $ts = strval(strtotime("now"));
+        $sign = strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key));
+
+        $data_array =  array(
+            "access_key" => "$access_key",
+            "app_user_id" => $app_user_id,
+            "pay_way" => "bananapay",
+            "platform" => "Fucent",
+            "ts" => $ts,
+            "sign" => $sign
+        );
+
+        // echo ("<PRE>");
+        // print_r(strtoupper(md5("access_key=" . $access_key . "&app_user_id=" . $app_user_id . "&pay_way=bananapay&platform=Fucent&ts=" . $ts . "&key=" . $key)));
+        // echo ("<PRE>");
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data_array));
+        // echo ("<PRE>");
+        // die();
+
+        $data_string = json_encode($data_array);
+
+        $url = 'http://test.bananapay.cn/phl/api/v3.0/Cashier.Payment.BananapayQueryBind';
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json', 'Content-Length: ' . strlen($data_string))
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        // $data = json_decode(file_get_contents('php://input'), true);
+        $result = json_decode($response, true);
+        $data = $result['results']['user'];
+
+        // echo ("<PRE>");
+        // print_r(json_encode($data));
+        // echo ("<PRE>");
+        // die();
+
+        // echo json_encode($data);
+        return $data;
     }
 }

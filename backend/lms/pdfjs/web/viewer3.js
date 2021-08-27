@@ -1914,6 +1914,18 @@ var validateFileURL = void 0;
     'http://sim.campuscloudph.com',
     'http://stepsmandaluyong.com',
     'http://www.stepsmandaluyong.com',
+    'https://aphsrizal.com/',
+   'https://jsmjcrizal.com/',
+   'https://mca-mandaluyong.com/',
+   'https://scholaangelicus.com/',
+   'https://lpmsedu.com/',
+   'https://josephianslp.com/',
+   'https://smac-pampanga.com/',
+   'https://smac-valenzuela.com/',
+   'https://smhsrizal.com/',
+   'https://stschopampanga.com/',
+   'https://stillwaters-educamp.com/',
+   'https://sunnyvalechristian.com/',
   ];
   validateFileURL = function validateFileURL(file) {
     if (file === undefined) {

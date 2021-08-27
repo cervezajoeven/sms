@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -25,17 +25,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
-if ($HTTP_HOST == "localhost") {
-   $config['base_url'] = $REQUEST_SCHEME . '://' . $HTTP_HOST . '/sms_orig/lms_v2/';
-   $save_path = str_replace("\\lms_v2\\", "", FCPATH) . "\\sessions\\";
-} elseif (strpos($HTTP_HOST, "192.168.") !== false) {
-   $config['base_url'] = $REQUEST_SCHEME . '://' . $HTTP_HOST . '/lms_v2/';
-   $save_path = str_replace("/lms_v2/", "", FCPATH) . "/sessions/";
-} elseif ($HTTP_HOST == "stepsmandaluyong.com") {
-   $config['base_url'] = $REQUEST_SCHEME . '://' . $HTTP_HOST . '/lms_v2/';
-} else {
-   $config['base_url'] = 'https://' . $HTTP_HOST . '/lms_v2/';
-   $save_path = str_replace("/lms_v2/", "", FCPATH) . "/sessions/";
+if($HTTP_HOST=="localhost"){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/sms/lms_v2/';
+  $save_path = str_replace("\\lms_v2\\","",FCPATH)."\\sessions\\";
+}elseif(strpos($HTTP_HOST, "192.168.") !== false){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
+  $save_path = str_replace("/lms_v2/","",FCPATH)."/sessions/";
+}elseif($HTTP_HOST=="stepsmandaluyong.com"){
+  $config['base_url'] = $REQUEST_SCHEME.'://'.$HTTP_HOST.'/lms_v2/';
+}else{
+  $config['base_url'] = 'https://'.$HTTP_HOST.'/lms_v2/';
+  $save_path = str_replace("/lms_v2/","",FCPATH)."/sessions/";
 }
 
 /*
@@ -65,7 +65,7 @@ $config['index_page'] = 'index.php';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']   = 'REQUEST_URI';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +89,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']   = 'english';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -413,11 +413,11 @@ $config['sess_regenerate_destroy'] = FALSE;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']   = '';
-$config['cookie_domain']   = '';
-$config['cookie_path']      = '/';
-$config['cookie_secure']   = FALSE;
-$config['cookie_httponly']    = FALSE;
+$config['cookie_prefix']	= '';
+$config['cookie_domain']	= '';
+$config['cookie_path']		= '/';
+$config['cookie_secure']	= FALSE;
+$config['cookie_httponly'] 	= FALSE;
 
 /*
 |--------------------------------------------------------------------------

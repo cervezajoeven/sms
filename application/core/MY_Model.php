@@ -83,39 +83,41 @@ class MY_Model extends CI_Model
         
     }
 
-    public function lms_create($table="",$data=array(),$escape=TRUE){
-
-        if($table&&is_string($table)){
-
-            if(!empty($data)){
+    public function lms_create($table="",$data=array(),$escape=TRUE)
+    {
+        if($table && is_string($table))
+        {
+            if(!empty($data))
+            {
                 $id = $table."_".$this->mode."_".microtime(true)*10000;
                 $id = $id.rand(1000,9999);
                 $data['id'] = $id;
                 
                 $escaped_data = array();
 
-                foreach ($data as $data_key => $data_value) {
-                    if($escape){
+                foreach ($data as $data_key => $data_value) 
+                {
+                    if($escape)
                         $escaped_data[$data_key] = html_escape($data_value);
-                    }else{
-                        $escaped_data[$data_key] = $data_value;
-                    }
-                    
+                    else
+                        $escaped_data[$data_key] = $data_value;                    
                 }
                 
                 $escaped_data['date_created'] = date("Y-m-d H:i:s");
-                if($this->writedb->insert($table, $escaped_data)){
+                // print_r($escaped_data);die();
+                if($this->writedb->insert($table, $escaped_data))
                     return $id;
-                }else{ 
+                else
+                { 
                     print_r($this->writedb->error());
                     return false; 
                 }
-            }else{
-                exit("Data is empty");
             }
-            
-            
-        }else{
+            else
+                exit("Data is empty");
+        }
+        else
+        {
             echo "Table name was not declared.";
             return false;
         }

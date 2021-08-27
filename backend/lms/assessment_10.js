@@ -300,7 +300,14 @@ function save(){
 	var save_json = assessment_update();
 
 	if(save_json.length === 0){
-		alert("The system has encountered some issues during saving. Please use the latest version of chrome or firefox.");
+		// alert("The system has encountered some issues during saving. Please use the latest version of chrome or firefox.");
+      Swal.fire({
+         icon: 'error',
+         confirmButtonColor: '#3085d6',
+         title: 'Ooops!',
+         text: 'The system has encountered some issues during saving.',
+         footer: 'Please use the latest version of chrome or firefox.'
+      });
 	}else{
 		$.ajax({
 		    url: url,
@@ -309,7 +316,16 @@ function save(){
 		    // contentType: "application/json",
 		    complete: function(response){
 		    	console.log(response.responseText);
-		    	alert("Quiz has been saved successfully!");
+		    	
+            //  alert("Quiz has been saved successfully!");
+            Swal.fire({
+               icon: 'info',
+               confirmButtonColor: '#3085d6',
+               //title: 'Hurray!',
+               title: 'Quiz has been saved successfully!',
+               // footer: 'Please use the latest version of chrome or firefox.'
+            });
+
 		    	$(".save_status").text("Saved");
 				$(".save_status").css("background-color","green");
 		    }
@@ -322,7 +338,14 @@ function save_no_notif(){
 	var save_json = assessment_update();
 
 	if(save_json.length === 0){
-		alert("The system has encountered some issues during saving. Please use the latest version of chrome or firefox.");
+		// alert("The system has encountered some issues during saving. Please use the latest version of chrome or firefox.");
+      Swal.fire({
+         icon: 'error',
+         confirmButtonColor: '#3085d6',
+         title: 'Ooops!',
+         text: 'The system has encountered some issues during saving.',
+         footer: 'Please use the latest version of chrome or firefox.'
+      });
 	}else{
 		$.ajax({
 		    url: url,

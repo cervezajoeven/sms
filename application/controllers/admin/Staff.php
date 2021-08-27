@@ -4,21 +4,23 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Staff extends Admin_Controller {
+class Staff extends Admin_Controller
+{
 
     public $sch_setting_detail = array();
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->config->load("payroll");
         $this->config->load("app-config");
         $this->load->library('Enc_lib');
-        $this->load->library('mailsmsconf');        
+        $this->load->library('mailsmsconf');
         $this->load->library('encoding_lib');
 
         $this->load->model("staff_model");
-        $this->load->model("leaverequest_model");        
+        $this->load->model("leaverequest_model");
         $this->load->model('setting_model');
         $this->load->model('customfield_model');
         $this->load->model('payroll_model');
@@ -28,6 +30,7 @@ class Staff extends Admin_Controller {
         $this->load->model('userpermission_model');
         $this->load->model('admin_model');
         $this->load->model('timeline_model');
+        $this->load->model('gradereport_model');
 
         $this->contract_type = $this->config->item('contracttype');
         $this->marital_status = $this->config->item('marital_status');
@@ -36,9 +39,22 @@ class Staff extends Admin_Controller {
         $this->payment_mode = $this->config->item('payment_mode');
         $this->status = $this->config->item('status');
         $this->sch_setting_detail = $this->setting_model->getSetting();
+
+        date_default_timezone_set('Asia/Manila');
+
+        $url = $_SERVER['SERVER_NAME'];
+
+        if (strpos($url, 'localhost') !== false) {
+            $this->mode = "offline";
+        } elseif (strpos($url, '192.') !== false || strpos($url, '172.') !== false) {
+            $this->mode = "offline";
+        } else {
+            $this->mode = "online";
+        }
     }
 
-    public function index() {
+    public function index()
+    {
         if (!$this->rbac->hasPrivilege('staff', 'can_view')) {
             access_denied();
         }
@@ -84,7 +100,8 @@ class Staff extends Admin_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function disablestafflist() {
+    public function disablestafflist()
+    {
 
         if (!$this->rbac->hasPrivilege('disable_staff', 'can_view')) {
             access_denied();
@@ -133,8 +150,9 @@ class Staff extends Admin_Controller {
         $this->load->view('admin/staff/disablestaff', $data);
         $this->load->view('layout/footer', $data);
     }
- 
-    public function profile($id) {
+
+    public function profile($id)
+    {
         $data['enable_disable'] = 1;
         if ($this->customlib->getStaffID() == $id) {
             $data['enable_disable'] = 0;
@@ -217,8 +235,7 @@ class Staff extends Admin_Controller {
         $attendence_count = array();
         $attendencetypes = $this->attendencetype_model->getStaffAttendanceType();
         foreach ($attendencetypes as $att_key => $att_value) {
-            $attendence_count[$att_value['type']]=array();
-            
+            $attendence_count[$att_value['type']] = array();
         }
 
         foreach ($monthlist as $key => $value) {
@@ -231,15 +248,15 @@ class Staff extends Admin_Controller {
             for ($n = $date_start; $n <= $date_end; $n++) {
                 $att_dates = $year . "-" . $datemonth . "-" . sprintf("%02d", $n);
                 $date_array[] = $att_dates;
-                $staff_attendence = $this->staffattendancemodel->searchStaffattendance($id, $att_dates,false);
-                
-                if($staff_attendence['att_type'] != ""){
-                    $attendence_count[$staff_attendence['att_type']][]=1;
+                $staff_attendence = $this->staffattendancemodel->searchStaffattendance($id, $att_dates, false);
+
+                if ($staff_attendence['att_type'] != "") {
+                    $attendence_count[$staff_attendence['att_type']][] = 1;
                 }
                 $res[$att_dates] = $staff_attendence;
             }
         }
-       
+
 
         $session = $this->setting_model->getCurrentSessionName();
 
@@ -249,7 +266,7 @@ class Staff extends Admin_Controller {
         $date = $start_year . "-" . $startMonth;
         $newdate = date("Y-m-d", strtotime($date . "+1 month"));
 
-//        $countAttendance = $this->countAttendance($start_year, $startMonth, $id);
+        //        $countAttendance = $this->countAttendance($start_year, $startMonth, $id);
         $data["countAttendance"] = $attendence_count;
 
         $data["resultlist"] = $res;
@@ -269,7 +286,8 @@ class Staff extends Admin_Controller {
         $this->load->view('layout/footer', $data);
     }
 
-    public function countAttendance($st_month, $no_of_months, $emp) {
+    public function countAttendance($st_month, $no_of_months, $emp)
+    {
 
         $record = array();
         for ($i = 1; $i <= 1; $i++) {
@@ -291,7 +309,8 @@ class Staff extends Admin_Controller {
         return $record;
     }
 
-    public function getSession() {
+    public function getSession()
+    {
         $session = $this->session_model->getAllSession();
         $data = array();
         $session_array = $this->session->has_userdata('session_array');
@@ -308,7 +327,8 @@ class Staff extends Admin_Controller {
         return $data;
     }
 
-    public function getSessionMonthDropdown() {
+    public function getSessionMonthDropdown()
+    {
         $startMonth = $this->setting_model->getStartMonth();
         $array = array();
         for ($m = $startMonth; $m <= $startMonth + 11; $m++) {
@@ -318,7 +338,8 @@ class Staff extends Admin_Controller {
         return $array;
     }
 
-    public function download($staff_id, $doc) {
+    public function download($staff_id, $doc)
+    {
 
         $this->load->helper('download');
         $filepath = "./uploads/staff_documents/$staff_id/" . $this->uri->segment(5);
@@ -328,13 +349,15 @@ class Staff extends Admin_Controller {
         force_download($name, $data);
     }
 
-    public function doc_delete($id, $doc, $file) {
+    public function doc_delete($id, $doc, $file)
+    {
         $this->staff_model->doc_delete($id, $doc, $file);
         $this->session->set_flashdata('msg', '<i class="fa fa-check-square-o" aria-hidden="true"></i>' . $this->lang->line('delete_message') . '');
         redirect('admin/staff/profile/' . $id);
     }
 
-    public function ajax_attendance($id) {
+    public function ajax_attendance($id)
+    {
         $this->load->model("staffattendancemodel");
         $attendencetypes = $this->staffattendancemodel->getStaffAttendanceType();
         $data['attendencetypeslist'] = $attendencetypes;
@@ -384,7 +407,8 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function create() {
+    public function create()
+    {
         $this->session->set_userdata('top_menu', 'HR');
         $this->session->set_userdata('sub_menu', 'admin/staff');
         $roles = $this->role_model->get();
@@ -426,8 +450,8 @@ class Staff extends Admin_Controller {
         $this->form_validation->set_rules('third_doc', $this->lang->line('image'), 'callback_handle_third_upload');
         $this->form_validation->set_rules('fourth_doc', $this->lang->line('image'), 'callback_handle_fourth_upload');
 
-        $this->form_validation->set_rules('email', $this->lang->line('email'), array('required', 'valid_email',array('check_exists', array($this->staff_model, 'valid_email_id')),));
-        
+        $this->form_validation->set_rules('email', $this->lang->line('email'), array('required', 'valid_email', array('check_exists', array($this->staff_model, 'valid_email_id')),));
+
         if (!$this->sch_setting_detail->staffid_auto_insert) {
 
             $this->form_validation->set_rules('employee_id', $this->lang->line('staff_id'), 'callback_username_check');
@@ -534,7 +558,8 @@ class Staff extends Admin_Controller {
             if (isset($surname)) {
 
                 $data_insert['surname'] = $surname;
-            }if (isset($department)) {
+            }
+            if (isset($department)) {
 
                 $data_insert['department'] = $department;
             }
@@ -680,7 +705,7 @@ class Staff extends Admin_Controller {
                 }
             }
             $role_array = array('role_id' => $this->input->post('role'), 'staff_id' => 0);
-//==========================
+            //==========================
             $insert = true;
             $data_setting = array();
             $data_setting['id'] = $this->sch_setting_detail->id;
@@ -819,7 +844,8 @@ class Staff extends Admin_Controller {
         $this->load->view('layout/footer', $data);
     }
 
-    public function handle_upload() {
+    public function handle_upload()
+    {
         $image_validate = $this->config->item('image_validate');
         if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
 
@@ -852,8 +878,9 @@ class Staff extends Admin_Controller {
         }
         return true;
     }
- 
-    public function handle_first_upload() {
+
+    public function handle_first_upload()
+    {
         // $image_validate = $this->config->item('file_validate');
 
         // if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
@@ -891,11 +918,11 @@ class Staff extends Admin_Controller {
         // }
         // return true;
 
-         if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+        if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
             $allowedExts = array('jpg', 'jpeg', 'png', "pdf", "doc", "docx", "rar", "zip");
             $temp = explode(".", $_FILES["first_doc"]["name"]);
             $extension = end($temp);
-            
+
             if ($_FILES["first_doc"]["error"] > 0) {
                 $error .= "Error opening the file<br />";
             }
@@ -914,12 +941,13 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function handle_second_upload() {
+    public function handle_second_upload()
+    {
         if (isset($_FILES["second_doc"]) && !empty($_FILES['second_doc']['name'])) {
             $allowedExts = array('jpg', 'jpeg', 'png', "pdf", "doc", "docx", "rar", "zip");
             $temp = explode(".", $_FILES["second_doc"]["name"]);
             $extension = end($temp);
-            
+
             if ($_FILES["second_doc"]["error"] > 0) {
                 $error .= "Error opening the file<br />";
             }
@@ -938,13 +966,14 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function handle_third_upload() {
-        
-         if (isset($_FILES["third_doc"]) && !empty($_FILES['third_doc']['name'])) {
+    public function handle_third_upload()
+    {
+
+        if (isset($_FILES["third_doc"]) && !empty($_FILES['third_doc']['name'])) {
             $allowedExts = array('jpg', 'jpeg', 'png', "pdf", "doc", "docx", "rar", "zip");
             $temp = explode(".", $_FILES["third_doc"]["name"]);
             $extension = end($temp);
-            
+
             if ($_FILES["third_doc"]["error"] > 0) {
                 $error .= "Error opening the file<br />";
             }
@@ -958,16 +987,15 @@ class Staff extends Admin_Controller {
             }
             return true;
         }
-
-
     }
 
-    public function handle_fourth_upload() {
-         if (isset($_FILES["fourth_doc"]) && !empty($_FILES['fourth_doc']['name'])) {
+    public function handle_fourth_upload()
+    {
+        if (isset($_FILES["fourth_doc"]) && !empty($_FILES['fourth_doc']['name'])) {
             $allowedExts = array('jpg', 'jpeg', 'png', "pdf", "doc", "docx", "rar", "zip");
             $temp = explode(".", $_FILES["fourth_doc"]["name"]);
             $extension = end($temp);
-            
+
             if ($_FILES["fourth_doc"]["error"] > 0) {
                 $error .= "Error opening the file<br />";
             }
@@ -983,7 +1011,8 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function username_check($str) {
+    public function username_check($str)
+    {
         if (empty($str)) {
             $this->form_validation->set_message('username_check', $this->lang->line('staff_ID_field_is_required'));
             return false;
@@ -998,7 +1027,8 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         if (!$this->rbac->hasPrivilege('staff', 'can_edit')) {
             access_denied();
         }
@@ -1074,17 +1104,20 @@ class Staff extends Admin_Controller {
         }
 
         $this->form_validation->set_rules(
-                'email', $this->lang->line('email'), array('required', 'valid_email',
-            array('check_exists', array($this->staff_model, 'valid_email_id')),
-                )
+            'email',
+            $this->lang->line('email'),
+            array(
+                'required', 'valid_email',
+                array('check_exists', array($this->staff_model, 'valid_email_id')),
+            )
         );
         if ($this->form_validation->run() == false) {
 
             $this->load->view('layout/header', $data);
             $this->load->view('admin/staff/staffedit', $data);
             $this->load->view('layout/footer', $data);
-        } else { 
- 
+        } else {
+
             $employee_id = $this->input->post("employee_id");
             $department = $this->input->post("department");
             $designation = $this->input->post("designation");
@@ -1205,14 +1238,16 @@ class Staff extends Admin_Controller {
 
                     if (!empty($altid[$i])) {
 
-                        $data2 = array('staff_id' => $id,
+                        $data2 = array(
+                            'staff_id' => $id,
                             'leave_type_id' => $leave_type[$i],
                             'id' => $altid[$i],
                             'alloted_leave' => $alloted_leave[$i],
                         );
                     } else {
 
-                        $data2 = array('staff_id' => $id,
+                        $data2 = array(
+                            'staff_id' => $id,
                             'leave_type_id' => $leave_type[$i],
                             'alloted_leave' => $alloted_leave[$i],
                         );
@@ -1299,7 +1334,8 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         if (!$this->rbac->hasPrivilege('staff', 'can_delete')) {
             access_denied();
         }
@@ -1337,7 +1373,8 @@ class Staff extends Admin_Controller {
         redirect('admin/staff');
     }
 
-    public function disablestaff($id) {
+    public function disablestaff($id)
+    {
         if (!$this->rbac->hasPrivilege('disable_staff', 'can_view')) {
 
             access_denied();
@@ -1362,7 +1399,8 @@ class Staff extends Admin_Controller {
         redirect('admin/staff/profile/' . $id);
     }
 
-    public function enablestaff($id) {
+    public function enablestaff($id)
+    {
 
         $a = 0;
         $sessionData = $this->session->userdata('admin');
@@ -1384,7 +1422,8 @@ class Staff extends Admin_Controller {
         redirect('admin/staff/profile/' . $id);
     }
 
-    public function staffLeaveSummary() {
+    public function staffLeaveSummary()
+    {
 
         $resultdata = $this->staff_model->getLeaveSummary();
         $data["resultdata"] = $resultdata;
@@ -1394,7 +1433,8 @@ class Staff extends Admin_Controller {
         $this->load->view("layout/footer");
     }
 
-    public function getEmployeeByRole() {
+    public function getEmployeeByRole()
+    {
 
         $role = $this->input->post("role");
 
@@ -1403,7 +1443,8 @@ class Staff extends Admin_Controller {
         echo json_encode($data);
     }
 
-    public function dateDifference($date_1, $date_2, $differenceFormat = '%a') {
+    public function dateDifference($date_1, $date_2, $differenceFormat = '%a')
+    {
         $datetime1 = date_create($date_1);
         $datetime2 = date_create($date_2);
 
@@ -1412,7 +1453,8 @@ class Staff extends Admin_Controller {
         return $interval->format($differenceFormat) + 1;
     }
 
-    public function permission($id) {
+    public function permission($id)
+    {
         $data['title'] = 'Add Role';
         $data['id'] = $id;
         $staff = $this->staff_model->get($id);
@@ -1451,7 +1493,8 @@ class Staff extends Admin_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function leaverequest() {
+    public function leaverequest()
+    {
         if (!$this->rbac->hasPrivilege('apply_leave', 'can_view')) {
             access_denied();
         }
@@ -1476,7 +1519,8 @@ class Staff extends Admin_Controller {
         $this->load->view("layout/footer", $data);
     }
 
-    public function change_password($id) {
+    public function change_password($id)
+    {
 
         $sessionData = $this->session->userdata('admin');
         $userdata = $this->customlib->getUserData();
@@ -1514,7 +1558,8 @@ class Staff extends Admin_Controller {
         echo json_encode($array);
     }
 
-    public function import() {
+    public function import()
+    {
         $data['field'] = array(
             "staff_id" => "staff_id",
             "first_name" => "first_name",
@@ -1646,11 +1691,13 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function handle_csv_upload() {
+    public function handle_csv_upload()
+    {
         $error = "";
         if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
             $allowedExts = array('csv');
-            $mimes = array('text/csv',
+            $mimes = array(
+                'text/csv',
                 'text/plain',
                 'application/csv',
                 'text/comma-separated-values',
@@ -1659,7 +1706,8 @@ class Staff extends Admin_Controller {
                 'application/vnd.msexcel',
                 'text/anytext',
                 'application/octet-stream',
-                'application/txt');
+                'application/txt'
+            );
             $temp = explode(".", $_FILES["file"]["name"]);
             $extension = end($temp);
             if ($_FILES["file"]["error"] > 0) {
@@ -1684,7 +1732,8 @@ class Staff extends Admin_Controller {
         }
     }
 
-    public function exportformat() {
+    public function exportformat()
+    {
         $this->load->helper('download');
         $filepath = "./backend/import/staff_csvfile.csv";
         $data = file_get_contents($filepath);
@@ -1693,7 +1742,8 @@ class Staff extends Admin_Controller {
         force_download($name, $data);
     }
 
-    public function rating() {
+    public function rating()
+    {
 
         $this->session->set_userdata('top_menu', 'HR');
         $this->session->set_userdata('sub_menu', 'HR/rating');
@@ -1706,15 +1756,194 @@ class Staff extends Admin_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function ratingapr($id) {
+    public function ratingapr($id)
+    {
         $approve['status'] = '1';
         $this->staff_model->ratingapr($id, $approve);
         redirect('admin/staff/rating');
     }
 
-    public function delete_rateing($id) {
+    public function delete_rateing($id)
+    {
         $this->staff_model->rating_remove($id);
         redirect('admin/staff/rating');
     }
 
+
+    public function timesheet()
+    {
+        if (!$this->rbac->hasPrivilege('timesheet', 'can_view')) {
+            access_denied();
+        }
+
+        $this->session->set_userdata('top_menu', 'HR');
+        $this->session->set_userdata('sub_menu', 'admin/staff/timesheet');
+
+        $userdata = $this->customlib->getUserData();
+        $data["staff_id"] = $userdata["id"];
+        $data["timesheet_today"] = $this->staff_model->m_GetTimesheetToday($userdata["id"]);
+        $data["timesheet_daterange"] = null;
+        $data['timeout'] = $this->staff_model->m_HasTimeOut($userdata["id"]);
+        $data['employee_list'] = $this->staff_model->getEmployeeList();
+
+        $monday = date('Y-m-d', strtotime('monday this week'));
+        $friday = date('Y-m-d', strtotime('friday this week'));
+
+        $staffRole = $this->staff_model->_getStaffRole($userdata["id"]);
+        $data["staffrole"] = $staffRole;
+        // $data["status"] = $this->status;
+
+        // print_r($data);
+        // die();
+
+        $this->load->view("layout/header", $data);
+        $this->load->view("admin/staff/timesheet", $data);
+        $this->load->view("layout/footer", $data);
+    }
+
+    public function c_GetTimesheetToday($staffid)
+    {
+        $result = array('data' => array());
+        $data = $this->staff_model->m_GetTimesheetToday($staffid);
+
+        foreach ($data as $key => $value) {
+            $result['data'][$key] = array(
+                $value['name'],
+                $value['date'],
+                $value['timein'],
+                $value['timeout'],
+                $value['hours'],
+                $value['updated_at']
+            );
+        }
+
+        echo json_encode($result);
+    }
+
+    public function c_GetTimesheetByDateRangeByID($staffid, $datetimefrom, $datetimeto, $staffrole)
+    {
+        $result = array('data' => array());
+        $data = $this->staff_model->m_GetTimesheetByDateRangeByID($staffid, $datetimefrom, $datetimeto);
+        // $staffrole = $this->staff_model->_getStaffRole($staffid);
+        // print_r($staffrole);
+        // print_r(strpos(strtolower($staffrole), 'admin') == null ? 'NULL' : 'YES');
+        // die();
+
+        $hasAdmin = strpos(strtolower($staffrole), 'admin') == null ? false : true;
+        // print_r($hasAdmin);
+        // die();
+
+        foreach ($data as $key => $value) {
+            $buttons = '';
+
+            if ($hasAdmin) {
+                $buttons = '<button type="button" class="btn btn-sm btn-default" onclick="editFunc(\'' . $value['id'] . '\',\'' . $value['name'] . '\',\'' . $value['date'] . '\',\'' . $value['time_in'] . '\',\'' . $value['time_out'] . '\')" data-toggle="modal" data-target="#editModal" title="Edit"><i class="fa fa-edit" style="color:green"></i></button>';
+
+                $result['data'][$key] = array(
+                    $value['name'],
+                    $value['date'],
+                    $value['time_in'],
+                    $value['time_out'],
+                    $value['hours'],
+                    $value['updated_at'],
+                    $buttons
+                    // $value['notes']
+                );
+            } else {
+                $result['data'][$key] = array(
+                    $value['name'],
+                    $value['date'],
+                    $value['time_in'],
+                    $value['time_out'],
+                    $value['hours'],
+                    $value['updated_at']
+                    // $value['notes']
+                );
+            }
+        }
+
+        echo json_encode($result);
+    }
+
+    public function c_TimeIn($staffid)
+    {
+        $id = "staff_timesheet_" . $this->mode . "_" . microtime(true) * 10000;
+        $id = $id . rand(1000, 9999);
+        $data['id'] = $id;
+        $data['staff_id'] = $staffid;
+        $data['date'] = date("Y-m-d");
+        $data['time_in'] = date("H:i:s");
+        $data['notes'] = '';
+
+        $result = $this->staff_model->m_TimeIn($data);
+
+        if ($result == true) {
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+        } else {
+            $msg   = $this->lang->line('failed_message');
+            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+        }
+
+        echo json_encode($array);
+    }
+
+    public function c_TimeOut($staffid)
+    {
+        $id = "staff_timesheet_" . $this->mode . "_" . microtime(true) * 10000;
+        $id = $id . rand(1000, 9999);
+        $data['id'] = $id;
+        $data['staff_id'] = $staffid;
+        $data['time_out'] = date("H:i:s");
+        $data['updated_at'] = date("Y-m-d H:i:s");
+        $data['notes'] = '';
+
+        $result = $this->staff_model->m_TimeOut($data);
+
+        if ($result == true) {
+            $msg   = $this->lang->line('success_message');
+            $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+        } else {
+            $msg   = $this->lang->line('failed_message');
+            $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+        }
+
+        echo json_encode($array);
+    }
+
+    public function c_UpdateTimesheet($id)
+    {
+        if ($id) {
+            // $this->form_validation->set_rules('u_date', 'Date', 'required');
+            $this->form_validation->set_rules('timein_picker', 'Time In', 'required');
+            $this->form_validation->set_rules('timeout_picker', 'Time Out', 'required');
+
+            if ($this->form_validation->run() == TRUE) {
+                $data = array(
+                    'id' => $id,
+                    'time_in' => date("H:i:s", strtotime($this->input->post('timein_picker'))),
+                    'time_out' => date("H:i:s", strtotime($this->input->post('timeout_picker'))),
+                    'updated_at' => date("Y-m-d H:i:s"),
+                );
+
+                // print_r($data);
+                // die();
+
+                $update = $this->staff_model->m_UpdateTimesheet($data);
+
+                if ($update == true) {
+                    $msg   = $this->lang->line('success_message');
+                    $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+                } else {
+                    $msg   = $this->lang->line('failed_message');
+                    $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+                }
+            } else {
+                $msg   = $this->lang->line('failed_message');
+                $array = array('status' => 'failed', 'error' => '', 'message' => $msg);
+            }
+
+            echo json_encode($array);
+        }
+    }
 }
