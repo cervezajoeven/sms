@@ -165,10 +165,12 @@
                            </li>
 
                         <?php }
-                        if ($this->studentmodule_lib->hasActive('chat')) {
+
+                        //if ($this->studentmodule_lib->hasActive('chat')) { 
                         ?>
-                           <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="<?php echo base_url() ?>user/chat" data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i></a></li>
-                        <?php }
+                        <!-- <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="<?php echo base_url() ?>user/chat" data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i></a></li> -->
+                        <?php //}
+
                         $student_data = $this->customlib->getLoggedInUserData();
                         $file = $student_data["image"];
 

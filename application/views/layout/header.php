@@ -224,19 +224,18 @@
                               </li>
 
 
-                           <?php
+                        <?php
                            }
                         }
-                        if ($this->module_lib->hasActive('chat')) {
-                           if ($this->rbac->hasPrivilege('chat', 'can_view')) {
-                           ?>
-                              <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="<?php echo base_url() ?>admin/chat" data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i></a></li>
-                           <?php
-                           }
-                           ?>
+                        //if ($this->module_lib->hasActive('chat')) {
+                        //if ($this->rbac->hasPrivilege('chat', 'can_view')) {
+                        ?>
+                        <!-- <li class="cal15"><a data-placement="bottom" data-toggle="tooltip" title="" href="<?php echo base_url() ?>admin/chat" data-original-title="Chat" class="todoicon"><i class="fa fa-whatsapp"></i></a></li> -->
+                        <?php
+                        //}
+                        ?>
+                        <?php //}
 
-
-                        <?php }
                         $file   = "";
                         $result = $this->customlib->getUserData();
 
