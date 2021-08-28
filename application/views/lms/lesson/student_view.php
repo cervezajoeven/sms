@@ -146,7 +146,7 @@
    <div style="position: relative;height: 100%;width: 100%;background-color: white;z-index: 9999" class="loader">
       <img style="position: absolute;top: 0%;left: 50%;margin: 13% 0px 0px -10%;" src="<?php echo $resources . 'images/loader.gif' ?>">
    </div>
-   <!-- <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
+   <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
    <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
    <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
    <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
@@ -157,7 +157,7 @@
    <input type="hidden" id="image_resources" value="<?php echo $resources . 'images/' ?>" name="" />
    <input type="hidden" id="start_url" value="<?php echo $start_url ?>" name="" />
    <input type="hidden" id="google_meet" value="<?php echo $google_meet ?>" name="" />
-   <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" /> -->
+   <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
 
    <div id="myModal" class="modal">
       <!-- Modal content -->
@@ -763,6 +763,7 @@
             width: 10%;
          }
       </style>
+
       <div class="student_view_container">
 
          <div class="student_view_navigation">
@@ -778,16 +779,15 @@
             <?php endif; ?>
             <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
             <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
-
-
          </div>
+
          <div class="student_view_slides" id="student_view_slides">
             <div class="slide slide_clone" style="display: none;">
                <div class="dimmer"></div>
                <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Panthera_tigris_tigris_Tidoba_20150306.jpg">
             </div>
-
          </div>
+
          <style type="text/css">
             .html_content {
                background-color: rgb(210, 206, 206);
@@ -800,12 +800,12 @@
          </style>
 
          <div class="student_view_content">
-
             <iframe class="content_type student_view_content_iframe" src="https://www.youtube.com/embed/" frameborder="0"></iframe>
             <img class="content_type image_content" src="" data-magnify="gallery" data-caption="Image Caption 1" data-src="1.jpg" />
             <div class="content_type html_content" style="background-color: white;"></div>
             <video src="" class="video_content" width="100%" controls controlsList="nodownload"></video>
          </div>
+
          <style type="text/css">
             .teacher_tools {
                width: 100%;
@@ -832,10 +832,7 @@
                               background-color: rgb(22, 187, 238);
                               font-weight: bolder;
                               margin-top: 0px;">CMS Teacher Tools</h2>
-            <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 100%;height: 90%;position: relative;">
-
-            </iframe>
-
+            <iframe id="classroomscreen" src="https://www.classroomscreen.com/classic/" style="width: 100%;height: 90%;position: relative;"></iframe>
          </div> -->
 
          <!-- <div id="" class="formula_board">
