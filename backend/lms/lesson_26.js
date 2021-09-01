@@ -572,7 +572,6 @@ $(document).ready(function(){
                break;
 
             case "pdf":
-
                $(".student_view_content_iframe").show();
                $(".student_view_content_iframe").css("height",screen.height-180);
                $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
@@ -593,8 +592,8 @@ $(document).ready(function(){
             default:
                $(".student_view_content_iframe").show();
                $(".student_view_content_iframe").css("height",screen.height-180);
-               $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
-               // $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');                  
+               // $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
+               $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');                  
                
                break;
          }
@@ -1858,5 +1857,6 @@ $(".discussion_board_button").click(function(){
 $(".jamboard_button").click(function(){
    $(".student_view_slides").hide();
    $(".student_view_content").toggle();
+   
    $(".jamboard").toggle();   
 });
