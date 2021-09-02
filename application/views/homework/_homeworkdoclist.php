@@ -92,8 +92,8 @@ foreach ($docs as $value) {
          var officedoc = "https://docs.google.com/gview?url=";
          var file_location = $(this).attr("file_location");
 
-         // $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location) + "&embedded=true");
-         $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location));
+         $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location) + "&embedded=true");
+         // $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location));
          $('#document_view_modal').modal({
             backdrop: 'static',
             keyboard: false,
