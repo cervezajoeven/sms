@@ -593,7 +593,7 @@ $(document).ready(function(){
                $(".student_view_content_iframe").show();
                $(".student_view_content_iframe").css("height",screen.height-180);
                // $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
-               $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');                  
+               $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source));                  
                
                break;
          }
