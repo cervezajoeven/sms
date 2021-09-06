@@ -107,6 +107,7 @@ class Subjecttimetable_model extends MY_Model
             }
          }
       }
+
       $subject_condition = $subject_condition . " and staff.is_active=1";
 
       $sql = "SELECT `subject_group_subjects`.`subject_id`,subjects.name as `subject_name`,subjects.code,subjects.type,staff.name,staff.surname,staff.employee_id,`subject_timetable`.* 
@@ -120,27 +121,32 @@ class Subjecttimetable_model extends MY_Model
          " AND `subject_timetable`.`session_id` = " . $this->current_session . " " . $subject_condition;
 
       $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
       return $query->result();
    }
 
    public function getparentSubjectByClassandSectionDay($class_id, $section_id, $day)
    {
-      $sql = "SELECT `subject_group_subjects`.`subject_id`,subjects.name as `subject_name`,subjects.code,subjects.type,staff.name,staff.surname,staff.employee_id,`subject_timetable`.*,
-                class_sections.id as class_section_id ,subject_group_class_sections.id as `subject_group_class_sections_id` 
+      $sql = "SELECT `subject_group_subjects`.`subject_id`,subjects.name AS `subject_name`,subjects.code,subjects.type,staff.name,staff.surname,staff.employee_id,`subject_timetable`.*,
+                class_sections.id AS class_section_id ,subject_group_class_sections.id AS `subject_group_class_sections_id` 
                 FROM `subject_timetable` 
                 JOIN `subject_group_subjects` ON `subject_timetable`.`subject_group_subject_id` = `subject_group_subjects`.`id` 
-                inner JOIN subjects on subject_group_subjects.subject_id = subjects.id 
-                INNER JOIN staff on staff.id=subject_timetable.staff_id 
-                inner JOIN class_sections on class_sections.class_id=subject_timetable.class_id and class_sections.section_id=subject_timetable.section_id 
-                INNER JOIN subject_group_class_sections on subject_group_class_sections.class_section_id=class_sections.id 
-                WHERE `subject_timetable`.`class_id` = " . $this->db->escape($class_id) .
+                INNER JOIN subjects ON subject_group_subjects.subject_id = subjects.id 
+                INNER JOIN staff ON staff.id=subject_timetable.staff_id 
+                INNER JOIN class_sections ON class_sections.class_id=subject_timetable.class_id AND class_sections.section_id=subject_timetable.section_id 
+                INNER JOIN subject_group_class_sections ON subject_group_class_sections.class_section_id=class_sections.id AND subject_group_class_sections.session_id = " . $this->current_session .
+         " WHERE `subject_timetable`.`class_id` = " . $this->db->escape($class_id) .
          " AND `subject_timetable`.`section_id` = " . $this->db->escape($section_id) .
          " AND `subject_timetable`.`day` = " . $this->db->escape($day) .
-         " AND `subject_timetable`.`session_id` = " . $this->current_session . " and staff.is_active=1";
+         " AND `subject_timetable`.`session_id` = " . $this->current_session . " AND staff.is_active = 1";
       // GROUP BY `subject_group_subjects`.`subject_id` 
       // ORDER BY `subject_timetable`.`time_from`";
 
       $query = $this->db->query($sql);
+
+      // print_r($this->db->last_query());
+      // die();
 
       return $query->result();
    }
