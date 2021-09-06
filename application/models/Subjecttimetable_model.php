@@ -136,9 +136,9 @@ class Subjecttimetable_model extends MY_Model
                 WHERE `subject_timetable`.`class_id` = " . $this->db->escape($class_id) .
          " AND `subject_timetable`.`section_id` = " . $this->db->escape($section_id) .
          " AND `subject_timetable`.`day` = " . $this->db->escape($day) .
-         " AND `subject_timetable`.`session_id` = " . $this->current_session . " and staff.is_active=1 
-            GROUP BY `subject_group_subjects`.`subject_id` 
-            ORDER BY `subject_timetable`.`time_from`";
+         " AND `subject_timetable`.`session_id` = " . $this->current_session . " and staff.is_active=1";
+      // GROUP BY `subject_group_subjects`.`subject_id` 
+      // ORDER BY `subject_timetable`.`time_from`";
 
       $query = $this->db->query($sql);
 
