@@ -267,9 +267,12 @@ $language_name = $language["short_code"];
                                              <i class="fa fa-reorder"></i></a>
                                        <?php
                                        }
-                                       if ($homework["assignments"] > 0) {
+                                       //if ($homework["assignments"] > 0) 
+                                       {
                                        ?>
-                                          <!-- <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php echo $homework['id']; ?>);" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments'); ?>"><i class="fa fa-download"></i></a> -->
+                                          <!-- <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php //echo $homework['id']; 
+                                                                                                                              ?>);" data-toggle="tooltip" data-original-title="<?php //echo $this->lang->line('assignments'); 
+                                                                                                                                                                                                               ?>"><i class="fa fa-download"></i></a> -->
                                           <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php echo $homework['id']; ?>, <?php echo $homework['class_id']; ?>, <?php echo $homework['section_id']; ?>);" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments'); ?>"><i class="fa fa-download"></i></a>
 
                                        <?php }
