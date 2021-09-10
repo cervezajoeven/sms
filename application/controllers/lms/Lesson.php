@@ -662,11 +662,10 @@ class Lesson extends General_Controller
 
       $data['result'] = 'success';
       $data['message'] = 'Import successful!';
-      echo json_encode($data);
+      // echo json_encode($data);
 
-      // redirect(site_url() . "lms/lesson/index/" . $id);
-      // $this->load->view('lms/lesson/show', $data);
-
+      redirect(site_url() . "lms/lesson/index/" . $id);
+      $this->load->view('lms/lesson/show', $data);
    }
 
    function view($id)
