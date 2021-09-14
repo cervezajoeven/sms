@@ -1,6 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
+<<<<<<< Updated upstream
     exit('No direct script access allowed');
 
 class Lesson extends General_Controller {
@@ -66,6 +67,60 @@ class Lesson extends General_Controller {
             
             
         }else{
+=======
+   exit('No direct script access allowed');
+
+class Lesson extends General_Controller
+{
+
+   function __construct()
+   {
+      parent::__construct();
+      $this->load->model('lesson_model');
+      $this->load->model('general_model');
+      $this->load->model('discussion_model');
+      $this->load->model('notification_model');
+      $this->load->model('notificationsetting_model');
+      $this->load->model('studentsubjectattendence_model');
+      $this->load->model('subjecttimetable_model');
+      $this->load->model('student_model');
+      $this->load->model('conference_model');
+      $this->load->model('conferencehistory_model');
+      $this->load->model('class_model');
+
+      // $this->load->model(array('conference_model', 'conferencehistory_model', 'class_model'));
+      $this->load->library('mailsmsconf');
+      $this->mailer;
+      $this->session->set_userdata('top_menu', 'Download Center');
+      $this->session->set_userdata('sub_menu', 'content/lesson');
+      $this->writedb = $this->load->database('write_db', TRUE);
+
+      date_default_timezone_set('Asia/Manila');
+      // $url = base_url('lms_v2/index.php?/lms/lesson/initialize/'.$this->general_model->get_account_id().'/'.$this->general_model->get_role());    
+   }
+
+   function index($lesson_query = "today")
+   {
+      $this->session->set_userdata('top_menu', 'Download Center');
+      $this->session->set_userdata('sub_menu', 'Lesson');
+      $this->session->set_userdata('subsub_menu', 'content/lesson');
+
+      $data['title'] = 'Lesson';
+
+      $data['role'] = $this->general_model->get_role();
+      $data['real_role'] = $this->general_model->get_real_role();
+      $data['classes'] = $this->general_model->get_classes();
+      $data['subjects'] = $this->general_model->get_subjects();
+      $data['heading'] = "Current Lessons";
+      $data['lesson_sched'] = "today";
+      $data['lesson_query'] = $lesson_query;
+      $data['user_id'] = $this->general_model->get_account_id();
+
+      if ($data['role'] == 'admin') {
+         $this->load->view('layout/header');
+         if ($data['real_role'] == "7" || $data['real_role'] == "1") {
+            $data['list'] = $this->lesson_model->admin_lessons($this->general_model->get_account_id(), "today");
+>>>>>>> Stashed changes
 
             
             $this->load->view('layout/student/header');
@@ -930,11 +985,630 @@ class Lesson extends General_Controller {
             $student_ids = explode(",", urldecode($student_ids));
         }
 
+<<<<<<< Updated upstream
         $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
         $this->db->from("lms_lesson");
         $this->db->join("staff","lms_lesson.account_id = staff.id");
         $this->db->where("lms_lesson.id",$lesson_id);
         $lesson = $this->db->get()->result_array()[0];
+=======
+      if ($data['role'] == 'admin') {
+         $this->load->view('layout/header');
+         $data['list'] = $this->lesson_model->get_shared_lessons($this->general_model->get_account_id());
+      } else {
+
+         $this->load->view('layout/student/header');
+         $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+      }
+
+
+      $this->load->view('lms/lesson/shared', $data);
+      $this->load->view('layout/footer');
+   }
+
+   function virtual()
+   {
+
+      $this->session->set_userdata('top_menu', 'Download Center');
+      $this->session->set_userdata('sub_menu', 'content/virtual');
+
+      $data['title'] = 'Lesson';
+
+      $data['role'] = $this->general_model->get_role();
+      $data['classes'] = $this->general_model->get_classes();
+      $data['subjects'] = $this->general_model->get_subjects();
+
+      if ($data['role'] == 'admin') {
+         $this->load->view('layout/header');
+         $data['list'] = $this->lesson_model->get_lessons_virtual_only($this->general_model->get_account_id());
+      } else {
+
+         $this->load->view('layout/student/header');
+         $data['list'] = $this->lesson_model->student_lessons($this->general_model->get_account_id());
+      }
+
+
+      $this->load->view('lms/lesson/virtual', $data);
+      $this->load->view('layout/footer');
+   }
+
+   function save($lesson_type = "classroom")
+   {
+      $data['lesson_name'] = $_REQUEST['content_title'];
+      $data['subject_id'] = $_REQUEST['subject'];
+      $data['grade_id'] = $_REQUEST['grade'];
+      $data['education_level'] = $_REQUEST['education_level'];
+      $data['term'] = $_REQUEST['term'];
+      $data['lesson_type'] = $lesson_type;
+      $data['account_id'] = $this->general_model->get_account_id();
+      $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
+      $data['start_date'] = date("Y/m/d H:i:s");
+      $data['end_date'] = date("Y/m/d H:i:s", strtotime('now +1 hour'));
+
+      $lesson_data = array(
+         "account_id" => $this->general_model->get_account_id(),
+         "name" => $_REQUEST['content_title'],
+      );
+
+      // $zoom_id = $this->add_lms_lesson($lesson_data);
+      // $data['zoom_id'] = $zoom_id;
+
+      $id = $this->lesson_model->lms_create("lms_lesson", $data);
+
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+
+      redirect(site_url() . "lms/lesson/create/" . $id);
+      // redirect(site_url() . "lms/lesson/create2/" . $id . "/" . $_REQUEST['grade']);
+   }
+
+   function create($id)
+   {
+      $data['id'] = $id;
+      $data['role'] = $this->general_model->get_role();
+      // echo '<pre>';
+      // print_r($data['students']);
+      // exit();
+      // $current_session = $this->setting_model->getCurrentSession();
+
+      if ($data['role'] != "student") {
+         $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
+
+         // $data['classes'] = $this->class_model->getAll();
+         $data['class_sections'] = $this->lesson_model->get_class_sections();
+
+         $data['classes'] = $this->general_model->get_classes();
+         $data['subjects'] = $this->general_model->get_subjects();
+
+         $data['account_id'] = $this->general_model->get_account_id();
+         $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
+         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+         $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
+         $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
+         $data['lms_google_meet'] = $data['lesson']['google_meet'];
+      }
+
+      // print_r($data);
+      // die();
+
+      if ($data['google_meet'] == "") {
+         $data['virtual_status'] = "available";
+      } else {
+         $data['virtual_status'] = "not_available";
+      }
+
+      if ($data['role'] != "student") {
+         if ($data['google_meet'] != $data['lms_google_meet']) {
+
+            $update_google_meet_data['google_meet'] = $data['google_meet'];
+            $update_google_meet_data['id'] = $data['id'];
+            $this->lesson_model->lms_update("lms_lesson", $update_google_meet_data);
+         }
+      } else {
+         $lesson_log_data['lesson_id'] = $id;
+         $lesson_log_data['account_id'] = $this->general_model->get_account_id();
+         $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+         $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+      }
+
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+
+      $data['resources'] = site_url('backend/lms/');
+
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+
+      if ($data['role'] != "student") {
+         $this->load->view('lms/lesson/create', $data);
+      } else {
+         $this->load->view('lms/lesson/student_view', $data);
+      }
+   }
+
+   function create2($id, $gradelevel)
+   {
+      $data['id'] = $id;
+
+      // $current_session = $this->setting_model->getCurrentSession();
+      $data['students'] = $this->lesson_model->get_students_per_level("lms_lesson", $id, "id", $gradelevel);
+      // echo '<pre>';print_r($data['students']);exit();
+      // $data['classes'] = $this->class_model->getAll();
+      $data['class_sections'] = $this->lesson_model->get_class_sections();
+      $data['role'] = $this->general_model->get_role();
+      $data['classes'] = $this->general_model->get_classes();
+      $data['subjects'] = $this->general_model->get_subjects();
+
+      $data['account_id'] = $this->general_model->get_account_id();
+      $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+      $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
+      $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
+      $data['lms_google_meet'] = $data['lesson']['google_meet'];
+
+      // print_r($data);
+      // die();
+
+      if ($data['google_meet'] == "") {
+         $data['virtual_status'] = "available";
+      } else {
+         $data['virtual_status'] = "not_available";
+      }
+
+      if ($data['role'] != "student") {
+         if ($data['google_meet'] != $data['lms_google_meet']) {
+
+            $update_google_meet_data['google_meet'] = $data['google_meet'];
+            $update_google_meet_data['id'] = $data['id'];
+            $this->lesson_model->lms_update("lms_lesson", $update_google_meet_data);
+         }
+      } else {
+         $lesson_log_data['lesson_id'] = $id;
+         $lesson_log_data['account_id'] = $this->general_model->get_account_id();
+         $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+         $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+      }
+
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+
+      $data['resources'] = site_url('backend/lms/');
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+      if ($data['role'] != "student") {
+         $this->load->view('lms/lesson/create', $data);
+      } else {
+         $this->load->view('lms/lesson/student_view', $data);
+      }
+   }
+
+   function show($id)
+   {
+
+      $data['id'] = $id;
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+
+      $data['link'] = $this->lesson_model->lms_get("lms_lesson", $id, "id");
+      $current_session = $this->setting_model->getCurrentSession();
+      $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
+      $data['classes'] = $this->class_model->getAll();
+      $data['class_sections'] = $this->lesson_model->get_class_sections();
+      $data['role'] = $this->general_model->get_role();
+      $data['classes'] = $this->general_model->get_classes();
+      $data['subjects'] = $this->general_model->get_subjects();
+      // echo "<pre>";
+      // print_r($data['role']);
+      // exit();
+      $data['resources'] = site_url('backend/lms/');
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+      $this->load->view('lms/lesson/show', $data);
+   }
+
+   function import($id)
+   {
+      $date = date('m/d/Y h:i:s a', time());
+      $data['id'] = $id;
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+      $data['lesson']['account_id'] = $this->general_model->get_account_id();
+      $data['lesson']['shared'] = 0;
+      $data['lesson']['lesson_name'] = "(" . $date . ") " . $data['lesson']['lesson_name'];
+      unset($data['lesson']['id']);
+      unset($data['lesson']['assigned']);
+
+      // print_r($data);
+      // die();
+
+      $this->lesson_model->lms_create("lms_lesson", $data['lesson'], false);
+      $data['resources'] = site_url('backend/lms/');
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+
+      $data['result'] = 'success';
+      $data['message'] = 'Import successful!';
+      // echo json_encode($data);
+
+      redirect(site_url() . "lms/lesson/index/" . $id);
+      $this->load->view('lms/lesson/show', $data);
+   }
+
+   function view($id)
+   {
+
+      $data['id'] = $id;
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+      $data['link'] = $this->lesson_model->lms_get("lms_lesson", $id, "id");
+      $current_session = $this->setting_model->getCurrentSession();
+      $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
+      $data['classes'] = $this->class_model->getAll();
+      $data['class_sections'] = $this->lesson_model->get_class_sections();
+      $data['role'] = $this->general_model->get_role();
+
+      // echo "<pre>";
+      // print_r($data['students']);
+      // exit();
+      $data['resources'] = site_url('backend/lms/');
+      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      }
+      $this->load->view('lms/lesson/create', $data);
+   }
+
+   public function update()
+   {
+
+      $data['id'] = $_REQUEST['id'];
+      $data['lesson_name'] = $_REQUEST['title'];
+      $data['content_order'] = json_encode($_REQUEST['content_order']);
+      $data['content_pool'] = json_encode($_REQUEST['content_pool']);
+      $data['folder_names'] = $_REQUEST['folder_names'];
+      $data['assigned'] = $_REQUEST['assigned'];
+      $data['email_notification'] = $_REQUEST['email_notification'];
+      $data['lesson_type'] = $_REQUEST['lesson_type'];
+      $data['start_date'] = $_REQUEST['start_date'];
+      $data['end_date'] = $_REQUEST['end_date'];
+      $data['learning_plan'] = $_REQUEST['learning_plan'];
+      $data['subject_id'] = $_REQUEST['subject_id'];
+      $data['grade_id'] = $_REQUEST['grade_id'];
+      $data['education_level'] = $_REQUEST['education_level'];
+      $data['term'] = $_REQUEST['term'];
+      $data['shared'] = $_REQUEST['shared'];
+      $data['allow_view'] = $_REQUEST['allow_view'];
+      $gradeSection = $_REQUEST['grade_section'];
+
+      $this->lesson_model->lms_update("lms_lesson", $data);
+      // print_r($this->lesson_model->lms_update("lms_lesson", $data));
+
+      //-- Create period attendance entries
+      $grade_sections = explode(",", $gradeSection);
+      $grade_section = null;
+
+      // foreach ($grade_sections as $key => $value) {
+      //    $grade_section = explode("_", $value);
+
+      //    $class_id = $grade_section[0];
+      //    $section_id = $grade_section[1];
+      //    // $date = $_REQUEST['start_date'];
+      //    // $day = date('l', $this->customlib->datetostrtotime($date));
+      //    // $resultlist = $this->studentsubjectattendence_model->searchByStudentsAttendanceByDate($class_id, $section_id, $day, date('Y-m-d', $this->customlib->datetostrtotime($date)));
+
+      //    $result = $this->student_model->searchByClassSection($class_id, $section_id);
+
+      //    //Get subject_timetable_id
+
+      //    // $arr = array(
+      //    //    'student_session_id'   => $value,
+      //    //    'attendence_type_id'   => 4,
+      //    //    'remark'               => $this->input->post("remark" . $value),
+      //    //    'subject_timetable_id' => $subject_timetable_id,
+      //    //    'date'                 => date('Y-m-d', $this->customlib->datetostrtotime($date)),
+      //    // );
+      // }
+
+
+
+      // thumbnails
+      // $this->db->select("content_id");
+      // $this->db->where("table_id","thumbnail_".$data['id']);
+      // $query = $this->db->get("resources_queue");
+      // $thumbnails_result = $query->result_array();
+      // $thumbnails = [];
+      // foreach ($thumbnails_result as $key => $value) {
+      //     array_push($thumbnails, $value['content_id']);
+      // }
+
+      // foreach ($_REQUEST['content_pool'] as $key => $value) {
+      //     if(!in_array($value['content']['result_id'], $thumbnails)){
+      //         $download_data['table_id'] = "thumbnail_".$data['id'];
+      //         $download_data['file_type'] = "image";
+      //         $download_data['content_id'] = $value['content']['result_id'];
+      //         $download_data['url'] = urldecode($value['content']['image']);
+      //         $download_data['output_path'] = "C:\\xampp\htdocs\campus\\resources\uploads\blackboard\\".$data['id']."\\thumbnails\\";
+      //         $type = $this->check_url_type($value['content']['image']);
+      //         $download_data['filename'] = $value['content']['result_id'];
+      //         $download_data['completed'] = 0;
+      //         $download_data['status'] = "download";
+
+      //         $this->lesson_model->lms_create("resources_queue",$download_data);
+      //     }
+
+
+      // }
+      //thumbnails
+
+      //contents
+      // $this->db->select("content_id");
+      // $this->db->where("table_id",$data['id']);
+      // $query = $this->db->get("resources_queue");
+      // $content_result = $query->result_array();
+      // $contents = [];
+      // foreach ($content_result as $key => $value) {
+      //     array_push($contents, $value['content_id']);
+      // }
+      // foreach ($_REQUEST['content_pool'] as $key => $value) {
+
+
+      //     if(!in_array($value['content']['result_id'], $contents)){
+
+      //         $download_data['output_path'] = "C:\\xampp\htdocs\campus\\resources\uploads\blackboard\\".$data['id']."\\contents\\";
+      //         $download_data['filename'] = $value['content']['result_id'];
+      //         $download_data['table_id'] = $data['id'];
+      //         $download_data['content_id'] = $value['content']['result_id'];
+      //         $download_data['completed'] = 0;
+
+      //         if($value['content']['type'] == "youtube"){
+      //             $download_data['file_type'] = "video";
+      //             $download_data['url'] = $this->youtube($value['content']['source']);
+      //         }else{
+      //             $download_data['file_type'] = urldecode($value['content']['type']);
+      //             $download_data['url'] = urldecode($value['content']['source']);
+      //         }
+
+      //         if($value['content']['type'] == "website"){
+      //             $download_data['status'] = "convert";
+
+      //         }else{
+      //             $download_data['status'] = "download";
+      //         }
+
+
+      //         if($download_data['url']!=""){
+      //             $this->blackboard_model->create_new("resources_queue",$download_data);
+      //         }
+
+      //     }
+
+
+      // }
+      //contents
+   }
+
+   public function httpPost($url, $params)
+   {
+      $postData = '';
+      //create name value pairs seperated by &
+      foreach ($params as $k => $v) {
+         $postData .= $k . '=' . $v . '&';
+      }
+      $postData = rtrim($postData, '&');
+
+      $ch = curl_init();
+
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HEADER, false);
+      curl_setopt($ch, CURLOPT_POST, count($postData));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+      $output = curl_exec($ch);
+
+      curl_close($ch);
+      return $output;
+   }
+
+   public function send_email_notification_godaddy($lesson_id = "", $email_notification = "", $student_ids = "")
+   {
+      if (!$lesson_id) {
+         $student_ids = $_REQUEST['student_ids'];
+         $lesson_id = $_REQUEST['lesson_id'];
+         $email_notification = $_REQUEST['email_notification'];
+      } else {
+         $student_ids = explode(",", urldecode($student_ids));
+      }
+
+      echo "<pre>";
+
+
+      $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
+      $this->db->from("lms_lesson");
+      $this->db->join("staff", "lms_lesson.account_id = staff.id");
+      $this->db->where("lms_lesson.id", $lesson_id);
+      $lesson = $this->db->get()->result_array()[0];
+
+      $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password");
+      $this->db->from("students");
+      $this->db->join("users", "users.user_id = students.id");
+      $this->db->where_in("students.id", $student_ids);
+      $students = $this->db->get()->result_array();
+
+
+
+      if ($email_notification == "true") {
+         $all_emails = array();
+         $sender_details['lesson_title'] = $lesson['lesson_name'];
+         $sender_details['school_url_login_page'] = base_url('site/userlogin');
+         $sender_details['school_code'] = $_SERVER['HTTP_HOST'];
+         // $sender_details['start_date'] = $lesson['start_date'];
+         $sender_details['start_date'] = date("F d, Y h:i A", strtotime($lesson['start_date']));
+         $sender_details['lesson_type'] = ($lesson['lesson_type'] == "virtual") ? "Google Meet" : ucfirst($lesson['lesson_type']);
+         $sender_details['teacher_name'] = $lesson['name'] . " " . $lesson['surname'];
+
+         foreach ($students as $student_key => $student_value) {
+
+            // $sender_details['email'] = $student_value['guardian_email'];
+
+            $sender_details['sendees'][$student_key]['id'] = $student_value['id'];
+            $sender_details['sendees'][$student_key]['student_name'] = $student_value['firstname'] . " " . $student_value['lastname'];
+            $sender_details['sendees'][$student_key]['email'] = $student_value['guardian_email'];
+            // $sender_details['sendees'][$student_key]['email'] = "cervezajoeven@gmail.com";
+            $sender_details['sendees'][$student_key]['username'] = $student_value['username'];
+            $sender_details['sendees'][$student_key]['password'] = $student_value['password'];
+            // $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+
+         }
+
+         $send_email['school'] = "school";
+         $send_email['data'] = json_encode($sender_details);
+         $url = "https://beta.campuscloudph.com/lms/lesson/email_api";
+         // $url = "http://localhost/sms/lms/lesson/email_api";
+         print_r($this->httpPost($url, $send_email));
+         // echo "<center><h1>Success! You may exit this page now.</h1></center>";
+      }
+   }
+
+
+   public function email_api()
+   {
+      $data = json_decode($_REQUEST['data']);
+      $email_logs = array();
+      foreach ($data->sendees as $sendees_key => $sendees_value) {
+
+         $sender_details['lesson_title'] = $data->lesson_title;
+         $sender_details['school_url_login_page'] = $data->school_url_login_page;
+         $sender_details['school_code'] = $data->school_code;
+         $sender_details['start_date'] = $data->start_date;
+         $sender_details['lesson_type'] = $data->lesson_type;
+         $sender_details['teacher_name'] = $data->teacher_name;
+         $sender_details['id'] = $sendees_value->id;
+         $sender_details['student_name'] = $sendees_value->student_name;
+         $sender_details['email'] = $sendees_value->email;
+         $sender_details['username'] = $sendees_value->username;
+         $sender_details['password'] = $sendees_value->password;
+         $email_logs[$sendees_key] = $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+      }
+      $this->writedb->insert_batch("messages", $email_logs);
+   }
+
+   public function general_mail_api()
+   {
+      $data = json_decode($_REQUEST['data']);
+
+
+      foreach ($data as $data_key => $data_value) {
+
+         $sender_details['id'] = $data_value->id;
+         $sender_details['email'] = $data_value->email;
+         $sender_details['display_name'] = $data_value->display_name;
+         $sender_details['username'] = $data_value->username;
+         $sender_details['password'] = $data_value->password;
+         $sender_details['url'] = $data_value->url;
+         $this->mailsmsconf->mailsms('old_student_account', $sender_details);
+      }
+   }
+
+   public function send_email_notification($lesson_id = "", $email_notification = "", $student_ids = "")
+   {
+
+      if (!$lesson_id) {
+         $student_ids = $_REQUEST['student_ids'];
+         $lesson_id = $_REQUEST['lesson_id'];
+         $email_notification = $_REQUEST['email_notification'];
+      } else {
+         $student_ids = explode(",", urldecode($student_ids));
+      }
+
+      echo "<pre>";
+
+      $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
+      $this->db->from("lms_lesson");
+      $this->db->join("staff", "lms_lesson.account_id = staff.id");
+      $this->db->where("lms_lesson.id", $lesson_id);
+      $lesson = $this->db->get()->result_array()[0];
+
+      $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password,students.guardian_email");
+      $this->db->from("students");
+      $this->db->join("users", "users.user_id = students.id");
+      $this->db->where_in("students.id", $student_ids);
+      $students = $this->db->get()->result_array();
+
+      if ($email_notification == "true") {
+         foreach ($students as $student_key => $student_value) {
+
+            $sender_details['id'] = $student_value['id'];
+            // $sender_details['email'] = $student_value['guardian_email'];
+            $sender_details['email'] = 'cervezajoeven@gmail.com';
+            $sender_details['student_name'] = $student_value['firstname'] . " " . $student_value['lastname'];
+            $sender_details['lesson_title'] = $lesson['lesson_name'];
+            // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+            $sender_details['start_date'] = date("F d, Y h:i A", strtotime($lesson['start_date']));
+            $sender_details['lesson_type'] = ($lesson['lesson_type'] == "virtual") ? "Google Meet" : ucfirst($lesson['lesson_type']);
+            $sender_details['teacher_name'] = $lesson['name'] . " " . $lesson['surname'];
+            $sender_details['school_url_login_page'] = base_url('site/userlogin');
+            $sender_details['username'] = $student_value['username'];
+            $sender_details['password'] = $student_value['password'];
+            print_r($sender_details);
+            $this->mailsmsconf->mailsms('lesson_assigned', $sender_details);
+         }
+      }
+   }
+
+
+   public function new_send_email_notification($lesson_id = "", $email_notification = "", $student_ids = "")
+   {
+
+      if (!$lesson_id) {
+         $student_ids = $_REQUEST['student_ids'];
+         $lesson_id = $_REQUEST['lesson_id'];
+         $email_notification = $_REQUEST['email_notification'];
+      } else {
+         $student_ids = explode(",", urldecode($student_ids));
+      }
+
+      $this->db->select("lms_lesson.lesson_name,lms_lesson.lesson_type,lms_lesson.start_date,staff.name,staff.surname");
+      $this->db->from("lms_lesson");
+      $this->db->join("staff", "lms_lesson.account_id = staff.id");
+      $this->db->where("lms_lesson.id", $lesson_id);
+      $lesson = $this->db->get()->result_array()[0];
+
+      $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password,students.guardian_email");
+      $this->db->from("students");
+      $this->db->join("users", "users.user_id = students.id");
+      $this->db->where_in("students.id", $student_ids);
+      $this->db->where("users.role", "student");
+      $this->db->group_by("users.username");
+      $students = $this->db->get()->result_array();
+      // print_r($students);
+      if ($email_notification == "true") {
+         foreach ($students as $student_key => $student_value) {
+
+            $sender_details['id'] = $student_value['id'];
+            $sender_details['email'] = $student_value['guardian_email'];
+            // $sender_details['email'] = 'cervezajoeven@gmail.com';
+            $sender_details['student_name'] = $student_value['firstname'] . " " . $student_value['lastname'];
+            $sender_details['lesson_title'] = $lesson['lesson_name'];
+            // $sender_details['start_date'] = date("F d, Y h:i A",strtotime($lesson['start_date']));
+            $sender_details['start_date'] = date("F d, Y h:i A", strtotime($lesson['start_date']));
+            $sender_details['lesson_type'] = ($lesson['lesson_type'] == "virtual") ? "Google Meet" : ucfirst($lesson['lesson_type']);
+            $sender_details['teacher_name'] = $lesson['name'] . " " . $lesson['surname'];
+            $sender_details['school_url_login_page'] = base_url('site/userlogin');
+            $sender_details['username'] = $student_value['username'];
+            $sender_details['password'] = $student_value['password'];
+>>>>>>> Stashed changes
 
         $this->db->select("students.id,students.firstname,students.lastname,users.username,users.password,students.guardian_email");
         $this->db->from("students");
@@ -995,10 +1669,135 @@ class Lesson extends General_Controller {
 
                 }else{
 
+<<<<<<< Updated upstream
                     $lesson_email_log['email_status'] = "Not Sent";
 
                 }
                 $this->lesson_model->lms_create("lms_lesson_email_logs",$lesson_email_log);
+=======
+               $lesson_email_log['email_status'] = "Not Sent";
+            }
+            $this->lesson_model->lms_create("lms_lesson_email_logs", $lesson_email_log);
+         }
+      }
+   }
+
+   public function delete($id)
+   {
+
+      $data['id'] = $id;
+      $data['deleted'] = 1;
+      $this->lesson_model->lms_update("lms_lesson", $data);
+
+      $data['result'] = 'success';
+      $data['message'] = 'Delete successful!';
+      echo json_encode($data);
+      // redirect(site_url() . "lms/lesson/index/");
+   }
+
+   public function retrieve($id)
+   {
+
+      $data['id'] = $id;
+      $data['deleted'] = 0;
+      $this->lesson_model->lms_update("lms_lesson", $data);
+      echo "<script>alert();</script>";
+      redirect(site_url() . "lms/lesson/index/");
+   }
+
+   public function get($id)
+   {
+      echo json_encode($this->lesson_model->lms_get("lms_lesson", $id, "id")[0]);
+   }
+
+   public function my_resources($search = "")
+   {
+      $account_id = $this->session->userdata('admin')['id'];
+      $search_result = $this->lesson_model->search_my_resources($account_id, $search);
+      echo json_encode($search_result);
+   }
+
+   public function my_resources_delete($id)
+   {
+      $data['id'] = $id;
+      $data['deleted'] = 1;
+
+      if ($this->lesson_model->lms_delete("lms_my_resources", $data)) {
+         // redirect(site_url("lms/assessment/index"));
+         $data['result'] = 'success';
+         $data['message'] = 'Delete successful!';
+      } else {
+         $data['result'] = 'error';
+         $data['message'] = 'Delete failed!';
+      }
+
+      echo json_encode($data);
+   }
+
+   public function cms_resources($search = "")
+   {
+      $account_id = $this->session->userdata('admin')['id'];
+      $search_result = $this->lesson_model->search_cms_resources($account_id, $search);
+      echo json_encode($search_result);
+   }
+
+   public function send_email_parent()
+   {
+      $this->db->select("*");
+      $query = $this->db->get("students");
+      $result = $query->result_array();
+      echo "<pre>";
+      $current_session = $this->setting_model->getCurrentSession();
+      print_r("current session: " . $current_session);
+
+      foreach ($result as $key => $value) {
+         //for parent notification
+         // $sender_details = array('student_id' => $value['id'], 'email' => 'cervezajoeven@gmail.com');
+         $sender_details = array('id' => $value['id'], 'email' => $value['email']);
+
+         print_r($sender_details);
+         $this->mailsmsconf->mailsms('parent_notification', $sender_details);
+      }
+   }
+
+
+   public function send_admission_details($id)
+   {
+
+      $student = $this->lesson_model->lms_get("students", $id, "id")[0];
+      $sender_details = array('student_id' => $student['id'], 'email' => $student['guardian_email']);
+      $this->mailsmsconf->mailsms('student_admission', $sender_details);
+   }
+
+   public function send_login_credential($id)
+   {
+
+      $student = $this->lesson_model->lms_get("students", $id, "id")[0];
+      $sender_details = array('id' => $student['id'], 'email' => $student['guardian_email'], "credential_for" => "student", "resend" => true);
+
+      $this->mailsmsconf->mailsms('login_credential', $sender_details);
+   }
+
+   public function upload($upload_type = "my_resources", $lesson_id = "")
+   {
+      if ($upload_type == "my_resources") {
+         $file = $_FILES['upload_file'];
+
+         foreach ($file['name'] as $key => $value) {
+
+            $data['name'] = $value;
+
+            $path_parts = pathinfo($file["name"][$key]);
+            $extension = $path_parts['extension'];
+            $image_array = array("png", "jpg", "jpeg", "svg", "gif");
+            $video_array = array("mp4");
+            if (in_array($extension, $image_array)) {
+               $data['type'] = "image";
+            } elseif (in_array($extension, $video_array)) {
+               $data['type'] = "video";
+            } else {
+               $data['type'] = $extension;
+>>>>>>> Stashed changes
             }
             
         }
@@ -1011,11 +1810,32 @@ class Lesson extends General_Controller {
         $this->lesson_model->lms_update("lms_lesson",$data);
 
 
+<<<<<<< Updated upstream
         redirect(site_url()."lms/lesson/index/");
     
     }
 
     public function retrieve($id){
+=======
+               // if (!is_dir(FCPATH . "uploads/lms_my_resources/" . $data['account_id'])) {
+               //    if (mkdir(FCPATH . "uploads/lms_my_resources/" . $data['account_id'])) {
+               //    }
+               // }
+
+               $filename = $this->lesson_model->filename_generator() . "." . $extension;
+               // echo "uploaded file: ";
+               // var_dump(move_uploaded_file($file['tmp_name'][$key], FCPATH."uploads/lms_my_resources/".$data['account_id']."/".$filename));
+               // var_dump($file['tmp_name'][$key], FCPATH . "uploads/lms_my_resources/" . $data['account_id'] . "/" . $filename);
+
+               $this->load->library('s3');
+               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/lms_my_resources/" . $data['account_id'] . "/" . $filename;
+
+               //if (move_uploaded_file($file['tmp_name'][$key], FCPATH . "uploads/lms_my_resources/" . $data['account_id'] . "/" . $filename)) 
+               if ($s3->putObjectFile($file['tmp_name'][$key], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
+                  $data['filename'] = $filename;
+                  $data['link'] =  $data['account_id'] . "/" . $filename;
+>>>>>>> Stashed changes
 
         $data['id'] = $id;
         $data['deleted'] = 0;

@@ -135,6 +135,7 @@ class User extends Student_Controller
                 $this->load->view('user/change_password', $data);
                 $this->load->view('layout/student/footer', $data);
             }
+<<<<<<< Updated upstream
         }
     }
  
@@ -175,6 +176,83 @@ class User extends Student_Controller
                 }
             } else {
                 $this->session->set_flashdata('error_msg', 'Invalid current username');
+=======
+         } else {
+            $this->session->set_flashdata('error_msg', 'Invalid current username');
+         }
+      }
+      $this->data['id']       = $sessionData['id'];
+      $this->data['username'] = $sessionData['username'];
+      $this->load->view('layout/student/header', $data);
+      $this->load->view('user/change_username', $data);
+      $this->load->view('layout/student/footer', $data);
+   }
+
+   public function download($student_id, $doc)
+   {
+      $this->load->helper('download');
+      // $filepath = "./uploads/student_documents/$student_id/" . $this->uri->segment(5);
+      $filepath = $_SESSION['S3_BaseUrl'] . "uploads/student_documents/$student_id/" . $this->uri->segment(5);
+      $data     = file_get_contents($filepath);
+      $name     = $this->uri->segment(6);
+      force_download($name, $data);
+   }
+
+   public function user_language($lang_id)
+   {
+      $language_name = $this->db->select('languages.language')->from('languages')->where('id', $lang_id)->get()->row_array();
+      $student       = $this->session->userdata('student');
+      if (!empty($student)) {
+         $this->session->unset_userdata('student');
+      }
+      $language_array      = array('lang_id' => $lang_id, 'language' => $language_name['language']);
+      $student['language'] = $language_array;
+      $this->session->set_userdata('student', $student);
+
+      $session         = $this->session->userdata('student');
+      $id              = $session['student_id'];
+      $data['lang_id'] = $lang_id;
+      $language_result = $this->language_model->set_studentlang($id, $data);
+   }
+
+   public function timeline_download($timeline_id, $doc)
+   {
+      $this->load->helper('download');
+      $filepath = $_SESSION['S3_BaseUrl'] . "uploads/student_timeline/" . $doc;
+      $data     = file_get_contents($filepath);
+      $name     = $doc;
+      force_download($name, $data);
+   }
+
+   public function view($id)
+   {
+      $data['title']           = 'Student Details';
+      $student                 = $this->student_model->get($id);
+      $student_due_fee         = $this->studentfee_model->getDueFeeBystudent($student['class_id'], $student['section_id'], $id);
+      $data['student_due_fee'] = $student_due_fee;
+      $transport_fee           = $this->studenttransportfee_model->getTransportFeeByStudent($student['student_session_id']);
+      $data['transport_fee']   = $transport_fee;
+      $examList                = $this->examschedule_model->getExamByClassandSection($student['class_id'], $student['section_id']);
+      $data['examSchedule']    = array();
+      if (!empty($examList)) {
+         $new_array = array();
+         foreach ($examList as $ex_key => $ex_value) {
+            $array         = array();
+            $x             = array();
+            $exam_id       = $ex_value['exam_id'];
+            $exam_subjects = $this->examschedule_model->getresultByStudentandExam($exam_id, $student['id']);
+            foreach ($exam_subjects as $key => $value) {
+               $exam_array                     = array();
+               $exam_array['exam_schedule_id'] = $value['exam_schedule_id'];
+               $exam_array['exam_id']          = $value['exam_id'];
+               $exam_array['full_marks']       = $value['full_marks'];
+               $exam_array['passing_marks']    = $value['passing_marks'];
+               $exam_array['exam_name']        = $value['name'];
+               $exam_array['exam_type']        = $value['type'];
+               $exam_array['attendence']       = $value['attendence'];
+               $exam_array['get_marks']        = $value['get_marks'];
+               $x[]                            = $exam_array;
+>>>>>>> Stashed changes
             }
         }
         $this->data['id']       = $sessionData['id'];
@@ -320,7 +398,55 @@ class User extends Student_Controller
                 $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
                 $this->student_model->adddoc($data_img);
 
+<<<<<<< Updated upstream
             }
+=======
+            $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
+            $first_title = $this->input->post('first_title');
+            $file_name   = $_FILES['first_doc']['name'];
+            $exp         = explode(' ', $file_name);
+            $imp         = implode('_', $exp);
+            $img_name    = $uploaddir . basename($imp);
+
+            // move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
+
+            $this->load->library('s3');
+            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $student_id . '/' . $img_name;
+            $s3->putObjectFile($_FILES["first_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+            $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp);
+            $this->student_model->adddoc($data_img);
+         }
+
+         $msg   = $this->lang->line('success_message');
+         $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+      }
+
+      echo json_encode($array);
+   }
+
+   public function handle_uploadcreate_doc()
+   {
+      $image_validate = $this->config->item('file_validate');
+
+      if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+         $file_type         = $_FILES["first_doc"]['type'];
+         $file_size         = $_FILES["first_doc"]["size"];
+         $file_name         = $_FILES["first_doc"]["name"];
+
+         $allowed_extension = $image_validate['allowed_extension'];
+         $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+         $allowed_mime_type = $image_validate['allowed_mime_type'];
+         $finfo = finfo_open(FILEINFO_MIME_TYPE);
+         $mtype = finfo_file($finfo, $_FILES['first_doc']['tmp_name']);
+         finfo_close($finfo);
+
+         if (!in_array($mtype, $allowed_mime_type)) {
+            $this->form_validation->set_message('handle_uploadcreate_doc', 'File Type Not Allowed');
+            return false;
+         }
+>>>>>>> Stashed changes
 
             $msg   = $this->lang->line('success_message');
             $array = array('status' => 'success', 'error' => '', 'message' => $msg);        

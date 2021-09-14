@@ -383,7 +383,7 @@ $(document).ready(function(){
                 case "pdf":
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
-                    $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
+                    $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source + "&embedded=true");
                 break;
                 case "text":
                     $(".html_content").show();

@@ -11,8 +11,10 @@
         display: none;
     }
 </style>
+
 <?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat(); ?>
 <div class="content-wrapper" style="min-height: 946px;">
+<<<<<<< Updated upstream
     <section class="content-header">
         <h1>
             <i class="fa fa-user-plus"></i> <?php echo $this->lang->line('my_profile'); ?> <small><?php echo $this->lang->line('student1'); ?></small>
@@ -59,6 +61,286 @@
                     </div>
                 </div>
             </div>
+=======
+   <section class="content-header">
+      <h1>
+         <i class="fa fa-user-plus"></i> <?php echo $this->lang->line('my_profile'); ?> <small><?php echo $this->lang->line('student1'); ?></small>
+      </h1>
+   </section>
+   <section class="content">
+      <?php foreach ($unread_notifications as $notice_key => $notice_value) { ?>
+         <div class="dashalert alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="alertclose close close_notice stualert" data-dismiss="alert" aria-label="Close" data-noticeid="<?php echo $notice_value->id; ?>"><span aria-hidden="true">&times;</span></button>
+            <a href="<?php echo site_url('user/notification') ?>"><?php echo $notice_value->title; ?></a>
+         </div>
+      <?php } ?>
+
+      <div class="row">
+         <div class="col-md-3">
+            <div class="box box-primary">
+               <div class="box-body box-profile">
+                  <img class="profile-user-img img-responsive img-circle" src="<?php if (!empty($student['image'])) {
+                                                                                    echo $_SESSION['S3_BaseUrl'] . $student['image'];
+                                                                                 } else {
+                                                                                    echo $_SESSION['S3_BaseUrl'] . "uploads/student_images/no_image.png";
+                                                                                 } ?>" alt="User profile picture">
+                  <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
+                  <ul class="list-group list-group-unbordered">
+                     <li class="list-group-item">
+                        <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right text-aqua"><?php echo $student['admission_no']; ?></a>
+                     </li>
+                     <li class="list-group-item">
+                        <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right text-aqua"><?php echo $student['roll_no']; ?></a>
+                     </li>
+                     <li class="list-group-item">
+                        <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right text-aqua"><?php echo $student['class']; ?></a>
+                     </li>
+                     <li class="list-group-item">
+                        <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right text-aqua"><?php echo $student['section']; ?></a>
+                     </li>
+                     <li class="list-group-item">
+                        <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo ucfirst($student['gender']); ?></a>
+                     </li>
+                     <li class="list-group-item">
+                        <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right text-aqua"><?php echo $student['lrn_no']; ?></a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-md-9">
+            <div class="nav-tabs-custom theme-shadow">
+               <ul class="nav nav-tabs">
+                  <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('profile'); ?></a></li>
+                  <?php if ($this->studentmodule_lib->hasActive('fees')) { ?>
+                     <li class=""><a href="#fee" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('fees'); ?></a></li>
+                     <li><a href="#exam" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('exam'); ?></a></li>
+                  <?php } ?>
+                  <li class=""><a href="#documents" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('documents'); ?></a></li>
+                  <li class=""><a href="#timelineh" data-toggle="tab" aria-expanded="true"><?php echo $this->lang->line('timeline'); ?></a></li>
+               </ul>
+               <div class="tab-content">
+                  <div class="tab-pane active" id="activity">
+                     <div class="tshadow mb25 bozero">
+                        <div class="table-responsive around10 pt0">
+                           <table class="table table-hover table-striped">
+                              <tbody>
+                                 <?php if ($sch_setting->admission_date) { ?>
+                                    <tr>
+                                       <td class="col-md-4"><?php echo $this->lang->line('admission_date'); ?></td>
+                                       <td class="col-md-5"> <?php if (!empty($student['admission_date'])) {
+                                                                  echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['admission_date']));
+                                                               } ?> </td>
+                                    </tr>
+                                 <?php } ?>
+                                 <tr>
+                                    <td><?php echo $this->lang->line('date_of_birth'); ?></td>
+                                    <td><?php if (!empty($student['dob'])) {
+                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob']));
+                                          } ?></td>
+                                 </tr>
+                                 <?php if ($sch_setting->category) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('category'); ?></td>
+                                       <td>
+                                          <?php foreach ($category_list as $value) {
+                                             if ($student['category_id'] == $value['id']) {
+                                                echo $value['category'];
+                                             }
+                                          } ?>
+                                       </td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->mobile_no) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('mobile_no'); ?></td>
+                                       <td><?php echo $student['mobileno']; ?></td>
+                                    </tr>
+                                 <?php }
+
+                                 if ($sch_setting->religion) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('religion'); ?></td>
+                                       <td><?php echo $student['religion']; ?></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->student_email) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('email'); ?></td>
+                                       <td><?php echo $student['email']; ?></td>
+                                    </tr>
+                                    <?php }
+                                 $cutom_fields_data = get_custom_table_values($student['id'], 'students');
+                                 if (!empty($cutom_fields_data)) {
+                                    foreach ($cutom_fields_data as $field_key => $field_value) { ?>
+                                       <tr>
+                                          <td><?php echo $field_value->name; ?></td>
+                                          <td>
+                                             <?php if (is_string($field_value->field_value) && is_array(json_decode($field_value->field_value, true)) && (json_last_error() == JSON_ERROR_NONE)) {
+                                                $field_array = json_decode($field_value->field_value);
+                                                echo "<ul class='student_custom_field'>";
+                                                foreach ($field_array as $each_key => $each_value) {
+                                                   echo "<li>" . $each_value . "</li>";
+                                                }
+                                                echo "</ul>";
+                                             } else {
+                                                $display_field = $field_value->field_value;
+
+                                                if ($field_value->type == "link") {
+                                                   $display_field = "<a href=" . $field_value->field_value . " target='_blank'>" . $field_value->field_value . "</a>";
+                                                }
+                                                echo $display_field;
+                                             } ?>
+                                          </td>
+                                       </tr>
+                                 <?php }
+                                 } ?>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
+                     <div class="tshadow mb25 bozero">
+                        <h3 class="pagetitleh2"><?php echo $this->lang->line('address'); ?> <?php echo $this->lang->line('detail'); ?></h3>
+                        <div class="table-responsive around10 pt0">
+                           <table class="table table-hover table-striped">
+                              <tbody>
+                                 <?php if ($sch_setting->current_address) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('current_address'); ?></td>
+                                       <td><?php echo $student['current_address']; ?></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->permanent_address) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('permanent_address'); ?></td>
+                                       <td><?php echo $student['permanent_address']; ?></td>
+                                    </tr>
+                                 <?php } ?>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <div class="tshadow mb25 bozero">
+                        <h3 class="pagetitleh2"><?php echo $this->lang->line('parent'); ?> / <?php echo $this->lang->line('guardian_details'); ?> </h3>
+                        <div class="table-responsive around10 pt0">
+                           <table class="table table-hover table-striped">
+                              <tbody>
+                                 <?php if ($sch_setting->father_name) { ?>
+                                    <tr>
+                                       <td class="col-md-4"><?php echo $this->lang->line('father_name'); ?></td>
+                                       <td class="col-md-5"><?php echo $student['father_name']; ?></td>
+                                       <td rowspan="3"><img class="profile-user-img img-responsive img-circle" src="<?php
+                                                                                                                     if (!empty($student["father_pic"])) {
+                                                                                                                        echo $_SESSION['S3_BaseUrl'] . $student["father_pic"];
+                                                                                                                     } else {
+                                                                                                                        echo $_SESSION['S3_BaseUrl'] . "uploads/student_images/no_image.png";
+                                                                                                                     } ?>"></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->father_phone) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('father_phone'); ?></td>
+                                       <td><?php echo $student['father_phone']; ?></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->father_occupation) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('father_occupation'); ?></td>
+                                       <td><?php echo $student['father_occupation']; ?></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->mother_name) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('mother_name'); ?></td>
+                                       <td><?php echo $student['mother_name']; ?></td>
+                                       <td rowspan="3"><img class="profile-user-img img-responsive img-circle" src="<?php
+                                                                                                                     if (!empty($student["mother_pic"])) {
+                                                                                                                        echo $_SESSION['S3_BaseUrl'] . $student["mother_pic"];
+                                                                                                                     } else {
+                                                                                                                        echo $_SESSION['S3_BaseUrl'] . "uploads/student_images/no_image.png";
+                                                                                                                     } ?>"></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->mother_phone) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('mother_phone'); ?></td>
+                                       <td><?php echo $student['mother_phone']; ?></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->mother_occupation) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('mother_occupation'); ?></td>
+                                       <td><?php echo $student['mother_occupation']; ?></td>
+                                    </tr>
+                                 <?php } ?>
+                                 <tr>
+                                    <td><?php echo $this->lang->line('guardian_name'); ?></td>
+                                    <td><?php echo $student['guardian_name']; ?></td>
+                                    <td rowspan="3"><img class="profile-user-img img-responsive img-circle" src="<?php
+                                                                                                                  if (!empty($student["guardian_pic"])) {
+                                                                                                                     echo $_SESSION['S3_BaseUrl'] . $student["guardian_pic"];
+                                                                                                                  } else {
+                                                                                                                     echo $_SESSION['S3_BaseUrl'] . "uploads/student_images/no_image.png";
+                                                                                                                  } ?>">
+                                    </td>
+                                 </tr>
+                                 <?php if ($sch_setting->guardian_email) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('guardian_email'); ?></td>
+                                       <td><?php echo $student['guardian_email']; ?></td>
+                                    </tr>
+                                 <?php }
+                                 if ($sch_setting->guardian_relation) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('guardian_relation'); ?></td>
+                                       <td><?php echo $student['guardian_relation']; ?></td>
+                                    </tr>
+                                 <?php } ?>
+                                 <tr>
+                                    <td><?php echo $this->lang->line('guardian_phone'); ?></td>
+                                    <td><?php echo $student['guardian_phone']; ?></td>
+                                 </tr>
+                                 <tr>
+                                    <td><?php echo $this->lang->line('guardian_occupation'); ?></td>
+                                    <td><?php echo $student['guardian_occupation']; ?></td>
+                                 </tr>
+                                 <?php if ($sch_setting->guardian_address) { ?>
+                                    <tr>
+                                       <td><?php echo $this->lang->line('guardian_address'); ?></td>
+                                       <td><?php echo $student['guardian_address']; ?></td>
+                                    </tr>
+                                 <?php } ?>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <?php if ($sch_setting->route_list) { ?>
+                        <?php if ($student['vehroute_id'] != 0) { ?>
+                           <div class="tshadow mb25  bozero">
+                              <h3 class="pagetitleh2"><?php echo $this->lang->line('transport') . " " . $this->lang->line('details'); ?></h3>
+
+                              <div class="table-responsive around10 pt0">
+                                 <table class="table table-hover table-striped tmb0">
+                                    <tbody>
+                                       <tr>
+                                          <td class="col-md-4"><?php echo $this->lang->line('route'); ?></td>
+                                          <td class="col-md-5"><?php echo $student['route_title']; ?></td>
+                                       </tr>
+                                       <tr>
+                                          <td class="col-md-4"><?php echo $this->lang->line('vehicle_no'); ?></td>
+                                          <td class="col-md-5"><?php echo $student['vehicle_no']; ?></td>
+                                       </tr>
+                                       <tr>
+                                          <td><?php echo $this->lang->line('driver_name'); ?></td>
+                                          <td><?php echo $student['driver_name']; ?></td>
+                                       </tr>
+                                       <tr>
+                                          <td><?php echo $this->lang->line('driver_contact'); ?></td>
+                                          <td><?php echo $student['driver_contact']; ?></td>
+                                       </tr>
+>>>>>>> Stashed changes
 
             <div class="col-md-9">
                 <div class="nav-tabs-custom theme-shadow">
@@ -621,6 +903,7 @@
                                                                     ?></h2> -->
                             </div>
                         </div>
+<<<<<<< Updated upstream
 
                         <div class="tab-pane" id="documents">
                             <div class="timeline-header no-border">
@@ -667,6 +950,87 @@
                                     </table>
                                 </div>
                             </div>
+=======
+                        <!-- <h2 class="page-header"><?php //echo $this->lang->line('documents'); 
+                                                      ?> <?php //echo $this->lang->line('list'); 
+                                                         ?></h2> -->
+                     </div>
+                  </div>
+
+                  <div class="tab-pane" id="documents">
+                     <div class="timeline-header no-border">
+                        <button type="button" data-student-session-id="<?php echo $student['student_session_id'] ?>" class="btn btn-xs btn-primary pull-right myTransportFeeBtn mb10"> <i class="fa fa-upload"></i> <?php echo $this->lang->line('upload_documents'); ?></button>
+
+                        <div class="table-responsive" style="clear: both;">
+                           <table class="table table-striped table-bordered table-hover">
+                              <thead>
+                                 <tr>
+                                    <th>
+                                       <?php echo $this->lang->line('title'); ?>
+                                    </th>
+                                    <th>
+                                       <?php echo $this->lang->line('file'); ?> <?php echo $this->lang->line('name'); ?>
+                                    </th>
+                                    <th class="mailbox-date text-right">
+                                       <?php echo $this->lang->line('action'); ?>
+                                    </th>
+                                 </tr>
+                              </thead>
+                              <?php
+                              if (empty($student_doc)) { ?>
+                              <?php } else { ?>
+                                 <tbody>
+                                    <?php foreach ($student_doc as $value) { ?>
+                                       <tr>
+                                          <td><?php echo $value['title']; ?></td>
+                                          <td><?php echo $value['document_title']; ?></td>
+                                          <td class="mailbox-date text-right">
+                                             <!-- <a data-placement="left" href="https://view.officeapps.live.com/op/view.aspx?src=<?php //echo base_url(); 
+                                                                                                                                    ?>user/user/download/<?php //echo $value['student_id'] . "/" . $value['doc']; 
+                                                                                                                                                         ?>"class="btn btn-default btn-xs document_view_btn" target="_blank" data-toggle="tooltip" title="<?php //echo $this->lang->line('view'); 
+                                                                                                                                                                                                                                                            ?>">
+                                                               <i class="fa fa-eye"></i>
+                                                            </a> -->
+                                             <!-- <a data-placement="left" href="<?php //echo base_url(); 
+                                                                                 ?>user/user/download/<?php //echo $value['student_id'] . "/" . $value['doc']; 
+                                                                                                      ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php //echo $this->lang->line('download'); 
+                                                                                                                                                                        ?>" download="<?php //echo $value['document_title'] 
+                                                                                                                                                                                       ?>">
+                                                <i class="fa fa-download"></i>
+                                             </a> -->
+
+                                             <!-- <a data-placement="left" file_location="<?php //echo base_url(); 
+                                                                                          ?>user/user/download/<?php //echo $value['student_id'] . "/" . $value['doc']; 
+                                                                                                               ?>" class="btn btn-default btn-xs document_view_btn" data-toggle="tooltip" title="<?php //echo $this->lang->line('view'); 
+                                                                                                                                                                                                   ?>">
+                                                <i class="fa fa-eye"></i>
+                                             </a> -->
+
+                                             <a data-placement="left" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/student_documents/<?php echo $value['student_id'] . "/" . $value['doc']; ?>" class="btn btn-default btn-xs document_view_btn" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                <i class="fa fa-eye"></i>
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    <?php } ?>
+                                 </tbody>
+                              <?php } ?>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="tab-pane" id="exam">
+                     <div class="download_label">
+                        <?php echo $this->lang->line('exam') . " " . $this->lang->line('result'); ?>
+                     </div>
+
+                     <?php if (empty($exam_result)) { ?>
+                        <div class="alert alert-danger"><?php echo $this->lang->line('no_record_found'); ?></div>
+                     <?php }
+                     if (!empty($exam_result)) { ?>
+                        <div class="dt-buttons btn-group pull-right miusDM40">
+                           <a class="btn btn-default btn-xs dt-button no_print" id="print" onclick="printDiv()"><i class="fa fa-print"></i></a>
+>>>>>>> Stashed changes
                         </div>
 
                         <div class="tab-pane" id="exam">
@@ -1402,6 +1766,7 @@
 </div>
 
 <div class="modal fade" id="document_view_modal" role="dialog">
+<<<<<<< Updated upstream
     <div class="modal-dialog" style="width: 100%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -1422,6 +1787,105 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title title text-center transport_fees_title"></h4>
+=======
+   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Document</h4>
+         </div>
+
+         <div class="modal-body">
+            <!-- <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" /> -->
+            <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="document_view_modal_img" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Image</h4>
+         </div>
+
+         <div class="modal-body">
+            <img class="document_img img-content content-responsive" src="">
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="document_view_modal_vid" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Video</h4>
+         </div>
+
+         <div class="modal-body">
+            <video class="document_vid content-responsive" width="640" height="264" controls>
+               <source src="" type="">
+               <!-- <source src="movie.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            Your browser does not support the video tag. -->
+            </video>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="document_view_modal" role="dialog">
+   <div class="modal-dialog" style="width: 100%;">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title"></h4>
+         </div>
+
+         <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" />
+         <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="myTransportFeesModal" role="dialog">
+   <div class="modal-dialog modal-sm400">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title"></h4>
+         </div>
+
+         <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" />
+         <form id="form1" action="<?php echo site_url('user/user/create_doc') ?>" id="employeeform" name="employeeform" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+            <?php echo $this->customlib->getCSRF(); ?>
+            <div class="modal-body pb0">
+               <div id='upload_documents_hide_show'>
+                  <input type="hidden" name="student_id" value="<?php echo $student_doc_id; ?>" id="student_id">
+                  <div class="form-group">
+                     <label for="exampleInputEmail1"><?php echo $this->lang->line('title'); ?> <small class="req">*</small></label>
+                     <input id="first_title" name="first_title" placeholder="" type="text" class="form-control" value="<?php echo set_value('first_title'); ?>" />
+                     <span class="text-danger"><?php echo form_error('first_title'); ?></span>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="exampleInputEmail1"><?php echo $this->lang->line('documents'); ?> <small class="req">*</small></label>
+                     <div class="">
+                        <input name="first_doc" placeholder="" type="file" class="form-control filestyle" data-height="30" value="<?php echo set_value('first_doc'); ?>" />
+                        <span class="text-danger"><?php echo form_error('first_doc'); ?></span>
+                     </div>
+                  </div>
+
+               </div>
+>>>>>>> Stashed changes
             </div>
 
             <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" />
@@ -1674,6 +2138,7 @@ function getCalculatedExam($array, $exam_id)
 </script>
 
 <script type="text/javascript">
+<<<<<<< Updated upstream
     $(".myTransportFeeBtn").click(function() {
         $("span[id$='_error']").html("");
         $('#transport_amount').val("");
@@ -1747,4 +2212,140 @@ function getCalculatedExam($array, $exam_id)
             });
         });
     });
+=======
+   $(".myTransportFeeBtn").click(function() {
+      $("span[id$='_error']").html("");
+      $('#transport_amount').val("");
+      $('#transport_amount_discount').val("0");
+      $('#transport_amount_fine').val("0");
+
+      var student_session_id = $(this).data("student-session-id");
+
+      $('.transport_fees_title').html("<b>Upload Document</b>");
+      $('#transport_student_session_id').val(student_session_id);
+
+      $('#myTransportFeesModal').modal({
+         backdrop: 'static',
+         keyboard: false,
+         show: true
+      });
+
+
+   });
+
+   $(".document_view_btn").click(function() {
+
+      // var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
+      // var file_location = $(this).attr("file_location");
+      // $(".document_iframe").attr("src", pdfjs + file_location);
+      // $('#document_view_modal').modal({
+      //    backdrop: 'static',
+      //    keyboard: false,
+      //    show: true
+      // });
+
+      var file_location = $(this).attr("file_location");
+
+      if (file_location.toLocaleUpperCase().includes(".PDF")) {
+         var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
+         // var file_location = $(this).attr("file_location");
+         $(".document_iframe").attr("src", pdfjs + file_location + "&embedded=true");
+         // $(".document_iframe").attr("src", 'https://docs.google.com/gview?url=' + decodeURIComponent(file_location) + '&embedded=true');
+         $('#document_view_modal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+         });
+      } else if (file_location.toLocaleUpperCase().includes(".JPG") || file_location.toLocaleUpperCase().includes(".JPEG") ||
+         file_location.toLocaleUpperCase().includes(".PNG") || file_location.toLocaleUpperCase().includes(".GIF") ||
+         file_location.toLocaleUpperCase().includes(".SVG")) {
+         $(".document_img").attr("src", file_location);
+
+         $('#document_view_modal_img').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+         });
+      } else if (file_location.toLocaleUpperCase().includes(".MP4") || file_location.toLocaleUpperCase().includes(".AVI") ||
+         file_location.toLocaleUpperCase().includes(".MOV") || file_location.toLocaleUpperCase().includes(".WMV")) {
+         var type = file_location.toLocaleLowerCase().slice(3);
+
+         $(".document_vid").attr("src", file_location);
+         $(".document_vid").attr("type", "video/" + type);
+
+         $('#document_view_modal_vid').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+         });
+      } else if (file_location.toLocaleUpperCase().includes(".DOC") || file_location.toLocaleUpperCase().includes(".XLS") ||
+         file_location.toLocaleUpperCase().includes(".PPT") || file_location.toLocaleUpperCase().includes(".DOCX") ||
+         file_location.toLocaleUpperCase().includes(".XLSX") || file_location.toLocaleUpperCase().includes(".PPTX")) {
+         var officedoc = "https://view.officeapps.live.com/op/view.aspx?src=";
+         // var officedoc = "https://docs.google.com/gview?url=";
+         //var file_location = $(this).attr("file_location");
+
+         $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location) + "&embedded=true");
+         // $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location));
+         $('#document_view_modal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+         });
+      } else {
+         alert("No preview available. You may download the document to view.");
+      }
+
+      $("#document_view_modal_vid").on('hidden.bs.modal', function() {
+         var media = $(".document_vid").get(0);
+         media.pause();
+         media.currentTime = 0;
+      });
+   });
+
+
+
+   document.getElementById("print").style.display = "block";
+
+   function printDiv() {
+      document.getElementById("print").style.display = "none";
+
+      $('.bg-green').removeClass('label');
+      $('.label-danger').removeClass('label');
+      $('.label-success').removeClass('label');
+      var divElements = document.getElementById('exam').innerHTML;
+      var oldPage = document.body.innerHTML;
+      document.body.innerHTML =
+         "<html><head><title></title></head><body>" +
+         divElements + "</body>";
+      window.print();
+      document.body.innerHTML = oldPage;
+
+      location.reload(true);
+   }
+
+   $(document).ready(function() {
+      $(document).on('click', '.close_notice', function() {
+         var data = $(this).data();
+
+         $.ajax({
+            type: "POST",
+            url: base_url + "user/notification/read",
+            data: {
+               'notice': data.noticeid
+            },
+            dataType: "json",
+            success: function(data) {
+               if (data.status == "fail") {
+
+                  errorMsg(data.msg);
+               } else {
+                  successMsg(data.msg);
+               }
+
+            }
+         });
+      });
+   });
+>>>>>>> Stashed changes
 </script>

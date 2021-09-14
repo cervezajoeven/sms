@@ -132,11 +132,60 @@
 </div>
 
 <div class="modal fade" id="upload_docs" tabindex="-1" role="dialog" aria-labelledby="evaluation" style="padding-left: 0 !important">
+<<<<<<< Updated upstream
     <div class="modal-dialog" role="document">
         <div class="modal-content modal-media-content">
             <div class="modal-header modal-media-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="box-title"><?php echo $this->lang->line('homework'); ?> <?php echo $this->lang->line('assignments'); ?></h4>
+=======
+   <div class="modal-dialog" role="document">
+      <div class="modal-content modal-media-content">
+         <div class="modal-header modal-media-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="box-title"><?php echo $this->lang->line('homework'); ?> <?php echo $this->lang->line('assignments'); ?></h4>
+         </div>
+         <form id="upload" method="post" class="ptt10" enctype="multipart/form-data">
+            <div class="modal-body pt0 pb0">
+               <div class="row">
+                  <input type="hidden" id="homework_id" name="homework_id">
+                  <input type="hidden" id="assigment_id" name="assigment_id">
+                  <div class="col-sm-12">
+                     <div class="form-group">
+                        <label for="pwd"><?php echo $this->lang->line('message'); ?></label>
+                        <textarea type="text" id="assigment_message" name="message" class="form-control "></textarea>
+                     </div>
+                  </div>
+                  <!-- <div class="col-sm-12"> -->
+                  <!-- <div class="form-check-inline">
+                     <label class="form-check-label" for="radio1">
+                        <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>&nbsp;Document File
+                     </label>
+                  </div>
+                  <div class="form-check-inline">
+                     <label class="form-check-label" for="radio2">
+                        <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">&nbsp;URL Link
+                     </label>
+                  </div> -->
+                  <!-- </div> -->
+                  <div class="col-sm-12" id="url_link_container">
+                     <div class="form-group">
+                        <label for="url_link"><?php echo "Enter URL"; ?></label>
+                        <input type="url" id="url_link" name="url_link" class="form-control">
+                     </div>
+                  </div>
+                  <div class="col-sm-12">
+                     <div class="separator">OR</div>
+                  </div>
+                  <div class="col-sm-12" id="file_document">
+                     <div class="form-group">
+                        <label for="pwd"><?php echo $this->lang->line('attach_document') . " (Maximum of " . $max_file_size . ")"; ?></label>
+                        <input type="file" id="file" name="file" class="form-control filestyle">
+                     </div>
+                  </div>
+                  <p id="uploaded_docs"></p>
+               </div>
+>>>>>>> Stashed changes
             </div>
             <form id="upload" method="post" class="ptt10" enctype="multipart/form-data">
                 <div class="modal-body pt0 pb0">
@@ -280,6 +329,7 @@
             error: function () {
                 alert("Fail")
             }
+<<<<<<< Updated upstream
         });
     }
 
@@ -296,6 +346,66 @@
         $('#uploaded_docs').html('');
         $.ajax({
             url: "<?php echo site_url(); ?>user/homework/get_upload_docs/" + id,
+=======
+         });
+      }
+   }
+
+   function evaluation(id, status) {
+      $('#evaluation_details').html("");
+      $.ajax({
+         url: '<?php echo base_url(); ?>user/homework/homework_detail/' + id + '/' + status,
+         success: function(data) {
+            $('#evaluation_details').html(data);
+
+         },
+         error: function() {
+            alert("Fail")
+         }
+      });
+   }
+
+   function addhomework() {
+      $('iframe').contents().find('.wysihtml5-editor').html("");
+   }
+
+   function upload_docs(id, button) {
+      // $("#footer_area").attr('style', 'display:block');
+      // if (button == 0) {
+      //     $("#footer_area").attr('style', 'display:none');
+      // }
+
+      $('#uploaded_docs').html('');
+      $.ajax({
+         url: "<?php echo site_url(); ?>user/homework/get_upload_docs/" + id,
+         type: "POST",
+
+         dataType: 'json',
+         contentType: false,
+
+         processData: false,
+         success: function(res) {
+            if (res.file_name != null)
+               $('#uploaded_docs').html('<div class=""><div class="col-sm-12"><div class="form-group"><label for="pwd"><?php echo $this->lang->line('uploaded') . " " . $this->lang->line('documents'); ?></label><p>' + res.file_name + ' <a href="<?php echo base_url(); ?>/user/homework/assigmnetDownload/' + id + '/' + res.docs + '" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments') . " " . $this->lang->line('download'); ?>"><i class="fa fa-download"></i></a></p></div></div></div>');
+            $('#assigment_id').val(res.id);
+            $('#assigment_message').val(res.message);
+            $('#url_link').val(res.url_link);
+         }
+      });
+
+      $('#homework_id').val(id);
+      $('#upload_docs').modal('show');
+   }
+
+   $(document).ready(function(e) {
+      $("#upload").on('submit', (function(e) {
+         e.preventDefault();
+
+         var $this = $(this).find("button[type=submit]:focus");
+
+         $.ajax({
+            url: "<?php echo site_url("user/homework/upload_docs") ?>",
+>>>>>>> Stashed changes
             type: "POST",
 
             dataType: 'json',

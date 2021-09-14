@@ -80,7 +80,15 @@ $godaddy = array("beta");
 $campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
+<<<<<<< Updated upstream
 $local_db = "lcc";
+=======
+// $local_db = "campus_lpms";
+// $local_db = "campus_mcam";
+// $local_db = "campus_scholaangelicus";
+$local_db = "stepsmandaluyong";
+// $local_db = "campus_lpms";
+>>>>>>> Stashed changes
 // $lcfirst(str)ocal_db = "optimized_db";
 if ($HTTP_HOST == "localhost") {
 	$username = 'root';
@@ -134,6 +142,7 @@ if ($HTTP_HOST == "localhost") {
 	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else {
+<<<<<<< Updated upstream
 
 	$username = 'admin';
 	$password = 'J10o15e5V22n!4';
@@ -142,6 +151,14 @@ if ($HTTP_HOST == "localhost") {
 
 	$hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 	$hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+=======
+   $username = 'admin';
+   $password = 'J10o15e5V22n!4';
+   $database = 'campus_' . $database_name;
+
+   $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+   $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+>>>>>>> Stashed changes
 }
 
 $db['default'] = array(

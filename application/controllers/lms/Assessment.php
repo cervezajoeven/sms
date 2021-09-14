@@ -112,6 +112,7 @@ class Assessment extends General_Controller {
         $this->db->order_by("lastname");
         $students = $this->db->get("students")->result_array();
 
+<<<<<<< Updated upstream
         $student_answers = $this->lesson_model->lms_get("lms_assessment_sheets",$assessment_id,"assessment_id");
 
         $not_yet = 0;
@@ -178,6 +179,21 @@ class Assessment extends General_Controller {
                 $students[$student_key]['os_platform'] = "";
                 $students[$student_key]['assessment_id'] = $data['assessment']['id'];
             }
+=======
+   public function edit($id)
+   {
+      if ($id) {
+         $data['id'] = $id;
+         $data['assessment'] = $this->assessment_model->lms_get("lms_assessment", $id, "id")[0];
+
+         // print_r($data);
+         // die();
+
+         $data['resources'] = site_url('backend/lms/');
+         $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
+         $data['classes'] = $this->class_model->getAll();
+         $data['class_sections'] = $this->lesson_model->get_class_sections();
+>>>>>>> Stashed changes
 
 
 
@@ -410,6 +426,7 @@ class Assessment extends General_Controller {
             if ($account_id){
 
             }
+<<<<<<< Updated upstream
             else{
                 redirect(site_url('lms/assessment/index'));
             }
@@ -483,6 +500,156 @@ class Assessment extends General_Controller {
                 $sheet[$answer_key] = (array)$answer_value;
 
                 $total_score +=$sheet[$answer_key]['points'];
+=======
+         } else
+            $folderCreated = true;
+
+         if ($folderCreated == true) {
+            $this->load->library('s3');
+            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $dest_file = $_SESSION['School_Code'] . "uploads/lms_assessment/" . $id . "/" . $file_name;
+
+            // if (move_uploaded_file($tmp_name, $dest)) {
+            if ($s3->putObjectFile($tmp_name, S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
+               $data['id'] = $id;
+               $data['assessment_file'] = $file_name;
+
+               $this->assessment_model->lms_update("lms_assessment", $data);
+
+               // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               $data['status'] = 'success';
+               $data['message'] = 'Upload Successful!';
+               echo json_encode($data);
+            } else {
+               // echo "<script>alert('Upload failed!');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+               $data['status'] = 'failed';
+               $data['message'] = 'Upload failed!';
+               echo json_encode($data);
+            }
+         }
+      } else {
+         // echo "<script>alert('Only PDF files are allowed');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+         $data['status'] = 'failed';
+         $data['message'] = 'Only PDF files are allowed';
+         echo json_encode($data);
+      }
+   }
+
+   public function duplicate($id)
+   {
+      if ($id) {
+         $assessment = $this->assessment_model->lms_get('lms_assessment', $id, "id")[0];
+         $duplicated = $assessment;
+         $duplicated['assessment_name'] = $assessment['assessment_name'] . " (" . date("F d, Y h:i A") . ")";
+         $duplicated['assigned'] = "";
+         $duplicated['assessment_file'] = $assessment['assessment_file'];
+         unset($duplicated['id']);
+         unset($duplicated['date_created']);
+         unset($duplicated['date_updated']);
+         unset($duplicated['date_read']);
+         unset($duplicated['date_deleted']);
+
+         $newAssessmentID = null;
+         $newAssessmentID = $this->assessment_model->lms_create('lms_assessment', $duplicated, FALSE);
+
+         if ($newAssessmentID != null) {
+            $this->copyQuestionaire($id, $newAssessmentID, $assessment['assessment_file']);
+
+            $data['result'] = 'success';
+            $data['message'] = 'Duplicate successful!';
+         } else {
+            $data['result'] = 'error';
+            $data['message'] = 'Duplicate failed!';
+         }
+
+         echo json_encode($data);
+
+         // redirect(site_url('lms/assessment/index'));
+      }
+   }
+
+   public function copyQuestionaire($oldAssessmentID, $newAssessmentID, $file_name)
+   {
+      $folderCreated = false;
+
+      if (!is_dir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID)) {
+         try {
+            mkdir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID);
+            $folderCreated = true;
+         } catch (ErrorException $ex) {
+            echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+         }
+      } else
+         $folderCreated = true;
+
+      $source = FCPATH . "uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
+      $dest = FCPATH . "uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
+
+      if ($folderCreated == true) {
+         copy($source, $dest);
+
+         $data['id'] = $newAssessmentID;
+         $data['assessment_file'] = $file_name;
+         $this->assessment_model->lms_update("lms_assessment", $data);
+         // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+      }
+   }
+
+   public function delete($id)
+   {
+      $data['id'] = $id;
+      $data['deleted'] = 1;
+
+      if ($this->assessment_model->lms_update("lms_assessment", $data)) {
+         // redirect(site_url("lms/assessment/index"));
+         $data['result'] = 'success';
+         $data['message'] = 'Delete successful!';
+      } else {
+         $data['result'] = 'error';
+         $data['message'] = 'Delete failed!';
+      }
+
+      echo json_encode($data);
+   }
+
+   public function answer_submit()
+   {
+
+      $data['id'] = $_REQUEST['id'];
+      $data['assessment_id'] = $_REQUEST['assessment_id'];
+      $data['answer'] = $_REQUEST['answer'];
+      $answer = (array)json_decode($data['answer']);
+      $assessment = $this->assessment_model->lms_get("lms_assessment", $data['assessment_id'], "id")[0];
+      $assessment_answer = (array)json_decode($assessment['sheet']);
+
+      //convert to array
+      foreach ($answer as $answer_key => $answer_value) {
+         $answer[$answer_key] = (array)$answer_value;
+      }
+      foreach ($assessment_answer as $answer_key => $answer_value) {
+         $assessment_answer[$answer_key] = (array)$answer_value;
+      }
+      //convert to array
+      $score = 0;
+      $total_score = 0;
+
+      foreach ($answer as $answer_key => $answer_value) {
+         $total_score += 1;
+         $assessment_value = $assessment_answer[$answer_key];
+
+         $answer_value['answer'] = preg_replace('/\n/', '~nextline~', $answer_value['answer']);
+
+         if ($answer_value['type'] == "multiple_choice" || $answer_value['type'] == "multiple_answer") {
+
+            if ($answer_value['answer'] == $assessment_value['correct']) {
+               if (array_key_exists("points", $assessment_value)) {
+
+                  $score += $assessment_value['points'];
+               } else {
+
+                  $score += 1;
+               }
+>>>>>>> Stashed changes
             }
             
         }
@@ -580,6 +747,7 @@ class Assessment extends General_Controller {
                 if($answer_value['answer'] == $assessment_value['correct']){
                     if(array_key_exists("points", $assessment_value)){
 
+<<<<<<< Updated upstream
                         $score += $assessment_value['points'];
                     }else{
 
@@ -592,6 +760,62 @@ class Assessment extends General_Controller {
 
                         $score += $assessment_value['points'];
                     }else{
+=======
+                  $score += 1;
+               }
+            }
+         } else {
+         }
+      }
+
+      $data['score'] = $score;
+      $data['response_status'] = "1";
+
+      print_r($this->assessment_model->lms_update("lms_assessment_sheets", $data));
+   }
+
+   public function auto_save()
+   {
+
+      $data['id'] = $_REQUEST['id'];
+      $data['assessment_id'] = $_REQUEST['assessment_id'];
+      $data['answer'] = $_REQUEST['answer'];
+      $answer = (array)json_decode($data['answer']);
+      $assessment = $this->assessment_model->lms_get("lms_assessment", $data['assessment_id'], "id")[0];
+      $assessment_answer = (array)json_decode($assessment['sheet']);
+
+      //convert to array
+      foreach ($answer as $answer_key => $answer_value) {
+         $answer[$answer_key] = (array)$answer_value;
+      }
+      foreach ($assessment_answer as $answer_key => $answer_value) {
+         $assessment_answer[$answer_key] = (array)$answer_value;
+      }
+      //convert to array
+      $score = 0;
+      $total_score = 0;
+
+      foreach ($answer as $answer_key => $answer_value) {
+         $total_score += 1;
+         $assessment_value = $assessment_answer[$answer_key];
+
+         $answer_value['answer'] = preg_replace('/\n/', '~nextline~', $answer_value['answer']);
+
+         if ($answer_value['type'] == "multiple_choice" || $answer_value['type'] == "multiple_answer") {
+
+            if ($answer_value['answer'] == $assessment_value['correct']) {
+               if (array_key_exists("points", $assessment_value)) {
+
+                  $score += $assessment_value['points'];
+               } else {
+
+                  $score += 1;
+               }
+            }
+         } else if ($answer_value['type'] == "short_answer") {
+            if (in_array(trim(strtolower($answer_value['answer'])), explode(",", trim(strtolower($assessment_value['correct']))))) {
+               if (array_key_exists("points", $assessment_value)) {
+>>>>>>> Stashed changes
 
                         $score += 1;
                     }

@@ -472,6 +472,9 @@ $(document).ready(function(){
         
         $(".content_type").hide();
         $(".video_content").attr("src","");
+         $(".image_content").attr("src","");
+         $(".student_view_content_iframe").attr("src","");
+
         if(active_content_data){
             $(".student_view_title").text(active_content_data.content.title);
             switch (active_content_data.content.type){
@@ -502,7 +505,8 @@ $(document).ready(function(){
 
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
-                    $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
+                    $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source + "&embedded=true");
+                  // $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source));
                 break;
                 case "text":
                     $(".html_content").show();
@@ -516,8 +520,8 @@ $(document).ready(function(){
                 default:
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
-                    $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
-                
+                  //   $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
+                  $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
                 break;
             }
             $(".student_view_title").text(active_content_data.content.title);

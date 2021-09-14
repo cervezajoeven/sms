@@ -46,3 +46,8 @@ $config['file_validate'] = array(
                                  'Pdf','Zip','Doc','Ppt','Xls','Docx','Xlsx','Pptx','Jpg','Jpeg','Png','Gif','Bmp','Svg'), // image extensions
     'upload_size'       => 26214400, //1048576, // bytes
 );
+
+// $config['S3_Bucket_Url'] = "https://s3.us-east-2.amazonaws.com/media.campuscloudph.com/";
+// $config['S3_Bucket'] = "media.campuscloudph.com";
+// $config['AWSAccessKeyId'] = "AKIAXG65GN66XVJDHDDE";
+// $config['AWSSecretKey'] = "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";

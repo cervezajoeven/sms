@@ -1751,6 +1751,7 @@ class Student extends Admin_Controller
                 }
             }
 
+<<<<<<< Updated upstream
             if (isset($_FILES["guardian_pic"])) {
                 if ($_FILES['guardian_pic']['size'] > 0) {
                     $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
@@ -1846,6 +1847,44 @@ class Student extends Admin_Controller
             foreach ($data["classlist"] as $ckey => $cvalue) {
 
                 $carray[] = $cvalue["id"];
+=======
+            $this->load->library('s3');
+            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+
+            if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+               $fileInfo = pathinfo($_FILES["file"]["name"]);
+               $img_name = $insert_id . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $insert_id, 'image' => 'uploads/student_images/' . $img_name);
+            }
+
+            if (isset($_FILES["father_pic"]) && !empty($_FILES['father_pic']['name'])) {
+               $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
+               $img_name = $insert_id . "father" . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["father_pic"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $insert_id, 'father_pic' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+            }
+
+            if (isset($_FILES["mother_pic"]) && !empty($_FILES['mother_pic']['name'])) {
+               $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
+               $img_name = $insert_id . "mother" . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["mother_pic"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $insert_id, 'mother_pic' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+>>>>>>> Stashed changes
             }
         }
         //echo "<pre>";  print_r($carray); echo "<pre>";die;
@@ -1860,6 +1899,7 @@ class Student extends Admin_Controller
             $search      = $this->input->post('search');
             $search_text = $this->input->post('search_text');
 
+<<<<<<< Updated upstream
             if (isset($search)) {
                 if ($search == 'search_filter') {
                     $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -1884,9 +1924,121 @@ class Student extends Admin_Controller
                 }
             }
 
+=======
+            if (isset($_FILES["guardian_pic"]) && !empty($_FILES['guardian_pic']['name'])) {
+               $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
+               $img_name = $insert_id . "guardian" . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["guardian_pic"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $insert_id, 'guardian_pic' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+            }
+
+            if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+               $uploaddir = './uploads/student_documents/' . $insert_id . '/';
+               if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                  die("Error creating folder $uploaddir");
+               }
+               $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
+               $first_title = $this->input->post('first_title');
+               $file_name   = $_FILES['first_doc']['name'];
+               $exp         = explode(' ', $file_name);
+               $imp         = implode('_', $exp);
+               $img_name    = $uploaddir . $imp;
+
+               // move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $insert_id . '/' . $img_name;
+               $s3->putObjectFile($_FILES["first_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('student_id' => $insert_id, 'title' => $first_title, 'doc' => $imp);
+               $this->student_model->adddoc($data_img);
+            }
+            if (isset($_FILES["second_doc"]) && !empty($_FILES['second_doc']['name'])) {
+               $uploaddir = './uploads/student_documents/' . $insert_id . '/';
+               if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                  die("Error creating folder $uploaddir");
+               }
+               $fileInfo     = pathinfo($_FILES["second_doc"]["name"]);
+               $second_title = $this->input->post('second_title');
+               $file_name    = $_FILES['second_doc']['name'];
+               $exp          = explode(' ', $file_name);
+               $imp          = implode('_', $exp);
+               $img_name     = $uploaddir . $imp;
+
+               // move_uploaded_file($_FILES["second_doc"]["tmp_name"], $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $insert_id . '/' . $img_name;
+               $s3->putObjectFile($_FILES["second_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('student_id' => $insert_id, 'title' => $second_title, 'doc' => $imp);
+               $this->student_model->adddoc($data_img);
+            }
+
+            if (isset($_FILES["fourth_doc"]) && !empty($_FILES['fourth_doc']['name'])) {
+               $uploaddir = './uploads/student_documents/' . $insert_id . '/';
+               if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                  die("Error creating folder $uploaddir");
+               }
+               $fileInfo     = pathinfo($_FILES["fourth_doc"]["name"]);
+               $fourth_title = $this->input->post('fourth_title');
+               $file_name    = $_FILES['fourth_doc']['name'];
+               $exp          = explode(' ', $file_name);
+               $imp          = implode('_', $exp);
+               $img_name     = $uploaddir . $imp;
+
+               // move_uploaded_file($_FILES["fourth_doc"]["tmp_name"], $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $insert_id . '/' . $img_name;
+               $s3->putObjectFile($_FILES["fourth_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('student_id' => $insert_id, 'title' => $fourth_title, 'doc' => $imp);
+               $this->student_model->adddoc($data_img);
+            }
+            if (isset($_FILES["fifth_doc"]) && !empty($_FILES['fifth_doc']['name'])) {
+               $uploaddir = './uploads/student_documents/' . $insert_id . '/';
+               if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+                  die("Error creating folder $uploaddir");
+               }
+               $fileInfo    = pathinfo($_FILES["fifth_doc"]["name"]);
+               $fifth_title = $this->input->post('fifth_title');
+               $file_name   = $_FILES['fifth_doc']['name'];
+               $exp         = explode(' ', $file_name);
+               $imp         = implode('_', $exp);
+               $img_name    = $uploaddir . $imp;
+
+               // move_uploaded_file($_FILES["fifth_doc"]["tmp_name"], $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $insert_id . '/' . $img_name;
+               $s3->putObjectFile($_FILES["fifth_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('student_id' => $insert_id, 'title' => $fifth_title, 'doc' => $imp);
+               $this->student_model->adddoc($data_img);
+            }
+
+            $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+            $this->mailsmsconf->mailsms('student_admission', $sender_details);
+
+            //if ($this->input->post('enrollment_type') != 'old') 
+            {
+               $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+               $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
+
+               if ($sibling_id > 0) {
+               } else {
+                  $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
+                  $this->mailsmsconf->mailsms('login_credential', $parent_login_detail);
+               }
+            }
+
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+            redirect('student/create');
+         } else {
+            $data['error_message'] = $this->lang->line('admission_no') . ' ' . $admission_no . ' ' . $this->lang->line('already_exists');
+>>>>>>> Stashed changes
             $this->load->view('layout/header', $data);
             $this->load->view('student/studentSearch', $data);
             $this->load->view('layout/footer', $data);
+<<<<<<< Updated upstream
         }
     }
 
@@ -2033,6 +2185,79 @@ class Student extends Admin_Controller
                 $carray[] = $cvalue["id"];
             }
         }
+=======
+         }
+      }
+   }
+
+   public function create_doc()
+   {
+      $this->form_validation->set_rules('first_title', $this->lang->line('title'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('first_doc', $this->lang->line('document'), 'callback_handle_uploadcreate_doc');
+
+      if ($this->form_validation->run() == false) {
+         $msg = array(
+            'first_title'              => form_error('first_title'),
+            'first_doc'              => form_error('first_doc')
+         );
+         $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+      } else {
+         $student_id = $this->input->post('student_id');
+         if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+            $uploaddir = './uploads/student_documents/' . $student_id . '/';
+            if (!is_dir($uploaddir) && !mkdir($uploaddir)) {
+               die("Error creating folder $uploaddir");
+            }
+
+            $fileInfo    = pathinfo($_FILES["first_doc"]["name"]);
+            $fileExtension    = pathinfo($_FILES["first_doc"]["name"], PATHINFO_EXTENSION);
+            $first_title = $this->input->post('first_title');
+            $file_name   = $_FILES['first_doc']['name'];
+            $exp         = explode(' ', $file_name);
+            $imp         = implode('_', $exp);
+            $imp         = $this->student_model->id_generator("student_documents") . "." . $fileExtension;
+            $img_name    = $uploaddir . basename($imp);
+
+            // move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
+            $this->load->library('s3');
+            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $student_id . '/' . $img_name;
+            $s3->putObjectFile($_FILES["first_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+            $data_img = array('student_id' => $student_id, 'title' => $first_title, 'doc' => $imp, 'document_title' => $fileInfo['basename'], 'date_created' => date('Y-m-d H:i:s'));
+            $this->student_model->adddoc($data_img);
+         }
+
+         $msg   = $this->lang->line('success_message');
+         $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+      }
+
+      echo json_encode($array);
+   }
+
+   public function handle_uploadcreate_doc()
+   {
+
+      $image_validate = $this->config->item('file_validate');
+
+      if (isset($_FILES["first_doc"]) && !empty($_FILES['first_doc']['name'])) {
+
+         $file_type         = $_FILES["first_doc"]['type'];
+         $file_size         = $_FILES["first_doc"]["size"];
+         $file_name         = $_FILES["first_doc"]["name"];
+         $allowed_extension = $image_validate['allowed_extension'];
+         $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+         $allowed_mime_type = $image_validate['allowed_mime_type'];
+         $finfo = finfo_open(FILEINFO_MIME_TYPE);
+         $mtype = finfo_file($finfo, $_FILES['first_doc']['tmp_name']);
+         finfo_close($finfo);
+
+
+         if (!in_array($mtype, $allowed_mime_type)) {
+            $this->form_validation->set_message('handle_uploadcreate_doc', 'File Type Not Allowed');
+            return false;
+         }
+>>>>>>> Stashed changes
 
         $button = $this->input->post('search');
         if ($this->input->server('REQUEST_METHOD') == "GET") {
@@ -2401,6 +2626,7 @@ class Student extends Admin_Controller
                 'doctitle' => form_error('doctitle'),
                 'docs' => form_error('docs')
             );
+<<<<<<< Updated upstream
             $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
         } else {
             if (isset($student_docs)) {
@@ -2433,8 +2659,277 @@ class Student extends Admin_Controller
 
                     $stdidx++;
                 }
+=======
+            $custom_value_array[] = $array_custom;
+         }
+         $this->customfield_model->updateRecord($custom_value_array, $id, 'students');
+
+         $student_id      = $this->input->post('student_id');
+         $student         = $this->student_model->get($student_id);
+         $sibling_id      = $this->input->post('sibling_id');
+         $siblings_counts = $this->input->post('siblings_counts');
+         $siblings        = $this->student_model->getMySiblings($student['parent_id'], $student_id);
+         $total_siblings  = count($siblings);
+
+         $class_id       = $this->input->post('class_id');
+         $section_id     = $this->input->post('section_id');
+         $hostel_room_id = $this->input->post('hostel_room_id');
+         $fees_discount  = $this->input->post('fees_discount');
+         $vehroute_id    = $this->input->post('vehroute_id');
+         if (empty($vehroute_id)) {
+            $vehroute_id = 0;
+         }
+         if (empty($hostel_room_id)) {
+            $hostel_room_id = 0;
+         }
+
+         $data = array(
+            'id'                  => $id,
+            'firstname'           => $this->input->post('firstname'),
+            'lastname'           => $this->input->post('lastname'),
+            'rte'                 => $this->input->post('rte'),
+            'state'               => $this->input->post('state'),
+            'city'                => $this->input->post('city'),
+            'guardian_is'         => $this->input->post('guardian_is'),
+            'pincode'             => $this->input->post('pincode'),
+            'cast'                => $this->input->post('cast'),
+            'previous_school'     => $this->input->post('previous_school'),
+            'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
+            'current_address'     => $this->input->post('current_address'),
+            'permanent_address'   => $this->input->post('permanent_address'),
+            'image'               => 'uploads/student_images/no_image.png',
+            'adhar_no'            => $this->input->post('adhar_no'),
+            'samagra_id'          => $this->input->post('samagra_id'),
+            'bank_account_no'     => $this->input->post('bank_account_no'),
+            'bank_name'           => $this->input->post('bank_name'),
+            'ifsc_code'           => $this->input->post('ifsc_code'),
+            'guardian_occupation' => $this->input->post('guardian_occupation'),
+            'guardian_email'      => $this->input->post('guardian_email'),
+            'gender'              => $this->input->post('gender'),
+            'guardian_name'       => $this->input->post('guardian_name'),
+            'guardian_relation'   => $this->input->post('guardian_relation'),
+            'guardian_phone'      => $this->input->post('guardian_phone'),
+            'guardian_address'    => $this->input->post('guardian_address'),
+            'vehroute_id'         => $vehroute_id,
+            'hostel_room_id'      => $hostel_room_id,
+            'note'                => $this->input->post('note'),
+            'is_active'           => 'yes',
+            'mode_of_payment'     => $this->input->post('mode_of_payment'),
+            'enrollment_type'     => $this->input->post('enrollment_type'),
+            'middlename'          => $this->input->post('middlename'),
+            'lrn_no'              => $this->input->post('lrn_no'),
+            'roll_no'             => $this->input->post('roll_no'),
+
+            'father_company_name'              => $this->input->post('father_company_name'),
+            'father_company_position'          => $this->input->post('father_company_position'),
+            'father_nature_of_business'        => $this->input->post('father_nature_of_business'),
+            'father_mobile'                    => $this->input->post('father_mobile'),
+            'father_dob'                       => date('Y-m-d', strtotime($this->input->post('father_dob'))),
+            'father_citizenship'               => $this->input->post('father_citizenship'),
+            'father_religion'                  => $this->input->post('father_religion'),
+            'father_highschool'                => $this->input->post('father_highschool'),
+            'father_college'                   => $this->input->post('father_college'),
+            'father_college_course'            => $this->input->post('father_college_course'),
+            'father_post_graduate'             => $this->input->post('father_post_graduate'),
+            'father_post_course'               => $this->input->post('father_post_course'),
+            'father_prof_affiliation'          => $this->input->post('father_prof_affiliation'),
+            'father_prof_affiliation_position' => $this->input->post('father_prof_affiliation_position'),
+            'father_tech_prof'                 => $this->input->post('father_tech_prof'),
+            'father_tech_prof_other'           => $this->input->post('father_tech_prof_other'),
+
+            'mother_company_name'              => $this->input->post('mother_company_name'),
+            'mother_company_position'          => $this->input->post('mother_company_position'),
+            'mother_nature_of_business'        => $this->input->post('mother_nature_of_business'),
+            'mother_mobile'                    => $this->input->post('mother_mobile'),
+            'mother_dob'                       => date('Y-m-d', strtotime($this->input->post('mother_dob'))),
+            'mother_citizenship'               => $this->input->post('mother_citizenship'),
+            'mother_religion'                  => $this->input->post('mother_religion'),
+            'mother_highschool'                => $this->input->post('mother_highschool'),
+            'mother_college'                   => $this->input->post('mother_college'),
+            'mother_college_course'            => $this->input->post('mother_college_course'),
+            'mother_post_graduate'             => $this->input->post('mother_post_graduate'),
+            'mother_post_course'               => $this->input->post('mother_post_course'),
+            'mother_prof_affiliation'          => $this->input->post('mother_prof_affiliation'),
+            'mother_prof_affiliation_position' => $this->input->post('mother_prof_affiliation_position'),
+            'mother_tech_prof'                 => $this->input->post('mother_tech_prof'),
+            'mother_tech_prof_other'           => $this->input->post('mother_tech_prof_other'),
+
+            'marriage'                   => $this->input->post('marriage'),
+            'dom'                        => date('Y-m-d', strtotime($this->input->post('dom'))),
+            'church'                     => $this->input->post('church'),
+            'family_together'            => $this->input->post('family_together'),
+            'parents_away'               => $this->input->post('parents_away'),
+            'parents_away_state'         => $this->input->post('parents_away_state'),
+            'parents_civil_status'       => $this->input->post('parents_civil_status'),
+            'parents_civil_status_other' => $this->input->post('parents_civil_status_other'),
+
+            'guardian_address_is_current_address' => $this->input->post('guardian_address_is_current_address') == "on" ? 1 : 0,
+            'permanent_address_is_current_address' => $this->input->post('permanent_address_is_current_address')  == "on" ? 1 : 0,
+            'living_with_parents' => $this->input->post('living_with_parents'),
+            'living_with_parents_specify' => $this->input->post('living_with_parents_specify'),
+            'preferred_education_mode' => $this->input->post('preferred_education_mode'),
+            'enrollment_payment_status' => $this->input->post('enrollment_payment_status'),
+            'payment_scheme' => $this->input->post('payment_scheme'),
+
+            //-- March 4, 2021
+            'birth_place' => $this->input->post('birth_place'),
+            'present_school' => $this->input->post('present_school'),
+            'present_school_address' => $this->input->post('present_school_address'),
+            'age_as_of' => $this->input->post('age_as_of'),
+            'nationality' => $this->input->post('nationality'),
+            'esc_grantee' => $this->input->post('esc_grantee'),
+            'voucher_recipient' => $this->input->post('voucher_recipient'),
+
+            'enrolled_here_before' => $this->input->post('enrolled_here_before'),
+            'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
+            'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
+            'parents_alumnus' => $this->input->post('parents_alumnus'),
+            'father_alumnus_batch_gs' => $this->input->post('father_alumnus_batch_gs'),
+            'mother_alumnus_batch_gs' => $this->input->post('mother_alumnus_batch_gs'),
+            'mother_alumnus_batch_hs' => $this->input->post('mother_alumnus_batch_hs'),
+            'has_internet' => $this->input->post('has_internet'),
+            'type_of_internet' => $this->input->post('type_of_internet'),
+
+            'has_special_needs' => $this->input->post('has_special_needs'),
+            'has_assistive_device' => $this->input->post('has_assistive_device'),
+            'general_health_condition' => $this->input->post('general_health_condition'),
+            'health_complaints' => $this->input->post('health_complaints'),
+            'father_work_from_home' => $this->input->post('father_work_from_home'),
+            'mother_work_from_home' => $this->input->post('mother_work_from_home'),
+            'guardian_work_from_home' => $this->input->post('guardian_work_from_home'),
+            'family_pppp' => $this->input->post('family_pppp'),
+         );
+
+         $house             = $this->input->post('house');
+         $blood_group       = $this->input->post('blood_group');
+         $measurement_date  = $this->input->post('measure_date');
+         //$roll_no           = $this->input->post('roll_no');
+         //$lastname          = $this->input->post('lastname');
+         $category_id       = $this->input->post('category_id');
+         $religion          = $this->input->post('religion');
+         $mobileno          = $this->input->post('mobileno');
+         $email             = $this->input->post('email');
+         $admission_date    = $this->input->post('admission_date');
+         $height            = $this->input->post('height');
+         $weight            = $this->input->post('weight');
+         $father_name       = $this->input->post('father_name');
+         $father_phone      = $this->input->post('father_phone');
+         $father_occupation = $this->input->post('father_occupation');
+         $mother_name       = $this->input->post('mother_name');
+         $mother_phone      = $this->input->post('mother_phone');
+         $mother_occupation = $this->input->post('mother_occupation');
+
+         if (isset($measurement_date))
+            $data['measurement_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('measure_date')));
+
+         if (isset($house))
+            $data['school_house_id'] = $this->input->post('house');
+
+         if (isset($blood_group))
+            $data['blood_group'] = $this->input->post('blood_group');
+
+         // if (isset($roll_no)) {
+         //     $data['roll_no'] = $this->input->post('roll_no');
+         // }
+
+         // if (isset($lastname)) {
+
+         //     $data['lastname'] = $this->input->post('lastname');
+         // }
+
+         if (isset($category_id))
+            $data['category_id'] = $this->input->post('category_id');
+
+         if (isset($religion))
+            $data['religion'] = $this->input->post('religion');
+
+         if (isset($mobileno))
+            $data['mobileno'] = $this->input->post('mobileno');
+
+         if (isset($email))
+            $data['email'] = $this->input->post('email');
+
+         if (isset($admission_date))
+            $data['admission_date'] = date('Y-m-d', $this->customlib->datetostrtotime($this->input->post('admission_date')));
+
+         if (isset($height))
+            $data['height'] = $this->input->post('height');
+
+         if (isset($weight))
+            $data['weight'] = $this->input->post('weight');
+
+         if (isset($father_name))
+            $data['father_name'] = $this->input->post('father_name');
+
+         if (isset($father_phone))
+            $data['father_phone'] = $this->input->post('father_phone');
+
+         if (isset($father_occupation))
+            $data['father_occupation'] = $this->input->post('father_occupation');
+
+         if (isset($mother_name))
+            $data['mother_name'] = $this->input->post('mother_name');
+
+         if (isset($mother_phone))
+            $data['mother_phone'] = $this->input->post('mother_phone');
+
+         if (isset($mother_occupation))
+            $data['mother_occupation'] = $this->input->post('mother_occupation');
+
+         // if (!$this->sch_setting_detail->adm_auto_insert)
+         //    $data['admission_no'] = $this->input->post('admission_no');
+
+         $sibling_name = $this->input->post("sibling_name");
+         $sibling_age = $this->input->post("sibling_age");
+         $sibling_civil_status = $this->input->post("sibling_civil_status");
+         $sibling_glo = $this->input->post("sibling_glo");
+         $sibling_nsc = $this->input->post("sibling_nsc");
+         $sibling_dec = $this->input->post("sibling_dec");
+         // print_r($sibling_dec);die();
+
+         $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
+
+         // print_r(json_encode($data));
+         // die();
+
+         $this->student_model->add($data);
+
+         $data_new = array(
+            'student_id'    => $id,
+            'class_id'      => $class_id,
+            'section_id'    => $section_id,
+            'session_id'    => $session,
+            'fees_discount' => $fees_discount,
+         );
+
+         $insert_id = $this->student_model->add_student_session($data_new);
+
+         // $sibling_name = $this->input->post("sibling_name");
+         // $sibling_age = $this->input->post("sibling_age");
+         // $sibling_civil_status = $this->input->post("sibling_civil_status");
+         // $sibling_glo = $this->input->post("sibling_glo");
+         // $sibling_nsc = $this->input->post("sibling_nsc");
+         // $this->student_model->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
+
+         $this->load->library('s3');
+         $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+
+         // if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
+         if (isset($_FILES["file"])) {
+            if ($_FILES['file']['size'] > 0) {
+               $fileInfo = pathinfo($_FILES["file"]["name"]);
+               $img_name = $id . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $student_id . '/' . $img_name;
+               $s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $id, 'image' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+>>>>>>> Stashed changes
             }
 
+<<<<<<< Updated upstream
             $msg   = $this->lang->line('success_message');
             $array = array('status' => 'success', 'error' => '', 'message' => $msg);
         }
@@ -2495,12 +2990,68 @@ class Student extends Admin_Controller
                 foreach ($value as $key2 => $value2) {
                     $uploads[$key0][$key2][$key] = $value2;
                 }
+=======
+         if (isset($_FILES["father_pic"])) {
+            if ($_FILES['father_pic']['size'] > 0) {
+               $fileInfo = pathinfo($_FILES["father_pic"]["name"]);
+               $img_name = $id . "father" . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["father_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["father_pic"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $id, 'father_pic' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+>>>>>>> Stashed changes
             }
         }
         $files = $uploads;
 
+<<<<<<< Updated upstream
         return $uploads; // prevent misuse issue
     }
+=======
+         if (isset($_FILES["mother_pic"])) {
+            if ($_FILES['mother_pic']['size'] > 0) {
+               $fileInfo = pathinfo($_FILES["mother_pic"]["name"]);
+               $img_name = $id . "mother" . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["mother_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["mother_pic"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $id, 'mother_pic' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+            }
+         }
+
+         if (isset($_FILES["guardian_pic"])) {
+            if ($_FILES['guardian_pic']['size'] > 0) {
+               $fileInfo = pathinfo($_FILES["guardian_pic"]["name"]);
+               $img_name = $id . "guardian" . '.' . $fileInfo['extension'];
+
+               // move_uploaded_file($_FILES["guardian_pic"]["tmp_name"], "./uploads/student_images/" . $img_name);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
+               $s3->putObjectFile($_FILES["guardian_pic"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+               $data_img = array('id' => $id, 'guardian_pic' => 'uploads/student_images/' . $img_name);
+               $this->student_model->add($data_img);
+            }
+         }
+
+         if (isset($siblings_counts) && ($total_siblings == $siblings_counts)) {
+            //if there is no change in sibling
+         } else if (!isset($siblings_counts) && $sibling_id == 0 && $total_siblings > 0) {
+            // add for new parent
+            $parent_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
+
+            $data_parent_login = array(
+               'username' => $this->parent_login_prefix . $student_id . "_1",
+               'password' => $parent_password,
+               'user_id'  => "",
+               'role'     => 'parent',
+            );
+>>>>>>> Stashed changes
 
     public function handle_upload_multidocs()
     {
@@ -2576,6 +3127,7 @@ class Student extends Admin_Controller
         $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('docs', $this->lang->line('document'), 'callback_handle_upload_doc');
 
+<<<<<<< Updated upstream
         if ($this->form_validation->run() == false) {
             $msg = array(
                 'doctitle' => form_error('doctitle'),
@@ -2638,6 +3190,142 @@ class Student extends Admin_Controller
 
                     if (!in_array($mtype, $allowed_mime_type)) {
                         $this->form_validation->set_message('handle_upload_doc', 'File Type Not Allowed');
+=======
+            $this->load->library('s3');
+            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+
+            foreach ($student_docs as $key0 => $FILES) {
+               for ($i = 0; $i < sizeof($FILES); $i++) {
+                  if (!empty($FILES[$i]["name"])) {
+                     $uploaddir = './uploads/student_documents/' . $student_id[$stdidx] . '/';
+
+                     // if (!is_dir($uploaddir) && !mkdir($uploaddir))
+                     //    die("Error creating folder $uploaddir");
+
+                     $fileInfo    = pathinfo($FILES[$i]["name"]);
+                     $fileExtension    = pathinfo($FILES[$i]["name"], PATHINFO_EXTENSION);
+                     $title = $this->input->post('doctitle');
+                     $file_name   = $FILES[$i]["name"];
+                     $exp         = explode(' ', $file_name);
+
+                     $imp         = $this->student_model->id_generator("student_documents") . "." . $fileExtension;
+                     $img_name    = $uploaddir . basename($imp);
+
+                     // move_uploaded_file($FILES[$i]["tmp_name"], $img_name);
+                     $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $student_id[$stdidx] . '/' . $imp;
+                     $s3->putObjectFile($FILES[$i]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+                     $data_img = array('student_id' => (int)$student_id[$stdidx], 'title' => $title, 'doc' => $imp, 'document_title' => $fileInfo['basename'], 'date_created' => date('Y-m-d H:i:s'));
+                     $this->student_model->adddoc($data_img);
+                     // var_dump($FILES[$i]["name"]);
+                     // echo ("<BR>");
+                  }
+               }
+
+               $stdidx++;
+            }
+         }
+
+         $msg   = $this->lang->line('success_message');
+         $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+      }
+
+      echo json_encode($array);
+   }
+
+   public function refresh_all_send_documents()
+   {
+      $the_directory = './uploads/student_documents/';
+      $directories = scandir($the_directory);
+      $directory_count = count($directories);
+      echo "<pre>";
+      unset($directories[0]);
+      unset($directories[1]);
+      unset($directories[2]);
+      unset($directories[$directory_count - 1]);
+      unset($directories[$directory_count - 2]);
+      $all_student_doc = $this->student_model->lms_get("student_doc", "", "");
+      // print_r($all_student_doc);
+
+      foreach ($all_student_doc as $all_student_doc_key => $all_student_doc_value) {
+         if (!$all_student_doc_value['document_title']) {
+            $generated_id = $this->student_model->id_generator("student_documents");
+            $extension = pathinfo($all_student_doc_value['doc'], PATHINFO_EXTENSION);
+            $new_doc = $generated_id . "." . $extension;
+            $update_data['id'] = $all_student_doc_value['id'];
+            $update_data['doc'] = $new_doc;
+            $update_data['document_title'] = $all_student_doc_value['doc'];
+            $update_data['date_updated'] = date("Y-m-d H:i:s");
+            $update_directory = './uploads/student_documents/' . $all_student_doc_value['student_id'];
+
+            $original_file_url = base_url() . "uploads/student_documents/" . $all_student_doc_value['student_id'] . "/" . $all_student_doc_value['doc'];
+            // print_r(file_get_contents($original_file_url));
+
+            $original_file = $update_directory . "/" . $all_student_doc_value['doc'];
+            $newname = $update_directory . "/" . $new_doc;
+
+            // print_r($original_file);
+            // echo "<pre>";
+            // print_r($newname);
+            // echo "<pre>";
+
+            if (rename($original_file, $newname)) {
+               echo "rename successful";
+               echo "<pre>";
+               $this->student_model->lms_update("student_doc", $update_data);
+            }
+         }
+      }
+   }
+
+   function reArrayFilesMultiple()
+   {
+      $uploads = array();
+      foreach ($_FILES as $key0 => $FILES) {
+         foreach ($FILES as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+               $uploads[$key0][$key2][$key] = $value2;
+            }
+         }
+      }
+      $files = $uploads;
+
+      return $uploads; // prevent misuse issue
+   }
+
+   public function handle_upload_multidocs()
+   {
+      $image_validate = $this->config->item('file_validate');
+      $student_docs = $this->reArrayFilesMultiple();
+      $isempty = true;
+
+      if (isset($student_docs)) {
+         foreach ($student_docs as $key0 => $FILES) {
+            if (sizeof($FILES) < 6) {
+               // var_dump($FILES);
+               // echo "<BR>";
+               // $fsize = sizeof($FILES);
+               // var_dump($fsize);
+               // echo "<BR>";
+               // echo "<BR>";
+
+               for ($i = 0; $i < sizeof($FILES); $i++) {
+                  // var_dump($FILES[$i]["name"]);
+                  // echo "<BR>";
+                  if (!empty($FILES[$i]["name"])) {
+                     $file_type         = $FILES[$i]['type'];
+                     $file_size         = $FILES[$i]["size"];
+                     $file_name         = $FILES[$i]["name"];
+                     $allowed_extension = $image_validate['allowed_extension'];
+                     $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+                     $allowed_mime_type = $image_validate['allowed_mime_type'];
+                     $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                     $mtype = finfo_file($finfo, $FILES[$i]['tmp_name']);
+                     finfo_close($finfo);
+
+                     if (!in_array($mtype, $allowed_mime_type)) {
+                        $this->form_validation->set_message('handle_upload_multidocs', 'File Type Not Allowed');
+>>>>>>> Stashed changes
                         return false;
                     }
                     if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
@@ -2658,6 +3346,7 @@ class Student extends Admin_Controller
         } else {
             $this->form_validation->set_message('handle_upload_doc', "The File Field is required");
             return false;
+<<<<<<< Updated upstream
         }
 
         return true;
@@ -2735,6 +3424,102 @@ class Student extends Admin_Controller
             $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
 
             if ($this->form_validation->run() == false) {
+=======
+         }
+
+         return true;
+      } else {
+         $this->form_validation->set_message('handle_upload_multidocs', "The Documents Field is required");
+         return false;
+      }
+
+      return true;
+   }
+
+   public function Upload_Documents()
+   {
+      $this->form_validation->set_rules('doctitle', $this->lang->line('doctitle'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('docs', $this->lang->line('document'), 'callback_handle_upload_doc');
+
+      if ($this->form_validation->run() == false) {
+         $msg = array(
+            'doctitle' => form_error('doctitle'),
+            'docs' => form_error('docs')
+         );
+         $array = array('status' => 'fail', 'error' => $msg, 'message' => '');
+      } else {
+         $student_id = $this->input->post('id_num');
+         $student_docs = $_FILES["docs"];
+         // var_dump($this->input->post('doctitle'));die;
+         // $studcnt = count($student_docs);
+         // var_dump($student_docs);
+         // var_dump($studcnt); die;
+
+         if (isset($_FILES['docs'])) {
+            for ($i = 0; $i < count($student_docs["name"]); $i++) {
+               if (!empty($student_docs["name"][$i])) {
+                  $uploaddir = './uploads/student_documents/' . $student_id[$i] . '/';
+
+                  if (!is_dir($uploaddir) && !mkdir($uploaddir))
+                     die("Error creating folder $uploaddir");
+
+                  $fileInfo    = pathinfo($student_docs["name"][$i]);
+                  $title = $this->input->post('doctitle');
+                  $file_name   = $student_docs["name"][$i];
+                  $exp         = explode(' ', $file_name);
+                  $imp         = implode('_', $exp);
+                  $img_name    = $uploaddir . basename($imp);
+
+                  // move_uploaded_file($student_docs["tmp_name"][$i], $img_name);
+                  $this->load->library('s3');
+                  $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+                  $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $student_id[$i] . '/' . $img_name;
+                  $s3->putObjectFile($student_docs["tmp_name"][$i], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+
+                  $data_img = array('student_id' => (int)$student_id[$i], 'title' => $title, 'doc' => $imp);
+                  $this->student_model->adddoc($data_img);
+               }
+            }
+         }
+
+         $msg   = $this->lang->line('success_message');
+         $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+      }
+
+      echo json_encode($array);
+   }
+
+   public function handle_upload_doc()
+   {
+      $image_validate = $this->config->item('file_validate');
+
+      if (isset($_FILES["docs"])) // && !empty($_FILES['docs']['name'])) 
+      {
+         for ($i = 0; $i < count($_FILES["docs"]["name"]); $i++) {
+            if (!empty($_FILES['docs']['name'][$i])) {
+               $file_type         = $_FILES["docs"]['type'][$i];
+               $file_size         = $_FILES["docs"]["size"][$i];
+               $file_name         = $_FILES["docs"]["name"][$i];
+               $allowed_extension = $image_validate['allowed_extension'];
+               $ext               = pathinfo($file_name, PATHINFO_EXTENSION);
+               $allowed_mime_type = $image_validate['allowed_mime_type'];
+               $finfo = finfo_open(FILEINFO_MIME_TYPE);
+               $mtype = finfo_file($finfo, $_FILES["docs"]['tmp_name'][$i]);
+               finfo_close($finfo);
+
+               if (!in_array($mtype, $allowed_mime_type)) {
+                  $this->form_validation->set_message('handle_upload_doc', 'File Type Not Allowed');
+                  return false;
+               }
+               if (!in_array($ext, $allowed_extension) || !in_array($file_type, $allowed_mime_type)) {
+                  $this->form_validation->set_message('handle_upload_doc', 'Extension Not Allowed');
+                  return false;
+               }
+               if ($file_size > $image_validate['upload_size']) {
+                  $this->form_validation->set_message('handle_upload_doc', $this->lang->line('file_size_shoud_be_less_than') . number_format($image_validate['upload_size'] / 1048576, 2) . " MB");
+                  return false;
+               }
+>>>>>>> Stashed changes
             } else {
                 $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
                 $data['class_id'] = $this->input->post('class_id');

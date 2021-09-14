@@ -28,6 +28,7 @@ $language_name = $language["short_code"];
                             <?php } ?>
                             <?php echo $this->customlib->getCSRF(); ?>
                         </div>
+<<<<<<< Updated upstream
                         <div class="col-md-3 col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
@@ -47,6 +48,126 @@ $language_name = $language["short_code"];
                                 </select>
                                 <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
                             </div>
+=======
+                     <?php } ?>
+                  </div>
+
+                  <div class="box-body table-responsive">
+                     <div class="download_label"> <?php echo $this->lang->line('homework_list'); ?></div>
+                     <div>
+                        <table class="table table-hover table-striped table-bordered example">
+                           <thead>
+                              <tr>
+                                 <th><?php echo $this->lang->line('title') ?></th>
+                                 <th><?php echo $this->lang->line('class') ?></th>
+                                 <th><?php echo $this->lang->line('section') ?></th>
+                                 <th><?php echo $this->lang->line('subject') . " " . $this->lang->line('group'); ?></th>
+                                 <th><?php echo $this->lang->line('subject') ?></th>
+                                 <th><?php echo $this->lang->line('homework_date'); ?></th>
+                                 <th><?php echo $this->lang->line('submission_date'); ?></th>
+                                 <th><?php echo $this->lang->line('evaluation_date'); ?></th>
+                                 <!-- <th><?php echo "Has Submissions"; ?></th> -->
+                                 <th><?php echo $this->lang->line('created_by'); ?></th>
+                                 <th class="text-right"><?php echo $this->lang->line('action') ?></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+
+                              <?php
+
+                              foreach ($homeworklist as $key => $homework) {
+                              ?>
+                                 <tr>
+                                    <td><?php echo $homework["title"] ?></td>
+                                    <td><?php echo $homework["class"] ?></td>
+
+                                    <td><?php echo $homework["section"] ?></td>
+                                    <td><?php echo $homework['name'] ?></td>
+                                    <td><?php echo $homework["subject_name"] ?></td>
+                                    <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['homework_date'])); ?></td>
+                                    <td><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($homework['submit_date'])); ?></td>
+                                    <td><?php
+                                          $evl_date = "";
+
+                                          if ($homework['evaluation_date'] != "0000-00-00") {
+                                             echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateYYYYMMDDtoStrtotime($homework['evaluation_date']));
+                                          }
+                                          ?>
+                                    </td>
+                                    <!-- <td> -->
+                                    <?php //if ($homework["assignments"] > 0) echo "Yes";
+                                    //else echo "No";
+                                    ?>
+                                    <!-- </td> -->
+                                    <td><?php
+
+                                          echo $homework["created_by"];
+
+                                          ?></td>
+                                    <td class="mailbox-date pull-right">
+
+                                       <?php if ($this->rbac->hasPrivilege('homework_evaluation', 'can_view')) { ?>
+                                          <a data-placement="left" class="btn btn-default btn-xs" onclick="evaluation(<?php echo $homework['id']; ?>);" title="" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('evaluation'); ?>">
+                                             <i class="fa fa-reorder"></i></a>
+                                       <?php
+                                       }
+                                       //if ($homework["assignments"] > 0) 
+                                       {
+                                       ?>
+                                          <!-- <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php //echo $homework['id']; 
+                                                                                                                              ?>);" data-toggle="tooltip" data-original-title="<?php //echo $this->lang->line('assignments'); 
+                                                                                                                                                                                 ?>"><i class="fa fa-download"></i></a> -->
+                                          <a data-placement="left" class="btn btn-default btn-xs" onclick="homework_docs(<?php echo $homework['id']; ?>, <?php echo $homework['class_id']; ?>, <?php echo $homework['section_id']; ?>);" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments'); ?>"><i class="fa fa-download"></i></a>
+
+                                       <?php }
+                                       if ($this->rbac->hasPrivilege('homework', 'can_edit')) { ?>
+
+                                          <a data-placement="left" class="btn btn-default btn-xs modal_form" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('edit'); ?>" data-method_call="edit" data-record_id="<?php echo $homework['id']; ?>"><i class="fa fa-pencil"></i></a>
+
+                                       <?php }
+                                       if ($this->rbac->hasPrivilege('homework', 'can_delete')) { ?>
+                                          <a data-placement="left" href="<?php echo base_url(); ?>homework/delete/<?php echo $homework['id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="" onclick="return confirm('<?php echo $this->lang->line('delete_confirm') ?>');" data-original-title="<?php echo $this->lang->line('delete'); ?>">
+                                             <i class="fa fa-remove"></i>
+                                          </a>
+                                       <?php } ?>
+                                    </td>
+                                 </tr>
+                              <?php } ?>
+
+                           </tbody>
+                        </table>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+   </section>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content modal-media-content">
+         <div class="modal-header modal-media-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="box-title"></h4>
+         </div>
+
+         <form id="formadd" method="post" class="ptt10" enctype="multipart/form-data">
+            <div class="modal-body pt0 pb0">
+               <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                     <div class="row">
+                        <input type="hidden" id="modal_record_id" value="0" name="record_id">
+
+                        <div class="col-sm-4">
+                           <div class="form-group">
+                              <label for="spwd">Title</label><small class="req"> *</small>
+
+                              <input type="text" class="form-control modal_homework_title" name="homework_title">
+                              <span id="name_add_error" class="text-danger"></span>
+                           </div>
+
+>>>>>>> Stashed changes
                         </div>
                         <div class="col-md-3 col-lg-3 col-sm-6">
                             <div class="form-group">

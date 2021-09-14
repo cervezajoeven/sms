@@ -35,12 +35,289 @@
                 background-size: 100%!important;
             }
 
+<<<<<<< Updated upstream
             .select-box {
               cursor: pointer;
               position : relative;
               max-width:  20em;
               width: 100%;
             }
+=======
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <title>LMS - <?php echo $lesson['lesson_name'] ?></title>
+   <link rel="stylesheet" href="<?php echo $resources . 'jquery-ui.css' ?>">
+   <link rel="stylesheet" href="<?php echo $resources . 'lesson_3.css' ?>">
+   <link rel="stylesheet" href="<?php echo $resources . 'jquery.magnify.css' ?>">
+   <link rel="stylesheet" href="<?php echo $resources . 'font-awesome.min.css' ?>">
+   <link rel="stylesheet" href="<?php echo $resources . 'fontawesome/css/all.css' ?>">
+   <link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet" />
+   <link rel="stylesheet" href="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.css">
+
+   <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+   <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+   <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+   <script src="https://cdn.tiny.cloud/1/iukfz8wu0g81q52ws27bltas7y7taocjqdq30eoi202b3nls/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+   <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+   <!-- <script src="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.min.js"></script> -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+   <style type="text/css">
+      .ql-snow {
+         background-color: white;
+      }
+
+      #learning_plan_text {
+         color: black;
+      }
+
+      #objective_text {
+         color: black;
+      }
+
+      .jstree-themeicon-custom {
+         background-size: 100% !important;
+      }
+
+      .select-box {
+         cursor: pointer;
+         position: relative;
+         max-width: 20em;
+         width: 100%;
+      }
+
+      .select,
+      .label {
+         color: #414141;
+         display: block;
+         font: 400 17px/2em 'Source Sans Pro', sans-serif;
+      }
+
+      .select {
+         width: 100%;
+         position: absolute;
+         top: 0;
+         padding: 5px 0;
+         height: 40px;
+         opacity: 0;
+         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+         background: none transparent;
+         border: 0 none;
+      }
+
+      .select-box1 {
+         background: #ececec;
+      }
+
+      .label {
+         position: relative;
+         padding: 5px 10px;
+         cursor: pointer;
+      }
+
+      .open .label::after {
+         content: "▲";
+      }
+
+      .label::after {
+         content: "▼";
+         font-size: 12px;
+         position: absolute;
+         right: 0;
+         top: 0;
+         padding: 5px 15px;
+         border-left: 5px solid #fff;
+      }
+
+      .no_background {
+         background-color: none;
+      }
+
+      .learning_plan_slider {
+         width: 100%;
+         top: 0px;
+         z-index: 4;
+      }
+
+      .tinymce td {
+         font-size: 10px;
+      }
+
+      #learning_plan_save {
+         width: 200px;
+         padding: 10px;
+         background-color: green;
+         color: white;
+      }
+
+      .joe_text {
+         padding: 10px;
+         width: 100%;
+         margin-top: 10px;
+         margin-bottom: 10px;
+      }
+
+      .instruction h2,
+      h3 {
+         border-radius: 10px;
+      }
+
+      .actions {
+         <?php if ($lesson['lesson_type'] == "zoom" || $lesson['lesson_type'] == "virtual") : ?>width: 14%;
+         <?php else : ?>width: 16.5%;
+         <?php endif; ?>
+      }
+
+      #start_class img {
+         height: 35px;
+         width: 35px;
+         top: 10px;
+         position: absolute;
+      }
+
+      #start_class span {
+         margin-left: 35px;
+      }
+
+      .tooltip {
+         position: relative;
+         display: inline-block;
+         border-bottom: 1px dotted green;
+      }
+
+      .tooltip .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: green;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 7px 7px;
+         position: absolute;
+         z-index: 1;
+         top: 150%;
+         left: 50%;
+         margin-left: -60px;
+         font-size: 15px;
+         font-weight: normal;
+      }
+
+      .tooltip .tooltiptext::after {
+         content: "";
+         position: absolute;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -5px;
+         border-width: 5px;
+         border-style: solid;
+         border-color: transparent transparent green transparent;
+         box-shadow: 1px 0px 18px -3px rgba(0, 0, 0, 0.91);
+      }
+
+      .tooltip:hover .tooltiptext {
+         visibility: visible;
+      }
+
+      .flip-card {
+         background-color: transparent;
+         width: 253px;
+         height: 263px;
+         perspective: 1000px;
+      }
+
+      .flip-card-inner {
+         position: relative;
+         width: 100%;
+         height: 100%;
+         text-align: center;
+         transition: transform 0.6s;
+         transform-style: preserve-3d;
+         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .flip-card:hover .flip-card-inner {
+         transform: rotateY(180deg);
+      }
+
+      .flip-card-front,
+      .flip-card-back {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         -webkit-backface-visibility: hidden;
+         backface-visibility: hidden;
+      }
+
+      .flip-card-front {
+         background-color: #bbb;
+         color: black;
+      }
+
+      .flip-card-back {
+         background-color: #2980b9;
+         color: white;
+         transform: rotateY(180deg);
+      }
+
+      .mheight {
+         height: calc(100vh - 420px);
+         overflow-y: auto;
+      }
+
+      .html_content {
+         /* background-color: rgb(210, 206, 206); */
+         background-color: #ffffff;
+         display: block;
+         /* height: 100%; */
+         /* width: 95%; */
+         height: calc(100vh - 130px);
+         padding: 50px;
+         overflow-y: auto;
+      }
+   </style>
+</head>
+
+<body>
+   <div style="position: relative;height: 100%;width: 100%;background-color: white;z-index: 9999" class="loader">
+      <img style="position: absolute;top: 0%;left: 50%;margin: 13% 0px 0px -10%;" src="<?php echo $resources . 'images/loader.gif' ?>">
+   </div>
+   <input type="hidden" id="site_url" value="<?php echo site_url('lms/lesson/update'); ?>" name="">
+   <input type="hidden" id="url" value="<?php echo site_url('lms/lesson/'); ?>" name="">
+   <input type="hidden" id="lesson_id" value="<?php echo $id; ?>" name="">
+   <input type="hidden" id="main_url" value="<?php echo site_url(); ?>" name="">
+   <input type="hidden" id="s3_url" value="<?php echo $_SESSION['S3_BaseUrl']; ?>" name="">
+   <input type="hidden" id="assigned" value="<?php echo $lesson['assigned']; ?>" name="">
+   <input type="hidden" id="role" value="<?php echo $role ?>" name="" />
+   <input type="hidden" id="google_meet_id" value="<?php echo $role ?>" name="" />
+   <input type="hidden" id="pdfjs" value="<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>" name="" />
+   <input type="hidden" id="image_resources" value="<?php echo $resources . 'images/' ?>" name="" />
+   <input type="hidden" id="start_url" value="<?php echo $start_url ?>" name="" />
+   <input type="hidden" id="google_meet" value="<?php echo $google_meet ?>" name="" />
+   <input type="hidden" id="account_id" value="<?php echo $account_id ?>" name="" />
+
+   <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+
+         <h3 style="color: white">Add Text</h3>
+         <div class="title_container">
+            <input type="text" id="text_title" name="" style="padding: 10px; margin-right: 15px; width: 50%;" placeholder="Text Title">
+         </div>
+
+         <div id="view_text">
+>>>>>>> Stashed changes
 
             .select,
             .label {
@@ -615,6 +892,7 @@
                     <div class="title_container">
                         <input type="text" disabled="" value="Campus LMS Resources Search" name="">
 
+<<<<<<< Updated upstream
                     </div>
                     <div class="search_container">
                         
@@ -664,6 +942,57 @@
                     </div>
                 </ul>
                 
+=======
+            <li class="ui-state-default content search_content content_hidden" result_id="" resource_id="">
+               <!-- <div class="flip-card">
+                  <div class="flip-card-inner">
+                  <div class="flip-card-front">
+
+                     <div class="content_header theme">
+                        <span>Default</span>
+                        <img class="content_close" src="<?php //echo $resources . 'images/close.png' 
+                                                         ?>">
+                     </div>
+                     <div class="content_body">
+                        <div class="download_status_container">
+                        <span>Ready</span>
+                        </div>
+                        <img src="<?php //echo $resources . 'images/website.png' 
+                                    ?>">
+
+                     </div>
+
+                     <div class="content_footer theme">
+                        <textarea>Default Description</textarea>
+                     </div>
+
+                  </div>
+                  <div class="flip-card-back">
+                     <h1>John Doe</h1>
+                     <p>Architect & Engineer</p>
+                     <p>We love that guy</p>
+                  </div>
+                  </div>
+               </div> -->
+
+               <div class="content_header theme">
+                  <span>Default</span>
+                  <img class="content_close" src="<?php echo $resources . 'images/close.png' ?>">
+               </div>
+               <div class="content_body content_result_body">
+                  <div class="download_status_container">
+                     <span>Ready</span>
+                  </div>
+                  <img src="<?php echo $resources . 'images/website.png' ?>">
+
+               </div>
+
+               <div class="content_footer theme">
+                  <textarea rows="3">Default Description</textarea>
+               </div>
+            </li>
+
+>>>>>>> Stashed changes
 
             </div>
 

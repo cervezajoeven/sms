@@ -4,6 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
+<<<<<<< Updated upstream
 class Studentsubjectattendence_model extends CI_Model {
 
     public function __construct() {
@@ -69,6 +70,105 @@ class Studentsubjectattendence_model extends CI_Model {
                 foreach ($students_time_table->student_record as $students_time_table_key => $students_time_table_value) {
                     $a['attendances'] = ($students_time_table->student_record[$students_time_table_key]);
                 }
+=======
+class Studentsubjectattendence_model extends CI_Model
+{
+
+   public function __construct()
+   {
+      parent::__construct();
+      $this->current_session = $this->setting_model->getCurrentSession();
+      $this->current_date = $this->setting_model->getDateYmd();
+      //-- Load database for writing
+      $this->writedb = $this->load->database('write_db', TRUE);
+   }
+
+   public function add($insert_array, $update_array)
+   {
+
+      $this->writedb->trans_start();
+      $this->writedb->trans_strict(false);
+      if (!empty($insert_array)) {
+
+         $this->writedb->insert_batch('student_subject_attendances', $insert_array);
+      }
+      if (!empty($update_array)) {
+         $this->writedb->update_batch('student_subject_attendances', $update_array, 'id');
+      }
+      $this->writedb->trans_complete();
+
+      if ($this->writedb->trans_status() === false) {
+
+         $this->writedb->trans_rollback();
+         return false;
+      } else {
+
+         $this->writedb->trans_commit();
+         return true;
+      }
+   }
+
+   // public function searchAttendenceClassSection($class_id, $section_id, $subject_timetable_id, $date)
+   // {
+   //    $sql = "SELECT  IFNULL(student_subject_attendances.id, '0') as student_subject_attendance_id,student_subject_attendances.subject_timetable_id,student_subject_attendances.attendence_type_id, 
+   //            IFNULL(student_subject_attendances.date, 'xxx') as date,student_subject_attendances.remark,students.*,student_session.id as student_session_id 
+   //            FROM students 
+   //            INNER JOIN student_session on students.id=student_session.student_id and student_session.class_id=" . $this->db->escape($class_id) . " and student_session.section_id =" . $this->db->escape($section_id) . "  
+   //            AND student_session.session_id=" . $this->db->escape($this->current_session) . 
+   //            " LEFT JOIN student_subject_attendances on student_session.id=student_subject_attendances.student_session_id and student_subject_attendances.subject_timetable_id=" . $this->db->escape($subject_timetable_id) . 
+   //            " and date=" . $this->db->escape($date) . 
+   //            " where `students`.`is_active`='yes' ORDER BY students.lastname";
+
+   //    $query = $this->db->query($sql);
+   //    // print_r($this->db->last_query());
+   //    // die();
+   //    return $query->result_array();
+   // }
+
+   public function searchAttendenceClassSection($class_id, $section_id, $subject_timetable_id, $date, $lessonid)
+   {
+      $sql = "SELECT  IFNULL(student_subject_attendances.id, '0') AS student_subject_attendance_id,student_subject_attendances.subject_timetable_id,student_subject_attendances.attendence_type_id, 
+              IFNULL(student_subject_attendances.date, 'xxx') AS date,student_subject_attendances.remark,students.*,student_session.id AS student_session_id, DATE_FORMAT(lms_lesson_logs.date_created, '%b %d, %Y %h:%i %p') AS time_entered, DATE_FORMAT(lms_lesson.start_date, '%b %d, %Y %h:%i %p') AS start_date 
+              FROM students 
+              INNER JOIN student_session ON students.id=student_session.student_id AND student_session.class_id=" . $this->db->escape($class_id) . " AND student_session.section_id =" . $this->db->escape($section_id) . " AND student_session.session_id=" . $this->db->escape($this->current_session) .
+         " LEFT JOIN student_subject_attendances ON student_session.id=student_subject_attendances.student_session_id AND student_subject_attendances.subject_timetable_id=" . $this->db->escape($subject_timetable_id) .
+         " AND date=" . $this->db->escape($date) . " AND student_subject_attendances.lesson_id = '$lessonid' " .
+         "LEFT JOIN `lms_lesson_logs` ON `lms_lesson_logs`.`account_id` = `students`.`id` AND `lms_lesson_logs`.`lesson_id` = '$lessonid' AND `lms_lesson_logs`.`session_id` = " . $this->db->escape($this->current_session) .
+         "LEFT JOIN lms_lesson ON lms_lesson.id = lms_lesson_logs.lesson_id " .
+         " WHERE `students`.`is_active`='yes' GROUP BY `students`.`lastname`, `students`.`firstname` ORDER BY students.lastname";
+
+      $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result_array();
+   }
+
+   public function getStudentMontlyAttendence($class_id, $section_id, $from_date, $to_date, $year, $month_number, $student_id)
+   {
+
+      $student_array = array();
+
+      $student_array['students_attendances'] = array();
+      for ($i = 1; $i <= $to_date; $i++) {
+
+         $date = $year . "-" . $month_number . "-" . sprintf("%02d", $i);
+
+         $day = date('l', strtotime($date));
+
+         $students_time_table = $this->searchByStudentAttendanceByDate($class_id, $section_id,  $day, $date, $student_id);
+         $a = array();
+         $a['date'] = $this->customlib->dateformat($date);
+         $a['day'] = $day;
+         $a['subjects'] = array();
+         $a['attendances'] = array();
+
+         if (!empty($students_time_table)) {
+            $students_time_table = json_decode($students_time_table);
+
+            $a['subjects'] = ($students_time_table->subjects);
+            foreach ($students_time_table->student_record as $students_time_table_key => $students_time_table_value) {
+               $a['attendances'] = ($students_time_table->student_record[$students_time_table_key]);
+>>>>>>> Stashed changes
             }
             $student_array['students_attendances'][$i] = $a;
         }

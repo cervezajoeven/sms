@@ -1,4 +1,5 @@
 $(document).ready(function(){
+<<<<<<< Updated upstream
 
     var stored_lesson_data = '';
     var result_pool = [];
@@ -56,6 +57,71 @@ $(document).ready(function(){
 
         if (container.has(e.target).length === 0)
         {
+=======
+   var stored_lesson_data = '';
+   var result_pool = [];
+   var content_pool = [];
+   var active_content = "";
+   var active_content_data = {};
+   var content_order = [];
+   var lesson_data = {};
+   var active_portal = "youtube";
+   var url = $("#url").val();
+   var blackboard_id = $("#blackboard_id").val();
+   var lesson_id = $("#lesson_id").val();
+   var main_url = $("#main_url").val();
+   var s3_url = $("#s3_url").val();
+   var assigned = $("#assigned").val();
+   var education_level = $("#education_level").val();
+   var image_resources = $("#image_resources").val();
+   var account_id = $("#account_id").val();
+   var start_url = $("#start_url").val();
+   var google_meet = $("#google_meet").val();
+   var checked_ids = [];
+   var role = $("#role").val();
+   var role2 = $("#role").val();
+   // var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
+   var folders = "#folder_1,#folder_2,#folder_3";
+   // var folder_names = "Engage,Explore,Explain,Explain,Explore";
+   var folder_names = "Introduction,Lesson Proper,Formative Assessment";
+   var youtube_looper = 0;
+   var google_looper = 0;
+
+   if (education_level=="tertiary") {
+      folder_names = "Introduction,Lesson Proper,Formative Assessment";
+      folders = "#folder_1,#folder_2,#folder_3";
+   }
+
+   var the_learning_plan = tinymce.init({
+      selector: '.tinymce',
+      plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak paste',
+      toolbar_mode: 'floating',
+      paste_data_images: true,
+      height : "700",
+      init_instance_callback : function(editor) {
+         var freeTiny = document.querySelector('.tox .tox-notification--in');
+        freeTiny.style.display = 'none';
+       }
+   });
+
+   var jstree = $('#jstree_demo_div').jstree({
+      "checkbox" : {
+         "keep_selected_style" : false
+      },
+      "plugins" : [ "checkbox" ]
+   });
+
+   $(".notification_control").hide();
+
+   $("select").on("click" , function() {
+      $(this).parent(".select-box").toggleClass("open");      
+   });
+
+   $(document).mouseup(function (e) {
+      var container = $(".select-box");
+
+      if (container.has(e.target).length === 0) {
+>>>>>>> Stashed changes
             container.removeClass("open");
         }
     });
@@ -355,8 +421,53 @@ $(document).ready(function(){
         content_order = [];
         $.each($(".folder_contents"),function(key,ul){
 
+<<<<<<< Updated upstream
             $.each($(ul).find("li"),function(li_key,li_value){
                 content_order.push($(li_value).attr("result_id"));
+=======
+   function process_data(data,type) {
+      var data_population = [];
+      
+      switch(type) {
+         case "youtube":
+            data.items.forEach(function(item, index, arr){
+               data_population[index] = {
+                  result_id:generate_id()+"_"+index,
+                  title:item.snippet.title,
+                  description:item.snippet.description,
+                  image:encodeURIComponent(item.snippet.thumbnails.high.url),
+                  type:"youtube",
+                  source: encodeURIComponent("https://www.youtube.com/embed/"+item.id.videoId),
+                  id: "",
+               };
+            });
+            
+            return data_population;
+            break;
+
+         case "google":
+            data.items.forEach(function(item, index, arr) {
+               var has_pagemap = item.hasOwnProperty("pagemap");
+               var has_image = false;
+            
+               if(has_pagemap) {
+                  has_image = item.pagemap.hasOwnProperty("cse_image");
+               }
+               
+               data_population[index] = {
+                  result_id:generate_id()+"_"+index,
+                  title:item.title,
+                  description:item.snippet,
+                  image:$("#lms_link").val()+"images/website.png",
+                  type:"website",
+                  source:encodeURIComponent(item.link),
+                  id: "",
+               };
+               
+               if(has_image) {
+                  data_population[index].image = encodeURIComponent(item.pagemap.cse_image[0].src);
+               }
+>>>>>>> Stashed changes
             });
         });
         change_detected();
@@ -401,8 +512,26 @@ $(document).ready(function(){
                         data_population[index].image = encodeURIComponent(item.pagemap.cse_image[0].src);
                     }
 
+<<<<<<< Updated upstream
                 });
                 return data_population;
+=======
+         case "google_image":
+            data.items.forEach(function(item, index, arr) {
+
+               data_population[index] = {
+                  result_id:generate_id()+"_"+index,
+                  title:item.title,
+                  description:item.snippet,
+                  image:encodeURIComponent(item.link),
+                  type:"image",
+                  source:encodeURIComponent(item.link),
+                  id: "",
+               };
+            });
+
+            return data_population;
+>>>>>>> Stashed changes
             break;
             case "google_image":
                 data.items.forEach(function(item, index, arr){
@@ -465,16 +594,68 @@ $(document).ready(function(){
                         }
                         
 
+<<<<<<< Updated upstream
                     });
                 }else{
                     $(".instruction").show();
                 }
                 return data_population;
+=======
+         case "my_resources":            
+            data = JSON.parse(data);
+
+            if(data) {
+               $(".instruction").hide();
+               data.forEach(function(item, index, arr) {                     
+                  data_population[index] = {
+                     result_id:generate_id()+"_"+index,
+                     title:item.name,
+                     description:item.description,
+                     text_value:item.text_value,
+                     type:item.type,
+                     source:encodeURIComponent(s3_url+'uploads/lms_my_resources/'+item.link),
+                     id: item.id,
+                  };
+                    
+                  if(item.type=="csv"||item.type=="xlsx"||item.type=="xls") {
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/excel.svg');
+                  } else if(item.type=="pptx"||item.type=="ppt") {
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/powerpoint.svg');
+                  } else if(item.type=="docx"||item.type=="doc") {
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/word.svg');
+                  } else if(item.type=="pdf") {
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/pdf.svg');
+                  } else if(item.type=="image") {
+                     data_population[index].image = encodeURIComponent(s3_url+'uploads/lms_my_resources/'+item.link);
+                  }else if(item.type=="video") {
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                  } else if(item.type=="text") {
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/text.svg');
+                  } else if(item.type=="youtube") {
+                     if(item.image){
+                        data_population[index].image = encodeURIComponent(item.image);
+                     }else{
+                        data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');
+                     }
+
+                     data_population[index].source = encodeURIComponent(item.link);
+                  } else if(item.type=="website") {                     
+                     data_population[index].image = encodeURIComponent(main_url+'backend/lms/images/video.svg');                     
+                     data_population[index].source = encodeURIComponent(item.link);
+                  }
+               });
+            } else {
+               $(".instruction").show();
+            }
+
+            return data_population;
+>>>>>>> Stashed changes
             break;
             case "cms_resources":
 
                 data = JSON.parse(data);
 
+<<<<<<< Updated upstream
                 if(data){
 
                     data.forEach(function(item, index, arr){
@@ -490,6 +671,20 @@ $(document).ready(function(){
                         };
                         
                     });
+=======
+            if(data) {
+               data.forEach(function(item, index, arr) {                     
+                  data_population[index] = {
+                     result_id:generate_id()+"_"+index,
+                     title:item.name,
+                     description:item.description,
+                     image:encodeURIComponent(item.link),
+                     type:item.type,
+                     source:s3_url+'uploads/lms_cms_resources/'+item.filename,
+                     id: item.id,
+                  };                     
+               });
+>>>>>>> Stashed changes
 
                     console.log(data_population);
                 }
@@ -522,6 +717,7 @@ $(document).ready(function(){
             case 900:
                 // $(".student_view_content_iframe").css("height","717px");
             break;
+<<<<<<< Updated upstream
         }
     }
 
@@ -621,6 +817,124 @@ $(document).ready(function(){
         var current_order = get_current_order();
         
         if(current_order>0){
+=======
+      }
+   }
+
+   function render_student_view() {      
+      $(".content_type").hide();
+      $(".video_content").attr("src","");
+      $(".image_content").attr("src","");
+      $(".student_view_content_iframe").attr("src","");      
+
+      if(active_content_data) {
+         $(".student_view_title").text(active_content_data.content.title);
+
+         switch (active_content_data.content.type) {
+            case "youtube":
+               $(".student_view_content_iframe").attr("src","");
+               $(".student_view_content_iframe").show();
+               $(".student_view_content_iframe").attr("src",decodeURIComponent(active_content_data.content.source));
+               break;
+         
+            case "image":
+               $(".image_content").show();
+               $(".image_content").css("height",screen.height);
+               $(".image_content").attr("src",decodeURIComponent(active_content_data.content.source));
+               $(".image_content").attr("data-src",decodeURIComponent(active_content_data.content.source));
+               $(document).find('[data-magnify=gallery]').magnify();
+               break;
+
+            case "video":
+               $(".video_content").show();
+               $(".video_content").css("height",screen.height-180);
+               $(".video_content").attr("src",decodeURIComponent(active_content_data.content.source));
+               $(".video_content").bind('contextmenu',function() { return false; });
+               break;
+
+            case "website":
+               $(".student_view_content_iframe").show();
+               $(".student_view_content_iframe").css("height",screen.height-180);
+               $(".student_view_content_iframe").attr("src",decodeURIComponent(active_content_data.content.source));
+               break;
+
+            case "pdf":
+               $(".student_view_content_iframe").show();
+               $(".student_view_content_iframe").css("height",screen.height-180);
+               $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source + "&embedded=true");
+               // $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source));                  
+               break;
+
+            case "text":
+               $(".html_content").show();
+               // $(".html_content").css("height",screen.height-280);
+               // $(".html_content").css("background-color","#d2cece");
+               var contents = JSON.parse(unescapeHtml(active_content_data.content.text_value));
+               // contents = contents.replace('/(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)/', '<a target=_blank href="$1">$1</a>');
+               view_text.setContents(contents);
+               var rendered_text = view_text.container.innerHTML;
+               $(rendered_text).find("div[contenteditable*='true']").attr("contenteditable","false");
+               $(".html_content").html($(rendered_text).html());
+               break;
+
+            default:
+               $(".student_view_content_iframe").show();
+               $(".student_view_content_iframe").css("height",screen.height-180);
+               $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
+               // $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source) + '&embedded=true');                  
+               
+               break;
+         }
+
+         $(".student_view_title").text(active_content_data.content.title);
+      } else {
+      }
+   }
+
+   function reset_student_view() {
+      $(".student_view_content_iframe").attr("src","");
+   }
+
+   function get_current_order() {
+      var return_key = 0;
+
+      $.each(content_order,function(key,value) {
+         if(active_content_data.content.result_id==value) {               
+            return_key = key;
+         }
+      });
+
+      return return_key;
+   }
+
+   function get_slides(order) {
+      active_content_data = get_content_data(content_order[order]);
+      active_content = content_order[order];
+      render_student_view();
+   }
+
+   function get_next() {
+      var end_order = content_order.length-1;
+      var current_order = get_current_order();
+      
+      if(current_order<end_order) {
+         var next_order = current_order+1;
+         active_content_data = get_content_data(content_order[next_order]);
+
+         // if (active_content_data == undefined) get_next();
+
+         active_content = content_order[next_order];
+         render_student_view();
+      } else {
+         $(".next").attr("disabled","disabled");
+      }
+   }
+
+   function get_previous() {
+      var current_order = get_current_order();
+      
+      if(current_order>0){
+>>>>>>> Stashed changes
             var next_order = current_order-1;
             active_content_data = get_content_data(content_order[next_order]);
             active_content = content_order[next_order];
@@ -794,6 +1108,7 @@ $(document).ready(function(){
     }
 
 
+<<<<<<< Updated upstream
 
     $( function() {
         $(folders+",#result_container" ).sortable({
@@ -853,6 +1168,46 @@ $(document).ready(function(){
         var trigger_id = $(this).attr("id");
         
         if($('.'+trigger_id+'_slider').hasClass('close')){
+=======
+            case "pptx":
+               $(populous).find(".theme").css("background-color","rgb(56, 177, 55)");
+            break;
+         }
+
+         if (item.type!="text") {
+            $(populous).attr("result_id",item.result_id);
+            $(populous).attr("resource_id",item.id);
+            $(populous).find(".content_header").find("span").text(item.title);
+            $(populous).find(".content_body").find("img").attr("src",decodeURIComponent(item.image));
+            $(populous).find(".content_footer").find("textarea").text(item.description);
+            $(".search_content").last().after($(populous));
+         } else {
+            $(populous).attr("result_id",item.result_id);
+            $(populous).attr("resource_id",item.id);
+            $(populous).find(".content_header").find("span").text(item.title);
+            $(populous).find(".content_body").find("img").after("<div id='"+item.result_id+"' class='text_content'></div>");
+            $(populous).find(".content_body").find("img").remove();
+            view_text.setContents(JSON.parse(unescapeHtml(item.text_value)));
+            $(populous).find(".content_body").find(".text_content").html(view_text.container.innerHTML);
+            $(populous).find(".content_footer").find("textarea").text(item.description);
+            $(".search_content").last().after($(populous));
+         }  
+      });
+   }
+
+   function populate_content(data) {
+      var populous = $(".content_hidden").clone();
+      var sorted_data = [];
+
+      if(content_order) {
+         content_order.forEach(function(content_id, index_order, arr_order) {            
+            data.forEach(function(item, index, arr) {
+               if (item.content.result_id==content_id) {
+                     sorted_data.push(item);
+               }
+            });
+         });
+>>>>>>> Stashed changes
             
             $(".trigger").removeClass('active_trigger');
             $('.slider').addClass('close');
@@ -942,6 +1297,185 @@ $(document).ready(function(){
         if(content_order){
             content_order.forEach(function(content_id, index_order, arr_order){
 
+<<<<<<< Updated upstream
+=======
+      switch(active_portal) {
+         case "youtube":
+            youtube_search(search);
+         break;
+       
+         case "google":
+            google_search(search);
+         break;
+       
+         case "google_image":
+            google_image_search(search);
+         break;
+       
+         case "my_resources":
+            my_resources_search(search);
+         break;
+       
+         case "cms_resources":
+            cms_resources_search(search);
+         break;
+       
+         default:
+            return null;
+      }
+      
+   });
+   
+   $(".slideshow_action").click(function() {      
+      $(".edit_area").toggleClass("close_edit");
+      $(".student_view").toggleClass("student_view_close");
+      active_content_data = get_content_data(content_order[0]);
+      active_content = content_order[0];
+      adjust_iframe();
+      render_student_view();
+      populate_slides();
+   });
+   
+   $(document).on("dblclick",".content_already",function() {
+      var result_id = $(this).attr("result_id");
+      update_active_content(result_id);
+      active_content_data = get_content_data(result_id);
+      $(".edit_area").toggleClass("close_edit");
+      $(".student_view").toggleClass("student_view_close");
+      render_student_view();
+   });
+
+   $(".student_view-title").click(function(){
+      $(".student_view-slideshows").toggleClass("slideshows_close");
+   });
+
+   $(".next").click(function(){
+      get_next();
+      check_active_thumbnail();
+   });
+
+   $(".previous").click(function(){
+      get_previous();
+      check_active_thumbnail();
+   });
+
+   $('.student_view_slides').hide();
+
+   $(".student_view_title").click(function(){
+      $('.student_view_slides').slideToggle("fast");
+   });
+
+   $('.student_view_slides').mousewheel(function(e, delta){
+      this.scrollLeft -= (delta * 40);
+      e.preventDefault();
+   });
+
+   $(".slide").click(function(){      
+      $(".slide").removeClass("slide_active");
+      $(this).addClass("slide_active");
+   });
+   
+   $(document).on("dblclick",".content_already",function(){
+      populate_slides();
+   });
+
+   $(document).on("click",".actual_slide",function(){
+      var the_index = $(this).index()-1;
+      get_slides(the_index);
+      check_active_thumbnail();
+   });
+
+   $(document).on("mouseover",".content_already",function(){
+      $(this).find(".content_close").show();
+   });
+
+   $(document).on("mouseout",".content_already",function(){
+      $(this).find(".content_close").hide();
+   });
+
+   $(document).on("mouseover",".content_result",function() {
+      if (active_portal == "my_resources")
+         $(this).find(".content_close").show();
+   });
+
+   $(document).on("mouseout",".content_result",function() {
+      if (active_portal == "my_resources")
+         $(this).find(".content_close").hide();
+   });
+
+   $(document).on("click",".content_close",function(){
+      var delete_li = $(this).parent().parent();
+      var delete_result_id = $(this).parent().parent().attr("result_id");
+      var content_class = $(this).parent().parent().hasClass("content_result");
+
+      if (content_class !== false) {
+         //-- ToDo: Delete resource item from the database
+         var resourceid = $(this).parent().parent().attr("resource_id");
+
+         Swal.fire({
+            title: 'Delete Resource Item',
+            text: 'Are you sure you want to delete this item?',
+            showCancelButton: true,
+            confirmButtonText: `Yes`,
+            confirmButtonColor: '#3085d6',
+            icon: 'question',
+         }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+               $.ajax({
+                  url: url + "my_resources_delete/" + resourceid,
+                  method: "POST",
+               }).done(function(data) {
+                  remove_content(delete_result_id);
+                  $(delete_li).remove();
+
+                  var parsed_data = JSON.parse(data);
+                  Swal.fire({
+                     icon: parsed_data.result,
+                     confirmButtonColor: '#3085d6',
+                     // title: 'Hurray!',
+                     title: parsed_data.message,
+                     // footer: '<a href="">Why do I have this issue?</a>'
+                  }).then(function() {
+                     // remove_content(delete_result_id);
+                     // $(delete_li).remove();
+                  });
+               });
+            } else if (result.isDenied) {
+               // Swal.fire('Changes are not saved', '', 'info')
+            }
+         });         
+      } else {
+         remove_content(delete_result_id);
+         $(delete_li).remove();
+         change_detected();   
+      }
+      
+   });
+
+   $(document).on("click",".content_footer",function(){
+      // $(this).parent().find(".content_body").find("img").addClass("hide_img");
+      // $(this).parent().find(".content_footer").find("span").addClass("description_display");
+      // $(this).parent().find(".content_footer").find("textarea").addClass("description_display");      
+   });
+
+   function check_offline_files(){
+      console.log("Check Offline Files Running...");
+      $(document).find(".content_already");
+      var check_data = [];
+
+      $.each(content_pool,function(key,value){
+         check_data.push({key:value.content.result_id,data:value});
+      });
+
+      $.ajax({
+         url: url+'check_offline_files',
+         method:"POST",
+         data: {data:check_data,blackboard_id:blackboard_id},
+      }).done(function(data){
+         if (data!="empty") {
+            var parsed_data = JSON.parse(data);
+>>>>>>> Stashed changes
             
                 data.forEach(function(item, index, arr){
 

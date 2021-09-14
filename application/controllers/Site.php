@@ -1,6 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
+<<<<<<< Updated upstream
     exit('No direct script access allowed');
 
 class Site extends Public_Controller {
@@ -32,6 +33,139 @@ class Site extends Public_Controller {
             $this->load->config('migration');
             if ($this->config->item('installed') == false && $this->config->item('migration_enabled') == false) {
                 redirect(base_url() . 'install/start');
+=======
+   exit('No direct script access allowed');
+
+class Site extends Public_Controller
+{
+
+   public function __construct()
+   {
+      parent::__construct();
+      $this->check_installation();
+
+      if ($this->config->item('installed') == true) {
+         $this->db->reconnect();
+      }
+
+      $this->load->model("staff_model");
+      $this->load->model('cms_program_model');
+      $this->load->model('staffroles_model');
+      $this->load->model('userlog_model');
+      $this->load->model('user_model');
+      $this->load->model('studentsession_model');
+
+      $this->load->library('Auth');
+      $this->load->library('Enc_lib');
+      $this->load->library('customlib');
+      $this->load->library('mailer');
+      $this->load->config('ci-blog');
+
+      $this->mailer;
+   }
+
+   private function check_installation()
+   {
+      if ($this->uri->segment(1) !== 'install') {
+         $this->load->config('migration');
+         if ($this->config->item('installed') == false && $this->config->item('migration_enabled') == false) {
+            redirect(base_url() . 'install/start');
+         } else {
+            if (is_dir(APPPATH . 'controllers/install')) {
+               echo '<h3>Delete the install folder from application/controllers/install</h3>';
+               die;
+            }
+         }
+      }
+   }
+
+   function login()
+   {
+      $app_name = $this->setting_model->get();
+      $app_name = $app_name[0]['name'];
+
+      if ($this->auth->logged_in()) {
+         $this->auth->is_logged_in(true);
+      }
+
+      $data = array();
+      $data['title'] = 'Login';
+      $school = $this->setting_model->get();
+      $data['name'] = $app_name;
+      $notice_content = $this->config->item('ci_front_notice_content');
+      $notices = $this->cms_program_model->getByCategory($notice_content, array('start' => 0, 'limit' => 5));
+      $data['notice'] = $notices;
+      $data['school'] = $school[0];
+
+      // Globals::setSchoolCode(strtolower($school[0]['dise_code']));
+      // $GLOBALS['S3_BaseUrl'] = $this->config->item('S3_Bucket_Url') . strtolower($school[0]['dise_code']);
+
+      // print_r($GLOBALS['S3_BaseUrl']);
+      // die();
+
+      // print_r($school[0]['dise_code']);
+      // die();
+
+      $_SESSION['S3_BaseUrl'] = S3_BUCKET_BASE_URL . strtolower($school[0]['dise_code']) . "/";
+      $_SESSION['School_Code'] = strtolower($school[0]['dise_code']);
+
+      $this->form_validation->set_rules('username', $this->lang->line('username'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('password', $this->lang->line('password'), 'trim|required|xss_clean');
+
+      if ($this->form_validation->run() == FALSE) {
+         $data['name'] = $app_name;
+         $this->load->view('admin/login', $data);
+      } else {
+         $login_post = array(
+            'email' => $this->input->post('username'),
+            'password' => $this->input->post('password')
+         );
+
+         $setting_result = $this->setting_model->get();
+         $result = $this->staff_model->checkLogin($login_post);
+
+         if (!empty($result->language_id)) {
+            $lang_array = array('lang_id' => $result->language_id, 'language' => $result->language);
+         } else {
+            $lang_array = array('lang_id' => $setting_result[0]['lang_id'], 'language' => $setting_result[0]['language']);
+         }
+
+         if ($result) {
+            if ($result->is_active) {
+               if ($result->surname != "") {
+                  $logusername = $result->name . " " . $result->surname;
+               } else {
+                  $logusername = $result->name;
+               }
+
+               $setting_result = $this->setting_model->get();
+               $session_data = array(
+                  'id' => $result->id,
+                  'username' => $logusername,
+                  'email' => $result->email,
+                  'roles' => $result->roles,
+                  'date_format' => $setting_result[0]['date_format'],
+                  'currency_symbol' => $setting_result[0]['currency_symbol'],
+                  'currency_place' => $setting_result[0]['currency_place'],
+                  'start_month' => $setting_result[0]['start_month'],
+                  'school_name' => $setting_result[0]['name'],
+                  'timezone' => $setting_result[0]['timezone'],
+                  'sch_name' => $setting_result[0]['name'],
+                  'language' => $lang_array,
+                  'is_rtl' => $setting_result[0]['is_rtl'],
+                  'theme' => $setting_result[0]['theme'],
+               );
+
+               $this->session->set_userdata('admin', $session_data);
+               $role = $this->customlib->getStaffRole();
+               $role_name = json_decode($role)->name;
+               // $this->customlib->setUserLog($this->input->post('username'), $role_name);
+
+               if (isset($_SESSION['redirect_to']))
+                  redirect($_SESSION['redirect_to']);
+               else
+                  redirect('admin/admin/dashboard');
+>>>>>>> Stashed changes
             } else {
                 if (is_dir(APPPATH . 'controllers/install')) {
                     echo '<h3>Delete the install folder from application/controllers/install</h3>';
@@ -332,6 +466,7 @@ $data['name']=$app_name[0]['name'];
         $body .= '<br/><br/>Regards,
                 <br/>' . $this->customlib->getSchoolName();
 
+<<<<<<< Updated upstream
         //======================
         return json_encode(array('subject' => $subject, 'body' => $body));
     }
@@ -449,6 +584,130 @@ $data['name']=$app_name[0]['name'];
                     $data['error_message'] = $this->lang->line('your_account_is_disabled_please_contact_to_administrator');
                     $this->load->view('userlogin', $data);
                 }
+=======
+      //======================
+      return json_encode(array('subject' => $subject, 'body' => $body));
+   }
+
+   function userlogin()
+   {
+      if ($this->auth->user_logged_in()) {
+         $this->auth->user_redirect();
+      }
+
+      $data = array();
+      $data['title'] = 'Login';
+      $school = $this->setting_model->get();
+      $data['name'] = $school[0]['name'];
+      $notice_content = $this->config->item('ci_front_notice_content');
+      $notices = $this->cms_program_model->getByCategory($notice_content, array('start' => 0, 'limit' => 5));
+      $data['notice'] = $notices;
+      $data['school'] = $school[0];
+
+      // Globals::setSchoolCode(strtolower($school[0]['dise_code']));
+      // $GLOBALS['S3_BaseUrl'] = $this->config->item('S3_Bucket_Url') . strtolower($school[0]['dise_code']);
+      $_SESSION['S3_BaseUrl'] = S3_BUCKET_BASE_URL . strtolower($school[0]['dise_code']) . "/";
+      $_SESSION['School_Code'] = strtolower($school[0]['dise_code']);
+
+      $this->form_validation->set_rules('username', $this->lang->line('username'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('password', $this->lang->line('password'), 'trim|required|xss_clean');
+      if ($this->form_validation->run() == FALSE) {
+         $this->load->view('userlogin', $data);
+      } else {
+         $login_post = array(
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password')
+         );
+         $login_details = $this->user_model->checkLogin($login_post);
+
+         if (isset($login_details) && !empty($login_details)) {
+            $user = $login_details[0];
+            if ($user->is_active == "yes") {
+               if ($user->role == "student") {
+                  $result = $this->user_model->read_user_information($user->id);
+               } else if ($user->role == "parent") {
+                  $result = $this->user_model->checkLoginParent($login_post);
+               }
+
+               if ($result != false) {
+                  $setting_result = $this->setting_model->get();
+                  if ($result[0]->lang_id == 0) {
+                     $language = array('lang_id' => $setting_result[0]['lang_id'], 'language' => $setting_result[0]['language']);
+                  } else {
+                     $language = array('lang_id' => $result[0]->lang_id, 'language' => $result[0]->language);
+                  }
+
+
+                  if ($result[0]->role == "student") {
+                     $session_data = array(
+                        'id' => $result[0]->id,
+                        'student_id' => $result[0]->user_id,
+                        'role' => $result[0]->role,
+                        'username' => $result[0]->firstname . " " . $result[0]->lastname,
+                        'date_format' => $setting_result[0]['date_format'],
+                        'currency_symbol' => $setting_result[0]['currency_symbol'],
+                        'timezone' => $setting_result[0]['timezone'],
+                        'sch_name' => $setting_result[0]['name'],
+                        'language' => $language,
+                        'is_rtl' => $setting_result[0]['is_rtl'],
+                        'theme' => $setting_result[0]['theme'],
+                        'image' => $result[0]->image,
+                     );
+                     $student_display_session = $this->studentsession_model->searchActiveClassSectionStudent($result[0]->user_id);
+                     $student_current_class = array(
+                        'student_session_id' => $student_display_session->id, 'class_id' => $student_display_session->class_id,
+                        'section_id' => $student_display_session->section_id
+                     );
+                     $this->session->set_userdata('student', $session_data);
+                     $this->session->set_userdata('current_class', $student_current_class);
+                     // $this->customlib->setUserLog($result[0]->username, $result[0]->role);
+                     redirect('user/user/dashboard');
+                  } else if ($result[0]->role == "parent") {
+
+                     if ($result[0]->guardian_relation == "Father") {
+                        $image = $result[0]->father_pic;
+                     } else if ($result[0]->guardian_relation == "Mother") {
+                        $image = $result[0]->mother_pic;
+                     } else if ($result[0]->guardian_relation == "Other") {
+                        $image = $result[0]->guardian_pic;
+                     }
+
+                     $session_data = array(
+                        'id' => $result[0]->id,
+                        'student_id' => $result[0]->user_id,
+                        'role' => $result[0]->role,
+                        'username' => $result[0]->guardian_name,
+                        'date_format' => $setting_result[0]['date_format'],
+                        'timezone' => $setting_result[0]['timezone'],
+                        'sch_name' => $setting_result[0]['name'],
+                        'currency_symbol' => $setting_result[0]['currency_symbol'],
+                        'language' => array('lang_id' => $setting_result[0]['lang_id'], 'language' => $setting_result[0]['language']),
+                        'is_rtl' => $setting_result[0]['is_rtl'],
+                        'theme' => $setting_result[0]['theme'],
+                        'image' => $image,
+                     );
+                     $this->session->set_userdata('student', $session_data);
+                     $s = array();
+                     $user_id = ($result[0]->id);
+                     $students_array = $this->student_model->read_siblings_students($user_id);
+
+                     $child_student = array();
+                     foreach ($students_array as $std_key => $std_val) {
+                        $child = array(
+                           'student_id' => $std_val->id,
+                           'name' => $std_val->firstname . " " . $std_val->lastname
+                        );
+                        $child_student[] = $child;
+                     }
+                     $this->session->set_userdata('parent_childs', $child_student);
+                     // $this->customlib->setUserLog($result[0]->username, $result[0]->role);
+                     redirect('parent/parents/dashboard');
+                  }
+               } else {
+                  $data['error_message'] = 'Account Suspended';
+                  $this->load->view('userlogin', $data);
+               }
+>>>>>>> Stashed changes
             } else {
                 $data['error_message'] = $this->lang->line('invalid_username_or_password');
                 $this->load->view('userlogin', $data);

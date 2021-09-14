@@ -517,6 +517,7 @@
                 <?php
                 }
             }
+<<<<<<< Updated upstream
             if ($this->module_lib->hasActive('human_resource')) {
                 if (($this->rbac->hasPrivilege('staff', 'can_view') ||
 
@@ -602,6 +603,95 @@
                     </li>
                 <?php
                 }
+=======
+         }
+         if ($this->module_lib->hasActive('human_resource')) {
+            if (($this->rbac->hasPrivilege('staff', 'can_view') ||
+
+               $this->rbac->hasPrivilege('approve_leave_request', 'can_view') ||
+               $this->rbac->hasPrivilege('apply_leave', 'can_view') ||
+               $this->rbac->hasPrivilege('leave_types', 'can_view') ||
+               $this->rbac->hasPrivilege('teachers_rating', 'can_view') ||
+               $this->rbac->hasPrivilege('department', 'can_view') ||
+               $this->rbac->hasPrivilege('designation', 'can_view') ||
+               $this->rbac->hasPrivilege('disable_staff', 'can_view'))) {
+            ?>
+               <li class="treeview <?php echo set_Topmenu('HR'); ?>">
+                  <a href="#">
+                     <i class="fa fa-sitemap ftlayer"></i> <span><?php echo $this->lang->line('human_resource'); ?></span> <i class="fa fa-angle-left pull-right"></i>
+                  </a>
+                  <ul class="treeview-menu">
+                     <?php if ($this->rbac->hasPrivilege('staff', 'can_view')) { ?>
+                        <li class="<?php echo set_Submenu('HR/staff'); ?>"><a href="<?php echo base_url(); ?>admin/staff"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('staff_directory'); ?></a></li>
+
+                     <?php
+                     } ?>
+
+                     <?php
+                     if ($this->rbac->hasPrivilege('staff_attendance', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('admin/staffattendance'); ?>"><a href="<?php echo base_url(); ?>admin/staffattendance"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('staff_attendance'); ?></a></li>
+                     <?php
+                     }
+
+                     if ($this->rbac->hasPrivilege('timesheet', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('admin/staff/timesheet'); ?>"><a href="<?php echo base_url(); ?>admin/staff/timesheet"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('timesheet'); ?></a></li>
+                     <?php
+                     }
+
+                     if ($this->rbac->hasPrivilege('staff_payroll', 'can_view')) {
+                     ?>
+
+
+                        <li class="<?php echo set_Submenu('admin/payroll'); ?>"><a href="<?php echo base_url(); ?>admin/payroll"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('payroll'); ?></a></li>
+                     <?php
+                     }
+
+                     if ($this->rbac->hasPrivilege('approve_leave_request', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('admin/leaverequest/leaverequest'); ?>"><a href="<?php echo base_url(); ?>admin/leaverequest/leaverequest"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('approve_leave_request'); ?></a></li>
+
+                     <?php
+                     }
+                     if ($this->rbac->hasPrivilege('apply_leave', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('admin/staff/leaverequest'); ?>"><a href="<?php echo base_url(); ?>admin/staff/leaverequest"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('apply_leave'); ?></a></li>
+                     <?php
+                     }
+                     if ($this->rbac->hasPrivilege('leave_types', 'can_view')) {
+                     ?>
+
+                        <li class="<?php echo set_Submenu('admin/leavetypes'); ?>"><a href="<?php echo base_url(); ?>admin/leavetypes"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('leave_type'); ?></a></li>
+
+                     <?php }
+                     if ($this->rbac->hasPrivilege('teachers_rating', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('HR/rating'); ?>"><a href="<?php echo base_url(); ?>admin/staff/rating"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('teachers') . " " . $this->lang->line('rating'); ?></a></li>
+                     <?php
+                     }
+
+                     if ($this->rbac->hasPrivilege('department', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('admin/department/department'); ?>"><a href="<?php echo base_url(); ?>admin/department/department"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('department'); ?></a></li>
+
+                     <?php
+                     }
+                     if ($this->rbac->hasPrivilege('designation', 'can_view')) {
+                     ?>
+                        <li class="<?php echo set_Submenu('admin/designation/designation'); ?>"><a href="<?php echo base_url(); ?>admin/designation/designation"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('designation'); ?></a></li>
+                     <?php
+                     }
+                     if ($this->rbac->hasPrivilege('disable_staff', 'can_view')) {
+                     ?>
+
+                        <li class="<?php echo set_Submenu('HR/staff/disablestafflist'); ?>"><a href="<?php echo base_url(); ?>admin/staff/disablestafflist"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disabled_staff'); ?></a></li>
+                     <?php }
+                     ?>
+                  </ul>
+               </li>
+            <?php
+>>>>>>> Stashed changes
             }
 
             if ($this->module_lib->hasActive('communicate')) {

@@ -1,6 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
+<<<<<<< Updated upstream
     exit('No direct script access allowed');
 
 class Print_headerfooter extends Admin_Controller {
@@ -77,6 +78,87 @@ public function edit(){
               
            $data=array('print_type'=>$_POST['type'],'header_image'=>$img_name,'footer_content'=>$_POST[$message],'created_by'=>$this->customlib->getStaffID());
            $this->setting_model->add_printheader($data);
+=======
+   exit('No direct script access allowed');
+
+class Print_headerfooter extends Admin_Controller
+{
+
+   function __construct()
+   {
+      parent::__construct();
+      $this->load->library('s3');
+      $this->load->model('setting_model');
+   }
+
+   public function index()
+   {
+      $this->session->set_userdata('top_menu', 'System Settings');
+      $this->session->set_userdata('sub_menu', 'admin/print_headerfooter');
+      $data['title'] = 'SMS Config List';
+      $data['result'] = $this->setting_model->get_printheader();
+      $this->load->view('layout/header', $data);
+      $this->load->view('admin/print_headerfooter/print_headerfooter', $data);
+      $this->load->view('layout/footer', $data);
+   }
+
+   public function edit()
+   {
+      $message = "";
+
+      if (isset($_POST['type'])) {
+         $is_required = $this->setting_model->check_haederimage($_POST['type']);
+         $this->form_validation->set_rules('header_image', $this->lang->line('header') . " " . $this->lang->line('image'), 'trim|xss_clean|callback_handle_upload[' . $is_required . ']');
+
+         if ($_POST['type'] == 'staff_payslip') {
+            $this->form_validation->set_rules('message', $this->lang->line('message'), 'required|trim|xss_clean');
+            $message = 'message';
+         } else {
+            $this->form_validation->set_rules('message1', $this->lang->line('message1'), 'required|trim|xss_clean');
+            $message = 'message1';
+         }
+      }
+
+      // print_r($_POST['type']);
+      // die();
+
+      if ($this->form_validation->run() == FALSE) {
+      } else {
+         if (isset($_FILES["header_image"]) && !empty($_FILES['header_image']['name'])) {
+            $fileInfo = pathinfo($_FILES["header_image"]["name"]);
+            $img_name = 'header_image.' . $fileInfo['extension'];
+
+            if ($_POST['type'] == 'student_receipt') {
+               $path = $this->setting_model->unlink_receiptheader();
+               // $path1 = "uploads/print_headerfooter/student_receipt/" . $path;
+               // $url = FCPATH . $path1;
+
+               // if (file_exists($url)) {
+               //    unlink($url);
+               // }
+
+               // move_uploaded_file($_FILES["header_image"]["tmp_name"], "./uploads/print_headerfooter/student_receipt/" . $img_name);
+
+               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/print_headerfooter/student_receipt/" . $img_name;
+               $s3->deleteObject(S3_BUCKET, $dest_file);
+               $s3->putObjectFile($_FILES["header_image"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+            } else {
+               $path = $this->setting_model->unlink_payslipheader();
+               // $path1 = "uploads/print_headerfooter/staff_payslip/" . $path;
+               // $url = FCPATH . $path1;
+
+               // if (file_exists($url)) {
+               //    unlink($url);
+               // }
+
+               // move_uploaded_file($_FILES["header_image"]["tmp_name"], "./uploads/print_headerfooter/staff_payslip/" . $img_name);
+
+               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $dest_file = $_SESSION['School_Code'] . "/uploads/print_headerfooter/staff_payslip/" . $img_name;
+               $s3->deleteObject(S3_BUCKET, $dest_file);
+               $s3->putObjectFile($_FILES["header_image"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
+>>>>>>> Stashed changes
             }
 
            $data=array('print_type'=>$_POST['type'],'footer_content'=>$_POST[$message],'created_by'=>$this->customlib->getStaffID());

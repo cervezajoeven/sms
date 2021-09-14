@@ -194,6 +194,9 @@ $(document).ready(function(){
         
         $(".content_type").hide();
         $(".video_content").attr("src","");
+         $(".image_content").attr("src","");
+         $(".student_view_content_iframe").attr("src","");
+
         if(active_content_data){
             $(".student_view_title").text(active_content_data.content.title);
             switch (active_content_data.content.type){
@@ -224,7 +227,8 @@ $(document).ready(function(){
                 case "pdf":
                     $(".student_view_content_iframe").show();
                     $(".student_view_content_iframe").css("height",screen.height-180);
-                    $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source);
+                    $(".student_view_content_iframe").attr("src",$("#pdfjs").val()+active_content_data.content.source + "&embedded=true");
+                  // $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source));                  
                 break;
             }
             $(".student_view_title").text(active_content_data.content.title);

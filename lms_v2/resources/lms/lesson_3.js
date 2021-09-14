@@ -468,6 +468,7 @@ $(document).ready(function(){
 
                     $(".image_content").show();
                     $(".image_content").css("height",screen.height);
+                  //   $(".image_content").css("object-fit","contain");
                     $(".image_content").attr("src",decodeURIComponent(active_content_data.content.source));
                     $(".image_content").attr("data-src",decodeURIComponent(active_content_data.content.source));
                     $(document).find('[data-magnify=gallery]').magnify();
