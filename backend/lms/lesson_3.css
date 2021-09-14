@@ -121,6 +121,7 @@ body {
   width: 65%;
   height: 100%;
   overflow: auto;
+  background-color: lightgray;
 }
 .ben_right {
   float: left;
