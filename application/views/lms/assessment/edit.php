@@ -304,7 +304,7 @@
                   icon: 'success',
                   confirmButtonColor: '#3085d6',
                   // title: 'Hurray!',
-                  title: 'Upload successful!',
+                  title: resp.message,
                   // footer: '<a href="">Why do I have this issue?</a>'
                }).then(function() {
                   location.reload();
@@ -314,7 +314,7 @@
                   icon: 'error',
                   confirmButtonColor: '#3085d6',
                   title: 'Ooops!',
-                  text: 'Upload failed!',
+                  text: resp.message,
                   // footer: '<a href="">Why do I have this issue?</a>'
                })
             }
@@ -324,7 +324,7 @@
                icon: 'error',
                confirmButtonColor: '#3085d6',
                title: 'Ooops!',
-               text: 'Upload failed!',
+               text: resp.message,
                // footer: '<a href="">Why do I have this issue?</a>'
             })
          }

@@ -567,28 +567,43 @@ class Assessment extends General_Controller
          $file_name = $this->assessment_model->id_generator("assessment") . ".pdf";
          $dest = FCPATH . "uploads/lms_assessment/" . $id . "/" . $file_name;
 
-         // print_r($dest);
-         //mkdir(FCPATH."uploads/EMN");
-         $folderCreated = false;
+         // $folderCreated = false;
 
-         if (!is_dir(FCPATH . "uploads/lms_assessment/" . $id)) {
-            try {
-               mkdir(FCPATH . "uploads/lms_assessment/" . $id);
-               $folderCreated = true;
-            } catch (ErrorException $ex) {
-               // echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
+         // if (!is_dir(FCPATH . "uploads/lms_assessment/" . $id)) {
+         //    try {
+         //       mkdir(FCPATH . "uploads/lms_assessment/" . $id);
+         //       $folderCreated = true;
+         //    } catch (ErrorException $ex) {
+         //       // echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $id) . "')</script>";
 
-               $data['status'] = 'failed';
-               $data['message'] = 'Upload failed!';
-               echo json_encode($data);
-            }
-         } else
-            $folderCreated = true;
+         //       $data['status'] = 'failed';
+         //       $data['message'] = 'Upload failed!';
+         //       echo json_encode($data);
+         //    }
+         // } else
+         //    $folderCreated = true;
+
+         // $this->load->library('s3');
+         // $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+
+         // if ($s3->putObject($id . "/", S3_BUCKET, $_SESSION['School_Code'] . "/uploads/lms_assessment/", S3::ACL_PUBLIC_READ)) {
+         //    $folderCreated = true;
+
+         //    $data['status'] = 'success';
+         //    $data['message'] = 'Folder created successfuly!(' . $_SESSION['School_Code'] . "uploads/lms_assessment/" . $id . ')';
+         //    echo json_encode($data);
+         // } else {
+         //    $data['status'] = 'failed';
+         //    $data['message'] = 'Upload failed!';
+         //    echo json_encode($data);
+         // }
+
+         $folderCreated = true;
 
          if ($folderCreated == true) {
             $this->load->library('s3');
             $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
-            $dest_file = $_SESSION['School_Code'] . "uploads/lms_assessment/" . $id . "/" . $file_name;
+            $dest_file = $_SESSION['School_Code'] . "/uploads/lms_assessment/" . $id . "/" . $file_name;
 
             // if (move_uploaded_file($tmp_name, $dest)) {
             if ($s3->putObjectFile($tmp_name, S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
