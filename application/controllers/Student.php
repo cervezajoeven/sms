@@ -1552,7 +1552,7 @@ class Student extends Admin_Controller
             'dob'                 => date('Y-m-d', strtotime($this->input->post('dob'))),
             'current_address'     => $this->input->post('current_address'),
             'permanent_address'   => $this->input->post('permanent_address'),
-            'image'               => 'uploads/student_images/no_image.png',
+            // 'image'               => 'uploads/student_images/no_image.png',
             'adhar_no'            => $this->input->post('adhar_no'),
             'samagra_id'          => $this->input->post('samagra_id'),
             'bank_account_no'     => $this->input->post('bank_account_no'),
@@ -1776,7 +1776,7 @@ class Student extends Admin_Controller
                $img_name = $id . '.' . $fileInfo['extension'];
 
                // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
-               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $student_id . '/' . $img_name;
+               $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
                $s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 
                $data_img = array('id' => $id, 'image' => 'uploads/student_images/' . $img_name);
@@ -1998,6 +1998,7 @@ class Student extends Admin_Controller
       $config['file_name'] = $id . ".jpg";
       $this->upload->initialize($config);
       $this->load->library('upload', $config);
+
       if ($this->upload->do_upload()) {
          $data        = array('upload_data' => $this->upload->data());
          $upload_data = $this->upload->data();
