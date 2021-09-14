@@ -29,7 +29,8 @@
                <!-- <input type="button" value="Upload" class="form-control btn btn-success upload"> -->
             </form>
             <?php if ($assessment['assessment_file']) : ?>
-               <iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources . 'pdfjs/web/viewer.html?file=' . urlencode(site_url('uploads/lms_assessment/' . $assessment['id'] . '/' . $assessment['assessment_file']) . "&embedded=true"); ?>"></iframe>
+               <!-- <iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources . 'pdfjs/web/viewer.html?file=' . urlencode(site_url('uploads/lms_assessment/' . $assessment['id'] . '/' . $assessment['assessment_file']) . "&embedded=true"); ?>"></iframe> -->
+               <iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources . 'pdfjs/web/viewer.html?file=' . urlencode($_SESSION['S3_BaseUrl'] . 'uploads/lms_assessment/' . $assessment['id'] . '/' . $assessment['assessment_file']) . "&embedded=true"; ?>"></iframe>
                <!-- <iframe style="height: 99.3%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="https://docs.google.com/gview?url=<?php echo urlencode($_SESSION['S3_BaseUrl'] . 'uploads/lms_assessment/' . $assessment['id'] . '/' . $assessment['assessment_file']); ?>"></iframe> -->
             <?php else : ?>
                <h1 style="text-align: center;">Upload a PDF File Here</h1>

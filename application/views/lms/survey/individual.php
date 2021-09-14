@@ -26,7 +26,8 @@
    <div class="container-fluid">
       <div class="row row-height">
          <div class="col-sm-7 left">
-            <iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources . 'pdfjs/web/viewer.html?file=' . urlencode(site_url('uploads/lms_survey/' . $survey['id'] . '/' . $survey['survey_file']) . "&embedded=true"); ?>"></iframe>
+            <!-- <iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources . 'pdfjs/web/viewer.html?file=' . urlencode(site_url('uploads/lms_survey/' . $survey['id'] . '/' . $survey['survey_file']) . "&embedded=true"); ?>"></iframe> -->
+            <iframe style="height: 100%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="<?php echo $resources . 'pdfjs/web/viewer.html?file=' . urlencode($_SESSION['S3_BaseUrl'] . 'uploads/lms_survey/' . $survey['id'] . '/' . $survey['survey_file']) . "&embedded=true"; ?>"></iframe>
             <!-- <iframe style="height: 99.3%;width: 100%;" id="optical_pdf" class="embed-responsive-item" src="https://docs.google.com/gview?url=<?php echo urlencode($_SESSION['S3_BaseUrl'] . 'uploads/lms_survey/' . $survey['id'] . '/' . $survey['survey_file']); ?>"></iframe> -->
 
          </div>

@@ -118,14 +118,14 @@ body {
 .ben_left {
   position: relative;
   float: left;
-  width: 65%;
+  width: 70%;
   height: 100%;
   overflow: auto;
   background-color: lightgray;
 }
 .ben_right {
   float: left;
-  width: 30%;
+  width: 25%;
   height: 100%;
   background-color: rgb(84, 130, 53);
   overflow-x: hidden;
