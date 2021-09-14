@@ -1,17 +1,9 @@
+<?php
+function displayTextWithLinks($s)
+{
+   return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a target=_blank href="$1">$1</a>', $s);
+}
 
-<<<<<<< Updated upstream
-                                    <?php foreach($docs as $value){ ?>
-
- <tr>
-                                            <td><?php echo $value["firstname"]." ".$value['lastname']." (".$value["admission_no"].")"; ?></td>
-                                             <td><?php echo $value["message"]; ?></td>
-                                            <td class="mailbox-date pull-right">
-                                                 <a class="btn btn-default btn-xs" href="<?php echo base_url();?>homework/assigmnetDownload/<?php ?>/<?php echo $value['docs'];?>" title="" data-original-title="Evaluation">
-                                                        <i class="fa fa-download"></i></a>
-                                                    </td>
-                                            <?php }
-                                    ?>
-=======
 foreach ($docs as $value) {
    // print_r($value['docs']);
 ?>
@@ -37,13 +29,25 @@ foreach ($docs as $value) {
                <?php } ?>
                <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
             <?php } ?>
->>>>>>> Stashed changes
 
+            <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
+         <?php } ?>
+      </td>
+   </tr>
+<?php } ?>
 
+<script type="text/javascript">
+   $(".evaluatebtn").click(function() {
+      $("#eval_student").html($(this).attr("student-name"));
+      $("#student_session_id").attr("value", $(this).attr("student-session-id"));
+      $("#homework_id").attr("value", $(this).attr("homework-id"));
+      $('#evaluate_student').modal({
+         backdrop: 'static',
+         keyboard: false,
+         show: true
+      });
+   });
 
-<<<<<<< Updated upstream
-                           
-=======
    $(".document_view_btn").click(function() {
       var file_location = $(this).attr("file_location");
 
@@ -110,4 +114,3 @@ foreach ($docs as $value) {
       // $('#image-viewer').show();
    });
 </script>
->>>>>>> Stashed changes

@@ -1,93 +1,143 @@
 <?php
-class Assessment_model extends MY_Model {
+class Assessment_model extends MY_Model
+{
 
-	public $table = "lms_assessment";
+   public $table = "lms_assessment";
 
-	public function all_assessment($account_id="1"){
-        // print_r($account_id);
-        // $this->db->select('*');
-        $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
-        $this->db->from('lms_assessment');
-        $this->db->join('staff', 'staff.id = lms_assessment.account_id','left');
-        $this->db->where('lms_assessment.deleted',0);
-        $this->db->where('lms_assessment.account_id',$account_id);
-        $this->db->order_by('lms_assessment.date_created',"desc");
+   public function all_assessment($account_id = "1", $timeperiod = "current")
+   {
+      // print_r($account_id);
+      // $this->db->select('*');
+      $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
+      $this->db->from('lms_assessment');
+      $this->db->join('staff', 'staff.id = lms_assessment.account_id', 'left');
+      $this->db->where('lms_assessment.deleted', 0);
+      $this->db->where('lms_assessment.account_id', $account_id);
 
-        $query = $this->db->get();
+      if ($timeperiod == "current") {
+         $this->db->where('lms_assessment.start_date <= now()');
+         $this->db->where('lms_assessment.end_date >= now()');
+      } else if ($timeperiod == "past") {
+         $this->db->where('now() > lms_assessment.end_date');
+      } else if ($timeperiod == "upcoming") {
+         $this->db->where('lms_assessment.start_date > now()');
+      }
 
-        $return = $query->result_array();
-        
-        return $return;
-    }
+      $this->db->order_by('lms_assessment.date_created', "desc");
+      $this->db->limit(2500);
 
-    public function admin_all_assessment($account_id="1"){
-        // print_r($account_id);
-        // $this->db->select('*');
-        $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
-        $this->db->from('lms_assessment');
-        $this->db->join('staff', 'staff.id = lms_assessment.account_id','left');
-        $this->db->where('lms_assessment.deleted',0);
-        $this->db->order_by('lms_assessment.date_created',"desc");
+      $query = $this->db->get();
+      // print_r($this->db->last_query());
+      // die();
 
-        $query = $this->db->get();
+      $return = $query->result_array();
+      return $return;
+   }
 
-        $return = $query->result_array();
-        
-        return $return;
-    }
+   public function admin_all_assessment($account_id = "1", $timeperiod = "current")
+   {
+      // print_r($account_id);
+      // $this->db->select('*');
+      $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
+      $this->db->from('lms_assessment');
+      $this->db->join('staff', 'staff.id = lms_assessment.account_id', 'left');
+      $this->db->where('lms_assessment.deleted', 0);
 
-    public function get_assessments($account_id){
+      if ($timeperiod == "current") {
+         $this->db->where('lms_assessment.start_date <= now()');
+         $this->db->where('lms_assessment.end_date >= now()');
+      } else if ($timeperiod == "past") {
+         $this->db->where('now() > lms_assessment.end_date');
+      } else if ($timeperiod == "upcoming") {
+         $this->db->where('lms_assessment.start_date > now()');
+      }
 
-        // $this->db->select('*');
-        $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
-        $this->db->from('lms_assessment');
-        $this->db->join('staff', 'staff.employee_id = lms_assessment.account_id','left');
-        $this->db->where('lms_assessment.deleted',0);
-        $this->db->order_by('lms_assessment.date_created',"desc");
+      $this->db->order_by('lms_assessment.date_created', "desc");
+      $this->db->limit(2500);
 
-        $query = $this->db->get();
+      $query = $this->db->get();
+      // print_r($this->db->last_query());
+      // die();
 
-        $return = $query->result_array();
-        
-        return $return;
-    }
+      $return = $query->result_array();
+      return $return;
+   }
 
-    public function assigned_assessment($account_id){
+   public function get_assessments($account_id)
+   {
 
-        $this->db->select('*,lms_assessment.id as id,(SELECT COUNT(lms_assessment_sheets.id) FROM lms_assessment_sheets WHERE lms_assessment_sheets.assessment_id = lms_assessment.id AND lms_assessment_sheets.account_id = '.$account_id.' AND lms_assessment_sheets.response_status = 1 ) as student_attempt');
-        $this->db->from('lms_assessment');
-        $this->db->join('staff',"staff.id = lms_assessment.account_id");
-        $this->db->where("FIND_IN_SET('".$account_id."', lms_assessment.assigned) !=", 0);
-        $this->db->where('start_date <=', date('Y-m-d H:i:s'));
-        $this->db->where('end_date >=', date('Y-m-d H:i:s'));
-        $this->db->where("deleted", 0);
+      // $this->db->select('*');
+      $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
+      $this->db->from('lms_assessment');
+      $this->db->join('staff', 'staff.employee_id = lms_assessment.account_id', 'left');
+      $this->db->where('lms_assessment.deleted', 0);
+      $this->db->order_by('lms_assessment.date_created', "desc");
 
-        $query = $this->db->get();
-        $return = $query->result_array();
-        // echo '<pre>';print_r($return);exit();
-        return $return;
-    }
+      $query = $this->db->get();
+      $return = $query->result_array();
 
-    public function assessment_sheets($assessment_id){
+      return $return;
+   }
 
-        $this->db->select('*');
-        $this->db->from('lms_assessment_sheets');
-        $this->db->where("assessment_id",$assessment_id);
-        $this->db->where("deleted", 0);
+   public function assigned_assessment($account_id, $timeperiod = "current")
+   {
+      $this->db->select('*,lms_assessment.id as id,(SELECT COUNT(lms_assessment_sheets.id) FROM lms_assessment_sheets WHERE lms_assessment_sheets.assessment_id = lms_assessment.id AND lms_assessment_sheets.account_id = ' . $account_id . ' AND lms_assessment_sheets.response_status = 1 ) as student_attempt');
+      $this->db->from('lms_assessment');
+      $this->db->join('staff', "staff.id = lms_assessment.account_id");
+      $this->db->where("FIND_IN_SET('" . $account_id . "', lms_assessment.assigned) !=", 0);
+      $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+      $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+      $this->db->where("deleted", 0);
 
-        $query = $this->db->get();
+      $query = $this->db->get();
+      $return = $query->result_array();
+      // echo '<pre>';
+      // print_r($this->db->last_query());
+      // exit();
 
-        $return = $query->result_array();
-        return $return;
-    }
+      return $return;
+   }
 
+   public function assessment_sheets($assessment_id)
+   {
+      $this->db->select('*');
+      $this->db->from('lms_assessment_sheets');
+      $this->db->where("assessment_id", $assessment_id);
+      $this->db->where("deleted", 0);
 
-    public function delete_assessment($table,$id){
-        $data['id'] = $id;
-        $data['deleted'] = 1;
-        
-        $this->assessment_model->lms_update($table,$data);
-        return true;
-    }
-	
+      $query = $this->db->get();
+      $return = $query->result_array();
+
+      return $return;
+   }
+
+   public function delete_assessment($table, $id)
+   {
+      $data['id'] = $id;
+      $data['deleted'] = 1;
+
+      $this->assessment_model->lms_update($table, $data);
+      return true;
+   }
+
+   public function shared_assessment()
+   {
+      // print_r($account_id);
+      // $this->db->select('*');
+      $this->db->select('*,lms_assessment.date_created as date_created, lms_assessment.id as id');
+      $this->db->from('lms_assessment');
+      $this->db->join('staff', 'staff.id = lms_assessment.account_id', 'left');
+      $this->db->where('lms_assessment.deleted', 0);
+      $this->db->where('lms_assessment.shared', 1);
+
+      $this->db->order_by('lms_assessment.date_created', "desc");
+      $this->db->limit(2500);
+
+      $query = $this->db->get();
+      // print_r($this->db->last_query());
+      // die();
+
+      $return = $query->result_array();
+      return $return;
+   }
 }

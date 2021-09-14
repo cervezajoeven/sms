@@ -37,19 +37,19 @@ class Onlinestudent extends Admin_Controller
 
     public function index()
     {
-         if (!$this->rbac->hasPrivilege('online_admission', 'can_view')) {
+        if (!$this->rbac->hasPrivilege('online_admission', 'can_view')) {
             access_denied();
         }
-        
+
         $this->session->set_userdata('top_menu', 'Student Information');
         $this->session->set_userdata('sub_menu', 'onlinestudent');
         $data['title']  = 'Student List';
         $class             = $this->class_model->get();
         $data['classlist'] = $class;
-        
-        if(!empty($data['classlist'])) {
+
+        if (!empty($data['classlist'])) {
             foreach ($data['classlist'] as $key => $value) {
-                $carray[] = $value['id']; 
+                $carray[] = $value['id'];
             }
         }
 
@@ -58,6 +58,28 @@ class Onlinestudent extends Admin_Controller
 
         $this->load->view('layout/header', $data);
         $this->load->view('admin/onlinestudent/studentList', $data);
+        // $this->load->view('admin/onlinestudent/newOnlineEnrollment', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function newEnrollmentPage()
+    {
+        if (!$this->rbac->hasPrivilege('online_admission', 'can_view')) {
+            access_denied();
+        }
+
+        $this->session->set_userdata('top_menu', 'Admission');
+        $this->session->set_userdata('sub_menu', 'new_enrollment_page');
+        $data['title']  = 'Student List';
+        $sessionData = $this->customlib->getLoggedInUserData();
+        $data['id'] = $sessionData['id'];
+        $data['access_key'] = $this->sch_setting_detail->admission_access_key;
+        //$username = $this->parent_model->getUserName($sessionData['id']);
+        // print_r($data);
+        // die();
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('admin/onlinestudent/newOnlineEnrollment', $data);
         $this->load->view('layout/footer', $data);
     }
 
@@ -84,7 +106,7 @@ class Onlinestudent extends Admin_Controller
     {
         if (!$this->rbac->hasPrivilege('online_admission', 'can_edit')) {
             access_denied();
-        }        
+        }
 
         // print_r($id);die();
 
@@ -103,7 +125,7 @@ class Onlinestudent extends Admin_Controller
         // $data['vehroutelist']    = $vehroute_result;
         $class                   = $this->class_model->get();
         // $setting_result          = $this->setting_model->get();
-		// $data["bloodgroup"]         = $this->blood_group;
+        // $data["bloodgroup"]         = $this->blood_group;
         $data["student_categorize"] = 'class';
         $data['classlist']          = $class;
         $category                   = $this->category_model->get();
@@ -141,14 +163,11 @@ class Onlinestudent extends Admin_Controller
         // $this->form_validation->set_rules('fees_assessment', $this->lang->line('fees_assessment'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('payment_scheme', $this->lang->line('required'), 'trim|required|xss_clean');
 
-        if ($this->form_validation->run() == false) 
-        {
+        if ($this->form_validation->run() == false) {
             $this->load->view('layout/header', $data);
             $this->load->view('admin/onlinestudent/studentEdit', $data);
             $this->load->view('layout/footer', $data);
-        } 
-        else 
-        {
+        } else {
             // print_r($id);die();
 
             $student_id     = $this->input->post('student_id');
@@ -158,14 +177,14 @@ class Onlinestudent extends Admin_Controller
             $fees_discount  = $this->input->post('fees_discount');
             //$vehroute_id    = $this->input->post('vehroute_id');
             //$class_section_id = $this->onlinestudent_model->GetClassSectionID($class_id, $section_id);
-            
+
             // if (empty($vehroute_id)) {
             //     $vehroute_id = 0;
             // }
             // if (empty($hostel_room_id)) {
             //     $hostel_room_id = 0;
             // }
-            
+
             $data = array(
                 'sibling_id'          => $this->input->post('sibling_id'),
                 'id'                  => $student_id,
@@ -284,7 +303,7 @@ class Onlinestudent extends Admin_Controller
                 'nationality' => $this->input->post('nationality'),
                 'esc_grantee' => $this->input->post('esc_grantee'),
                 'voucher_recipient' => $this->input->post('voucher_recipient'),
-                
+
                 'enrolled_here_before' => $this->input->post('enrolled_here_before'),
                 'enrolled_here_before_year' => $this->input->post('enrolled_here_before_year'),
                 'enrolled_here_before_level' => $this->input->post('enrolled_here_before_level'),
@@ -316,13 +335,13 @@ class Onlinestudent extends Admin_Controller
             $sibling_dec = $this->input->post("sibling_dec");
             $data['siblings'] = $this->addStudentSiblings($sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc, $sibling_dec);
 
-            $student_id = $this->onlinestudent_model->update($data, $this->input->post('save'));            
-          
+            $student_id = $this->onlinestudent_model->update($data, $this->input->post('save'));
+
             if ($student_id != "") {
                 $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
                 redirect('admin/onlinestudent');
             } else {
-                $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">'.$this->lang->line('please_check_student_admission_no').'</div>');
+                $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('please_check_student_admission_no') . '</div>');
                 redirect($_SERVER['HTTP_REFERER']);
             }
         }
@@ -333,7 +352,7 @@ class Onlinestudent extends Admin_Controller
         $class_id = $this->input->post('class_id');
         $data     = $this->section_model->getClassBySection($class_id);
         $this->jsonlib->output(200, $data);
-    }    
+    }
 
     // function addStudentSiblings($admissionid, $name, $age, $civilstatus, $gradeoccupation, $schoolcompany) {
     //     $maindata = [];
@@ -352,24 +371,24 @@ class Onlinestudent extends Admin_Controller
     //             "grade_occupation" => $gradeoccupation[$i],
     //             "school_company_name" => $schoolcompany[$i],
     //         );
-            
+
     //         if (!empty($name[$i]))
     //             array_push($maindata, $data);
     //     }
 
     //     // echo "<pre>"; print_r($maindata); echo"<pre>";die();
-        
+
     //     $this->student_model->AddStudentSiblings($admissionid, $maindata);
     // }
 
-    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased) 
+    function addStudentSiblings($name, $age, $civilstatus, $gradeoccupation, $schoolcompany, $deceased)
     {
         $maindata = [];
 
-        for($i = 0; $i < count($name); $i++) {
+        for ($i = 0; $i < count($name); $i++) {
             $data = [];
-            $id = "admission_sibling_".$this->mode."_".microtime(true)*10000;
-            $id = $id.rand(1000,9999);
+            $id = "admission_sibling_" . $this->mode . "_" . microtime(true) * 10000;
+            $id = $id . rand(1000, 9999);
 
             $data = array(
                 "id" => $id,
@@ -380,7 +399,7 @@ class Onlinestudent extends Admin_Controller
                 "school_company_name" => $schoolcompany[$i],
                 "deceased" => $deceased[$i] == "on" ? 1 : 0,
             );
-            
+
             if (!empty($name[$i]))
                 array_push($maindata, $data);
         }

@@ -3,26 +3,27 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class ClassRecord_model extends MY_Model 
+class Classrecord_model extends MY_Model
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function get($table, $id=null) 
+    public function get($table, $id = null)
     {
         $this->db->select()->from($table);
 
-        if ($id != null) 
+        if ($id != null)
             $this->db->where('id', $id);
-            
+
         $this->db->order_by('id');
         $query = $this->db->get();
 
-        if ($id != null) 
+        if ($id != null)
             return $query->row_array();
-        else 
+        else
             return $query->result_array();
     }
 
@@ -44,9 +45,9 @@ class ClassRecord_model extends MY_Model
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('id', $id);
-        $this->db->delete($table); 
+        $this->db->delete($table);
 
-        $message   = DELETE_RECORD_CONSTANT . " On ".$table." id " . $id;
+        $message   = DELETE_RECORD_CONSTANT . " On " . $table . " id " . $id;
         $action    = "Delete";
         $record_id = $id;
         $this->log($message, $record_id, $action);
@@ -62,8 +63,9 @@ class ClassRecord_model extends MY_Model
         }
     }
 
-    function check_data_exists($data, $table, $field) {
-        $this->db->where($field, $data[$field]);        
+    function check_data_exists($data, $table, $field)
+    {
+        $this->db->where($field, $data[$field]);
         $query = $this->db->get($table);
 
         if ($query->num_rows() > 0) {

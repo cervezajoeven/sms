@@ -126,7 +126,7 @@ $lang['class'] = 'Class';
 $lang['class_fees_detail'] = 'Class Fees Detail';
 $lang['class_list'] = 'Class List';
 $lang['class_section'] = 'Class Section';
-$lang['class_timetable'] = 'Class Timetable';
+$lang['class_timetable'] = 'Class Schedule';
 $lang['classes'] = 'Classes';
 $lang['click_to_return'] = 'Click To Return';
 $lang['clickatell_api_id'] = 'Clickatell Api Id';
@@ -602,7 +602,7 @@ $lang['teacher_list'] = 'Teacher List';
 $lang['teacher_name'] = 'Teacher Name';
 $lang['teacher_photo'] = 'Teacher Photo';
 $lang['teacher_subject'] = 'Teacher Subject';
-$lang['teachers'] = 'Teachers';
+$lang['teachers'] = 'Teacher\'s';
 $lang['Text_Local'] = 'Text Local';
 $lang['theory'] = 'Theory';
 $lang['timezone'] = 'Timezone';
@@ -1216,7 +1216,6 @@ $lang['rank'] = "Rank";
 $lang['rate'] = "Rate";
 $lang['rating'] = "Rating";
 $lang['record_already_exists'] = "Record already exists";
-$lang['record_already_exists'] = 'Record already exists.';
 $lang['record_this_action_is_irreversible']  = "Record, this action is irreversible.";
 $lang['records_found_in_CSV_file_total'] = "records found in CSV file. Total ";
 $lang['records_imported_successfully'] = " records imported successfully";
@@ -1569,3 +1568,21 @@ $lang['timein'] = "Time In";
 $lang['timeout'] = "Time Out";
 
 $lang['kampuspay_collections'] = "KampusPay Collections";
+
+$lang['student_registration'] = "Online Registration";
+$lang['student_interview'] = "Online Interview Sched";
+$lang['student_entrance_exam'] = "Online Entrance Exam Sched";
+$lang['student_enrollment'] = "Online Enrollment";
+$lang['fail_interview'] = "Online Interview Failed";
+$lang['fail_exam'] = "Online Exam Failed";
+$lang['approve_interview'] = "Online Interview Approved";
+$lang['approve_exam'] = "Online Exam Approved";
+$lang['student_enrollment_userpassword'] = "Enrollment Username/Password";
+$lang['student_assessment'] = "Student Enrollment Assessment";
+
+$lang['applicant_interview_exam'] = "Applicant Interview/Exam Schedule";
+
+$lang['student_admission_onhold'] = "Admission On Hold";
+$lang['summative_assessment'] = 'Summative Assessment';
+$lang['formative_assessment'] = 'Formative Assessment';
+$lang['url_link'] = 'URL Link';

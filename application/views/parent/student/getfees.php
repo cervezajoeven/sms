@@ -100,8 +100,17 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             </div>
                             <div class="col-sm-12 col-md-12">
                                 <div class="form-group">
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small> -->
+                                    <?php //if ($account_linked) { 
+                                    ?>
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small> -->
+                                    <?php //} else { 
+                                    ?>
+                                    <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-danger btn-sm pull-right" onclick="LinkToKampusPay()">Link my account to KampusPay</button></small> -->
+                                    <?php //} 
+                                    ?>
                                     <!-- <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#newKampusPayment">Make a payment using KampusPay</button></small> -->
-                                    <small><button id="btn-kampuspay" type="button" class="btn btn-success btn-sm pull-right" onclick="ShowKampusPayment()">Make a payment using KampusPay</button></small>
+
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -426,7 +435,8 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="form-group">
                     <label for="amount">Amount</label>
-                    <input type="number" class="form-control" id="amount" name="amount" min="1" placeholder="Enter the amount" autocomplete="off" onkeypress="return onlyNumberKey(event)">
+                    <!-- <input class="form-control" id="amount" name="amount" placeholder="Enter the amount" autocomplete="off"> -->
+                    <input id="amount" class="form-control" placeholder="Enter the amount">
                 </div>
                 <div class="form-group">
                     <div>
@@ -441,14 +451,21 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 </div>
                 <div class="form-group">
                     <div>
-                        <div id="notyetlinked" class="pull-left">Account not yet linked? <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here.</a></div>
+                        <?php
+                        $disabled = "";
+                        if (!$account_linked) {
+                            $disabled = "disabled"; ?>
+                            <div id="notyetlinked" class="pull-left" style="color:red;">Your account is not yet linked to KampusPay. <a style="display: inline;" target="_blank" href="<?php echo $linking_page ?>">Click here</a> to link.</div>
+                        <?php } ?>
+
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="GetQRCode()">Get QR Code</button>
+                <button type="button" class="btn btn-primary" onclick="GetQRCode()" <?php echo $disabled; ?>>Get QR Code</button>
+                <div id="btnstatus" class="pull-left"></div>
             </div>
 
         </div><!-- /.modal-content -->
@@ -461,13 +478,41 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 <script type="text/javascript" src="<?php echo base_url(); ?>backend/dist/js/jquery.qrcode.min.js"></script>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+                textbox.addEventListener(event, function() {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        this.value = "";
+                    }
+                });
+            });
+        }
+
+        setInputFilter(document.getElementById("amount"), function(value) {
+            return /^-?\d*[.,]?\d*$/.test(value);
+        });
+    });
+
     function ShowKampusPayment() {
         $('#feetype').val('');
         $('#amount').val('')
         $('#qrcodehere').html('');
         $('#instruction').text('');
+        $('#btnstatus').html('');
 
         $('#newKampusPayment').modal('show');
+    }
+
+    function LinkToKampusPay() {
+        window.open('<?php echo $linking_page; ?>', '_blank');
     }
 
     function GetQRCode() {
@@ -476,6 +521,9 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
         var tprice = $('#amount').val();
 
         if ($('#feetype').val() != '' && $('#amount').val() != '') {
+            $('#btnstatus').html('');
+            $('#qrcodehere').html('');
+            $('#instruction').html('');
             var prompt = $.dialog({
                 title: 'KampusPay',
                 content: 'Generating QR code please wait...',
@@ -501,23 +549,47 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             text: resp.results.qrcode
                         });
                         $('#instruction').text('Please scan this QR with your Banana Pay app to proceed with your payment.');
+
+                        $('#btnstatus').html('');
+                        $('#btnstatus').html('<button type="button" class="btn btn-success" onclick="GetPaymentStatus(\'' + resp.results.out_trade_no + '\')">Check Payment Status</button>')
+                    } else {
+                        prompt = $.alert({
+                            title: 'KampusPay',
+                            content: resp.message,
+                        });
                     }
                 }
             });
         }
     }
 
-    function formatNumber(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    function GetPaymentStatus(out_trade_no) {
+        var prompt = $.dialog({
+            title: 'KampusPay',
+            content: 'Checking payment status...',
+        });
+
+        var url = '<?php echo site_url("parent/parents/getKampusPayPaymentStatus") ?>';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                out_trade_no: out_trade_no
+            },
+            dataType: 'json',
+            success: function(resp) {
+                prompt.close();
+
+                prompt = $.alert({
+                    title: 'KampusPay',
+                    content: resp.message,
+                });
+            }
+        });
     }
 
-    function onlyNumberKey(evt) {
-        // Only ASCII charactar in that range allowed
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-            return false;
-
-        return true;
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     }
 </script>

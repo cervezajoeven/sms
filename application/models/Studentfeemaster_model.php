@@ -232,6 +232,7 @@ class Studentfeemaster_model extends MY_Model
 
         $query  = $this->db->query($sql);
         $result = $query->result();
+
         if (!empty($result)) {
             foreach ($result as $result_key => $result_value) {
 
@@ -251,12 +252,12 @@ class Studentfeemaster_model extends MY_Model
 
     public function getStudentFeesAll()
     {
-        $sql= "SELECT `student_fees_master`.*,students.roll_no as id_number,student_session.student_id as student_id,students.firstname,students.lastname,classes.class as grade_name,fee_groups.name,fee_groups.description,sections.section as section,students.gender,students.created_at as enrollment_date,students.enrollment_type,students.payment_scheme,students.mode_of_payment FROM `student_fees_master` INNER JOIN fee_session_groups on student_fees_master.fee_session_group_id=fee_session_groups.id INNER JOIN fee_groups on fee_groups.id=fee_session_groups.fee_groups_id LEFT JOIN student_session ON student_fees_master.student_session_id = student_session.id LEFT JOIN students ON students.id = student_session.student_id LEFT JOIN classes ON student_session.class_id = classes.id LEFT JOIN sections ON student_session.section_id = sections.id ORDER BY `student_fees_master`.`id`";
+        $sql = "SELECT `student_fees_master`.*,students.roll_no as id_number,student_session.student_id as student_id,students.firstname,students.lastname,classes.class as grade_name,fee_groups.name,fee_groups.description,sections.section as section,students.gender,students.created_at as enrollment_date,students.enrollment_type,students.payment_scheme,students.mode_of_payment FROM `student_fees_master` INNER JOIN fee_session_groups on student_fees_master.fee_session_group_id=fee_session_groups.id INNER JOIN fee_groups on fee_groups.id=fee_session_groups.fee_groups_id LEFT JOIN student_session ON student_fees_master.student_session_id = student_session.id LEFT JOIN students ON students.id = student_session.student_id LEFT JOIN classes ON student_session.class_id = classes.id LEFT JOIN sections ON student_session.section_id = sections.id ORDER BY `student_fees_master`.`id`";
         $query  = $this->db->query($sql);
         $result = $query->result();
         if (!empty($result)) {
             foreach ($result as $result_key => $result_value) {
-               
+
                 $fee_session_group_id   = $result_value->fee_session_group_id;
                 $student_fees_master_id = $result_value->id;
                 $result_value->fees     = $this->getDueFeeByFeeSessionGroup($fee_session_group_id, $student_fees_master_id);
@@ -274,7 +275,7 @@ class Studentfeemaster_model extends MY_Model
 
     public function getStudentDiscountsAll()
     {
-        $sql= "
+        $sql = "
             SELECT students.roll_no,
                 fees_discounts.name,
                 fees_discounts.code,

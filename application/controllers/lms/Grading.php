@@ -1317,6 +1317,7 @@ class Grading extends General_Controller {
             $criteria_3_id = $this->assessment_model->id_generator("criteria");
             $criteria_4_id = $this->assessment_model->id_generator("criteria");
             $column_section_1_1_id = $this->assessment_model->id_generator("column_section");
+            $column_section_1_2_id = $this->assessment_model->id_generator("column_section");
             $column_section_2_1_id = $this->assessment_model->id_generator("column_section");
             $data['account_id'] = $this->general_model->get_account_id();
             

@@ -1,41 +1,5 @@
 $(document).ready(function(){
 
-<<<<<<< Updated upstream
-    var stored_lesson_data = '';
-    var result_pool = [];
-    var content_pool = [];
-    var active_content = "";
-    var active_content_data = {};
-    var content_order = [];
-    var lesson_data = {};
-    var active_portal = "youtube";
-    var url = $("#url").val();
-    var blackboard_id = $("#blackboard_id").val();
-    var lesson_id = $("#lesson_id").val();
-    var main_url = $("#main_url").val();
-    var assigned = $("#assigned").val();
-    var education_level = $("#education_level").val();
-    var checked_ids = [];
-    var role = $("#role").val();
-    var folders = "#folder_1,#folder_2,#folder_3,#folder_4,#folder_5";
-    var folder_names = "Engage,Explore,Explain,Explain,Explore";
-
-    if(education_level=="tertiary"){
-        folder_names = "Introduction,Lesson Proper,Examination";
-        folders = "#folder_1,#folder_2,#folder_3";
-    }
-    
-    var jstree = $('#jstree_demo_div').jstree({
-        "checkbox" : {
-          "keep_selected_style" : false
-        },
-        "plugins" : [ "checkbox" ]
-    });
-    $(".notification_control").hide();
-    $("select").on("click" , function() {
-  
-        $(this).parent(".select-box").toggleClass("open");
-=======
    var stored_lesson_data = '';
    var result_pool = [];
    var content_pool = [];
@@ -70,7 +34,6 @@ $(document).ready(function(){
    $("select").on("click" , function() {
 
       $(this).parent(".select-box").toggleClass("open");
->>>>>>> Stashed changes
       
    });
 
