@@ -62,7 +62,7 @@ body {
 .footer {
   position: fixed;
   bottom: 0;
-  width: 65%;
+  width: 70%;
   z-index: 4;
   background-color: rgb(118, 113, 113);
 }
@@ -345,7 +345,7 @@ body {
 
 .slider {
   position: fixed;
-  width: 65%;
+  width: 70%;
   height: 100%;
   top: 75px;
   overflow: scroll;
