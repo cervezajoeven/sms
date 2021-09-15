@@ -90,7 +90,7 @@ class Assessment extends General_Controller
             $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id(), "past");
          }
       } else {
-         $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
+         $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id(), "past");
          $this->load->view('layout/student/header');
       }
 
@@ -371,6 +371,10 @@ class Assessment extends General_Controller
       if ($id) {
          $data['id'] = $id;
          $data['assessment'] = $this->assessment_model->lms_get("lms_assessment", $id, "id")[0];
+
+         // print_r($data);
+         // die();
+
          $data['resources'] = site_url('backend/lms/');
          $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
          $data['classes'] = $this->class_model->getAll();
@@ -456,12 +460,12 @@ class Assessment extends General_Controller
 
       $data['assessment'] = $this->assessment_model->lms_get("lms_assessment", $id, "id")[0];
 
-      if (!$data['assessment']['allow_result_viewing'] || $data['assessment']['allow_result_viewing'] == 0) {
-         if ($account_id) {
-         } else {
-            redirect(site_url('lms/assessment/index'));
-         }
-      }
+      // if (!$data['assessment']['allow_result_viewing'] || $data['assessment']['allow_result_viewing'] == 0) {
+      //    if ($account_id) {
+      //    } else {
+      //       redirect(site_url('lms/assessment/index'));
+      //    }
+      // }
 
       // print_r($data);die();
 
@@ -563,8 +567,6 @@ class Assessment extends General_Controller
          $file_name = $this->assessment_model->id_generator("assessment") . ".pdf";
          $dest = FCPATH . "uploads/lms_assessment/" . $id . "/" . $file_name;
 
-         // print_r($dest);
-         //mkdir(FCPATH."uploads/EMN");
          $folderCreated = false;
 
          if (!is_dir(FCPATH . "uploads/lms_assessment/" . $id)) {
@@ -580,6 +582,8 @@ class Assessment extends General_Controller
             }
          } else
             $folderCreated = true;
+
+         $folderCreated = true;
 
          if ($folderCreated == true) {
             if (move_uploaded_file($tmp_name, $dest)) {
@@ -704,9 +708,13 @@ class Assessment extends General_Controller
       //convert to array
       $score = 0;
       $total_score = 0;
+
       foreach ($answer as $answer_key => $answer_value) {
          $total_score += 1;
          $assessment_value = $assessment_answer[$answer_key];
+
+         $answer_value['answer'] = preg_replace('/\n/', '~nextline~', $answer_value['answer']);
+
          if ($answer_value['type'] == "multiple_choice" || $answer_value['type'] == "multiple_answer") {
 
             if ($answer_value['answer'] == $assessment_value['correct']) {
@@ -758,9 +766,13 @@ class Assessment extends General_Controller
       //convert to array
       $score = 0;
       $total_score = 0;
+
       foreach ($answer as $answer_key => $answer_value) {
          $total_score += 1;
          $assessment_value = $assessment_answer[$answer_key];
+
+         $answer_value['answer'] = preg_replace('/\n/', '~nextline~', $answer_value['answer']);
+
          if ($answer_value['type'] == "multiple_choice" || $answer_value['type'] == "multiple_answer") {
 
             if ($answer_value['answer'] == $assessment_value['correct']) {

@@ -85,8 +85,15 @@ class Assessment_model extends MY_Model
       $this->db->from('lms_assessment');
       $this->db->join('staff', "staff.id = lms_assessment.account_id");
       $this->db->where("FIND_IN_SET('" . $account_id . "', lms_assessment.assigned) !=", 0);
-      $this->db->where('start_date <=', date('Y-m-d H:i:s'));
-      $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+
+      if ($timeperiod == "past") {
+         $this->db->where('allow_result_viewing = 1');
+         $this->db->where('now() > lms_assessment.end_date');
+      } else {
+         $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+         $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+      }
+
       $this->db->where("deleted", 0);
 
       $query = $this->db->get();

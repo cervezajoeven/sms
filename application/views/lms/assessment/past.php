@@ -78,16 +78,9 @@
                                        </a>
 
                                     <?php elseif ($role == "student") : ?>
-                                       <?php if ($list_data['student_attempt'] >= 1) : ?>
-                                          <a data-placement="right" href="<?php echo site_url('lms/assessment/review/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="View Answer">
-                                             <i class="fa fa-eye"></i>
-                                          </a>
-                                       <?php endif; ?>
-                                       <?php if ($list_data['student_attempt'] < $list_data['attempts']) : ?>
-                                          <span data-placement="right" href="" class="btn btn-default btn-xs" data-toggle="tooltip" title="Answer" onclick="take_quiz('<?php echo site_url('lms_v2/index.php/lms/assessment/initialize/' . $user_id . '/student/' . $list_data['id']); ?>')">
-                                             <i class="fa fa-edit"></i>
-                                          </span>
-                                       <?php endif; ?>
+                                       <a data-placement="right" href="<?php echo site_url('lms/assessment/review/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="View Answer">
+                                          <i class="fa fa-eye"></i>
+                                       </a>
                                     <?php endif; ?>
 
                                  </td>
