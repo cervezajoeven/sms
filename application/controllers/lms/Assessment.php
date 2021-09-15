@@ -460,12 +460,12 @@ class Assessment extends General_Controller
 
       $data['assessment'] = $this->assessment_model->lms_get("lms_assessment", $id, "id")[0];
 
-      // if (!$data['assessment']['allow_result_viewing'] || $data['assessment']['allow_result_viewing'] == 0) {
-      //    if ($account_id) {
-      //    } else {
-      //       redirect(site_url('lms/assessment/index'));
-      //    }
-      // }
+      if (!$data['assessment']['allow_result_viewing'] || $data['assessment']['allow_result_viewing'] == 0) {
+         if ($account_id) {
+         } else {
+            redirect(site_url('lms/assessment/index'));
+         }
+      }
 
       // print_r($data);die();
 
