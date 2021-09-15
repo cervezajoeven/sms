@@ -87,6 +87,7 @@ class Assessment_model extends MY_Model
       $this->db->where("FIND_IN_SET('" . $account_id . "', lms_assessment.assigned) !=", 0);
 
       if ($timeperiod == "past") {
+         $this->db->where('allow_result_viewing = 1');
          $this->db->where('now() > lms_assessment.end_date');
       } else {
          $this->db->where('start_date <=', date('Y-m-d H:i:s'));
