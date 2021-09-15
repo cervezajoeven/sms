@@ -90,7 +90,7 @@ class Assessment extends General_Controller
             $data['list'] = $this->assessment_model->all_assessment($this->general_model->get_account_id(), "past");
          }
       } else {
-         $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id());
+         $data['list'] = $this->assessment_model->assigned_assessment($this->general_model->get_account_id(), "past");
          $this->load->view('layout/student/header');
       }
 
