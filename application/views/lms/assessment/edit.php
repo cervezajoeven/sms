@@ -246,7 +246,7 @@
 
    <input type="hidden" id="url" value="<?php echo site_url('lms/assessment/update'); ?>" name="" />
    <input type="hidden" id="base_url" value="<?php echo site_url('lms/assessment/'); ?>" name="" />
-   <input type="hidden" id="stored_json" value='<?php echo $assessment['sheet']; ?>' name="" />
+   <input type="hidden" id="stored_json" value='<?php echo htmlentities($assessment['sheet']); ?>' name="" />
    <input type="hidden" id="assessment_id" value="<?php echo $assessment['id'] ?>" name="" />
    <input type="hidden" id="assigned" value="<?php echo $assessment['assigned'] ?>" name="" />
 
