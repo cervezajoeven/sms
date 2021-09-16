@@ -361,7 +361,6 @@ function save_no_notif(){
 	}
 }
 
-
 $(document).ready(function(){
 
 	$.ajax({
@@ -399,7 +398,7 @@ $(document).ready(function(){
 					if(value.type=="short_answer"){
 
 						
-						$(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")));
+						$(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")).replace(/\n/g, '<br/>').replace(/ /g, '&nbsp;'));
 						// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
 						
 						// console.log(value);

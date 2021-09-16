@@ -99,8 +99,10 @@ class Assessment_model extends MY_Model
             $this->db->where('YEAR(end_date) = YEAR(now()) - 1 AND MONTH(end_date) > 6');
          }
       } else {
-         $this->db->where('start_date <=', date('Y-m-d H:i:s'));
-         $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+         // $this->db->where('start_date <=', date('Y-m-d H:i:s'));
+         // $this->db->where('end_date >=', date('Y-m-d H:i:s'));
+         $this->db->where('start_date <= now()');
+         $this->db->where('end_date >= now()');
       }
 
       $this->db->where("deleted", 0);
