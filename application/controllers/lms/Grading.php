@@ -531,7 +531,7 @@ class Grading extends General_Controller {
                 'district' =>       urlencode("District 1"),
                 'school_name' =>    urlencode("School Name"),
                 'school_id' =>      urlencode("1"),
-                'school_year' =>    urlencode("15"),
+                'school_year' =>    urlencode($this->setting_model->getCurrentSession()),
                 'quarter' =>        urlencode($_REQUEST['quarter']),
                 'section_id' =>     urlencode($_REQUEST['section']),
                 'teacher_id' =>     urlencode($data['account_id']),
@@ -1935,5 +1935,3 @@ class Grading extends General_Controller {
     }
 
 }
- 
-?>
