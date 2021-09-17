@@ -55,7 +55,9 @@
                   <td>Name :</td>
                   <td><?php echo $student_data['firstname'] ?> <?php echo $student_data['lastname'] ?></td>
                   <td>Date</td>
-                  <td><?php echo date("F d, Y"); ?></td>
+                  <!-- <td><?php //echo date("F d, Y"); 
+                           ?></td> -->
+                  <td><?php echo $assessment['start_date'] . " to " . $assessment['end_date']; ?></td>
                </tr>
                <tr>
                   <td>Title :</td>
