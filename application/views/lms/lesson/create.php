@@ -890,7 +890,7 @@
          }
 
          .student_view_title {
-            width: 30%;
+            width: 40%;
          }
 
          .green {
@@ -935,7 +935,7 @@
          }
 
          .student_view_title {
-            width: 30%;
+            width: 40%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
