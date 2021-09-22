@@ -29,7 +29,9 @@ body {
   padding: 0;
   width: 100%;
   min-height: 500px;
-  margin-bottom: 33px;
+  /* margin-bottom: 33px; */
+  padding-bottom: 50px;
+  background-color: lightgray;
 }
 #result_container li {
   width: 100%;
@@ -41,6 +43,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  padding-bottom: 50px;
 }
 
 #result_container .content_footer {
@@ -59,7 +62,7 @@ body {
 .footer {
   position: fixed;
   bottom: 0;
-  width: 65%;
+  width: 70%;
   z-index: 4;
   background-color: rgb(118, 113, 113);
 }
@@ -79,7 +82,7 @@ body {
   text-align: center;
   background-color: transparent;
   color: white;
-  width: 100%;
+  width: 98%;
 }
 .title_container span {
   margin: 0px;
@@ -115,13 +118,14 @@ body {
 .ben_left {
   position: relative;
   float: left;
-  width: 65%;
+  width: 70%;
   height: 100%;
   overflow: auto;
+  background-color: lightgray;
 }
 .ben_right {
   float: left;
-  width: 30%;
+  width: 25%;
   height: 100%;
   background-color: rgb(84, 130, 53);
   overflow-x: hidden;
@@ -202,41 +206,49 @@ body {
   min-height: 175px;
   max-height: 175px;
   height: 175px;
+  background-color: lightgray;
 }
 .content_body img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
+
 .content_header {
   padding: 10px;
-  font-size: 13px;
+  font-size: 14px;
   min-height: 25px;
   max-height: 25px;
   height: 25px;
+  line-height: 25px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
 }
 
 .content_header img {
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   background-color: transparent;
   position: absolute;
-  top: -6px;
-  right: -11px;
+  top: 7px;
+  right: 5px;
 }
 
 .content_footer {
-  padding: 10px;
-  font-size: 13px;
-  min-height: 25px;
-  max-height: 25px;
-  height: 25px;
+  padding: 5px;
+  font-size: 12px;
+  min-height: 40px;
+  max-height: 40px;
+  height: 40px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .content_footer span {
@@ -248,10 +260,12 @@ body {
   -webkit-box-orient: vertical;
 }
 .content_footer textarea {
+  font-size: 12px;
   width: 100%;
   background-color: transparent;
   border: 0;
   color: white;
+  outline: none !important;
 }
 
 .search_container {
@@ -331,7 +345,7 @@ body {
 
 .slider {
   position: fixed;
-  width: 65%;
+  width: 70%;
   height: 100%;
   top: 75px;
   overflow: scroll;
@@ -409,6 +423,7 @@ body {
   width: 100%;
   height: 100% !important;
   cursor: pointer;
+  object-fit: contain;
 }
 .student_view_content iframe {
   top: 0;
@@ -428,7 +443,7 @@ body {
   float: left;
 }
 .student_view_title {
-  width: 70%;
+  /* width: 70%; */
   background-color: rgb(76, 75, 75);
 }
 .close_action {
@@ -486,7 +501,8 @@ body {
   background-color: rgb(46, 117, 182);
   border-radius: 5px;
 }
-.content_result img {
+
+.content_result_body img {
   height: 176px;
 }
 
@@ -506,8 +522,11 @@ body {
   background-color: #00c3a8;
   position: absolute;
   width: 100%;
-  bottom: 45px;
-  color: white;
+  bottom: 49px;
+  color: #f1f1f1;
+  opacity: 0.8;
+  height: 30px;
+  line-height: 30px;
 }
 .theme {
   background-color: red;
@@ -560,8 +579,8 @@ h3 {
 .result_actions {
   position: fixed;
   bottom: 0;
-  left: 65%;
-  width: 30%;
+  left: 70%;
+  width: 25%;
   z-index: 10;
   background-color: rgb(118, 113, 113);
 }
@@ -710,4 +729,10 @@ canvas {
 
 .jamboard iframe {
   height: 100%;
+}
+
+.image_content img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
