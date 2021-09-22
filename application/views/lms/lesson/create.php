@@ -891,7 +891,7 @@
          }
 
          .student_view_title {
-            width: 30%;
+            width: 40%;
          }
 
          .green {
@@ -936,7 +936,7 @@
          }
 
          .student_view_title {
-            width: 30%;
+            width: 40%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -955,14 +955,15 @@
             <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
 
             <?php if ($role == "admin") : ?>
-               <!-- <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div> -->
-               <div class="student_view_buttons navigation_tools orange jamboard_button"><i class="fas fa-wrench"></i> Jamboard</div>
+               <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div>
+               <!-- <div class="student_view_buttons navigation_tools orange jamboard_button"><i class="fas fa-wrench"></i> Jamboard</div> -->
                <div class="student_view_buttons navigation_tools skyblue formula_board_button"><i class="fas fa-square-root-alt"></i> Formula Board</div>
                <div class="student_view_buttons navigation_tools white annotate_button"><i class="fas fa-pen"></i> Annotate</div>
             <?php endif; ?>
 
             <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
             <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
+            <!-- <div class="student_view_buttons white"></div> -->
          </div>
 
          <div class="student_view_slides" id="student_view_slides">
@@ -986,7 +987,7 @@
             }
          </style>
 
-         <!-- <div id="teacher_tools" class="teacher_tools">
+         <div id="teacher_tools" class="teacher_tools">
             <div class="student_view_buttons close_action teacher_tools_button" style="
                             width: 12%;
                             background-color: green;
@@ -1006,16 +1007,16 @@
                               font-weight: bolder;
                               margin-top: 0px;">CMS Teacher Tools</h2>
             <iframe id="classroomscreen" src="https://app.classroomscreen.com/" style="width: 100%;height: 90%;position: relative;"></iframe>
-         </div> -->
+         </div>
 
          <div id="formula_board" class="formula_board">
             <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe>
             <!-- <iframe id="" src="https://equatio.texthelp.com" style="width: 100%;height: 100%;position: relative;"></iframe> -->
          </div>
 
-         <div id="jamboard" class="jamboard">
+         <!-- <div id="jamboard" class="jamboard">
             <iframe id="" src="https://jamboard.google.com/" style="width: 100%;height: 100%;position: relative;"></iframe>
-         </div>
+         </div> -->
 
          <!-- <div id="" class="discussion_board">
             <h2>Discussion: </h2>
