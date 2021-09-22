@@ -64,7 +64,13 @@
                         <div class="form-group">
                            <label for="exampleInputEmail1">Template</label><small class="req"> *</small>
                            <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control filter">
-                              <option value="original">Original</option>
+
+                              <?php if (strtolower($schoolcode) == "scholaangelicus") : ?>
+                                 <option value="saioriginal">Original</option>
+                              <?php else : ?>
+                                 <option value="original">Original</option>
+                              <?php endif; ?>
+
                               <option value="mapeh">MAPEH</option>
                               <option value="penmanship">Penmanship</option>
                               <option value="epp_comp">EPP/COMP</option>
