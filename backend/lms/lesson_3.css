@@ -443,7 +443,7 @@ body {
   float: left;
 }
 .student_view_title {
-  width: 70%;
+  /* width: 70%; */
   background-color: rgb(76, 75, 75);
 }
 .close_action {
@@ -579,8 +579,8 @@ h3 {
 .result_actions {
   position: fixed;
   bottom: 0;
-  left: 65%;
-  width: 30%;
+  left: 70%;
+  width: 25%;
   z-index: 10;
   background-color: rgb(118, 113, 113);
 }
