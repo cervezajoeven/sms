@@ -83,7 +83,7 @@
 
       .center {
          text-align: center;
-         padding-top: 17px !important;
+         /* padding-top: 17px !important; */
       }
    </style>
 
