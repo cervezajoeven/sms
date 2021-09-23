@@ -282,9 +282,9 @@
                   <td>
                      <div class="row">
                         <div class="col-md-12 text-center">
-                           <!-- <div class="btn-group">
+                           <div class="btn-group">
                               <a href="" id="view_lesson" target="_blank"><button type="button" class="btn btn-success">View Lesson</button></a>
-                           </div> -->
+                           </div>
                            <div class="btn-group">
                               <a href="#" id="enter_video" onclick=""><button type="button" class="btn btn-primary">Enter Video Conference</button></a>
                            </div>
