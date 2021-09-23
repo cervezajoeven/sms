@@ -441,10 +441,11 @@
             $("#enter_video").hide();
             $(".note").text("The teacher have not started the zoom class yet.");
          }
-         if (parsed_data.lms != "") {
 
+         if (parsed_data.lms != "") {
             $("#view_lesson").show();
             $("#view_lesson").attr("href", parsed_data.lms);
+
             if (parsed_data.video == "") {
                if (parsed_data.lesson_type == "others") {
                   $(".note").text("You are only allowed to view lesson. Since its not a zoom or google meet class.");

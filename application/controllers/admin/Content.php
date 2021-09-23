@@ -105,6 +105,7 @@ class Content extends Admin_Controller
             $data_img = array('id' => $insert_id, 'file' => 'uploads/school_content/material/' . $img_name);
             $this->content_model->add($data_img);
          }
+
          $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');
          redirect('admin/content');
       }
