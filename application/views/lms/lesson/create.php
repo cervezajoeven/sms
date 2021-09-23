@@ -967,7 +967,7 @@
          <div class="student_view_slides" id="student_view_slides">
             <div class="slide slide_clone" style="display: none;">
                <div class="dimmer"></div>
-               <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Panthera_tigris_tigris_Tidoba_20150306.jpg">
+               <img src="" style="object-fit: contain">
             </div>
          </div>
 
