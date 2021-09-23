@@ -127,43 +127,24 @@
                                        <!-- <a data-placement="right" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title="Lesson Student Logs (See students who accessed the lessons)">
                                           <i class="fa fa-users"></i>
                                        </a> -->
-                                       <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" onclick="email_logs('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" title="Email Logs(See if the notification was sent to parents)">
+                                       <!-- <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" onclick="email_logs('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" title="Email Logs(See if the notification was sent to parents)">
                                           <i class="fa fa-envelope"></i>
-                                       </a>
+                                       </a> -->
                                        <?php if ($list_data['published'] == 1) { ?>
-                                          <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/unpublish_lesson/' . $list_data['id']); 
-                                                                              ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish">
-                                             <i class="fa fa-newspaper-o"></i>
-                                          </a> -->
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish" onclick="unpublish_lesson('<?php echo $list_data['id'] ?>');">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a>
                                        <?php } else { ?>
-                                          <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/publish_lesson/' . $list_data['id']); 
-                                                                              ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish">
-                                             <i class="fa fa-newspaper-o"></i>
-                                          </a> -->
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish" onclick="publish_lesson('<?php echo $list_data['id'] ?>');">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a>
                                        <?php } ?>
-
-                                       <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/import/' . $list_data['id']); 
-                                                                           ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="return confirm('Are you sure you want to duplicate this lesson?');">
-                                          <i class="fa fa-files-o"></i>
-                                       </a> -->
                                        <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="duplicate_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-files-o"></i>
                                        </a>
                                        <a data-placement="left" href="<?php echo site_url('lms/lesson/create/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                           <i class="fa fa-edit"></i>
                                        </a>
-                                       <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/delete/' . $list_data['id']); 
-                                                                           ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php //echo $this->lang->line('delete'); 
-                                                                                                                                             ?>" onclick="return confirm('<?php //echo $this->lang->line('delete_confirm') 
-                                                                                                                                                                           ?>');">
-                                          <i class="fa fa-remove"></i>
-                                       </a> -->
                                        <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="delete_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-remove"></i>
                                        </a>
