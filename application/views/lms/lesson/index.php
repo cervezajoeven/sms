@@ -124,46 +124,32 @@
                                              <?php endif; ?>
                                           <?php endif; ?>
                                        <?php endif; ?>
+
                                        <a data-placement="right" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title="Lesson Student Logs (See students who accessed the lessons)">
                                           <i class="fa fa-users"></i>
                                        </a>
+
                                        <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" onclick="email_logs('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" title="Email Logs(See if the notification was sent to parents)">
                                           <i class="fa fa-envelope"></i>
                                        </a>
+
                                        <?php if ($list_data['published'] == 1) { ?>
-                                          <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/unpublish_lesson/' . $list_data['id']); 
-                                                                              ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish">
-                                             <i class="fa fa-newspaper-o"></i>
-                                          </a> -->
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish" onclick="unpublish_lesson('<?php echo $list_data['id'] ?>');">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a>
                                        <?php } else { ?>
-                                          <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/publish_lesson/' . $list_data['id']); 
-                                                                              ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish">
-                                             <i class="fa fa-newspaper-o"></i>
-                                          </a> -->
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Publish" onclick="publish_lesson('<?php echo $list_data['id'] ?>');">
                                              <i class="fa fa-newspaper-o"></i>
                                           </a>
                                        <?php } ?>
 
-                                       <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/import/' . $list_data['id']); 
-                                                                           ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="return confirm('Are you sure you want to duplicate this lesson?');">
-                                          <i class="fa fa-files-o"></i>
-                                       </a> -->
                                        <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="duplicate_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-files-o"></i>
                                        </a>
                                        <a data-placement="left" href="<?php echo site_url('lms/lesson/create/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                           <i class="fa fa-edit"></i>
                                        </a>
-                                       <!-- <a data-placement="left" href="<?php //echo site_url('lms/lesson/delete/' . $list_data['id']); 
-                                                                           ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php //echo $this->lang->line('delete'); 
-                                                                                                                                             ?>" onclick="return confirm('<?php //echo $this->lang->line('delete_confirm') 
-                                                                                                                                                                           ?>');">
-                                          <i class="fa fa-remove"></i>
-                                       </a> -->
+
                                        <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="delete_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-remove"></i>
                                        </a>
@@ -174,7 +160,6 @@
                                              <?php if ($lesson_sched == "past") : ?>
                                                 View Lesson
                                              <?php else : ?>
-
                                                 Enter Class
                                              <?php endif; ?>
                                           </a>
@@ -281,21 +266,13 @@
                <tr>
                   <td>
                      <div class="row">
-                        <div class="col-md-12 text-right">
+                        <!-- <div class="col-md-6 text-right">
                            <div class="btn-group">
                               <a href="" id="view_lesson" target="_blank"><button type="button" class="btn btn-success">View Lesson</button></a>
-                              <!-- <a href="" id="enter_video" target="_blank" onclick=""><button class="btn btn-primary">Enter Video Conference</button></a> -->
-                              <!-- <a href="#" id="enter_video" onclick=""><button type="button" class="btn btn-primary">Enter Video Conference</button></a> -->
                            </div>
-                        </div>
-                     </div>
-                  </td>
-                  <td>
-                     <div class="row">
-                        <div class="col-md-12 text-left">
+                        </div> -->
+                        <div class="col-md-12 text-center">
                            <div class="btn-group">
-                              <!-- <a href="" id="view_lesson" target="_blank"><button type="button" class="btn btn-success">View Lesson</button></a> -->
-                              <!-- <a href="" id="enter_video" target="_blank" onclick=""><button class="btn btn-primary">Enter Video Conference</button></a> -->
                               <a href="#" id="enter_video" onclick=""><button type="button" class="btn btn-primary">Enter Video Conference</button></a>
                            </div>
                         </div>
