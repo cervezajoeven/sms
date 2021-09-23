@@ -146,6 +146,7 @@
                                        <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicate" onclick="duplicate_lesson('<?php echo $list_data['id'] ?>')">
                                           <i class="fa fa-files-o"></i>
                                        </a>
+
                                        <a data-placement="left" href="<?php echo site_url('lms/lesson/create/' . $list_data['id']); ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                           <i class="fa fa-edit"></i>
                                        </a>
