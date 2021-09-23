@@ -125,13 +125,13 @@
                                           <?php endif; ?>
                                        <?php endif; ?>
 
-                                       <a data-placement="right" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title="Lesson Student Logs (See students who accessed the lessons)">
+                                       <!-- <a data-placement="right" href="#" onclick="attendance('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" class="btn btn-default btn-xs" data-toggle="tooltip" title="Lesson Student Logs (See students who accessed the lessons)">
                                           <i class="fa fa-users"></i>
                                        </a>
 
                                        <a data-placement="right" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" onclick="email_logs('<?php echo $list_data['id'] ?>','<?php echo addslashes($list_data['lesson_name']) ?>')" title="Email Logs(See if the notification was sent to parents)">
                                           <i class="fa fa-envelope"></i>
-                                       </a>
+                                       </a> -->
 
                                        <?php if ($list_data['published'] == 1) { ?>
                                           <a data-placement="left" href="#" class="btn btn-default btn-xs" data-toggle="tooltip" title="Unpublish" onclick="unpublish_lesson('<?php echo $list_data['id'] ?>');">
