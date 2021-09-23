@@ -134,9 +134,8 @@ class Content extends Admin_Controller
          $this->form_validation->set_rules('section_id', 'Section', 'trim|required|xss_clean');
       }
 
-
-
       $this->form_validation->set_rules('file', 'Image', 'callback_handle_upload');
+
       if ($this->form_validation->run() == FALSE) {
          $this->load->view('layout/header');
          $this->load->view('admin/content/createcontent', $data);
@@ -148,6 +147,7 @@ class Content extends Admin_Controller
          $visibility = "No";
          $classes = "";
          $section_id = "";
+
          if (in_array('student', $content_available) && isset($vs)) {
             $visibility = $this->input->post('visibility');
          } elseif (in_array('student', $content_available) && !isset($vs)) {
@@ -156,12 +156,11 @@ class Content extends Admin_Controller
          } else {
          }
 
-
          $content_for = array();
+
          foreach ($content_available as $cont_avail_key => $cont_avail_value) {
             $content_for[] = array('role' => $cont_avail_value);
          }
-
 
          $data = array(
             'title' => $this->input->post('content_title'),
@@ -175,16 +174,29 @@ class Content extends Admin_Controller
          );
 
          $insert_id = $this->content_model->add($data, $content_for);
+
          if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
             // $fileInfo = pathinfo($_FILES["file"]["name"]);
             // $img_name = $insert_id . '.' . $fileInfo['extension'];
             $time     = md5($_FILES["file"]['name'] . microtime());
             $fileInfo = pathinfo($_FILES["file"]["name"]);
             $img_name = $time . '.' . $fileInfo['extension'];
-            move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/school_content/material/" . $img_name);
-            $data_img = array('id' => $insert_id, 'file' => 'uploads/school_content/material/' . $img_name);
-            $this->content_model->add($data_img);
+
+            // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/school_content/material/" . $img_name);
+
+            $this->load->library('s3');
+            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/material/" . $data['account_id'] . "/" . $img_name;
+
+            if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
+               $data['filename'] = $img_name;
+               $data['link'] =  $data['account_id'] . "/" . $img_name;
+
+               $data_img = array('id' => $insert_id, 'file' => 'uploads/school_content/material/' . $img_name);
+               $this->content_model->add($data_img);
+            }
          }
+
          $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">Content added successfully</div>');
          redirect('admin/content');
       }
