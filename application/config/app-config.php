@@ -17,13 +17,13 @@ $config['exam_type'] = array(
 $config['image_validate'] = array(
    'allowed_mime_type' => array('image/jpeg', 'image/jpg', 'image/png'), //mime_type
    'allowed_extension' => array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'JPG', 'JPEG', 'PNG', 'GIF', 'BMP', 'SVG', 'Jpg', 'Jpeg', 'Png', 'Gif', 'Bmp', 'Svg'), // image extensions
-   'upload_size'       => 31457280 //1048576, // bytes
+   'upload_size'       => 26214400 //1048576, // bytes
 );
 
 $config['csv_validate'] = array(
    'allowed_mime_type' => array('application/vnd.ms-excel', 'text/plain', 'text/csv', 'text/tsv'), //mime_type
    'allowed_extension' => array('csv'), // image extensions
-   'upload_size'       => 31457280, //1048576, // bytes
+   'upload_size'       => 26214400, //1048576, // bytes
 );
 
 $config['file_validate'] = array(
@@ -55,7 +55,8 @@ $config['file_validate'] = array(
       'WMV', 'Wmv', 'wmv',
       'AVI', 'Avi', 'avi'
    ),
-   'upload_size' => 31457280, //1048576, // bytes
+   'upload_size' => 26214400, // 25MB
+   // 'upload_size' => 31457280, //1048576, // bytes 35MB
 );
 
 // $config['S3_Bucket_Url'] = "https://s3.us-east-2.amazonaws.com/media.campuscloudph.com/";
