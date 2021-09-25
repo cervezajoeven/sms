@@ -25,9 +25,12 @@ foreach ($docs as $value) {
 
                   <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>&embedded=true" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
                <?php } else { ?>
-                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+                  <!-- <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a> -->
+                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
                <?php } ?>
-               <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+
+               <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+               <!-- <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a> -->
             <?php } ?>
 
             <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>

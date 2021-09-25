@@ -351,7 +351,9 @@
          processData: false,
          success: function(res) {
             if (res.file_name != null)
-               $('#uploaded_docs').html('<div class=""><div class="col-sm-12"><div class="form-group"><label for="pwd"><?php echo $this->lang->line('uploaded') . " " . $this->lang->line('documents'); ?></label><p>' + res.file_name + ' <a href="<?php echo base_url(); ?>/user/homework/assigmnetDownload/' + id + '/' + res.docs + '" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments') . " " . $this->lang->line('download'); ?>"><i class="fa fa-download"></i></a></p></div></div></div>');
+               $('#uploaded_docs').html('<div class=""><div class="col-sm-12"><div class="form-group"><label for="pwd"><?php echo $this->lang->line('uploaded') . " " . $this->lang->line('documents'); ?></label><p>' + res.file_name + ' <a href="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/' + res.docs + '" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments') . " " . $this->lang->line('download'); ?>"><i class="fa fa-download"></i></a></p></div></div></div>');
+            // $('#uploaded_docs').html('<div class=""><div class="col-sm-12"><div class="form-group"><label for="pwd"><?php echo $this->lang->line('uploaded') . " " . $this->lang->line('documents'); ?></label><p>' + res.file_name + ' <a href="<?php echo base_url(); ?>/user/homework/assigmnetDownload/' + id + '/' + res.docs + '" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('assignments') . " " . $this->lang->line('download'); ?>"><i class="fa fa-download"></i></a></p></div></div></div>');
+
             $('#assigment_id').val(res.id);
             $('#assigment_message').val(res.message);
             $('#url_link').val(res.url_link);
