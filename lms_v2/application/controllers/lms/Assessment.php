@@ -24,6 +24,7 @@ class Assessment extends JOE_Controller
 
       parent::__construct();
       $this->load->model('assessment_model');
+      $this->load->model('setting_model');
    }
 
    public function index()
@@ -53,6 +54,7 @@ class Assessment extends JOE_Controller
       $data['role'] = "student";
       $data['mode'] = $this->mode;
       $data['school_code'] = $this->school_code;
+      $school = $this->setting_model->get();
 
       if ($tester == 'false') {
          if (!array_key_exists('user_id', $this->session->userdata())) {
@@ -76,6 +78,10 @@ class Assessment extends JOE_Controller
       $data['student_data'] = $this->assessment_model->lms_get("students", $data['account_id'], "id", "firstname,lastname")[0];
       $data['student_name'] = $data['student_data']['firstname'] . " " . $data['student_data']['lastname'];
       $data['assessment'] = $this->assessment_model->lms_get("lms_assessment", $id, "id", "id,attempts,duration,assessment_file,assessment_name,enable_timer")[0];
+      $data['s3bucketurl'] = S3_BUCKET_BASE_URL . strtolower($school[0]['dise_code']) . "/";
+
+      // print_r($data);
+      // die();
 
       $response = $this->assessment_model->response($id, $data['account_id'], 1);
 

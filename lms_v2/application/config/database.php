@@ -82,6 +82,7 @@ $campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "
 $local_db = "stepsmandaluyong";
 // $local_db = "campus_lpms";
 // $local_db = "campus_mcam";
+// $local_db = "campus_scholaangelicus";
 
 if ($HTTP_HOST == "localhost") {
 
