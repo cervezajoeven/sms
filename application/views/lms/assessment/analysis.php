@@ -325,6 +325,7 @@
          .then((resp) => resp.json())
          .then(function(data) {
             resp_data = data;
+            console.log(resp_data);
 
             var display = "";
             var chart_ctr = 0;
@@ -401,7 +402,7 @@
                            }
                         }
                      };
-                     var the_id = (chart_ctr - 1) + "_" + (section);
+                     var the_id = (chart_ctr) + "_" + (section);
                      console.log(the_id);
                      var can_id = "canvas" + the_id;
                      var ctx = $('#myChart_' + the_id);
