@@ -666,30 +666,52 @@ class Assessment extends General_Controller
 
    public function copyQuestionaire($oldAssessmentID, $newAssessmentID, $file_name)
    {
-      $folderCreated = false;
+      $this->load->library('s3');
+      $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+      $source_file = $_SESSION['School_Code'] . "/uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
+      $dest_file = $_SESSION['School_Code'] . "/uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
 
-      if (!is_dir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID)) {
-         try {
-            mkdir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID);
-            $folderCreated = true;
-         } catch (ErrorException $ex) {
-            echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
-         }
-      } else
-         $folderCreated = true;
-
-      $source = FCPATH . "uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
-      $dest = FCPATH . "uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
-
-      if ($folderCreated == true) {
-         copy($source, $dest);
-
+      if ($s3->copyObject(S3_BUCKET, $source_file, S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
          $data['id'] = $newAssessmentID;
          $data['assessment_file'] = $file_name;
          $this->assessment_model->lms_update("lms_assessment", $data);
-         // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+
+         // $data['status'] = 'success';
+         // $data['message'] = 'Upload Successful!';
+         // echo json_encode($data);
+      } else {
+         // $data['status'] = 'failed';
+         // $data['message'] = 'Upload failed!';
+         // echo json_encode($data);
       }
    }
+
+   // public function copyQuestionaire($oldAssessmentID, $newAssessmentID, $file_name)
+   // {
+   //    $folderCreated = false;
+
+   //    if (!is_dir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID)) {
+   //       try {
+   //          mkdir(FCPATH . "uploads/lms_assessment/" . $newAssessmentID);
+   //          $folderCreated = true;
+   //       } catch (ErrorException $ex) {
+   //          echo "<script>alert('Upload failed! (" . $ex->getMessage() . ")');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+   //       }
+   //    } else
+   //       $folderCreated = true;
+
+   //    $source = FCPATH . "uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
+   //    $dest = FCPATH . "uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
+
+   //    if ($folderCreated == true) {
+   //       copy($source, $dest);
+
+   //       $data['id'] = $newAssessmentID;
+   //       $data['assessment_file'] = $file_name;
+   //       $this->assessment_model->lms_update("lms_assessment", $data);
+   //       // echo "<script>alert('Successfully uploaded');window.location.replace('" . site_url('lms/assessment/edit/' . $newAssessmentID) . "')</script>";
+   //    }
+   // }
 
    public function delete($id)
    {
