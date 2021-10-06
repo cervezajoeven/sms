@@ -90,7 +90,8 @@ define('INSERT_RECORD_CONSTANT', 'New Record inserted');
 define('UPDATE_RECORD_CONSTANT', 'Record updated');
 define('DELETE_RECORD_CONSTANT', 'Record deleted');
 
-define('S3_BUCKET_BASE_URL', 'https://s3.us-east-2.amazonaws.com/media.campuscloudph.com/');
+// define('S3_BUCKET_BASE_URL', 'https://s3.us-east-2.amazonaws.com/media.campuscloudph.com/');
+define('S3_BUCKET_BASE_URL', 'https://media.campuscloudph.com/');
 define('S3_BUCKET', 'media.campuscloudph.com');
 define('AWS_ACCESS_KEY_ID', 'AKIAXG65GN66XVJDHDDE');
 define('AWS_ACCESS_KEY_SECRET', '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');
