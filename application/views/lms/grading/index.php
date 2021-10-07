@@ -78,9 +78,13 @@
                                                     <i class="fa fa-list"></i>
                                                 </a> -->
 
-                                    <a data-placement="right" href="<?php echo site_url('lms/grading/delete/' . $list_data['id']) ?>" class="btn btn-default btn-xs duplicate" data-toggle="tooltip" title="Delete">
+                                    <a data-placement="right" href="#" class="btn btn-default btn-xs duplicate" data-toggle="tooltip" title="Delete" onclick="delete_confirm('<?php echo site_url('lms/grading/delete/' . $list_data['id']); ?>')">
                                        <i class="fa fa-times"></i>
                                     </a>
+
+                                    <!-- <a data-placement="right" href="<?php echo site_url('lms/grading/delete/' . $list_data['id']) ?>" class="btn btn-default btn-xs duplicate" data-toggle="tooltip" title="Delete">
+                                       <i class="fa fa-times"></i>
+                                    </a> -->
 
                                  </td>
 
@@ -246,6 +250,8 @@
    </div>
 </div>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
    var table = $('#myTable').DataTable();
    var attendance_table = $('#attendance_table').DataTable();
@@ -347,4 +353,36 @@
 
 
    });
+
+   function delete_confirm(url) {
+      Swal.fire({
+         title: 'Delete grading sheet',
+         text: 'Are you sure you want to delete this grading sheet?',
+         showCancelButton: true,
+         confirmButtonText: `Yes`,
+         confirmButtonColor: '#3085d6',
+         icon: 'question',
+      }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+            $.ajax({
+               url: url,
+               method: "POST",
+            }).done(function(data) {
+               var parsed_data = JSON.parse(data);
+               Swal.fire({
+                  icon: parsed_data.result,
+                  confirmButtonColor: '#3085d6',
+                  // title: 'Hurray!',
+                  title: parsed_data.message,
+                  // footer: '<a href="">Why do I have this issue?</a>'
+               }).then(function() {
+                  location.reload();
+               });
+            });
+         } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+         }
+      })
+   }
 </script>
