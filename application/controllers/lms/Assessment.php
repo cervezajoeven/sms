@@ -679,10 +679,13 @@ class Assessment extends General_Controller
          // $data['status'] = 'success';
          // $data['message'] = 'Upload Successful!';
          // echo json_encode($data);
+
+         return true;
       } else {
          // $data['status'] = 'failed';
          // $data['message'] = 'Upload failed!';
          // echo json_encode($data);
+         return false;
       }
    }
 
