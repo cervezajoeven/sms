@@ -151,7 +151,7 @@
                <div class="col-sm-12">
                   <div class="pretty p-switch p-fill" style="margin-top: 30px;">
 
-                     <input type="checkbox" id="enable_timer" <?php echo ($assessment['enable_timer'] == 1) ? "checked = ''" : ""; ?> />
+                     <input type="checkbox" id="enable_timer" <?php echo ($assessment['enable_timer'] == 1) ? "checked = ''" : ""; ?> disabled />
                      <div class="state p-primary">
                         <label>Enable Timer</label>
                      </div>
