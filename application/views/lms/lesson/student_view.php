@@ -767,9 +767,9 @@
       <div class="student_view_container">
 
          <div class="student_view_navigation">
-            <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div>
+            <div class="student_view_buttons button_navigation blue previous" data-toggle="tooltip" data-placement="bottom" Title="Back"><i class="fas fa-chevron-left"></i></div>
             <div class="student_view_buttons student_view_title">Title</div>
-            <div class="student_view_buttons button_navigation blue next">Next <i class="fas fa-chevron-right"></i></div>
+            <div class="student_view_buttons button_navigation blue next" data-toggle="tooltip" data-placement="bottom" Title="Next"><i class="fas fa-chevron-right"></i></div>
 
             <?php if ($role == "admin") : ?>
                <div class="student_view_buttons navigation_tools green teacher_tools_button"><i class="fas fa-tools"></i> Teacher Tools</div>
@@ -778,7 +778,7 @@
                <!-- <div class="student_view_buttons navigation_tools blue teacher_tools_button"><i class="fas fa-wrench"></i> Discussion</div> -->
             <?php endif; ?>
             <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
-            <div class="student_view_buttons button_navigation red close_student_view"><i class="fas fa-times-circle"></i> Close</div>
+            <div class="student_view_buttons button_navigation red close_student_view" data-toggle="tooltip" data-placement="bottom" Title="Close"><i class="fas fa-times-circle"></i> </div>
          </div>
 
          <div class="student_view_slides" id="student_view_slides">
@@ -953,6 +953,12 @@
    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
    <script src="<?php echo $resources . 'drawing-table.js' ?>" type="text/javascript"></script>
    <script src="<?php echo $resources . 'lesson_student_view.js' ?>"></script>
+
+   <script type="text/javascript">
+      $(function() {
+         $('[data-toggle="tooltip"]').tooltip()
+      })
+   </script>
 </body>
 
 </html>

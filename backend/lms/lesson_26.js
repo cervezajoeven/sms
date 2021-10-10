@@ -609,8 +609,7 @@ $(document).ready(function(){
                if (mql.matches)
                   $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
                else
-                  $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
-               
+                  $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
                
                break;
          }
