@@ -604,9 +604,9 @@ $(document).ready(function(){
                $(".student_view_content_iframe").show();
                $(".student_view_content_iframe").css("height",screen.height-180);
 
-               let mql = window.matchMedia('(max-width: 600px)');
+               let mql = window.matchMedia('(max-width: 480px)');
 
-               if (mql)
+               if (mql.matches)
                   $(".student_view_content_iframe").attr("src",'https://docs.google.com/gview?url='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');
                else
                   $(".student_view_content_iframe").attr("src",'https://view.officeapps.live.com/op/view.aspx?src='+decodeURIComponent(active_content_data.content.source)+'&embedded=true');    
