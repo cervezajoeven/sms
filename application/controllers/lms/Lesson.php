@@ -515,8 +515,8 @@ class Lesson extends General_Controller
          $data['lms_google_meet'] = $data['lesson']['google_meet'];
       }
 
-      print_r($data);
-      die();
+      // print_r($data);
+      // die();
 
       if ($data['google_meet'] == "") {
          $data['virtual_status'] = "available";
@@ -542,11 +542,11 @@ class Lesson extends General_Controller
 
       $data['resources'] = site_url('backend/lms/');
 
-      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
-         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
-         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
-         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
-      }
+      // if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+      //    mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+      //    mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+      //    mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      // }
 
       if ($data['role'] != "student") {
          $this->load->view('lms/lesson/create', $data);
@@ -601,11 +601,13 @@ class Lesson extends General_Controller
       $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
 
       $data['resources'] = site_url('backend/lms/');
-      if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
-         mkdir(FCPATH . "uploads/lms_lesson/" . $id);
-         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
-         mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
-      }
+
+      // if (!is_dir(FCPATH . "uploads/lms_lesson/" . $id)) {
+      //    mkdir(FCPATH . "uploads/lms_lesson/" . $id);
+      //    mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/thumbnails/");
+      //    mkdir(FCPATH . "uploads/lms_lesson/" . $id . "/contents/");
+      // }
+
       if ($data['role'] != "student") {
          $this->load->view('lms/lesson/create', $data);
       } else {
