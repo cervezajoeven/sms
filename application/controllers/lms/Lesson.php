@@ -515,7 +515,7 @@ class Lesson extends General_Controller
          // print_r($data);
          // die();
 
-         print_r($data['lesson']['zoom_id']);
+         print_r($data['lesson']);
          die();
 
          $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
