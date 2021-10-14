@@ -515,11 +515,15 @@ class Lesson extends General_Controller
          // print_r($data);
          // die();
 
-         print_r($data['lesson']);
-         die();
+         try {
+            if ($data['lesson']['zoom_id'] != null) {
+               $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
+               $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
+            }
+         } catch (exception $e) {
+            //code to handle the exception
+         }
 
-         $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
-         $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
          $data['lms_google_meet'] = $data['lesson']['google_meet'];
       }
 
