@@ -515,8 +515,8 @@ class Lesson extends General_Controller
          $data['lms_google_meet'] = $data['lesson']['google_meet'];
       }
 
-      // print_r($data);
-      // die();
+      print_r($data);
+      die();
 
       if ($data['google_meet'] == "") {
          $data['virtual_status'] = "available";
