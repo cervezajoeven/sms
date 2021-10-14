@@ -161,8 +161,9 @@
          margin-left: -60px;
          font-size: 15px;
          font-weight: normal;
-         border-color: black;
-         border: 1px solid darkgray;
+         /* border-color: black; */
+         /* border: 1px solid darkgray; */
+         box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.91);
       }
 
       .tooltip .tooltiptext::after {
@@ -170,11 +171,11 @@
          position: absolute;
          bottom: 100%;
          left: 50%;
-         margin-left: -5px;
-         border-width: 5px;
+         margin-left: -7px;
+         border-width: 7px;
          border-style: solid;
          border-color: transparent transparent white transparent;
-         box-shadow: 1px 0px 18px -3px rgba(0, 0, 0, 0.91);
+         /* box-shadow: 1px 0px 18px -3px rgba(0, 0, 0, 0.91); */
       }
 
       .tooltip:hover .tooltiptext {
