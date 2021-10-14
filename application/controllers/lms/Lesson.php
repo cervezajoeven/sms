@@ -511,11 +511,11 @@ class Lesson extends General_Controller
          $data['account_id'] = $this->general_model->get_account_id();
          $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
          $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
-         $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
 
-         print_r($data);
+         print_r($data['lesson']['zoom_id']);
          die();
 
+         $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
          $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
          $data['lms_google_meet'] = $data['lesson']['google_meet'];
       }
