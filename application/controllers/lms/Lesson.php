@@ -497,13 +497,13 @@ class Lesson extends General_Controller
       $data['id'] = $id;
       $data['role'] = $this->general_model->get_role();
 
-      print_r($data);
-      die();
-
       // echo '<pre>';
       // print_r($data['students']);
       // exit();
       // $current_session = $this->setting_model->getCurrentSession();
+
+      print_r($data);
+      die();
 
       if ($data['role'] != "student") {
          $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
