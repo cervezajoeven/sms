@@ -516,16 +516,16 @@ class Lesson extends General_Controller
 
          $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
 
-         print_r($data);
-         die();
+         // print_r($data);
+         // die();
 
          $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
          $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
          $data['lms_google_meet'] = $data['lesson']['google_meet'];
       }
 
-      // print_r($data);
-      // die();
+      print_r($data);
+      die();
 
       if ($data['google_meet'] == "") {
          $data['virtual_status'] = "available";
