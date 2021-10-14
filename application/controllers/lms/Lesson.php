@@ -504,28 +504,25 @@ class Lesson extends General_Controller
 
       if ($data['role'] != "student") {
          $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
-
          // $data['classes'] = $this->class_model->getAll();
          $data['class_sections'] = $this->lesson_model->get_class_sections();
-
          $data['classes'] = $this->general_model->get_classes();
          $data['subjects'] = $this->general_model->get_subjects();
-
          $data['account_id'] = $this->general_model->get_account_id();
          $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
-
          $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+
+         // $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
 
          // print_r($data);
          // die();
 
-         $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
-         $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
-         $data['lms_google_meet'] = $data['lesson']['google_meet'];
+         // $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
+         // $data['lms_google_meet'] = $data['lesson']['google_meet'];
       }
 
-      print_r($data);
-      die();
+      // print_r($data);
+      // die();
 
       if ($data['google_meet'] == "") {
          $data['virtual_status'] = "available";
