@@ -491,6 +491,9 @@ class Lesson extends General_Controller
 
    function create($id)
    {
+      print_r($data);
+      die();
+
       $data['id'] = $id;
       $data['role'] = $this->general_model->get_role();
       // echo '<pre>';
