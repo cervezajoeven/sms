@@ -547,7 +547,7 @@ class Lesson extends General_Controller
          $lesson_log_data['lesson_id'] = $id;
          $lesson_log_data['account_id'] = $this->general_model->get_account_id();
          $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
-         $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+         // $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
       }
 
       $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
@@ -610,7 +610,7 @@ class Lesson extends General_Controller
          $lesson_log_data['lesson_id'] = $id;
          $lesson_log_data['account_id'] = $this->general_model->get_account_id();
          $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
-         $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
+         // $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
       }
 
       $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
