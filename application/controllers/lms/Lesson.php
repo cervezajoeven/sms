@@ -491,7 +491,7 @@ class Lesson extends General_Controller
 
    function create($id)
    {
-      print_r($data);
+      print_r("EMN Debug Mode!!!");
       die();
 
       $data['id'] = $id;
