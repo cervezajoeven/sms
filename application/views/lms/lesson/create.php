@@ -151,14 +151,14 @@
       .tooltip {
          position: relative;
          display: inline-block;
-         border-bottom: 1px dotted green;
+         border-bottom: 1px dotted white;
       }
 
       .tooltip .tooltiptext {
          visibility: hidden;
          width: 120px;
-         background-color: green;
-         color: #fff;
+         background-color: white;
+         color: black;
          text-align: center;
          border-radius: 6px;
          padding: 7px 7px;
@@ -169,6 +169,7 @@
          margin-left: -60px;
          font-size: 15px;
          font-weight: normal;
+         border-color: black;
       }
 
       .tooltip .tooltiptext::after {
@@ -179,7 +180,7 @@
          margin-left: -5px;
          border-width: 5px;
          border-style: solid;
-         border-color: transparent transparent green transparent;
+         border-color: transparent transparent white transparent;
          box-shadow: 1px 0px 18px -3px rgba(0, 0, 0, 0.91);
       }
 
@@ -951,19 +952,34 @@
       <div class="student_view_container">
          <div class="student_view_navigation">
             <!-- <div class="student_view_buttons button_navigation blue previous"><i class="fas fa-chevron-left"></i> Back</div> -->
-            <div class="student_view_buttons button_navigation blue previous" data-toggle="tooltip" data-placement="bottom" Title="Back"><i class="fas fa-chevron-left"></i></div>
+            <!-- <div class="folder folder_active tooltip" style="width: 33.33%">Introduction
+                  <span class="tooltiptext">Engage and Explore</span>
+               </div> -->
+            <div class="student_view_buttons button_navigation blue previous tooltip"><i class="fas fa-chevron-left"></i>
+               <span class="tooltiptext">Back</span>
+            </div>
             <div class="student_view_buttons student_view_title">Title</div>
-            <div class="student_view_buttons button_navigation blue next" data-toggle="tooltip" data-placement="bottom" Title="Next"><i class="fas fa-chevron-right"></i></div>
+            <div class="student_view_buttons button_navigation blue next tooltip"><i class="fas fa-chevron-right"></i>
+               <span class="tooltiptext">Next</span>
+            </div>
 
             <?php if ($role == "admin") : ?>
-               <div class="student_view_buttons navigation_tools green teacher_tools_button" data-toggle="tooltip" data-placement="bottom" Title="Teacher Tools"><i class="fas fa-tools"></i></div>
+               <div class="student_view_buttons navigation_tools green teacher_tools_button tooltip"><i class="fas fa-tools"></i>
+                  <span class="tooltiptext">Teacher Tools</span>
+               </div>
                <!-- <div class="student_view_buttons navigation_tools orange jamboard_button"><i class="fas fa-wrench"></i> Jamboard</div> -->
-               <div class="student_view_buttons navigation_tools skyblue formula_board_button" data-toggle="tooltip" data-placement="bottom" Title="Formula Board"><i class="fas fa-square-root-alt"></i></div>
-               <div class="student_view_buttons navigation_tools white annotate_button" data-toggle="tooltip" Title="Annotate"><i class="fas fa-pen"></i></div>
+               <div class="student_view_buttons navigation_tools skyblue formula_board_button tooltip"><i class="fas fa-square-root-alt"></i>
+                  <span class="tooltiptext">Formula Board</span>
+               </div>
+               <div class="student_view_buttons navigation_tools white annotate_button tooltip"><i class="fas fa-pen"></i>
+                  <span class="tooltiptext">Annotate</span>
+               </div>
             <?php endif; ?>
 
             <!-- <div class="student_view_buttons navigation_tools orange discussion_board_button"><i class="fas fa-comments"></i> Discussion</div> -->
-            <div class="student_view_buttons button_navigation red close_student_view" data-toggle="tooltip" data-placement="bottom" Title="Close"><i class="fas fa-times-circle"></i></div>
+            <div class="student_view_buttons button_navigation red close_student_view tooltip"><i class="fas fa-times-circle"></i>
+               <span class="tooltiptext">Close</span>
+            </div>
             <!-- <div class="student_view_buttons white"></div> -->
          </div>
 
@@ -1134,9 +1150,9 @@
    <script type="text/javascript" src="<?php echo $resources . 'lesson_26.js' ?>"></script>
 
    <script type="text/javascript">
-      $(function() {
-         $('[data-toggle="tooltip"]').tooltip()
-      })
+      // $(function() {
+      //    $('[data-toggle="tooltip"]').tooltip()
+      // })
    </script>
 </body>
 
