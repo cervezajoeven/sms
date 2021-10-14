@@ -27,7 +27,8 @@
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
-   <!-- <script src="<?php echo base_url(); ?>backend/sweet-alert/sweetalert2.min.js"></script> -->
+   <!-- <script src="<?php //echo base_url(); 
+                     ?>backend/sweet-alert/sweetalert2.min.js"></script> -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
