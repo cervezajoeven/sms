@@ -152,7 +152,7 @@
       .tooltip {
          position: relative;
          display: inline-block;
-         border-bottom: 1px dotted white;
+         /* border-bottom: 1px dotted black; */
       }
 
       .tooltip .tooltiptext {
@@ -171,6 +171,7 @@
          font-size: 15px;
          font-weight: normal;
          border-color: black;
+         border: 1px solid darkgray;
       }
 
       .tooltip .tooltiptext::after {

@@ -143,14 +143,14 @@
       .tooltip {
          position: relative;
          display: inline-block;
-         border-bottom: 1px dotted green;
+         border-bottom: 1px dotted black;
       }
 
       .tooltip .tooltiptext {
          visibility: hidden;
          width: 120px;
-         background-color: green;
-         color: #fff;
+         background-color: white;
+         color: black;
          text-align: center;
          border-radius: 6px;
          padding: 7px 7px;
@@ -161,6 +161,8 @@
          margin-left: -60px;
          font-size: 15px;
          font-weight: normal;
+         border-color: black;
+         border: 1px solid darkgray;
       }
 
       .tooltip .tooltiptext::after {
@@ -171,7 +173,7 @@
          margin-left: -5px;
          border-width: 5px;
          border-style: solid;
-         border-color: transparent transparent green transparent;
+         border-color: transparent transparent white transparent;
          box-shadow: 1px 0px 18px -3px rgba(0, 0, 0, 0.91);
       }
 
