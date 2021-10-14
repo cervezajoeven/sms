@@ -502,9 +502,6 @@ class Lesson extends General_Controller
       // exit();
       // $current_session = $this->setting_model->getCurrentSession();
 
-      print_r($data);
-      die();
-
       if ($data['role'] != "student") {
          $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
 
@@ -516,6 +513,10 @@ class Lesson extends General_Controller
 
          $data['account_id'] = $this->general_model->get_account_id();
          $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
+
+         print_r($data);
+         die();
+
          $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
          $data['conference'] = $this->lesson_model->lms_get("conferences", $data['lesson']['zoom_id'], "id")[0];
          $data['start_url'] = json_decode($data['conference']['return_response'])->start_url;
