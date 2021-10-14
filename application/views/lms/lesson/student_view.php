@@ -161,9 +161,9 @@
          margin-left: -60px;
          font-size: 15px;
          font-weight: normal;
-         /* border-color: black; */
-         /* border: 1px solid darkgray; */
-         box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.91);
+         border-color: black;
+         border: 1px solid darkgray;
+         /* box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.91); */
       }
 
       .tooltip .tooltiptext::after {
