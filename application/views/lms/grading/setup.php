@@ -65,16 +65,19 @@
                            <label for="exampleInputEmail1">Template</label><small class="req"> *</small>
                            <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control filter">
 
-                              <?php if (strtolower($schoolcode) == "scholaangelicus") : ?>
+                              <?php if (strtolower($schoolcode) == "scholaangelicus" || strtolower($schoolcode) == "mcam") : ?>
                                  <option value="saioriginal">Original</option>
+                              <?php elseif (strtolower($schoolcode) == "lpms") : ?>
+                                 <option value="lpmsoriginal">Original</option>
+                                 <option value="lpmsconduct">Conduct</option>
                               <?php else : ?>
                                  <option value="original">Original</option>
+                                 <option value="mapeh">MAPEH</option>
+                                 <option value="penmanship">Penmanship</option>
+                                 <option value="epp_comp">EPP/COMP</option>
+                                 <option value="cled">CLEd</option>
                               <?php endif; ?>
 
-                              <option value="mapeh">MAPEH</option>
-                              <option value="penmanship">Penmanship</option>
-                              <option value="epp_comp">EPP/COMP</option>
-                              <option value="cled">CLEd</option>
                               <?php if ($this->school_code == "csl") : ?>
                                  <option value="csl_college">CSL College</option>
                                  <option value="csl_elem">CSL Elem & SHS</option>
@@ -83,21 +86,33 @@
                            <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                         </div>
 
-                        <div class="form-group">
-                           <label for="exampleInputEmail1">Quarter</label><small class="req"> *</small>
-                           <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
-                              <?php foreach ($quarters as $key => $value) : ?>
-                                 <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
-                              <?php endforeach; ?>
-                           </select>
-                           <span class="text-danger"><?php echo form_error('content_title'); ?></span>
-                        </div>
-
-
-
+                        <?php if (strtolower($schoolcode) == "lpms") : ?>
+                           <div class="form-group">
+                              <label for="exampleInputEmail1">Trimester</label><small class="req"> *</small>
+                              <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
+                                 <?php foreach ($quarters as $key => $value) : ?>
+                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
+                                 <?php endforeach; ?>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                           </div>
+                        <?php else : ?>
+                           <div class="form-group">
+                              <label for="exampleInputEmail1">Quarter</label><small class="req"> *</small>
+                              <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
+                                 <?php foreach ($quarters as $key => $value) : ?>
+                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
+                                 <?php endforeach; ?>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('content_title'); ?></span>
+                           </div>
+                        <?php endif ?>
                      </div><!-- /.box-body -->
 
                      <div class="box-footer">
+                        <?php if (strtolower($schoolcode) == "lpms") : ?>
+                           <button type="button" id="swh" class="btn btn-info pull-left"><?php echo 'Create Study and Work Habits' ?></button>
+                        <?php endif ?>
                         <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('save'); ?></button>
                      </div>
                   </form>
@@ -164,13 +179,16 @@
    $("#template_id").change(function() {
       $('.filter2').select2();
       $('.filter2').select2('destroy');
+
       if ($(this).val() == "csl_college") {
-
-
          $("#quarter_id").find("option[value='1']").text("Prelim");
          $("#quarter_id").find("option[value='2']").text("Midterm");
          $("#quarter_id").find("option[value='3']").text("Semifinal");
          $("#quarter_id").find("option[value='4']").text("Final");
+      } else if ($(this).val() == "lpmsconduct" || $(this).val() == "lpmsoriginal") {
+         $("#quarter_id").find("option[value='1']").text("First Trimester");
+         $("#quarter_id").find("option[value='2']").text("Second Trimester");
+         $("#quarter_id").find("option[value='3']").text("Third Trimester");
       } else {
          $("#quarter_id").find("option[value='1']").text("1st Quarter");
          $("#quarter_id").find("option[value='2']").text("2nd Quarter");
@@ -178,5 +196,9 @@
          $("#quarter_id").find("option[value='4']").text("4th Quarter");
       }
       $('.filter2').select2();
+   });
+
+   $("#swh").click(function() {
+      window.location.href = '<?php echo base_url('lms/grading/lpms_swh'); ?>';
    });
 </script>
