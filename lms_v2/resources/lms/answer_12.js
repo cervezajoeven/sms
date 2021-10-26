@@ -433,6 +433,7 @@ function auto_save() {
         }
     }		
 }
+
 $(".submit").click(function() {
    Swal.fire({
       title: 'Submit Answer',
@@ -511,15 +512,23 @@ $(".submit").click(function() {
 
                   // alert("Quiz has been successfully submitted!");
                   // window.location.replace(old_url+'review/'+assessment_id);
-                  Swal.fire({
-                     icon: 'success',
-                     confirmButtonColor: '#3085d6',
-                     title: 'Successful!',
-                     text: 'Your answers has been successfully submitted!',
-                     // footer: '<a href="">Why do I have this issue?</a>'
-                  }).then(function() {
-                     window.location.replace(old_url+'review/'+assessment_id);
-                  });
+
+                  $.ajax({
+                     url: site_url+'assessment_answer_history',
+                     type: "POST",
+                     data: final_json,
+                     complete: function(response){
+                        Swal.fire({
+                           icon: 'success',
+                           confirmButtonColor: '#3085d6',
+                           title: 'Successful!',
+                           text: 'Your answers has been successfully submitted!',
+                           // footer: '<a href="">Why do I have this issue?</a>'
+                        }).then(function() {
+                           window.location.replace(old_url+'review/'+assessment_id);
+                        });
+                     }
+                 });                  
                }
                else {
                   // alert("Oops! There seems to be a problem submitting your answers. Please try to submit again.");

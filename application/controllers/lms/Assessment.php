@@ -181,7 +181,7 @@ class Assessment extends General_Controller
          $this->db->where("sections.id", $section);
       }
 
-
+      $this->db->where("student_session.session_id", $current_session);
       $this->db->group_by("students.id");
       $this->db->order_by("lastname");
       $students = $this->db->get("students")->result_array();
