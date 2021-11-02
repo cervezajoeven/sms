@@ -342,6 +342,7 @@ class Student_model extends MY_Model
                 WHERE student_session.class_id = $class_id 
                 AND student_session.section_id = $section_id 
                 AND student_session.session_id = $session_id 
+                AND students.is_active = 'yes'
                 ORDER BY students.lastname ASC, students.firstname ASC";
 
       // return $sql;
