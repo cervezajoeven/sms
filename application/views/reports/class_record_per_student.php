@@ -1,10 +1,19 @@
+<style>
+   /* tfoot {
+      display: table;
+   } */
+</style>
+
 <div class="content-wrapper" style="min-height: 946px;">
    <section class="content-header">
       <h1><i class="fa fa-line-chart"></i> <?php echo $this->lang->line('reports'); ?> <small> <?php echo $this->lang->line('filter_by_name1'); ?></small></h1>
    </section>
    <!-- Main content -->
    <section class="content">
-      <?php $this->load->view('reports/_studentinformation'); ?>
+      <?php
+      $data['school_code'] = $school_code;
+      $this->load->view('reports/_studentinformation', $data);
+      ?>
       <div class="row">
          <div class="col-md-12">
             <div class="box removeboxmius">
@@ -136,11 +145,8 @@
                                     </div>
                                     <div class="box-body">
                                        <div class="table-responsive">
-                                          <?php //if (!empty($resultlist)) { 
-                                          ?>
-                                          <div class="download_label"><?php echo 'Quarterly Grades'; //$this->customlib->get_postmessage(); 
-                                                                        ?></div>
-                                          <table id="class_record" class="table table-striped table-bordered table-hover example nowrap">
+                                          <div class="download_label"><?php echo 'Quarterly Grades'; ?></div>
+                                          <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
                                              <thead>
                                                 <tr>
                                                    <th class="text-left">Subjects</th>
@@ -155,6 +161,14 @@
                                              </thead>
                                              <tbody>
                                                 <?php
+                                                $q1Tot = 0;
+                                                $q2Tot = 0;
+                                                $q3Tot = 0;
+                                                $q4Tot = 0;
+                                                $aveTot = 0;
+                                                $finTot = 0;
+                                                $rowCtr = 0;
+
                                                 foreach ($resultlist as $row) {
                                                    $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->average;
                                                    $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
@@ -167,17 +181,35 @@
                                                    echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
                                                    echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
                                                    echo "</tr>\r\n";
+
+                                                   $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
+                                                   $q2Tot += ($row->Q2 !== null ? $row->Q2 : 0);
+                                                   $q3Tot += ($row->Q3 !== null ? $row->Q3 : 0);
+                                                   $q4Tot += ($row->Q4 !== null ? $row->Q4 : 0);
+                                                   $aveTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->average;
+                                                   $finTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->final_grade;
+
+                                                   $rowCtr++;
                                                 }
+
+                                                $q1Ave = $q1Tot / $rowCtr;
+                                                $q2Ave = $q2Tot / $rowCtr;
+                                                $q3Ave = $q3Tot / $rowCtr;
+                                                $q4Ave = $q4Tot / $rowCtr;
+                                                $aveAve = $aveTot / $rowCtr;
+                                                $finAve = $finTot / $rowCtr;
                                                 ?>
                                              </tbody>
                                              <tfoot>
-                                                <!-- <tr>
-                                                                            <th>Average</th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                            <th></th>
-                                                                        </tr> -->
+                                                <tr>
+                                                   <th class="text-right">General Average</th>
+                                                   <th class="text-center <?php echo ($q1Ave < 75 ? "text-danger" : ($q1Ave >= 90 ? "text-success" : "")); ?>"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
+                                                   <th class="text-center <?php echo ($q2Ave < 75 ? "text-danger" : ($q2Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q2Ave == 0 ? "" : number_format($q2Ave, 2)); ?></th>
+                                                   <th class="text-center <?php echo ($q3Ave < 75 ? "text-danger" : ($q3Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q3Ave == 0 ? "" : number_format($q3Ave, 2)); ?></th>
+                                                   <th class="text-center <?php echo ($q4Ave < 75 ? "text-danger" : ($q4Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q4Ave == 0 ? "" : number_format($q4Ave, 2)); ?></th>
+                                                   <th class="text-center <?php echo ($aveAve < 75 ? "text-danger" : ($aveAve >= 90 ? "text-success" : "")); ?>"><?php echo ($aveAve == 0 ? "" : number_format($aveAve, 2)); ?></th>
+                                                   <th class="text-center <?php echo ($finAve < 75 ? "text-danger" : ($finAve >= 90 ? "text-success" : ""));; ?>"><?php echo ($finAve == 0 ? "" : number_format($finAve, 2)); ?></th>
+                                                </tr>
                                              </tfoot>
                                           </table>
                                           <?php //} 
@@ -377,6 +409,10 @@
          ordering: false,
          searching: false,
          dom: "Bfrtip",
+         fixedHeader: {
+            header: true,
+            footer: true
+         },
          buttons: [{
                extend: 'copyHtml5',
                text: '<i class="fa fa-files-o"></i>',
@@ -444,7 +480,47 @@
                title: $('.download_label').html(),
                postfixButtons: ['colvisRestore']
             },
-         ]
+         ],
+         "footerCallback": function(row, data, start, end, display) {
+            var api = this.api(),
+               data;
+
+            //  // Remove the formatting to get integer data for summation
+            //  var intVal = function (i) {
+            //      return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i.toFixed(2) : (0).toFixed(2);
+            //  };
+
+            //  // computing column Total the complete result 
+            //  var total_expected = 0;
+            //  var total_actual = 0;
+            //  var total_arrears = 0;
+
+            //  total_expected = api
+            //  .column(5)
+            //  .data()
+            //  .reduce( function (a, b) {
+            //      return (intVal(a) + intVal(b)).toFixed(0);
+            //  }, (0).toFixed(0));
+
+            //  total_actual = api
+            //  .column(6)
+            //  .data()
+            //  .reduce( function (a, b) {
+            //      return (intVal(a) + intVal(b)).toFixed(0);
+            //  }, (0).toFixed(0));
+
+            //  total_arrears = api
+            //  .column(7)
+            //  .data()
+            //  .reduce( function (a, b) {
+            //      return (intVal(a) + intVal(b)).toFixed(0);
+            //  }, (0).toFixed(0));
+
+            //  $(api.column(4).footer()).html('<table style="width:100%"><tr><td class="text-right">Total</td></tr></table>');
+            //  $(api.column(5).footer()).html('<table style="width:100%"><tr><td class="text-right">'+formatNumber(total_expected)+'</td></tr></table>');
+            //  $(api.column(6).footer()).html('<table style="width:100%"><tr><td class="text-right">'+formatNumber(total_actual)+'</td></tr></table>');
+            //  $(api.column(7).footer()).html('<table style="width:100%"><tr><td class="text-right">'+formatNumber(total_arrears)+'</td></tr></table>');
+         }
       });
 
       var class_id = $('#class_id').val();

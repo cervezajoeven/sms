@@ -62,18 +62,14 @@
                         </thead>
                         <tbody>
                            <?php
-                           // foreach($resultlist as $row) {
-                           //     $ctr=0;
-                           //     echo "<tr>\r\n";
-                           //     foreach($row as $val) {
-                           //         if (!is_numeric($val)) //($ctr==0)
-                           //             echo "<td class='text-left'>".$val."</td>\r\n";
-                           //         else 
-                           //             echo "<td class='text-center'>".$val."</td>\r\n";
-                           //         $ctr++;
-                           //     }
-                           //     echo "</tr>\r\n";
-                           // } 
+                           $q1Tot = 0;
+                           $q2Tot = 0;
+                           $q3Tot = 0;
+                           $q4Tot = 0;
+                           $aveTot = 0;
+                           $finTot = 0;
+                           $rowCtr = 0;
+
                            foreach ($resultlist as $row) {
                               $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->average;
                               $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
@@ -86,17 +82,36 @@
                               echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
                               echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
                               echo "</tr>\r\n";
+
+                              $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
+                              $q2Tot += ($row->Q2 !== null ? $row->Q2 : 0);
+                              $q3Tot += ($row->Q3 !== null ? $row->Q3 : 0);
+                              $q4Tot += ($row->Q4 !== null ? $row->Q4 : 0);
+
+                              $aveTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->average;
+                              $finTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->final_grade;
+
+                              $rowCtr++;
                            }
+
+                           $q1Ave = $q1Tot / $rowCtr;
+                           $q2Ave = $q2Tot / $rowCtr;
+                           $q3Ave = $q3Tot / $rowCtr;
+                           $q4Ave = $q4Tot / $rowCtr;
+                           $aveAve = $aveTot / $rowCtr;
+                           $finAve = $finTot / $rowCtr;
                            ?>
                         </tbody>
                         <tfoot>
-                           <!-- <tr>
-                                            <th>Average</th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr> -->
+                           <tr>
+                              <th class="text-right">General Average</th>
+                              <th class="text-center <?php echo ($q1Ave < 75 ? "text-danger" : ($q1Ave >= 90 ? "text-success" : "")); ?>"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
+                              <th class="text-center <?php echo ($q2Ave < 75 ? "text-danger" : ($q2Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q2Ave == 0 ? "" : number_format($q2Ave, 2)); ?></th>
+                              <th class="text-center <?php echo ($q3Ave < 75 ? "text-danger" : ($q3Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q3Ave == 0 ? "" : number_format($q3Ave, 2)); ?></th>
+                              <th class="text-center <?php echo ($q4Ave < 75 ? "text-danger" : ($q4Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q4Ave == 0 ? "" : number_format($q4Ave, 2)); ?></th>
+                              <th class="text-center <?php echo ($aveAve < 75 ? "text-danger" : ($aveAve >= 90 ? "text-success" : "")); ?>"><?php echo ($aveAve == 0 ? "" : number_format($aveAve, 2)); ?></th>
+                              <th class="text-center <?php echo ($finAve < 75 ? "text-danger" : ($finAve >= 90 ? "text-success" : ""));; ?>"><?php echo ($finAve == 0 ? "" : number_format($finAve, 2)); ?></th>
+                           </tr>
                         </tfoot>
                      </table>
                      <?php //} 
