@@ -1873,8 +1873,7 @@ class Report extends Admin_Controller
 
 
             // print_r(json_encode($student_id));die();
-            print_r($class_record);
-            die();
+
             $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
 
             $data['session_id'] = $session;
@@ -1883,6 +1882,9 @@ class Report extends Admin_Controller
             $data['student_id'] = $student_id;
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
+
+            print_r($data);
+            die();
 
 
             if (strtolower($data['school_code']) == 'lpms') {
