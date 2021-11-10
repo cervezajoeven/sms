@@ -395,8 +395,13 @@ $(document).ready(function(){
 						$(".option-container-actual").eq(key).find(".points").val("1");
 					}
 
-					if(value.type=="short_answer"){
-						$(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")).replace(/\n/g, '<br/>'));
+					if(value.type=="short_answer") {
+                  try {
+                     $(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")).replace(/\n/g, '<br/>'));
+                  } catch(err) {
+                     
+                  }                  
+						
 						// $(".option-container-actual").eq(key).find(".option_type").find("input").val(unescape_comma(value.correct.split(",").join(" or ")).replace(/\n/g, '<br/>').replace(/ /g, '&nbsp;'));
 						// option_clone.find(".option_type").find("input").val(data.correct.split(",").join(" or "));
 						
