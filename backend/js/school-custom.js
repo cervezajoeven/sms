@@ -35,6 +35,7 @@
              },
              error: function(xhr) { // if error occured
                  $modalDiv.removeClass('modal_loading');
+                 $('.sessionmodal_body').html(xhr);
              },
              complete: function() {
                  $modalDiv.removeClass('modal_loading');

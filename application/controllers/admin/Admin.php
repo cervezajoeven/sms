@@ -509,7 +509,6 @@ class Admin extends Admin_Controller
 
    public function getSession()
    {
-
       if (!$this->rbac->hasPrivilege('quick_session_change', 'can_view')) {
          access_denied();
       }
@@ -528,7 +527,8 @@ class Admin extends Admin_Controller
       }
 
       $data['sessionList'] = $session;
-      $this->load->view('admin/partial/_session', $data);
+      // $this->load->view('admin/partial/_session', $data);
+      echo $data['sessionList'];
    }
 
    public function updateSession()

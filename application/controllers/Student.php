@@ -2819,7 +2819,10 @@ class Student extends Admin_Controller
             $data['section_id'] = $this->input->post('section_id');
             $resultlist = $this->student_model->grading_GetAllowedToView($this->sch_setting_detail->session_id, $class, $section);
             $data['resultlist']  = $resultlist;
-            // echo "<pre>"; print_r($resultlist);  echo "<pre>";  die();
+            // echo "<pre>";
+            // print_r($resultlist);
+            // echo "<pre>";
+            // die();
          }
 
          $this->load->view('layout/header', $data);
@@ -2886,6 +2889,9 @@ class Student extends Admin_Controller
          }
          // echo "<pre>"; print_r($data); echo"<pre>";
          $this->student_model->grading_AddAllowedToView($data);
+
+         //--ToDo:
+         //-- Send email notif
       }
       // die();
    }

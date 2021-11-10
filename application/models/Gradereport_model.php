@@ -145,7 +145,122 @@ class Gradereport_model extends CI_Model
                 WHERE student_session.class_id = " . $grade_level . " 
                 AND student_session.section_id = " . $section . " 
                 AND student_session.session_id = " . $school_year . " 
+                AND students.is_active = 'yes' 
                 ORDER BY gender DESC, student_name ASC";
+
+      // print_r($sql);
+      // die();
+      $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      // print_r($this->db->error());
+      // die();
+      return $query->result();
+   }
+
+   public function get_class_record_lpms($school_year, $quarter, $grade_level, $section)
+   {
+      $subject_columns = "";
+      $subquery = "";
+      $average_column = "";
+      $average_conduct_column = "";
+      $colcount = 0;
+
+      $resultdata = $this->get_subject_list($grade_level, $school_year);
+
+      foreach ($resultdata as $row) {
+         if (!empty($subject_columns)) {
+            $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" . $row->subject . "'";
+            $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade_code, '') AS '" . $row->subject_id . " code'";
+            $subject_columns .= ", IFNULL(tbl" . $row->subject_id . "_conduct.quarterly_grade_conduct, '') AS '" . $row->subject_id . " conduct'";
+
+            $average_conduct_column .= "+IFNULL(tbl" . $row->subject_id . "_conduct.quarterly_grade_conduct, 0)";
+
+            if ($row->in_average) {
+               $average_column .= "+IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0)";
+               $colcount++;
+            }
+         } else {
+            $subject_columns .= " IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" . $row->subject . "'";
+            $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade_code, '') AS '" . $row->subject_id . " code'";
+            $subject_columns .= ", IFNULL(tbl" . $row->subject_id . "_conduct.quarterly_grade_conduct, '') AS '" . $row->subject_id . " conduct'";
+
+            $average_conduct_column .= "IFNULL(tbl" . $row->subject_id . "_conduct.quarterly_grade_conduct, 0)";
+
+            if ($row->in_average) {
+               $average_column .= "IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0)";
+               $colcount++;
+            }
+         }
+
+         if ($row->transmuted) {
+            $quarterly_grade = "fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) AS quarterly_grade";
+         } else {
+            $quarterly_grade = "CASE
+                                    WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
+                                      THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
+                                      ELSE ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent))
+                                    END AS quarterly_grade";
+         }
+
+         $quarterly_grade_code = "fn_final_transmuted_grade_code(fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2))) AS quarterly_grade_code";
+
+         $subquery .= " LEFT JOIN ( 
+                             SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, " . $quarterly_grade . ", " . $quarterly_grade_code . "                          
+                             FROM 
+                             (
+                               SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                               SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
+                               FROM vw_class_record 
+                               WHERE subject_id = " . $row->subject_id . " 
+                               AND section_id  = " . $section . " 
+                               AND grade  = " . $grade_level . " 
+                               AND school_year = " . $school_year . " 
+                               AND quarter = " . $quarter . " 
+                               AND school_name <> 'Conduct' 
+                               GROUP BY student_id, criteria_id, label 
+                             ) tbl                              
+                             GROUP BY school_year, quarter, student_id 
+                           ) tbl" . $row->subject_id . " ON tbl" . $row->subject_id . ".student_id = students.id";
+
+         $quarterly_grade_conduct = "ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2) AS quarterly_grade_conduct";
+
+         $subquery .= " LEFT JOIN ( 
+                              SELECT school_year, quarter, student_id, grade_level, section_id, subject_id, " . $quarterly_grade_conduct . " 
+                              FROM 
+                              (
+                                SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                                SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent 
+                                FROM vw_class_record 
+                                WHERE subject_id = " . $row->subject_id . " 
+                                AND section_id  = " . $section . " 
+                                AND grade  = " . $grade_level . " 
+                                AND school_year = " . $school_year . " 
+                                AND quarter = " . $quarter . " 
+                                AND school_name = 'Conduct' 
+                                GROUP BY student_id, criteria_id, label 
+                              ) tbl                              
+                              GROUP BY school_year, quarter, student_id 
+                            ) tbl" . $row->subject_id . "_conduct ON tbl" . $row->subject_id . "_conduct.student_id = students.id";
+      }
+
+      // $average_column = " AVG(".$average_column.") AS average";
+      $average_column_code = " fn_final_transmuted_grade_code((" . $average_column . ")/" . $colcount . ") AS average_code";
+      $average_column = " ROUND((" . $average_column . ")/" . $colcount . ") AS average";
+      $average_conduct_column_code = " fn_conduct_code(ROUND((" . $average_conduct_column . ")/" . $colcount . ")) AS average_conduct_code";
+      $average_conduct_column = " ROUND((" . $average_conduct_column . ")/" . $colcount . ") AS average_conduct";
+      // $average_column = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
+
+      // $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender) as gender, " . $subject_columns . ", " . $average_column . " , " . $average_column_code . ", " . $average_conduct_column . "  
+      $sql = "SELECT CONCAT(UPPER(lastname), ', ', UPPER(firstname), ' ', UPPER(middlename)) AS student_name, UPPER(gender) as gender, " . $subject_columns . ", " . $average_column . " , " . $average_column_code . ", " . $average_conduct_column . ", " . $average_conduct_column_code . " 
+              FROM students 
+              LEFT JOIN student_session ON student_session.student_id = students.id 
+              " . $subquery . " 
+              WHERE student_session.class_id = " . $grade_level . " 
+              AND student_session.section_id = " . $section . " 
+              AND student_session.session_id = " . $school_year . " 
+              AND students.is_active = 'yes' 
+              ORDER BY gender DESC, student_name ASC";
 
       // print_r($sql);
       // die();
@@ -199,9 +314,9 @@ class Gradereport_model extends CI_Model
          //-- IFNULL(ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 0) 
          $subquery .= " LEFT JOIN 
                          (
-                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
-                            CASE 
-                            WHEN grading_allowed_students.view_allowed = 1 
+                           SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                           CASE 
+                           WHEN grading_allowed_students.view_allowed = 1 
                               THEN 
                                 CASE 
                                   WHEN subjects.transmuted = 1 
@@ -339,6 +454,251 @@ class Gradereport_model extends CI_Model
       return $query->result();
    }
 
+   public function get_student_class_record_restricted_lpms($school_year, $student_id, $grade_level, $section)
+   {
+      $subquery = "";
+      $quarter_columns = "";
+      $average_columns = "";
+      $average_column = "";
+      $grade_codes = "";
+      $conduct_columns = "";
+      $conduct_codes = "";
+      $average_conduct_column = "";
+      $average_conduct_columns = "";
+      $colcount = 0;
+
+      $dataresult = $this->get_quarter_list();
+
+      foreach ($dataresult as $row) {
+         if (!empty($quarter_columns)) {
+            $quarter_columns .= ", IFNULL(tbl" . $row->id . ".quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "'";
+            $grade_codes .= ", IFNULL(fn_final_transmuted_grade_code(tbl" . $row->id . ".quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CODE'";
+            $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+
+            $conduct_columns .= ", IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "_CONDUCT'";
+            $conduct_codes .= ", IFNULL(fn_conduct_code(tbl" . $row->id . "_conduct.quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CONDUCTCODE'";
+            $average_conduct_column .= "+IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0)";
+         } else {
+            $quarter_columns .= " IFNULL(tbl" . $row->id . ".quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "'";
+            $grade_codes .= " IFNULL(fn_final_transmuted_grade_code(tbl" . $row->id . ".quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CODE'";
+            $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+
+            $conduct_columns .= " IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "_CONDUCT'";
+            $conduct_codes .= " IFNULL(fn_conduct_code(tbl" . $row->id . "_conduct.quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CONDUCTCODE'";
+            $average_conduct_column .= "IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0)";
+         }
+
+         $subquery .= " LEFT JOIN 
+                         (
+                           SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                           CASE 
+                              WHEN grading_allowed_students.view_allowed = 1 
+                              THEN 
+                                 CASE 
+                                    WHEN subjects.transmuted = 1 
+                                    THEN fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) 
+                                    ELSE CASE
+                                           WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
+                                           THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
+                                           ELSE ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent))
+                                         END
+                                 END
+                              ELSE 0 
+                            END AS quarterly_grade 
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              FROM vw_class_record
+                              WHERE section_id  = " . $section . " 
+                              AND grade  = " . $grade_level . " 
+                              AND school_year = " . $school_year . " 
+                              AND quarter = " . $row->id . " 
+                              AND student_id = " . $student_id . " 
+                              AND school_name <> 'Conduct'
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
+                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = tbl.school_year AND grading_allowed_students.quarter_id = quarter 
+                            GROUP BY school_year, quarter, student_id, subject_id
+                         ) tbl" . $row->id . " ON tbl" . $row->id . ".subject_id = tblsubjects.subject_id";
+
+         $subquery .= " LEFT JOIN 
+                         (
+                           SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                           CASE WHEN grading_allowed_students.view_allowed = 1 THEN ROUND(IFNULL(SUM(final_grade), 2)) ELSE 0 END AS quarterly_grade
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent,
+                              ((sum(score) / SUM(highest_score)) * 100) * (ws/100) as final_grade
+                              FROM vw_class_record
+                              WHERE section_id  = " . $section . " 
+                              AND grade  = " . $grade_level . " 
+                              AND school_year = " . $school_year . " 
+                              AND quarter = " . $row->id . " 
+                              AND student_id = " . $student_id . " 
+                              AND school_name = 'Conduct'
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
+                            LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = tbl.student_id AND grading_allowed_students.session_id = tbl.school_year AND grading_allowed_students.quarter_id = quarter 
+                            GROUP BY school_year, quarter, student_id, subject_id
+                         ) tbl" . $row->id . "_conduct ON tbl" . $row->id . "_conduct.subject_id = tblsubjects.subject_id";
+
+         $colcount++;
+      }
+
+      $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
+      // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
+      $average_conduct_columns = " ((" . $average_conduct_column . ")/" . $colcount . ") AS average_conduct";
+
+      $sql = "SELECT subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
+              $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade,   
+              $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code
+                FROM 
+                (
+                    SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
+                    FROM subject_groups
+                    JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+                    JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+                    JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                    JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+                    JOIN classes ON classes.id = class_sections.class_id
+                    WHERE classes.id = " . $grade_level . " 
+                    AND subjects.graded = TRUE 
+                    AND subject_groups.session_id = " . $school_year . " 
+                    GROUP BY classes.id, subjects.name
+                    ORDER BY subject_groups.name, subjects.name ASC
+                ) tblsubjects
+                " . $subquery;
+
+      // return($sql);
+      $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result();
+   }
+
+   public function get_student_class_record_unrestricted_lpms($school_year, $student_id, $grade_level, $section)
+   {
+      $subquery = "";
+      $quarter_columns = "";
+      $average_columns = "";
+      $average_column = "";
+      $grade_codes = "";
+      $conduct_columns = "";
+      $conduct_codes = "";
+      $average_conduct_column = "";
+      $average_conduct_columns = "";
+      $colcount = 0;
+
+      $dataresult = $this->get_quarter_list();
+
+      foreach ($dataresult as $row) {
+         if (!empty($quarter_columns)) {
+            $quarter_columns .= ", IFNULL(tbl" . $row->id . ".quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "'";
+            $grade_codes .= ", IFNULL(fn_final_transmuted_grade_code(tbl" . $row->id . ".quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CODE'";
+            $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+
+            $conduct_columns .= ", IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "_CONDUCT'";
+            $conduct_codes .= ", IFNULL(fn_conduct_code(tbl" . $row->id . "_conduct.quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CONDUCTCODE'";
+            $average_conduct_column .= "+IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0)";
+         } else {
+            $quarter_columns .= " IFNULL(tbl" . $row->id . ".quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "'";
+            $grade_codes .= " IFNULL(fn_final_transmuted_grade_code(tbl" . $row->id . ".quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CODE'";
+            $average_column .= "IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
+
+            $conduct_columns .= " IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0) AS '" . str_replace(" ", "_", $row->name) . "_CONDUCT'";
+            $conduct_codes .= " IFNULL(fn_conduct_code(tbl" . $row->id . "_conduct.quarterly_grade), '') AS '" . str_replace(" ", "_", $row->name) . "_CONDUCTCODE'";
+            $average_conduct_column .= "IFNULL(tbl" . $row->id . "_conduct.quarterly_grade, 0)";
+         }
+
+         $subquery .= " LEFT JOIN 
+                         (
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                            CASE 
+                              WHEN subjects.transmuted = 1 
+                                THEN fn_transmuted_grade(ROUND(IFNULL(SUM(((total_scores/tot_highest_score)*100) * wspercent), 0), 2)) 
+                                ELSE CASE
+                                     WHEN MOD(SUM(((total_scores/tot_highest_score)*100) * wspercent), 1) = 0.5
+                                       THEN ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent) + 0.1)
+                                       ELSE ROUND(SUM(((total_scores/tot_highest_score)*100) * wspercent))
+                                     END
+                            END AS quarterly_grade 
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent
+                              FROM vw_class_record
+                              WHERE section_id  = " . $section . " 
+                              AND grade  = " . $grade_level . " 
+                              AND school_year = " . $school_year . " 
+                              AND quarter = " . $row->id . " 
+                              AND student_id = " . $student_id . " 
+                              AND school_name <> 'Conduct'
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
+                            GROUP BY school_year, quarter, student_id, subject_id
+                         ) tbl" . $row->id . " ON tbl" . $row->id . ".subject_id = tblsubjects.subject_id";
+
+         $subquery .= " LEFT JOIN 
+                         (
+                            SELECT school_year, quarter, tbl.student_id, grade_level, tbl.section_id, subject_id, 
+                            ROUND(IFNULL(SUM(final_grade), 2)) AS quarterly_grade
+                            FROM
+                            (
+                              SELECT school_year, quarter, student_id, grade AS grade_level, section_id, subject_id, SUM(score) AS total_scores, 
+                              SUM(highest_score) AS tot_highest_score, criteria_id, label AS criteria_label, (ws/100) AS wspercent,
+                              ((sum(score) / SUM(highest_score)) * 100) * (ws/100) as final_grade
+                              FROM vw_class_record
+                              WHERE section_id  = " . $section . " 
+                              AND grade  = " . $grade_level . " 
+                              AND school_year = " . $school_year . " 
+                              AND quarter = " . $row->id . " 
+                              AND student_id = " . $student_id . " 
+                              AND school_name = 'Conduct'
+                              GROUP BY student_id, criteria_id, label
+                            ) tbl
+                            LEFT JOIN subjects ON subjects.id = tbl.subject_id
+                            GROUP BY school_year, quarter, student_id, subject_id
+                         ) tbl" . $row->id . "_conduct ON tbl" . $row->id . "_conduct.subject_id = tblsubjects.subject_id";
+
+         $colcount++;
+      }
+
+      $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
+      // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
+      $average_conduct_columns = " ((" . $average_conduct_column . ")/" . $colcount . ") AS average_conduct";
+
+      $sql = "SELECT subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
+              $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade,   
+              $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code
+                FROM 
+                (
+                    SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id
+                    FROM subject_groups
+                    JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+                    JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+                    JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                    JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+                    JOIN classes ON classes.id = class_sections.class_id
+                    WHERE classes.id = " . $grade_level . " 
+                    AND subjects.graded = TRUE 
+                    AND subject_groups.session_id = " . $school_year . " 
+                    GROUP BY classes.id, subjects.name
+                    ORDER BY subject_groups.name, subjects.name ASC
+                ) tblsubjects
+                " . $subquery;
+
+      // return($sql);
+      $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result();
+   }
+
    public function get_quarter_list()
    {
       $sql = "SELECT * FROM grading_quarter";
@@ -406,6 +766,7 @@ class Gradereport_model extends CI_Model
                 WHERE student_session.class_id = " . $grade_level . " 
                 AND student_session.section_id = " . $section . " 
                 AND student_session.session_id = " . $school_year . " 
+                AND students.is_active = 'yes' 
                 ORDER BY gender DESC, student_name ASC";
 
       // return $sql;
@@ -613,7 +974,8 @@ class Gradereport_model extends CI_Model
                     " . str_replace('~replace_with_subject_id~', $row->subject_id, $subquery) . " 
                     WHERE student_session.class_id = " . $_grade_level . " 
                     AND student_session.section_id = " . $_section . " 
-                    AND student_session.session_id = " . $_school_year . ") " . $table_alias . $left_join_on;
+                    AND student_session.session_id = " . $_school_year . " 
+                    AND students.is_active = 'yes') " . $table_alias . $left_join_on;
 
          if (empty($averageColumnsForMain))
             $averageColumnsForMain .= "average_" . $subject_counter;
@@ -647,5 +1009,177 @@ class Gradereport_model extends CI_Model
       // die();
       // print_r(json_encode($query->result()));die();
       return $query->result();
+   }
+
+   public function get_student_list($current_session, $grade_level, $section)
+   {
+      $sql = "select students.id, concat(lastname, ', ', firstname, ' ', middlename) as name 
+              from students
+              left join student_session on students.id = student_session.student_id  and student_session.session_id = " . $current_session . " 
+              where student_session.class_id = " . $grade_level . " 
+              and student_session.section_id = " . $section . " 
+              AND students.is_active = 'yes' 
+              order by gender desc, lastname";
+
+      $query = $this->db->query($sql);
+
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result_array();
+   }
+
+   public function get_swh_items()
+   {
+      $query = $this->db->query("select id, sub from grading_swh order by sort_order");
+      return $query->result_array();
+   }
+
+   public function get_lpms_swh_data($current_session, $quarter, $grade_level, $section, $student_id)
+   {
+      $sql = "SELECT *
+              FROM grading_swh_scores
+              WHERE school_year_id = " . $current_session . " 
+              and quarter_id = " . $quarter . " 
+              and grade_level_id = " . $grade_level . " 
+              and section_id = " . $section . " 
+              and student_id = " . $student_id;
+
+      $query = $this->db->query($sql);
+      return $query->result_array();
+   }
+
+   public function add_swh_data($data)
+   {
+      // print_r($data);
+      // die();
+
+      // $this->db->where('swh_item_id', $data['swh_item_id']);
+      // $this->db->where('school_year_id', $data['school_year_id']);
+      // $this->db->where('quarter_id', $data['quarter_id']);
+      // $this->db->where('grade_level_id', $data['grade_level_id']);
+      // $this->db->where('section_id', $data['section_id']);
+      // $this->db->where('student_id', $data['student_id']);
+      // $q = $this->db->get('grading_swh_scores');
+      // // print_r($this->db->last_query());
+      // // die();
+
+      // if ($q->num_rows() > 0) {
+      //    $this->db->where('swh_item_id', $data['swh_item_id']);
+      //    $this->db->where('school_year_id', $data['school_year_id']);
+      //    $this->db->where('quarter_id', $data['quarter_id']);
+      //    $this->db->where('grade_level_id', $data['grade_level_id']);
+      //    $this->db->where('section_id', $data['section_id']);
+      //    $this->db->where('student_id', $data['student_id']);
+      //    $this->writedb->delete('grading_swh_scores');
+      //    // $this->writedb->update('grading_swh_scores', $data);
+      //    // return;
+      // } else {
+      //    // $this->writedb->insert('grading_swh_scores', $data);
+      //    // return $this->writedb->insert_id();
+      // }
+
+      $this->writedb->where('swh_item_id', $data['swh_item_id']);
+      $this->writedb->where('student_id', $data['student_id']);
+      $this->writedb->where('school_year_id', $data['school_year_id']);
+      $this->writedb->where('quarter_id', $data['quarter_id']);
+      $this->writedb->where('grade_level_id', $data['grade_level_id']);
+      $this->writedb->where('section_id', $data['section_id']);
+      $this->writedb->delete('grading_swh_scores');
+
+      $this->writedb->insert('grading_swh_scores', $data);
+      return $this->writedb->insert_id();
+   }
+
+   public function get_swh_score_quarterly($school_year, $grade_level, $section, $student_id)
+   {
+      $quarter_columns = "";
+      $resultdata = $this->get_quarter_list();
+      $subquery = "";
+
+      foreach ($resultdata as $row) {
+         if (!empty($quarter_columns)) {
+            $quarter_columns .= ", IFNULL(tbl" . $row->id . ".score, '') AS '" . $row->name . "_score'";
+         } else {
+            $quarter_columns .= " IFNULL(tbl" . $row->id . ".score, '') AS '" . $row->name . "_score'";
+         }
+
+         $subquery .= " left join 
+                       (
+                          select swh_item_id, score
+                          from grading_swh_scores
+                          where school_year_id = " . $school_year . " 
+                          and quarter_id = " . $row->id . " 
+                          and grade_level_id = " . $grade_level . " 
+                          and section_id = " . $section . " 
+                          and student_id = " . $student_id . " 
+                        ) tbl" . $row->id . " ON tbl" . $row->id . ".swh_item_id = grading_swh.id";
+      }
+
+      $sql = "select grading_swh.id, grading_swh.main, grading_swh.sub, $quarter_columns 
+              from grading_swh 
+             " . $subquery . " 
+              ORDER BY sort_order ASC";
+
+      $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result();
+   }
+
+   public function get_swh_score_quarterly_restricted($school_year, $grade_level, $section, $student_id)
+   {
+      $quarter_columns = "";
+      $resultdata = $this->get_quarter_list();
+      $subquery = "";
+
+      foreach ($resultdata as $row) {
+         if (!empty($quarter_columns)) {
+            $quarter_columns .= ", IFNULL(tbl" . $row->id . ".score, '') AS '" . $row->name . "_score'";
+         } else {
+            $quarter_columns .= " IFNULL(tbl" . $row->id . ".score, '') AS '" . $row->name . "_score'";
+         }
+
+         $subquery .= " left join 
+                       (
+                          select swh_item_id, 
+                          case when grading_allowed_students.view_allowed = 1 then score else null end as score
+                          from grading_swh_scores
+                          LEFT JOIN grading_allowed_students ON grading_allowed_students.student_id = grading_swh_scores.student_id AND grading_allowed_students.session_id = grading_swh_scores.school_year_id AND grading_allowed_students.quarter_id = " . $row->id . "  
+                          where grading_swh_scores.school_year_id = " . $school_year . " 
+                          and grading_swh_scores.quarter_id = " . $row->id . " 
+                          and grading_swh_scores.grade_level_id = " . $grade_level . " 
+                          and grading_swh_scores.section_id = " . $section . " 
+                          and grading_swh_scores.student_id = " . $student_id . " 
+                        ) tbl" . $row->id . " ON tbl" . $row->id . ".swh_item_id = grading_swh.id";
+      }
+
+      $sql = "select grading_swh.id, grading_swh.main, grading_swh.sub, $quarter_columns 
+              from grading_swh 
+             " . $subquery . " 
+              ORDER BY sort_order ASC";
+
+      $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
+      return $query->result();
+   }
+
+   public function grade_code_table()
+   {
+      $query = $this->db->query('select min_grade, max_grade, grade_code from grading_final_transmuted_grade_code');
+      return $query->result();
+   }
+
+   public function conduct_transmutation_table()
+   {
+      $query = $this->db->query('select min_grade, max_grade, grade_code from grading_conduct_transmutation');
+      return $query->result();
+   }
+
+   public function is_grade_view_allowed($school_year, $student_id, $quarter_id)
+   {
+      $query = $this->db->query('select view_allowed from grading_allowed_students where session_id = ' . $school_year . ' and student_id=' . $student_id . ' and quarter_id=' . $quarter_id);
+      $result = $query->result()[0];
+      return $result->view_allowed;
    }
 }

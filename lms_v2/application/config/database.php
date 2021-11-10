@@ -79,8 +79,8 @@ $database_name = explode('.', $HTTP_HOST)[0];
 $campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
-$local_db = "stepsmandaluyong";
-// $local_db = "campus_lpms";
+// $local_db = "stepsmandaluyong";
+$local_db = "campus_lpms";
 // $local_db = "campus_mcam";
 // $local_db = "campus_scholaangelicus";
 

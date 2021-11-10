@@ -26,14 +26,9 @@
                               <label><?php echo $this->lang->line('current_session'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="session_id" name="session_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                 <?php
-                                 foreach ($session_list as $session) {
-                                 ?>
+                                 <?php foreach ($session_list as $session) { ?>
                                     <option value="<?php echo $session['id'] ?>" <?php if ($session['id'] == $sch_setting->session_id) echo "selected=selected" ?>><?php echo $session['session'] ?></option>
-                                 <?php
-                                    //$count++;
-                                 }
-                                 ?>
+                                 <?php } ?>
                               </select>
                               <span class="text-danger"><?php echo form_error('session_id'); ?></span>
                            </div>
@@ -97,8 +92,7 @@
 
                <div class="box box-warning">
                   <div class="box-header ptbnull">
-                     <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_summary'); ?> Summary of Consolidated Grades<?php //echo $this->lang->line('class_record_summary') ; 
-                                                                                                                                                                  ?></h3>
+                     <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_summary'); ?> Summary of Consolidated Grades</h3>
                   </div>
                   <div class="box-body table-responsive">
                      <?php if (isset($resultlist)) { ?>
@@ -106,30 +100,50 @@
                         <table class="table table-striped table-bordered table-hover classrecord nowrap" cellspacing="0" width="100%">
                            <thead>
                               <tr>
-                                 <th>Learner Names</th>
-                                 <th>Gender</th>
+                                 <th rowspan="2" class="text-center">Student's Name</th>
+                                 <th rowspan="2" class="text-center">Gender</th>
                                  <?php
                                  foreach ($subject_list as $row) {
-                                    echo "<th>" . $row->subject . "</th>\r\n";
+                                    echo '<th colspan="3" class="text-center">' . $row->subject . '</th>';
                                  }
                                  ?>
-                                 <th>Average</th>
+                                 <th colspan="2" class="text-center">General</th>
+                                 <th colspan="2" class="text-center">Conduct</th>
+                              </tr>
+                              <tr>
+                                 <?php
+                                 foreach ($subject_list as $row) {
+                                    echo '<th class="text-center">Grade</th>';
+                                    echo '<th class="text-center">Code</th>';
+                                    echo '<th class="text-center">Conduct</th>';
+                                 }
+                                 ?>
+                                 <th class="text-center">Grade</th>
+                                 <th class="text-center">Code</th>
+                                 <th class="text-center">Grade</th>
+                                 <th class="text-center">Code</th>
                               </tr>
                            </thead>
                            <tbody>
                               <?php
                               foreach ($resultlist as $row) {
                                  $ctr = 0;
-                                 echo "<tr>\r\n";
+                                 $numVal = 0;
+                                 echo "<tr>";
                                  foreach ($row as $val) {
                                     if ($ctr <= 1)
-                                       echo "<td class='text-left'>" . $val . "</td>\r\n";
-                                    else
-                                       echo "<td class='text-center" . ($val < 75 ? " text-danger" : ($val >= 90 ? " text-success" : "")) . "'><b>" . ($val == 0 ? '' : $val) . "</b></td>\r\n";
-                                    // echo "<td class='text-center'><b>".$val."</b></td>\r\n";
+                                       echo "<td class='text-left'>" . $val . "</td>";
+                                    else {
+                                       if (is_numeric($val)) {
+                                          $numVal = (float) $val;
+                                          echo "<td class='text-center" . ($val < 75 ? " text-danger" : ($val >= 90 ? " text-success" : "")) . "'><b>" . ($val == 0 ? '' : $val) . "</b></td>";
+                                       } else {
+                                          echo "<td class='text-center" . ($numVal < 75 ? " text-danger" : ($numVal >= 90 ? " text-success" : "")) . "'><b>" . ($numVal == 0 ? '' : $val) . "</b></td>";
+                                       }
+                                    }
                                     $ctr++;
                                  }
-                                 echo "</tr>\r\n";
+                                 echo "</tr>";
                               }
                               ?>
                            </tbody>

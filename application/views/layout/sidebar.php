@@ -1,3 +1,5 @@
+<?php $schoolCode = $this->rbac->getSchoolCode(); ?>
+
 <aside class="main-sidebar" id="alert2">
    <?php if ($this->rbac->hasPrivilege('student', 'can_view')) { ?>
       <form class="navbar-form navbar-left search-form2" role="search" action="<?php echo site_url('admin/admin/search'); ?>" method="POST">
@@ -311,9 +313,13 @@
                         <?php
                         }
                      } else {
-                        if ($this->rbac->hasPrivilege('student_attendance', 'can_view')) {
-                        ?>
-                           <li class="<?php echo set_Submenu('subjectattendence/attendance_by_month'); ?>"><a href="<?php echo base_url(); ?>report/attendance_by_month"><i class="fa fa-angle-double-right"></i> Attendance By Month</a></li>
+                        if ($this->rbac->hasPrivilege('student_attendance', 'can_view')) { ?>
+                           <?php if (strtoupper($schoolCode) !== 'LPMS') : ?>
+                              <li class="<?php echo set_Submenu('subjectattendence/attendance_by_month'); ?>"><a href="<?php echo base_url(); ?>report/attendance_by_month"><i class="fa fa-angle-double-right"></i> <?php echo $schoolName; ?>Attendance By Month</a></li>
+                           <?php else : ?>
+                              <li class="<?php echo set_Submenu('subjectattendence/attendance_by_month'); ?>"><a href="<?php echo base_url(); ?>report/attendance_by_semester_lpms"><i class="fa fa-angle-double-right"></i> <?php echo $schoolName; ?>Attendance By Semester</a></li>
+                           <?php endif; ?>
+
                            <li class="<?php echo set_Submenu('subjectattendence/index'); ?>"><a href="<?php echo base_url(); ?>admin/subjectattendence"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('period') . " " . $this->lang->line('attendance'); ?></a></li>
                         <?php
                         }
@@ -526,7 +532,9 @@
                         <li class="<?php echo set_Submenu('grading/create'); ?>"><a href="<?php echo base_url(); ?>lms/grading/setup"><i class="fa fa-angle-double-right"></i> Create Grading </a></li>
                         <li class="<?php echo set_Submenu('grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/grading/index"><i class="fa fa-angle-double-right"></i> Edit Grading </a></li>
                         <!-- <li class="<?php echo set_Submenu('final_grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/index"><i class="fa fa-angle-double-right"></i> Final Grading Encoding </a></li> -->
-                        <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
+                        <?php if (strtoupper($schoolCode) !== 'LPMS') : ?>
+                           <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
+                        <?php endif; ?>
                      <?php } ?>
                   </ul>
                </li>

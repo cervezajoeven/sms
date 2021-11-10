@@ -10,11 +10,11 @@
                <div class="box-header ptbnull"></div>
 
                <div class="box-header with-border">
-                  <h3 class="box-title"><i class="fa fa-search"></i> Student Attendance By Month</h3>
+                  <h3 class="box-title"><i class="fa fa-search"></i> Student Attendance By Semester</h3>
                </div>
 
                <div class="box-body">
-                  <form role="form" action="<?php echo site_url('report/attendance_by_month') ?>" method="post" class="">
+                  <form role="form" action="<?php echo site_url('report/attendance_by_semester_lpms') ?>" method="post" class="">
                      <div class="row">
                         <?php echo $this->customlib->getCSRF(); ?>
                         <div class="col-sm-6 col-md-3">
@@ -87,27 +87,20 @@
                <div class="">
                   <div class="box-header ptbnull"></div>
                   <div class="box-header ptbnull">
-                     <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Student Attendance </h3>
+                     <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Attendance for <?php echo $student['firstname'] . ' ' . $student['lastname'] ?></h3>
                   </div>
                   <div class="box-body table-responsive">
                      <?php if (isset($resultlist)) { ?>
-                        <form action="<?php echo site_url('report/save_attendance') ?>" method="POST">
+                        <form id="attendance" action="<?php echo site_url('report/save_attendance_lpms') ?>" method="POST">
                            <input type="hidden" name="session_id" value="<?php echo $session_id ?>">
                            <input type="hidden" name="class_id" value="<?php echo $class_id ?>">
                            <input type="hidden" name="section_id" value="<?php echo $section_id ?>">
                            <input type="hidden" name="student_id" value="<?php echo $student_id ?>">
-
-
                            <section class="content-header">
                               <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
                            </section>
                            <!-- Main content -->
                            <section class="content">
-                              <div class="form-group">
-                                 <div class="col-sm-12">
-                                    <button type="submit" name="search" value="search_filter" class="btn btn-primary checkbox-toggle pull-right"> <i class="fa fa-save"></i> Save</button>
-                                 </div>
-                              </div>
                               <div class="col-md-12">
                                  <div class="box box-warning">
 
@@ -115,110 +108,61 @@
 
 
                                        <div class="table-responsive">
-                                          <?php $months = array(
-                                             'Aug',
-                                             'Sep',
-                                             'Oct',
-                                             'Nov',
-                                             'Dec',
-                                             'Jan',
-                                             'Feb',
-                                             'Mar',
-                                             'Apr',
+                                          <?php $attendance_categories = array(
+                                             'Days of School' => 'days_of_school',
+                                             'Days Present' => 'days_present',
+                                             'Tardiness' => 'tardiness',
+                                             'Improper Uniform' => 'improper_uniform',
                                           ); ?>
-                                          <?php //if (!empty($resultlist)) { 
-                                          ?>
                                           <table id="attendance" class="table table-striped table-bordered table-hover nowrap">
                                              <thead>
                                                 <tr>
-                                                   <th>Month</th>
-                                                   <th>Days Present</th>
-                                                   <th>Days Absent</th>
-                                                   <th>Days Tardy</th>
+                                                   <th></th>
+                                                   <th>1st Trim</th>
+                                                   <th>2nd Trim</th>
+                                                   <th>3rd Trim</th>
                                                 </tr>
                                              </thead>
                                              <tbody>
-                                                <?php $total_present = 0; ?>
-                                                <?php $total_absent = 0; ?>
-                                                <?php $total_tardy = 0; ?>
-                                                <?php foreach ($months as $value) : ?>
-                                                   <?php if ($student_attendance) : ?>
-                                                      <?php $total_present += json_decode($student_attendance['attendance'])->$value ?>
-                                                      <?php $total_absent += json_decode($student_attendance['absent'])->$value ?>
-                                                      <?php $total_tardy += json_decode($student_attendance['tardy'])->$value ?>
-                                                   <?php endif; ?>
+                                                <?php
+                                                foreach ($attendance_categories as $key => $value) : ?>
                                                    <tr>
-                                                      <td><?php echo $value ?></td>
-                                                      <td>
+                                                      <td><?php echo $key ?></td>
 
-                                                         <?php if ($student_attendance) : ?>
-                                                            <input class="month_edit" type="number" edittype="months" name="months[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['attendance'])->$value) ?>" min="0" />
-                                                         <?php else : ?>
-                                                            <input class="month_edit" type="number" edittype="months" name="months[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
-                                                         <?php endif; ?>
-                                                      </td>
-                                                      <td>
-                                                         <?php if ($student_attendance) : ?>
-                                                            <input class="absent_edit" type="number" edittype="absent" name="absent[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$value) ?>" min="0" />
-                                                         <?php else : ?>
-                                                            <input class="absent_edit" type="number" edittype="absent" name="absent[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
-                                                         <?php endif; ?>
-                                                      </td>
-                                                      <td>
-                                                         <?php if ($student_attendance) : ?>
-                                                            <input class="tardy_edit" type="number" edittype="tardy" name="tardy[<?php echo $value ?>]" month="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['tardy'])->$value) ?>" min="0" />
-                                                         <?php else : ?>
-                                                            <input class="tardy_edit" type="number" edittype="tardy" name="tardy[<?php echo $value ?>]" month="<?php echo $value ?>" value="" min="0" />
-                                                         <?php endif; ?>
+                                                      <?php if ($student_attendance) : ?>
+                                                         <td><input class="semester_edit" type="number" edittype="first" name="first[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['first_trim'])->$value) ?>" min="0" /></td>
+                                                      <?php else : ?>
+                                                         <td><input class="semester_edit" type="number" edittype="first" name="first[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
+                                                      <?php endif; ?>
 
-                                                      </td>
+                                                      <?php if ($student_attendance) : ?>
+                                                         <td><input class="semester_edit" type="number" edittype="second" name="second[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['second_trim'])->$value) ?>" min="0" /></td>
+                                                      <?php else : ?>
+                                                         <td><input class="semester_edit" type="number" edittype="second" name="second[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
+                                                      <?php endif; ?>
+
+                                                      <?php if ($student_attendance) : ?>
+                                                         <td><input class="semester_edit" type="number" edittype="third" name="third[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['third_trim'])->$value) ?>" min="0" /></td>
+                                                      <?php else : ?>
+                                                         <td><input class="semester_edit" type="number" edittype="third" name="third[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
+                                                      <?php endif; ?>
                                                    </tr>
                                                 <?php endforeach; ?>
-
-                                                <tr>
-                                                   <td id="total">Total</td>
-                                                   <td id="total_present"><?php echo $total_present ?></td>
-                                                   <td id="total_absent"><?php echo $total_absent ?></td>
-                                                   <td id="total_tardy"><?php echo $total_tardy ?></td>
-
-
-                                                </tr>
-                                                <?php //if($hasACP == 'yes'): 
-                                                ?>
-                                                <?php if ($class_id == '14' || $class_id == '15') : ?>
-                                                   <tr>
-
-                                                      <td id="acp">ACP</td>
-                                                      <td id="acp_input_td" colspan="3">
-                                                         <select name="acp" class="form-control">
-                                                            <option value="P" <?php echo ($student_attendance['acp'] == 'P') ? "selected" : ""; ?>>P</option>
-                                                            <option value="F" <?php echo ($student_attendance['acp'] == 'F') ? "selected" : ""; ?>>F</option>
-                                                         </select>
-                                                      </td>
-
-
-                                                   </tr>
-                                                <?php endif; ?>
                                              </tbody>
                                              <tfoot>
-                                                <!-- <tr>
-                                                                        <th>Average</th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                    </tr> -->
                                              </tfoot>
                                           </table>
-                                          <?php //} 
-                                          ?>
                                        </div>
-
                                     </div>
                                  </div>
                               </div>
+                              <div class="form-group">
+                                 <div class="col-sm-12">
+                                    <!-- <button type="submit" name="search" value="search_filter" class="btn btn-primary checkbox-toggle pull-right"> <i class="fa fa-save"></i> Save</button> -->
+                                    <button type="submit" name="action" class="btn btn-primary pull-right save" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Saving..."><i class="fa fa-save"></i><?php echo " Save"; ?></button>
+                                 </div>
+                              </div>
                   </div>
-
    </section>
    </form>
 <?php } ?>
@@ -427,5 +371,40 @@
          input_index = input_index + 1;
 
       }
+   });
+
+   $("#attendance").submit(function(event) {
+      event.preventDefault();
+      var url = '<?php echo base_url('report/save_attendance_lpms') ?>';
+
+      var $this = $('.save');
+      $this.button('loading');
+      var frmdata = new FormData(this);
+
+      $.ajax({
+         url: '<?php echo site_url('report/save_attendance_lpms') ?>',
+         type: "POST",
+         data: frmdata,
+         dataType: 'json',
+         contentType: false,
+         cache: false,
+         processData: false,
+         beforeSend: function() {
+            $this.button('loading');
+         },
+         success: function(res) {
+            if (res.status == "fail") {
+               errorMsg(res.message);
+            } else {
+               successMsg(res.message);
+            }
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            // alert(errorThrown);
+         },
+         complete: function(data) {
+            $this.button('reset');
+         }
+      });
    });
 </script>

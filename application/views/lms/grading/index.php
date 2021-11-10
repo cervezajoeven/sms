@@ -1,5 +1,5 @@
-<script type="text/javascript" src="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
-<script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" src="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
    <!-- Content Header (Page header) -->
@@ -59,7 +59,7 @@
 
                               <tr>
                                  <td class="mailbox-name">
-                                    <?php echo $list_data['class'] ?> - <?php echo $list_data['section'] ?> (<?php echo $list_data['description'] ?>)
+                                    <?php echo ($list_data['school_name'] != '' || $list_data['school_name'] != null ? '(' . $list_data['school_name'] . ')' : ''); ?> <?php echo $list_data['class'] ?> - <?php echo $list_data['section'] ?> (<?php echo $list_data['description'] ?>)
                                  </td>
                                  <td class="mailbox-name">
                                     <?php echo $list_data['subject_name']; ?>
@@ -68,10 +68,15 @@
                                     <?php echo $list_data['teacher_name']; ?> <?php echo $list_data['teacher_surname']; ?>
                                  </td>
                                  <td class="mailbox-name">
-
-                                    <a data-placement="right" href="<?php echo site_url('lms/grading/edit/' . $list_data['id']) ?>" class="btn btn-default btn-xs duplicate" data-toggle="tooltip" title="Edit">
-                                       <i class="fa fa-edit"></i>
-                                    </a>
+                                    <?php if ($list_data['school_name'] == "Conduct") : ?>
+                                       <a data-placement="right" href="<?php echo site_url('lms/grading/edit/' . $list_data['id'] . "/conduct") ?>" class="btn btn-default btn-xs duplicate" data-toggle="tooltip" title="Edit">
+                                          <i class="fa fa-edit"></i>
+                                       </a>
+                                    <?php else : ?>
+                                       <a data-placement="right" href="<?php echo site_url('lms/grading/edit/' . $list_data['id']) ?>" class="btn btn-default btn-xs duplicate" data-toggle="tooltip" title="Edit">
+                                          <i class="fa fa-edit"></i>
+                                       </a>
+                                    <?php endif ?>
 
                                     <!-- <a data-placement="right" href="<?php //echo site_url('lms/grading/edit_column/'.$list_data['id']) 
                                                                            ?>" class="btn btn-default btn-xs duplicate"  data-toggle="tooltip" title="Edit">

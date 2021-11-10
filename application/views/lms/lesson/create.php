@@ -162,7 +162,7 @@
          color: black;
          text-align: center;
          border-radius: 6px;
-         padding: 7px 7px;
+         padding: 10px 10px 10px 10px;
          position: absolute;
          z-index: 1;
          top: 150%;

@@ -390,7 +390,6 @@ class Assessment extends JOE_Controller
       $data['score'] = $score;
       $data['response_status'] = "1";
       $data['end_date'] = date("Y-m-d H:i:s");
-
       print_r($this->assessment_model->lms_update("lms_assessment_sheets", $data));
    }
 }
