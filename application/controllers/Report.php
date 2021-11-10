@@ -1887,8 +1887,8 @@ class Report extends Admin_Controller
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
                $data['resultlist'] = $class_record;
 
-               print_r($data);
-               die();
+               // print_r($data);
+               // die();
 
                $this->load->view('layout/header', $data);
                $this->load->view('reports/class_record_per_student_lpms', $data);
