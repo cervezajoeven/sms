@@ -1873,7 +1873,8 @@ class Report extends Admin_Controller
 
 
             // print_r(json_encode($student_id));die();
-            // print_r($class_record);die();
+            print_r($class_record);
+            die();
             $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
 
             $data['session_id'] = $session;
