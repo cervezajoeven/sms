@@ -1883,13 +1883,13 @@ class Report extends Admin_Controller
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
 
-            print_r($data);
-            die();
-
-
             if (strtolower($data['school_code']) == 'lpms') {
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
                $data['resultlist'] = $class_record;
+
+               print_r($data);
+               die();
+
                $this->load->view('layout/header', $data);
                $this->load->view('reports/class_record_per_student_lpms', $data);
                $this->load->view('layout/footer', $data);
