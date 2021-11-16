@@ -59,7 +59,7 @@
 
                               <tr>
                                  <td class="mailbox-name">
-                                    <?php echo ($list_data['school_name'] != '' || $list_data['school_name'] != null ? '(' . $list_data['school_name'] . ')' : ''); ?> <?php echo $list_data['class'] ?> - <?php echo $list_data['section'] ?> (<?php echo $list_data['description'] ?>)
+                                    <?php echo ($list_data['school_name'] == 'Conduct' ? '(' . $list_data['school_name'] . ')' : ''); ?> <?php echo $list_data['class'] ?> - <?php echo $list_data['section'] ?> (<?php echo $list_data['description'] ?>)
                                  </td>
                                  <td class="mailbox-name">
                                     <?php echo $list_data['subject_name']; ?>
