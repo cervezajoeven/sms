@@ -1709,8 +1709,8 @@ class Report extends Admin_Controller
             }
 
 
-            print_r($data);
-            die();
+            // print_r($data);
+            // die();
 
             $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
