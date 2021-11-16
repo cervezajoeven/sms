@@ -85,7 +85,7 @@ class Gradereport_model extends CI_Model
       $average_column = "";
       $colcount = 0;
 
-      $resultdata = $this->get_subject_list($grade_level, $school_year);
+      $resultdata = $this->get_subject_list($grade_level, $school_year, $section);
 
       foreach ($resultdata as $row) {
          if (!empty($subject_columns)) {
@@ -166,7 +166,7 @@ class Gradereport_model extends CI_Model
       $average_conduct_column = "";
       $colcount = 0;
 
-      $resultdata = $this->get_subject_list($grade_level, $school_year);
+      $resultdata = $this->get_subject_list($grade_level, $school_year, $section);
 
       foreach ($resultdata as $row) {
          if (!empty($subject_columns)) {
@@ -272,17 +272,38 @@ class Gradereport_model extends CI_Model
       return $query->result();
    }
 
-   public function get_subject_list($gradelevel, $schoolyear)
+   // public function get_subject_list($gradelevel, $schoolyear)
+   // {
+   //    //-- Get subject list
+   //    $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average, subjects.transmuted, subjects.code
+   //              FROM subject_groups
+   //              JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
+   //              JOIN subjects ON subjects.id = subject_group_subjects.subject_id
+   //              JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+   //              JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
+   //              JOIN classes ON classes.id = class_sections.class_id
+   //              WHERE classes.id = " . $gradelevel . " 
+   //              AND subjects.graded = TRUE 
+   //              AND subject_groups.session_id = " . $schoolyear . " 
+   //              GROUP BY classes.id, subjects.name
+   //              ORDER BY subject_groups.name, subjects.name ASC";
+
+   //    $query = $this->db->query($sql);
+   //    return $query->result();
+   // }
+
+   public function get_subject_list($gradelevel, $schoolyear, $section)
    {
       //-- Get subject list
       $sql = "SELECT classes.id AS grade_level_id, subjects.name AS subject, subject_group_subjects.subject_id, subjects.in_average, subjects.transmuted, subjects.code
                 FROM subject_groups
                 JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                 JOIN subjects ON subjects.id = subject_group_subjects.subject_id
-                JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id
+                JOIN subject_group_class_sections ON subject_group_class_sections.subject_group_id = subject_groups.id 
                 JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id
                 JOIN classes ON classes.id = class_sections.class_id
                 WHERE classes.id = " . $gradelevel . " 
+                AND class_sections.section_id = " . $section . " 
                 AND subjects.graded = TRUE 
                 AND subject_groups.session_id = " . $schoolyear . " 
                 GROUP BY classes.id, subjects.name
@@ -937,7 +958,7 @@ class Gradereport_model extends CI_Model
       $quarter_sum = [];
 
       // $subject_columns .= ", IFNULL(tbl" . $row->subject_id . ".quarterly_grade, 0) AS '" .$row->subject. "'" ;
-      $subjects = $this->get_subject_list($_grade_level, $_school_year);
+      $subjects = $this->get_subject_list($_grade_level, $_school_year, $_section);
       foreach ($subjects as $row) {
          if (!empty($sql)) {
             $sql .= " LEFT JOIN ";
