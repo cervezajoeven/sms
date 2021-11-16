@@ -1702,20 +1702,22 @@ class Report extends Admin_Controller
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
 
-            if (strtoupper($this->sch_setting_detail->dise_code) == 'LPMS')
+            if (strtoupper($this->sch_setting_detail->dise_code) == 'LPMS') {
                $class_record = $this->gradereport_model->get_class_record_lpms($session, $quarter, $grade_level, $section);
-            else
+            } else {
                $class_record = $this->gradereport_model->get_class_record($session, $quarter, $grade_level, $section);
+            }
 
-            // print_r($data);
-            // die();
+
+            print_r($data);
+            die();
 
             $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
             $data['quarter_id'] = $quarter;
             $data['class_id'] = $grade_level;
             $data['section_id']  = $section;
-            $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session);
+            $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session, $section);
 
 
             // print_r($class_record);
@@ -2531,7 +2533,7 @@ class Report extends Admin_Controller
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
 
-            $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session);
+            $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session, $section);
             // print_r("CloudPH Debug Mode 2");die();
             $class_record = $this->gradereport_model->generate_Banig($session, $grade_level, $section);
             // print_r($class_record);die();
