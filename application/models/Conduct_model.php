@@ -81,8 +81,8 @@ class Conduct_model extends MY_Model
                 AND student_session.section_id = $section                
                 ORDER BY gender DESC, student_name ASC";
 
-      print_r($sql);
-      die();
+      // print_r($sql);
+      // die();
 
       $query = $this->db->query($sql);
       return $query->result();
