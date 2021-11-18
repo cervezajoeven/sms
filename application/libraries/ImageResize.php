@@ -343,12 +343,14 @@ class ImageResize
       );
 
       $filename = uniqid() . $file_extenstion;
+      $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
+      return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
 
-      if (copy($image, $destination_path . '/' . $filename, stream_context_create($contextOptions))) {
-         $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
-         return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
-      }
-      return false;
+      // if (copy($image, $destination_path . '/' . $filename, stream_context_create($contextOptions))) {
+      //    $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
+      //    return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
+      // }
+      // return false;
    }
 
    function videoThumbnail($src, $dest)
