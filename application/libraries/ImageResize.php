@@ -358,8 +358,8 @@ class ImageResize
       $title = $img_data->title;
       $path_info = pathinfo($image);
       $file_extenstion = '.' . $path_info['extension']; // "bill
-      $destination_path = $_SESSION['S3_BaseUrl'] . "uploads/gallery/youtube_video/";
-      $thumb_path = $_SESSION['S3_BaseUrl'] . "uploads/gallery/youtube_video/thumb/";
+      $destination_path = "uploads/gallery/youtube_video/";
+      $thumb_path = "uploads/gallery/youtube_video/thumb/";
       $contextOptions = array(
          "ssl" => array(
             "verify_peer" => false,
@@ -368,6 +368,8 @@ class ImageResize
       );
 
       $filename = uniqid() . $file_extenstion;
+
+      //
 
       $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
       return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
@@ -383,5 +385,10 @@ class ImageResize
       $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
       imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
       imagejpeg($virtual_image, $dest);
+
+      //-- Added by E./v\.N
+      $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+      $thumb_dest_file = $_SESSION['School_Code'] . "/" . $dest;
+      $s3->putObjectFile($thumb_dest_file, S3_BUCKET, $thumb_dest_file, S3::ACL_PUBLIC_READ);
    }
 }
