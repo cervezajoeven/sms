@@ -272,7 +272,7 @@ class Media extends Admin_Controller
          curl_close($curl);
 
          $data = array(
-            'video_url' => form_error('erwin_url'),
+            'video_url' => form_error('video_url'),
          );
          $array = array('status' => 0, 'error' => $data);
          echo json_encode($array);
