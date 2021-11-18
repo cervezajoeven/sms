@@ -287,8 +287,6 @@
                      errorMsg(data.msg);
                   }
                }
-
-               errorMsg(data.msg);
             },
             error: function(xhr) { // if error occured
                $this.button('reset');

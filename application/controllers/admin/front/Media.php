@@ -271,18 +271,6 @@ class Media extends Admin_Controller
          $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
          curl_close($curl);
 
-         // if ($httpcode == 200) {
-         //    $img_array = array();
-         //    $upload_response = $this->imageresize->resizeVideoImg($return);
-
-         //    if ($upload_response) {
-         //       $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
-         //       echo json_encode($response);
-         //    }
-         // } else {
-         //    echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
-         // }
-
          if ($httpcode == 200) {
             $img_array = array();
             $upload_response = $this->imageresize->resizeVideoImg($return);
@@ -301,10 +289,6 @@ class Media extends Admin_Controller
                );
                $insert_id = $this->cms_media_model->add($data);
                echo json_encode(array('status' => 1, 'msg' => $this->lang->line('file_upload_successfully'), 'error' => ''));
-               //                    $data['record_id'] = $insert_id;
-               //                    $img_array[] = $data;
-               //                    $data['img_array'] = $img_array;
-               //                    $this->load->view('admin/partial/_media_content', $data);            
             } else {
                echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
             }
