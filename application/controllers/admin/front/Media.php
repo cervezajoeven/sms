@@ -267,39 +267,46 @@ class Media extends Admin_Controller
          $curl = curl_init($youtube);
          curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
          $return = curl_exec($curl);
+
          $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
          curl_close($curl);
 
+         $data = array(
+            'video_url' => form_error('erwin_url'),
+         );
+         $array = array('status' => 0, 'error' => $data);
+         echo json_encode($array);
 
-         $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
-         if ($httpcode == 200) {
-            $img_array = array();
-            $upload_response = $this->imageresize->resizeVideoImg($return);
+         // $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
 
-            if ($upload_response) {
-               $upload_response = json_decode($upload_response);
-               $data = array(
-                  'vid_url' => $url,
-                  'vid_title' => $upload_response->vid_title,
-                  'img_name' => $upload_response->store_name,
-                  'file_type' => $upload_response->file_type,
-                  'file_size' => $upload_response->file_size,
-                  'thumb_name' => $upload_response->store_name,
-                  'thumb_path' => $upload_response->thumb_path,
-                  'dir_path' => $upload_response->dir_path,
-               );
-               $insert_id = $this->cms_media_model->add($data);
-               echo json_encode(array('status' => 1, 'msg' => $this->lang->line('file_upload_successfully'), 'error' => ''));
-               //                    $data['record_id'] = $insert_id;
-               //                    $img_array[] = $data;
-               //                    $data['img_array'] = $img_array;
-               //                    $this->load->view('admin/partial/_media_content', $data);            
-            } else {
-               echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
-            }
-         } else {
-            echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
-         }
+         // if ($httpcode == 200) {
+         //    $img_array = array();
+         //    $upload_response = $this->imageresize->resizeVideoImg($return);
+
+         //    if ($upload_response) {
+         //       $upload_response = json_decode($upload_response);
+         //       $data = array(
+         //          'vid_url' => $url,
+         //          'vid_title' => $upload_response->vid_title,
+         //          'img_name' => $upload_response->store_name,
+         //          'file_type' => $upload_response->file_type,
+         //          'file_size' => $upload_response->file_size,
+         //          'thumb_name' => $upload_response->store_name,
+         //          'thumb_path' => $upload_response->thumb_path,
+         //          'dir_path' => $upload_response->dir_path,
+         //       );
+         //       $insert_id = $this->cms_media_model->add($data);
+         //       echo json_encode(array('status' => 1, 'msg' => $this->lang->line('file_upload_successfully'), 'error' => ''));
+         //       //                    $data['record_id'] = $insert_id;
+         //       //                    $img_array[] = $data;
+         //       //                    $data['img_array'] = $img_array;
+         //       //                    $this->load->view('admin/partial/_media_content', $data);            
+         //    } else {
+         //       echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
+         //    }
+         // } else {
+         //    echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
+         // }
       }
    }
 }
