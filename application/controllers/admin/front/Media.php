@@ -271,13 +271,8 @@ class Media extends Admin_Controller
          $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
          curl_close($curl);
 
-         $data = array(
-            'video_url' => form_error('video_url'),
-         );
-         $array = array('status' => 0, 'error' => $data);
-         echo json_encode($array);
-
-         // $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
+         $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
+         echo json_encode($response);
 
          // if ($httpcode == 200) {
          //    $img_array = array();
