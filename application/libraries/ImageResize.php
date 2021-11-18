@@ -342,6 +342,12 @@ class ImageResize
          ),
       );
 
+      if (realpath($destination_path) == false)
+         mkdir($destination_path, 0777);
+
+      if (realpath($thumb_path) == false)
+         mkdir($thumb_path, 0777);
+
       $filename = uniqid() . $file_extenstion;
 
       if (copy($image, $destination_path . '/' . $filename, stream_context_create($contextOptions))) {

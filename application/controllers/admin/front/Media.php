@@ -136,6 +136,13 @@ class Media extends Admin_Controller
       if (isset($_FILES['files']) && !empty($_FILES['files'])) {
          $destination_path = "uploads/gallery/media/";
          $thumb_path = "uploads/gallery/media/thumb/";
+
+         if (realpath($destination_path) == false)
+            mkdir($destination_path, 0777);
+
+         if (realpath($thumb_path) == false)
+            mkdir($thumb_path, 0777);
+
          $responses = $this->imageresize->resize($_FILES["files"], $destination_path, $thumb_path, "media");
 
          if ($responses) {
