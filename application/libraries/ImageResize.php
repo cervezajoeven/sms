@@ -53,6 +53,8 @@ class ImageResize
       // $this->file_count = count($this->file_data['name']);
       // $this->destination_dir = $config["destination_folder"];
       // $this->thumbnail_destination_dir = $config["thumbnail_destination_folder"];
+
+      $this->load->library('s3');
    }
 
    //resize function
