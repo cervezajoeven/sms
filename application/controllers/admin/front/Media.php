@@ -271,8 +271,17 @@ class Media extends Admin_Controller
          $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
          curl_close($curl);
 
-         $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
-         echo json_encode($response);
+         if ($httpcode == 200) {
+            $img_array = array();
+            $upload_response = $this->imageresize->resizeVideoImg($return);
+
+            if ($upload_response) {
+               $response = array('status' => 0, 'msg' => $this->lang->line('something_wrong'));
+               echo json_encode($response);
+            }
+         } else {
+            echo json_encode(array('status' => 0, 'msg' => $this->lang->line('please_try_again'), 'error' => ''));
+         }
 
          // if ($httpcode == 200) {
          //    $img_array = array();
