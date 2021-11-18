@@ -278,6 +278,7 @@
             },
             success: function(data) {
                if (data.status == 1) {
+                  successMsg('Link uploaded successfully');
                   load(1);
                } else {
                   if (typeof data.error !== 'undefined') {
@@ -428,6 +429,7 @@
          },
          error: function(xhr) { // if error occured
             Swal.close();
+            console.log(xhr);
          },
       });
    }
