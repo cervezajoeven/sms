@@ -65,11 +65,17 @@
                            <label for="exampleInputEmail1">Template</label><small class="req"> *</small>
                            <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control filter">
 
-                              <?php if (strtolower($schoolcode) == "scholaangelicus" || strtolower($schoolcode) == "mcam") : ?>
+                              <?php if (strtolower($schoolcode) == "scholaangelicus" || strtolower($schoolcode) == "mcam" || strtolower($schoolcode) == "htspg" || strtolower($schoolcode) == "htsmk" || strtolower($schoolcode) == "htslipa") : ?>
                                  <option value="saioriginal">Original</option>
                               <?php elseif (strtolower($schoolcode) == "lpms") : ?>
                                  <option value="lpmsoriginal">Original</option>
                                  <option value="lpmsconduct">Conduct</option>
+                              <?php elseif (strtolower($schoolcode) == "ssapamp") : ?>
+                                 <option value="original">Original</option>
+                                 <option value="ssapamp_cle">CLE - Pre School</option>
+                                 <option value="ssapamp_math">Math - Pre School</option>
+                                 <option value="ssapamp_mapeh">MAPEH - Pre School</option>
+                                 <option value="ssapamp_reading">Reading - Pre School</option>
                               <?php else : ?>
                                  <option value="original">Original</option>
                                  <option value="mapeh">MAPEH</option>
