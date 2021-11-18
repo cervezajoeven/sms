@@ -291,6 +291,7 @@
             },
             error: function(xhr) { // if error occured
                $this.button('reset');
+               console.log(xhr);
             },
             complete: function() {
                $this.button('reset');
@@ -364,6 +365,7 @@
          var fd = new FormData();
          var fileInput = document.getElementById('file');
          var filePath = fileInput.value;
+         var fileCtr = 0;
 
          // var allowedExtensions = /(\.zip|\.mp4|\.mov|\.flv|\.wmv|\.avi|\.mpg|\.mpeg|\.rm|\.ram|\.swf|\.ogg|\.webm|\.mkv|\.wav|\.mp3|\.aac)$/i;
          // if (allowedExtensions.exec(filePath)) {
@@ -382,14 +384,18 @@
                if (allowedExtensions.exec(fnamepath))
                   if (filesize > 5000000)
                      errorMsg('Only files with 500kb below is allowed');
-                  else
+                  else {
                      fd.append("files[]", fileInput.files[x]);
+                     fileCtr++;
+                  }
+
                else
                   errorMsg('File Type not allowed');
             }
 
             // if (fd.entries() > 0)
-            uploadData(fd);
+            if (fileCtr > 0)
+               uploadData(fd);
          }
       });
    });
