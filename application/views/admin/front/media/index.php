@@ -278,7 +278,8 @@
             },
             success: function(data) {
                if (data.status == 1) {
-                  successMsg('Link uploaded successfully');
+                  // successMsg('Link uploaded successfully');
+                  successMsg(data.msg);
                   load(1);
                } else {
                   if (typeof data.error !== 'undefined') {

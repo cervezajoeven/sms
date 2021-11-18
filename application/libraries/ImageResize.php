@@ -52,9 +52,7 @@ class ImageResize
       // $this->file_data = $this->config->item("file_data");
       // $this->file_count = count($this->file_data['name']);
       // $this->destination_dir = $config["destination_folder"];
-      // $this->thumbnail_destination_dir = $config["thumbnail_destination_folder"];
-
-      $this->load->library('s3');
+      // $this->thumbnail_destination_dir = $config["thumbnail_destination_folder"];      
    }
 
    //resize function
@@ -328,31 +326,6 @@ class ImageResize
       }
    }
 
-   // public function resizeVideoImg($image_array)
-   // {
-   //    $img_data = json_decode($image_array);
-   //    $image = $img_data->thumbnail_url;
-   //    $title = $img_data->title;
-   //    $path_info = pathinfo($image);
-   //    $file_extenstion = '.' . $path_info['extension']; // "bill
-   //    $destination_path = "uploads/gallery/youtube_video/";
-   //    $thumb_path = "uploads/gallery/youtube_video/thumb/";
-   //    $contextOptions = array(
-   //       "ssl" => array(
-   //          "verify_peer" => false,
-   //          "verify_peer_name" => false,
-   //       ),
-   //    );
-
-   //    $filename = uniqid() . $file_extenstion;
-
-   //    if (copy($image, $destination_path . '/' . $filename, stream_context_create($contextOptions))) {
-   //       $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
-   //       return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
-   //    }
-   //    return false;
-   // }
-
    public function resizeVideoImg($image_array)
    {
       $img_data = json_decode($image_array);
@@ -371,11 +344,36 @@ class ImageResize
 
       $filename = uniqid() . $file_extenstion;
 
-      //
-
-      $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
-      return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
+      if (copy($image, $destination_path . '/' . $filename, stream_context_create($contextOptions))) {
+         $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
+         return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
+      }
+      return false;
    }
+
+   // public function resizeVideoImg($image_array)
+   // {
+   //    $img_data = json_decode($image_array);
+   //    $image = $img_data->thumbnail_url;
+   //    $title = $img_data->title;
+   //    $path_info = pathinfo($image);
+   //    $file_extenstion = '.' . $path_info['extension']; // "bill
+   //    $destination_path = "uploads/gallery/youtube_video/";
+   //    $thumb_path = "uploads/gallery/youtube_video/thumb/";
+   //    $contextOptions = array(
+   //       "ssl" => array(
+   //          "verify_peer" => false,
+   //          "verify_peer_name" => false,
+   //       ),
+   //    );
+
+   //    $filename = uniqid() . $file_extenstion;
+
+   //    //
+
+   //    $this->videoThumbnail($destination_path . '/' . $filename, $thumb_path . '/' . $filename);
+   //    return json_encode(array('vid_title' => $title, 'store_name' => $filename, 'file_type' => 'video', 'file_size' => 0, 'thumb_name' => $filename, 'thumb_path' => $thumb_path, 'dir_path' => $destination_path));
+   // }
 
    function videoThumbnail($src, $dest)
    {
@@ -387,10 +385,5 @@ class ImageResize
       $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
       imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
       imagejpeg($virtual_image, $dest);
-
-      //-- Added by E./v\.N
-      $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
-      $thumb_dest_file = $_SESSION['School_Code'] . "/" . $dest;
-      $s3->putObjectFile($thumb_dest_file, S3_BUCKET, $thumb_dest_file, S3::ACL_PUBLIC_READ);
    }
 }

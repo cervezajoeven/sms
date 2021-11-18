@@ -271,6 +271,8 @@ class Media extends Admin_Controller
          $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
          curl_close($curl);
 
+         // $img_data = json_decode($return);
+
          if ($httpcode == 200) {
             $img_array = array();
             $upload_response = $this->imageresize->resizeVideoImg($return);
@@ -287,6 +289,14 @@ class Media extends Admin_Controller
                   'thumb_path' => $upload_response->thumb_path,
                   'dir_path' => $upload_response->dir_path,
                );
+
+               //-- Added by E./v\.N
+               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $thumb_dest_file = $_SESSION['School_Code'] . "/" . $upload_response->thumb_path . $upload_response->store_name;
+               $s3->putObjectFile($upload_response->thumb_path . $upload_response->store_name, S3_BUCKET, $thumb_dest_file, S3::ACL_PUBLIC_READ);
+
+               unlink($upload_response->thumb_path . $upload_response->store_name);
+
                $insert_id = $this->cms_media_model->add($data);
                echo json_encode(array('status' => 1, 'msg' => $this->lang->line('file_upload_successfully'), 'error' => ''));
             } else {
