@@ -502,6 +502,8 @@ class Lesson extends General_Controller
       // exit();
       // $current_session = $this->setting_model->getCurrentSession();
 
+      $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
+
       if ($data['role'] != "student") {
          $data['students'] = $this->lesson_model->get_students("lms_lesson", $id, "id");
          // $data['classes'] = $this->class_model->getAll();
@@ -510,10 +512,6 @@ class Lesson extends General_Controller
          $data['subjects'] = $this->general_model->get_subjects();
          $data['account_id'] = $this->general_model->get_account_id();
          $data['google_meet'] = $this->general_model->get_account_name($data['account_id'], "admin")[0]['google_meet'];
-         $data['lesson'] = $this->lesson_model->lms_get("lms_lesson", $id, "id")[0];
-
-         // print_r($data);
-         // die();
 
          try {
             if ($data['lesson']['zoom_id'] != null) {
@@ -547,6 +545,9 @@ class Lesson extends General_Controller
          $lesson_log_data['lesson_id'] = $id;
          $lesson_log_data['account_id'] = $this->general_model->get_account_id();
          $lesson_log_data['session_id'] = $this->setting_model->getCurrentSession();
+
+         // print_r($data);
+         // die();
 
          if ($data['lesson']['lesson_type'] == 'classroom')
             $this->lesson_model->lms_create("lms_lesson_logs", $lesson_log_data);
@@ -682,10 +683,10 @@ class Lesson extends General_Controller
 
       $data['result'] = 'success';
       $data['message'] = 'Import successful!';
-      // echo json_encode($data);
+      echo json_encode($data);
 
-      redirect(site_url() . "lms/lesson/index/" . $id);
-      $this->load->view('lms/lesson/show', $data);
+      // redirect(site_url() . "lms/lesson/index/" . $id);
+      // $this->load->view('lms/lesson/show', $data);
    }
 
    function view($id)
