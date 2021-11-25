@@ -410,6 +410,7 @@ $(document).ready(function(){
 					if(value.type=="section"){
 						$(".option-container-actual").eq(key).find(".option_type").find("textarea").val(value.correct);
 					}
+
 					$.each(value.option_labels.split(","),function(split_key,split_value){
 						
 						var last_option = $(".option-container-actual").eq(key).find(".option").length;

@@ -28,6 +28,10 @@ class Class_record extends Student_Controller
       // print_r("CloudPH Debug Mode");die();
       $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
       $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+      $data['school_code'] = strtolower($this->sch_setting_detail->dise_code);
+      $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
+      $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
+      $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
 
       if (strtolower($this->sch_setting_detail->dise_code) == 'lpms') {
          $studentinfo = $this->student_model->get($student_id);
@@ -40,12 +44,14 @@ class Class_record extends Student_Controller
          $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
          $data['codes_table'] = $this->gradereport_model->grade_code_table();
 
-         $this->db->select("*");
-         $this->db->where("session_id", $this->sch_setting_detail->session_id);
-         $this->db->where("class_id", $student_current_class->class_id);
-         $this->db->where("section_id", $student_current_class->section_id);
-         $this->db->where("student_id", $student_id);
-         $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
+         // $this->db->select("*");
+         // $this->db->where("session_id", $this->sch_setting_detail->session_id);
+         // $this->db->where("class_id", $student_current_class->class_id);
+         // $this->db->where("section_id", $student_current_class->section_id);
+         // $this->db->where("student_id", $student_id);
+         // $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
+
+         $student_attendance = $this->gradereport_model->get_student_attendance_by_semester($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
 
          if ($student_attendance) {
             $data['student_attendance'] = $student_attendance;
@@ -57,6 +63,18 @@ class Class_record extends Student_Controller
          $this->load->view('user/class_record/class_record_lpms', $data);
          $this->load->view('layout/student/footer', $data);
       } else {
+         $data['codes_table'] = $this->gradereport_model->grade_code_table();
+
+         $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
+
+         if ($student_attendance) {
+            $data['student_attendance'] = $student_attendance;
+         } else {
+            $data['student_attendance'] = array();
+         }
+
+         $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
+
          $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
          $data['resultlist'] = $class_record;
          $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;

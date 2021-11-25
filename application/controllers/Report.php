@@ -1705,12 +1705,10 @@ class Report extends Admin_Controller
             if (strtoupper($this->sch_setting_detail->dise_code) == 'LPMS') {
                $class_record = $this->gradereport_model->get_class_record_lpms($session, $quarter, $grade_level, $section);
             } else {
+               // print_r($data);
+               // die();
                $class_record = $this->gradereport_model->get_class_record($session, $quarter, $grade_level, $section);
             }
-
-
-            // print_r($data);
-            // die();
 
             $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
@@ -1873,7 +1871,6 @@ class Report extends Admin_Controller
 
             $data['student_conduct'] = $student_conduct;
 
-
             // print_r(json_encode($student_id));die();
 
             $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
@@ -1884,6 +1881,13 @@ class Report extends Admin_Controller
             $data['student_id'] = $student_id;
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
+            $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
+            $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
+            $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
+            $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
+
+            // print_r($data);
+            // die();
 
             if (strtolower($data['school_code']) == 'lpms') {
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
@@ -1896,9 +1900,18 @@ class Report extends Admin_Controller
                $this->load->view('reports/class_record_per_student_lpms', $data);
                $this->load->view('layout/footer', $data);
             } else {
+               $data['codes_table'] = $this->gradereport_model->grade_code_table();
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
-
                $data['resultlist'] = $class_record;
+
+               $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
+
+               if ($student_attendance) {
+                  $data['student_attendance'] = $student_attendance;
+               } else {
+                  $data['student_attendance'] = array();
+               }
+
                $this->load->view('layout/header', $data);
                $this->load->view('reports/class_record_per_student', $data);
                $this->load->view('layout/footer', $data);
@@ -1932,6 +1945,7 @@ class Report extends Admin_Controller
       $grade_level = $this->input->get('class_id');
       $section = $this->input->get('section_id');
       $student_id = $this->input->get('student_id');
+      $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
 
       $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
       // print_r(json_encode($class_record));die();
@@ -1947,18 +1961,11 @@ class Report extends Admin_Controller
       $data['student'] = $studentinfo;
       $data['school_year'] = $this->setting_model->getCurrentSessionName();
       $data['swh_scores'] = $this->gradereport_model->get_swh_score_quarterly($session, $grade_level, $section, $student_id);
-      $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
-
 
       $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
       $data['codes_table'] = $this->gradereport_model->grade_code_table();
 
-      $this->db->select("*");
-      $this->db->where("session_id", $session);
-      $this->db->where("class_id", $grade_level);
-      $this->db->where("section_id", $section);
-      $this->db->where("student_id", $student_id);
-      $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
+      $student_attendance = $this->gradereport_model->get_student_attendance_by_semester($session, $grade_level, $section, $student_id);
 
       if ($student_attendance) {
          $data['student_attendance'] = $student_attendance;
@@ -2018,12 +2025,7 @@ class Report extends Admin_Controller
       $studentinfo = $this->student_model->get($student_id);
       $data['student'] = $studentinfo;
 
-      $this->db->select("*");
-      $this->db->where("session_id", $session);
-      $this->db->where("class_id", $grade_level);
-      $this->db->where("section_id", $section);
-      $this->db->where("student_id", $student_id);
-      $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+      $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
 
       if ($student_attendance) {
          $data['student_attendance'] = $student_attendance;
@@ -2173,12 +2175,7 @@ class Report extends Admin_Controller
             $students[$key]['swh_scores'] = $this->gradereport_model->get_swh_score_quarterly_restricted($this->sch_setting_detail->session_id, $grade_level, $section, $value['id']);
             $students[$key]['codes_table'] = $this->gradereport_model->grade_code_table();
 
-            $this->db->select("*");
-            $this->db->where("session_id", $this->sch_setting_detail->session_id);
-            $this->db->where("class_id", $grade_level);
-            $this->db->where("section_id", $section);
-            $this->db->where("student_id", $value['id']);
-            $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
+            $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $value['id']);
 
             if ($student_attendance) {
                $students[$key]['student_attendance'] = $student_attendance;
@@ -2196,12 +2193,7 @@ class Report extends Admin_Controller
 
             $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $value['id'], $grade_level, $section);
 
-            $this->db->select("*");
-            $this->db->where("session_id", $session);
-            $this->db->where("class_id", $grade_level);
-            $this->db->where("section_id", $section);
-            $this->db->where("student_id", $value['id']);
-            $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+            $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $value['id']);
 
             $students[$key]['student_conduct'] = $student_conduct;
             $students[$key]['resultlist'] = $class_record;
@@ -2286,13 +2278,16 @@ class Report extends Admin_Controller
             $data['student_id'] = $student_id;
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
+            $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
 
-            $this->db->select("*");
-            $this->db->where("session_id", $session);
-            $this->db->where("class_id", $grade_level);
-            $this->db->where("section_id", $section);
-            $this->db->where("student_id", $student_id);
-            $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+            // print_r($data['month_days_list']);
+            // die();
+
+            $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
+
+            // print_r($student_attendance);
+            // die();
+
             if ($student_attendance) {
                $data['student_attendance'] = $student_attendance;
             } else {
@@ -2359,12 +2354,7 @@ class Report extends Admin_Controller
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
 
-            $this->db->select("*");
-            $this->db->where("session_id", $session);
-            $this->db->where("class_id", $grade_level);
-            $this->db->where("section_id", $section);
-            $this->db->where("student_id", $student_id);
-            $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
+            $student_attendance = $this->gradereport_model->get_student_attendance_by_semester($session, $grade_level, $section, $student_id);
 
             if ($student_attendance) {
                $data['student_attendance'] = $student_attendance;
@@ -2386,7 +2376,7 @@ class Report extends Admin_Controller
       $data['section_id'] = $_POST['section_id'];
       $data['student_id'] = $_POST['student_id'];
 
-      $attendance = $_POST['months'];
+      $attendance = $_POST['present'];
       $absent = $_POST['absent'];
       $tardy = $_POST['tardy'];
       $acp = isset($_POST['acp']) ? $_POST['acp'] : "";
@@ -2409,7 +2399,7 @@ class Report extends Admin_Controller
       $data['attendance'] = json_encode($attendance);
       $data['absent'] = json_encode($absent);
       $data['tardy'] = json_encode($tardy);
-      $data['acp'] = $acp;
+      // $data['acp'] = $acp;
 
       $this->db->select("*");
       $this->db->where("session_id", $data['session_id']);
@@ -2418,20 +2408,20 @@ class Report extends Admin_Controller
       $this->db->where("student_id", $data['student_id']);
       $checker = $this->db->get("attendance_by_month")->result_array();
 
-      $data_array = array(
-         $data['session_id'],
-         $data['class_id'],
-         $data['section_id'],
-         $data['student_id'],
-      );
+      // $data_array = array(
+      //    $data['session_id'],
+      //    $data['class_id'],
+      //    $data['section_id'],
+      //    $data['student_id'],
+      // );
 
-      $data_string = join("/", $data_array);
-      echo "<form action='" . site_url('report/attendance_by_month/') . "' method='POST' id='theForm'>";
-      echo "<input type='hidden' name='session_id' value='" . $data['session_id'] . "'>";
-      echo "<input type='hidden' name='class_id' value='" . $data['class_id'] . "'>";
-      echo "<input type='hidden' name='section_id' value='" . $data['section_id'] . "'>";
-      echo "<input type='hidden' name='student_id' value='" . $data['student_id'] . "'>";
-      echo "</form>";
+      // $data_string = join("/", $data_array);
+      // echo "<form action='" . site_url('report/attendance_by_month/') . "' method='POST' id='theForm'>";
+      // echo "<input type='hidden' name='session_id' value='" . $data['session_id'] . "'>";
+      // echo "<input type='hidden' name='class_id' value='" . $data['class_id'] . "'>";
+      // echo "<input type='hidden' name='section_id' value='" . $data['section_id'] . "'>";
+      // echo "<input type='hidden' name='student_id' value='" . $data['student_id'] . "'>";
+      // echo "</form>";
 
       if ($checker) {
          // echo "update";
@@ -2441,12 +2431,15 @@ class Report extends Admin_Controller
          $update_data['id'] = $checker[0]['id'];
          $this->lesson_model->lms_update("attendance_by_month", $update_data);
 
-         echo "<script>alert('Updated Successfully');document.getElementById('theForm').submit();</script>";
+         //echo "<script>alert('Updated Successfully');document.getElementById('theForm').submit();</script>";
       } else {
          // echo "new";
          $this->lesson_model->lms_create("attendance_by_month", $data, FALSE);
-         echo "<script>alert('Saved Successfully');document.getElementById('theForm').submit();</script>";
+         //echo "<script>alert('Saved Successfully');document.getElementById('theForm').submit();</script>";
       }
+
+      $msg = array('status' => 'success', 'error' => '', 'message' => 'Attendance Saved');
+      echo json_encode($msg);
    }
 
    public function save_attendance_lpms()

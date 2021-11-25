@@ -77,13 +77,33 @@
          background-color: pink;
       }
 
-      .thicc {
+      /* . {
          border: 2px solid black !important;
-      }
+      } */
 
       .center {
          text-align: center;
          /* padding-top: 17px !important; */
+      }
+
+      .written {
+         background-color: #ffe599;
+         border-radius: 0px;
+      }
+
+      .quizzes {
+         background-color: #c9daf8;
+         border-radius: 0px;
+      }
+
+      .trimtest {
+         background-color: #fff2cc;
+         border-radius: 0px;
+      }
+
+      .performance {
+         background-color: #e6b8af;
+         border-radius: 0px;
       }
    </style>
 
@@ -100,7 +120,7 @@
             </center>
          </div>
          <div class="col-sm-12">
-            <table class="table">
+            <table class="table" style="margin-bottom: 0px;">
                <tr>
                   <td>Region</td>
                   <td><input type="" name="region" class="form-control region class_record" value="<?php echo $class_record['region'] ?>"></td>
@@ -108,11 +128,11 @@
                   <td><input type="" name="division" class="form-control division class_record" value="<?php echo $class_record['division'] ?>"></td>
                   <td>District</td>
                   <td><input type="" name="district" class="form-control district class_record" value="<?php echo $class_record['district'] ?>"></td>
-                  <td><a href="<?php echo base_url('lms/grading/index') ?>"><button class="btn btn-danger">Save & Close</button></a></td>
+                  <!-- <td><a href="<?php echo base_url('lms/grading/index') ?>"><button class="btn btn-danger">Save & Close</button></a></td> -->
                </tr>
                <tr>
-                  <td>School Name</td>
-                  <td><input type="" name="school_name" class="form-control school_name class_record" value="<?php echo $class_record['school_name'] ?>"></td>
+                  <!-- <td>School Name</td>
+                  <td><input type="" name="school_name" class="form-control school_name class_record" value="<?php echo $class_record['school_name'] ?>"></td> -->
                   <td>School ID</td>
                   <td><input type="" name="school_id" class="form-control school_id class_record" value="<?php echo $class_record['school_id'] ?>"></td>
                   <td>School Year</td>
@@ -121,7 +141,7 @@
 
                      <?php $disable = $real_role == 1 || $real_role == 7 ? "" : "disabled"; ?>
 
-                     <td>Quarter</td>
+                     <td>Semester</td>
                      <td>
                         <select name="quarter" class="form-control grade_section quarter" <?php echo $disable; ?>>
                            <?php foreach ($quarters as $quarter_key => $quarter_value) : ?>
@@ -172,55 +192,38 @@
             </table>
          </div>
 
-
+         <div class="col-sm-12 text-right" style="margin-bottom: 10px;">
+            <a href="<?php echo base_url('lms/grading/index') ?>"><button class="btn btn-danger">Save & Close</button></a>
+         </div>
 
          <table class="table table-bordered">
             <tr>
-               <td class="learners_name thicc" colspan="2">Learners Name</td>
+               <td class="text-center" colspan="2" rowspan="3" style="vertical-align: middle;"><b>Student's Name</b></td>
+
                <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
-                  <td class="criteria criteria-<?php echo $criteria_key ?> table_td thicc" colspan="<?php echo $criteria_value['criteria_column'] ?>">
-                     <input type="text" class="form-control table_input" name="" value="<?php echo $criteria_value['name'] ?>">
+                  <td class="criteria criteria-<?php echo $criteria_key ?> table_td " colspan="<?php echo $criteria_value['criteria_column'] ?>" style="width: 15em; padding: 18px">
+                     <b><input type="text" class="form-control table_input text-center" name="" value="<?php echo $criteria_value['name'] ?>"></b>
                   </td>
-
                <?php endforeach; ?>
 
-               <td class="initial_grade thicc">Initial Grade</td>
-               <td class="quarterly_grade term_grade thicc">Quarterly Grade</td>
-
-            </tr>
-            <tr>
-               <td colspan="2"></td>
-               <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
-                  <?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) : ?>
-                     <td class="section section-1 table_td thicc" criteria="1" colspan="<?php echo $column_section_value['column_count_td'] ?>">
-                        <input type="text" class="form-control table_input" name="" value="<?php echo $column_section_value['label'] ?>">
-                     </td>
-                  <?php endforeach; ?>
-               <?php endforeach; ?>
-
-               <td class="thicc" colspan="1"></td>
-               <td class="quarterly_grade thicc" colspan="1"></td>
+               <td class="initial_grade text-center" rowspan="3" style="vertical-align: middle;"><b>Total</b></td>
+               <td class="initial_grade text-center" rowspan="3" style="vertical-align: middle;"><b>Final</b></td>
+               <td class="initial_grade text-center" rowspan="3" style="vertical-align: middle;"><b>LG</b></td>
             </tr>
 
             <tr>
-               <td colspan="2" class="thicc"></td>
                <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
                   <?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) : ?>
                      <?php foreach ($column_section_value['column'] as $column_key => $column_value) : ?>
                         <td class="column column-1 thicc" criteria="1" section="1"><?php echo $column_key + 1; ?></td>
                      <?php endforeach; ?>
-                     <td class="total thicc">Total</td>
-                     <td class="ps thicc">PS</td>
-                     <td class="ws thicc ">WS</td>
+                     <td class="thicc text-center">Total</td>
+                     <td class="thicc text-center">%</td>
                   <?php endforeach; ?>
-
                <?php endforeach; ?>
-               <td class="thicc"></td>
-               <td class="quarterly_grade thicc"></td>
             </tr>
 
             <tr>
-               <td colspan="2" class="thicc">Highest Possible Score</td>
                <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
                   <?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) : ?>
                      <?php foreach ($column_section_value['column'] as $column_key => $column_value) : ?>
@@ -228,83 +231,92 @@
                            <input class="column_highest_score highest_score highest_score-<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" value="<?php echo $column_value['highest_score'] ?>" type="text" name="" criteria="<?php echo $criteria_key ?>" section="<?php echo $column_section_key ?>">
                         </td>
                      <?php endforeach; ?>
-                     <td class="total_highest total thicc center <?php echo $criteria_key ?>_<?php echo $column_section_key ?>" criteria="<?php echo $criteria_key ?>" section="<?php echo $column_section_key ?>" total_highest="<?php echo $column_section_key ?>"></td>
-                     <td class="center ps thicc">100</td>
-                     <td class="thicc table_td ws"><input type="text" class="ws_input table_input ws-<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" name="" value="<?php echo $column_section_value['ws'] ?>" column_section="<?php echo $column_section_value['id'] ?>"></td>
+                     <td class="total_highest thicc text-center <?php echo $criteria_key ?>_<?php echo $column_section_key ?>" criteria="<?php echo $criteria_key ?>" section="<?php echo $column_section_key ?>" total_highest="<?php echo $column_section_key ?>"></td>
+                     <td class="thicc table_td"><input type="text" class="ws_input table_input text-center ws-<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" name="" value="<?php echo $column_section_value['ws'] ?>" column_section="<?php echo $column_section_value['id'] ?>"></td>
                   <?php endforeach; ?>
                <?php endforeach; ?>
-               <td></td>
-               <td class="quarterly_grade"></td>
             </tr>
+
             <tr>
-               <td class="male thicc" colspan="<?php echo $full_width + 3 ?>">Male</td>
-               <td class="male thicc quarterly_grade"></td>
+               <td class="male " colspan="<?php echo $full_width + 5 ?>">Male</td>
             </tr>
-            <?php $male_count = 1; ?>
-            <?php $all_count = 1; ?>
-            <?php foreach ($students as $student_key => $student_value) : ?>
-               <?php if ($student_value['gender'] == "male") : ?>
+
+            <?php
+            $male_count = 1;
+            $all_count = 1;
+
+            foreach ($students as $student_key => $student_value) :
+               if ($student_value['gender'] == "male") : ?>
                   <tr row_count="<?php echo $all_count; ?>">
                      <td class="students" student_key="<?php echo $student_key ?>"><?php echo $male_count ?></td>
                      <td><?php echo $student_value['lastname'] ?>, <?php echo $student_value['firstname'] ?></td>
                      <?php $column_count = 1; ?>
-                     <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
-                        <?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) : ?>
-                           <?php foreach ($column_section_value['column'] as $column_key => $column_value) : ?>
-
-                              <td column_count="<?php echo $column_count; ?>" class="male column column-1 table_td" section="1">
-                                 <input class="column_score table_input column-score" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" student_id="<?php echo $student_value['id'] ?>" type="text" name="" value="<?php echo $the_class->get_column_score($column_value['id'], $student_value['id']) ?>">
+                     <?php foreach ($criteria as $criteria_key => $criteria_value) :
+                        foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) :
+                           foreach ($column_section_value['column'] as $column_key => $column_value) : ?>
+                              <td column_count="<?php echo $column_count; ?>" class="column column-1 table_td" section="1">
+                                 <input class="text-center column_score table_input column-score" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" student_id="<?php echo $student_value['id'] ?>" type="text" name="" value="<?php echo $the_class->get_column_score($column_value['id'], $student_value['id']) ?>">
                               </td>
-                              <?php $column_count++; ?>
-                           <?php endforeach; ?>
-                           <td class="center total column_score_total column_score_total-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
-                           <td class="center ps ps-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
-                           <td class="center ws ws-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?> ws-<?php echo $student_key ?>"></td>
-                        <?php endforeach; ?>
-                     <?php endforeach; ?>
-                     <td class="initial_grade initial_grade-<?php echo $student_key ?> initial_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
-                     <td class="quarterly_grade quarterly_grade-<?php echo $student_key ?> quarterly_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                           <?php $column_count++;
+                           endforeach; ?>
+                           <td class="text-center column_score_total column_score_total-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                           <td class="text-center ws-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?> ws-<?php echo $student_key ?>"></td>
+                     <?php endforeach;
+                     endforeach; ?>
+
+                     <td class="text-center total_grade total_grade-<?php echo $student_key ?> total_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                     <td class="text-center final_grade final_grade-<?php echo $student_key ?> final_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                     <td class="text-center coded_grade coded_grade-<?php echo $student_key ?> coded_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
                   </tr>
-                  <?php $male_count++; ?>
-                  <?php $all_count++; ?>
-               <?php endif; ?>
-            <?php endforeach; ?>
+            <?php
+                  $male_count++;
+                  $all_count++;
+               endif;
+            endforeach; ?>
 
             <tr>
-               <td class="female thicc" colspan="<?php echo $full_width + 4 ?>">Female</td>
-
+               <td class="female " colspan="<?php echo $full_width + 5 ?>">Female</td>
             </tr>
-            <?php $male_count = 1; ?>
-            <?php foreach ($students as $student_key => $student_value) : ?>
-               <?php if ($student_value['gender'] == "female") : ?>
+
+            <?php
+            $female_count = 1;
+
+            foreach ($students as $student_key => $student_value) :
+               if ($student_value['gender'] == "female") : ?>
                   <tr row_count="<?php echo $all_count; ?>">
-                     <td class="students" student_key="<?php echo $student_key ?>"><?php echo $male_count ?></td>
+                     <td class="students" student_key="<?php echo $student_key ?>"><?php echo $female_count ?></td>
                      <td><?php echo $student_value['lastname'] ?>, <?php echo $student_value['firstname'] ?></td>
-                     <?php $column_count = 1; ?>
-                     <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
-                        <?php foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) : ?>
-                           <?php foreach ($column_section_value['column'] as $column_key => $column_value) : ?>
-                              <td column_count="<?php echo $column_count; ?>" class="male column column-1 table_td" section="1">
-                                 <input class="column_score table_input column-score" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" student_id="<?php echo $student_value['id'] ?>" type="text" name="" value="<?php echo $the_class->get_column_score($column_value['id'], $student_value['id']) ?>">
+
+                     <?php
+                     $column_count = 1;
+
+                     foreach ($criteria as $criteria_key => $criteria_value) :
+                        foreach ($criteria_value['column_section'] as $column_section_key => $column_section_value) :
+                           foreach ($column_section_value['column'] as $column_key => $column_value) : ?>
+                              <td column_count="<?php echo $column_count; ?>" class="column column-1 table_td" section="1">
+                                 <input class="text-center column_score table_input column-score" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" student_id="<?php echo $student_value['id'] ?>" type="text" name="" value="<?php echo $the_class->get_column_score($column_value['id'], $student_value['id']) ?>">
                               </td>
-                              <?php $column_count++; ?>
-                           <?php endforeach; ?>
-                           <td class="center total column_score_total column_score_total-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
-                           <td class="center ps ps-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
-                           <td class="center ws ws-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?> ws-<?php echo $student_key ?>"></td>
+                           <?php $column_count++;
+                           endforeach; ?>
+
+                           <td class="center column_score_total column_score_total-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_sequence="<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                           <td class="center ws-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?> ws-<?php echo $student_key ?>"></td>
                         <?php endforeach; ?>
                      <?php endforeach; ?>
-                     <td class="initial_grade initial_grade-<?php echo $student_key ?> initial_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
-                     <td class="quarterly_grade quarterly_grade-<?php echo $student_key ?> quarterly_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+
+                     <td class="text-center total_grade total_grade-<?php echo $student_key ?> total_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                     <td class="text-center final_grade final_grade-<?php echo $student_key ?> final_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
+                     <td class="text-center coded_grade coded_grade-<?php echo $student_key ?> coded_grade-<?php echo $student_key ?>_<?php echo $criteria_key ?>_<?php echo $column_section_key ?>"></td>
                   </tr>
-                  <?php $male_count++; ?>
-                  <?php $all_count++; ?>
+
+                  <?php
+                  $female_count++;
+                  $all_count++; ?>
                <?php endif; ?>
             <?php endforeach; ?>
+
          </table>
-
          <div class="col-sm-8">
-
          </div>
       </div>
    </div>
@@ -329,13 +341,15 @@
    var url = "<?php echo base_url('lms/grading/') ?>";
    var transmutation = JSON.parse('<?php echo $transmutation ?>');
    var subject_transmuted = "<?php echo $subject['transmuted']; ?>";
+   var grade_code = JSON.parse('<?php echo $grade_code ?>');
+
    if (subject_transmuted == "0") {
       $(".quarterly_grade").hide();
    }
 
-   function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-   }
+   // function onlyUnique(value, index, self) {
+   //    return self.indexOf(value) === index;
+   // }
 
    $(".column_score").change(function() {
       // $(this).css("20px solid black");
@@ -360,7 +374,6 @@
    });
 
    $(".highest_score").change(function() {
-      // $(this).css("20px solid black");
       var highest_score = $(this).val();
       var column_id = $(this).attr("column_id");
       var update_data = {
@@ -379,15 +392,11 @@
    });
 
    $(".table_input").on('keypress', function(e) {
-
       if (e.which == 13) {
-
          var column_count = $(this).parent().attr("column_count");
          var row_count = $(this).parent().parent().attr("row_count");
          var row_count_1 = parseInt(row_count) + 1;
          $("[row_count=" + row_count_1 + "]").find("td[column_count=" + column_count + "]").find("input").focus();
-
-
       }
    });
 
@@ -397,17 +406,11 @@
 
    function update_class_record() {
       var class_record_id = '<?php echo $class_record['id'] ?>';
-      var region = $(".region").val();
-      var division = $(".division").val();
-      var district = $(".district").val();
       var school_name = $(".school_name").val();
       var school_id = $(".school_id").val();
 
       update_data = {
          id: class_record_id,
-         region: region,
-         division: division,
-         district: district,
          school_name: school_name,
          school_id: school_id,
       }
@@ -424,171 +427,197 @@
 
    function update_highest_score() {
       var sequence = {};
-      $.each($(".highest_score"), function(key, value) {
 
+      $.each($(".highest_score"), function(key, value) {
          var sequences = $(value).attr("criteria") + "_" + $(value).attr("section");
          sequence[sequences] = [];
       });
-      $.each($(".highest_score"), function(key, value) {
 
+      $.each($(".highest_score"), function(key, value) {
          var the_sequence = $(value).attr("criteria") + "_" + $(value).attr("section");
          sequence[the_sequence].push($(value).val());
-
       });
 
       $.each(sequence, function(key, value) {
-
          var sum = sequence[key].reduce(function(a, b) {
             if (!b) {
                b = 0;
             }
+
             return parseInt(a) + parseInt(b);
          }, 0);
-         $("." + key).text(sum);
 
+         $("." + key).text(sum);
       });
    }
 
    function update_column_score() {
       var score_total = {};
-      $.each($(".column_score_total"), function(key, value) {
-         score_total[$(value).attr("column_sequence")] = [];
+      var final_grade = 0;
 
+      $.each($(".column-score"), function(key, value) {
+         score_total[$(value).attr("column_sequence")] = [];
       });
 
       $.each($(".column-score"), function(column_score_key, column_score_value) {
-
          var tsequence = $(column_score_value).attr("column_sequence");
 
          if (score_total[tsequence]) {
             score_total[tsequence].push($(column_score_value).val());
          }
       });
+
       var initial_grade = {};
       $.each(score_total, function(key, value) {
-
          var sum = score_total[key].reduce(function(a, b) {
             if (!b) {
                b = 0;
             }
             return parseInt(a) + parseInt(b);
          }, 0);
+
          $(".column_score_total-" + key).text(sum);
          var highest_total = parseInt($("." + key.split("_").slice(1).join("_")).text());
          var splitted_key = key.split("_").slice(1).join("_");
-         var ws = parseInt($(".ws-" + key.split("_").slice(1).join("_")).val());
          var ps_values = roundNumberV2(((sum / highest_total) * 100), 2);
+         var ws = parseInt($(".ws-" + key.split("_").slice(1).join("_")).val());
+         // var ws_values = roundNumberV2((sum * (ws / 100)), 2);
          var ws_values = roundNumberV2((ps_values * (ws / 100)), 2);
-         $(".ps-" + key).text(ps_values);
          $(".ws-" + key).text(ws_values);
-
-         initial_grade[key] = [];
-
       });
    }
 
-   function update_initial_grade() {
+   function update_total_grade() {
       $.each($(".students"), function(key, value) {
          var student_key = $(value).attr("student_key");
          var all_ws = $(".ws-" + student_key);
-         var initial_grade = 0;
+         var total_grade = 0;
+
          $.each(all_ws, function(ws_key, ws_value) {
-            initial_grade += parseFloat($(ws_value).text());
+            total_grade += parseFloat($(ws_value).text());
          });
-         if (subject_transmuted == '1') {
-            // $(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
-            $(".initial_grade-" + student_key).text(roundNumberV2(initial_grade, 2));
 
-         } else {
-            // $(".initial_grade-"+student_key).text(initial_grade.toFixed(0));
-            $(".initial_grade-" + student_key).text(roundNumberV2(initial_grade, 0));
 
-            if (roundNumberV2(initial_grade, 0) < 80) {
-               $(".initial_grade-" + student_key).css("background-color", "rgb(255 185 185)");
-            }
-            if (roundNumberV2(initial_grade, 0) >= 90) {
-               $(".initial_grade-" + student_key).css("background-color", "rgb(191 246 191)");
+         if (total_grade > 0) {
+            $(".total_grade-" + student_key).text(roundNumberV2(total_grade, 2));
+
+            if (roundNumberV2(total_grade, 2) < 76) {
+               $(".total_grade-" + student_key).css("background-color", "rgb(255 185 185)");
+            } else if (roundNumberV2(total_grade, 2) >= 88) {
+               $(".total_grade-" + student_key).css("background-color", "rgb(191 246 191)");
+            } else {
+               $(".total_grade-" + student_key).css("background-color", "rgb(255 255 255)");
             }
          }
-
-
       });
    }
 
-   function update_quarterly_grade() {
+   function update_final_grade() {
       $.each($(".students"), function(key, value) {
          var student_key = $(value).attr("student_key");
-         var initial_grade = parseFloat($(".initial_grade-" + student_key).text());
-         console.log(initial_grade);
-         $.each(transmutation, function(transmute_key, transmute_value) {
-            if (initial_grade <= parseFloat(transmute_value.max_grade) && initial_grade >= parseFloat(transmute_value.min_grade)) {
+         var all_ws = $(".ws-" + student_key);
+         var final_grade = 0;
 
-               $(".quarterly_grade-" + student_key).text(parseFloat(transmute_value.transmuted_grade));
-               if (subject_transmuted == '1') {
+         $.each(all_ws, function(ws_key, ws_value) {
+            final_grade += parseFloat($(ws_value).text());
+         });
+
+
+         if (final_grade > 0) {
+            $(".final_grade-" + student_key).text(roundNumberV2(final_grade, 2));
+
+            if (roundNumberV2(final_grade, 2) < 76) {
+               $(".final_grade-" + student_key).css("background-color", "rgb(255 185 185)");
+            } else if (roundNumberV2(final_grade, 2) >= 88) {
+               $(".final_grade-" + student_key).css("background-color", "rgb(191 246 191)");
+            } else {
+               $(".final_grade-" + student_key).css("background-color", "rgb(255 255 255)");
+            }
+         }
+      });
+   }
+
+   function update_transmuted_grade() {
+      $.each($(".students"), function(key, value) {
+         var student_key = $(value).attr("student_key");
+         var final_grade = parseFloat($(".total_grade-" + student_key).text());
+
+         console.log(final_grade);
+
+         if (final_grade > 0) {
+            $.each(transmutation, function(transmute_key, transmute_value) {
+               if (final_grade <= parseFloat(transmute_value.max_grade) && final_grade >= parseFloat(transmute_value.min_grade)) {
+                  $(".final_grade-" + student_key).text(parseFloat(transmute_value.transmuted_grade));
+
                   if (parseFloat(transmute_value.transmuted_grade) < 80) {
-                     $(".quarterly_grade-" + student_key).css("background-color", "rgb(255 185 185)");
+                     $(".final_grade-" + student_key).css("background-color", "rgb(255 185 185)");
+                  } else if (parseFloat(transmute_value.transmuted_grade) >= 90) {
+                     $(".final_grade-" + student_key).css("background-color", "rgb(191 246 191)");
+                  } else {
+                     $(".final_grade-" + student_key).css("background-color", "rgb(255 255 255)");
                   }
-                  if (parseFloat(transmute_value.transmuted_grade) >= 90) {
-                     $(".quarterly_grade-" + student_key).css("background-color", "rgb(191 246 191)");
-                  }
+               }
+            });
+         }
+      });
+   }
+
+   function update_coded_grade() {
+      $.each($(".students"), function(key, value) {
+         var student_key = $(value).attr("student_key");
+         var transmuted_grade = parseFloat($(".final_grade-" + student_key).text());
+
+         console.log(transmuted_grade);
+
+         $.each(grade_code, function(grade_code_key, grade_code_value) {
+            if (transmuted_grade <= parseFloat(grade_code_value.max_grade) && transmuted_grade >= parseFloat(grade_code_value.min_grade)) {
+               $(".coded_grade-" + student_key).text(grade_code_value.grade_code);
+
+               if (parseFloat(transmuted_grade) < 80) {
+                  $(".coded_grade-" + student_key).css("background-color", "rgb(255 185 185)");
+               } else if (parseFloat(transmuted_grade) >= 90) {
+                  $(".coded_grade-" + student_key).css("background-color", "rgb(191 246 191)");
+               } else {
+                  $(".coded_grade-" + student_key).css("background-color", "rgb(255 255 255)");
                }
             }
          });
-
-
-
-         // $(".initial_grade-"+student_key).text(initial_grade.toFixed(2));
-
       });
    }
-
-
 
    $(".class_record").change(function() {
       update_class_record();
    });
 
-
    $(document).ready(function() {
-
-
       update_highest_score();
-
       update_column_score();
-
-      update_initial_grade();
-
-      update_quarterly_grade();
-
-
+      update_total_grade();
+      // update_final_grade();
+      update_transmuted_grade();
+      update_coded_grade();
    });
 
 
    $(".highest_score").change(function() {
-
       update_highest_score();
-
       update_column_score();
-
-      update_initial_grade();
-
-      update_quarterly_grade();
-
+      update_total_grade();
+      // update_final_grade();
+      update_transmuted_grade();
+      update_coded_grade();
    });
 
    $(".column_score").change(function() {
       update_highest_score();
-
       update_column_score();
-
-      update_initial_grade();
-
-      update_quarterly_grade();
+      update_total_grade();
+      // update_final_grade();
+      update_transmuted_grade();
+      update_coded_grade();
    });
 
-
    $(".ws_input").change(function() {
-      // $(this).css("20px solid black");
       var column_section = $(this).attr("column_section");
       var highest_score = $(this).val();
       var update_data = {
@@ -606,12 +635,11 @@
       });
 
       update_highest_score();
-
       update_column_score();
-
-      update_initial_grade();
-
-      update_quarterly_grade();
+      update_total_grade();
+      // update_final_grade();
+      update_transmuted_grade();
+      update_coded_grade();
    });
 
 

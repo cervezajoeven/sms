@@ -373,10 +373,10 @@ class Gradereport_model extends CI_Model
       $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
       // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
-      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade 
+      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade, sort_order
                 FROM 
                 (
-                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id
+                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -391,10 +391,12 @@ class Gradereport_model extends CI_Model
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC
                 ) tblsubjects
-                " . $subquery;
+                " . $subquery . " order by sort_order";
 
       // return($sql);
       $query = $this->db->query($sql);
+      // print_r($this->db->last_query());
+      // die();
       // print_r(json_encode($query->result()));die();
       return $query->result();
    }
@@ -444,7 +446,7 @@ class Gradereport_model extends CI_Model
                             ) tbl
                             LEFT JOIN subjects ON subjects.id = tbl.subject_id
                             GROUP BY school_year, quarter, student_id, subject_id
-                         ) tbl" . $row->id . " ON tbl" . $row->id . ".subject_id = tblsubjects.subject_id";
+                         ) tbl" . $row->id . " ON tbl" . $row->id . ".subject_id = tblsubjects.subject_id ";
 
          $colcount++;
       }
@@ -452,10 +454,10 @@ class Gradereport_model extends CI_Model
       $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
       // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
-      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade 
+      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade, sort_order 
                 FROM 
                 (
-                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id
+                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -470,7 +472,7 @@ class Gradereport_model extends CI_Model
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name
                 ) tblsubjects
-                " . $subquery;
+                " . $subquery . " order by sort_order";
 
       // return($sql);
       $query = $this->db->query($sql);
@@ -580,10 +582,10 @@ class Gradereport_model extends CI_Model
 
       $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
               $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade,   
-              $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code
+              $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code, sort_order
                 FROM 
                 (
-                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id
+                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -598,7 +600,7 @@ class Gradereport_model extends CI_Model
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC
                 ) tblsubjects
-                " . $subquery;
+                " . $subquery . " order by sort_order";
 
       // return($sql);
       $query = $this->db->query($sql);
@@ -701,10 +703,10 @@ class Gradereport_model extends CI_Model
 
       $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
               $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade,   
-              $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code
+              $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code, sort_order
                 FROM 
                 (
-                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id
+                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -719,7 +721,7 @@ class Gradereport_model extends CI_Model
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC
                 ) tblsubjects
-                " . $subquery;
+                " . $subquery . " order by sort_order";
 
       // return($sql);
       $query = $this->db->query($sql);
@@ -1216,5 +1218,29 @@ class Gradereport_model extends CI_Model
    {
       $query = $this->db->query('select month, no_of_days from attendance_month_days order by sequence');
       return $query->result();
+   }
+
+   public function get_student_attendance_by_month($session, $grade_level, $section, $student_id)
+   {
+      $this->db->select("*");
+      $this->db->where("session_id", $session);
+      $this->db->where("class_id", $grade_level);
+      $this->db->where("section_id", $section);
+      $this->db->where("student_id", $student_id);
+      $student_attendance = $this->db->get("attendance_by_month")->result_array()[0];
+
+      return $student_attendance;
+   }
+
+   public function get_student_attendance_by_semester($session, $grade_level, $section, $student_id)
+   {
+      $this->db->select("*");
+      $this->db->where("session_id", $session);
+      $this->db->where("class_id", $grade_level);
+      $this->db->where("section_id", $section);
+      $this->db->where("student_id", $student_id);
+      $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
+
+      return $student_attendance;
    }
 }

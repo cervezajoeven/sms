@@ -1,3 +1,30 @@
+<?php
+
+// print_r($codes_table);
+
+function gradeCode($codes, $grade, $show)
+{
+   $retVal = '';
+
+   if ($show) {
+      $retVal = '--';
+
+      foreach ($codes as $rows) {
+         if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {
+            $retVal = $rows->grade_code;
+            break;
+         }
+      }
+   } else {
+      $retVal = $grade;
+   }
+
+   return $retVal;
+}
+
+// print_r(gradeCode($codes_table, 89));
+?>
+
 <div class="content-wrapper" style="min-height: 946px;">
    <section class="content-header">
       <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
@@ -6,121 +33,228 @@
    <section class="content">
       <div class="row">
          <div class="col-md-3">
-            <div class="box box-primary">
-               <div class="box-body box-profile">
-                  <img class="profile-user-img img-responsive img-circle" src="<?php echo $_SESSION['S3_BaseUrl'] . $student['image'] ?>" alt="User profile picture">
-                  <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
-                  <ul class="list-group list-group-unbordered">
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right"><?php echo $student['admission_no']; ?></a>
-                     </li>
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right"><?php echo $student['roll_no']; ?></a>
-                     </li>
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right"><?php echo $student['class']; ?></a>
-                     </li>
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right"><?php echo $student['section']; ?></a>
-                     </li>
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('date_of_birth'); ?></b> <a class="pull-right text-aqua"><?php echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['dob'])); ?></a>
-                     </li>
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('gender'); ?></b> <a class="pull-right text-aqua"><?php echo ucfirst($student['gender']); ?></a>
-                     </li>
-                     <li class="list-group-item">
-                        <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right"><?php echo $student['lrn_no']; ?></a>
-                     </li>
-                  </ul>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="box box-primary">
+                     <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="<?php echo $_SESSION['S3_BaseUrl'] . $student['image'] ?>" alt="User profile picture">
+                        <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
+                        <ul class="list-group list-group-unbordered">
+                           <li class="list-group-item">
+                              <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right"><?php echo $student['admission_no']; ?></a>
+                           </li>
+                           <li class="list-group-item">
+                              <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right"><?php echo $student['roll_no']; ?></a>
+                           </li>
+                           <li class="list-group-item">
+                              <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right"><?php echo $student['class']; ?></a>
+                           </li>
+                           <li class="list-group-item">
+                              <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right"><?php echo $student['section']; ?></a>
+                           </li>
+                           <li class="list-group-item">
+                              <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right"><?php echo $student['lrn_no']; ?></a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
                </div>
-            </div>
-         </div>
-         <div class="col-md-9">
-            <div class="box box-warning">
-               <div class="box-header ptbnull">
-                  <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
-                  <div class="box-tools pull-right"></div>
-               </div>
-               <div class="box-body">
-                  <div class="table-responsive">
-                     <div class="download_label"><?php echo $this->lang->line('class_ticlass_recordmetable'); ?></div>
-                     <?php //if (!empty($resultlist)) { 
-                     ?>
-                     <table id="class_record" class="table table-stripped display nowrap">
-                        <thead>
-                           <tr>
-                              <th class="text-left">Subjects</th>
-                              <?php
-                              foreach ($quarter_list as $row) {
-                                 echo "<th class=\"text-center\">" . $row->description . "</th>\r\n";
-                              }
-                              ?>
-                              <th class="text-center">Average</th>
-                              <th class="text-center">Final Grade</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <?php
-                           $q1Tot = 0;
-                           $q2Tot = 0;
-                           $q3Tot = 0;
-                           $q4Tot = 0;
-                           $aveTot = 0;
-                           $finTot = 0;
-                           $rowCtr = 0;
-
-                           foreach ($resultlist as $row) {
-                              $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->average;
-                              $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
-                              echo "<tr>\r\n";
-                              echo "<td class='text-left'>" . $row->Subjects . "</td>\r\n";
-                              echo "<td class='text-center" . ($row->Q1 < 75 ? " text-danger" : ($row->Q1 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q1 == 0 ? '' : $row->Q1) . "</b></td>\r\n";
-                              echo "<td class='text-center" . ($row->Q2 < 75 ? " text-danger" : ($row->Q2 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q2 == 0 ? '' : $row->Q2) . "</b></td>\r\n";
-                              echo "<td class='text-center" . ($row->Q3 < 75 ? " text-danger" : ($row->Q3 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q3 == 0 ? '' : $row->Q3) . "</b></td>\r\n";
-                              echo "<td class='text-center" . ($row->Q4 < 75 ? " text-danger" : ($row->Q4 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q4 == 0 ? '' : $row->Q4) . "</b></td>\r\n";
-                              echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
-                              echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
-                              echo "</tr>\r\n";
-
-                              $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
-                              $q2Tot += ($row->Q2 !== null ? $row->Q2 : 0);
-                              $q3Tot += ($row->Q3 !== null ? $row->Q3 : 0);
-                              $q4Tot += ($row->Q4 !== null ? $row->Q4 : 0);
-
-                              $aveTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->average;
-                              $finTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->final_grade;
-
-                              $rowCtr++;
-                           }
-
-                           $q1Ave = $q1Tot / $rowCtr;
-                           $q2Ave = $q2Tot / $rowCtr;
-                           $q3Ave = $q3Tot / $rowCtr;
-                           $q4Ave = $q4Tot / $rowCtr;
-                           $aveAve = $aveTot / $rowCtr;
-                           $finAve = $finTot / $rowCtr;
-                           ?>
-                        </tbody>
-                        <tfoot>
-                           <tr>
-                              <th class="text-right">General Average</th>
-                              <th class="text-center <?php echo ($q1Ave < 75 ? "text-danger" : ($q1Ave >= 90 ? "text-success" : "")); ?>"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
-                              <th class="text-center <?php echo ($q2Ave < 75 ? "text-danger" : ($q2Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q2Ave == 0 ? "" : number_format($q2Ave, 2)); ?></th>
-                              <th class="text-center <?php echo ($q3Ave < 75 ? "text-danger" : ($q3Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q3Ave == 0 ? "" : number_format($q3Ave, 2)); ?></th>
-                              <th class="text-center <?php echo ($q4Ave < 75 ? "text-danger" : ($q4Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q4Ave == 0 ? "" : number_format($q4Ave, 2)); ?></th>
-                              <th class="text-center <?php echo ($aveAve < 75 ? "text-danger" : ($aveAve >= 90 ? "text-success" : "")); ?>"><?php echo ($aveAve == 0 ? "" : number_format($aveAve, 2)); ?></th>
-                              <th class="text-center <?php echo ($finAve < 75 ? "text-danger" : ($finAve >= 90 ? "text-success" : ""));; ?>"><?php echo ($finAve == 0 ? "" : number_format($finAve, 2)); ?></th>
-                           </tr>
-                        </tfoot>
-                     </table>
-                     <?php //} 
-                     ?>
+               <div class="col-md-12">
+                  <div class="box box-primary">
+                     <div class="box-body box-profile">
+                        <h3 class="profile-username text-center">Legend</h3>
+                        <ul class="list-group list-group-unbordered">
+                           <?php foreach ($codes_table as $code) { ?>
+                              <li class="list-group-item">
+                                 <b><?php echo $code->grade_code; ?></b> <span class="pull-right"><?php echo ($code->min_grade . "-" . $code->max_grade); ?></span>
+                              </li>
+                           <?php } ?>
+                        </ul>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
+         <div class="col-md-9">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="box box-warning">
+                     <div class="box-header ptbnull">
+                        <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
+                        <div class="box-tools pull-right"></div>
+                     </div>
+                     <div class="box-body">
+                        <div class="table-responsive">
+                           <div class="download_label"><?php echo $this->lang->line('class_ticlass_recordmetable'); ?></div>
+                           <?php //if (!empty($resultlist)) { 
+                           ?>
+                           <table id="class_record" class="table table-stripped display nowrap">
+                              <thead>
+                                 <tr>
+                                    <th class="text-left">Subjects</th>
+                                    <?php
+                                    foreach ($quarter_list as $row) {
+                                       echo "<th class=\"text-center\">" . $row->description . "</th>\r\n";
+                                    }
+                                    ?>
+                                    <?php if ($show_average_column) { ?>
+                                       <th class="text-center">Average</th>
+                                    <?php } ?>
+                                    <th class="text-center">Final Grade</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <?php
+                                 $q1Tot = 0;
+                                 $q2Tot = 0;
+                                 $q3Tot = 0;
+                                 $q4Tot = 0;
+                                 $aveTot = 0;
+                                 $finTot = 0;
+                                 $rowCtr = 0;
+
+                                 $q1Ave = 0;
+                                 $q2Ave = 0;
+                                 $q3Ave = 0;
+                                 $q4Ave = 0;
+
+                                 foreach ($resultlist as $row) {
+                                    $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->average;
+                                    $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
+                                    echo "<tr>\r\n";
+                                    echo "<td class='text-left'>" . $row->Subjects . "</td>\r\n";
+                                    echo "<td class='text-center" . ($row->Q1 < 75 ? " text-danger" : ($row->Q1 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q1 == 0 ? '' : gradeCode($codes_table, $row->Q1, $show_letter_grade)) . "</b></td>\r\n";
+                                    echo "<td class='text-center" . ($row->Q2 < 75 ? " text-danger" : ($row->Q2 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q2 == 0 ? '' : gradeCode($codes_table, $row->Q2, $show_letter_grade)) . "</b></td>\r\n";
+                                    if ($row->Q3)
+                                       echo "<td class='text-center" . ($row->Q3 < 75 ? " text-danger" : ($row->Q3 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q3 == 0 ? '' : gradeCode($codes_table, $row->Q3, $show_letter_grade)) . "</b></td>\r\n";
+                                    if ($row->Q4)
+                                       echo "<td class='text-center" . ($row->Q4 < 75 ? " text-danger" : ($row->Q4 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q4 == 0 ? '' : gradeCode($codes_table, $row->Q4, $show_letter_grade)) . "</b></td>\r\n";
+                                    if ($show_average_column)
+                                       echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
+                                    echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
+                                    echo "</tr>\r\n";
+
+                                    $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
+                                    $q2Tot += ($row->Q2 !== null ? $row->Q2 : 0);
+                                    $q3Tot += ($row->Q3 !== null ? $row->Q3 : 0);
+                                    $q4Tot += ($row->Q4 !== null ? $row->Q4 : 0);
+
+                                    $aveTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->average;
+                                    $finTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->final_grade;
+
+                                    $rowCtr++;
+                                 }
+
+                                 $q1Ave = $q1Tot / $rowCtr;
+                                 $q2Ave = $q2Tot / $rowCtr;
+
+                                 if ($q3Tot > 0)
+                                    $q3Ave = $q3Tot / $rowCtr;
+
+                                 if ($q4Tot > 0)
+                                    $q4Ave = $q4Tot / $rowCtr;
+
+                                 $aveAve = $aveTot / $rowCtr;
+                                 $finAve = $finTot / $rowCtr;
+                                 ?>
+                              </tbody>
+                              <tfoot>
+                                 <?php if ($show_general_average) { ?>
+                                    <tr>
+                                       <th class="text-right">General Average</th>
+                                       <th class="text-center <?php echo ($q1Ave < 75 ? "text-danger" : ($q1Ave >= 90 ? "text-success" : "")); ?>"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
+                                       <th class="text-center <?php echo ($q2Ave < 75 ? "text-danger" : ($q2Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q2Ave == 0 ? "" : number_format($q2Ave, 2)); ?></th>
+                                       <?php if ($q3Ave > 0) { ?>
+                                          <th class="text-center <?php echo ($q3Ave < 75 ? "text-danger" : ($q3Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q3Ave == 0 ? "" : number_format($q3Ave, 2)); ?></th>
+                                       <?php } ?>
+                                       <?php if ($q4Ave > 0) { ?>
+                                          <th class="text-center <?php echo ($q4Ave < 75 ? "text-danger" : ($q4Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q4Ave == 0 ? "" : number_format($q4Ave, 2)); ?></th>
+                                       <?php } ?>
+                                       <th class="text-center <?php echo ($aveAve < 75 ? "text-danger" : ($aveAve >= 90 ? "text-success" : "")); ?>"><?php echo ($aveAve == 0 ? "" : number_format($aveAve, 2)); ?></th>
+                                       <th class="text-center <?php echo ($finAve < 75 ? "text-danger" : ($finAve >= 90 ? "text-success" : ""));; ?>"><?php echo ($finAve == 0 ? "" : number_format($finAve, 2)); ?></th>
+                                    </tr>
+                                 <?php } ?>
+                              </tfoot>
+                           </table>
+                           <?php //} 
+                           ?>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-md-12">
+                  <div class="box box-warning">
+                     <div class="box-header ptbnull">
+                        <h3 class="box-title titlefix"> <?php echo "Attendance"; ?></h3>
+                     </div>
+                     <div class="box-body">
+                        <div class="table-responsive">
+                           <div class="download_label"><?php echo 'Quarterly Grades'; ?></div>
+                           <?php $attendance_categories = array(
+                              'Days Present' => 'attendance',
+                              'Days Absent' => 'absent',
+                              'Tardiness' => 'tardy',
+                           );
+
+                           $totDOS = 0;
+                           $totRow = 0;
+                           ?>
+                           <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
+                              <thead>
+                                 <tr>
+                                    <th class="text-left"></th>
+                                    <?php
+                                    foreach ($month_days_list as $row) {
+                                       echo "<th class=\"text-center\">" . $row->month . "</th>\r\n";
+                                    }
+                                    ?>
+                                    <th class="text-center">Total</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td>Days of School</td>
+                                    <?php
+                                    foreach ($month_days_list as $row) {
+                                       echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
+                                       $totDOS += $row->no_of_days;
+                                    }
+                                    ?>
+                                    <td class="text-center"><b><?php echo $totDOS; ?></b></td>
+                                 </tr>
+
+                                 <?php
+                                 foreach ($attendance_categories as $key => $value) :
+                                    $totRow = 0;
+                                 ?>
+                                    <tr>
+                                       <td><?php echo $key ?></td>
+
+                                       <?php
+                                       foreach ($month_days_list as $row) {
+                                          $month = $row->month;
+                                          echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
+                                          $totRow += intval(json_decode($student_attendance[$value])->$month);
+                                       }
+                                       ?>
+
+                                       <td class="text-center"><b><?php echo $totRow; ?></b></td>
+                                    </tr>
+                                 <?php endforeach; ?>
+                              </tbody>
+                              <tfoot>
+                              </tfoot>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+         </div>
       </div>
+
       <div class="row">
          <div class="table-responsive">
             <?php if (isset($student_conduct)) { ?>
@@ -243,7 +377,7 @@
          paging: false,
          ordering: false,
          searching: false,
-         dom: "Bfrtip",
+         // dom: "Bfrtip",
          buttons: [{
                extend: 'copyHtml5',
                text: '<i class="fa fa-files-o"></i>',
@@ -323,7 +457,7 @@
          "paging": false,
          "scrollX": true,
          "fixedHeader": true,
-         "dom": 'Bfrtip',
+         // "dom": 'Bfrtip',
          buttons: [{
                extend: 'copyHtml5',
                footer: 'true',

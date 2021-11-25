@@ -110,16 +110,12 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                           echo "<td class='text-left'>" . strtoupper($row->student_name) . "</td>\r\n";
                                           echo "<td class='text-left'>" . strtoupper($row->gender) . "</td>\r\n";
 
-                                          if (count($quarter_list) == 4) {
-                                             echo "<td class='text-center'><input type=\"hidden\" name=\"q1hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q1 . "><input type=\"checkbox\" name=\"q1[]\" " . ($row->Q1 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q1 . "></td>\r\n";
-                                             echo "<td class='text-center'><input type=\"hidden\" name=\"q2hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q2 . "><input type=\"checkbox\" name=\"q2[]\" " . ($row->Q2 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q2 . "></td>\r\n";
+                                          echo "<td class='text-center'><input type=\"hidden\" name=\"q1hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q1 . "><input type=\"checkbox\" name=\"q1[]\" " . ($row->Q1 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q1 . "></td>\r\n";
+                                          echo "<td class='text-center'><input type=\"hidden\" name=\"q2hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q2 . "><input type=\"checkbox\" name=\"q2[]\" " . ($row->Q2 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q2 . "></td>\r\n";
+                                          if ($row->q3)
                                              echo "<td class='text-center'><input type=\"hidden\" name=\"q3hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q3 . "><input type=\"checkbox\" name=\"q3[]\" " . ($row->Q3 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q3 . "></td>\r\n";
+                                          if ($row->q4)
                                              echo "<td class='text-center'><input type=\"hidden\" name=\"q4hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q4 . "><input type=\"checkbox\" name=\"q4[]\" " . ($row->Q4 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q4 . "></td>\r\n";
-                                          } else {
-                                             echo "<td class='text-center'><input type=\"hidden\" name=\"q1hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q1 . "><input type=\"checkbox\" name=\"q1[]\" " . ($row->Q1 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q1 . "></td>\r\n";
-                                             echo "<td class='text-center'><input type=\"hidden\" name=\"q2hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q2 . "><input type=\"checkbox\" name=\"q2[]\" " . ($row->Q2 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q2 . "></td>\r\n";
-                                             echo "<td class='text-center'><input type=\"hidden\" name=\"q3hidden[]\" value=" . $row->id . "_" . $row->session_id . "_" . $row->q3 . "><input type=\"checkbox\" name=\"q3[]\" " . ($row->Q3 == true ? 'CHECKED' : '') . " value=" . $row->id . "_" . $row->session_id . "_" . $row->q3 . "></td>\r\n";
-                                          }
                                           echo "</tr>\r\n";
                                        }
                                     } ?>

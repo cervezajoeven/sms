@@ -118,9 +118,9 @@
                                              <thead>
                                                 <tr>
                                                    <th></th>
-                                                   <th>1st Trim</th>
-                                                   <th>2nd Trim</th>
-                                                   <th>3rd Trim</th>
+                                                   <th class="text-center">1st Trim</th>
+                                                   <th class="text-center">2nd Trim</th>
+                                                   <th class="text-center">3rd Trim</th>
                                                 </tr>
                                              </thead>
                                              <tbody>
@@ -130,21 +130,21 @@
                                                       <td><?php echo $key ?></td>
 
                                                       <?php if ($student_attendance) : ?>
-                                                         <td><input class="semester_edit" type="number" edittype="first" name="first[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['first_trim'])->$value) ?>" min="0" /></td>
+                                                         <td class="text-center"><input class="semester_edit" type="number" edittype="first" size="6" name="first[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['first_trim'])->$value) ?>" min="0" /></td>
                                                       <?php else : ?>
-                                                         <td><input class="semester_edit" type="number" edittype="first" name="first[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
+                                                         <td class="text-center"><input class="semester_edit" type="number" edittype="first" size="6" name="first[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
                                                       <?php endif; ?>
 
                                                       <?php if ($student_attendance) : ?>
-                                                         <td><input class="semester_edit" type="number" edittype="second" name="second[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['second_trim'])->$value) ?>" min="0" /></td>
+                                                         <td class="text-center"><input class="semester_edit" type="number" edittype="second" size="6" name="second[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['second_trim'])->$value) ?>" min="0" /></td>
                                                       <?php else : ?>
-                                                         <td><input class="semester_edit" type="number" edittype="second" name="second[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
+                                                         <td class="text-center"><input class="semester_edit" type="number" edittype="second" size="6" name="second[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
                                                       <?php endif; ?>
 
                                                       <?php if ($student_attendance) : ?>
-                                                         <td><input class="semester_edit" type="number" edittype="third" name="third[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['third_trim'])->$value) ?>" min="0" /></td>
+                                                         <td class="text-center"><input class="semester_edit" type="number" edittype="third" size="6" name="third[<?php echo $value ?>]" category="<?php echo $value ?>" value="<?php print_r(json_decode($student_attendance['third_trim'])->$value) ?>" min="0" /></td>
                                                       <?php else : ?>
-                                                         <td><input class="semester_edit" type="number" edittype="third" name="third[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
+                                                         <td class="text-center"><input class="semester_edit" type="number" edittype="third" size="6" name="third[<?php echo $value ?>]" category="<?php echo $value ?>" value="" min="0" /></td>
                                                       <?php endif; ?>
                                                    </tr>
                                                 <?php endforeach; ?>

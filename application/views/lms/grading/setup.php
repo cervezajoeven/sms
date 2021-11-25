@@ -76,6 +76,7 @@
                                  <option value="ssapamp_math">Math - Pre School</option>
                                  <option value="ssapamp_mapeh">MAPEH - Pre School</option>
                                  <option value="ssapamp_reading">Reading - Pre School</option>
+                                 <option value="ssapamp_writing">Writing - Pre School</option>
                               <?php else : ?>
                                  <option value="original">Original</option>
                                  <option value="mapeh">MAPEH</option>
