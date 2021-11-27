@@ -1666,7 +1666,13 @@ class Report extends Admin_Controller
       $data['sch_setting'] = $this->sch_setting_detail;
       $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
       $data['session_list'] = $this->session_model->getAllSession();
-      $data['quarter_list'] = $this->general_model->get_quarter_list();
+      // $data['quarter_list'] = $this->general_model->get_quarter_list();
+      // $data['quarter_list'] = $this->general_model->get_quarter_list('Qtr', 4);
+      // $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
+      // print_r($data['quarter_list']);
+      // die();
+
+
       $data['school_code'] = $this->sch_setting_detail->dise_code;
       // $carray = array();
 
@@ -1747,7 +1753,7 @@ class Report extends Admin_Controller
       $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
       $data['session_list'] = $this->session_model->getAllSession();
       $data['teacher_list'] = $this->gradereport_model->get_teacher_list();
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+      $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
       // $carray = array();
 
       // if (!empty($data["classlist"])) { $sch_setting->session_id
@@ -1873,7 +1879,7 @@ class Report extends Admin_Controller
 
             // print_r(json_encode($student_id));die();
 
-            $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+            $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
 
             $data['session_id'] = $session;
             $data['class_id'] = $grade_level;
@@ -1950,7 +1956,7 @@ class Report extends Admin_Controller
       $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
       // print_r(json_encode($class_record));die();
       // print_r($class_record);die();
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+      $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
       $data['resultlist'] = $class_record;
       $data['session_id'] = $session;
       $data['class_id'] = $grade_level;
@@ -2016,7 +2022,7 @@ class Report extends Admin_Controller
       $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
       // print_r(json_encode($class_record));die();
       // print_r($class_record);die();
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+      $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
       $data['resultlist'] = $class_record;
       $data['session_id'] = $session;
       $data['class_id'] = $grade_level;
@@ -2122,7 +2128,7 @@ class Report extends Admin_Controller
             // print_r(json_encode($class_record));die();
             // print_r($class_record);die();
 
-            $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+            $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
             // $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
             $data['class_id'] = $grade_level;
@@ -2198,7 +2204,7 @@ class Report extends Admin_Controller
             $students[$key]['student_conduct'] = $student_conduct;
             $students[$key]['resultlist'] = $class_record;
             $students[$key]['student_attendance'] = $student_attendance;
-            $students[$key]['quarter_list'] = $this->gradereport_model->get_quarter_list();
+            $students[$key]['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
 
             $data['students'] = $students;
             $this->load->view('reports/print_section_cards', $data);
@@ -2270,7 +2276,7 @@ class Report extends Admin_Controller
             // print_r($data);
             // die();
 
-            $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+            $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
             $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
             $data['class_id'] = $grade_level;
@@ -2345,7 +2351,7 @@ class Report extends Admin_Controller
             // print_r(json_encode($class_record));
             // die();
 
-            $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+            $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
             $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
             $data['class_id'] = $grade_level;
@@ -2506,7 +2512,6 @@ class Report extends Admin_Controller
       $data['sch_setting'] = $this->sch_setting_detail;
       $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
       $data['session_list'] = $this->session_model->getAllSession();
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
 
       $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
       $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -2526,8 +2531,13 @@ class Report extends Admin_Controller
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
 
+            $grade_level_info = $this->class_model->get_grade_level_info($grade_level);
+            $data['quarter_list'] = $this->general_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+            // $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
+
             $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session, $section);
-            // print_r("CloudPH Debug Mode 2");die();
+            // print_r("CloudPH Debug Mode 2");
+            // die();
             $class_record = $this->gradereport_model->generate_Banig($session, $grade_level, $section);
             // print_r($class_record);die();
 

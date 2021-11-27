@@ -127,8 +127,15 @@ class General_model extends MY_Model
    }
 
 
-   public function get_quarter_list()
+   // public function get_quarter_list()
+   // {
+   //    return $this->db->select("*")->get("grading_quarter")->result_array();
+   // }
+
+   public function get_quarter_list($header_label = '', $terms = 4)
    {
-      return $this->db->select("*")->get("grading_quarter")->result_array();
+      $sql = "SELECT id, name, concat(description, ' ', '" . $header_label . "') as description FROM grading_quarter limit " . $terms;
+      $query = $this->db->query($sql);
+      return $query->result_array();
    }
 }

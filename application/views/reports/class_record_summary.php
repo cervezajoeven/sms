@@ -41,24 +41,6 @@
 
                         <div class="col-sm-6 col-md-3">
                            <div class="form-group">
-                              <label><?php echo $this->lang->line('quarter'); ?></label><small class="req"> *</small>
-                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
-                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                 <?php
-                                 foreach ($quarter_list as $quarter) {
-                                 ?>
-                                    <option value="<?php echo $quarter['id'] ?>" <?php if (set_value('quarter_id') == $quarter['id']) echo "selected=selected" ?>><?php echo $quarter['description'] ?></option>
-                                 <?php
-                                    //$count++;
-                                 }
-                                 ?>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
-                           </div>
-                        </div>
-
-                        <div class="col-sm-6 col-md-3">
-                           <div class="form-group">
                               <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="class_id" name="class_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
@@ -74,6 +56,7 @@
                               <span class="text-danger"><?php echo form_error('class_id'); ?></span>
                            </div>
                         </div>
+
                         <div class="col-sm-6 col-md-3">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
@@ -81,6 +64,24 @@
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                               </select>
                               <span class="text-danger"><?php echo form_error('section_id'); ?></span>
+                           </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3">
+                           <div class="form-group">
+                              <label><?php echo "Term"; ?></label><small class="req"> *</small>
+                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
+                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                 <?php
+                                 foreach ($quarter_list as $quarter) {
+                                 ?>
+                                    <option value="<?php echo $quarter['id'] ?>" <?php if (set_value('quarter_id') == $quarter['id']) echo "selected=selected" ?>><?php echo $quarter['description'] ?></option>
+                                 <?php
+                                    //$count++;
+                                 }
+                                 ?>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
                            </div>
                         </div>
 
@@ -146,7 +147,7 @@
 </div>
 
 <script type="text/javascript">
-   function getSectionByClass(class_id, section_id) {
+   function getSectionByClass(class_id, section_id = -1) {
       if (class_id != "" && section_id != "") {
          $('#section_id').html("");
          var base_url = '<?php echo base_url() ?>';
@@ -178,7 +179,48 @@
       }
    }
 
+   function getTermByGradeLevel(class_id, term_id = -1) {
+      if (class_id != "") {
+         var base_url = '<?php echo base_url() ?>';
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         $('#quarter_id').html("");
+
+         $.ajax({
+            type: "GET",
+            url: base_url + "classes/get_grade_level_terms",
+            data: {
+               'class_id': class_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#quarter_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  var sel = "";
+                  if (term_id == obj.id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.id + " " + sel + ">" + obj.description + "</option>";
+               });
+               $('#quarter_id').append(div_data);
+            },
+            complete: function() {
+               $('#quarter_id').removeClass('dropdownloading');
+            }
+         });
+      }
+   }
+
    $(document).ready(function() {
+      var class_id = $('#class_id').val();
+      var section_id = '<?php echo set_value('section_id') ?>';
+      var term_id = '<?php echo set_value('quarter_id') ?>';
+
+      getSectionByClass(class_id, section_id);
+      getTermByGradeLevel(class_id, term_id);
+
       var table = $('.classrecord').DataTable({
          paging: false,
          ordering: false,
@@ -254,35 +296,35 @@
          ]
       });
 
-      var class_id = $('#class_id').val();
-      var section_id = '<?php echo set_value('section_id') ?>';
-      getSectionByClass(class_id, section_id);
-
       $(document).on('change', '#class_id', function(e) {
          $('#section_id').html("");
          var class_id = $(this).val();
-         var base_url = '<?php echo base_url() ?>';
-         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-         $.ajax({
-            type: "GET",
-            url: base_url + "sections/getByClass",
-            data: {
-               'class_id': class_id
-            },
-            dataType: "json",
-            beforeSend: function() {
-               $('#section_id').addClass('dropdownloading');
-            },
-            success: function(data) {
-               $.each(data, function(i, obj) {
-                  div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
-               });
-               $('#section_id').append(div_data);
-            },
-            complete: function() {
-               $('#section_id').removeClass('dropdownloading');
-            }
-         });
+         // var base_url = '<?php echo base_url() ?>';
+         // var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         // $.ajax({
+         //    type: "GET",
+         //    url: base_url + "sections/getByClass",
+         //    data: {
+         //       'class_id': class_id
+         //    },
+         //    dataType: "json",
+         //    beforeSend: function() {
+         //       $('#section_id').addClass('dropdownloading');
+         //    },
+         //    success: function(data) {
+         //       $.each(data, function(i, obj) {
+         //          div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
+         //       });
+         //       $('#section_id').append(div_data);
+         //    },
+         //    complete: function() {
+         //       $('#section_id').removeClass('dropdownloading');
+         //    }
+         // });
+
+         getSectionByClass(class_id);
+         getTermByGradeLevel(class_id);
       });
    });
 </script>

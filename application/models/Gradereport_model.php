@@ -409,7 +409,7 @@ class Gradereport_model extends CI_Model
       $average_column = "";
       $colcount = 0;
 
-      $dataresult = $this->get_quarter_list();
+      $dataresult = $this->get_quarter_list('Qtr', 2);
 
       foreach ($dataresult as $row) {
          if (!empty($quarter_columns)) {
@@ -730,12 +730,12 @@ class Gradereport_model extends CI_Model
       return $query->result();
    }
 
-   public function get_quarter_list()
-   {
-      $sql = "SELECT * FROM grading_quarter";
-      $query = $this->db->query($sql);
-      return $query->result();
-   }
+   // public function get_quarter_list($header_label = '', $terms = 4)
+   // {
+   //    $sqlStr = "SELECT id, name, concat(description, ' ', '" . $header_label . "') as description FROM grading_quarter LIMIT " . $terms;
+   //    $query = $this->db->query($sqlStr);
+   //    return $query->result();
+   // }
 
    public function get_class_record_quarterly($school_year, $grade_level, $section, $subject, $teacher)
    {
@@ -920,7 +920,13 @@ class Gradereport_model extends CI_Model
 
       $averageColumnsForMain = "";
 
-      $quarters = $this->get_quarter_list();
+      $grade_level_info = $this->get_grade_level_info($_grade_level);
+      $quarters = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $quarters = $this->get_quarter_list();
+
+      // print_r($quarters);
+      // die();
+
       foreach ($quarters as $row) {
          if (!empty($average_column))
             $average_column .= "+IFNULL(tbl" . $row->id . ".quarterly_grade, 0)";
@@ -978,7 +984,7 @@ class Gradereport_model extends CI_Model
 
          //-- get fields to show
          if (empty($columns_selected)) {
-            $columns_selected .= "student_name_" . $subject_counter . ",gender_" . $subject_counter;
+            $columns_selected .= "student_name_" . $subject_counter . ", gender_" . $subject_counter;
          }
 
          $quarter_columns = "";
@@ -999,7 +1005,8 @@ class Gradereport_model extends CI_Model
 
          $columns_selected .= ",average_" . $subject_counter;
 
-         $sql .= "(SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name_" . $subject_counter . ", UPPER(gender) AS gender_" . $subject_counter . ", $quarter_columns, " . $average_columns . "_" . $subject_counter . "
+         $sql .= "(SELECT CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name_" . $subject_counter . ", 
+                    UPPER(gender) AS gender_" . $subject_counter . ", " . $quarter_columns . ", " . $average_columns . "_" . $subject_counter . "
                     FROM students 
                     LEFT JOIN student_session ON student_session.student_id = students.id 
                     " . str_replace('~replace_with_subject_id~', $row->subject_id, $subquery) . " 
@@ -1016,25 +1023,42 @@ class Gradereport_model extends CI_Model
          $subject_counter++;
       }
 
-      // $main_sql = "SELECT ".$columns_selected.", 
-      //              ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave, 
-      //              ROUND(((((~first_sum~)/~subject_count~) + ((~second_sum~)/~subject_count~) + ((~third_sum~)/~subject_count~) + ((~fourth_sum~)/~subject_count~)) / 4), 3) as comp_ave FROM ";
+      // $main_sql = "SELECT " . $columns_selected . ", 
+      //              ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, 
+      //              ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, 
+      //              ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, 
+      //              ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave FROM ";
 
-      $main_sql = "SELECT " . $columns_selected . ", ROUND(((~first_sum~)/~subject_count~), 2) as q1_ave, ROUND(((~second_sum~)/~subject_count~), 2) as q2_ave, ROUND(((~third_sum~)/~subject_count~), 2) as q3_ave, ROUND(((~fourth_sum~)/~subject_count~), 2) as q4_ave FROM ";
+      // $main_sql = str_replace("~first_sum~", $quarter_sum[0], $main_sql);
+      // $main_sql = str_replace("~second_sum~", $quarter_sum[1], $main_sql);
+      // $main_sql = str_replace("~third_sum~", $quarter_sum[2], $main_sql);
+      // $main_sql = str_replace("~fourth_sum~", $quarter_sum[3], $main_sql);
+      // $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
 
-      $main_sql = str_replace("~first_sum~", $quarter_sum[0], $main_sql);
-      $main_sql = str_replace("~second_sum~", $quarter_sum[1], $main_sql);
-      $main_sql = str_replace("~third_sum~", $quarter_sum[2], $main_sql);
-      $main_sql = str_replace("~fourth_sum~", $quarter_sum[3], $main_sql);
+      // $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((" . $averageColumnsForMain . ")/" . count($subjects) . "), 3) AS computed_ave, ROUND(CAST(((" . $averageColumnsForMain . ")/" . count($subjects) . ") AS DECIMAL(8,1))) AS rounded_computed_ave
+      //                              FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
 
-      $main_sql = str_replace("~subject_count~", count($subjects), $main_sql);
+      //-- Get average per quarter
+      $averageStr = "";
+      $averageColumns = "";
+      $ctr = 0;
+      foreach ($quarters as $row) {
 
-      // $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((q1_ave + q2_ave + q3_ave + q4_ave)/4), 3) AS computed_ave
-      //                            FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
+         if ($averageStr == "")
+            $averageStr .= " ROUND(((" . $quarter_sum[$ctr] . ")/" . count($subjects) . "), 2) as " . strtolower($row->name) . "_ave";
+         else
+            $averageStr .= ", ROUND(((" . $quarter_sum[$ctr] . ")/" . count($subjects) . "), 2) as " . strtolower($row->name) . "_ave ";
 
-      $query = $this->db->query("SELECT " . $columns_selected . ", q1_ave, q2_ave, q3_ave, q4_ave, ROUND(((" . $averageColumnsForMain . ")/" . count($subjects) . "), 3) AS computed_ave, ROUND(CAST(((" . $averageColumnsForMain . ")/" . count($subjects) . ") AS DECIMAL(8,1))) AS rounded_computed_ave
-                                   FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
-      // $query = $this->db->query($main_sql . $sql . " ORDER BY maintbl.gender_1 DESC, maintbl.student_name_1 ASC");
+         $averageColumns .= strtolower($row->name) . "_ave, ";
+         $ctr++;
+      }
+
+      $main_sql = "SELECT " . $columns_selected . ", " . $averageStr . " FROM ";
+
+      $query = $this->db->query("SELECT " . $columns_selected . ", " . $averageColumns . " 
+                                 ROUND(((" . $averageColumnsForMain . ")/" . count($subjects) . "), 3) AS computed_ave, 
+                                 ROUND(CAST(((" . $averageColumnsForMain . ")/" . count($subjects) . ") AS DECIMAL(8,1))) AS rounded_computed_ave
+                                 FROM (" . $main_sql . $sql . ") supermain ORDER BY gender_1 DESC, student_name_1 ASC");
 
       // print_r($this->db->last_query());
       // die();
@@ -1242,5 +1266,17 @@ class Gradereport_model extends CI_Model
       $student_attendance = $this->db->get("attendance_by_semester")->result_array()[0];
 
       return $student_attendance;
+   }
+
+   public function get_quarter_list($header_label = '', $terms = 4)
+   {
+      $sql = "SELECT id, name, concat(description, ' ', '" . $header_label . "') as description FROM grading_quarter limit " . $terms;
+      $query = $this->db->query($sql);
+      return $query->result();
+   }
+
+   public function get_grade_level_info($grade_level_id)
+   {
+      return $this->db->select('*')->from('classes')->where('id', $grade_level_id)->get()->result_array()[0];
    }
 }
