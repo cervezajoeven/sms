@@ -248,6 +248,14 @@ function gradeCode($codes, $grade, $show)
                                                          $rowCtr++;
                                                       }
 
+                                                      // if ($ssap_conduct) {
+                                                      //    echo "<tr>\r\n";
+                                                      //    echo "<td class='text-left'>Conduct</td>\r\n";
+                                                      //    echo "<td class='text-center" . ($ssap_conduct < 75 ? " text-danger" : ($ssap_conduct >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct == 0 ? '' : gradeCode($codes_table, $ssap_conduct, $show_letter_grade)) . "</b></td>\r\n";
+                                                      //    echo "<td class='text-center" . ($ssap_conduct < 75 ? " text-danger" : ($ssap_conduct >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct == 0 ? '' : gradeCode($codes_table, $ssap_conduct, $show_letter_grade)) . "</b></td>\r\n";
+                                                      //    echo "</tr>\r\n";
+                                                      // }
+
                                                       $q1Ave = $q1Tot / $rowCtr;
                                                       $q2Ave = $q2Tot / $rowCtr;
                                                       if ($q3Tot > 0)

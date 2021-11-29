@@ -409,7 +409,10 @@ class Gradereport_model extends CI_Model
       $average_column = "";
       $colcount = 0;
 
-      $dataresult = $this->get_quarter_list('Qtr', 2);
+      $grade_level_info = $this->get_grade_level_info($grade_level);
+      $dataresult = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+
+      // $dataresult = $this->get_quarter_list('Qtr', 2);
 
       foreach ($dataresult as $row) {
          if (!empty($quarter_columns)) {
