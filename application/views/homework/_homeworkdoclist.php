@@ -1,7 +1,7 @@
 <?php
 function displayTextWithLinks($s)
 {
-   return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a target=_blank href="$1">$1</a>', $s);
+   return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a target=_blank href="$1">Click here to view the document(s)</a>', $s);
 }
 
 foreach ($docs as $value) {
@@ -14,7 +14,7 @@ foreach ($docs as $value) {
       <td><?php echo $value["created_at"]; ?></td>
       <td><?php echo $value["score"]; ?></td>
       <td><?php echo $value["remarks"]; ?></td>
-      <td class="text-right">
+      <td class="text-right nowrap">
          <?php if ($value["url_link"] != '' || $value['docs'] != '') {
             if ($value['docs'] != '') {
                if (
@@ -23,17 +23,17 @@ foreach ($docs as $value) {
                   strpos(strtoupper($value['docs']), ".XLSX") !== false || strpos(strtoupper($value['docs']), ".PPTX") !== false
                ) { ?>
 
-                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>&embedded=true" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>&embedded=true" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
                <?php } else { ?>
                   <!-- <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a> -->
-                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
+                  <a data-placement="left" class="btn btn-default btn-xs document_view_btn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" file_location="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><i class="fa fa-eye"></i></a>
                <?php } ?>
 
-               <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+               <a data-placement="left" class="btn btn-default btn-xs" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" href="<?php echo $_SESSION['S3_BaseUrl']; ?>uploads/homework/assignment/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
                <!-- <a data-placement="left" class="btn btn-default btn-xs" href="<?php echo base_url(); ?>homework/assigmnetDownload/<?php echo $value['docs']; ?>" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a> -->
             <?php } ?>
 
-            <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a>
+            <!-- <a data-placement="left" class="btn btn-default btn-xs evaluatebtn" homework-id="<?php echo $value["homework_id"] ?>" student-session-id="<?php echo $value["session_id"] ?>" student-name="<?php echo $value["firstname"] . " " . $value['lastname']; ?>" data-toggle="tooltip" title="Evaluate"><i class="fa fa-reorder"></i></a> -->
          <?php } ?>
       </td>
    </tr>
@@ -60,6 +60,11 @@ foreach ($docs as $value) {
       if (file_location.toLocaleUpperCase().includes(".PDF")) {
          var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
          var file_location = $(this).attr("file_location");
+
+         $("#eval_student_pdf").html($(this).attr("student-name"));
+         $("#student_session_id_pdf").attr("value", $(this).attr("student-session-id"));
+         $("#homework_id_pdf").attr("value", $(this).attr("homework-id"));
+
          $(".document_iframe").attr("src", pdfjs + file_location);
          // $(".document_iframe").attr("src", 'https://docs.google.com/gview?url=' + decodeURIComponent(file_location));
          $('#document_view_modal').modal({
@@ -70,6 +75,11 @@ foreach ($docs as $value) {
       } else if (file_location.toLocaleUpperCase().includes(".JPG") || file_location.toLocaleUpperCase().includes(".JPEG") ||
          file_location.toLocaleUpperCase().includes(".PNG") || file_location.toLocaleUpperCase().includes(".GIF") ||
          file_location.toLocaleUpperCase().includes(".SVG")) {
+
+         $("#eval_student_img").html($(this).attr("student-name"));
+         $("#student_session_id_img").attr("value", $(this).attr("student-session-id"));
+         $("#homework_id_img").attr("value", $(this).attr("homework-id"));
+
          $(".document_img").attr("src", file_location);
 
          $('#document_view_modal_img').modal({
@@ -80,6 +90,10 @@ foreach ($docs as $value) {
       } else if (file_location.toLocaleUpperCase().includes(".MP4") || file_location.toLocaleUpperCase().includes(".AVI") ||
          file_location.toLocaleUpperCase().includes(".MOV") || file_location.toLocaleUpperCase().includes(".WMV")) {
          var type = file_location.toLocaleLowerCase().slice(3);
+
+         $("#eval_student_vid").html($(this).attr("student-name"));
+         $("#student_session_id_vid").attr("value", $(this).attr("student-session-id"));
+         $("#homework_id_vid").attr("value", $(this).attr("homework-id"));
 
          $(".document_vid").attr("src", file_location);
          $(".document_vid").attr("type", "video/" + type);

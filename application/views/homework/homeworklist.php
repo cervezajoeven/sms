@@ -260,7 +260,7 @@ $language_name = $language["short_code"];
                                           echo $homework["created_by"];
 
                                           ?></td>
-                                    <td class="mailbox-date pull-right">
+                                    <td class="mailbox-date pull-right nowrap">
 
                                        <?php if ($this->rbac->hasPrivilege('homework_evaluation', 'can_view')) { ?>
                                           <a data-placement="left" class="btn btn-default btn-xs" onclick="evaluation(<?php echo $homework['id']; ?>);" title="" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('evaluation'); ?>">
@@ -517,12 +517,40 @@ $language_name = $language["short_code"];
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title">Preview Document</h4>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Homework</h4>
          </div>
 
          <div class="modal-body">
             <!-- <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" /> -->
             <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
+
+            <div class="row">
+               <h4 class="box-title text-center"><?php echo $this->lang->line('evaluate_homework'); ?></h4>
+               <form id="eval_data_pdf" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                     <div class="col-md-2">&nbsp;</div>
+                     <div class="col-md-8">
+                        <li class="list-group-item">
+                           <label id="eval_student_pdf"></label>
+                           <input type="hidden" id="student_session_id_pdf" value="">
+                           <input type="hidden" id="homework_id_pdf" value="">
+                           <div>
+                              <input type="number" class="form-control" name="score_pdf" id="score_pdf" placeholder="Score" value="">
+                           </div>
+                           <div>
+                              <textarea class="form-control" name="remarks_pdf" id="remarks_pdf" placeholder="Remarks"></textarea>
+                           </div>
+                        </li>
+                     </div>
+                     <div class="col-md-2">&nbsp;</div>
+                  </div>
+                  <div class="box-footer">
+                     <div class="pull-right paddA10">
+                        <button type="submit" class="btn btn-info pull-right" id="saveEvaluation_pdf" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save') ?></button>
+                     </div>
+                  </div>
+               </form>
+            </div>
          </div>
 
       </div>
@@ -534,11 +562,39 @@ $language_name = $language["short_code"];
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title">Preview Image</h4>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Homework</h4>
          </div>
 
          <div class="modal-body">
             <img class="document_img img-content content-responsive" src="">
+
+            <div class="row">
+               <h4 class="box-title text-center"><?php echo $this->lang->line('evaluate_homework'); ?></h4>
+               <form id="eval_data_img" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                     <div class="col-md-2">&nbsp;</div>
+                     <div class="col-md-8">
+                        <li class="list-group-item">
+                           <label id="eval_student_img"></label>
+                           <input type="hidden" id="student_session_id_img" value="">
+                           <input type="hidden" id="homework_id_img" value="">
+                           <div>
+                              <input type="number" class="form-control" name="score_img" id="score_img" placeholder="Score" value="">
+                           </div>
+                           <div>
+                              <textarea class="form-control" name="remarks_img" id="remarks_img" placeholder="Remarks"></textarea>
+                           </div>
+                        </li>
+                     </div>
+                     <div class="col-md-2">&nbsp;</div>
+                  </div>
+                  <div class="box-footer">
+                     <div class="pull-right paddA10">
+                        <button type="submit" class="btn btn-info pull-right" id="saveEvaluation_img" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save') ?></button>
+                     </div>
+                  </div>
+               </form>
+            </div>
          </div>
 
       </div>
@@ -550,16 +606,41 @@ $language_name = $language["short_code"];
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title title text-center transport_fees_title">Preview Video</h4>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Homework</h4>
          </div>
 
          <div class="modal-body">
             <video class="document_vid content-responsive" width="640" height="264" controls>
                <source src="" type="">
-               <!-- <source src="movie.mp4" type="video/mp4">
-            <source src="movie.ogg" type="video/ogg">
-            Your browser does not support the video tag. -->
             </video>
+
+            <div class="row">
+               <h4 class="box-title text-center"><?php echo $this->lang->line('evaluate_homework'); ?></h4>
+               <form id="eval_data_vid" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                     <div class="col-md-2">&nbsp;</div>
+                     <div class="col-md-8">
+                        <li class="list-group-item">
+                           <label id="eval_student_vid"></label>
+                           <input type="hidden" id="student_session_id_vid" value="">
+                           <input type="hidden" id="homework_id_vid" value="">
+                           <div>
+                              <input type="number" class="form-control" name="score_vid" id="score_vid" placeholder="Score" value="">
+                           </div>
+                           <div>
+                              <textarea class="form-control" name="remarks_vid" id="remarks_vid" placeholder="Remarks"></textarea>
+                           </div>
+                        </li>
+                     </div>
+                     <div class="col-md-2"></div>
+                  </div>
+                  <div class="box-footer">
+                     <div class="pull-right paddA10">
+                        <button type="submit" class="btn btn-info pull-right" id="saveEvaluation_vid" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save') ?></button>
+                     </div>
+                  </div>
+               </form>
+            </div>
          </div>
 
       </div>
@@ -1104,13 +1185,138 @@ $language_name = $language["short_code"];
             } else {
                successMsg(res.message);
                // window.location.reload(true);
+               $("#score").val("");
+               $("#remarks").val("");
+               $("#evaluate_student").modal('hide');
 
                $.ajax({
                   url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#homework_id").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val() + "/" + $("#student_session_id").val(),
                   success: function(data) {
-                     $("#score").val("");
-                     $("#remarks").val("");
-                     $("#evaluate_student").modal('hide');
+                     $('#homework_docs_result').html(data);
+                  },
+                  error: function() {
+                     alert("Fail")
+                  }
+               });
+            }
+         }
+      });
+   }));
+
+   $("#eval_data_img").on('submit', (function(e) {
+      e.preventDefault();
+
+      // var data = new FormData(this);
+
+      $.ajax({
+         url: "<?php echo site_url("homework/add_evaluation") ?>",
+         type: "POST",
+         data: {
+            homework_id: $("#homework_id_img").val(),
+            student_session_id: $("#student_session_id_img").val(),
+            score: $("#score_img").val(),
+            remarks: $("#remarks_img").val(),
+         },
+         dataType: 'JSON',
+         success: function(res) {
+            console.log(res);
+
+            if (res.status == "fail") {
+               errorMsg(res.message);
+            } else {
+               successMsg(res.message);
+               // window.location.reload(true);
+               $("#score_img").val("");
+               $("#remarks_img").val("");
+               $("#document_view_modal_img").modal('hide');
+
+               $.ajax({
+                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#homework_id_img").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val() + "/" + $("#student_session_id_img").val(),
+                  success: function(data) {
+                     $('#homework_docs_result').html(data);
+                  },
+                  error: function() {
+                     alert("Fail")
+                  }
+               });
+            }
+         }
+      });
+   }));
+
+   $("#eval_data_pdf").on('submit', (function(e) {
+      e.preventDefault();
+
+      // var data = new FormData(this);
+
+      $.ajax({
+         url: "<?php echo site_url("homework/add_evaluation") ?>",
+         type: "POST",
+         data: {
+            homework_id: $("#homework_id_pdf").val(),
+            student_session_id: $("#student_session_id_pdf").val(),
+            score: $("#score_pdf").val(),
+            remarks: $("#remarks_pdf").val(),
+         },
+         dataType: 'JSON',
+         success: function(res) {
+            console.log(res);
+
+            if (res.status == "fail") {
+               errorMsg(res.message);
+            } else {
+               successMsg(res.message);
+               // window.location.reload(true);
+
+               $("#score_pdf").val("");
+               $("#remarks_pdf").val("");
+               $("#document_view_modal").modal('hide');
+
+               $.ajax({
+                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#homework_id_pdf").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val() + "/" + $("#student_session_id_pdf").val(),
+                  success: function(data) {
+                     $('#homework_docs_result').html(data);
+                  },
+                  error: function() {
+                     alert("Fail")
+                  }
+               });
+            }
+         }
+      });
+   }));
+
+   $("#eval_data_vid").on('submit', (function(e) {
+      e.preventDefault();
+
+      // var data = new FormData(this);
+
+      $.ajax({
+         url: "<?php echo site_url("homework/add_evaluation") ?>",
+         type: "POST",
+         data: {
+            homework_id: $("#homework_id_vid").val(),
+            student_session_id: $("#student_session_id_vid").val(),
+            score: $("#score_vid").val(),
+            remarks: $("#remarks_vid").val(),
+         },
+         dataType: 'JSON',
+         success: function(res) {
+            console.log(res);
+
+            if (res.status == "fail") {
+               errorMsg(res.message);
+            } else {
+               successMsg(res.message);
+               // window.location.reload(true);
+
+               $("#score_vid").val("");
+               $("#remarks_vid").val("");
+               $("#document_view_modal_vid").modal('hide');
+
+               $.ajax({
+                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#homework_id_vid").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val() + "/" + $("#student_session_id_vid").val(),
+                  success: function(data) {
                      $('#homework_docs_result').html(data);
                   },
                   error: function() {
