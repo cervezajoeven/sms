@@ -687,6 +687,8 @@ $language_name = $language["short_code"];
    // }
 
    function homework_docs(id, classid, sectionid) {
+      $('#homework_docs_result').html('');
+
       $('#homework_docs').modal('show');
       $.ajax({
          url: '<?php echo base_url(); ?>homework/homework_docs2/' + id + "/" + classid + "/" + sectionid,
