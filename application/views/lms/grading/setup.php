@@ -95,7 +95,7 @@
 
                         <?php if (strtolower($schoolcode) == "lpms") : ?>
                            <div class="form-group">
-                              <label for="exampleInputEmail1">Trimester</label><small class="req"> *</small>
+                              <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
                               <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
                                  <?php foreach ($quarters as $key => $value) : ?>
                                     <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
@@ -105,7 +105,7 @@
                            </div>
                         <?php else : ?>
                            <div class="form-group">
-                              <label for="exampleInputEmail1">Quarter</label><small class="req"> *</small>
+                              <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
                               <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
                                  <?php foreach ($quarters as $key => $value) : ?>
                                     <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>

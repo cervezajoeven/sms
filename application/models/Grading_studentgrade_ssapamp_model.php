@@ -275,18 +275,44 @@ class Grading_studentgrade_ssapamp_model extends CI_Model
       //   fn_checklist_grade_ssap($_year, 2,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q2      
       //   from grading_checklist_ssapamp";
 
-      $sql = "select checklistname,Q1,Q2,((Q1 + Q2) /2) as average,
-      (select letter_grade from grading_checklist_legend_ssapamp where ((Q1 + Q2) /2) between mingrade and maxgrade) as final_grade 
-      from 
-      (
-      select checklistname, 
-      fn_checklist_grade_ssap($_year, 1,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q1,
-      fn_checklist_grade_ssap($_year, 2,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q2  
-      from grading_checklist_ssapamp
-      ) vv";
+      // $sql = "select checklistname,Q1,Q2,((Q1 + Q2) /2) as average,
+      // (select letter_grade from grading_checklist_legend_ssapamp where ((Q1 + Q2) /2) between mingrade and maxgrade) as final_grade 
+      // from 
+      // (
+      // select checklistname, 
+      // fn_checklist_grade_ssap($_year, 1,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q1,
+      // fn_checklist_grade_ssap($_year, 2,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q2  
+      // from grading_checklist_ssapamp
+      // ) vv";
+
+      // $sql = "select checklistname,ROUND(Q1) as Q1,ROUND(Q2) as Q2,ROUND((Q1 + Q2) /2) as average,
+      // (select letter_grade from grading_checklist_legend_ssapamp where ROUND((Q1 + Q2) /2) between mingrade and maxgrade) as final_grade 
+      // from 
+      // (
+      // select checklistname, 
+      // fn_checklist_grade_ssap($_year, 1,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q1,
+      // fn_checklist_grade_ssap($_year, 2,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q2  
+      // from grading_checklist_ssapamp
+      // ) vv";
+
+      $sql = "select checklistname,
+      ROUND(Q1) as Q1,
+      ROUND(Q2) as Q2,
+      (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q1) between mingrade and maxgrade) as LG1,
+      (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q2) between mingrade and maxgrade) as LG2,
+      ROUND((Q1 + Q2) /2) as average,
+            (select letter_grade from grading_checklist_legend_ssapamp where ROUND((Q1 + Q2) /2) between mingrade and maxgrade) as final_grade 
+            from 
+            (
+            select checklistname, 
+            fn_checklist_grade_ssap($_year, 1,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q1,
+            fn_checklist_grade_ssap($_year, 2,$_grade_level_id, $_section_id,  $_student_id, 1, id) as Q2  
+            from grading_checklist_ssapamp
+            ) vv  ";
 
       $query = $this->db->query($sql);
-      // print_r($this->db->error());die();
+      // print_r($this->db->last_query());
+      // die();
       return $query->result();
    }
 }

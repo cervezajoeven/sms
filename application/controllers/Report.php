@@ -57,6 +57,8 @@ class Report extends Admin_Controller
       $this->load->model('lesson_model');
       $this->load->model('classteacher_model');
       $this->load->model('grading_ssapamp_model');
+      $this->load->model('grading_studentgrade_ssapamp_model');
+      $this->load->model('grading_checklist_ssapamp_model');
 
       $this->search_type = $this->customlib->get_searchtype();
       $this->sch_setting_detail = $this->setting_model->getSetting();
@@ -1919,8 +1921,28 @@ class Report extends Admin_Controller
                $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
                $prekinder = $result1[0]->id;
 
+               $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
+
+               if ($student_attendance) {
+                  $data['student_attendance'] = $student_attendance;
+               } else {
+                  $data['student_attendance'] = array();
+               }
+
+               $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($session, $grade_level, $section, $student_id);
+
+               // print_r($data['ssap_conduct']);
+               // die();
+
                if ($grade_level == $prekinder) {
                   $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($session, $grade_level, $section, $student_id);
+
+                  // print_r('<pre>');
+                  // print_r($class_record);
+                  // print_r('</pre>');
+                  // die();
+
+                  $data['resultlist'] = $class_record;
                   $legend = $this->grading_checklist_ssapamp_model->getLegend();
                   $data['legend_list'] = $legend;
 
@@ -1933,19 +1955,6 @@ class Report extends Admin_Controller
                   $data['resultlist'] = $class_record;
 
                   // print_r($data['resultlist']);
-                  // die();
-
-                  $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
-
-                  if ($student_attendance) {
-                     $data['student_attendance'] = $student_attendance;
-                  } else {
-                     $data['student_attendance'] = array();
-                  }
-
-                  $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($session, $grade_level, $section, $student_id);
-
-                  // print_r($data['ssap_conduct']);
                   // die();
 
                   $this->load->view('layout/header', $data);

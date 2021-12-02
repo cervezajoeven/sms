@@ -44,6 +44,8 @@ class Parents extends Parent_Controller
       $this->load->model('kampuspay_model');
       $this->load->model('general_model');
       $this->load->model('grading_ssapamp_model');
+      $this->load->model('grading_studentgrade_ssapamp_model');
+      $this->load->model('grading_checklist_ssapamp_model');
 
       $this->sch_setting_detail = $this->setting_model->getSetting();
       $this->payment_method = $this->paymentsetting_model->getActiveMethod();
@@ -791,38 +793,59 @@ class Parents extends Parent_Controller
          $this->load->view('parent/student/getclassrecord_lpms', $data);
          $this->load->view('layout/parent/footer', $data);
       } else if (strtolower($this->sch_setting_detail->dise_code) == 'ssapamp') {
+         $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
+         $prekinder = $result1[0]->id;
+         $grade_level = $class_id;
+         $data['prekinderid'] = $prekinder;
+         $data['studentid'] = $student_id;
+         $data['session'] = $this->sch_setting_detail->session_id;
+         $data['class'] = $class_id;
+         $data['section'] = $section_id;
+
+         $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+
+         if ($student_attendance) {
+            $data['student_attendance'] = $student_attendance;
+         } else {
+            $data['student_attendance'] = array();
+         }
+
+         $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
 
          // print_r($data);
          // die();
 
-         $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
-         $prekinder = $result1[0]->id;
+         // print_r($data['ssap_conduct']);
+         // die();
 
-         if ($student_current_class->class_id == $prekinder) {
+         if ($grade_level == $prekinder) {
             $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+            $data['resultlist'] = $class_record;
+
+            // print_r($class_record);
+            // die();
+
             $legend = $this->grading_checklist_ssapamp_model->getLegend();
             $data['legend_list'] = $legend;
+            $allow1 = $this->grading_ssapamp_model->getAllowed($student_id, $this->sch_setting_detail->session_id, 1);
+            $allow2 = $this->grading_ssapamp_model->getAllowed($student_id, $this->sch_setting_detail->session_id, 2);
+
+            // print_r($data);
+            // die();
+
+            $data['allow1'] = $allow1;
+            $data['allow2'] = $allow2;
 
             $this->load->view('layout/parent/header', $data);
             $this->load->view('parent/student/getclassrecord_ssapamp', $data);
             $this->load->view('layout/parent/footer', $data);
          } else {
             $data['codes_table'] = $this->gradereport_model->grade_code_table();
-            $class_record = $this->gradereport_model->get_student_class_record_unrestricted($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
+            $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
             $data['resultlist'] = $class_record;
 
-            $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
-
-            if ($student_attendance) {
-               $data['student_attendance'] = $student_attendance;
-            } else {
-               $data['student_attendance'] = array();
-            }
-
-            $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
-            // print_r($data['ssap_conduct']);
+            // print_r($data['resultlist']);
             // die();
-
 
             $this->load->view('layout/parent/header', $data);
             $this->load->view('parent/student/getclassrecord', $data);
