@@ -784,6 +784,40 @@ class Parents extends Parent_Controller
          $this->load->view('layout/parent/header', $data);
          $this->load->view('parent/student/getclassrecord_lpms', $data);
          $this->load->view('layout/parent/footer', $data);
+      } else if (strtolower($data['school_code']) == 'ssapamp') {
+         $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
+         $prekinder = $result1[0]->id;
+
+         if ($student_current_class->class_id == $prekinder) {
+            $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+            $legend = $this->grading_checklist_ssapamp_model->getLegend();
+            $data['legend_list'] = $legend;
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/getclassrecord_ssapamp', $data);
+            $this->load->view('layout/footer', $data);
+         } else {
+            $data['codes_table'] = $this->gradereport_model->grade_code_table();
+            $class_record = $this->gradereport_model->get_student_class_record_unrestricted($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
+            $data['resultlist'] = $class_record;
+
+            // print_r($data['resultlist']);
+            // die();
+
+            $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+
+            if ($student_attendance) {
+               $data['student_attendance'] = $student_attendance;
+            } else {
+               $data['student_attendance'] = array();
+            }
+
+            $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/getclassrecord', $data);
+            $this->load->view('layout/footer', $data);
+         }
       } else {
          $data['codes_table'] = $this->gradereport_model->grade_code_table();
 

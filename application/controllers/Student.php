@@ -2814,9 +2814,19 @@ class Student extends Admin_Controller
 
          if ($this->form_validation->run() == false) {
          } else {
-            $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+            // $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+
             $data['class_id'] = $this->input->post('class_id');
             $data['section_id'] = $this->input->post('section_id');
+
+            $grade_level_info = $this->class_model->get_grade_level_info($data['class_id']);
+            $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+
+            // echo "<pre>";
+            // print_r($data['quarter_list']);
+            // echo "<pre>";
+            // die();
+
             $resultlist = $this->student_model->grading_GetAllowedToView($this->sch_setting_detail->session_id, $class, $section);
             $data['resultlist']  = $resultlist;
             // echo "<pre>";

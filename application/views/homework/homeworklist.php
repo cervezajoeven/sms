@@ -702,7 +702,6 @@ $language_name = $language["short_code"];
    }
 
    $(function() {
-
       $("#compose-textarea,#desc-textarea").wysihtml5();
    });
 

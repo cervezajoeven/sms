@@ -1282,4 +1282,19 @@ class Gradereport_model extends CI_Model
    {
       return $this->db->select('*')->from('classes')->where('id', $grade_level_id)->get()->result_array()[0];
    }
+
+   public function get_conduct_ssapamp($session, $grade_level, $section, $student_id)
+   {
+      $sql = "select studentid,
+              sum(case when semester=1 then grade else 0 end)/6 s1,
+              sum(case when semester=2 then grade else 0 end)/6 s2
+              from 
+              grading_studentconduct_ssapamp 
+              where levelid = " . $grade_level . " 
+              and studentid = " . $student_id . " 
+              and sectionid= " . $section . " 
+              and schoolyear = " . $session;
+      $query = $this->db->query($sql);
+      return $query->result()[0];
+   }
 }

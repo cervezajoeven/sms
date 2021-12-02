@@ -97,9 +97,9 @@ function gradeCode($codes, $grade, $show)
                                     echo "<td class='text-left'>" . $row->Subjects . "</td>\r\n";
                                     echo "<td class='text-center" . ($row->Q1 < 75 ? " text-danger" : ($row->Q1 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q1 == 0 ? '' : gradeCode($codes_table, $row->Q1, $show_letter_grade)) . "</b></td>\r\n";
                                     echo "<td class='text-center" . ($row->Q2 < 75 ? " text-danger" : ($row->Q2 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q2 == 0 ? '' : gradeCode($codes_table, $row->Q2, $show_letter_grade)) . "</b></td>\r\n";
-                                    if ($row->Q3)
+                                    if (isset($row->Q3))
                                        echo "<td class='text-center" . ($row->Q3 < 75 ? " text-danger" : ($row->Q3 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q3 == 0 ? '' : gradeCode($codes_table, $row->Q3, $show_letter_grade)) . "</b></td>\r\n";
-                                    if ($row->Q4)
+                                    if (isset($row->Q4))
                                        echo "<td class='text-center" . ($row->Q4 < 75 ? " text-danger" : ($row->Q4 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q4 == 0 ? '' : gradeCode($codes_table, $row->Q4, $show_letter_grade)) . "</b></td>\r\n";
                                     if ($show_average_column)
                                        echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
@@ -115,6 +115,23 @@ function gradeCode($codes, $grade, $show)
                                     $finTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->final_grade;
 
                                     $rowCtr++;
+                                 }
+
+                                 if ($ssap_conduct) {
+                                    echo "<tr>\r\n";
+                                    echo "<td class='text-left'>Conduct</td>\r\n";
+                                    echo "<td class='text-center" . ($ssap_conduct['s1'] < 75 ? " text-danger" : ($ssap_conduct['s1'] >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct['s1'] == 0 ? '' : gradeCode($codes_table, $ssap_conduct['s1'], $show_letter_grade)) . "</b></td>\r\n";
+                                    echo "<td class='text-center" . ($ssap_conduct['s2'] < 75 ? " text-danger" : ($ssap_conduct['s2'] >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct['s2'] == 0 ? '' : gradeCode($codes_table, $ssap_conduct['s2'], $show_letter_grade)) . "</b></td>\r\n";
+
+                                    if ($show_average_column) {
+                                       echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
+                                    }
+
+                                    if ((isset($ssap_conduct['s1']) &&  isset($ssap_conduct['s2']))) {
+                                       echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
+                                    }
+
+                                    echo "</tr>\r\n";
                                  }
 
                                  $q1Ave = $q1Tot / $rowCtr;
@@ -162,7 +179,7 @@ function gradeCode($codes, $grade, $show)
                      </div>
                      <div class="box-body">
                         <div class="table-responsive">
-                           <div class="download_label"><?php echo 'Quarterly Grades'; ?></div>
+                           <div class="download_label"><?php echo 'Attendance'; ?></div>
                            <?php $attendance_categories = array(
                               'Days Present' => 'attendance',
                               'Days Absent' => 'absent',

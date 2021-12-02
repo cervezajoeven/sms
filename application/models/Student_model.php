@@ -2965,8 +2965,14 @@ class Student_model extends MY_Model
       $subquery = "";
       $quarter_columns = "";
 
-      $dataresult = $this->gradereport_model->get_quarter_list();
+      $grade_level_info = $this->class_model->get_grade_level_info($gradelevel);
+      $dataresult = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+
+      // $dataresult = $this->gradereport_model->get_quarter_list();
       // $dataresult = $this->get_quarter_list();   
+
+      $qtrColums = "";
+      $termCnt = 1;
 
       foreach ($dataresult as $row) {
          if (!empty($quarter_columns)) {
@@ -2979,11 +2985,12 @@ class Student_model extends MY_Model
                            (
                               SELECT student_id, session_id, quarter_id, view_allowed FROM grading_allowed_students
                            ) tbl$row->id ON tbl$row->id.student_id = students.id AND tbl$row->id.session_id = student_session.session_id AND tbl$row->id.quarter_id = $row->id";
+
+         $qtrColums .= ",(SELECT id FROM grading_quarter WHERE NAME = 'Q" . $termCnt . "') AS q" . $termCnt;
+         $termCnt++;
       }
 
-      $sql = "SELECT students.id, students.roll_no, student_session.session_id, CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, gender, $quarter_columns,
-                (SELECT id FROM grading_quarter WHERE NAME = 'Q1') AS q1, (SELECT id FROM grading_quarter WHERE NAME = 'Q2') AS q2,
-                (SELECT id FROM grading_quarter WHERE NAME = 'Q3') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'Q4') AS q4 
+      $sql = "SELECT students.id, students.roll_no, student_session.session_id, CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, gender, $quarter_columns " . $qtrColums . "                 
                 FROM students
                 LEFT JOIN student_session ON student_session.student_id = students.id 
                 " . $subquery . " 
@@ -2992,9 +2999,22 @@ class Student_model extends MY_Model
                 AND student_session.section_id = $section 
                 ORDER BY gender DESC, student_name ASC";
 
+
+      // $sql = "SELECT students.id, students.roll_no, student_session.session_id, CONCAT(lastname, ', ', firstname, ' ', middlename) AS student_name, gender, $quarter_columns,
+      //           (SELECT id FROM grading_quarter WHERE NAME = 'Q1') AS q1, (SELECT id FROM grading_quarter WHERE NAME = 'Q2') AS q2,
+      //           (SELECT id FROM grading_quarter WHERE NAME = 'Q3') AS q3, (SELECT id FROM grading_quarter WHERE NAME = 'Q4') AS q4 
+      //           FROM students
+      //           LEFT JOIN student_session ON student_session.student_id = students.id 
+      //           " . $subquery . " 
+      //           WHERE student_session.session_id = $schoolyear
+      //           AND student_session.class_id = $gradelevel 
+      //           AND student_session.section_id = $section 
+      //           ORDER BY gender DESC, student_name ASC";
+
       // return($sql);
       $query = $this->db->query($sql);
-      // print_r($this->db->last_query());die();
+      // print_r($this->db->last_query());
+      // die();
       // print_r($this->db->error());die();
       return $query->result();
    }
