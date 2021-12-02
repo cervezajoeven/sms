@@ -757,16 +757,19 @@
 
    function getLetterGrade(finalgrade) {
       lettergrade = "";
+      rfinalgrade = Math.round(finalgrade);
       legend_array.forEach(function(object, index) {
          // console.log(object.lgrade);
          grade = object.graderange;
          if (grade.indexOf('-') > -1) {
             var gradearray = grade.split('-');
             temp = gradearray[0];
-            range1 = temp.trim();
+            temp = temp.trim();
+            range1 = Math.round(temp);
             temp = gradearray[1];
-            range2 = temp.trim();
-            if (finalgrade >= range1 && finalgrade <= range2) {
+            temp = temp.trim();
+            range2 = Math.round(temp);
+            if (rfinalgrade >= range1 && rfinalgrade <= range2) {
                console.log('in range');
                lettergrade = object.lgrade;
                // break;
@@ -774,9 +777,9 @@
             }
          } else {
             var gradearray = grade.split('and');
-            temp = gradearray[0];
-            range1 = temp.trim();
-            if (finalgrade <= range1) {
+            temp = temp.trim();
+            range2 = Math.round(temp);
+            if (rfinalgrade <= range1) {
                console.log('in range');
                lettergrade = object.lgrade;
                return lettergrade;
@@ -1129,7 +1132,9 @@
          }
 
       });
-      if (isNaN(sum) || sum == 0) {} else {
+      if (isNaN(sum) || sum == 0) {
+         $("input#2_math").val(defaultvalue);
+      } else {
          average = sum / 2;
          $("input#2_math").val(average.toFixed(2));
       }
@@ -1189,6 +1194,8 @@
          $("input#2_cp").val(average.toFixed(2));
          $("input#subject_C2").val(average.toFixed(2));
       }
+      $("input#final_C").val(defaultvalue);
+      $("input#lgC").val(defaultvalue);
       if (ave_math1 > 1 && ave_math2 > 1) {
          var final_average = (ave_math1 + ave_math2) / 2;
          $("input#final_C").val(final_average.toFixed(2));
@@ -1401,11 +1408,11 @@
 
       // Pscychomotr Development
       $("input#1_pd").val(defaultvalue);
-      $("input#2_pd").val(adefaultvalue);
-      $("input#subject_D1").val(adefaultvalue);
-      $("input#subject_D2").val(adefaultvalue);
-      $("input#final_D").val(adefaultvalue);
-      $("input#lgD").val(adefaultvalue);
+      $("input#2_pd").val(defaultvalue);
+      $("input#subject_D1").val(defaultvalue);
+      $("input#subject_D2").val(defaultvalue);
+      $("input#final_D").val(defaultvalue);
+      $("input#lgD").val(defaultvalue);
 
       if (ave_fms1 > 1 && ave_gms1 > 1) {
          ave_psydev1 = (ave_fms1 + ave_gms1) / 2;
@@ -1548,6 +1555,8 @@
             // alert(lettergrade);
          }
       }
+
+
 
    }
 
