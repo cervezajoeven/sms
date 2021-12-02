@@ -66,7 +66,7 @@ function gradeCode($codes, $grade, $show)
                         <ul class="list-group list-group-unbordered">
                            <?php foreach ($legend_list as $code) { ?>
                               <li class="list-group-item">
-                                 <b><?php echo $code['letter_grade']; ?></b> <span class="pull-right"><?php echo ($code['mingrade'] . "-" . $code['maxgrade']); ?></span>
+                                 <b><?php echo $code['letter_grade'] . " - " . $code['grade_description']; ?></b> <span class="pull-right"><?php echo ($code['mingrade'] . "-" . $code['maxgrade']); ?></span>
                               </li>
                            <?php } ?>
                         </ul>
