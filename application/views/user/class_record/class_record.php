@@ -1,13 +1,13 @@
 <?php
 
-print_r($codes_table);
+// print_r($codes_table);
 
 function gradeCode($codes, $grade, $show)
 {
    $retVal = '';
 
    if ($show) {
-      $retVal = '--';
+      $retVal = '';
 
       foreach ($codes as $rows) {
          if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {
