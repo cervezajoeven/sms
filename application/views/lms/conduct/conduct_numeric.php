@@ -182,9 +182,10 @@
    var class_id;
    var base_url = '<?php echo base_url() ?>';
 
-   function getSectionByClass(class_id, section_id) {
+   function getSectionByClass(class_id, section_id = -1) {
       if (class_id != "" && section_id != "") {
          $('#section_id').html("");
+         var base_url = '<?php echo base_url() ?>';
          var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
          $.ajax({
             type: "GET",
@@ -213,7 +214,88 @@
       }
    }
 
+   function getTermByGradeLevel(class_id, term_id = -1) {
+      if (class_id != "") {
+         var base_url = '<?php echo base_url() ?>';
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         $('#quarter_id').html("");
+
+         $.ajax({
+            type: "GET",
+            url: base_url + "classes/get_grade_level_terms",
+            data: {
+               'class_id': class_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#quarter_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  var sel = "";
+                  if (term_id == obj.id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.id + " " + sel + ">" + obj.description + "</option>";
+               });
+               $('#quarter_id').append(div_data);
+            },
+            complete: function() {
+               $('#quarter_id').removeClass('dropdownloading');
+            }
+         });
+      }
+   }
+
+   function getStudentsByClassSection(class_id, section_id, school_year_id, student_id = -1) {
+      if (class_id != "") {
+         $('#student_id').html("");
+
+         //if (class_id == 1) {
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+         $.ajax({
+            type: "GET",
+            url: base_url + "student/getStudentListPerClassSection",
+            data: {
+               'class_id': class_id,
+               'section_id': section_id,
+               'school_year_id': school_year_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#student_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  var sel = "";
+                  if (student_id == obj.student_id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.student_id + " " + sel + ">" + obj.lastname + ", " + obj.firstname + "</option>";
+               });
+               $('#student_id').append(div_data);
+            },
+            complete: function() {
+               $('#student_id').removeClass('dropdownloading');
+            }
+         });
+         //}
+      }
+   }
+
    $(document).ready(function() {
+
+      var class_id = $('#class_id').val();
+      var section_id = '<?php echo set_value('section_id') ?>';
+      var school_year_id = '<?php echo set_value('session_id') ?>';
+      var student_id = '<?php echo set_value('student_id') ?>';
+      var term_id = '<?php echo set_value('quarter_id') ?>';
+
+      getSectionByClass(class_id, section_id);
+      // getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
+      getTermByGradeLevel(class_id, term_id);
+
       var table = $('.conductTable').DataTable({
          "aaSorting": [],
          rowReorder: {
@@ -300,37 +382,69 @@
          }]
       });
 
-      var class_id = $('#class_id').val();
-      var section_id = '<?php echo set_value('section_id') ?>';
-      var school_year_id = '<?php echo set_value('session_id') ?>';
-      var student_id = '<?php echo set_value('student_id') ?>';
-      getSectionByClass(class_id, section_id);
-      // getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
-
       $(document).on('change', '#class_id', function(e) {
          $('#section_id').html("");
-         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-         class_id = $(this).val();
-         $.ajax({
-            type: "GET",
-            url: base_url + "sections/getByClass",
-            data: {
-               'class_id': class_id
-            },
-            dataType: "json",
-            beforeSend: function() {
-               $('#section_id').addClass('dropdownloading');
-            },
-            success: function(data) {
-               $.each(data, function(i, obj) {
-                  div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
-               });
-               $('#section_id').append(div_data);
-            },
-            complete: function() {
-               $('#section_id').removeClass('dropdownloading');
-            }
-         });
+         var class_id = $(this).val();
+
+         // class_id = $(this).val();
+         // $.ajax({
+         //    type: "GET",
+         //    url: base_url + "sections/getByClass",
+         //    data: {
+         //       'class_id': class_id
+         //    },
+         //    dataType: "json",
+         //    beforeSend: function() {
+         //       $('#section_id').addClass('dropdownloading');
+         //    },
+         //    success: function(data) {
+         //       $.each(data, function(i, obj) {
+         //          div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
+         //       });
+         //       $('#section_id').append(div_data);
+         //    },
+         //    complete: function() {
+         //       $('#section_id').removeClass('dropdownloading');
+         //    }
+         // });
+
+         getSectionByClass(class_id);
+         getTermByGradeLevel(class_id);
+      });
+
+      $(document).on('change', '#section_id', function(e) {
+         $('#student_id').html("");
+
+         // var div_data2 = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+         // $.ajax({
+         //    type: "GET",
+         //    url: base_url + "student/getStudentListPerClassSection",
+         //    data: {
+         //       'class_id': class_id,
+         //       'section_id': $('#section_id').val(),
+         //       'school_year_id': $('#session_id').val()
+         //    },
+         //    dataType: "json",
+         //    beforeSend: function() {
+         //       $('#student_id').addClass('dropdownloading');
+         //    },
+         //    success: function(data) {
+         //       $.each(data, function(i, obj) {
+         //          div_data2 += "<option value=" + obj.student_id + ">" + obj.lastname + ", " + obj.firstname + "</option>";
+         //       });
+         //       $('#student_id').append(div_data2);
+         //    },
+         //    complete: function() {
+         //       $('#student_id').removeClass('dropdownloading');
+         //    }
+         // });
+
+         var class_id = $('#class_id').val();
+         var section_id = $('#section_id').val();
+         var school_year_id = $('#session_id').val();
+         var student_id = $('#student_id').val();
+
+         getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
       });
 
       $("#frm_conduct_grades").on('submit', (function(e) {

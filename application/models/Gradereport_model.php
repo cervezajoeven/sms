@@ -321,7 +321,8 @@ class Gradereport_model extends CI_Model
       $average_column = "";
       $colcount = 0;
 
-      $dataresult = $this->get_quarter_list();
+      $grade_level_info = $this->get_grade_level_info($grade_level);
+      $dataresult = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
 
       foreach ($dataresult as $row) {
          if (!empty($quarter_columns)) {
@@ -497,7 +498,9 @@ class Gradereport_model extends CI_Model
       $average_conduct_columns = "";
       $colcount = 0;
 
-      $dataresult = $this->get_quarter_list();
+      $grade_level_info = $this->get_grade_level_info($grade_level);
+      $dataresult = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $dataresult = $this->get_quarter_list();
 
       foreach ($dataresult as $row) {
          if (!empty($quarter_columns)) {
@@ -625,7 +628,9 @@ class Gradereport_model extends CI_Model
       $average_conduct_columns = "";
       $colcount = 0;
 
-      $dataresult = $this->get_quarter_list();
+      $grade_level_info = $this->get_grade_level_info($grade_level);
+      $dataresult = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $dataresult = $this->get_quarter_list();
 
       foreach ($dataresult as $row) {
          if (!empty($quarter_columns)) {
@@ -743,7 +748,11 @@ class Gradereport_model extends CI_Model
    public function get_class_record_quarterly($school_year, $grade_level, $section, $subject, $teacher)
    {
       $quarter_columns = "";
-      $resultdata = $this->get_quarter_list();
+
+      $grade_level_info = $this->get_grade_level_info($grade_level);
+      $resultdata = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $resultdata = $this->get_quarter_list();
+
       $average_columns = "";
       $average_column = "";
       $subquery = "";
@@ -1151,7 +1160,9 @@ class Gradereport_model extends CI_Model
    public function get_swh_score_quarterly($school_year, $grade_level, $section, $student_id)
    {
       $quarter_columns = "";
-      $resultdata = $this->get_quarter_list();
+      $grade_level_info = $this->get_grade_level_info($grade_level);
+      $resultdata = $this->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $resultdata = $this->get_quarter_list();
       $subquery = "";
 
       foreach ($resultdata as $row) {

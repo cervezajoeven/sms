@@ -1,6 +1,6 @@
 <?php
 
-// print_r($codes_table);
+print_r($codes_table);
 
 function gradeCode($codes, $grade, $show)
 {
@@ -117,18 +117,20 @@ function gradeCode($codes, $grade, $show)
                                     $rowCtr++;
                                  }
 
-                                 if ($ssap_conduct) {
+                                 if (isset($ssap_conduct)) {
                                     echo "<tr>\r\n";
                                     echo "<td class='text-left'>Conduct</td>\r\n";
-                                    echo "<td class='text-center" . ($ssap_conduct['s1'] < 75 ? " text-danger" : ($ssap_conduct['s1'] >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct['s1'] == 0 ? '' : gradeCode($codes_table, $ssap_conduct['s1'], $show_letter_grade)) . "</b></td>\r\n";
-                                    echo "<td class='text-center" . ($ssap_conduct['s2'] < 75 ? " text-danger" : ($ssap_conduct['s2'] >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct['s2'] == 0 ? '' : gradeCode($codes_table, $ssap_conduct['s2'], $show_letter_grade)) . "</b></td>\r\n";
+                                    echo "<td class='text-center" . ($ssap_conduct->s1 < 75 ? " text-danger" : ($ssap_conduct->s1 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s1 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s1, $show_letter_grade)) . "</b></td>\r\n";
+                                    echo "<td class='text-center" . ($ssap_conduct->s2 < 75 ? " text-danger" : ($ssap_conduct->s2 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s2 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s2, $show_letter_grade)) . "</b></td>\r\n";
 
-                                    if ($show_average_column) {
-                                       echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
-                                    }
+                                    // if ($show_average_column) {
+                                    //    echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
+                                    // }
 
-                                    if ((isset($ssap_conduct['s1']) &&  isset($ssap_conduct['s2']))) {
-                                       echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
+                                    if ($ssap_conduct->s1 != null && $ssap_conduct->s2 != null) {
+                                       echo "<td class='text-center" . (($ssap_conduct->s1 / $ssap_conduct->s2) < 75 ? " text-danger" : (($ssap_conduct->s1 / $ssap_conduct->s2) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct->s1 / $ssap_conduct->s2) == 0 ? '' : gradeCode($codes_table, ($ssap_conduct->s1 / $ssap_conduct->s2), $show_letter_grade)) . "</b></td>\r\n";
+                                    } else {
+                                       echo "<td class='text-left'>&nbsp</td>\r\n";
                                     }
 
                                     echo "</tr>\r\n";
@@ -359,9 +361,11 @@ function gradeCode($codes, $grade, $show)
    $(document).ready(function() {
 
       $("#class_record").DataTable({
-         "paging": false,
-         "scrollX": true,
-         "fixedHeader": true,
+         paging: false,
+         ordering: false,
+         searching: false,
+         scrollX: true,
+         fixedHeader: true,
          // "dom": 'Bfrtip',
          buttons: [{
                extend: 'copyHtml5',

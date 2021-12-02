@@ -43,6 +43,7 @@ class Parents extends Parent_Controller
       $this->load->model('feetype_model');
       $this->load->model('kampuspay_model');
       $this->load->model('general_model');
+      $this->load->model('grading_ssapamp_model');
 
       $this->sch_setting_detail = $this->setting_model->getSetting();
       $this->payment_method = $this->paymentsetting_model->getActiveMethod();
@@ -738,7 +739,8 @@ class Parents extends Parent_Controller
 
    public function getgrades($student_id)
    {
-      // print_r($student_id);die();
+      // print_r($student_id);
+      // die();
       $this->auth->validate_child($student_id);
       $this->session->set_userdata('top_menu', 'Grades');
       $this->session->set_userdata('sub_menu', 'parent/parents/grades');
@@ -748,9 +750,13 @@ class Parents extends Parent_Controller
       $class_id = $student['class_id'];
       $section_id = $student['section_id'];
       $student_current_class = $this->customlib->getStudentCurrentClsSection();
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+
+      $grade_level_info = $this->class_model->get_grade_level_info($class_id);
+      $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+
       $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
       $data['school_code'] = strtolower($this->sch_setting_detail->dise_code);
+      $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
       $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
       $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
       $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
@@ -784,7 +790,11 @@ class Parents extends Parent_Controller
          $this->load->view('layout/parent/header', $data);
          $this->load->view('parent/student/getclassrecord_lpms', $data);
          $this->load->view('layout/parent/footer', $data);
-      } else if (strtolower($data['school_code']) == 'ssapamp') {
+      } else if (strtolower($this->sch_setting_detail->dise_code) == 'ssapamp') {
+
+         // print_r($data);
+         // die();
+
          $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
          $prekinder = $result1[0]->id;
 
@@ -793,16 +803,13 @@ class Parents extends Parent_Controller
             $legend = $this->grading_checklist_ssapamp_model->getLegend();
             $data['legend_list'] = $legend;
 
-            $this->load->view('layout/header', $data);
-            $this->load->view('reports/getclassrecord_ssapamp', $data);
-            $this->load->view('layout/footer', $data);
+            $this->load->view('layout/parent/header', $data);
+            $this->load->view('parent/student/getclassrecord_ssapamp', $data);
+            $this->load->view('layout/parent/footer', $data);
          } else {
             $data['codes_table'] = $this->gradereport_model->grade_code_table();
             $class_record = $this->gradereport_model->get_student_class_record_unrestricted($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
             $data['resultlist'] = $class_record;
-
-            // print_r($data['resultlist']);
-            // die();
 
             $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
 
@@ -813,15 +820,18 @@ class Parents extends Parent_Controller
             }
 
             $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+            // print_r($data['ssap_conduct']);
+            // die();
 
-            $this->load->view('layout/header', $data);
-            $this->load->view('reports/getclassrecord', $data);
-            $this->load->view('layout/footer', $data);
+
+            $this->load->view('layout/parent/header', $data);
+            $this->load->view('parent/student/getclassrecord', $data);
+            $this->load->view('layout/parent/footer', $data);
          }
       } else {
          $data['codes_table'] = $this->gradereport_model->grade_code_table();
 
-         $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
+         $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
 
          if ($student_attendance) {
             $data['student_attendance'] = $student_attendance;

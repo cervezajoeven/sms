@@ -15,6 +15,7 @@ class Class_record extends Student_Controller
       $this->load->model('setting_model');
       $this->load->model('conduct_model');
       $this->load->model('grading_ssapamp_model');
+      $this->load->model('class_model');
 
       $this->sch_setting_detail = $this->setting_model->getSetting();
    }
@@ -27,9 +28,14 @@ class Class_record extends Student_Controller
       $student_current_class = $this->customlib->getStudentCurrentClsSection();
       $student_id = $this->customlib->getStudentSessionUserID();
       // print_r("CloudPH Debug Mode");die();
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+      $grade_level_info = $this->class_model->get_grade_level_info($student_current_class->class_id);
+      $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+
+      // $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+
       $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
       $data['school_code'] = strtolower($this->sch_setting_detail->dise_code);
+      $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
       $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
       $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
       $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
@@ -72,12 +78,20 @@ class Class_record extends Student_Controller
             $legend = $this->grading_checklist_ssapamp_model->getLegend();
             $data['legend_list'] = $legend;
 
-            $this->load->view('layout/header', $data);
-            $this->load->view('reports/class_record_ssapamp', $data);
-            $this->load->view('layout/footer', $data);
+            $student_attendance = $this->gradereport_model->get_student_attendance_by_month($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
+
+            if ($student_attendance) {
+               $data['student_attendance'] = $student_attendance;
+            } else {
+               $data['student_attendance'] = array();
+            }
+
+            $this->load->view('layout/student/header', $data);
+            $this->load->view('user/class_record/class_record_ssapamp', $data);
+            $this->load->view('layout/student/footer', $data);
          } else {
             $data['codes_table'] = $this->gradereport_model->grade_code_table();
-            $class_record = $this->gradereport_model->get_student_class_record_unrestricted($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
+            $class_record = $this->gradereport_model->get_student_class_record($this->sch_setting_detail->session_id, $student_id, $student_current_class->class_id, $student_current_class->section_id);
             $data['resultlist'] = $class_record;
 
             // print_r($data['resultlist']);
@@ -93,9 +107,12 @@ class Class_record extends Student_Controller
 
             $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
 
-            $this->load->view('layout/header', $data);
-            $this->load->view('reports/class_record', $data);
-            $this->load->view('layout/footer', $data);
+            // print_r($data['ssap_conduct']);
+            // die();
+
+            $this->load->view('layout/student/header', $data);
+            $this->load->view('user/class_record/class_record', $data);
+            $this->load->view('layout/student/footer', $data);
          }
       } else {
          $data['codes_table'] = $this->gradereport_model->grade_code_table();
