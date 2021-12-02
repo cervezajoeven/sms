@@ -808,8 +808,8 @@ class Report extends Admin_Controller
 
       $data['school_code'] = $this->sch_setting_detail->dise_code;
 
-      print_r($data);
-      die();
+      // print_r($data);
+      // die();
 
       $this->load->view('layout/header');
       $this->load->view('reports/studentinformation', $data);

@@ -1294,18 +1294,37 @@ class Gradereport_model extends CI_Model
       return $this->db->select('*')->from('classes')->where('id', $grade_level_id)->get()->result_array()[0];
    }
 
+   // public function get_conduct_ssapamp($session, $grade_level, $section, $student_id)
+   // {
+   //    $sql = "select studentid,
+   //            sum(case when semester=1 then grade else 0 end)/6 s1,
+   //            sum(case when semester=2 then grade else 0 end)/6 s2
+   //            from 
+   //            grading_studentconduct_ssapamp 
+   //            where levelid = " . $grade_level . " 
+   //            and studentid = " . $student_id . " 
+   //            and sectionid= " . $section . " 
+   //            and schoolyear = " . $session;
+   //    $query = $this->db->query($sql);
+   //    return $query->result()[0];
+   // }
+
    public function get_conduct_ssapamp($session, $grade_level, $section, $student_id)
    {
-      $sql = "select studentid,
-              sum(case when semester=1 then grade else 0 end)/6 s1,
-              sum(case when semester=2 then grade else 0 end)/6 s2
+      $sql = "select student_id,
+              case when quarter=1 then conduct_num else 0 end as s1,
+              case when quarter=2 then conduct_num else 0 end as s2
               from 
-              grading_studentconduct_ssapamp 
-              where levelid = " . $grade_level . " 
-              and studentid = " . $student_id . " 
-              and sectionid= " . $section . " 
-              and schoolyear = " . $session;
+              grading_conduct_numeric 
+              where grade_level = " . $grade_level . " 
+              and student_id = " . $student_id . " 
+              and section_id= " . $section . " 
+              and school_year = " . $session;
       $query = $this->db->query($sql);
+
+      // print_r($this->db->last_query());
+      // die();
+
       return $query->result()[0];
    }
 }
