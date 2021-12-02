@@ -103,7 +103,8 @@ function gradeCode($codes, $grade, $show)
                                        echo "<td class='text-center'></td>\r\n";
                                     }
 
-                                    echo "<td class='text-center'>" . $final . "</td>\r\n";
+                                    if ($allow1 > 0 &&  $allow2 > 0)
+                                       echo "<td class='text-center'>" . $final . "</td>\r\n";
                                     echo "</tr>\r\n";
 
                                     $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);

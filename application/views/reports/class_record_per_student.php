@@ -258,9 +258,10 @@ function gradeCode($codes, $grade, $show)
                                                       $aveAve = $aveTot / $rowCtr;
                                                       $finAve = $finTot / $rowCtr;
 
+                                                      echo "<tr>\r\n";
+                                                      echo "<td class='text-left'>CONDUCT</td>\r\n";
+
                                                       if (isset($ssap_conduct)) {
-                                                         echo "<tr>\r\n";
-                                                         echo "<td class='text-left'>Conduct</td>\r\n";
                                                          echo "<td class='text-center" . ($ssap_conduct->s1 < 75 ? " text-danger" : ($ssap_conduct->s1 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s1 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s1, $show_letter_grade)) . "</b></td>\r\n";
                                                          echo "<td class='text-center" . ($ssap_conduct->s2 < 75 ? " text-danger" : ($ssap_conduct->s2 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s2 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s2, $show_letter_grade)) . "</b></td>\r\n";
 
@@ -273,10 +274,13 @@ function gradeCode($codes, $grade, $show)
                                                          } else {
                                                             echo "<td class='text-left'>&nbsp</td>\r\n";
                                                          }
-
-
-                                                         echo "</tr>\r\n";
+                                                      } else {
+                                                         echo "<td class='text-left'>&nbsp</td>\r\n";
+                                                         echo "<td class='text-left'>&nbsp</td>\r\n";
+                                                         echo "<td class='text-left'>&nbsp</td>\r\n";
                                                       }
+
+                                                      echo "</tr>\r\n";
                                                       ?>
                                                    </tbody>
                                                    <tfoot>

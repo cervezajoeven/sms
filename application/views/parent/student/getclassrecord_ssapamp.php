@@ -132,7 +132,10 @@ function gradeCode($codes, $grade, $show)
 
                                     //    echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
                                     // echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
-                                    echo "<td class='text-center'>" . $final . "</td>\r\n";
+
+                                    if ($allow1 > 0 && $allow2 > 0)
+                                       echo "<td class='text-center'>" . $final . "</td>\r\n";
+
                                     echo "</tr>\r\n";
 
                                     $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
