@@ -135,6 +135,8 @@ function gradeCode($codes, $grade, $show)
 
                                     if ($allow1 > 0 && $allow2 > 0)
                                        echo "<td class='text-center'>" . $final . "</td>\r\n";
+                                    else
+                                       echo "<td class='text-center'>&nbsp;</td>\r\n";
 
                                     echo "</tr>\r\n";
 
