@@ -1148,9 +1148,9 @@
          if (jQuery.type(keval) === "undefined") {
             //Some code goes here
          } else {
-            if (keval.trim() === '') {
-               keval = "0";
-            }
+            // if (keval.trim() === '') {
+            //   keval="0";
+            // }
             sum += parseFloat(keval);
             // console.log(i);
             console.log(keval);
@@ -1175,9 +1175,9 @@
          if (jQuery.type(keval) === "undefined") {
             //Some code goes here
          } else {
-            if (keval.trim() === '') {
-               keval = "0";
-            }
+            // if (keval.trim() === '') {
+            //   keval="0";
+            // }      
             sum += parseFloat(keval);
             // console.log(i);
             console.log(keval);
