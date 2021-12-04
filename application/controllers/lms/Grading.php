@@ -70,8 +70,7 @@ class Grading extends General_Controller
 
       $data['classes'] = $this->general_model->get_classes();
       $data['sections'] = $this->general_model->get_sections();
-      // $data['subjects'] = $this->assessment_model->lms_get('subjects',"","","id,name");
-      $data['subjects'] = $this->assessment_model->lms_getv2('subjects', "1", "graded", "id,name", "name", "ASC");
+      // $data['subjects'] = $this->assessment_model->lms_getv2('subjects', "1", "graded", "id,name", "name", "ASC");
       $data['quarters'] = $this->general_model->lms_get('grading_quarter', "", "");
       $data['schoolcode'] = $this->setting_model->getCurrentSchoolCode();
 
@@ -492,8 +491,12 @@ class Grading extends General_Controller
          $class_record_id = $this->assessment_model->id_generator("class_record");
          $criteria_1_id = $this->assessment_model->id_generator("criteria");
          $criteria_2_id = $this->assessment_model->id_generator("criteria");
+
+         //-- Component 1
          $column_section_1_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_1_2_id = $this->assessment_model->id_generator("column_section");
+
+         //-- Component 2
          $column_section_2_1_id = $this->assessment_model->id_generator("column_section");
          $data['account_id'] = $this->general_model->get_account_id();
 
@@ -1968,11 +1971,13 @@ class Grading extends General_Controller
          $criteria_2_id = $this->assessment_model->id_generator("criteria");
          $criteria_3_id = $this->assessment_model->id_generator("criteria");
          $criteria_4_id = $this->assessment_model->id_generator("criteria");
+         $criteria_5_id = $this->assessment_model->id_generator("criteria");
 
          $column_section_1_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_2_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_3_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_4_1_id = $this->assessment_model->id_generator("column_section");
+         $column_section_5_1_id = $this->assessment_model->id_generator("column_section");
 
          $data['account_id'] = $this->general_model->get_account_id();
 
@@ -1993,13 +1998,13 @@ class Grading extends General_Controller
          );
          $this->post($class_record, "class_record");
 
-         //-- 
+         //-- Quizzes
          $criteria_1 = array(
             'id' =>             urlencode($criteria_1_id),
             'name' =>           urlencode("Quizzes"),
             'criteria_order' => urlencode("1"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(40),
+            'percentage' => urlencode(20),
          );
          $this->post($criteria_1, "criteria");
 
@@ -2008,11 +2013,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_1_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(40),
+            'ws' =>              urlencode(20),
          );
          $this->post($column_section_1_1, "column_section");
-
-         $this->post($column_1_1_1, "column");
 
          $column_1_1_1_id = $this->assessment_model->id_generator("column");
          $column_1_1_1 = array(
@@ -2065,7 +2068,7 @@ class Grading extends General_Controller
          $this->post($column_1_1_5, "column");
          $this->post($column_1_1_6, "column");
 
-         //-- 
+         //-- Mini Performance Task
          $criteria_2 = array(
             'id' =>             urlencode($criteria_2_id),
             'name' =>           urlencode("Mini Performance Task"),
@@ -2084,8 +2087,6 @@ class Grading extends General_Controller
          );
          $this->post($column_section_2_1, "column_section");
 
-         $this->post($column_2_1_1, "column");
-
          $column_2_1_1_id = $this->assessment_model->id_generator("column");
          $column_2_1_1 = array(
             'id' =>                 urlencode($column_2_1_1_id),
@@ -2096,13 +2097,13 @@ class Grading extends General_Controller
 
          $this->post($column_2_1_1, "column");
 
-         //-- 
+         //-- Prayer
          $criteria_3 = array(
             'id' =>             urlencode($criteria_3_id),
             'name' =>           urlencode("Prayer"),
             'criteria_order' => urlencode("3"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(10),
          );
          $this->post($criteria_3, "criteria");
 
@@ -2111,11 +2112,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_3_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(10),
          );
          $this->post($column_section_3_1, "column_section");
-
-         $this->post($column_3_1_1, "column");
 
          $column_3_1_1_id = $this->assessment_model->id_generator("column");
          $column_3_1_1 = array(
@@ -2127,13 +2126,13 @@ class Grading extends General_Controller
 
          $this->post($column_3_1_1, "column");
 
-         //-- 
+         //-- Main Performance Task
          $criteria_4 = array(
             'id' =>             urlencode($criteria_4_id),
-            'name' =>           urlencode("Performance Task"),
+            'name' =>           urlencode("Main Performance Task"),
             'criteria_order' => urlencode("4"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(40),
          );
          $this->post($criteria_4, "criteria");
 
@@ -2142,11 +2141,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_4_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(40),
          );
          $this->post($column_section_4_1, "column_section");
-
-         $this->post($column_4_1_1, "column");
 
          $column_4_1_1_id = $this->assessment_model->id_generator("column");
          $column_4_1_1 = array(
@@ -2156,7 +2153,45 @@ class Grading extends General_Controller
             'highest_score' =>      urlencode(20),
          );
 
+         $column_4_1_2_id = $this->assessment_model->id_generator("column");
+         $column_4_1_2 = array(
+            'id' =>                 urlencode($column_4_1_2_id),
+            'column_section_id' =>  urlencode($column_section_4_1_id),
+            'column_code' =>        urlencode($column_4_1_2_id),
+            'highest_score' =>      urlencode(20),
+         );
+
          $this->post($column_4_1_1, "column");
+         $this->post($column_4_1_2, "column");
+
+         //-- Participation
+         $criteria_5 = array(
+            'id' =>             urlencode($criteria_5_id),
+            'name' =>           urlencode("Participation"),
+            'criteria_order' => urlencode("5"),
+            'class_record_id' => urlencode($class_record_id),
+            'percentage' => urlencode(10),
+         );
+         $this->post($criteria_5, "criteria");
+
+         $column_section_5_1 = array(
+            'id' =>              urlencode($column_section_5_1_id),
+            'criteria_id' =>     urlencode($criteria_5_id),
+            'label' =>           urlencode(""),
+            'column_section_order' => urlencode("1"),
+            'ws' =>              urlencode(10),
+         );
+         $this->post($column_section_5_1, "column_section");
+
+         $column_5_1_1_id = $this->assessment_model->id_generator("column");
+         $column_5_1_1 = array(
+            'id' =>                 urlencode($column_5_1_1_id),
+            'column_section_id' =>  urlencode($column_section_5_1_id),
+            'column_code' =>        urlencode($column_5_1_1_id),
+            'highest_score' =>      urlencode(20),
+         );
+
+         $this->post($column_5_1_1, "column");
       }
 
       if ($_REQUEST['template'] == "ssapamp_math") {
@@ -2166,11 +2201,13 @@ class Grading extends General_Controller
          $criteria_2_id = $this->assessment_model->id_generator("criteria");
          $criteria_3_id = $this->assessment_model->id_generator("criteria");
          $criteria_4_id = $this->assessment_model->id_generator("criteria");
+         $criteria_5_id = $this->assessment_model->id_generator("criteria");
 
          $column_section_1_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_2_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_3_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_4_1_id = $this->assessment_model->id_generator("column_section");
+         $column_section_5_1_id = $this->assessment_model->id_generator("column_section");
 
          $data['account_id'] = $this->general_model->get_account_id();
 
@@ -2191,13 +2228,13 @@ class Grading extends General_Controller
          );
          $this->post($class_record, "class_record");
 
-         //-- 
+         //-- Quizzes
          $criteria_1 = array(
             'id' =>             urlencode($criteria_1_id),
             'name' =>           urlencode("Quizzes"),
             'criteria_order' => urlencode("1"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(40),
+            'percentage' => urlencode(20),
          );
          $this->post($criteria_1, "criteria");
 
@@ -2206,11 +2243,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_1_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(50),
+            'ws' =>              urlencode(20),
          );
          $this->post($column_section_1_1, "column_section");
-
-         $this->post($column_1_1_1, "column");
 
          $column_1_1_1_id = $this->assessment_model->id_generator("column");
          $column_1_1_1 = array(
@@ -2263,7 +2298,7 @@ class Grading extends General_Controller
          $this->post($column_1_1_5, "column");
          $this->post($column_1_1_6, "column");
 
-         //-- 
+         //-- Mini Performance Task
          $criteria_2 = array(
             'id' =>             urlencode($criteria_2_id),
             'name' =>           urlencode("Mini Performance Task"),
@@ -2282,8 +2317,6 @@ class Grading extends General_Controller
          );
          $this->post($column_section_2_1, "column_section");
 
-         $this->post($column_2_1_1, "column");
-
          $column_2_1_1_id = $this->assessment_model->id_generator("column");
          $column_2_1_1 = array(
             'id' =>                 urlencode($column_2_1_1_id),
@@ -2294,13 +2327,13 @@ class Grading extends General_Controller
 
          $this->post($column_2_1_1, "column");
 
-         //-- 
+         //-- My Math Diary
          $criteria_3 = array(
             'id' =>             urlencode($criteria_2_id),
             'name' =>           urlencode("My Math Diary"),
             'criteria_order' => urlencode("3"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(10),
          );
          $this->post($criteria_3, "criteria");
 
@@ -2309,11 +2342,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_3_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(10),
          );
          $this->post($column_section_3_1, "column_section");
-
-         $this->post($column_3_1_1, "column");
 
          $column_3_1_1_id = $this->assessment_model->id_generator("column");
          $column_3_1_1 = array(
@@ -2352,13 +2383,13 @@ class Grading extends General_Controller
          $this->post($column_3_1_3, "column");
          $this->post($column_3_1_4, "column");
 
-         //-- 
+         //-- Main Performance Task
          $criteria_4 = array(
             'id' =>             urlencode($criteria_4_id),
-            'name' =>           urlencode("Performance Task"),
+            'name' =>           urlencode("Main Performance Task"),
             'criteria_order' => urlencode("4"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(40),
          );
          $this->post($criteria_4, "criteria");
 
@@ -2367,11 +2398,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_4_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(40),
          );
          $this->post($column_section_4_1, "column_section");
-
-         $this->post($column_4_1_1, "column");
 
          $column_4_1_1_id = $this->assessment_model->id_generator("column");
          $column_4_1_1 = array(
@@ -2381,7 +2410,45 @@ class Grading extends General_Controller
             'highest_score' =>      urlencode(20),
          );
 
+         $column_4_1_2_id = $this->assessment_model->id_generator("column");
+         $column_4_1_2 = array(
+            'id' =>                 urlencode($column_4_1_2_id),
+            'column_section_id' =>  urlencode($column_section_4_1_id),
+            'column_code' =>        urlencode($column_4_1_2_id),
+            'highest_score' =>      urlencode(20),
+         );
+
          $this->post($column_4_1_1, "column");
+         $this->post($column_4_1_2, "column");
+
+         //-- Participation
+         $criteria_5 = array(
+            'id' =>             urlencode($criteria_5_id),
+            'name' =>           urlencode("Participation"),
+            'criteria_order' => urlencode("5"),
+            'class_record_id' => urlencode($class_record_id),
+            'percentage' => urlencode(10),
+         );
+         $this->post($criteria_5, "criteria");
+
+         $column_section_5_1 = array(
+            'id' =>              urlencode($column_section_5_1_id),
+            'criteria_id' =>     urlencode($criteria_5_id),
+            'label' =>           urlencode(""),
+            'column_section_order' => urlencode("1"),
+            'ws' =>              urlencode(10),
+         );
+         $this->post($column_section_5_1, "column_section");
+
+         $column_5_1_1_id = $this->assessment_model->id_generator("column");
+         $column_5_1_1 = array(
+            'id' =>                 urlencode($column_5_1_1_id),
+            'column_section_id' =>  urlencode($column_section_5_1_id),
+            'column_code' =>        urlencode($column_5_1_1_id),
+            'highest_score' =>      urlencode(5),
+         );
+
+         $this->post($column_5_1_1, "column");
       }
 
       if ($_REQUEST['template'] == "ssapamp_reading") {
@@ -2416,13 +2483,13 @@ class Grading extends General_Controller
          );
          $this->post($class_record, "class_record");
 
-         //-- 
+         //-- Quizzes
          $criteria_1 = array(
             'id' =>             urlencode($criteria_1_id),
             'name' =>           urlencode("Quizzes"),
             'criteria_order' => urlencode("1"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(40),
+            'percentage' => urlencode(20),
          );
          $this->post($criteria_1, "criteria");
 
@@ -2431,11 +2498,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_1_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(40),
+            'ws' =>              urlencode(20),
          );
          $this->post($column_section_1_1, "column_section");
-
-         $this->post($column_1_1_1, "column");
 
          $column_1_1_1_id = $this->assessment_model->id_generator("column");
          $column_1_1_1 = array(
@@ -2488,7 +2553,7 @@ class Grading extends General_Controller
          $this->post($column_1_1_5, "column");
          $this->post($column_1_1_6, "column");
 
-         //-- 
+         //-- Mini Performance Task
          $criteria_2 = array(
             'id' =>             urlencode($criteria_2_id),
             'name' =>           urlencode("Mini Performance Task"),
@@ -2507,8 +2572,6 @@ class Grading extends General_Controller
          );
          $this->post($column_section_2_1, "column_section");
 
-         $this->post($column_2_1_1, "column");
-
          $column_2_1_1_id = $this->assessment_model->id_generator("column");
          $column_2_1_1 = array(
             'id' =>                 urlencode($column_2_1_1_id),
@@ -2519,13 +2582,13 @@ class Grading extends General_Controller
 
          $this->post($column_2_1_1, "column");
 
-         //-- 
+         //-- My Reading Diary
          $criteria_3 = array(
             'id' =>             urlencode($criteria_3_id),
             'name' =>           urlencode("My Reading Diary"),
             'criteria_order' => urlencode("3"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(10),
          );
          $this->post($criteria_3, "criteria");
 
@@ -2534,7 +2597,7 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_3_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(10),
          );
          $this->post($column_section_3_1, "column_section");
 
@@ -2577,13 +2640,13 @@ class Grading extends General_Controller
          $this->post($column_3_1_3, "column");
          $this->post($column_3_1_4, "column");
 
-         //-- 
+         //-- Main Performance Task
          $criteria_4 = array(
             'id' =>             urlencode($criteria_4_id),
-            'name' =>           urlencode("Performance Task"),
+            'name' =>           urlencode("Main Performance Task"),
             'criteria_order' => urlencode("4"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(40),
          );
          $this->post($criteria_4, "criteria");
 
@@ -2592,11 +2655,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_4_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(40),
          );
          $this->post($column_section_4_1, "column_section");
-
-         $this->post($column_4_1_1, "column");
 
          $column_4_1_1_id = $this->assessment_model->id_generator("column");
          $column_4_1_1 = array(
@@ -2606,7 +2667,45 @@ class Grading extends General_Controller
             'highest_score' =>      urlencode(20),
          );
 
+         $column_4_1_2_id = $this->assessment_model->id_generator("column");
+         $column_4_1_2 = array(
+            'id' =>                 urlencode($column_4_1_2_id),
+            'column_section_id' =>  urlencode($column_section_4_1_id),
+            'column_code' =>        urlencode($column_4_1_2_id),
+            'highest_score' =>      urlencode(20),
+         );
+
          $this->post($column_4_1_1, "column");
+         $this->post($column_4_1_2, "column");
+
+         //-- Participation
+         $criteria_5 = array(
+            'id' =>             urlencode($criteria_5_id),
+            'name' =>           urlencode("Participation"),
+            'criteria_order' => urlencode("5"),
+            'class_record_id' => urlencode($class_record_id),
+            'percentage' => urlencode(10),
+         );
+         $this->post($criteria_5, "criteria");
+
+         $column_section_5_1 = array(
+            'id' =>              urlencode($column_section_5_1_id),
+            'criteria_id' =>     urlencode($criteria_5_id),
+            'label' =>           urlencode(""),
+            'column_section_order' => urlencode("1"),
+            'ws' =>              urlencode(10),
+         );
+         $this->post($column_section_5_1, "column_section");
+
+         $column_5_1_1_id = $this->assessment_model->id_generator("column");
+         $column_5_1_1 = array(
+            'id' =>                 urlencode($column_5_1_1_id),
+            'column_section_id' =>  urlencode($column_section_5_1_id),
+            'column_code' =>        urlencode($column_5_1_1_id),
+            'highest_score' =>      urlencode(5),
+         );
+
+         $this->post($column_5_1_1, "column");
       }
 
       if ($_REQUEST['template'] == "ssapamp_writing") {
@@ -2641,13 +2740,13 @@ class Grading extends General_Controller
          );
          $this->post($class_record, "class_record");
 
-         //-- 
+         //-- Quizzes
          $criteria_1 = array(
             'id' =>             urlencode($criteria_1_id),
             'name' =>           urlencode("Quizzes"),
             'criteria_order' => urlencode("1"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(40),
+            'percentage' => urlencode(20),
          );
          $this->post($criteria_1, "criteria");
 
@@ -2656,7 +2755,7 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_1_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(40),
+            'ws' =>              urlencode(20),
          );
          $this->post($column_section_1_1, "column_section");
 
@@ -2713,7 +2812,7 @@ class Grading extends General_Controller
          $this->post($column_1_1_5, "column");
          $this->post($column_1_1_6, "column");
 
-         //-- 
+         //-- Mini Performance Task
          $criteria_2 = array(
             'id' =>             urlencode($criteria_2_id),
             'name' =>           urlencode("Mini Performance Task"),
@@ -2744,13 +2843,13 @@ class Grading extends General_Controller
 
          $this->post($column_2_1_1, "column");
 
-         //-- 
+         //-- My Writing Diary
          $criteria_3 = array(
             'id' =>             urlencode($criteria_3_id),
             'name' =>           urlencode("My Writing Diary"),
             'criteria_order' => urlencode("3"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(10),
          );
          $this->post($criteria_3, "criteria");
 
@@ -2759,7 +2858,7 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_3_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(10),
          );
          $this->post($column_section_3_1, "column_section");
 
@@ -2802,13 +2901,13 @@ class Grading extends General_Controller
          $this->post($column_3_1_3, "column");
          $this->post($column_3_1_4, "column");
 
-         //-- 
+         //-- Main Performance Task
          $criteria_4 = array(
             'id' =>             urlencode($criteria_4_id),
-            'name' =>           urlencode("Performance Task"),
+            'name' =>           urlencode("Main Performance Task"),
             'criteria_order' => urlencode("4"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(20),
+            'percentage' => urlencode(40),
          );
          $this->post($criteria_4, "criteria");
 
@@ -2817,11 +2916,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_4_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(20),
+            'ws' =>              urlencode(40),
          );
          $this->post($column_section_4_1, "column_section");
-
-         $this->post($column_4_1_1, "column");
 
          $column_4_1_1_id = $this->assessment_model->id_generator("column");
          $column_4_1_1 = array(
@@ -2831,7 +2928,45 @@ class Grading extends General_Controller
             'highest_score' =>      urlencode(20),
          );
 
+         $column_4_1_2_id = $this->assessment_model->id_generator("column");
+         $column_4_1_2 = array(
+            'id' =>                 urlencode($column_4_1_2_id),
+            'column_section_id' =>  urlencode($column_section_4_1_id),
+            'column_code' =>        urlencode($column_4_1_2_id),
+            'highest_score' =>      urlencode(20),
+         );
+
          $this->post($column_4_1_1, "column");
+         $this->post($column_4_1_2, "column");
+
+         //-- Participation
+         $criteria_5 = array(
+            'id' =>             urlencode($criteria_5_id),
+            'name' =>           urlencode("Participation"),
+            'criteria_order' => urlencode("5"),
+            'class_record_id' => urlencode($class_record_id),
+            'percentage' => urlencode(10),
+         );
+         $this->post($criteria_5, "criteria");
+
+         $column_section_5_1 = array(
+            'id' =>              urlencode($column_section_5_1_id),
+            'criteria_id' =>     urlencode($criteria_5_id),
+            'label' =>           urlencode(""),
+            'column_section_order' => urlencode("1"),
+            'ws' =>              urlencode(10),
+         );
+         $this->post($column_section_5_1, "column_section");
+
+         $column_5_1_1_id = $this->assessment_model->id_generator("column");
+         $column_5_1_1 = array(
+            'id' =>                 urlencode($column_5_1_1_id),
+            'column_section_id' =>  urlencode($column_section_5_1_id),
+            'column_code' =>        urlencode($column_5_1_1_id),
+            'highest_score' =>      urlencode(5),
+         );
+
+         $this->post($column_5_1_1, "column");
       }
 
       if ($_REQUEST['template'] == "ssapamp_mapeh") {
@@ -2839,6 +2974,7 @@ class Grading extends General_Controller
 
          $criteria_1_id = $this->assessment_model->id_generator("criteria");
          $criteria_2_id = $this->assessment_model->id_generator("criteria");
+         $criteria_3_id = $this->assessment_model->id_generator("criteria");
 
          $column_section_1_1_id = $this->assessment_model->id_generator("column_section");
          $column_section_1_2_id = $this->assessment_model->id_generator("column_section");
@@ -2867,13 +3003,13 @@ class Grading extends General_Controller
          );
          $this->post($class_record, "class_record");
 
-         //-- 
+         //-- Quizzes
          $criteria_1 = array(
             'id' =>             urlencode($criteria_1_id),
-            'name' =>           urlencode("ARTS, MUSIC, P.E., HEALTH"),
+            'name' =>           urlencode("Quizzes"),
             'criteria_order' => urlencode("1"),
             'class_record_id' => urlencode($class_record_id),
-            'percentage' => urlencode(30),
+            'percentage' => urlencode(20),
          );
          $this->post($criteria_1, "criteria");
 
@@ -2882,11 +3018,9 @@ class Grading extends General_Controller
             'criteria_id' =>     urlencode($criteria_1_id),
             'label' =>           urlencode(""),
             'column_section_order' => urlencode("1"),
-            'ws' =>              urlencode(30),
+            'ws' =>              urlencode(20),
          );
          $this->post($column_section_1_1, "column_section");
-
-         $this->post($column_1_1_1, "column");
 
          $column_1_1_1_id = $this->assessment_model->id_generator("column");
          $column_1_1_1 = array(
@@ -2955,10 +3089,10 @@ class Grading extends General_Controller
          $this->post($column_1_1_7, "column");
          $this->post($column_1_1_8, "column");
 
-         //-- 
+         //-- Main Performance Task
          $criteria_2 = array(
             'id' =>             urlencode($criteria_2_id),
-            'name' =>           urlencode("PETA ARTS, MUSIC, P.E."),
+            'name' =>           urlencode("Main Performance Task"),
             'criteria_order' => urlencode("2"),
             'class_record_id' => urlencode($class_record_id),
             'percentage' => urlencode(70),
@@ -2973,8 +3107,6 @@ class Grading extends General_Controller
             'ws' =>              urlencode(70),
          );
          $this->post($column_section_2_1, "column_section");
-
-         $this->post($column_2_1_1, "column");
 
          $column_2_1_1_id = $this->assessment_model->id_generator("column");
          $column_2_1_1 = array(
@@ -3005,44 +3137,251 @@ class Grading extends General_Controller
             'column_code' =>        urlencode($column_2_1_4_id),
             'highest_score' =>      urlencode(10),
          );
-         $column_2_1_5_id = $this->assessment_model->id_generator("column");
-         $column_2_1_5 = array(
-            'id' =>                 urlencode($column_2_1_5_id),
-            'column_section_id' =>  urlencode($column_section_2_1_id),
-            'column_code' =>        urlencode($column_2_1_5_id),
-            'highest_score' =>      urlencode(10),
-         );
-         $column_2_1_6_id = $this->assessment_model->id_generator("column");
-         $column_2_1_6 = array(
-            'id' =>                 urlencode($column_2_1_6_id),
-            'column_section_id' =>  urlencode($column_section_2_1_id),
-            'column_code' =>        urlencode($column_2_1_6_id),
-            'highest_score' =>      urlencode(10),
-         );
-         $column_2_1_7_id = $this->assessment_model->id_generator("column");
-         $column_2_1_7 = array(
-            'id' =>                 urlencode($column_2_1_7_id),
-            'column_section_id' =>  urlencode($column_section_2_1_id),
-            'column_code' =>        urlencode($column_2_1_7_id),
-            'highest_score' =>      urlencode(10),
-         );
-         $column_2_1_8_id = $this->assessment_model->id_generator("column");
-         $column_2_1_8 = array(
-            'id' =>                 urlencode($column_2_1_8_id),
-            'column_section_id' =>  urlencode($column_section_2_1_id),
-            'column_code' =>        urlencode($column_2_1_8_id),
-            'highest_score' =>      urlencode(10),
-         );
 
          $this->post($column_2_1_1, "column");
          $this->post($column_2_1_2, "column");
          $this->post($column_2_1_3, "column");
          $this->post($column_2_1_4, "column");
-         $this->post($column_2_1_5, "column");
-         $this->post($column_2_1_6, "column");
-         $this->post($column_2_1_7, "column");
-         $this->post($column_2_1_8, "column");
+
+         //-- Participation
+         $criteria_3 = array(
+            'id' =>             urlencode($criteria_3_id),
+            'name' =>           urlencode("Participation"),
+            'criteria_order' => urlencode("3"),
+            'class_record_id' => urlencode($class_record_id),
+            'percentage' => urlencode(10),
+         );
+         $this->post($criteria_3, "criteria");
+
+         $column_section_3_1 = array(
+            'id' =>              urlencode($column_section_3_1_id),
+            'criteria_id' =>     urlencode($criteria_3_id),
+            'label' =>           urlencode(""),
+            'column_section_order' => urlencode("1"),
+            'ws' =>              urlencode(10),
+         );
+         $this->post($column_section_3_1, "column_section");
+
+         $column_3_1_1_id = $this->assessment_model->id_generator("column");
+         $column_3_1_1 = array(
+            'id' =>                 urlencode($column_3_1_1_id),
+            'column_section_id' =>  urlencode($column_section_3_1_id),
+            'column_code' =>        urlencode($column_3_1_1_id),
+            'highest_score' =>      urlencode(5),
+         );
+
+         $this->post($column_3_1_1, "column");
       }
+
+      // if ($_REQUEST['template'] == "ssapamp_mapeh") {
+      //    $class_record_id = $this->assessment_model->id_generator("class_record");
+
+      //    $criteria_1_id = $this->assessment_model->id_generator("criteria");
+      //    $criteria_2_id = $this->assessment_model->id_generator("criteria");
+
+      //    $column_section_1_1_id = $this->assessment_model->id_generator("column_section");
+      //    $column_section_1_2_id = $this->assessment_model->id_generator("column_section");
+      //    $column_section_1_3_id = $this->assessment_model->id_generator("column_section");
+
+      //    $column_section_2_1_id = $this->assessment_model->id_generator("column_section");
+      //    $column_section_2_2_id = $this->assessment_model->id_generator("column_section");
+      //    $column_section_2_3_id = $this->assessment_model->id_generator("column_section");
+
+      //    $data['account_id'] = $this->general_model->get_account_id();
+
+      //    $class_record = array(
+      //       'id' =>             urlencode($class_record_id),
+      //       'region' =>         urlencode("Region 1"),
+      //       'division' =>       urlencode("Division 2"),
+      //       'district' =>       urlencode("District 1"),
+      //       'school_name' =>    urlencode(""),
+      //       'school_id' =>      urlencode("1"),
+      //       'school_year' =>    urlencode($this->setting_model->getCurrentSession()),
+      //       'quarter' =>        urlencode($_REQUEST['quarter']),
+      //       'section_id' =>     urlencode($_REQUEST['section']),
+      //       'teacher_id' =>     urlencode($data['account_id']),
+      //       'subject_id' =>     urlencode($_REQUEST['subject']),
+      //       'grade' =>          urlencode($_REQUEST['grade']),
+      //       'disabled' =>          urlencode(0),
+      //    );
+      //    $this->post($class_record, "class_record");
+
+      //    //-- 
+      //    $criteria_1 = array(
+      //       'id' =>             urlencode($criteria_1_id),
+      //       'name' =>           urlencode("ARTS, MUSIC, P.E., HEALTH"),
+      //       'criteria_order' => urlencode("1"),
+      //       'class_record_id' => urlencode($class_record_id),
+      //       'percentage' => urlencode(30),
+      //    );
+      //    $this->post($criteria_1, "criteria");
+
+      //    $column_section_1_1 = array(
+      //       'id' =>              urlencode($column_section_1_1_id),
+      //       'criteria_id' =>     urlencode($criteria_1_id),
+      //       'label' =>           urlencode(""),
+      //       'column_section_order' => urlencode("1"),
+      //       'ws' =>              urlencode(30),
+      //    );
+      //    $this->post($column_section_1_1, "column_section");
+
+      //    $this->post($column_1_1_1, "column");
+
+      //    $column_1_1_1_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_1 = array(
+      //       'id' =>                 urlencode($column_1_1_1_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_1_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+
+      //    $column_1_1_2_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_2 = array(
+      //       'id' =>                 urlencode($column_1_1_2_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_2_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_1_1_3_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_3 = array(
+      //       'id' =>                 urlencode($column_1_1_3_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_3_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_1_1_4_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_4 = array(
+      //       'id' =>                 urlencode($column_1_1_4_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_4_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_1_1_5_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_5 = array(
+      //       'id' =>                 urlencode($column_1_1_5_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_5_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_1_1_6_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_6 = array(
+      //       'id' =>                 urlencode($column_1_1_6_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_6_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_1_1_7_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_7 = array(
+      //       'id' =>                 urlencode($column_1_1_6_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_6_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_1_1_8_id = $this->assessment_model->id_generator("column");
+      //    $column_1_1_8 = array(
+      //       'id' =>                 urlencode($column_1_1_8_id),
+      //       'column_section_id' =>  urlencode($column_section_1_1_id),
+      //       'column_code' =>        urlencode($column_1_1_8_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+
+      //    $this->post($column_1_1_1, "column");
+      //    $this->post($column_1_1_2, "column");
+      //    $this->post($column_1_1_3, "column");
+      //    $this->post($column_1_1_4, "column");
+      //    $this->post($column_1_1_5, "column");
+      //    $this->post($column_1_1_6, "column");
+      //    $this->post($column_1_1_7, "column");
+      //    $this->post($column_1_1_8, "column");
+
+      //    //-- 
+      //    $criteria_2 = array(
+      //       'id' =>             urlencode($criteria_2_id),
+      //       'name' =>           urlencode("PETA ARTS, MUSIC, P.E."),
+      //       'criteria_order' => urlencode("2"),
+      //       'class_record_id' => urlencode($class_record_id),
+      //       'percentage' => urlencode(70),
+      //    );
+      //    $this->post($criteria_2, "criteria");
+
+      //    $column_section_2_1 = array(
+      //       'id' =>              urlencode($column_section_2_1_id),
+      //       'criteria_id' =>     urlencode($criteria_2_id),
+      //       'label' =>           urlencode(""),
+      //       'column_section_order' => urlencode("1"),
+      //       'ws' =>              urlencode(70),
+      //    );
+      //    $this->post($column_section_2_1, "column_section");
+
+      //    $this->post($column_2_1_1, "column");
+
+      //    $column_2_1_1_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_1 = array(
+      //       'id' =>                 urlencode($column_2_1_1_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_1_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+
+      //    $column_2_1_2_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_2 = array(
+      //       'id' =>                 urlencode($column_2_1_2_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_2_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_2_1_3_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_3 = array(
+      //       'id' =>                 urlencode($column_2_1_3_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_3_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_2_1_4_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_4 = array(
+      //       'id' =>                 urlencode($column_2_1_4_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_4_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_2_1_5_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_5 = array(
+      //       'id' =>                 urlencode($column_2_1_5_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_5_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_2_1_6_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_6 = array(
+      //       'id' =>                 urlencode($column_2_1_6_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_6_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_2_1_7_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_7 = array(
+      //       'id' =>                 urlencode($column_2_1_7_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_7_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+      //    $column_2_1_8_id = $this->assessment_model->id_generator("column");
+      //    $column_2_1_8 = array(
+      //       'id' =>                 urlencode($column_2_1_8_id),
+      //       'column_section_id' =>  urlencode($column_section_2_1_id),
+      //       'column_code' =>        urlencode($column_2_1_8_id),
+      //       'highest_score' =>      urlencode(10),
+      //    );
+
+      //    $this->post($column_2_1_1, "column");
+      //    $this->post($column_2_1_2, "column");
+      //    $this->post($column_2_1_3, "column");
+      //    $this->post($column_2_1_4, "column");
+      //    $this->post($column_2_1_5, "column");
+      //    $this->post($column_2_1_6, "column");
+      //    $this->post($column_2_1_7, "column");
+      //    $this->post($column_2_1_8, "column");
+      // }
 
       // if ($_REQUEST['template'] == "csl_college") {
 
@@ -3811,5 +4150,15 @@ class Grading extends General_Controller
       }
 
       echo json_encode($result);
+   }
+
+   public function get_subject_list()
+   {
+      $grade_level = $this->input->get('grade_level_id');
+      $section = $this->input->get('section_id');
+      $current_session = $this->setting_model->getCurrentSession();
+
+      $list = $this->gradereport_model->get_subject_list($grade_level, $current_session, $section);
+      echo json_encode($list);
    }
 }

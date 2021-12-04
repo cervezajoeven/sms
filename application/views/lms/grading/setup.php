@@ -33,7 +33,8 @@
 
                         <div class="form-group">
                            <label for="exampleInputEmail1">Grade/Level</label><small class="req"> *</small>
-                           <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control filter">
+                           <select autofocus="" id="grade_id" name="grade" placeholder="" type="text" class="form-control">
+                              <option value=""><?php echo $this->lang->line('select'); ?></option>
                               <?php foreach ($classes as $key => $value) : ?>
                                  <option value="<?php echo $value['id'] ?>"><?php echo $value['class'] ?></option>
                               <?php endforeach; ?>
@@ -43,17 +44,15 @@
 
                         <div class="form-group">
                            <label for="exampleInputEmail1">Section</label><small class="req"> *</small>
-                           <select autofocus="" id="section_id" name="section" placeholder="" type="text" class="form-control filter">
-                              <?php foreach ($sections as $key => $value) : ?>
-                                 <option value="<?php echo $value['id'] ?>"><?php echo $value['section'] ?></option>
-                              <?php endforeach; ?>
+                           <select autofocus="" id="section_id" name="section" placeholder="" type="text" class="form-control">
+                              <option value=""><?php echo $this->lang->line('select'); ?></option>
                            </select>
                            <span class="text-danger"><?php echo form_error('content_title'); ?></span>
                         </div>
 
                         <div class="form-group">
                            <label for="exampleInputEmail1">Subject</label><small class="req"> *</small>
-                           <select autofocus="" id="subject_id" name="subject" placeholder="" type="text" class="form-control filter">
+                           <select autofocus="" id="subject_id" name="subject" placeholder="" type="text" class="form-control">
                               <?php foreach ($subjects as $key => $value) : ?>
                                  <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
                               <?php endforeach; ?>
@@ -63,7 +62,7 @@
 
                         <div class="form-group">
                            <label for="exampleInputEmail1">Template</label><small class="req"> *</small>
-                           <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control filter">
+                           <select autofocus="" id="template_id" name="template" placeholder="" type="text" class="form-control">
 
                               <?php if (strtolower($schoolcode) == "scholaangelicus" || strtolower($schoolcode) == "mcam" || strtolower($schoolcode) == "htspg" || strtolower($schoolcode) == "htsmk" || strtolower($schoolcode) == "htslipa") : ?>
                                  <option value="saioriginal">Original</option>
@@ -145,6 +144,84 @@
 
 
 <script>
+   var class_id;
+   var base_url = '<?php echo base_url() ?>';
+
+   function getSectionByClass(class_id, section_id = -1) {
+      if (class_id != "" && section_id != "") {
+         $('#section_id').html("");
+         $('#subject_id').html("");
+
+         var base_url = '<?php echo base_url() ?>';
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         $.ajax({
+            type: "GET",
+            url: base_url + "sections/getByClass",
+            data: {
+               'class_id': class_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#section_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  var sel = "";
+                  if (section_id == obj.section_id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
+               });
+               $('#section_id').append(div_data);
+            },
+            complete: function() {
+               $('#section_id').removeClass('dropdownloading');
+            }
+         });
+      }
+   }
+
+   function getSubjectList(class_id, section_id, subject_id = -1) {
+      if (class_id != "" && section_id != "") {
+         $('#subject_id').html("");
+
+         var base_url = '<?php echo base_url() ?>';
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         $.ajax({
+            type: "GET",
+            url: base_url + "lms/grading/get_subject_list",
+            data: {
+               'grade_level_id': class_id,
+               'section_id': section_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#subject_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  var sel = "";
+                  if (subject_id == obj.subject_id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.subject_id + " " + sel + ">" + obj.subject + "</option>";
+               });
+
+               $('#subject_id').append(div_data);
+            },
+            error: function(response) {
+               $('#subject_id').html(response); // display error response from the PHP script
+            },
+            complete: function() {
+               $('#subject_id').removeClass('dropdownloading');
+            }
+         });
+      }
+   }
+
+
    $('.filter').select2();
 
    function check_class(lesson_id) {
@@ -164,7 +241,13 @@
          }
       });
    }
+
    $(document).ready(function() {
+      var class_id = $('#grade_id').val();
+      var section_id = '<?php echo set_value('section_id') ?>';
+
+      getSectionByClass(class_id, section_id);
+
       $('.detail_popover').popover({
          placement: 'right',
          trigger: 'hover',
@@ -180,9 +263,23 @@
 
          alert($(this).val());
       });
-
-
    });
+
+   $(document).on('change', '#grade_id', function(e) {
+      $('#section_id').html("");
+      var class_id = $(this).val();
+
+      getSectionByClass(class_id);
+   });
+
+   $(document).on('change', '#section_id', function(e) {
+      var class_id = $('#grade_id').val();
+      var section_id = $('#section_id').val();
+      $('#subject_id').html("");
+
+      getSubjectList(class_id, section_id);
+   });
+
    $("#template_id").change(function() {
       $('.filter2').select2();
       $('.filter2').select2('destroy');

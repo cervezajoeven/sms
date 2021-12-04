@@ -533,9 +533,19 @@
                         <li class="<?php echo set_Submenu('grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/grading/index"><i class="fa fa-angle-double-right"></i> Edit Grading </a></li>
                         <!-- <li class="<?php echo set_Submenu('final_grading/index'); ?>"><a href="<?php echo base_url(); ?>lms/final_grading/index"><i class="fa fa-angle-double-right"></i> Final Grading Encoding </a></li> -->
 
-                        <?php if (strtoupper($schoolCode) !== 'LPMS') { ?>
-                           <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
-                        <?php } ?>
+                        <?php
+                        if (strtoupper($schoolCode) !== 'LPMS') {
+                           if (strtoupper($schoolCode) == 'SSAPAMP') {
+                        ?>
+                              <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct_ssapamp"><i class="fa fa-angle-double-right"></i> Student Conduct</a></li>
+                           <?php
+                           } else {
+                           ?>
+                              <li class="<?php echo set_Submenu('Academics/conduct'); ?>"><a href="<?php echo base_url(); ?>lms/conduct"><i class="fa fa-angle-double-right"></i> Student Conduct </a></li>
+                        <?php
+                           }
+                        }
+                        ?>
 
                         <?php if (strtoupper($schoolCode) == 'SSAPAMP') : ?>
                            <li class="<?php echo set_Submenu('Academics/checklist'); ?>"><a href="<?php echo base_url(); ?>lms/checklist_ssapamp"><i class="fa fa-angle-double-right"></i> Pre-Kinder(Grading) </a></li>
