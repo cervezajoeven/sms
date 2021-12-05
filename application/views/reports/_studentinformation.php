@@ -64,6 +64,9 @@
                      <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/print_cards_per_section"><i class="fa fa-file-text-o"></i> Print Card Per Section</a></li>
                   <?php endif; ?>
                <?php } ?>
+               <?php if (strtolower($school_code) == 'ssapamp') : ?>
+                  <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/conduct_record_per_student"><i class="fa fa-file-text-o"></i> Conduct Report</a></li>
+               <?php endif; ?>
             </ul>
          </div>
       </div>

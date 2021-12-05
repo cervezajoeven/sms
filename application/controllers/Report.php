@@ -59,6 +59,8 @@ class Report extends Admin_Controller
       $this->load->model('grading_ssapamp_model');
       $this->load->model('grading_studentgrade_ssapamp_model');
       $this->load->model('grading_checklist_ssapamp_model');
+      $this->load->model('grading_conduct_ssapamp_model');
+      $this->load->model('grading_studentconduct_ssapamp_model');
 
       $this->search_type = $this->customlib->get_searchtype();
       $this->sch_setting_detail = $this->setting_model->getSetting();
@@ -2646,5 +2648,251 @@ class Report extends Admin_Controller
             $this->load->view('layout/footer', $data);
          }
       }
+   }
+
+   public function conduct_record_per_student()
+   {
+      // if (!$this->rbac->hasPrivilege('class_record_quarterly', 'can_view')) {
+      //     access_denied();
+      // }
+
+      $this->session->set_userdata('top_menu', 'Reports');
+      $this->session->set_userdata('sub_menu', 'Reports/student_information');
+      $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
+
+      $data['title'] = 'Class Record Per Student';
+      $class = $this->class_model->get();
+      $data['classlist'] = $class;
+      $data['sch_setting'] = $this->sch_setting_detail;
+      $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+      $data['session_list'] = $this->session_model->getAllSession();
+
+      $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
+      $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+      $data['school_code'] = $this->sch_setting_detail->dise_code;
+
+      $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
+
+      if ($this->input->server('REQUEST_METHOD') == "GET") {
+         $session = $this->input->post('session_id');
+         $grade_level = $this->input->post('class_id');
+         $section = $this->input->post('section_id');
+         $student_id = $this->input->post('student_id');
+         $data['session_id'] = $session;
+         $data['class_id'] = $grade_level;
+         $data['section_id']  = $section;
+         $data['student_id'] = $student_id;
+
+         if (strtolower($data['school_code']) == 'lpms') {
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/class_record_per_student_lpms', $data);
+            $this->load->view('layout/footer', $data);
+         } elseif (strtolower($data['school_code']) == 'ssapamp') {
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/conduct_record_per_student_ssapamp', $data);
+            $this->load->view('layout/footer', $data);
+         } else {
+            $this->load->view('layout/header', $data);
+            $this->load->view('reports/class_record_per_student', $data);
+            $this->load->view('layout/footer', $data);
+         }
+      } else {
+         if ($this->form_validation->run() == false) {
+            if (strtolower($data['school_code']) == 'lpms') {
+               $this->load->view('layout/header', $data);
+               $this->load->view('reports/class_record_per_student_lpms', $data);
+               $this->load->view('layout/footer', $data);
+            } elseif (strtolower($data['school_code']) == 'ssapamp') {
+               $this->load->view('layout/header', $data);
+               $this->load->view('reports/conduct_record_per_student_ssapamp', $data);
+               $this->load->view('layout/footer', $data);
+            } else {
+               $this->load->view('layout/header', $data);
+               $this->load->view('reports/class_record_per_student', $data);
+               $this->load->view('layout/footer', $data);
+            }
+         } else {
+            $session = $this->input->post('session_id');
+            $grade_level = $this->input->post('class_id');
+            $section = $this->input->post('section_id');
+            $student_id = $this->input->post('student_id');
+            $student_conduct = null;
+
+            if ($this->sch_setting_detail->conduct_grade_view == 0) {
+               if (strtolower($data['school_code']) !== 'lpms') {
+                  // if (strtolower($data['school_code']) == 'SSAPAMP' and $grade_level=="1") {
+                  //    $student_conduct = get_student_checklist($session, $grade_level, $section, $student_id)
+                  // } else {
+                  if ($this->sch_setting_detail->conduct_grading_type == 'letter')
+                     $student_conduct = $this->gradereport_model->get_student_conduct($session, $grade_level, $section, $student_id);
+                  else if ($this->sch_setting_detail->conduct_grading_type == 'number')
+                     $student_conduct = $this->gradereport_model->get_student_conduct_numeric($session, $grade_level, $section, $student_id);
+                  // }
+
+               } else {
+               }
+            }
+
+            $data['student_conduct'] = $student_conduct;
+
+            // print_r(json_encode($student_id));die();
+
+            $data['quarter_list'] = $this->gradereport_model->get_quarter_list();
+
+            $data['session_id'] = $session;
+            $data['class_id'] = $grade_level;
+            $data['section_id']  = $section;
+            $data['student_id'] = $student_id;
+            $studentinfo = $this->student_model->get($student_id);
+            $data['student'] = $studentinfo;
+            $prekinder = "";
+            $class_record = null;
+
+
+            if (strtolower($data['school_code']) == 'lpms') {
+               $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
+               $data['resultlist'] = $class_record;
+
+               // print_r($data);
+               // die();
+
+               $this->load->view('layout/header', $data);
+               $this->load->view('reports/class_record_per_student_lpms', $data);
+               $this->load->view('layout/footer', $data);
+            } else {
+               if (strtolower($data['school_code']) == 'ssapamp') {
+
+                  $resultx = $this->grading_ssapamp_model->getTermLength('pre-kinder');
+                  $term = $resultx[0]->term_length;
+                  $data['term_length'] = $term;
+                  $result1 = $this->grading_ssapamp_model->getLevelId('pre-kinder');
+                  $prekinder = $result1[0]->id;
+
+                  $result2 = $this->grading_ssapamp_model->getLevelId('kindergarten');
+                  $kinder = $result2[0]->id;
+
+                  $data['prekinderid'] = $prekinder;
+
+                  if ($grade_level == $prekinder or $grade_level == $kinder) {
+
+                     // print_r($data);
+                     // die();
+
+                     $legendlist =  $this->grading_conduct_ssapamp_model->getLegend();
+
+                     // print_r($data);
+                     // die();
+
+                     $data['legend_list'] = $legendlist;
+                     //$studentid,$level,$section,$session
+
+                     $class_record = $this->grading_studentconduct_ssapamp_model->get_student_conduct_list($student_id, $grade_level, $section, $session, 1);
+                     $objarray = array();
+                     $obj_ave_array = array();
+                     $lettergradearray = array();
+                     $pergradearray = array();
+                     $totalgrade = 0;
+
+                     for ($s = 1; $s <= $term; $s++) {
+                        // $$variable = "sem" . $s;
+                        $variable = "sem" . $s;
+                        $semrecord = $this->grading_studentconduct_ssapamp_model->get_student_conduct_list($student_id, $grade_level, $section, $session, $s);
+                        $semtotalrecord = $this->grading_studentconduct_ssapamp_model->get_student_conduct_average_list($student_id, $grade_level, $section, $session, $s);
+                        // $objarray[$$variable] = $semrecord;
+                        // $objarray[] = $semrecord;
+                        // $$variable[]=array();
+                        $pertotal = 0;
+                        $itemctr = 0;
+                        $pertotalave = 0;
+                        $perlettergrade = "";
+
+                        foreach ($semrecord as $semrows) {
+                           $itemctr++;
+                           $desc = $semrows->description;
+                           $grade = $semrows->grade;
+                           $lg = $semrows->LG;
+                           $pertotal += $grade;
+                        }
+                        $pertotalave = $pertotal / $itemctr;
+                        $pergradearray[] = $pertotalave;
+
+                        $perlettergrade = $this->getConductLetterGrade($pertotalave, $legendlist);
+                        $lettergradearray[] = $perlettergrade;
+
+                        $totalgrade += $pertotal / $itemctr;
+
+                        // $objarray[$variable]=$semrecord;
+                        $objarray[] = $semrecord;
+                        $obj_ave_array[] = $semtotalrecord;
+                        $data[$variable] = $semrecord;
+
+                        // }
+                        // $sr['sem' . $s] = $$variable;
+                        // $sem = "sem" . $s;
+                        // $data[$sem] = $semrecord; 
+                        // foreach ($semrecord as $recrows) {
+                        // }
+                        // $objarray[$s] = array();  
+                        // $objarray[$s] = $semrecord;                     
+                     }
+
+                     $data['semesters'] = $objarray;
+                     $data['semave'] = $obj_ave_array;
+                     $data['lettergradearray'] = $lettergradearray;
+                     $data['pergradearray'] = $pergradearray;
+                     $average_grade = $totalgrade / $term;
+                     $lettergrade = $this->getConductLetterGrade($average_grade, $legendlist);
+                     $data['finallettergrade'] = $lettergrade;
+                     $data['totalgrade'] = $totalgrade / $term;
+                  } else {
+                     print_r($data);
+                     die();
+                     $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
+                  }
+               } else {
+
+                  print_r($data);
+                  die();
+
+                  $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
+               }
+               $namevar = "namevar";
+               $data[$namevar] = "hello";
+
+               $data['resultlist'] = $class_record;
+               $this->load->view('layout/header', $data);
+               // var_dump($data);
+               if (strtolower($data['school_code']) == 'ssapamp') {
+                  $this->load->view('reports/conduct_record_per_student_ssapamp', $data);
+               } else {
+                  $this->load->view('reports/class_record_per_student', $data);
+               }
+
+               $this->load->view('layout/footer', $data);
+            }
+         }
+      }
+   }
+
+   public function getConductLetterGrade($grade, $legendrows)
+   {
+      $outlettergrade = "";
+      $gradeval = round($grade, 0);
+      foreach ($legendrows as $rows) {
+         $letter = $rows->conduct_grade;
+         $mingrade = $rows->mingrade;
+         $maxgrade = $rows->maxgrade;
+         $mingradeval = intval($mingrade);
+         $maxgradeval = intval($maxgrade);
+         $maxgrade = $rows->maxgrade;
+
+         if ($gradeval >= $mingradeval and $gradeval <= $maxgradeval) {
+            $outlettergrade = $letter;
+         }
+      }
+      return $outlettergrade;
    }
 }

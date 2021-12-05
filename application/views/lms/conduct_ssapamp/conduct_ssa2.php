@@ -14,8 +14,7 @@
                   <form role="form" action="<?php echo site_url('lms/conduct_ssapamp') ?>" method="post" class="">
                      <div class="row">
                         <?php echo $this->customlib->getCSRF(); ?>
-
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-2">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('current_session'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="session_id" name="session_id" class="form-control">
@@ -32,7 +31,24 @@
                            </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-2">
+                           <div class="form-group">
+                              <label><?php echo $this->lang->line('quarter'); ?></label><small class="req"> *</small>
+                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
+                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                 <?php
+                                 foreach ($quarter_list as $quarter) {
+                                 ?>
+                                    <option value="<?php echo $quarter['id'] ?>" <?php if (set_value('quarter_id') == $quarter['id']) echo "selected=selected" ?>><?php echo $quarter['description'] ?></option>
+                                 <?php
+                                 }
+                                 ?>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
+                           </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-2">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="class_id" name="class_id" class="form-control">
@@ -49,7 +65,7 @@
                            </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-2">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
                               <select id="section_id" name="section_id" class="form-control">
@@ -59,30 +75,13 @@
                            </div>
                         </div>
 
-                        <!-- <div class="col-sm-6 col-md-4">
+                        <div class="col-sm-6 col-md-4">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('student'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="student_id" name="student_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                               </select>
                               <span class="text-danger"><?php echo form_error('student_id'); ?></span>
-                           </div>
-                        </div> -->
-
-                        <div class="col-sm-6 col-md-3">
-                           <div class="form-group">
-                              <label><?php echo "Term"; ?></label><small class="req"> *</small>
-                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
-                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                 <?php
-                                 foreach ($quarter_list as $quarter) {
-                                 ?>
-                                    <option value="<?php echo $quarter['id'] ?>" <?php if (set_value('quarter_id') == $quarter['id']) echo "selected=selected" ?>><?php echo $quarter['description'] ?></option>
-                                 <?php
-                                 }
-                                 ?>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
                            </div>
                         </div>
 
@@ -98,13 +97,15 @@
                <!--./box-body-->
 
                <div class="">
-                  <form id='frm_conduct_grades' action="<?php echo site_url('lms/conduct/save_conduct_grades_numeric') ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                  <form id='frm_conduct_grades' action="<?php //echo site_url('lms/conduct/save_conduct_grades_numeric') 
+                                                         ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                      <!-- submit hidden values -->
                      <input type="hidden" name="session_id" value="<?php echo $session_id ?>">
                      <input type="hidden" name="quarter_id" value="<?php echo $quarter_id ?>">
                      <input type="hidden" name="class_id" value="<?php echo $class_id ?>">
                      <input type="hidden" name="section_id" value="<?php echo $section_id ?>">
                      <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
+                     <input type="hidden" name="student_id" id="student_id" value="<?php echo $student_id ?>">
                      <div class="box-header ptbnull"></div>
                      <div class="box-header ptbnull">
                         <h3 class="box-title titlefix"><i class="fa fa-users"></i> <?php echo form_error('class_record_quarterly'); ?> Student Conducts</h3>
@@ -126,7 +127,7 @@
                                        <div class="box-body">
                                           <div class="table-responsive">
                                              <?php if (!empty($resultlist)) { ?>
-                                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%">
+                                                <table class="table table-striped table-bordered table-hover example nowrap" cellspacing="0" width="100%" id="Tablesample">
                                                    <thead>
                                                       <?php
                                                       if ($class_id == 1) {
@@ -155,7 +156,7 @@
                                                          if ($class_id == 1) {
                                                             foreach ($Subjects as $row) {
                                                                echo "<tr>\r\n";
-                                                               echo "<td class='text-left'>" . $row->alpha . " " . $row->description . "</td>\r\n";
+                                                               echo "<td class='text-left'>" . $row->alpha . ". " . $row->description . "</td>\r\n";
                                                                //
                                                                $ccid = $row->id;
                                                                $key = array_search($ccid, array_column($resultlist, 'clid'));
@@ -165,25 +166,32 @@
                                                                   // echo "<br>";
                                                                   $ssid =  $resultlist[$key]['ssid'];
                                                                   $p1 = $resultlist[$key]['grade'];
+                                                                  if ($p1 == "0") {
+                                                                     $p1 = "";
+                                                                  }
                                                                   $fg = $resultlist[$key]['lg'];
                                                                } else {
                                                                   $ssid = 0;
-                                                                  $p1 = 1;
+                                                                  $p1 = "";
                                                                   $fg = "";
                                                                }
-                                                               //
                                                       ?>
                                                                <input type="hidden" id="ccid<?php echo $row->id; ?>" name="clid[]" value="<?php echo $ccid ?>">
                                                                <input type="hidden" id="ssid<?php echo $row->id; ?>" name="ssid[]" value="<?php echo $ssid ?>">
-                                                               <td class='text-left'>
-                                                                  <center><input type="text" style="border-bottom:0px " name="grade[]" value="<?php echo $p1; ?>" onkeyup="calculateSum2(<?php echo $row->id ?>)" onkeydown="calculateSum2(<?php echo $row->id ?>)" class="grade<?php echo $row->id ?>" min="1" max="10"></center>
+                                                               <td class='numgrades text-center'>
+                                                                  <center><input type="text" style="border: none; text-align:center" name="grade[]" value="<?php echo $p1; ?>" onchange="calculateSum2(<?php echo $row->id ?>)" class="grade<?php echo $row->id ?>" min="1" max="10"></center>
                                                                </td>
-                                                               <td class='text-left'>
-                                                                  <center><input type="text" style="border-bottom:0px " name="final[]" value="<?php echo $fg; ?>" id="fin<?php echo $row->id ?>" readonly></center>
+                                                               <td class='text-center'>
+                                                                  <center><input type="text" style="border: none; text-align:center" name="final[]" value="<?php echo $fg; ?>" id="fin<?php echo $row->id ?>" readonly></center>
                                                                </td>
                                                                </tr>
                                                       <?php
                                                             } // foreach subjects
+                                                            echo "<tr>\r\n";
+                                                            echo "<td class='text-left'><b>Average</b></td>\r\n";
+                                                            echo "<td class='text-center'><label id='totalgrade'></label></td>\r\n";
+                                                            echo "<td class='text-center'><label id='lettergrade'></label></td>\r\n";
+                                                            echo "</tr>\r\n";
                                                          } else { // if $classid
 
                                                             foreach ($resultlist as $row) {
@@ -246,10 +254,9 @@
    var class_id;
    var base_url = '<?php echo base_url() ?>';
 
-   function getSectionByClass(class_id, section_id = -1) {
+   function getSectionByClass(class_id, section_id) {
       if (class_id != "" && section_id != "") {
          $('#section_id').html("");
-         var base_url = '<?php echo base_url() ?>';
          var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
          $.ajax({
             type: "GET",
@@ -278,87 +285,44 @@
       }
    }
 
-   function getTermByGradeLevel(class_id, term_id = -1) {
+
+   function getStudentsByClassSection(class_id, section_id, school_year_id, student_id) {
       if (class_id != "") {
-         var base_url = '<?php echo base_url() ?>';
-         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
 
-         $('#quarter_id').html("");
-
-         $.ajax({
-            type: "GET",
-            url: base_url + "classes/get_grade_level_terms",
-            data: {
-               'class_id': class_id
-            },
-            dataType: "json",
-            beforeSend: function() {
-               $('#quarter_id').addClass('dropdownloading');
-            },
-            success: function(data) {
-               $.each(data, function(i, obj) {
-                  var sel = "";
-                  if (term_id == obj.id) {
-                     sel = "selected";
-                  }
-                  div_data += "<option value=" + obj.id + " " + sel + ">" + obj.description + "</option>";
-               });
-               $('#quarter_id').append(div_data);
-            },
-            complete: function() {
-               $('#quarter_id').removeClass('dropdownloading');
-            }
-         });
-      }
-   }
-
-   function getStudentsByClassSection(class_id, section_id, school_year_id, student_id = -1) {
-      if (class_id != "") {
          $('#student_id').html("");
-
-         //if (class_id == 1) {
-         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-         $.ajax({
-            type: "GET",
-            url: base_url + "student/getStudentListPerClassSection",
-            data: {
-               'class_id': class_id,
-               'section_id': section_id,
-               'school_year_id': school_year_id
-            },
-            dataType: "json",
-            beforeSend: function() {
-               $('#student_id').addClass('dropdownloading');
-            },
-            success: function(data) {
-               $.each(data, function(i, obj) {
-                  var sel = "";
-                  if (student_id == obj.student_id) {
-                     sel = "selected";
-                  }
-                  div_data += "<option value=" + obj.student_id + " " + sel + ">" + obj.lastname + ", " + obj.firstname + "</option>";
-               });
-               $('#student_id').append(div_data);
-            },
-            complete: function() {
-               $('#student_id').removeClass('dropdownloading');
-            }
-         });
-         //}
+         if (class_id == 1) {
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+               type: "GET",
+               url: base_url + "student/getStudentListPerClassSection",
+               data: {
+                  'class_id': class_id,
+                  'section_id': section_id,
+                  'school_year_id': school_year_id
+               },
+               dataType: "json",
+               beforeSend: function() {
+                  $('#student_id').addClass('dropdownloading');
+               },
+               success: function(data) {
+                  $.each(data, function(i, obj) {
+                     var sel = "";
+                     if (student_id == obj.student_id) {
+                        sel = "selected";
+                     }
+                     div_data += "<option value=" + obj.student_id + " " + sel + ">" + obj.lastname + ", " + obj.firstname + "</option>";
+                  });
+                  $('#student_id').append(div_data);
+               },
+               complete: function() {
+                  $('#student_id').removeClass('dropdownloading');
+               }
+            });
+         }
       }
    }
 
    $(document).ready(function() {
-      var class_id = $('#class_id').val();
-      var section_id = '<?php echo set_value('section_id') ?>';
-      var school_year_id = '<?php echo set_value('session_id') ?>';
-      var student_id = '<?php echo set_value('student_id') ?>';
-      var term_id = '<?php echo set_value('quarter_id') ?>';
-
-      getSectionByClass(class_id, section_id);
-      // getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
-      getTermByGradeLevel(class_id, term_id);
-
       var table = $('.conductTable').DataTable({
          "aaSorting": [],
          rowReorder: {
@@ -445,71 +409,64 @@
          }]
       });
 
-
+      var class_id = $('#class_id').val();
+      var section_id = '<?php echo set_value('section_id') ?>';
+      var school_year_id = '<?php echo set_value('session_id') ?>';
+      var student_id = '<?php echo set_value('student_id') ?>';
+      getSectionByClass(class_id, section_id);
+      getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
 
       $(document).on('change', '#class_id', function(e) {
          $('#section_id').html("");
-         var class_id = $(this).val();
-
-         // class_id = $(this).val();
-         // $.ajax({
-         //    type: "GET",
-         //    url: base_url + "sections/getByClass",
-         //    data: {
-         //       'class_id': class_id
-         //    },
-         //    dataType: "json",
-         //    beforeSend: function() {
-         //       $('#section_id').addClass('dropdownloading');
-         //    },
-         //    success: function(data) {
-         //       $.each(data, function(i, obj) {
-         //          div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
-         //       });
-         //       $('#section_id').append(div_data);
-         //    },
-         //    complete: function() {
-         //       $('#section_id').removeClass('dropdownloading');
-         //    }
-         // });
-
-         getSectionByClass(class_id);
-         getTermByGradeLevel(class_id);
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+         class_id = $(this).val();
+         $.ajax({
+            type: "GET",
+            url: base_url + "sections/getByClass",
+            data: {
+               'class_id': class_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#section_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
+               });
+               $('#section_id').append(div_data);
+            },
+            complete: function() {
+               $('#section_id').removeClass('dropdownloading');
+            }
+         });
       });
 
       $(document).on('change', '#section_id', function(e) {
          $('#student_id').html("");
-
-         // var div_data2 = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-         // $.ajax({
-         //    type: "GET",
-         //    url: base_url + "student/getStudentListPerClassSection",
-         //    data: {
-         //       'class_id': class_id,
-         //       'section_id': $('#section_id').val(),
-         //       'school_year_id': $('#session_id').val()
-         //    },
-         //    dataType: "json",
-         //    beforeSend: function() {
-         //       $('#student_id').addClass('dropdownloading');
-         //    },
-         //    success: function(data) {
-         //       $.each(data, function(i, obj) {
-         //          div_data2 += "<option value=" + obj.student_id + ">" + obj.lastname + ", " + obj.firstname + "</option>";
-         //       });
-         //       $('#student_id').append(div_data2);
-         //    },
-         //    complete: function() {
-         //       $('#student_id').removeClass('dropdownloading');
-         //    }
-         // });
-
-         var class_id = $('#class_id').val();
-         var section_id = $('#section_id').val();
-         var school_year_id = $('#session_id').val();
-         var student_id = $('#student_id').val();
-
-         getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
+         var div_data2 = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+         $.ajax({
+            type: "GET",
+            url: base_url + "student/getStudentListPerClassSection",
+            data: {
+               'class_id': class_id,
+               'section_id': $('#section_id').val(),
+               'school_year_id': $('#session_id').val()
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#student_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  div_data2 += "<option value=" + obj.student_id + ">" + obj.lastname + ", " + obj.firstname + "</option>";
+               });
+               $('#student_id').append(div_data2);
+            },
+            complete: function() {
+               $('#student_id').removeClass('dropdownloading');
+            }
+         });
       });
 
       $("#frm_conduct_grades").on('submit', (function(e) {
@@ -553,25 +510,96 @@
 </script>
 
 <script type="text/javascript">
+   var legend_array = [];
    var url = "<?php echo base_url('lms/grading_ssapamp/') ?>";
    $(document).ready(function() {
-      //this calculates values automatically 
-      // calculateSum();
-      calculateSum2();
-      //  calculateAVE();
-      //  acts();
 
+      var legendrecord = "<?php echo $legend_record ?>";
+      var legendarray = legendrecord.split('*');
 
-      // $(".dc").on("keydown keyup", function() {
-      //     calculateSum();
-      // });
-      // $(".p").on("keydown keyup", function() {
-      //     calculateAVE();
-      // });
-      // $("#action").on("keydown keyup", function() {
-      //     acts();
-      // });
+      legendarray.forEach(function(item, index) {
+         console.log(item, index);
+         itemarray = item.split('|');
+         lettergrade = itemarray[0];
+         range = itemarray[2];
+         const legend_object = {
+            lgrade: lettergrade,
+            graderange: range
+         };
+         legend_array.push(legend_object)
+      });
+
+      calculateAverage();
+
    });
+
+   function getLetterGrade(finalgrade) {
+      lettergrade = "";
+      rfinalgrade = Math.round(finalgrade);
+      legend_array.forEach(function(object, index) {
+         // console.log(object.lgrade);
+         grade = object.graderange;
+         if (grade.indexOf('-') > -1) {
+            var gradearray = grade.split('-');
+            temp = gradearray[0];
+            temp = temp.trim();
+            range1 = Math.round(temp);
+            temp = gradearray[1];
+            temp = temp.trim();
+            range2 = Math.round(temp);
+            if (rfinalgrade >= range1 && rfinalgrade <= range2) {
+               console.log('in range');
+               lettergrade = object.lgrade;
+               // break;
+               return lettergrade;
+            }
+         } else {
+            var gradearray = grade.split('and');
+            temp = temp.trim();
+            range2 = Math.round(temp);
+            if (rfinalgrade <= range1) {
+               console.log('in range');
+               lettergrade = object.lgrade;
+               return lettergrade;
+            }
+         }
+      });
+      // console.log(lettergrade);
+      return lettergrade;
+   }
+
+   function calculateAverage() {
+      var sum = 0,
+         i = 0,
+         average = 0;
+      var defaultvalue = "";
+      var lg = "";
+
+      $('#Tablesample tr').each(function() {
+         i = i + 1;
+         var keval = $(this).find(".numgrades input").val();
+         if (jQuery.type(keval) === "undefined") {
+            //Some code goes here
+         } else {
+            sum += parseFloat(keval);
+            // console.log(i);
+            console.log(keval);
+         }
+
+      });
+      $("#totalgrade").text(defaultvalue);
+      $("#lettergrade").text(defaultvalue);
+      if (isNaN(sum) || sum == 0) {
+
+      } else {
+         average = sum / 6;
+         average = average.toFixed(2);
+         $("#totalgrade").text(average);
+         lg = getLetterGrade(average);
+         $("#lettergrade").text(lg);
+      }
+
+   }
 
    function calculateSum2($i) {
       var sum = 0,
@@ -601,27 +629,12 @@
       console.log(ssidval);
 
       var studid = "";
-      studid = $("input#studentid").val();
+      studid = $("input#student_id").val();
       console.log(studid);
       var lgval = "";
-      // if (error == 0) {
-      if ((9 <= sum) && (sum <= 10)) {
-         $("input#fin" + i).val("O");
-         // lgval = "O";
-      } else if ((7 <= sum) && (sum <= 8)) {
-         $("input#fin" + i).val("VS");
-         // lgval = "VS";
-      } else if ((5 <= sum) && (sum <= 6)) {
-         $("input#fin" + i).val("S");
-         // lgval = "S";
-      } else if ((3 <= sum) && (sum <= 4)) {
-         $("input#fin" + i).val("NI");
-         // lgval = "NI";
-      } else if ((1 <= sum) && (sum <= 2)) {
-         $("input#fin" + i).val("U");
-         // lgval = "U";
-      }
       lgval = $("input#fin" + i).val();
+      lgval = getLetterGrade(sum);
+      $("input#fin" + i).val(lgval);
 
       var update_data = {
          studentid: studid,
@@ -638,6 +651,7 @@
             console.log(response.responseText);
          }
       });
+      calculateAverage();
       // } else {
       //   alert('grade should not be greater than 10');
       // }
