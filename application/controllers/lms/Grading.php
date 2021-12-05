@@ -2188,7 +2188,7 @@ class Grading extends General_Controller
             'id' =>                 urlencode($column_5_1_1_id),
             'column_section_id' =>  urlencode($column_section_5_1_id),
             'column_code' =>        urlencode($column_5_1_1_id),
-            'highest_score' =>      urlencode(20),
+            'highest_score' =>      urlencode(10),
          );
 
          $this->post($column_5_1_1, "column");
@@ -2445,7 +2445,7 @@ class Grading extends General_Controller
             'id' =>                 urlencode($column_5_1_1_id),
             'column_section_id' =>  urlencode($column_section_5_1_id),
             'column_code' =>        urlencode($column_5_1_1_id),
-            'highest_score' =>      urlencode(5),
+            'highest_score' =>      urlencode(10),
          );
 
          $this->post($column_5_1_1, "column");
@@ -2702,7 +2702,7 @@ class Grading extends General_Controller
             'id' =>                 urlencode($column_5_1_1_id),
             'column_section_id' =>  urlencode($column_section_5_1_id),
             'column_code' =>        urlencode($column_5_1_1_id),
-            'highest_score' =>      urlencode(5),
+            'highest_score' =>      urlencode(10),
          );
 
          $this->post($column_5_1_1, "column");
@@ -2963,7 +2963,7 @@ class Grading extends General_Controller
             'id' =>                 urlencode($column_5_1_1_id),
             'column_section_id' =>  urlencode($column_section_5_1_id),
             'column_code' =>        urlencode($column_5_1_1_id),
-            'highest_score' =>      urlencode(5),
+            'highest_score' =>      urlencode(10),
          );
 
          $this->post($column_5_1_1, "column");
@@ -3167,7 +3167,7 @@ class Grading extends General_Controller
             'id' =>                 urlencode($column_3_1_1_id),
             'column_section_id' =>  urlencode($column_section_3_1_id),
             'column_code' =>        urlencode($column_3_1_1_id),
-            'highest_score' =>      urlencode(5),
+            'highest_score' =>      urlencode(10),
          );
 
          $this->post($column_3_1_1, "column");
