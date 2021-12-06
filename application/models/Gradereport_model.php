@@ -1320,6 +1320,22 @@ class Gradereport_model extends CI_Model
               and student_id = " . $student_id . " 
               and section_id= " . $section . " 
               and school_year = " . $session;
+
+      $sql = "select studentid,s1,s2,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and maxgrade) a1,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and maxgrade) a2
+              from (
+                select studentid,
+                sum(case when semester=1 then grade else 0 end)/6 s1,
+                sum(case when semester=2 then grade else 0 end)/6 s2
+                from 
+                grading_studentconduct_ssapamp 
+                where levelid = " . $grade_level . "  
+                and sectionid = " . $section . "  
+                and schoolyear = " . $session . " 
+                and studentid = " . $student_id . "
+               ) vv";
+
       $query = $this->db->query($sql);
 
       // print_r($this->db->last_query());
