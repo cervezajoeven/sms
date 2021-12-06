@@ -201,8 +201,15 @@ class Conduct_ssapamp extends General_Controller {
 
         $result1 = $this->grading_ssapamp_model->getLevelId("Pre-Kinder");
         $level_classid = $result1[0]->id;
-        $data['level_classid'] = $level_classid;
+        $prekinderid= $result1[0]->id;
 
+        $result2 = $this->grading_ssapamp_model->getLevelId("Kindergarten");
+        $kinderid= $result2[0]->id;
+
+        $data['prekinder'] = $level_classid;
+        $data['kinder'] = $level_classid;
+        $data['level_classid'] = $level_classid;
+        $data['conductformat'] = "0";
         if ($this->input->server('REQUEST_METHOD') == "GET") {   
             $schoolyear = $this->input->post('session_id');
             $session = $this->input->post('session_id');
@@ -216,12 +223,13 @@ class Conduct_ssapamp extends General_Controller {
             $data['section_id']  = $section; // sectionid
             $data['student_id'] = $student_id;
 
-            if ($grade_level==$level_classid) {
+            if ($grade_level==$prekinderid or $grade_level==$kinderid) {
                 $l  =  $this->getGrading();        
                 $data['legend_record'] =  $l;
+                $data['conductformat'] = "1";
                 $studentgradelist = $this->grading_studentconduct_ssapamp_model->getStudentGradeList($student_id,$grade_level,$section,$session,$quarter);
                 if ( $studentgradelist) {
-                    $g1 = $this->fetch_grades($student_id,$grade_level,$section,$session,$quarter);
+                    $g1 = $this->fetch_grades( $student_id,$grade_level,$section,$session,$quarter);
                     $data['resultlist'] = $g1['db_grades'];
                 } else {
                     if (empty($student_id) or $grade_level=="0") { 
@@ -258,9 +266,10 @@ class Conduct_ssapamp extends General_Controller {
                 $section = $this->input->post('section_id');    //section
                 $student_id = $this->input->post('student_id');
                 
-                if ($grade_level==$level_classid) {
+                if ($grade_level==$prekinderid or $grade_level==$kinderid) {
                     $l  =  $this->getGrading();        
                     $data['legend_record'] =  $l;
+                    $data['conductformat'] = "1";
                     $studentgradelist = $this->grading_studentconduct_ssapamp_model->getStudentGradeList($student_id,$grade_level,$section,$session,$quarter);
                     if ( $studentgradelist) {
                         $g1 = $this->fetch_grades( $student_id,$grade_level,$section,$session,$quarter);
