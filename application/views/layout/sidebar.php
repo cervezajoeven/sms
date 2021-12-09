@@ -548,7 +548,7 @@
                         ?>
 
                         <?php if (strtoupper($schoolCode) == 'SSAPAMP') : ?>
-                           <li class="<?php echo set_Submenu('Academics/checklist'); ?>"><a href="<?php echo base_url(); ?>lms/checklist_ssapamp"><i class="fa fa-angle-double-right"></i> Pre-Kinder(Grading) </a></li>
+                           <li class="<?php echo set_Submenu('Academics/checklist'); ?>"><a href="<?php echo base_url(); ?>lms/checklist_ssapamp"><i class="fa fa-angle-double-right"></i> Pre-Kinder Grading </a></li>
                      <?php endif;
                      } ?>
                   </ul>

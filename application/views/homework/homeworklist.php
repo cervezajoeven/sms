@@ -512,7 +512,7 @@ $language_name = $language["short_code"];
    </div>
 </div>
 
-<div class="modal fade" id="document_view_modal" role="dialog">
+<div class="modal fade" id="document_view_modal_office" role="dialog">
    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
@@ -522,7 +522,52 @@ $language_name = $language["short_code"];
 
          <div class="modal-body">
             <!-- <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" /> -->
-            <iframe class="document_iframe" src="" style="height: 600px;width: 100%;"></iframe>
+            <iframe class="document_iframe_office" src="" style="height: 600px;width: 100%;"></iframe>
+
+            <div class="row">
+               <h4 class="box-title text-center"><?php echo $this->lang->line('evaluate_homework'); ?></h4>
+               <form id="eval_data_office" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                     <div class="col-md-2">&nbsp;</div>
+                     <div class="col-md-8">
+                        <li class="list-group-item">
+                           <label id="eval_student_office"></label>
+                           <input type="hidden" id="student_session_id_office" value="">
+                           <input type="hidden" id="homework_id_office" value="">
+                           <div>
+                              <input type="number" class="form-control" name="score_office" id="score_office" placeholder="Score" value="">
+                           </div>
+                           <div>
+                              <textarea class="form-control" name="remarks_office" id="remarks_office" placeholder="Remarks"></textarea>
+                           </div>
+                        </li>
+                     </div>
+                     <div class="col-md-2">&nbsp;</div>
+                  </div>
+                  <div class="box-footer">
+                     <div class="pull-right paddA10">
+                        <button type="submit" class="btn btn-info pull-right" id="saveEvaluation_office" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Please wait"><?php echo $this->lang->line('save') ?></button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="document_view_modal_pdf" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title title text-center transport_fees_title">Preview Homework</h4>
+         </div>
+
+         <div class="modal-body">
+            <!-- <input type="hidden" class="form-control" id="transport_student_session_id" value="0" readonly="readonly" /> -->
+            <iframe class="document_iframe_pdf" src="" style="height: 600px;width: 100%;"></iframe>
 
             <div class="row">
                <h4 class="box-title text-center"><?php echo $this->lang->line('evaluate_homework'); ?></h4>

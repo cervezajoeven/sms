@@ -17,7 +17,6 @@ class Grading extends General_Controller
       $this->load->model('general_model');
       $this->load->model('lesson_model');
       $this->load->model('class_model');
-      // $this->load->model('grading_model');
       $this->load->model('gradereport_model');
       $this->load->model('setting_model');
 
@@ -3770,13 +3769,10 @@ class Grading extends General_Controller
       $this->session->set_userdata('top_menu', 'Academics');
       $this->session->set_userdata('sub_menu', 'grading/setup');
 
-      $data['quarters'] = $this->general_model->lms_get('grading_quarter', "", "");
+      // $data['quarters'] = $this->general_model->lms_get('grading_quarter', "", "");
       $class = $this->class_model->get('', $classteacher = 'yes');
       $data['classlist']  = $class;
       $data['swh_item_list'] = $this->gradereport_model->get_swh_items();
-
-      // print_r($data['swh_item_list']);
-      // die();
 
       $this->load->view('layout/header');
       $this->load->view('lms/grading/lpms_swh', $data);
@@ -3790,10 +3786,14 @@ class Grading extends General_Controller
    function import_swh()
    {
       $swh_fields = $this->gradereport_model->get_swh_items();
-      $data['quarters'] = $this->general_model->lms_get('grading_quarter', "", "");
+
+      // $data['quarters'] = $this->general_model->lms_get('grading_quarter', "", "");
       $class = $this->class_model->get('', $classteacher = 'yes');
       $data['classlist']  = $class;
       $data['swh_item_list'] = $swh_fields;
+
+      $grade_level_info = $this->class_model->get_grade_level_info($class);
+      $data['quarters'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
 
       $this->form_validation->set_rules('quarter_id', $this->lang->line('quarter'), 'trim|required|xss_clean');
       $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');

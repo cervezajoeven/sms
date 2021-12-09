@@ -61,13 +61,16 @@ foreach ($docs as $value) {
          var pdfjs = "<?php echo site_url('backend/lms/pdfjs/web/viewer.html?file='); ?>";
          var file_location = $(this).attr("file_location");
 
+         $(".document_iframe_pdf").attr("src", "");
+
          $("#eval_student_pdf").html($(this).attr("student-name"));
          $("#student_session_id_pdf").attr("value", $(this).attr("student-session-id"));
          $("#homework_id_pdf").attr("value", $(this).attr("homework-id"));
 
-         $(".document_iframe").attr("src", pdfjs + file_location);
+         $(".document_iframe_pdf").attr("src", pdfjs + file_location);
+
          // $(".document_iframe").attr("src", 'https://docs.google.com/gview?url=' + decodeURIComponent(file_location));
-         $('#document_view_modal').modal({
+         $('#document_view_modal_pdf').modal({
             backdrop: 'static',
             keyboard: false,
             show: true
@@ -75,6 +78,8 @@ foreach ($docs as $value) {
       } else if (file_location.toLocaleUpperCase().includes(".JPG") || file_location.toLocaleUpperCase().includes(".JPEG") ||
          file_location.toLocaleUpperCase().includes(".PNG") || file_location.toLocaleUpperCase().includes(".GIF") ||
          file_location.toLocaleUpperCase().includes(".SVG")) {
+
+         $(".document_img").attr("src", "");
 
          $("#eval_student_img").html($(this).attr("student-name"));
          $("#student_session_id_img").attr("value", $(this).attr("student-session-id"));
@@ -90,6 +95,8 @@ foreach ($docs as $value) {
       } else if (file_location.toLocaleUpperCase().includes(".MP4") || file_location.toLocaleUpperCase().includes(".AVI") ||
          file_location.toLocaleUpperCase().includes(".MOV") || file_location.toLocaleUpperCase().includes(".WMV")) {
          var type = file_location.toLocaleLowerCase().slice(3);
+
+         $(".document_vid").attr("src", "");
 
          $("#eval_student_vid").html($(this).attr("student-name"));
          $("#student_session_id_vid").attr("value", $(this).attr("student-session-id"));
@@ -110,9 +117,15 @@ foreach ($docs as $value) {
          // var officedoc = "https://docs.google.com/gview?url=";
          var file_location = $(this).attr("file_location");
 
-         $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location) + "&embedded=true");
+         $(".document_iframe_office").attr("src", "");
+
+         $("#eval_student_office").html($(this).attr("student-name"));
+         $("#student_session_id_office").attr("value", $(this).attr("student-session-id"));
+         $("#homework_id_office").attr("value", $(this).attr("homework-id"));
+
+         $(".document_iframe_office").attr("src", officedoc + decodeURIComponent(file_location) + "&embedded=true");
          // $(".document_iframe").attr("src", officedoc + decodeURIComponent(file_location));
-         $('#document_view_modal').modal({
+         $('#document_view_modal_office').modal({
             backdrop: 'static',
             keyboard: false,
             show: true

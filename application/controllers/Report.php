@@ -2042,6 +2042,64 @@ class Report extends Admin_Controller
       $this->load->view('reports/student_report_card_lpms', $data);
    }
 
+   public function student_report_card_ssapamp()
+   {
+      $this->session->set_userdata('top_menu', 'Reports');
+      $this->session->set_userdata('sub_menu', 'Reports/student_information');
+      $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
+
+      $data['title'] = 'Class Record Per Student';
+      $class = $this->class_model->get();
+      $data['classlist'] = $class;
+      $data['sch_setting'] = $this->sch_setting_detail;
+      $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
+      $data['session_list'] = $this->session_model->getAllSession();
+      // $data['conduct_grading_type'] = $this->sch_setting_detail->conduct_grading_type;
+      $data['legend_list'] = $this->conduct_model->get_conduct_legend_list();
+
+      $this->form_validation->set_rules('session_id', $this->lang->line('current_session'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+      $this->form_validation->set_rules('student_id', $this->lang->line('subject'), 'trim|required|xss_clean');
+
+
+      $session = $this->input->get('session_id');
+      $grade_level = $this->input->get('class_id');
+      $section = $this->input->get('section_id');
+      $student_id = $this->input->get('student_id');
+      $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
+
+      $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
+      // print_r(json_encode($class_record));die();
+      // print_r($class_record);die();
+      $grade_level_info = $this->class_model->get_grade_level_info($grade_level);
+      $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
+      $data['resultlist'] = $class_record;
+      $data['session_id'] = $session;
+      $data['class_id'] = $grade_level;
+      $data['section_id']  = $section;
+      $data['student_id'] = $student_id;
+
+      $studentinfo = $this->student_model->get($student_id);
+      $data['student'] = $studentinfo;
+      $data['school_year'] = $this->setting_model->getCurrentSessionName();
+      $data['swh_scores'] = $this->gradereport_model->get_swh_score_quarterly($session, $grade_level, $section, $student_id);
+
+      $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
+      $data['codes_table'] = $this->gradereport_model->grade_code_table();
+
+      $student_attendance = $this->gradereport_model->get_student_attendance_by_semester($session, $grade_level, $section, $student_id);
+
+      if ($student_attendance) {
+         $data['student_attendance'] = $student_attendance;
+      } else {
+         $data['student_attendance'] = array();
+      }
+
+      $this->load->view('reports/student_report_card_ssapamp', $data);
+   }
+
    public function student_report_card()
    {
 

@@ -7,7 +7,7 @@
                <div class="box-header ptbnull"></div>
 
                <div class="box-header with-border">
-                  <h3 class="box-title"><i class="fa fa-search"></i> <?php echo $this->lang->line('select_criteria'); ?></h3>
+                  <h3 class="box-title"><i class="fa fa-search"></i> <?php echo "Pre-Kinder Grading"; ?></h3>
                </div>
 
                <div class="box-body">

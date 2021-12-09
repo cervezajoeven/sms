@@ -95,7 +95,7 @@
                         <?php if (strtolower($schoolcode) == "lpms") : ?>
                            <div class="form-group">
                               <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
-                              <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
+                              <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control">
                                  <?php foreach ($quarters as $key => $value) : ?>
                                     <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
                                  <?php endforeach; ?>
@@ -105,7 +105,7 @@
                         <?php else : ?>
                            <div class="form-group">
                               <label for="exampleInputEmail1">Term</label><small class="req"> *</small>
-                              <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control filter2">
+                              <select autofocus="" id="quarter_id" name="quarter" placeholder="" type="text" class="form-control">
                                  <?php foreach ($quarters as $key => $value) : ?>
                                     <option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
                                  <?php endforeach; ?>
@@ -281,25 +281,26 @@
    });
 
    $("#template_id").change(function() {
-      $('.filter2').select2();
-      $('.filter2').select2('destroy');
+      // $('.filter2').select2();
+      // $('.filter2').select2('destroy');
 
-      if ($(this).val() == "csl_college") {
-         $("#quarter_id").find("option[value='1']").text("Prelim");
-         $("#quarter_id").find("option[value='2']").text("Midterm");
-         $("#quarter_id").find("option[value='3']").text("Semifinal");
-         $("#quarter_id").find("option[value='4']").text("Final");
-      } else if ($(this).val() == "lpmsconduct" || $(this).val() == "lpmsoriginal") {
-         $("#quarter_id").find("option[value='1']").text("First Trimester");
-         $("#quarter_id").find("option[value='2']").text("Second Trimester");
-         $("#quarter_id").find("option[value='3']").text("Third Trimester");
-      } else {
-         $("#quarter_id").find("option[value='1']").text("1st Quarter");
-         $("#quarter_id").find("option[value='2']").text("2nd Quarter");
-         $("#quarter_id").find("option[value='3']").text("3rd Quarter");
-         $("#quarter_id").find("option[value='4']").text("4th Quarter");
-      }
-      $('.filter2').select2();
+      // if ($(this).val() == "csl_college") {
+      //    $("#quarter_id").find("option[value='1']").text("Prelim");
+      //    $("#quarter_id").find("option[value='2']").text("Midterm");
+      //    $("#quarter_id").find("option[value='3']").text("Semifinal");
+      //    $("#quarter_id").find("option[value='4']").text("Final");
+      // } 
+      // else if ($(this).val() == "lpmsconduct" || $(this).val() == "lpmsoriginal") {
+      //    $("#quarter_id").find("option[value='1']").text("1st");
+      //    $("#quarter_id").find("option[value='2']").text("2nd");
+      //    $("#quarter_id").find("option[value='3']").text("3rd");
+      // } else {
+      //    $("#quarter_id").find("option[value='1']").text("1st");
+      //    $("#quarter_id").find("option[value='2']").text("2nd");
+      //    $("#quarter_id").find("option[value='3']").text("3rd");
+      //    $("#quarter_id").find("option[value='4']").text("4th");
+      // }
+      // $('.filter2').select2();
    });
 
    $("#swh").click(function() {

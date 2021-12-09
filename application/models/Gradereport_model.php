@@ -1311,19 +1311,21 @@ class Gradereport_model extends CI_Model
 
    public function get_conduct_ssapamp($session, $grade_level, $section, $student_id)
    {
-      $sql = "select student_id,
-              case when quarter=1 then conduct_num else 0 end as s1,
-              case when quarter=2 then conduct_num else 0 end as s2
-              from 
-              grading_conduct_numeric 
-              where grade_level = " . $grade_level . " 
-              and student_id = " . $student_id . " 
-              and section_id= " . $section . " 
-              and school_year = " . $session;
+      // $sql = "select student_id,
+      //         case when quarter=1 then conduct_num else 0 end as s1,
+      //         case when quarter=2 then conduct_num else 0 end as s2
+      //         from 
+      //         grading_conduct_numeric 
+      //         where grade_level = " . $grade_level . " 
+      //         and student_id = " . $student_id . " 
+      //         and section_id= " . $section . " 
+      //         and school_year = " . $session;
 
       $sql = "select studentid,s1,s2,
-              (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and maxgrade) a1,
-              (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and maxgrade) a2
+             (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and maxgrade) a1,
+             (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and maxgrade) a2,
+             ((s1 + s2)/2) as totalave,
+             (select conduct_grade from grading_conduct_legend_ssapamp where round((s1 + s2)/2) between mingrade and maxgrade) finalgrade
               from (
                 select studentid,
                 sum(case when semester=1 then grade else 0 end)/6 s1,

@@ -75,7 +75,6 @@ class Homework_model extends MY_model
          $this->db->join("subject_groups", "subject_group_subjects.subject_group_id=subject_groups.id");
          $this->db->where('homework.session_id', $this->current_session);
          $this->db->where("homework.id", $id);
-         $this->db->where("homework.deleted", 0);
 
          $query = $this->db->get("homework");
          // $query = $this->db->where("id", $id)->get("homework");
@@ -91,8 +90,6 @@ class Homework_model extends MY_model
          $this->db->join("subjects", "subjects.id = subject_group_subjects.subject_id");
          $this->db->join("subject_groups", "subject_group_subjects.subject_group_id=subject_groups.id");
          $this->db->where('homework.session_id', $this->current_session);
-         $this->db->where("homework.deleted", 0);
-
          if (!empty($carray)) {
             $this->db->where_in('classes.id', $carray);
          }
@@ -100,10 +97,6 @@ class Homework_model extends MY_model
             $this->db->where_in('sections.id', $section_array);
          }
          $query = $this->db->get("homework");
-
-         // print_r($this->db->last_query());
-         // die();
-
          return $query->result_array();
       }
    }
@@ -188,7 +181,6 @@ class Homework_model extends MY_model
       $this->db->join("subjects", "subjects.id = subject_group_subjects.subject_id");
       $this->db->join("subject_groups", "subject_group_subjects.subject_group_id=subject_groups.id");
       $this->db->where('subject_groups.session_id', $this->current_session);
-      $this->db->where("homework.deleted", 0);
       $this->db->order_by('homework.homework_date', 'DESC');
       $query = $this->db->get("homework");
 
@@ -201,15 +193,7 @@ class Homework_model extends MY_model
    public function getRecord($id = null)
    {
 
-      $query = $this->db->select("homework.*,classes.class,sections.section,subjects.name,subject_groups.name as subject_group")
-         ->join("classes", "classes.id = homework.class_id")
-         ->join("sections", "sections.id = homework.section_id")
-         ->join('subject_group_subjects', 'homework.subject_group_subject_id=subject_group_subjects.id')
-         ->join("subjects", "subjects.id = subject_group_subjects.subject_id", "left")
-         ->join('subject_groups', 'subject_group_subjects.subject_group_id=subject_groups.id')
-         ->where("homework.id", $id)
-         ->where("homework.deleted", 0)
-         ->get("homework");
+      $query = $this->db->select("homework.*,classes.class,sections.section,subjects.name,subject_groups.name as subject_group")->join("classes", "classes.id = homework.class_id")->join("sections", "sections.id = homework.section_id")->join('subject_group_subjects', 'homework.subject_group_subject_id=subject_group_subjects.id')->join("subjects", "subjects.id = subject_group_subjects.subject_id", "left")->join('subject_groups', 'subject_group_subjects.subject_group_id=subject_groups.id')->where("homework.id", $id)->get("homework");
 
       return $query->row_array();
    }
@@ -227,20 +211,12 @@ class Homework_model extends MY_model
 
    public function getStudentHomeworkEval($homeworkid, $studentid)
    {
-      $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,
-              IFNULL(homework_evaluation.score,0) as homework_evaluation_score,
-              IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks,student_session.*,students.firstname,students.lastname,students.admission_no 
-              from student_session 
-              inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($homeworkid) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id 
-              inner join students on students.id=student_session.student_id and students.is_active='yes' 
-              left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($homeworkid) .
-         " where student_session.student_id = " . $this->db->escape($studentid) .
-         " and deleted = 0 order by students.lastname asc";
+      $sql = "SELECT IFNULL(homework_evaluation.id,0) as homework_evaluation_id,IFNULL(homework_evaluation.score,0) as homework_evaluation_score,IFNULL(homework_evaluation.remarks,'') as homework_evaluation_remarks,student_session.*,students.firstname,students.lastname,students.admission_no from student_session inner JOIN (SELECT homework.id as homework_id,homework.class_id,homework.section_id,homework.session_id FROM `homework` WHERE id= " . $this->db->escape($homeworkid) . " ) as home_work on home_work.class_id=student_session.class_id and home_work.section_id=student_session.section_id and home_work.session_id=student_session.session_id inner join students on students.id=student_session.student_id and students.is_active='yes' left join homework_evaluation on homework_evaluation.student_session_id=student_session.id  and students.is_active='yes' and homework_evaluation.homework_id=" . $this->db->escape($homeworkid) . " where student_session.student_id = " . $this->db->escape($studentid) . " order by students.lastname asc";
 
       // $sql = "select students.id,students.firstname,students.lastname,students.admission_no from students where students.id in (select student_session.student_id from student_session where student_session.class_id = " . $this->db->escape($class_id) . " and student_session.section_id = " . $this->db->escape($section_id) . " GROUP by student_session.student_id and student_session.session_id=$this->current_session) and students.is_active = 'yes'";
       $query = $this->db->query($sql);
-      // print_r($this->db->last_query());
-      // die();
+      print_r($this->db->last_query());
+      die();
       return $query->result_array();
    }
 
@@ -249,15 +225,10 @@ class Homework_model extends MY_model
       $this->writedb->trans_start(); # Starting Transaction
       $this->writedb->trans_strict(false); # See Note 01. If you wish can remove as well
       //=======================Code Start===========================
-      // $this->writedb->where("id", $id)->delete("homework");
-      // $this->writedb->where("homework_id", $id)->delete("homework_evaluation");
-      // $this->writedb->where("homework_id", $id)->delete("submit_assignment");
+      $this->writedb->where("id", $id)->delete("homework");
 
-      $homework = array('deleted' => 1);
-
-      $this->writedb->where("id", $id)->update("homework", $homework);
-      $this->writedb->where("homework_id", $id)->update("homework_evaluation", $homework);
-      $this->writedb->where("homework_id", $id)->update("submit_assignment", $homework);
+      $this->writedb->where("homework_id", $id)->delete("homework_evaluation");
+      $this->writedb->where("homework_id", $id)->delete("submit_assignment");
 
       $message   = DELETE_RECORD_CONSTANT . " On homework id " . $id;
       $action    = "Delete";

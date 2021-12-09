@@ -16,18 +16,6 @@
                      <div class="row">
                         <div class="col-md-4">
                            <div class="form-group">
-                              <label for="exampleInputEmail1"><?php echo "Semester" ?></label>
-                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
-                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                 <?php foreach ($quarters as $quarter) { ?>
-                                    <option value="<?php echo $quarter['id'] ?>"><?php echo $quarter['description'] ?></option>
-                                 <?php  } ?>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">
                               <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label>
                               <select autofocus="" id="class_id" name="class_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
@@ -45,6 +33,18 @@
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                               </select>
                               <span class="text-danger"><?php echo form_error('section_id'); ?></span>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group">
+                              <label for="exampleInputEmail1"><?php echo "Term" ?></label>
+                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
+                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                 <?php foreach ($quarters as $quarter) { ?>
+                                    <option value="<?php echo $quarter['id'] ?>"><?php echo $quarter['description'] ?></option>
+                                 <?php  } ?>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
                            </div>
                         </div>
                         <div class="col-md-6">
@@ -199,7 +199,7 @@
       getSectionByClass(class_id, section_id);
    });
 
-   function getSectionByClass(class_id, section_id) {
+   function getSectionByClass(class_id, section_id = -1) {
       if (class_id != "" && section_id != "") {
          $('#section_id').html("");
          var base_url = '<?php echo base_url() ?>';
@@ -211,6 +211,9 @@
                'class_id': class_id
             },
             dataType: "json",
+            beforeSend: function() {
+               $('#section_id').addClass('dropdownloading');
+            },
             success: function(data) {
                $.each(data, function(i, obj) {
                   var sel = "";
@@ -220,6 +223,43 @@
                   div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
                });
                $('#section_id').append(div_data);
+            },
+            complete: function() {
+               $('#section_id').removeClass('dropdownloading');
+            }
+         });
+      }
+   }
+
+   function getTermByGradeLevel(class_id, term_id = -1) {
+      if (class_id != "") {
+         var base_url = '<?php echo base_url() ?>';
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         $('#quarter_id').html("");
+
+         $.ajax({
+            type: "GET",
+            url: base_url + "classes/get_grade_level_terms",
+            data: {
+               'class_id': class_id
+            },
+            dataType: "json",
+            beforeSend: function() {
+               $('#quarter_id').addClass('dropdownloading');
+            },
+            success: function(data) {
+               $.each(data, function(i, obj) {
+                  var sel = "";
+                  if (term_id == obj.id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.id + " " + sel + ">" + obj.description + "</option>";
+               });
+               $('#quarter_id').append(div_data);
+            },
+            complete: function() {
+               $('#quarter_id').removeClass('dropdownloading');
             }
          });
       }
@@ -229,33 +269,35 @@
       table.clear().draw();
       $('#section_id').html("");
       var class_id = $(this).val();
-      var base_url = '<?php echo base_url() ?>';
-      var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-      $.ajax({
-         type: "GET",
-         url: base_url + "sections/getByClass",
-         data: {
-            'class_id': class_id
-         },
-         dataType: "json",
-         success: function(data) {
-            $.each(data, function(i, obj) {
-               div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
-            });
-            $('#section_id').append(div_data);
-         }
-      });
+
+      // $('#section_id').html("");
+      // var class_id = $(this).val();
+      // var base_url = '<?php echo base_url() ?>';
+      // var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+      // $.ajax({
+      //    type: "GET",
+      //    url: base_url + "sections/getByClass",
+      //    data: {
+      //       'class_id': class_id
+      //    },
+      //    dataType: "json",
+      //    success: function(data) {
+      //       $.each(data, function(i, obj) {
+      //          div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
+      //       });
+      //       $('#section_id').append(div_data);
+      //    }
+      // });
+
+      getSectionByClass(class_id);
+      getTermByGradeLevel(class_id);
    });
 
    $(document).on('change', '#quarter_id', function(e) {
       table.clear().draw();
-   });
-
-   $(document).on('change', '#section_id', function(e) {
-      table.clear().draw();
-      var quarter_id = $("#quarter_id").val();
+      var section_id = $("#section_id").val();
       var class_id = $("#class_id").val();
-      var section_id = $(this).val();
+      var quarter_id = $(this).val();
 
       $('.download_label').html($("#quarter_id").find("option:selected").text() + '-' + $("#class_id").find("option:selected").text() + '-' + $(this).find("option:selected").text());
 
@@ -266,6 +308,24 @@
       // };
       table.ajax.url(url);
       table.ajax.reload();
+   });
+
+   $(document).on('change', '#section_id', function(e) {
+      table.clear().draw();
+      // var quarter_id = $("#quarter_id").val();
+      // var class_id = $("#class_id").val();
+      // var section_id = $(this).val();
+
+      // $('.download_label').html($("#quarter_id").find("option:selected").text() + '-' + $("#class_id").find("option:selected").text() + '-' + $(this).find("option:selected").text());
+
+      // var url = '<?php //echo base_url('lms/grading/fetch_lpms_swh_data') 
+                     ?>' + '?quarter=' + quarter_id + '&grade_level=' + class_id + '&section=' + section_id;
+      // // table.ajax.data = {
+      // //    grade_level: class_id,
+      // //    section: section_id
+      // // };
+      // table.ajax.url(url);
+      // table.ajax.reload();
    });
 
    $("#import").submit(function(event) {
