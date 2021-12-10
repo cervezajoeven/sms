@@ -72,7 +72,7 @@ class Grading_studentconduct_ssapamp_model extends CI_Model
    public function get_student_conduct_average_list($studentid, $level, $section, $session, $semester)
    {
       $sql = "select COALESCE (studentid,0) as studentid,average,semester,
-        (select conduct_grade from grading_conduct_legend_ssapamp where ROUND(average) between mingrade and maxgrade) as LG
+        (select conduct_grade from grading_conduct_legend_ssapamp where cast(average as double) between mingrade and (maxgrade + 0.99)) as LG
         from (
         select gss.studentid,sum(gss.grade)/(select count(1) from grading_conduct_ssapamp) as average,gss.semester
         from grading_studentconduct_ssapamp gss 

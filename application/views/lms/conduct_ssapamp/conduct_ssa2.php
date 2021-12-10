@@ -590,7 +590,8 @@
 
    function getLetterGrade(finalgrade) {
       lettergrade = "";
-      rfinalgrade = Math.round(finalgrade);
+      //   rfinalgrade = Math.round(finalgrade);
+      rfinalgrade = parseFloat(finalgrade);
       legend_array.forEach(function(object, index) {
          // console.log(object.lgrade);
          grade = object.graderange;
@@ -598,10 +599,12 @@
             var gradearray = grade.split('-');
             temp = gradearray[0];
             temp = temp.trim();
-            range1 = Math.round(temp);
+
+            range1 = parseFloat(temp); //Math.round(temp);
             temp = gradearray[1];
             temp = temp.trim();
-            range2 = Math.round(temp);
+            range2 = parseFloat(temp); // Math.round(temp);
+            range2 = range2 + 0.99;
             if (rfinalgrade >= range1 && rfinalgrade <= range2) {
                console.log('in range');
                lettergrade = object.lgrade;
