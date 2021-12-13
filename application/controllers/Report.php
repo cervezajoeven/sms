@@ -1957,8 +1957,8 @@ class Report extends Admin_Controller
                   $this->load->view('layout/footer', $data);
                } else {
 
-                  print_r($data['ssap_conduct']);
-                  die();
+                  // print_r($data['ssap_conduct']);
+                  // die();
 
                   $data['codes_table'] = $this->gradereport_model->grade_code_table();
                   $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);

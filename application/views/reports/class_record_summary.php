@@ -1,10 +1,13 @@
 <?php
+
 function gradeCode($codes, $grade, $show)
 {
    $retVal = '';
 
    if ($show) {
       $retVal = '';
+
+      $grade = number_format($grade, 2);
 
       foreach ($codes as $rows) {
          if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {

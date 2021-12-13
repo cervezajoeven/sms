@@ -814,8 +814,8 @@ class Gradereport_model extends CI_Model
 
       // return $sql;
       $query = $this->db->query($sql);
-      print_r($this->db->last_query());
-      die();
+      // print_r($this->db->last_query());
+      // die();
       return $query->result();
    }
 
