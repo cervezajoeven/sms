@@ -145,8 +145,10 @@ function gradeCode($codes, $grade, $show)
                            <tbody>
                               <?php
                               foreach ($resultlist as $row) {
+
                                  $ctr = 0;
                                  echo "<tr>\r\n";
+
                                  foreach ($row as $val) {
                                     if ($show_letter_grade) {
                                        if ($ctr <= 1) {
