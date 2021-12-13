@@ -26,18 +26,18 @@ function gradeCode($codes, $grade, $show)
    return $retVal;
 }
 
-// function isTermAllowed($terms_allowed, $term)
-// {
-//    $retVal = '';
+function isTermAllowed($terms_allowed, $term)
+{
+   $retVal = '';
 
-//    foreach ($terms_allowed as $rows) {
-//       if ($term == $rows->quarter_id)
-//          $retVal = $rows->quarter_id;
-//       break;
-//    }
+   foreach ($terms_allowed as $rows) {
+      if ($term == $rows->quarter_id)
+         $retVal = $rows->quarter_id;
+      break;
+   }
 
-//    return $retVal;
-// }
+   return $retVal;
+}
 ?>
 
 <div class="content-wrapper" style="min-height: 946px;">
@@ -361,8 +361,12 @@ function gradeCode($codes, $grade, $show)
                                                          <td>Days of School</td>
                                                          <?php
                                                          foreach ($month_days_list as $row) {
-                                                            echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
-                                                            $totDOS += $row->no_of_days;
+                                                            if (isTermAllowed($terms_allowed, $row->term)) {
+                                                               echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
+                                                               $totDOS += $row->no_of_days;
+                                                            } else {
+                                                               echo "<td class=\"text-center\">&nbsp;</td>";
+                                                            }
                                                          }
                                                          ?>
                                                          <td class="text-center"><b><?php echo $totDOS; ?></b></td>
@@ -377,9 +381,13 @@ function gradeCode($codes, $grade, $show)
 
                                                             <?php
                                                             foreach ($month_days_list as $row) {
-                                                               $month = $row->month;
-                                                               echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
-                                                               $totRow += intval(json_decode($student_attendance[$value])->$month);
+                                                               if (isTermAllowed($terms_allowed, $row->term)) {
+                                                                  $month = $row->month;
+                                                                  echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
+                                                                  $totRow += intval(json_decode($student_attendance[$value])->$month);
+                                                               } else {
+                                                                  echo "<td class=\"text-center\">&nbsp;</td>";
+                                                               }
                                                             }
                                                             ?>
 
