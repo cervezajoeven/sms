@@ -90,6 +90,7 @@ class Class_record extends Student_Controller
             $data['student_attendance'] = array();
          }
 
+         $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($this->sch_setting_detail->session_id, $student_id);
          $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp_restricted($this->sch_setting_detail->session_id, $student_current_class->class_id, $student_current_class->section_id, $student_id);
 
          // print_r($data['ssap_conduct']);

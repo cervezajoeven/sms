@@ -1389,4 +1389,18 @@ class Gradereport_model extends CI_Model
 
       return $query->result()[0];
    }
+
+   public function get_terms_allowed($session, $student_id)
+   {
+      $sql = "select id, student_id, quarter_id from grading_allowed_students
+              where student_id = " . $student_id . "
+              and session_id = " . $session;
+
+      $query = $this->db->query($sql);
+
+      // print_r($this->db->last_query());
+      // die();
+
+      return $query->result();
+   }
 }

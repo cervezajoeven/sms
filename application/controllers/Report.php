@@ -2420,6 +2420,7 @@ class Report extends Admin_Controller
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
             $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
+            $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($session, $student_id);
 
             // print_r($data['month_days_list']);
             // die();

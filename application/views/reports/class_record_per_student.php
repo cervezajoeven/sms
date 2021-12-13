@@ -25,6 +25,19 @@ function gradeCode($codes, $grade, $show)
 
    return $retVal;
 }
+
+// function isTermAllowed($terms_allowed, $term)
+// {
+//    $retVal = '';
+
+//    foreach ($terms_allowed as $rows) {
+//       if ($term == $rows->quarter_id)
+//          $retVal = $rows->quarter_id;
+//       break;
+//    }
+
+//    return $retVal;
+// }
 ?>
 
 <div class="content-wrapper" style="min-height: 946px;">
@@ -166,7 +179,7 @@ function gradeCode($codes, $grade, $show)
                                              <ul class="list-group list-group-unbordered">
                                                 <?php foreach ($codes_table as $code) { ?>
                                                    <li class="list-group-item">
-                                                      <b><?php echo $code->grade_code; ?></b> <span class="pull-right"><?php echo ($code->min_grade . "-" . $code->max_grade); ?></span>
+                                                      <b><?php echo $code->grade_code; ?></b> <span class="pull-right"><?php echo ($code->min_grade . "-" . intval($code->max_grade)); ?></span>
                                                    </li>
                                                 <?php } ?>
                                              </ul>
@@ -181,6 +194,9 @@ function gradeCode($codes, $grade, $show)
                                        <div class="box box-warning">
                                           <div class="box-header ptbnull">
                                              <?php //print_r(gradeCode($codes_table, 95, true)); 
+                                             // $month_number = 3;
+                                             // $month_name = date("F", mktime(0, 0, 0, $month_number, 10));
+                                             // echo $month_name;
                                              ?>
                                              <?php $the_session_id = $this->input->post('session_id') ?>
                                              <?php $the_class_id = $this->input->post('class_id') ?>
