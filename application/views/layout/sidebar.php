@@ -127,11 +127,8 @@
 
                      if ($this->rbac->hasPrivilege('student', 'can_add')) { ?>
                         <li class="<?php echo set_Submenu('student/create'); ?>"><a href="<?php echo base_url(); ?>student/create"><i class="fa fa-angle-double-right"></i> Add New Student</a></li>
-                     <?php }
-
-                     if ($this->rbac->hasPrivilege('student', 'can_view')) { ?>
                         <li class="<?php echo set_Submenu('student/grading_StudentsAllowedToView'); ?>"><a href="<?php echo base_url(); ?>student/grading_StudentsAllowedToView"><i class="fa fa-angle-double-right"></i> Grade View Permission</a></li>
-                     <?php } ?>
+                     <?php }
 
                      if ($this->rbac->hasPrivilege('disable_student', 'can_view')) { ?>
                         <li class="<?php echo set_Submenu('student/disablestudentslist'); ?>"><a href="<?php echo base_url(); ?>student/disablestudentslist"><i class="fa fa-angle-double-right"></i> <?php echo $this->lang->line('disabled_students'); ?></a></li>
