@@ -1729,7 +1729,8 @@ class Report extends Admin_Controller
             $data['class_id'] = $grade_level;
             $data['section_id']  = $section;
             $data['subject_list'] = $this->gradereport_model->get_subject_list($grade_level, $session, $section);
-
+            $data['codes_table'] = $this->gradereport_model->grade_code_table();
+            $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
 
             // print_r($class_record);
             // die();
@@ -1937,6 +1938,9 @@ class Report extends Admin_Controller
                // die();
 
                if ($grade_level == $prekinder) {
+                  // print_r($data['ssap_conduct']);
+                  // die();
+
                   $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($session, $grade_level, $section, $student_id);
 
                   // print_r('<pre>');
@@ -1952,6 +1956,10 @@ class Report extends Admin_Controller
                   $this->load->view('reports/class_record_per_student_ssapamp', $data);
                   $this->load->view('layout/footer', $data);
                } else {
+
+                  print_r($data['ssap_conduct']);
+                  die();
+
                   $data['codes_table'] = $this->gradereport_model->grade_code_table();
                   $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                   $data['resultlist'] = $class_record;
@@ -2048,7 +2056,7 @@ class Report extends Admin_Controller
       $this->session->set_userdata('sub_menu', 'Reports/student_information');
       $this->session->set_userdata('subsub_menu', 'Reports/student_information/class_record_per_student');
 
-      $data['title'] = 'Class Record Per Student';
+      $data['title'] = 'Student Report Card';
       $class = $this->class_model->get();
       $data['classlist'] = $class;
       $data['sch_setting'] = $this->sch_setting_detail;
