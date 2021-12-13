@@ -1,3 +1,25 @@
+<?php
+function gradeCode($codes, $grade, $show)
+{
+   $retVal = '';
+
+   if ($show) {
+      $retVal = '';
+
+      foreach ($codes as $rows) {
+         if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {
+            $retVal = $rows->grade_code;
+            break;
+         }
+      }
+   } else {
+      $retVal = $grade;
+   }
+
+   return $retVal;
+}
+?>
+
 <div class="content-wrapper" style="min-height: 946px;">
    <section class="content-header">
       <h1><i class="fa fa-line-chart"></i> <?php echo $this->lang->line('reports'); ?> <small> <?php echo $this->lang->line('filter_by_name1'); ?></small></h1>
@@ -111,7 +133,10 @@
                                  <th>Gender</th>
                                  <?php
                                  foreach ($subject_list as $row) {
-                                    echo "<th>" . $row->subject . "</th>\r\n";
+                                    // if ($show_letter_grade)
+                                    //    echo "<th class=\"text-center\" colspan=\"2\">" . $row->subject . "</th>\r\n";
+                                    // else
+                                    echo "<th class=\"text-center\">" . $row->subject . "</th>\r\n";
                                  }
                                  ?>
                                  <th>Average</th>
@@ -123,11 +148,19 @@
                                  $ctr = 0;
                                  echo "<tr>\r\n";
                                  foreach ($row as $val) {
-                                    if ($ctr <= 1)
-                                       echo "<td class='text-left'>" . $val . "</td>\r\n";
-                                    else
-                                       echo "<td class='text-center" . ($val < 75 ? " text-danger" : ($val >= 90 ? " text-success" : "")) . "'><b>" . ($val == 0 ? '' : $val) . "</b></td>\r\n";
-                                    // echo "<td class='text-center'><b>".$val."</b></td>\r\n";
+                                    if ($show_letter_grade) {
+                                       if ($ctr <= 1) {
+                                          echo "<td class='text-left'>" . $val . "</td>\r\n";
+                                       } else {
+                                          echo "<td class='text-center" . ($val < 75 ? " text-danger" : ($val >= 90 ? " text-success" : "")) . "'><b>" . ($val == 0 ? '' : $val . " - " . gradeCode($codes_table, $val, $show_letter_grade)) . "</b></td>\r\n";
+                                       }
+                                    } else {
+                                       if ($ctr <= 1)
+                                          echo "<td class='text-left'>" . $val . "</td>\r\n";
+                                       else
+                                          echo "<td class='text-center" . ($val < 75 ? " text-danger" : ($val >= 90 ? " text-success" : "")) . "'><b>" . ($val == 0 ? '' : $val) . "</b></td>\r\n";
+                                    }
+
                                     $ctr++;
                                  }
                                  echo "</tr>\r\n";
