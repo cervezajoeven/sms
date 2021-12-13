@@ -810,7 +810,7 @@ class Parents extends Parent_Controller
             $data['student_attendance'] = array();
          }
 
-         $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
+         $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp_restricted($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
 
          // print_r($data);
          // die();

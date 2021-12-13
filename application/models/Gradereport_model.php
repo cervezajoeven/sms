@@ -1254,7 +1254,7 @@ class Gradereport_model extends CI_Model
 
    public function get_month_days_list()
    {
-      $query = $this->db->query('select month, no_of_days from attendance_month_days order by sequence');
+      $query = $this->db->query('select month, no_of_days, term from attendance_month_days order by sequence');
       return $query->result();
    }
 
@@ -1312,14 +1312,16 @@ class Gradereport_model extends CI_Model
    public function get_conduct_ssapamp($session, $grade_level, $section, $student_id)
    {
       $sql = "select studentid,s1,s2,
-             (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and (maxgrade + 0.99)) a1,
-             (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and (maxgrade + 0.99)) a2,
-             ((s1 + s2)/2) as totalave,
-             (select conduct_grade from grading_conduct_legend_ssapamp where round((s1 + s2)/2) between mingrade and maxgrade) finalgrade
+              (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and (maxgrade + 0.99)) a1,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and (maxgrade + 0.99)) a2,
+              ((s1 + s2)/2) as totalave,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round((s1 + s2)/2) between mingrade and maxgrade) finalgrade,va1,va2
               from (
                 select studentid,
                 sum(case when semester=1 then grade else 0 end)/6 s1,
-                sum(case when semester=2 then grade else 0 end)/6 s2
+                sum(case when semester=2 then grade else 0 end)/6 s2,
+                (select view_allowed from grading_allowed_students where student_id = " . $student_id . " and quarter_id = 1 and session_id = " . $session . " ) va1,
+                (select view_allowed from grading_allowed_students where student_id = " . $student_id . " and quarter_id = 2 and session_id = " . $session . " ) va2
                 from 
                 grading_studentconduct_ssapamp 
                 where levelid = " . $grade_level . "  
@@ -1327,6 +1329,49 @@ class Gradereport_model extends CI_Model
                 and schoolyear = " . $session . " 
                 and studentid = " . $student_id . "
                ) vv";
+
+      // $sql = "select COALESCE (studentid,0) as studentid,average,semester,
+      //       (select conduct_grade from grading_conduct_legend_ssapamp where cast(average as double) between mingrade and (maxgrade + 0.99)) as LG
+      //       from (
+      //       select gss.studentid,sum(gss.grade)/(select count(1) from grading_conduct_ssapamp) as average,gss.semester
+      //       from grading_studentconduct_ssapamp gss 
+      //       inner join grading_conduct_ssapamp gcs on gss.conductid = gcs.id
+      //       where gss.studentid = " . $student_id . " and gss.levelid= " . $grade_level . " and gss.sectionid= " . $section . "  and gss.schoolyear=$session and gss.semester= " . $session . " 
+      //       ) vv";
+
+      $query = $this->db->query($sql);
+
+      // print_r($this->db->last_query());
+      // die();
+
+      return $query->result()[0];
+   }
+
+   public function get_conduct_ssapamp_restricted($session, $grade_level, $section, $student_id)
+   {
+      $sql = "select studentid,s1,s2,
+              case when va1 = 1 then a1 else '' end a1,
+              case when va1 = 2 then a2 else '' end a2,
+              finalgrade
+              from (
+              select studentid,s1,s2,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and (maxgrade + 0.99)) a1,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and (maxgrade + 0.99)) a2,
+              ((s1 + s2)/2) as totalave,
+              (select conduct_grade from grading_conduct_legend_ssapamp where round((s1 + s2)/2) between mingrade and maxgrade) finalgrade,va1,va2
+              from (
+                select studentid,
+                sum(case when semester=1 then grade else 0 end)/6 s1,
+                sum(case when semester=2 then grade else 0 end)/6 s2,
+                (select view_allowed from grading_allowed_students where student_id = " . $student_id . " and quarter_id = 1 and session_id = " . $session . " ) va1,
+                (select view_allowed from grading_allowed_students where student_id = " . $student_id . " and quarter_id = 2 and session_id = " . $session . " ) va2
+                from 
+                grading_studentconduct_ssapamp 
+                where levelid = " . $grade_level . "  
+                and sectionid = " . $section . "  
+                and schoolyear = " . $session . " 
+                and studentid = " . $student_id . "
+               ) vv ) tbl";
 
       // $sql = "select COALESCE (studentid,0) as studentid,average,semester,
       //       (select conduct_grade from grading_conduct_legend_ssapamp where cast(average as double) between mingrade and (maxgrade + 0.99)) as LG

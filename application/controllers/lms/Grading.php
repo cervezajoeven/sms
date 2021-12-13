@@ -3678,10 +3678,6 @@ class Grading extends General_Controller
       $this->db->join("staff", "staff.id = grading_class_record.teacher_id");
       $this->db->where("grading_class_record.id", $class_record_id);
       $data['class_record'] = $this->db->get()->result_array()[0];
-      // echo '<pre>';
-      // print_r($data['class_record']);
-      // exit;
-
       $school_code = $this->setting_model->getCurrentSchoolCode();
 
       $this->db->select("*");
@@ -3754,7 +3750,13 @@ class Grading extends General_Controller
             $this->load->view('lms/grading/lpms_edit', $data);
          }
       } else if (strtolower($school_code) == 'ssapamp') {
-         $data['transmutation'] = json_encode($this->general_model->lms_get('grading_transmutation_pres', "", "min_grade,max_grade,transmuted_grade"));
+
+         // echo '<pre>';
+         // print_r($data['class_record']);
+         // exit;
+
+         $data['transmutation'] = json_encode($this->general_model->lms_get('grading_transmutation', "", "min_grade,max_grade,transmuted_grade"));
+         // $data['transmutation'] = json_encode($this->general_model->lms_get('grading_transmutation_pres', "", "min_grade,max_grade,transmuted_grade"));
          $this->load->view('lms/grading/ssap_pre_edit', $data);
       } else {
          $data['transmutation'] = json_encode($this->general_model->lms_get('grading_transmutation', "", "min_grade,max_grade,transmuted_grade"));
