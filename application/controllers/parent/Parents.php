@@ -641,7 +641,7 @@ class Parents extends Parent_Controller
 
    public function excuse_letter()
    {
-      $this->auth->validate_child($id);
+      // $this->auth->validate_child($id);
       $this->session->set_userdata('top_menu', 'Attendance');
       $this->session->set_userdata('sub_menu', 'parent/parents/excuse_letter');
 
@@ -762,6 +762,7 @@ class Parents extends Parent_Controller
       $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
       $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
       $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
+      $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($this->sch_setting_detail->session_id, $student_id);
 
       if (strtolower($this->sch_setting_detail->dise_code) == 'lpms') {
          $studentinfo = $this->student_model->get($student_id);

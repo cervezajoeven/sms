@@ -212,6 +212,14 @@ class Class_model extends MY_Model
 
    public function get_grade_level_info($grade_level_id)
    {
-      return $this->db->select('*')->from('classes')->where('id', $grade_level_id)->get()->result_array()[0];
+      $query = $this->db->query('SELECT * FROM classes where id = ' . $grade_level_id);
+      $result = $query->result_array()[0];
+
+      // print_r($this->db->last_query());
+      // exit();
+
+      return $result;
+
+      // return $this->db->select('*')->from('classes')->where('id', $grade_level_id)->get()->result_array()[0];
    }
 }
