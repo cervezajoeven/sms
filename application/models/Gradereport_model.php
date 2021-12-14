@@ -1314,10 +1314,10 @@ class Gradereport_model extends CI_Model
    public function get_conduct_ssapamp($session, $grade_level, $section, $student_id)
    {
       $sql = "select studentid,s1,s2,
-              (select conduct_grade from grading_conduct_legend_ssapamp where round(s1) between mingrade and (maxgrade + 0.99)) a1,
-              (select conduct_grade from grading_conduct_legend_ssapamp where round(s2) between mingrade and (maxgrade + 0.99)) a2,
+              (select conduct_grade from grading_conduct_legend_ssapamp where s1 between mingrade and (maxgrade + 0.99)) a1,
+              (select conduct_grade from grading_conduct_legend_ssapamp where s2 between mingrade and (maxgrade + 0.99)) a2,
               ((s1 + s2)/2) as totalave,
-              (select conduct_grade from grading_conduct_legend_ssapamp where round((s1 + s2)/2) between mingrade and maxgrade) finalgrade,va1,va2
+              (select conduct_grade from grading_conduct_legend_ssapamp where (s1 + s2)/2 between mingrade and maxgrade) finalgrade,va1,va2
               from (
                 select studentid,
                 sum(case when semester=1 then grade else 0 end)/6 s1,
