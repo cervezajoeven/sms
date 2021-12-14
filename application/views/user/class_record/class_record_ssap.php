@@ -27,9 +27,10 @@ function isTermAllowed($terms_allowed, $term)
    $retVal = false;
 
    foreach ($terms_allowed as $rows) {
-      if ($term == $rows->quarter_id)
+      if ($rows->quarter_id == $term) {
          $retVal = true;
-      break;
+         break;
+      }
    }
 
    return $retVal;
@@ -209,7 +210,7 @@ function isTermAllowed($terms_allowed, $term)
                            <?php $attendance_categories = array(
                               'Days Present' => 'attendance',
                               'Days Absent' => 'absent',
-                              'Tardiness' => 'tardy',
+                              'Days Tardy' => 'tardy',
                            );
 
                            $totDOS = 0;
