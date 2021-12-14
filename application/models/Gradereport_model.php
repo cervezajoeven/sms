@@ -1255,6 +1255,8 @@ class Gradereport_model extends CI_Model
    public function get_month_days_list()
    {
       $query = $this->db->query('select month, no_of_days, term from attendance_month_days order by sequence');
+      // print_r($this->db->last_query());
+      // exit();
       return $query->result();
    }
 

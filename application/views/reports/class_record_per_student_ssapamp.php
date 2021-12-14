@@ -28,12 +28,13 @@ function gradeCode($codes, $grade, $show)
 
 function isTermAllowed($terms_allowed, $term)
 {
-   $retVal = '';
+   $retVal = false;
 
    foreach ($terms_allowed as $rows) {
-      if ($term == $rows->quarter_id)
-         $retVal = $rows->quarter_id;
-      break;
+      if ($rows->quarter_id == $term) {
+         $retVal = true;
+         break;
+      }
    }
 
    return $retVal;
@@ -193,7 +194,7 @@ function isTermAllowed($terms_allowed, $term)
                                     <div class="col-md-12">
                                        <div class="box box-warning">
                                           <div class="box-header ptbnull">
-                                             <?php //print_r(gradeCode($codes_table, 95, true)); 
+                                             <?php //print_r(gradeCode($codes_table, 95, true));                                              
                                              ?>
                                              <?php $the_session_id = $this->input->post('session_id') ?>
                                              <?php $the_class_id = $this->input->post('class_id') ?>
