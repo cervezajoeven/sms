@@ -460,6 +460,7 @@
 
       $(document).on('change', '#class_id', function(e) {
          $('#section_id').html("");
+         $('#student_id').html("");
          var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
          class_id = $(this).val();
 

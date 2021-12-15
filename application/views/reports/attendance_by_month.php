@@ -17,7 +17,7 @@
                   <form role="form" action="<?php echo site_url('report/attendance_by_month') ?>" method="post" class="">
                      <div class="row">
                         <?php echo $this->customlib->getCSRF(); ?>
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-2">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('current_session'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="session_id" name="session_id" class="form-control">
@@ -35,7 +35,7 @@
                            </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-2">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="class_id" name="class_id" class="form-control">
@@ -53,7 +53,7 @@
                            </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-2">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
                               <select id="section_id" name="section_id" class="form-control">
@@ -63,13 +63,23 @@
                            </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-4">
                            <div class="form-group">
                               <label><?php echo $this->lang->line('student'); ?></label><small class="req"> *</small>
                               <select autofocus="" id="student_id" name="student_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                               </select>
                               <span class="text-danger"><?php echo form_error('student_id'); ?></span>
+                           </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-2">
+                           <div class="form-group">
+                              <label><?php echo "Term"; ?></label><small class="req"> *</small>
+                              <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
+                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('quarter_id'); ?></span>
                            </div>
                         </div>
 
@@ -127,43 +137,49 @@
                                                 <?php $total_absent = 0; ?>
                                                 <?php $total_tardy = 0; ?>
                                                 <?php foreach ($month_days_list as $value) : ?>
-                                                   <?php $total_days += $value->no_of_days; ?>
+                                                   <?php
+                                                   if ($value->term <= $term_id)
+                                                      $total_days += $value->no_of_days;
+                                                   ?>
                                                    <?php if ($student_attendance) :
                                                       $month = $value->month; ?>
-                                                      <?php $total_present += json_decode($student_attendance['attendance'])->$month ?>
+                                                      <?php $total_present += $value->term == $term_id ? json_decode($student_attendance['attendance'])->$month : $value->no_of_days ?>
                                                       <?php $total_absent += json_decode($student_attendance['absent'])->$month ?>
                                                       <?php $total_tardy += json_decode($student_attendance['tardy'])->$month ?>
                                                    <?php endif; ?>
-
+                                                   <?php //if ($value->term <= $term_id) : 
+                                                   ?>
                                                    <tr>
                                                       <td><?php echo $value->month ?></td>
                                                       <td class="text-center">
-                                                         <input class="nod text-center" type="text" readonly size="6" name="nod[<?php echo $value->month ?>]" id="nod[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php echo $value->no_of_days ?>" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                         <input class="nod text-center" type="text" readonly size="6" name="nod[<?php echo $value->month ?>]" id="nod[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php echo ($value->term <= $term_id ? $value->no_of_days : 0) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
                                                       </td>
 
                                                       <td class="text-center">
                                                          <?php if ($student_attendance['attendance']) : ?>
-                                                            <input class="present_edit text-center" type="number" edittype="present" size="6" name="present[<?php echo $value->month ?>]" id="present[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php print_r(json_decode($student_attendance['attendance'])->$month) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                            <input class="present_edit text-center" <?php echo ($value->term == $term_id ? '' : 'readonly'); ?> type="number" edittype="present" size="6" name="present[<?php echo $value->month ?>]" id="present[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php print_r(json_decode($student_attendance['attendance'])->$month) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
                                                          <?php else : ?>
-                                                            <input class="present_edit text-center" type="number" edittype="present" size="6" name="present[<?php echo $value->month ?>]" id="present[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php echo $value->no_of_days ?>" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                            <input class="present_edit text-center" <?php echo ($value->term == $term_id ? '' : 'readonly'); ?> type="number" edittype="present" size="6" name="present[<?php echo $value->month ?>]" id="present[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php echo $value->term <= $term_id ? $value->no_of_days : 0 ?>" min="0" max="<?php echo $value->no_of_days ?>" />
                                                          <?php endif; ?>
                                                       </td>
                                                       <td class="text-center">
                                                          <?php if ($student_attendance['absent']) : ?>
-                                                            <input class="absent_edit text-center" type="text" edittype="absent" size="6" readonly name="absent[<?php echo $value->month ?>]" id="absent[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$month) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                            <input class="absent_edit text-center" <?php echo ($value->term == $term_id ? '' : 'readonly'); ?> type="text" edittype="absent" size="6" readonly name="absent[<?php echo $value->month ?>]" id="absent[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php print_r(json_decode($student_attendance['absent'])->$month) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
                                                          <?php else : ?>
-                                                            <input class="absent_edit text-center" type="text" edittype="absent" size="6" readonly name="absent[<?php echo $value->month ?>]" id="absent[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                            <input class="absent_edit text-center" <?php echo ($value->term == $term_id ? '' : 'readonly'); ?> type="text" edittype="absent" size="6" readonly name="absent[<?php echo $value->month ?>]" id="absent[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="" min="0" max="<?php echo $value->no_of_days ?>" />
                                                          <?php endif; ?>
                                                       </td>
                                                       <td class="text-center">
                                                          <?php if ($student_attendance['tardy']) : ?>
-                                                            <input class="tardy_edit text-center" type="number" edittype="tardy" size="6" name="tardy[<?php echo $value->month ?>]" id="tardy[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php print_r(json_decode($student_attendance['tardy'])->$month) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                            <input class="tardy_edit text-center" <?php echo ($value->term == $term_id ? '' : 'readonly'); ?> type="number" edittype="tardy" size="6" name="tardy[<?php echo $value->month ?>]" id="tardy[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="<?php print_r(json_decode($student_attendance['tardy'])->$month) ?>" min="0" max="<?php echo $value->no_of_days ?>" />
                                                          <?php else : ?>
-                                                            <input class="tardy_edit text-center" type="number" edittype="tardy" size="6" name="tardy[<?php echo $value->month ?>]" id="tardy[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="" min="0" max="<?php echo $value->no_of_days ?>" />
+                                                            <input class="tardy_edit text-center" <?php echo ($value->term == $term_id ? '' : 'readonly'); ?> type="number" edittype="tardy" size="6" name="tardy[<?php echo $value->month ?>]" id="tardy[<?php echo $value->month ?>]" month="<?php echo $value->month ?>" value="" min="0" max="<?php echo $value->no_of_days ?>" />
                                                          <?php endif; ?>
 
                                                       </td>
                                                    </tr>
+                                                   <?php //endif 
+                                                   ?>
                                                 <?php endforeach; ?>
 
                                                 <tr>
@@ -224,9 +240,10 @@
    var class_id;
    var base_url = '<?php echo base_url() ?>';
 
-   function getSectionByClass(class_id, section_id) {
+   function getSectionByClass(class_id, section_id = -1) {
       if (class_id != "" && section_id != "") {
          $('#section_id').html("");
+         var base_url = '<?php echo base_url() ?>';
          var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
          $.ajax({
             type: "GET",
@@ -255,98 +272,153 @@
       }
    }
 
-   function getStudentsByClassSection(class_id, section_id, school_year_id, student_id) {
+   function getTermByGradeLevel(class_id, term_id = -1) {
       if (class_id != "") {
-         $('#student_id').html("");
+         var base_url = '<?php echo base_url() ?>';
          var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+
+         $('#quarter_id').html("");
+
          $.ajax({
             type: "GET",
-            url: base_url + "student/getStudentListPerClassSection",
-            data: {
-               'class_id': class_id,
-               'section_id': section_id,
-               'school_year_id': school_year_id
-            },
-            dataType: "json",
-            beforeSend: function() {
-               $('#student_id').addClass('dropdownloading');
-            },
-            success: function(data) {
-               $.each(data, function(i, obj) {
-                  var sel = "";
-                  if (student_id == obj.student_id) {
-                     sel = "selected";
-                  }
-                  div_data += "<option value=" + obj.student_id + " " + sel + ">" + obj.lastname + ", " + obj.firstname + "</option>";
-               });
-               $('#student_id').append(div_data);
-            },
-            complete: function() {
-               $('#student_id').removeClass('dropdownloading');
-            }
-         });
-      }
-   }
-
-   $(document).ready(function() {
-      var class_id = $('#class_id').val();
-      var section_id = '<?php echo set_value('section_id') ?>';
-      var school_year_id = '<?php echo set_value('session_id') ?>';
-      var student_id = '<?php echo set_value('student_id') ?>';
-      getSectionByClass(class_id, section_id);
-      getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
-
-      $(document).on('change', '#class_id', function(e) {
-         $('#section_id').html("");
-         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-         class_id = $(this).val();
-         $.ajax({
-            type: "GET",
-            url: base_url + "sections/getByClass",
+            url: base_url + "classes/get_grade_level_terms",
             data: {
                'class_id': class_id
             },
             dataType: "json",
             beforeSend: function() {
-               $('#section_id').addClass('dropdownloading');
+               $('#quarter_id').addClass('dropdownloading');
             },
             success: function(data) {
                $.each(data, function(i, obj) {
-                  div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
+                  var sel = "";
+                  if (term_id == obj.id) {
+                     sel = "selected";
+                  }
+                  div_data += "<option value=" + obj.id + " " + sel + ">" + obj.description + "</option>";
                });
-               $('#section_id').append(div_data);
+               $('#quarter_id').append(div_data);
             },
             complete: function() {
-               $('#section_id').removeClass('dropdownloading');
+               $('#quarter_id').removeClass('dropdownloading');
             }
          });
+      }
+   }
+
+
+   function getStudentsByClassSection(class_id, section_id, school_year_id, student_id) {
+      if (class_id != "") {
+
+         $('#student_id').html("");
+         //if (class_id == 1) 
+         {
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+               type: "GET",
+               url: base_url + "student/getStudentListPerClassSection",
+               data: {
+                  'class_id': class_id,
+                  'section_id': section_id,
+                  'school_year_id': school_year_id
+               },
+               dataType: "json",
+               beforeSend: function() {
+                  $('#student_id').addClass('dropdownloading');
+               },
+               success: function(data) {
+                  $.each(data, function(i, obj) {
+                     var sel = "";
+                     if (student_id == obj.student_id) {
+                        sel = "selected";
+                     }
+                     div_data += "<option value=" + obj.student_id + " " + sel + ">" + obj.lastname + ", " + obj.firstname + "</option>";
+                  });
+                  $('#student_id').append(div_data);
+               },
+               complete: function() {
+                  $('#student_id').removeClass('dropdownloading');
+               }
+            });
+         }
+      }
+   }
+
+   $(document).ready(function() {
+      var term_id = '<?php echo set_value('quarter_id') ?>';
+      var class_id = $('#class_id').val();
+      var section_id = '<?php echo set_value('section_id') ?>';
+      var school_year_id = '<?php echo set_value('session_id') ?>';
+      var student_id = '<?php echo set_value('student_id') ?>';
+
+      getSectionByClass(class_id, section_id);
+      getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
+      getTermByGradeLevel(class_id, term_id);
+
+      $(document).on('change', '#class_id', function(e) {
+         $('#section_id').html("");
+         $('#student_id').html("");
+
+         var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+         class_id = $(this).val();
+
+         // $.ajax({
+         //    type: "GET",
+         //    url: base_url + "sections/getByClass",
+         //    data: {
+         //       'class_id': class_id
+         //    },
+         //    dataType: "json",
+         //    beforeSend: function() {
+         //       $('#section_id').addClass('dropdownloading');
+         //    },
+         //    success: function(data) {
+         //       $.each(data, function(i, obj) {
+         //          div_data += "<option value=" + obj.section_id + ">" + obj.section + "</option>";
+         //       });
+         //       $('#section_id').append(div_data);
+         //    },
+         //    complete: function() {
+         //       $('#section_id').removeClass('dropdownloading');
+         //    }
+         // });
+
+         getSectionByClass(class_id);
+         getTermByGradeLevel(class_id);
       });
 
       $(document).on('change', '#section_id', function(e) {
          $('#student_id').html("");
          var div_data2 = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-         $.ajax({
-            type: "GET",
-            url: base_url + "student/getStudentListPerClassSection",
-            data: {
-               'class_id': class_id,
-               'section_id': $('#section_id').val(),
-               'school_year_id': $('#session_id').val()
-            },
-            dataType: "json",
-            beforeSend: function() {
-               $('#student_id').addClass('dropdownloading');
-            },
-            success: function(data) {
-               $.each(data, function(i, obj) {
-                  div_data2 += "<option value=" + obj.student_id + ">" + obj.lastname + ", " + obj.firstname + "</option>";
-               });
-               $('#student_id').append(div_data2);
-            },
-            complete: function() {
-               $('#student_id').removeClass('dropdownloading');
-            }
-         });
+
+         var class_id = $('#class_id').val();
+         var section_id = $('#section_id').val();
+         var school_year_id = $('#session_id').val();
+
+         // $.ajax({
+         //    type: "GET",
+         //    url: base_url + "student/getStudentListPerClassSection",
+         //    data: {
+         //       'class_id': class_id,
+         //       'section_id': $('#section_id').val(),
+         //       'school_year_id': $('#session_id').val()
+         //    },
+         //    dataType: "json",
+         //    beforeSend: function() {
+         //       $('#student_id').addClass('dropdownloading');
+         //    },
+         //    success: function(data) {
+         //       $.each(data, function(i, obj) {
+         //          div_data2 += "<option value=" + obj.student_id + ">" + obj.lastname + ", " + obj.firstname + "</option>";
+         //       });
+         //       $('#student_id').append(div_data2);
+         //    },
+         //    complete: function() {
+         //       $('#student_id').removeClass('dropdownloading');
+         //    }
+         // });
+
+         getStudentsByClassSection(class_id, section_id, school_year_id, student_id);
       });
    });
 

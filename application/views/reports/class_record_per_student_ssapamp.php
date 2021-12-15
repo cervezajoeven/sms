@@ -201,7 +201,7 @@ function isTermAllowed($terms_allowed, $term)
                                              <?php $the_section_id = $this->input->post('section_id') ?>
                                              <?php $the_student_id = $this->input->post('student_id') ?>
                                              <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
-                                             <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card_ssapamp') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div>
+                                             <!-- <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card_ssapamp') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div> -->
                                           </div>
                                           <div class="box-body">
                                              <div class="table-responsive">
@@ -324,7 +324,7 @@ function isTermAllowed($terms_allowed, $term)
                                                 <?php $attendance_categories = array(
                                                    'Days Present' => 'attendance',
                                                    'Days Absent' => 'absent',
-                                                   'Tardiness' => 'tardy',
+                                                   'Days Tardy' => 'tardy',
                                                 );
 
                                                 $totDOS = 0;
@@ -347,11 +347,17 @@ function isTermAllowed($terms_allowed, $term)
                                                          <td>Days of School</td>
                                                          <?php
                                                          foreach ($month_days_list as $row) {
-                                                            if (isTermAllowed($terms_allowed, $row->term)) {
+                                                            $month = $row->month;
+
+                                                            if (
+                                                               json_decode($student_attendance['attendance'])->$month > 0 ||
+                                                               json_decode($student_attendance['absent'])->$month > 0 ||
+                                                               json_decode($student_attendance['tardy'])->$month > 0
+                                                            ) {
                                                                echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
                                                                $totDOS += $row->no_of_days;
                                                             } else {
-                                                               echo "<td class=\"text-center\">&nbsp;</td>";
+                                                               echo "<td class=\"text-center\">--</td>";
                                                             }
                                                          }
                                                          ?>
@@ -364,15 +370,19 @@ function isTermAllowed($terms_allowed, $term)
                                                       ?>
                                                          <tr>
                                                             <td><?php echo $key ?></td>
-
                                                             <?php
                                                             foreach ($month_days_list as $row) {
-                                                               if (isTermAllowed($terms_allowed, $row->term)) {
-                                                                  $month = $row->month;
+                                                               $month = $row->month;
+
+                                                               if (
+                                                                  json_decode($student_attendance['attendance'])->$month > 0 ||
+                                                                  json_decode($student_attendance['absent'])->$month > 0 ||
+                                                                  json_decode($student_attendance['tardy'])->$month > 0
+                                                               ) {
                                                                   echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
                                                                   $totRow += intval(json_decode($student_attendance[$value])->$month);
                                                                } else {
-                                                                  echo "<td class=\"text-center\">&nbsp;</td>";
+                                                                  echo "<td class=\"text-center\">--</td>";
                                                                }
                                                             }
                                                             ?>
