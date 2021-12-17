@@ -241,6 +241,8 @@ function isTermAllowed($terms_allowed, $term)
 
                            $totDOS = 0;
                            $totRow = 0;
+
+
                            ?>
                            <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
                               <thead>

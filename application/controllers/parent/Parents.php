@@ -764,6 +764,9 @@ class Parents extends Parent_Controller
       $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
       $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($this->sch_setting_detail->session_id, $student_id);
 
+      // print_r($data['terms_allowed']);
+      // exit();
+
       if (strtolower($this->sch_setting_detail->dise_code) == 'lpms') {
          $studentinfo = $this->student_model->get($student_id);
          $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($this->sch_setting_detail->session_id, $student_id, $class_id, $section_id);
@@ -811,7 +814,7 @@ class Parents extends Parent_Controller
             $data['student_attendance'] = array();
          }
 
-         $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($this->sch_setting_detail->session_id, $student_id);
+         // $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($this->sch_setting_detail->session_id, $student_id);
          $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp_restricted($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
 
          // print_r($data);
@@ -819,6 +822,9 @@ class Parents extends Parent_Controller
 
          // print_r($data['ssap_conduct']);
          // die();
+
+         // print_r($data['terms_allowed']);
+         // exit();
 
          if ($grade_level == $prekinder) {
             $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($this->sch_setting_detail->session_id, $class_id, $section_id, $student_id);
@@ -848,6 +854,9 @@ class Parents extends Parent_Controller
 
             // print_r($data['resultlist']);
             // die();
+
+            print_r($data['terms_allowed']);
+            exit();
 
             $this->load->view('layout/parent/header', $data);
             $this->load->view('parent/student/getclassrecord', $data);
