@@ -148,7 +148,7 @@ function isTermAllowed($terms_allowed, $term)
                            <div class="row">
                               <div class="col-md-3">
                                  <div class="row">
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                        <div class="box box-primary">
                                           <div class="box-body box-profile">
                                              <img class="profile-user-img img-responsive img-circle" src="<?php echo $_SESSION['S3_BaseUrl'] . $student['image'] ?>" alt="User profile picture">
@@ -172,7 +172,7 @@ function isTermAllowed($terms_allowed, $term)
                                              </ul>
                                           </div>
                                        </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-12">
                                        <div class="box box-primary">
                                           <div class="box-body box-profile">
@@ -204,6 +204,26 @@ function isTermAllowed($terms_allowed, $term)
                                              <!-- <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card_ssapamp') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div> -->
                                           </div>
                                           <div class="box-body">
+                                             <div class="box-body box-profile">
+                                                <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
+                                                <ul class="list-group list-group-unbordered">
+                                                   <li class="list-group-item">
+                                                      <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right"><?php echo $student['admission_no']; ?></a>
+                                                   </li>
+                                                   <li class="list-group-item">
+                                                      <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right"><?php echo $student['roll_no']; ?></a>
+                                                   </li>
+                                                   <li class="list-group-item">
+                                                      <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right"><?php echo $student['class']; ?></a>
+                                                   </li>
+                                                   <li class="list-group-item">
+                                                      <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right"><?php echo $student['section']; ?></a>
+                                                   </li>
+                                                   <li class="list-group-item">
+                                                      <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right"><?php echo $student['lrn_no']; ?></a>
+                                                   </li>
+                                                </ul>
+                                             </div>
                                              <div class="table-responsive">
                                                 <div class="download_label"><?php echo 'Quarterly Grades'; ?></div>
                                                 <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
