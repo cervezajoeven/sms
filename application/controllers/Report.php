@@ -1761,8 +1761,13 @@ class Report extends Admin_Controller
       $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
       $data['session_list'] = $this->session_model->getAllSession();
       $data['teacher_list'] = $this->gradereport_model->get_teacher_list();
+
       $grade_level_info = $this->class_model->get_grade_level_info($class);
-      $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+
+      // print_r($data);
+      // exit();
+
+      // $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
       // $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
       // $carray = array();
 
@@ -1796,7 +1801,8 @@ class Report extends Admin_Controller
             // print_r("CloudPH Debug Mode 2");die();
             $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject, $teacher);
             // $class_record = $this->gradereport_model->get_class_record_quarterly($session, $grade_level, $section, $subject);
-            // print_r($class_record);die();
+            // print_r($class_record);
+            // exit();
 
             $data['resultlist'] = $class_record;
             $data['session_id'] = $session;
@@ -1902,14 +1908,16 @@ class Report extends Admin_Controller
             $data['student_id'] = $student_id;
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
+
+            // print_r($data);
+            // die();
+
             $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
+
             $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
             $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
             $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
             $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($session, $student_id);
-
-            // print_r($data);
-            // die();
 
             if (strtolower($data['school_code']) == 'lpms') {
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
@@ -1958,10 +1966,19 @@ class Report extends Admin_Controller
                   $this->load->view('layout/footer', $data);
                } else {
 
-                  // print_r($data['ssap_conduct']);
+                  $codes_table = $this->gradereport_model->grade_code_table();
+
+                  if ($codes_table) {
+                     $data['codes_table'] = $codes_table;
+                  } else {
+                     $data['codes_table'] = array();
+                  }
+
+                  // print_r('<pre>');
+                  // print_r($codes_table);
+                  // print_r('</pre>');
                   // die();
 
-                  $data['codes_table'] = $this->gradereport_model->grade_code_table();
                   $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                   $data['resultlist'] = $class_record;
 
@@ -1973,7 +1990,19 @@ class Report extends Admin_Controller
                   $this->load->view('layout/footer', $data);
                }
             } else {
-               $data['codes_table'] = $this->gradereport_model->grade_code_table();
+               $codes_table = $this->gradereport_model->grade_code_table();
+
+               if ($codes_table) {
+                  $data['codes_table'] = $codes_table;
+               } else {
+                  $data['codes_table'] = array();
+               }
+
+               // print_r('<pre>');
+               // print_r($codes_table);
+               // print_r('</pre>');
+               // die();
+
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                $data['resultlist'] = $class_record;
 
@@ -2153,6 +2182,10 @@ class Report extends Admin_Controller
       $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
       // $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
       $data['resultlist'] = $class_record;
+
+      // print_r($student_conduct);
+      // die();
+
       $data['session_id'] = $session;
       $data['class_id'] = $grade_level;
       $data['section_id']  = $section;
@@ -2168,7 +2201,11 @@ class Report extends Admin_Controller
          $data['student_attendance'] = array();
       }
 
-      $this->load->view('reports/student_report_card', $data);
+      if (strtoupper($this->sch_setting_detail->dise_code) == "SCHOLAANGELICUS") {
+         $this->load->view('reports/student_report_card_schola', $data);
+      } else {
+         $this->load->view('reports/student_report_card', $data);
+      }
    }
 
    public function print_cards_per_section()
@@ -2392,6 +2429,7 @@ class Report extends Admin_Controller
             $grade_level = $this->input->post('class_id');
             $section = $this->input->post('section_id');
             $student_id = $this->input->post('student_id');
+            $term_id = $this->input->post('quarter_id');
 
             $student_conduct = null;
             if ($this->sch_setting_detail->conduct_grade_view == 0) {
@@ -2421,6 +2459,7 @@ class Report extends Admin_Controller
             $studentinfo = $this->student_model->get($student_id);
             $data['student'] = $studentinfo;
             $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
+            $data['term_id'] = $term_id;
             // print_r($data['month_days_list']);
             // die();
 
@@ -2914,14 +2953,14 @@ class Report extends Admin_Controller
                      $data['finallettergrade'] = $lettergrade;
                      $data['totalgrade'] = $totalgrade / $term;
                   } else {
-                     print_r($data);
-                     die();
+                     // print_r($data);
+                     // die();
                      $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                   }
                } else {
 
-                  print_r($data);
-                  die();
+                  // print_r($data);
+                  // die();
 
                   $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                }

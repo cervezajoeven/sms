@@ -2,6 +2,7 @@
 
 <head>
    <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+
    <style>
       tr {
          mso-height-source: auto;
@@ -191,7 +192,8 @@
       <col width=20 style='mso-width-source:userset;mso-width-alt:711;width:15pt'>
       <tr height=19 style='height:14.4pt'>
          <td colspan=15 height=19 width=705 style='height:14.4pt;width:525pt' align=left valign=top>
-            <![if !vml]><span style='mso-ignore:vglayout; position:absolute;z-index:1;margin-left:36px;margin-top:8px;width:650px; height:508px'>
+            <![if !vml]>
+            <span style='mso-ignore:vglayout; position:absolute;z-index:1;margin-left:36px;margin-top:8px;width:650px; height:508px'>
                <table cellpadding=0 cellspacing=0>
                   <tr>
                      <td width=0 height=0></td>
@@ -417,7 +419,27 @@
       <tr height=19 style='height:14.4pt'>
          <td colspan=15 height=19 class=xl71 style='height:14.4pt'>Class Adviser</td>
       </tr>
+      <![if supportMisalignedColumns]>
+      <tr height=0 style='display:none'>
+         <td width=20 style='width:15pt'></td>
+         <td width=78 style='width:59pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:35pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=46 style='width:34pt'></td>
+         <td width=81 style='width:61pt'></td>
+         <td width=20 style='width:15pt'></td>
+      </tr>
+      <![endif]>
    </table>
+
 </body>
 
 </html>

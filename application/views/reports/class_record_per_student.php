@@ -148,66 +148,12 @@ function isTermAllowed($terms_allowed, $term)
                            <div class="row">
                               <div class="col-md-3">
                                  <div class="row">
-                                    <!-- <div class="col-md-12">
-                                       <div class="box box-primary">
-                                          <div class="box-body box-profile">
-                                             <img class="profile-user-img img-responsive img-circle" src="<?php echo $_SESSION['S3_BaseUrl'] . $student['image'] ?>" alt="User profile picture">
-                                             <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
-                                             <ul class="list-group list-group-unbordered">
-                                                <li class="list-group-item">
-                                                   <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right"><?php echo $student['admission_no']; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                   <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right"><?php echo $student['roll_no']; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                   <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right"><?php echo $student['class']; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                   <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right"><?php echo $student['section']; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                   <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right"><?php echo $student['lrn_no']; ?></a>
-                                                </li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div> -->
-                                    <div class="col-md-12">
-                                       <div class="box box-primary">
-                                          <div class="box-body box-profile">
-                                             <h3 class="profile-username text-center">Legend</h3>
-                                             <ul class="list-group list-group-unbordered">
-                                                <?php foreach ($codes_table as $code) { ?>
-                                                   <li class="list-group-item">
-                                                      <b><?php echo $code->grade_code; ?></b> <span class="pull-right"><?php echo ($code->min_grade . "-" . intval($code->max_grade)); ?></span>
-                                                   </li>
-                                                <?php } ?>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="row">
-                                    <div class="col-md-12">
-                                       <div class="box box-warning">
-                                          <div class="box-header ptbnull">
-                                             <?php //print_r(gradeCode($codes_table, 95, true)); 
-                                             // $month_number = 3;
-                                             // $month_name = date("F", mktime(0, 0, 0, $month_number, 10));
-                                             // echo $month_name;
-                                             ?>
-                                             <?php $the_session_id = $this->input->post('session_id') ?>
-                                             <?php $the_class_id = $this->input->post('class_id') ?>
-                                             <?php $the_section_id = $this->input->post('section_id') ?>
-                                             <?php $the_student_id = $this->input->post('student_id') ?>
-                                             <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
-                                             <!-- <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div> -->
-                                          </div>
-                                          <div class="box-body">
+
+                                    <?php if (strtolower($school_code) != 'ssapamp') : ?>
+                                       <div class="col-md-12">
+                                          <div class="box box-primary">
                                              <div class="box-body box-profile">
+                                                <img class="profile-user-img img-responsive img-circle" src="<?php echo $_SESSION['S3_BaseUrl'] . $student['image'] ?>" alt="User profile picture">
                                                 <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
                                                 <ul class="list-group list-group-unbordered">
                                                    <li class="list-group-item">
@@ -227,6 +173,69 @@ function isTermAllowed($terms_allowed, $term)
                                                    </li>
                                                 </ul>
                                              </div>
+                                          </div>
+                                       </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($codes_table)) : ?>
+                                       <div class="col-md-12">
+                                          <div class="box box-primary">
+                                             <div class="box-body box-profile">
+                                                <h3 class="profile-username text-center">Legend</h3>
+                                                <ul class="list-group list-group-unbordered">
+                                                   <?php foreach ($codes_table as $code) { ?>
+                                                      <li class="list-group-item">
+                                                         <b><?php echo $code->grade_code; ?></b> <span class="pull-right"><?php echo ($code->min_grade . "-" . intval($code->max_grade)); ?></span>
+                                                      </li>
+                                                   <?php } ?>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    <?php endif; ?>
+                                 </div>
+                              </div>
+                              <div class="col-md-9">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="box box-warning">
+                                          <div class="box-header ptbnull">
+                                             <?php //print_r(gradeCode($codes_table, 95, true)); 
+                                             // $month_number = 3;
+                                             // $month_name = date("F", mktime(0, 0, 0, $month_number, 10));
+                                             // echo $month_name;
+                                             ?>
+                                             <?php $the_session_id = $this->input->post('session_id') ?>
+                                             <?php $the_class_id = $this->input->post('class_id') ?>
+                                             <?php $the_section_id = $this->input->post('section_id') ?>
+                                             <?php $the_student_id = $this->input->post('student_id') ?>
+                                             <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
+                                             <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div>
+                                          </div>
+                                          <div class="box-body">
+
+                                             <?php if (strtolower($school_code) == 'ssapamp') : ?>
+                                                <div class="box-body box-profile">
+                                                   <h3 class="profile-username text-center"><?php echo $student['firstname'] . " " . $student['lastname']; ?></h3>
+                                                   <ul class="list-group list-group-unbordered">
+                                                      <li class="list-group-item">
+                                                         <b><?php echo $this->lang->line('admission_no'); ?></b> <a class="pull-right"><?php echo $student['admission_no']; ?></a>
+                                                      </li>
+                                                      <li class="list-group-item">
+                                                         <b><?php echo $this->lang->line('roll_no'); ?></b> <a class="pull-right"><?php echo $student['roll_no']; ?></a>
+                                                      </li>
+                                                      <li class="list-group-item">
+                                                         <b><?php echo $this->lang->line('class'); ?></b> <a class="pull-right"><?php echo $student['class']; ?></a>
+                                                      </li>
+                                                      <li class="list-group-item">
+                                                         <b><?php echo $this->lang->line('section'); ?></b> <a class="pull-right"><?php echo $student['section']; ?></a>
+                                                      </li>
+                                                      <li class="list-group-item">
+                                                         <b><?php echo $this->lang->line('lrn'); ?></b> <a class="pull-right"><?php echo $student['lrn_no']; ?></a>
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             <?php endif; ?>
                                              <div class="table-responsive">
                                                 <div class="download_label"><?php echo 'Quarterly Grades'; ?></div>
                                                 <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
@@ -277,8 +286,8 @@ function isTermAllowed($terms_allowed, $term)
 
                                                          $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
                                                          $q2Tot += ($row->Q2 !== null ? $row->Q2 : 0);
-                                                         $q3Tot += ($row->Q3 !== null ? $row->Q3 : 0);
-                                                         $q4Tot += ($row->Q4 !== null ? $row->Q4 : 0);
+                                                         $q3Tot += ($row->Q3 !== null ? $row->Q3 : null);
+                                                         $q4Tot += ($row->Q4 !== null ? $row->Q4 : null);
                                                          $aveTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->average;
                                                          $finTot += ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? 0 : $row->final_grade;
 
@@ -287,40 +296,42 @@ function isTermAllowed($terms_allowed, $term)
 
                                                       $q1Ave = $q1Tot / $rowCtr;
                                                       $q2Ave = $q2Tot / $rowCtr;
-                                                      if ($q3Tot > 0)
+                                                      if ($q3Tot !== null)
                                                          $q3Ave = $q3Tot / $rowCtr;
 
-                                                      if ($q4Tot > 0)
+                                                      if ($q4Tot !== null)
                                                          $q4Ave = $q4Tot / $rowCtr;
                                                       $aveAve = $aveTot / $rowCtr;
                                                       $finAve = $finTot / $rowCtr;
 
-                                                      echo "<tr>\r\n";
-                                                      echo "<td class='text-left'>CONDUCT</td>\r\n";
+                                                      if ($school_code == "ssapamp") {
+                                                         echo "<tr>\r\n";
+                                                         echo "<td class='text-left'>CONDUCT</td>\r\n";
 
-                                                      if (isset($ssap_conduct)) {
-                                                         // echo "<td class='text-center" . ($ssap_conduct->s1 < 75 ? " text-danger" : ($ssap_conduct->s1 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s1 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s1, $show_letter_grade)) . "</b></td>\r\n";
-                                                         // echo "<td class='text-center" . ($ssap_conduct->s2 < 75 ? " text-danger" : ($ssap_conduct->s2 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s2 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s2, $show_letter_grade)) . "</b></td>\r\n";
-                                                         echo "<td class='text-center'><b>" . $ssap_conduct->a1 . "</b></td>\r\n";
-                                                         echo "<td class='text-center'><b>" . $ssap_conduct->a2 . "</b></td>\r\n";
+                                                         if (isset($ssap_conduct)) {
+                                                            // echo "<td class='text-center" . ($ssap_conduct->s1 < 75 ? " text-danger" : ($ssap_conduct->s1 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s1 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s1, $show_letter_grade)) . "</b></td>\r\n";
+                                                            // echo "<td class='text-center" . ($ssap_conduct->s2 < 75 ? " text-danger" : ($ssap_conduct->s2 >= 90 ? " text-success" : "")) . "'><b>" . ($ssap_conduct->s2 == 0 ? '' : gradeCode($codes_table, $ssap_conduct->s2, $show_letter_grade)) . "</b></td>\r\n";
+                                                            echo "<td class='text-center'><b>" . $ssap_conduct->a1 . "</b></td>\r\n";
+                                                            echo "<td class='text-center'><b>" . $ssap_conduct->a2 . "</b></td>\r\n";
 
-                                                         // if ($show_average_column) {
-                                                         //    echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
-                                                         // }
+                                                            // if ($show_average_column) {
+                                                            //    echo "<td class='text-center" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) < 75 ? " text-danger" : (($ssap_conduct['s1'] / $ssap_conduct['s2']) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct['s1'] / $ssap_conduct['s2']) == 0 ? '--' : gradeCode($codes_table, ($ssap_conduct['s1'] / $ssap_conduct['s2']), $show_letter_grade)) . "</b></td>\r\n";
+                                                            // }
 
-                                                         if ($ssap_conduct->a1 != null && $ssap_conduct->a2 != null) {
-                                                            // echo "<td class='text-center" . (($ssap_conduct->s1 / $ssap_conduct->s2) < 75 ? " text-danger" : (($ssap_conduct->s1 / $ssap_conduct->s2) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct->s1 / $ssap_conduct->s2) == 0 ? '' : gradeCode($codes_table, ($ssap_conduct->s1 / $ssap_conduct->s2), $show_letter_grade)) . "</b></td>\r\n";
-                                                            echo "<td class='text-center'>><b>" . $ssap_conduct->finalgrade . "</b></td>\r\n";
+                                                            if ($ssap_conduct->a1 != null && $ssap_conduct->a2 != null) {
+                                                               // echo "<td class='text-center" . (($ssap_conduct->s1 / $ssap_conduct->s2) < 75 ? " text-danger" : (($ssap_conduct->s1 / $ssap_conduct->s2) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct->s1 / $ssap_conduct->s2) == 0 ? '' : gradeCode($codes_table, ($ssap_conduct->s1 / $ssap_conduct->s2), $show_letter_grade)) . "</b></td>\r\n";
+                                                               echo "<td class='text-center'>><b>" . $ssap_conduct->finalgrade . "</b></td>\r\n";
+                                                            } else {
+                                                               echo "<td class='text-left'>&nbsp</td>\r\n";
+                                                            }
                                                          } else {
                                                             echo "<td class='text-left'>&nbsp</td>\r\n";
+                                                            echo "<td class='text-left'>&nbsp</td>\r\n";
+                                                            echo "<td class='text-left'>&nbsp</td>\r\n";
                                                          }
-                                                      } else {
-                                                         echo "<td class='text-left'>&nbsp</td>\r\n";
-                                                         echo "<td class='text-left'>&nbsp</td>\r\n";
-                                                         echo "<td class='text-left'>&nbsp</td>\r\n";
-                                                      }
 
-                                                      echo "</tr>\r\n";
+                                                         echo "</tr>\r\n";
+                                                      }
                                                       ?>
                                                    </tbody>
                                                    <tfoot>
@@ -329,13 +340,16 @@ function isTermAllowed($terms_allowed, $term)
                                                             <th class="text-right">General Average</th>
                                                             <th class="text-center <?php echo ($q1Ave < 75 ? "text-danger" : ($q1Ave >= 90 ? "text-success" : "")); ?>"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
                                                             <th class="text-center <?php echo ($q2Ave < 75 ? "text-danger" : ($q2Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q2Ave == 0 ? "" : number_format($q2Ave, 2)); ?></th>
-                                                            <?php if ($q3Ave > 0) { ?>
+                                                            <?php if ($q3Tot !== null) { ?>
                                                                <th class="text-center <?php echo ($q3Ave < 75 ? "text-danger" : ($q3Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q3Ave == 0 ? "" : number_format($q3Ave, 2)); ?></th>
                                                             <?php } ?>
-                                                            <?php if ($q4Ave > 0) { ?>
+                                                            <?php if ($q4Tot !== null) { ?>
                                                                <th class="text-center <?php echo ($q4Ave < 75 ? "text-danger" : ($q4Ave >= 90 ? "text-success" : ""));; ?>"><?php echo ($q4Ave == 0 ? "" : number_format($q4Ave, 2)); ?></th>
-                                                            <?php } ?>
-                                                            <th class="text-center <?php echo ($aveAve < 75 ? "text-danger" : ($aveAve >= 90 ? "text-success" : "")); ?>"><?php echo ($aveAve == 0 ? "" : number_format($aveAve, 2)); ?></th>
+                                                            <?php }
+
+                                                            if ($show_average_column) : ?>
+                                                               <th class="text-center <?php echo ($aveAve < 75 ? "text-danger" : ($aveAve >= 90 ? "text-success" : "")); ?>"><?php echo ($aveAve == 0 ? "" : number_format($aveAve, 2)); ?></th>
+                                                            <?php endif; ?>
                                                             <th class="text-center <?php echo ($finAve < 75 ? "text-danger" : ($finAve >= 90 ? "text-success" : ""));; ?>"><?php echo ($finAve == 0 ? "" : number_format($finAve, 2)); ?></th>
                                                          </tr>
                                                       <?php } ?>
@@ -465,9 +479,9 @@ function isTermAllowed($terms_allowed, $term)
                                                             <table id="class_record" class="table table-striped table-bordered table-hover conductTable nowrap">
                                                                <thead>
                                                                   <tr>
-                                                                     <th class="text-left">Indicator ID</th>
-                                                                     <th class="text-left">DepEd Indicator</th>
-                                                                     <th class="text-left">Indicator</th>
+                                                                     <th class="text-left">ID</th>
+                                                                     <th class="text-left">Core Indicator</th>
+                                                                     <th class="text-left">Behavior Statements</th>
                                                                      <th class="text-left">1st Qtr</th>
                                                                      <th class="text-left">2nd Qtr</th>
                                                                      <th class="text-left">3rd Qtr</th>

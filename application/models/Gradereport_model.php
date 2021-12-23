@@ -374,10 +374,10 @@ class Gradereport_model extends CI_Model
       $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
       // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
-      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade, sort_order
+      $sql = "SELECT main_subject, sub_subjects, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade, sort_order
                 FROM 
                 (
-                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
+                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subject_main.sub_subjects, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -458,10 +458,10 @@ class Gradereport_model extends CI_Model
       $average_columns = " ((" . $average_column . ")/" . $colcount . ") AS average";
       // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
 
-      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade, sort_order 
+      $sql = "SELECT main_subject, sub_subjects, subject AS Subjects, $quarter_columns, $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade, sort_order 
                 FROM 
                 (
-                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
+                  SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subject_main.sub_subjects, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -481,7 +481,7 @@ class Gradereport_model extends CI_Model
       // return($sql);
       $query = $this->db->query($sql);
       // print_r($this->db->last_query());
-      // die();
+      // exit();
       return $query->result();
    }
 
@@ -586,12 +586,12 @@ class Gradereport_model extends CI_Model
       // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
       $average_conduct_columns = " ((" . $average_conduct_column . ")/" . $colcount . ") AS average_conduct";
 
-      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
+      $sql = "SELECT main_subject, sub_subjects, subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
               $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade,   
               $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code, sort_order
                 FROM 
                 (
-                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
+                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subject_main.sub_subjects, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id
@@ -709,12 +709,12 @@ class Gradereport_model extends CI_Model
       // $average_columns = " ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS average";
       $average_conduct_columns = " ((" . $average_conduct_column . ")/" . $colcount . ") AS average_conduct";
 
-      $sql = "SELECT main_subject, subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
+      $sql = "SELECT main_subject, sub_subjects, subject AS Subjects, $quarter_columns, $grade_codes, $conduct_columns, $conduct_codes, 
               $average_columns, ROUND(CAST(((" . $average_column . ")/" . $colcount . ") AS DECIMAL(8,1))) AS final_grade,   
               $average_conduct_columns, fn_conduct_code(ROUND(CAST(((" . $average_conduct_column . ")/" . $colcount . ") AS DECIMAL(8,1)))) as final_conduct_code, sort_order
                 FROM 
                 (
-                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
+                    SELECT classes.id AS grade_level_id, subject_main.name as main_subject, subject_main.sub_subjects, subjects.name AS subject, subject_group_subjects.subject_id, subject_group_subjects.sort_order
                     FROM subject_groups
                     JOIN subject_group_subjects ON subject_group_subjects.subject_group_id = subject_groups.id
                     JOIN subjects ON subjects.id = subject_group_subjects.subject_id

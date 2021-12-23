@@ -68,6 +68,8 @@
                                  <option value="saioriginal">Original</option>
                               <?php elseif (strtolower($schoolcode) == "lpms") : ?>
                                  <option value="lpmsoriginal">Original</option>
+                                 <option value="lpmsmapeh">MAPEH</option>
+                                 <option value="lpmsrobotics">Robotics</option>
                                  <option value="lpmsconduct">Conduct</option>
                               <?php elseif (strtolower($schoolcode) == "ssapamp") : ?>
                                  <option value="original">Original</option>
