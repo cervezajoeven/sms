@@ -180,7 +180,7 @@
    </style>
 </head>
 
-<body link="#0563C1" vlink="#954F72">
+<body link="#0563C1" vlink="#954F72" onload="window.print()">
 
    <table border=0 cellpadding=0 cellspacing=0 width=705 style='border-collapse: collapse;table-layout:fixed;width:525pt'>
       <col width=20 style='mso-width-source:userset;mso-width-alt:711;width:15pt'>

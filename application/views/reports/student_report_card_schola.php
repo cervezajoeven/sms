@@ -3190,7 +3190,7 @@
    </style>
 </head>
 
-<body>
+<body onload="window.print()">
    <div id="F138-S.Y.2020-2021-Elem-new-1(2)_6563" align=center>
       <table border=0 cellpadding=0 cellspacing=0 width=1098 style='width:826pt'>
          <col width=46 style='mso-width-source:userset;mso-width-alt:1649;width:35pt'>

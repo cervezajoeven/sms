@@ -2099,7 +2099,7 @@ function gradeCode($codes, $grade)
 // print_r(gradeCode($codes_table, 89));
 ?>
 
-<body>
+<body onload="window.print()">
    <div id="Class Card - Grade X_18362" align=center x:publishsource="Excel">
       <table border=0 cellpadding=0 cellspacing=0 width=1067 style='border-collapse: collapse;table-layout:fixed;width:799pt'>
          <col width=327 style='mso-width-source:userset;mso-width-alt:11633;width:245pt'>
