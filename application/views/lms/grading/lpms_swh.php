@@ -16,7 +16,7 @@
                      <div class="row">
                         <div class="col-md-4">
                            <div class="form-group">
-                              <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label>
+                              <label for="class_id"><?php echo $this->lang->line('class'); ?></label>
                               <select autofocus="" id="class_id" name="class_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                                  <?php foreach ($classlist as $class) { ?>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-md-4">
                            <div class="form-group">
-                              <label for="exampleInputEmail1"><?php echo $this->lang->line('section'); ?></label>
+                              <label for="section_id"><?php echo $this->lang->line('section'); ?></label>
                               <select id="section_id" name="section_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                               </select>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-md-4">
                            <div class="form-group">
-                              <label for="exampleInputEmail1"><?php echo "Term" ?></label>
+                              <label for="quarter_id"><?php echo "Term" ?></label>
                               <select autofocus="" id="quarter_id" name="quarter_id" class="form-control">
                                  <option value=""><?php echo $this->lang->line('select'); ?></option>
                                  <?php foreach ($quarters as $quarter) { ?>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
-                              <label for="exampleInputFile"><?php echo $this->lang->line('select_csv_file'); ?></label>
+                              <label for="file"><?php echo $this->lang->line('select_csv_file'); ?></label>
                               <div><input class="filestyle form-control" type='file' name='file' id="file" size='20' />
                                  <span class="text-danger"><?php echo form_error('file'); ?></span>
                               </div>

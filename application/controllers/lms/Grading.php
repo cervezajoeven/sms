@@ -4007,6 +4007,7 @@ class Grading extends General_Controller
 
    function import_swh()
    {
+
       $swh_fields = $this->gradereport_model->get_swh_items();
 
       // $data['quarters'] = $this->general_model->lms_get('grading_quarter', "", "");
@@ -4014,13 +4015,21 @@ class Grading extends General_Controller
       $data['classlist']  = $class;
       $data['swh_item_list'] = $swh_fields;
 
-      $grade_level_info = $this->class_model->get_grade_level_info($class);
-      $data['quarters'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
+      // $msg = 'Import successful - ' . $class[0]['id'];
+      // $array = array('status' => 'success', 'error' => '', 'message' => $msg);
+      // echo json_encode($array);
+      // exit();
+
+      // $grade_level_info = $this->class_model->get_grade_level_info($class[0]['id']);
+      // $data['quarters'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
 
       $this->form_validation->set_rules('quarter_id', $this->lang->line('quarter'), 'trim|required|xss_clean');
       $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
       $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
       $this->form_validation->set_rules('file', $this->lang->line('image'), 'callback_handle_csv_upload');
+
+      // print_r(json_encode($data));
+      // exit();
 
       if ($this->form_validation->run() == false) {
          $this->load->view('layout/header', $data);
@@ -4062,7 +4071,7 @@ class Grading extends General_Controller
                      $id = $this->gradereport_model->add_swh_data($swh_data[$i]);
                   }
                }
-               // die();
+               // exit();
 
                // $this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Total ' . count($result) . " records found in CSV file. Total " . count($result) . ' records imported successfully.</div>');
                $msg = 'Import successful'; //$this->lang->line('success_message');

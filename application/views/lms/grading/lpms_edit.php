@@ -201,7 +201,7 @@
                <td class="text-center" colspan="2" rowspan="3" style="vertical-align: middle;"><b>Student's Name</b></td>
 
                <?php foreach ($criteria as $criteria_key => $criteria_value) : ?>
-                  <td class="criteria criteria-<?php echo $criteria_key ?> table_td " colspan="<?php echo $criteria_value['criteria_column'] ?>" style="width: 15em; padding: 18px">
+                  <td class="criteria criteria-<?php echo $criteria_key ?> table_td " colspan="<?php echo $criteria_value['criteria_column'] ?>" style="width: 18em; padding: 18px">
                      <b>
                         <?php if ($criteria_value['name'] == "Written Works") : ?>
                            <input type="text" class="form-control table_input text-center written" name="" value="<?php echo $criteria_value['name'] ?>">
@@ -209,7 +209,11 @@
                            <input type="text" class="form-control table_input text-center quizzes" name="" value="<?php echo $criteria_value['name'] ?>">
                         <?php elseif ($criteria_value['name'] == "Long Test and Trim Test") : ?>
                            <input type="text" class="form-control table_input text-center trimtest" name="" value="<?php echo $criteria_value['name'] ?>">
+                        <?php elseif ($criteria_value['name'] == "Quizzes, Long Test and Trim Test") : ?>
+                           <input type="text" class="form-control table_input text-center trimtest" name="" value="<?php echo $criteria_value['name'] ?>">
                         <?php elseif ($criteria_value['name'] == "Performance Task") : ?>
+                           <input type="text" class="form-control table_input text-center performance" name="" value="<?php echo $criteria_value['name'] ?>">
+                        <?php elseif ($criteria_value['name'] == "Mini Task and Performance Task") : ?>
                            <input type="text" class="form-control table_input text-center performance" name="" value="<?php echo $criteria_value['name'] ?>">
                         <?php endif; ?>
                      </b>
@@ -236,7 +240,11 @@
                            $criteria_col = "quizzes";
                         elseif ($criteria_value['name'] == "Long Test and Trim Test")
                            $criteria_col = "trimtest";
+                        elseif ($criteria_value['name'] == "Quizzes, Long Test and Trim Test")
+                           $criteria_col = "trimtest";
                         elseif ($criteria_value['name'] == "Performance Task")
+                           $criteria_col = "performance";
+                        elseif ($criteria_value['name'] == "Mini Task and Performance Task")
                            $criteria_col = "performance"; ?>
 
                         <td class="column column-1  text-center <?php echo $criteria_col; ?>" criteria="1" section="1">TS</td>
@@ -265,7 +273,11 @@
                            $criteria_col = "quizzes";
                         elseif ($criteria_value['name'] == "Long Test and Trim Test")
                            $criteria_col = "trimtest";
+                        elseif ($criteria_value['name'] == "Quizzes, Long Test and Trim Test")
+                           $criteria_col = "trimtest";
                         elseif ($criteria_value['name'] == "Performance Task")
+                           $criteria_col = "performance";
+                        elseif ($criteria_value['name'] == "Mini Task and Performance Task")
                            $criteria_col = "performance"; ?>
                         <td class="column column-1 column_highest_score_td" style="padding: 18px;">
                            <input class="<?php echo $criteria_col; ?> text-center column_highest_score highest_score highest_score-<?php echo $criteria_key ?>_<?php echo $column_section_key ?>" column_id="<?php echo $column_value['id'] ?>" value="<?php echo $column_value['highest_score'] ?>" type="text" name="" criteria="<?php echo $criteria_key ?>" section="<?php echo $column_section_key ?>">
