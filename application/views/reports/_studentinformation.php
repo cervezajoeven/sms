@@ -61,7 +61,7 @@
                   <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/class_record_per_student"><i class="fa fa-file-text-o"></i> Term Grades Per Student</a></li>
                   <?php if (strtolower($school_code) !== 'lpms') : ?>
                      <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_banig'); ?>"><a href="<?php echo base_url(); ?>report/class_record_banig"><i class="fa fa-file-text-o"></i> Generate DepEd Banig</a></li>
-                     <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/print_cards_per_section"><i class="fa fa-file-text-o"></i> Print Card Per Section</a></li>
+                     <!-- <li class="col-lg-4 col-md-3 col-sm-6 <?php echo set_SubSubmenu('Reports/class_record/class_record_per_student'); ?>"><a href="<?php echo base_url(); ?>report/print_cards_per_section"><i class="fa fa-file-text-o"></i> Print Card Per Section</a></li> -->
                   <?php endif; ?>
                <?php } ?>
                <?php if (strtolower($school_code) == 'ssapamp') : ?>

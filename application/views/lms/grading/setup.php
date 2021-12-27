@@ -70,6 +70,7 @@
                                  <option value="lpmsoriginal">Original</option>
                                  <option value="lpmsmapeh">MAPEH</option>
                                  <option value="lpmsrobotics">Robotics</option>
+                                 <option value="lpmstle">TLE</option>
                                  <option value="lpmsconduct">Conduct</option>
                               <?php elseif (strtolower($schoolcode) == "ssapamp") : ?>
                                  <option value="original">Original</option>
