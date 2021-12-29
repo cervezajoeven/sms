@@ -2530,7 +2530,7 @@ function gradeCode($codes, $grade)
             <td height=21 class=xl11218362 style='height:15.75pt'></td>
             <td class=xl11218362></td>
             <td class=xl11218362></td>
-            <td colspan=3 class=xl15718362>NOT VALID WITHOUT SEAL </td>
+            <td colspan=3 class=xl15718362>NOT VALID WITHOUT SEAL</td>
             <td class=xl11218362></td>
             <td class=xl11218362></td>
             <td class=xl11218362></td>
