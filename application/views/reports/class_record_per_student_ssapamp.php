@@ -367,12 +367,14 @@ function isTermAllowed($terms_allowed, $term)
                                                          <td>Days of School</td>
                                                          <?php
                                                          foreach ($month_days_list as $row) {
-                                                            if (isTermAllowed($terms_allowed, $row->term)) {
-                                                               echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
-                                                               $totDOS += $row->no_of_days;
-                                                            } else {
-                                                               echo "<td class=\"text-center\">&nbsp;</td>";
-                                                            }
+                                                            // if (isTermAllowed($terms_allowed, $row->term)) {
+                                                            //    echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
+                                                            //    $totDOS += $row->no_of_days;
+                                                            // } else {
+                                                            //    echo "<td class=\"text-center\">&nbsp;</td>";
+                                                            // }
+                                                            echo "<td class=\"text-center\">" . $row->no_of_days . "</td>";
+                                                            $totDOS += $row->no_of_days;
                                                          }
                                                          ?>
                                                          <td class="text-center"><b><?php echo $totDOS; ?></b></td>
@@ -386,13 +388,16 @@ function isTermAllowed($terms_allowed, $term)
                                                             <td><?php echo $key ?></td>
                                                             <?php
                                                             foreach ($month_days_list as $row) {
-                                                               if (isTermAllowed($terms_allowed, $row->term)) {
-                                                                  $month = $row->month;
-                                                                  echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
-                                                                  $totRow += intval(json_decode($student_attendance[$value])->$month);
-                                                               } else {
-                                                                  echo "<td class=\"text-center\">&nbsp;</td>";
-                                                               }
+                                                               // if (isTermAllowed($terms_allowed, $row->term)) {
+                                                               //    $month = $row->month;
+                                                               //    echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
+                                                               //    $totRow += intval(json_decode($student_attendance[$value])->$month);
+                                                               // } else {
+                                                               //    echo "<td class=\"text-center\">&nbsp;</td>";
+                                                               // }
+                                                               $month = $row->month;
+                                                               echo "<td class=\"text-center\">" . json_decode($student_attendance[$value])->$month . "</td>";
+                                                               $totRow += intval(json_decode($student_attendance[$value])->$month);
                                                             }
                                                             ?>
 
