@@ -1208,6 +1208,47 @@ $language_name = $language["short_code"];
       $('.modal:visible').length && $(document.body).addClass('modal-open');
    });
 
+   $("#eval_data").on('submit', (function(e) {
+      e.preventDefault();
+
+      // var data = new FormData(this);
+
+      $.ajax({
+         url: "<?php echo site_url("homework/add_evaluation") ?>",
+         type: "POST",
+         data: {
+            homework_id: $("#homework_id").val(),
+            student_session_id: $("#student_session_id").val(),
+            score: $("#score").val(),
+            remarks: $("#remarks").val(),
+         },
+         dataType: 'JSON',
+         success: function(res) {
+            console.log(res);
+
+            if (res.status == "fail") {
+               errorMsg(res.message);
+            } else {
+               successMsg(res.message);
+               // window.location.reload(true);
+               $("#score").val("");
+               $("#remarks").val("");
+               $("#evaluate_student").modal('hide');
+
+               $.ajax({
+                  url: '<?php echo base_url(); ?>homework/homework_docs2/' + $("#homework_id").val() + "/" + $('#searchclassid').val() + "/" + $('#secid').val() + "/" + $("#student_session_id").val(),
+                  success: function(data) {
+                     $('#homework_docs_result').html(data);
+                  },
+                  error: function() {
+                     alert("Fail")
+                  }
+               });
+            }
+         }
+      });
+   }));
+
    $("#eval_data_office").on('submit', (function(e) {
       e.preventDefault();
 
