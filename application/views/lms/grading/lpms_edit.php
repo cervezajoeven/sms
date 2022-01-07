@@ -532,11 +532,11 @@
             if (!b) {
                b = 0;
             }
-            return parseInt(a) + parseInt(b);
+            return parseFloat(a) + parseFloat(b);
          }, 0);
 
          var splitted_key = key.split("_").slice(1).join("_");
-         var ws = parseInt($(".ws-" + key.split("_").slice(1).join("_")).val());
+         var ws = parseFloat($(".ws-" + key.split("_").slice(1).join("_")).val());
          var ws_values = roundNumberV2((sum * (ws / 100)), 2);
          $(".ws-" + key).text(ws_values);
       });
