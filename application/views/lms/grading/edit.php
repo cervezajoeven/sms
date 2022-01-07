@@ -477,11 +477,11 @@
          var highest_total = parseInt($("." + key.split("_").slice(1).join("_")).text());
          var splitted_key = key.split("_").slice(1).join("_");
          var ws = parseInt($(".ws-" + key.split("_").slice(1).join("_")).val());
-         // var ps_values = roundNumberV2(((sum / highest_total) * 100), 3);
-         // var ws_values = roundNumberV2((ps_values * (ws / 100)), 3);
+         var ps_values = roundNumberV2(((sum / highest_total) * 100), 2);
+         var ws_values = roundNumberV2((ps_values * (ws / 100)), 2);
          // (Math.floor(value * 100) / 100).toFixed(2)
-         var ps_values = (Math.floor(((sum / highest_total) * 100) * 100) / 100).toFixed(2) == 0.00 ? 0 : (Math.floor(((sum / highest_total) * 100) * 100) / 100).toFixed(2);
-         var ws_values = (Math.floor((ps_values * (ws / 100)) * 100) / 100).toFixed(2) == 0.00 ? 0 : (Math.floor((ps_values * (ws / 100)) * 100) / 100).toFixed(2);
+         // var ps_values = (Math.floor(((sum / highest_total) * 100) * 100) / 100).toFixed(2) == 0.00 ? 0 : (Math.floor(((sum / highest_total) * 100) * 100) / 100).toFixed(2);
+         // var ws_values = (Math.floor((ps_values * (ws / 100)) * 100) / 100).toFixed(2) == 0.00 ? 0 : (Math.floor((ps_values * (ws / 100)) * 100) / 100).toFixed(2);
          $(".ps-" + key).text(ps_values);
          $(".ws-" + key).text(ws_values);
 
