@@ -92,12 +92,12 @@ class Assessment_model extends MY_Model
 
          $monthNow = date("m");
 
-         if ($monthNow > 6) {
-            $this->db->where('YEAR(end_date) = YEAR(now()) AND MONTH(end_date) > 6');
-         } else {
-            $this->db->where('YEAR(end_date) = year(now()) and month(end_date) <= 6');
-            $this->db->where('YEAR(end_date) = YEAR(now()) - 1 AND MONTH(end_date) > 6');
-         }
+         // if ($monthNow > 6) {
+         //    $this->db->where('YEAR(end_date) = YEAR(now()) AND MONTH(end_date) > 6');
+         // } else {
+         //    $this->db->where('YEAR(end_date) = year(now()) and month(end_date) <= 6');
+         //    $this->db->where('YEAR(end_date) = YEAR(now()) - 1 AND MONTH(end_date) > 6');
+         // }
       } else {
          // $this->db->where('start_date <=', date('Y-m-d H:i:s'));
          // $this->db->where('end_date >=', date('Y-m-d H:i:s'));
