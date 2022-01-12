@@ -2202,6 +2202,9 @@ function gradeCode($codes, $grade)
          $q2Tot = 0;
          $q3Tot = 0;
          $finalTot = 0;
+         $q1SubjCount = 0;
+         $q2SubjCount = 0;
+         $q3SubjCount = 0;
 
          foreach ($resultlist as $row) : ?>
 
@@ -2232,6 +2235,16 @@ function gradeCode($codes, $grade)
             $q2Tot += $row->Q2;
             $q3Tot += $row->Q3;
             $finalTot += $row->final_grade;
+
+            if ($row->Q1)
+               $q1SubjCount++;
+
+            if ($row->Q2)
+               $q2SubjCount++;
+
+            if ($row->Q1)
+               $q3SubjCount++;
+
          endforeach; ?>
 
          <tr height=21 style='mso-height-source:userset;height:15.75pt'>
@@ -2250,12 +2263,12 @@ function gradeCode($codes, $grade)
          </tr>
          <tr height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl9818362 style='height:15.75pt;border-top:none'>General Average&nbsp;</td>
-            <td class=xl9918362 style='border-top:none;border-left:none'><?php echo ($q1Tot > 0 ? number_format($q1Tot / count($resultlist), 2) : '--') ?></td>
-            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q1Tot / count($resultlist), 2));  ?></td>
-            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q2Tot > 0 ? number_format($q2Tot / count($resultlist), 2) : '--') ?></td>
-            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q2Tot / count($resultlist), 2));  ?></td>
-            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q3Tot > 0 ? number_format($q3Tot / count($resultlist), 2) : '--') ?></td>
-            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q3Tot / count($resultlist), 2));  ?></td>
+            <td class=xl9918362 style='border-top:none;border-left:none'><?php echo ($q1Tot > 0 ? number_format($q1Tot / $q1SubjCount, 2) : '--') ?></td>
+            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q1Tot / $q1SubjCount, 2));  ?></td>
+            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q2Tot > 0 ? number_format($q2Tot / $q2SubjCount, 2) : '--') ?></td>
+            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q2Tot / $q1SubjCount, 2));  ?></td>
+            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q3Tot > 0 ? number_format($q3Tot / $q3SubjCount, 2) : '--') ?></td>
+            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q3Tot / $q3SubjCount, 2));  ?></td>
             <td class=xl10118362 style='border-top:none;border-left:none'></td>
             <!-- <td class=xl10118362 style='border-top:none;border-left:none'><?php echo ($finalTot > 0 ? number_format($finalTot / count($resultlist), 2) : '--') ?></td> -->
             <td class=xl10218362 style='border-top:none;border-left:none'>
