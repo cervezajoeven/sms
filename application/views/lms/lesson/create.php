@@ -533,6 +533,9 @@
                         <option <?php if ($lesson['lesson_type'] == "zoom") {
                                     echo "selected=''";
                                  } ?> value="zoom"><img src="">Zoom Live Class</option>
+                        <option <?php if ($lesson['lesson_type'] == "brainee") {
+                                    echo "selected=''";
+                                 } ?> value="brainee"><img src="">Brainee Live Class</option>
                      </select>
 
                   </div>
@@ -1030,8 +1033,8 @@
          </div>
 
          <div id="formula_board" class="formula_board">
-            <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe>
-            <!-- <iframe id="" src="https://equatio.texthelp.com" style="width: 100%;height: 100%;position: relative;"></iframe> -->
+            <!-- <iframe id="" src="<?php echo base_url() ?>backend/lms/mathquill/" style="width: 100%;height: 100%;position: relative;"></iframe> -->
+            <iframe id="" src="https://www.geogebra.org/calculator" style="width: 100%;height: 100%;position: relative;"></iframe>
          </div>
 
          <!-- <div id="jamboard" class="jamboard">
