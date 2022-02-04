@@ -444,10 +444,14 @@ class Homework_model extends MY_model
                   JOIN `subject_groups` ON `subject_group_subjects`.`subject_group_id`=`subject_groups`.`id` 
                   JOIN `staff` ON `staff`.`id` = `homework`.`staff_id` 
                   WHERE `homework`.`class_id` = " . $this->db->escape($class_id) . " AND `homework`.`section_id` = " . $this->db->escape($section_id) .
-         " AND `homework`.`session_id` = " . $this->current_session . " order by homework.homework_date desc";
+         " AND `homework`.`session_id` = " . $this->current_session . " and homework.deleted = 0 order by homework.homework_date desc";
       // print_r($sql);
       // var_dump($sql);die();
       $query = $this->db->query($sql);
+
+      // print_r($this->db->last_query());
+      // exit();
+
       return $query->result_array();
    }
 
