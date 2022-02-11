@@ -93,8 +93,8 @@ define('DELETE_RECORD_CONSTANT', 'Record deleted');
 // define('S3_BUCKET_BASE_URL', 'https://s3.us-east-2.amazonaws.com/media.campuscloudph.com/');
 define('S3_BUCKET_BASE_URL', 'https://media.campuscloudph.com/');
 define('S3_BUCKET', 'media.campuscloudph.com');
-define('AWS_ACCESS_KEY_ID', 'AKIAXG65GN66XVJDHDDE');
-define('AWS_ACCESS_KEY_SECRET', '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');
+define('AWS_ACCESS_KEY_ID', 'AKIAXG65GN66QIRJEUU6');
+define('AWS_ACCESS_KEY_SECRET', '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');
 
 define('S3_URI', 's3.us-east-2.amazonaws.com');
 define('AWS_REGION', 'us-east-2');
