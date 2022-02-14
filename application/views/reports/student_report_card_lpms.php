@@ -7,6 +7,15 @@
    <meta name=Generator content="Microsoft Excel 15">
 
    <style>
+      body {
+         height: 100%;
+         background-image: url('snoci/notvalid.svg');
+         background-size: 100% 100%;
+         -o-background-size: 100% 100%;
+         -webkit-background-size: 100% 100%;
+         background-size: cover;
+      }
+
       /* {
          mso-displayed-decimal-separator: "\.";
          mso-displayed-thousand-separator: "\,";
@@ -2231,18 +2240,18 @@ function gradeCode($codes, $grade)
             </tr>
          <?php
 
-            $q1Tot += $row->Q1;
-            $q2Tot += $row->Q2;
-            $q3Tot += $row->Q3;
+            $q1Tot += $row->in_average == 1 ? $row->Q1 : 0;
+            $q2Tot += $row->in_average == 1 ? $row->Q2 : 0;
+            $q3Tot += $row->in_average == 1 ? $row->Q3 : 0;
             $finalTot += $row->final_grade;
 
-            if ($row->Q1)
+            if ($row->Q1 && $row->in_average == 1)
                $q1SubjCount++;
 
-            if ($row->Q2)
+            if ($row->Q2 && $row->in_average == 1)
                $q2SubjCount++;
 
-            if ($row->Q1)
+            if ($row->Q1 && $row->in_average == 1)
                $q3SubjCount++;
 
          endforeach; ?>
@@ -2281,6 +2290,11 @@ function gradeCode($codes, $grade)
             <td class=xl10318362 style='border-top:none'></td>
             <td class=xl10318362 style='border-top:none'></td>
          </tr>
+         <!-- </table>
+
+      <div style="page-break-before:always;width:100%; height:100px;"></div>
+
+      <table> -->
          <tr height=10 style='mso-height-source:userset;height:7.5pt'>
             <td height=10 class=xl1518362 style='height:7.5pt'></td>
             <td class=xl1518362></td>
