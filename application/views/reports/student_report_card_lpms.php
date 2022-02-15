@@ -551,6 +551,28 @@
          white-space: nowrap;
       }
 
+      .xl8818362_2 {
+         padding: 2px;
+         mso-ignore: padding;
+         color: black;
+         font-size: 11.0pt;
+         font-style: italic;
+         text-decoration: none;
+         font-family: Verdana;
+         mso-generic-font-family: auto;
+         mso-font-charset: 0;
+         mso-number-format: General;
+         text-align: left;
+         vertical-align: bottom;
+         border-top: .5pt solid black;
+         border-right: .5pt solid black;
+         border-bottom: .5pt solid black;
+         border-left: 1.0pt solid black;
+         mso-background-source: auto;
+         mso-pattern: auto;
+         white-space: nowrap;
+      }
+
       .xl8918362 {
          padding: 0px;
          mso-ignore: padding;
@@ -2238,7 +2260,28 @@ function gradeCode($codes, $grade)
                <td class=xl9318362 style='border-top:none'><?php echo ($row->Q2_CONDUCT == 0 ? '--' : $row->Q2_CONDUCTCODE); ?></td>
                <td class=xl9318362 style='border-top:none'><?php echo ($row->Q3_CONDUCT == 0 ? '--' : $row->Q3_CONDUCTCODE); ?></td>
             </tr>
+            <?php
+            if ($row->sub_subjects !== null) {
+               $subSubjects = explode(",", $row->sub_subjects);
+
+               foreach ($subSubjects as $subject) : ?>
+                  <tr height=21 style='mso-height-source:userset;height:15.75pt'>
+                     <td height=21 class=xl8818362_2 style='height:15.75pt;border-top:none'>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $subject; ?></td>
+                     <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl9118362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl9218362 style='border-top:none;border-left:none'>&nbsp;</td>
+                     <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+                     <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+                     <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+                  </tr>
          <?php
+               endforeach;
+            }
 
             $q1Tot += $row->in_average == 1 ? $row->Q1 : 0;
             $q2Tot += $row->in_average == 1 ? $row->Q2 : 0;
