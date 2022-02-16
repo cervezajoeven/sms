@@ -305,6 +305,7 @@ class Gradereport_model extends CI_Model
                 WHERE classes.id = " . $gradelevel . " 
                 AND class_sections.section_id = " . $section . " 
                 AND subjects.graded = TRUE 
+                AND subjects.in_report_card = TRUE 
                 AND subject_groups.session_id = " . $schoolyear . " 
                 GROUP BY classes.id, subjects.name
                 ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC";
@@ -388,6 +389,7 @@ class Gradereport_model extends CI_Model
                     WHERE classes.id = " . $grade_level . " 
                     AND class_sections.section_id = " . $section . " 
                     AND subjects.graded = TRUE 
+                    AND subjects.in_report_card = TRUE 
                     AND subject_groups.session_id = " . $school_year . " 
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC
@@ -472,6 +474,7 @@ class Gradereport_model extends CI_Model
                     WHERE classes.id = " . $grade_level . " 
                     AND class_sections.section_id = " . $section . " 
                     AND subjects.graded = TRUE 
+                    AND subjects.in_report_card = TRUE 
                     AND subject_groups.session_id = " . $school_year . " 
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name
@@ -602,6 +605,7 @@ class Gradereport_model extends CI_Model
                     WHERE classes.id = " . $grade_level . " 
                     AND class_sections.section_id = " . $section . " 
                     AND subjects.graded = TRUE 
+                    AND subjects.in_report_card = TRUE 
                     AND subject_groups.session_id = " . $school_year . " 
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC
@@ -725,6 +729,7 @@ class Gradereport_model extends CI_Model
                     WHERE classes.id = " . $grade_level . " 
                     AND class_sections.section_id = " . $section . " 
                     AND subjects.graded = TRUE 
+                    AND subjects.in_report_card = TRUE 
                     AND subject_groups.session_id = " . $school_year . " 
                     GROUP BY classes.id, subjects.name
                     ORDER BY subject_group_subjects.sort_order asc, subject_groups.name, subjects.name ASC

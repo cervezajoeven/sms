@@ -41,6 +41,7 @@ class Subject extends Admin_Controller
             'graded' => $this->input->post('isgraded') == 'on' ? 1 : 0,
             'in_average' => $this->input->post('inaverage') == 'on' ? 1 : 0,
             'transmuted' => $this->input->post('transmuted') == 'on' ? 1 : 0,
+            'in_report_card' => $this->input->post('reportcard') == 'on' ? 1 : 0,
          );
 
          // print_r($data);die();
@@ -126,6 +127,7 @@ class Subject extends Admin_Controller
             'graded' => $this->input->post('isgraded') == 'on' ? 1 : 0,
             'in_average' => $this->input->post('inaverage') == 'on' ? 1 : 0,
             'transmuted' => $this->input->post('transmuted') == 'on' ? 1 : 0,
+            'in_report_card' => $this->input->post('reportcard') == 'on' ? 1 : 0,
          );
 
          // print_r($data);
