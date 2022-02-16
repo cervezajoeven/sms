@@ -217,6 +217,13 @@ function isTermAllowed($terms_allowed, $term)
                                                    </a>
                                                 </div>
                                              <?php endif; ?>
+                                             <?php if (strtolower($school_code) == 'ssapamp') : ?>
+                                                <div class="box-tools pull-right">
+                                                   <a href="<?php echo base_url('report/student_report_card_ssapamp') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank">
+                                                      <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Report Card</button>
+                                                   </a>
+                                                </div>
+                                             <?php endif; ?>
                                           </div>
                                           <div class="box-body">
 

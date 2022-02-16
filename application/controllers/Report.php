@@ -1913,11 +1913,16 @@ class Report extends Admin_Controller
             // die();
 
             $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
-
             $data['show_general_average'] = $this->sch_setting_detail->grading_general_average;
             $data['show_letter_grade'] = $this->sch_setting_detail->show_letter_grade;
             $data['show_average_column'] = $this->sch_setting_detail->show_average_column;
             $data['terms_allowed'] = $this->gradereport_model->get_terms_allowed($session, $student_id);
+
+
+            // print_r('<pre>');
+            // print_r($data['month_days_list']);
+            // print_r('</pre>');
+            // exit();
 
             if (strtolower($data['school_code']) == 'lpms') {
                $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
@@ -1930,10 +1935,6 @@ class Report extends Admin_Controller
                $this->load->view('reports/class_record_per_student_lpms', $data);
                $this->load->view('layout/footer', $data);
             } else if (strtolower($data['school_code']) == 'ssapamp') {
-
-               $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
-               $prekinder = $result1[0]->id;
-
                $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
 
                if ($student_attendance) {
@@ -1942,56 +1943,40 @@ class Report extends Admin_Controller
                   $data['student_attendance'] = array();
                }
 
-               // print_r('<pre>');
-               // print_r($data['student_attendance']);
-               // print_r('</pre>');
-               // die();
-
                $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($session, $grade_level, $section, $student_id);
+               $codes_table = $this->gradereport_model->grade_code_table();
 
-               // print_r($data['ssap_conduct']);
-               // die();
+               if ($codes_table) {
+                  $data['codes_table'] = $codes_table;
+               } else {
+                  $data['codes_table'] = array();
+               }
+
+               $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
+               $prekinder = $result1[0]->id;
 
                if ($grade_level == $prekinder) {
-                  // print_r($data['ssap_conduct']);
-                  // die();
-
                   $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($session, $grade_level, $section, $student_id);
-
-                  // print_r($data);
-                  // die();
-
-                  // print_r('<pre>');
-                  // print_r($class_record);
-                  // print_r('</pre>');
-                  // die();
 
                   $data['resultlist'] = $class_record;
                   $legend = $this->grading_checklist_ssapamp_model->getLegend();
                   $data['legend_list'] = $legend;
 
+                  // print_r('<pre>');
+                  // print_r($data['resultlist']);
+                  // print_r('</pre>');
+                  // die();
+
                   $this->load->view('layout/header', $data);
                   $this->load->view('reports/class_record_per_student_ssapamp', $data);
                   $this->load->view('layout/footer', $data);
                } else {
-
-                  $codes_table = $this->gradereport_model->grade_code_table();
-
-                  if ($codes_table) {
-                     $data['codes_table'] = $codes_table;
-                  } else {
-                     $data['codes_table'] = array();
-                  }
-
-                  // print_r('<pre>');
-                  // print_r($codes_table);
-                  // print_r('</pre>');
-                  // die();
-
                   $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
                   $data['resultlist'] = $class_record;
 
+                  // print_r('<pre>');
                   // print_r($data['resultlist']);
+                  // print_r('</pre>');
                   // die();
 
                   $this->load->view('layout/header', $data);
@@ -2056,7 +2041,7 @@ class Report extends Admin_Controller
       $grade_level = $this->input->get('class_id');
       $section = $this->input->get('section_id');
       $student_id = $this->input->get('student_id');
-      $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
+
 
       $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
       // print_r(json_encode($class_record));die();
@@ -2074,7 +2059,7 @@ class Report extends Admin_Controller
       $data['student'] = $studentinfo;
       $data['school_year'] = $this->setting_model->getCurrentSessionName();
       $data['swh_scores'] = $this->gradereport_model->get_swh_score_quarterly($session, $grade_level, $section, $student_id);
-
+      $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
       $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
       $data['codes_table'] = $this->gradereport_model->grade_code_table();
 
@@ -2116,33 +2101,46 @@ class Report extends Admin_Controller
       $student_id = $this->input->get('student_id');
       $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
 
-      $class_record = $this->gradereport_model->get_student_class_record_unrestricted_lpms($session, $student_id, $grade_level, $section);
-      // print_r(json_encode($class_record));die();
-      // print_r($class_record);die();
       $grade_level_info = $this->class_model->get_grade_level_info($grade_level);
       $data['quarter_list'] = $this->gradereport_model->get_quarter_list($grade_level_info['term_alias'], $grade_level_info['term_length']);
-      // $data['quarter_list'] = $this->gradereport_model->get_quarter_list('Qtr', 4);
-      $data['resultlist'] = $class_record;
       $data['session_id'] = $session;
       $data['class_id'] = $grade_level;
       $data['section_id']  = $section;
       $data['student_id'] = $student_id;
-
       $studentinfo = $this->student_model->get($student_id);
       $data['student'] = $studentinfo;
       $data['school_year'] = $this->setting_model->getCurrentSessionName();
       $data['swh_scores'] = $this->gradereport_model->get_swh_score_quarterly($session, $grade_level, $section, $student_id);
-
       $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
       $data['codes_table'] = $this->gradereport_model->grade_code_table();
+      $data['ssap_conduct'] = $this->gradereport_model->get_conduct_ssapamp($session, $grade_level, $section, $student_id);
+      $data['month_days_list'] = $this->gradereport_model->get_month_days_list();
 
-      $student_attendance = $this->gradereport_model->get_student_attendance_by_semester($session, $grade_level, $section, $student_id);
+      $student_attendance = $this->gradereport_model->get_student_attendance_by_month($session, $grade_level, $section, $student_id);
+
+      $result1 = $this->grading_ssapamp_model->getLevelId('Pre-Kinder');
+      $prekinder = $result1[0]->id;
+
+      if ($grade_level == $prekinder) {
+         $class_record = $this->grading_studentgrade_ssapamp_model->get_student_checklist($session, $grade_level, $section, $student_id);
+
+         $data['resultlist'] = $class_record;
+      } else {
+         $class_record = $this->gradereport_model->get_student_class_record_unrestricted($session, $student_id, $grade_level, $section);
+         $data['resultlist'] = $class_record;
+      }
+
 
       if ($student_attendance) {
          $data['student_attendance'] = $student_attendance;
       } else {
          $data['student_attendance'] = array();
       }
+
+      // print_r('<pre>');
+      // print_r($data['student_attendance']);
+      // print_r('</pre>');
+      // exit();
 
       $this->load->view('reports/student_report_card_ssapamp', $data);
    }

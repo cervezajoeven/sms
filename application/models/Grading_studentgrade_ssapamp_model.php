@@ -295,7 +295,7 @@ class Grading_studentgrade_ssapamp_model extends CI_Model
       // from grading_checklist_ssapamp
       // ) vv";
 
-      $sql = "select checklistname,
+      $sql = "select checklistname as Subjects, checklistname, 
       ROUND(Q1) as Q1,
       ROUND(Q2) as Q2,
       (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q1) between mingrade and maxgrade) as LG1,

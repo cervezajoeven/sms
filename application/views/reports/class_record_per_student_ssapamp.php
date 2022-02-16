@@ -201,7 +201,7 @@ function isTermAllowed($terms_allowed, $term)
                                              <?php $the_section_id = $this->input->post('section_id') ?>
                                              <?php $the_student_id = $this->input->post('student_id') ?>
                                              <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
-                                             <!-- <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card_ssapamp') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div> -->
+                                             <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card_ssapamp') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-primary btn-sm"><i class="fa fa-print"></i>&nbsp;Print Report Card</button></a></div>
                                           </div>
                                           <div class="box-body">
                                              <div class="box-body box-profile">
