@@ -112,7 +112,7 @@
                                              'Days of School' => 'days_of_school',
                                              'Days Present' => 'days_present',
                                              'Tardiness' => 'tardiness',
-                                             'Improper Uniform' => 'improper_uniform',
+                                             'Early Out' => 'improper_uniform',
                                           ); ?>
                                           <table id="attendance" class="table table-striped table-bordered table-hover nowrap">
                                              <thead>

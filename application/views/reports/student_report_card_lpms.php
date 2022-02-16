@@ -2127,6 +2127,20 @@ function gradeCode($codes, $grade)
    return $retVal;
 }
 
+function conductCode($codes, $grade)
+{
+   $retVal = '--';
+
+   foreach ($codes as $rows) {
+      if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {
+         $retVal = $rows->grade_code;
+         break;
+      }
+   }
+
+   return $retVal;
+}
+
 // print_r(gradeCode($codes_table, 89));
 ?>
 
@@ -2236,6 +2250,9 @@ function gradeCode($codes, $grade)
          $q1SubjCount = 0;
          $q2SubjCount = 0;
          $q3SubjCount = 0;
+         $q1ConductTot = 0;
+         $q2ConductTot = 0;
+         $q3ConductTot = 0;
 
          foreach ($resultlist as $row) : ?>
 
@@ -2288,6 +2305,10 @@ function gradeCode($codes, $grade)
             $q3Tot += $row->in_average == 1 ? $row->Q3 : 0;
             $finalTot += $row->final_grade;
 
+            $q1ConductTot += $row->in_average == 1 ? $row->Q1_CONDUCT : 0;
+            $q2ConductTot += $row->in_average == 1 ? $row->Q2_CONDUCT : 0;
+            $q3ConductTot += $row->in_average == 1 ? $row->Q3_CONDUCT : 0;
+
             if ($row->Q1 && $row->in_average == 1)
                $q1SubjCount++;
 
@@ -2321,17 +2342,11 @@ function gradeCode($codes, $grade)
             <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q2Tot / $q1SubjCount, 0));  ?></td>
             <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q3Tot > 0 ? number_format($q3Tot / $q3SubjCount, 0) : '--') ?></td>
             <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q3Tot / $q3SubjCount, 0));  ?></td>
-            <td class=xl10118362 style='border-top:none;border-left:none'></td>
-            <!-- <td class=xl10118362 style='border-top:none;border-left:none'><?php echo ($finalTot > 0 ? number_format($finalTot / count($resultlist), 0) : '--') ?></td> -->
-            <td class=xl10218362 style='border-top:none;border-left:none'>
-               <?php
-               // if ($finalTot > 0)
-               //    echo ($finalTot / count($resultlist) > 75 ? 'Passed' : 'Failed');
-               ?>
-            </td>
-            <td class=xl10318362 style='border-top:none'></td>
-            <td class=xl10318362 style='border-top:none'></td>
-            <td class=xl10318362 style='border-top:none'></td>
+            <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
+            <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
+            <td class=xl10318362 style='border-top:none'><?php echo ($q1ConductTot > 0 ? conductCode($conduct_codes, number_format($q1ConductTot / $q1SubjCount, 0)) : "--"); ?></td>
+            <td class=xl10318362 style='border-top:none'><?php echo ($q2ConductTot > 0 ? conductCode($conduct_codes, number_format($q2ConductTot / $q2SubjCount, 0)) : "--"); ?></td>
+            <td class=xl10318362 style='border-top:none'><?php echo ($q3ConductTot > 0 ? conductCode($conduct_codes, number_format($q3ConductTot / $q3SubjCount, 0)) : "--"); ?></td>
          </tr>
          <!-- </table>
 
@@ -2469,7 +2484,7 @@ function gradeCode($codes, $grade)
                   'Days of School' => 'days_of_school',
                   'Days Present' => 'days_present',
                   'Tardiness' => 'tardiness',
-                  'Improper Uniform' => 'improper_uniform',
+                  'Early Out' => 'improper_uniform',
                ); ?>
                <table border=0 cellpadding=0 cellspacing=0 style='border-collapse: collapse;table-layout:fixed;width:100%;'>
                   <tr height=21 style='mso-height-source:userset;height:15.75pt'>

@@ -2062,6 +2062,7 @@ class Report extends Admin_Controller
       $adviser = $this->classteacher_model->teacherByClassSection($grade_level, $section);
       $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
       $data['codes_table'] = $this->gradereport_model->grade_code_table();
+      $data['conduct_codes'] = $this->gradereport_model->conduct_transmutation_table();
 
       $student_attendance = $this->gradereport_model->get_student_attendance_by_semester($session, $grade_level, $section, $student_id);
 
