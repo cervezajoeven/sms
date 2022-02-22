@@ -2321,18 +2321,7 @@ function conductCode($codes, $grade)
          endforeach; ?>
 
          <tr height=21 style='mso-height-source:userset;height:15.75pt'>
-            <td height=21 class=xl9418362 style='height:15.75pt;border-top:none'>&nbsp;</td>
-            <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9718362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9218362 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9318362 style='border-top:none'>&nbsp;</td>
-            <td class=xl9318362 style='border-top:none'>&nbsp;</td>
-            <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+            <td colspan="12" height=21 class=xl9418362 style='height:15.75pt;border-top:none'>&nbsp;</td>
          </tr>
          <tr height=21 style='mso-height-source:userset;height:15.75pt'>
             <td height=21 class=xl9818362 style='height:15.75pt;border-top:none'>General Average&nbsp;</td>
