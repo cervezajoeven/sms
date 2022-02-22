@@ -2237,7 +2237,7 @@ function gradeCode($codes, $grade)
                   'Days of School' => 'days_of_school',
                   'Days Present' => 'days_present',
                   'Tardiness' => 'tardiness',
-                  'Improper Uniform' => 'improper_uniform',
+                  'Early Out' => 'improper_uniform',
                ); ?>
                <table border=0 cellpadding=0 cellspacing=0 style='border-collapse: collapse;table-layout:fixed;width:100%;'>
                   <tr height=21 style='mso-height-source:userset;height:15.75pt'>
