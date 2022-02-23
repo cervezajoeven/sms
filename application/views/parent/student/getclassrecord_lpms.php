@@ -2096,6 +2096,20 @@ function gradeCode($codes, $grade)
    return $retVal;
 }
 
+function conductCode($codes, $grade)
+{
+   $retVal = '--';
+
+   foreach ($codes as $rows) {
+      if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {
+         $retVal = $rows->grade_code;
+         break;
+      }
+   }
+
+   return $retVal;
+}
+
 // print_r(gradeCode($codes_table, 89));
 ?>
 
@@ -2274,9 +2288,9 @@ function gradeCode($codes, $grade)
                            <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q3Tot / count($resultlist), 0));  ?></td>
                            <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
                            <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
-                           <td class=xl10318362 style='border-top:none'><?php echo ($q1ConductTot > 0 ? conductCode($conduct_codes, number_format($q1ConductTot / $q1SubjCount, 0)) : "--"); ?></td>
-                           <td class=xl10318362 style='border-top:none'><?php echo ($q2ConductTot > 0 ? conductCode($conduct_codes, number_format($q2ConductTot / $q2SubjCount, 0)) : "--"); ?></td>
-                           <td class=xl10318362 style='border-top:none'><?php echo ($q3ConductTot > 0 ? conductCode($conduct_codes, number_format($q3ConductTot / $q3SubjCount, 0)) : "--"); ?></td>
+                           <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
+                           <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
+                           <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
                         </tr>
                         <tr height=10 style='mso-height-source:userset;height:7.5pt'>
                            <td colspan="12" height=10 class=xl1518362 style='height:7.5pt'></td>

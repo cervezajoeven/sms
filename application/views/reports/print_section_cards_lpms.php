@@ -1934,6 +1934,20 @@ function gradeCode($codes, $grade)
    return $retVal;
 }
 
+function conductCode($codes, $grade)
+{
+   $retVal = '--';
+
+   foreach ($codes as $rows) {
+      if ($grade >= $rows->min_grade && $grade <= $rows->max_grade) {
+         $retVal = $rows->grade_code;
+         break;
+      }
+   }
+
+   return $retVal;
+}
+
 // print_r(gradeCode($codes_table, 89));
 ?>
 
