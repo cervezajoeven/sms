@@ -2066,9 +2066,9 @@ function gradeCode($codes, $grade)
             </tr>
          <?php
 
-            $q1Tot += $row->in_average == 1 ? $row->Q1 : 0;
-            $q2Tot += $row->in_average == 1 ? $row->Q2 : 0;
-            $q3Tot += $row->in_average == 1 ? $row->Q3 : 0;
+            $q1Tot += $row->Q1;
+            $q2Tot += $row->Q2;
+            $q3Tot += $row->Q3;
             $finalTot += $row->final_grade;
          endforeach; ?>
 
