@@ -542,6 +542,28 @@
          white-space: nowrap;
       }
 
+      .xl8818362_2 {
+         padding: 2px;
+         mso-ignore: padding;
+         color: black;
+         font-size: 11.0pt;
+         font-style: italic;
+         text-decoration: none;
+         font-family: Verdana;
+         mso-generic-font-family: auto;
+         mso-font-charset: 0;
+         mso-number-format: General;
+         text-align: left;
+         vertical-align: bottom;
+         border-top: .5pt solid black;
+         border-right: .5pt solid black;
+         border-bottom: .5pt solid black;
+         border-left: 1.0pt solid black;
+         mso-background-source: auto;
+         mso-pattern: auto;
+         white-space: nowrap;
+      }
+
       .xl8918362 {
          padding: 0px;
          mso-ignore: padding;
@@ -2254,16 +2276,37 @@ function conductCode($codes, $grade)
                               <td class=xl9318362 style='border-top:none'><?php echo ($row->Q2_CONDUCT == 0 ? '--' : $row->Q2_CONDUCTCODE); ?></td>
                               <td class=xl9318362 style='border-top:none'><?php echo ($row->Q3_CONDUCT == 0 ? '--' : $row->Q3_CONDUCTCODE); ?></td>
                            </tr>
-                        <?php
+                           <?php
+                           if ($row->sub_subjects !== null) {
+                              $subSubjects = explode(",", $row->sub_subjects);
 
-                           $q1Tot += $row->Q1;
-                           $q2Tot += $row->Q2;
-                           $q3Tot += $row->Q3;
+                              foreach ($subSubjects as $subject) : ?>
+                                 <tr height=21 style='mso-height-source:userset;height:15.75pt'>
+                                    <td height=21 class=xl8818362_2 style='height:15.75pt;border-top:none'>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $subject; ?></td>
+                                    <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl8918362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl9018362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl9118362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl9218362 style='border-top:none;border-left:none'>&nbsp;</td>
+                                    <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+                                    <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+                                    <td class=xl9318362 style='border-top:none'>&nbsp;</td>
+                                 </tr>
+                        <?php
+                              endforeach;
+                           }
+
+                           $q1Tot += $row->in_average == 1 ? $row->Q1 : 0;
+                           $q2Tot += $row->in_average == 1 ? $row->Q2 : 0;
+                           $q3Tot += $row->in_average == 1 ? $row->Q3 : 0;
                            $finalTot += $row->final_grade;
 
-                           // $q1ConductTot += $row->in_average == 1 ? $row->Q1_CONDUCT : 0;
-                           // $q2ConductTot += $row->in_average == 1 ? $row->Q2_CONDUCT : 0;
-                           // $q3ConductTot += $row->in_average == 1 ? $row->Q3_CONDUCT : 0;
+                           $q1ConductTot += $row->in_average == 1 ? $row->Q1_CONDUCT : 0;
+                           $q2ConductTot += $row->in_average == 1 ? $row->Q2_CONDUCT : 0;
+                           $q3ConductTot += $row->in_average == 1 ? $row->Q3_CONDUCT : 0;
 
                            if ($row->Q1 && $row->in_average == 1)
                               $q1SubjCount++;
@@ -2271,7 +2314,7 @@ function conductCode($codes, $grade)
                            if ($row->Q2 && $row->in_average == 1)
                               $q2SubjCount++;
 
-                           if ($row->Q1 && $row->in_average == 1)
+                           if ($row->Q3 && $row->in_average == 1)
                               $q3SubjCount++;
 
                         endforeach; ?>
@@ -2281,17 +2324,17 @@ function conductCode($codes, $grade)
                         </tr>
                         <tr height=21 style='mso-height-source:userset;height:15.75pt'>
                            <td height=21 class=xl9818362 style='height:15.75pt;border-top:none'>General Average&nbsp;</td>
-                           <td class=xl9918362 style='border-top:none;border-left:none'><?php echo ($q1Tot > 0 ? number_format($q1Tot / count($resultlist), 0) : '--') ?></td>
-                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q1Tot / count($resultlist), 0));  ?></td>
-                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q2Tot > 0 ? number_format($q2Tot / count($resultlist), 0) : '--') ?></td>
-                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q2Tot / count($resultlist), 0));  ?></td>
-                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q3Tot > 0 ? number_format($q3Tot / count($resultlist), 0) : '--') ?></td>
-                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q3Tot / count($resultlist), 0));  ?></td>
+                           <td class=xl9918362 style='border-top:none;border-left:none'><?php echo ($q1Tot > 0 ? number_format($q1Tot / $q1SubjCount, 0) : '--') ?></td>
+                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q1Tot / $q1SubjCount, 0));  ?></td>
+                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q2Tot > 0 ? number_format($q2Tot / $q2SubjCount, 0) : '--') ?></td>
+                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q2Tot / $q2SubjCount, 0));  ?></td>
+                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo ($q3Tot > 0 ? number_format($q3Tot / $q3SubjCount, 0) : '--') ?></td>
+                           <td class=xl10018362 style='border-top:none;border-left:none'><?php echo gradeCode($codes_table, number_format($q3Tot / $q3SubjCount, 0));  ?></td>
                            <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
                            <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
-                           <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
-                           <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
-                           <td class=xl10118362 style='border-top:none;border-left:none'>--</td>
+                           <td class=xl10318362 style='border-top:none'><?php echo ($q1ConductTot > 0 ? conductCode($conduct_codes, number_format($q1ConductTot / $q1SubjCount, 0)) : "--"); ?></td>
+                           <td class=xl10318362 style='border-top:none'><?php echo ($q2ConductTot > 0 ? conductCode($conduct_codes, number_format($q2ConductTot / $q2SubjCount, 0)) : "--"); ?></td>
+                           <td class=xl10318362 style='border-top:none'><?php echo ($q3ConductTot > 0 ? conductCode($conduct_codes, number_format($q3ConductTot / $q3SubjCount, 0)) : "--"); ?></td>
                         </tr>
                         <tr height=10 style='mso-height-source:userset;height:7.5pt'>
                            <td colspan="12" height=10 class=xl1518362 style='height:7.5pt'></td>

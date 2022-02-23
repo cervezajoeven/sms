@@ -53,6 +53,7 @@ class Class_record extends Student_Controller
          $data['resultlist'] = $class_record;
          $data['class_adviser'] = $adviser[0]['name'] . ' ' . $adviser[0]['surname'];
          $data['codes_table'] = $this->gradereport_model->grade_code_table();
+         $data['conduct_codes'] = $this->gradereport_model->conduct_transmutation_table();
 
          // $this->db->select("*");
          // $this->db->where("session_id", $this->sch_setting_detail->session_id);

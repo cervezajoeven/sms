@@ -2315,7 +2315,7 @@ function conductCode($codes, $grade)
             if ($row->Q2 && $row->in_average == 1)
                $q2SubjCount++;
 
-            if ($row->Q1 && $row->in_average == 1)
+            if ($row->Q3 && $row->in_average == 1)
                $q3SubjCount++;
 
          endforeach; ?>
