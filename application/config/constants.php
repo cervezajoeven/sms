@@ -96,8 +96,8 @@ define('S3_BUCKET', 'media.campuscloudph.com');
 // define('AWS_ACCESS_KEY_ID', 'AKIAXG65GN66QIRJEUU6');
 // define('AWS_ACCESS_KEY_SECRET', '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');
 
-define('AWS_ACCESS_KEY_ID', 'AKIAXG65GN66QODME775');
-define('AWS_ACCESS_KEY_SECRET', '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');
+define('AWS_ACCESS_KEY_ID', 'AKIAXG65GN666GZGHKOJ');
+define('AWS_ACCESS_KEY_SECRET', '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');
 
 define('S3_URI', 's3.us-east-2.amazonaws.com');
 define('AWS_REGION', 'us-east-2');
