@@ -710,7 +710,7 @@ class Parents extends Parent_Controller
 
             // move_uploaded_file($_FILES["userfile"]["tmp_name"], "./uploads/student_leavedocuments/" . $img_name);
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "uploads/student_leavedocuments/" . $img_name;
             $s3->putObjectFile($_FILES["userfile"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 
@@ -856,8 +856,8 @@ class Parents extends Parent_Controller
             // print_r($data['resultlist']);
             // die();
 
-            print_r($data['terms_allowed']);
-            exit();
+            // print_r($data['terms_allowed']);
+            // exit();
 
             $this->load->view('layout/parent/header', $data);
             $this->load->view('parent/student/getclassrecord', $data);
