@@ -13,6 +13,8 @@ class Homework extends Parent_Controller
       $this->load->model("homework_model");
       $this->load->model("staff_model");
       $this->load->model("student_model");
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    public function student_homework($student_id)
@@ -140,7 +142,7 @@ class Homework extends Parent_Controller
 
             // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/homework/assignment/" . $data['docs']);
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "uploads/homework/assignment/" . $data['docs'];
             $s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 

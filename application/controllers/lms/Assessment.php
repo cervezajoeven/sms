@@ -15,6 +15,8 @@ class Assessment extends General_Controller
       $this->load->model('notification_model');
       $this->load->library('customlib');
       $this->load->library('mailsmsconf');
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
 
       $this->session->set_userdata('top_menu', 'Download Center');
       $this->session->set_userdata('sub_menu', 'lms/assessment');
@@ -602,7 +604,7 @@ class Assessment extends General_Controller
 
          if ($folderCreated == true) {
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/lms_assessment/" . $id . "/" . $file_name;
 
             // if (move_uploaded_file($tmp_name, $dest)) {
@@ -667,7 +669,7 @@ class Assessment extends General_Controller
    public function copyQuestionaire($oldAssessmentID, $newAssessmentID, $file_name)
    {
       $this->load->library('s3');
-      $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+      $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
       $source_file = $_SESSION['School_Code'] . "/uploads/lms_assessment/" . $oldAssessmentID . "/" . $file_name;
       $dest_file = $_SESSION['School_Code'] . "/uploads/lms_assessment/" . $newAssessmentID . "/" . $file_name;
 

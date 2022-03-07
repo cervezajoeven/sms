@@ -140,18 +140,18 @@ function escape_comma(value){
 	return return_value;
 }
 
-function unescape_comma(value){
-	if(!value){
-		var return_value = value;
-	}else{
-		if(value.includes("|comma|")&&value!=""){
-			var return_value = value.replace("|comma|",",");
-		}else{
-			var return_value = value;
-		}
-		return return_value.trim();
-	}
-}
+// function unescape_comma(value){
+// 	if(!value){
+// 		var return_value = value;
+// 	}else{
+// 		if(value.includes("|comma|")&&value!=""){
+// 			var return_value = value.replace("|comma|",",");
+// 		}else{
+// 			var return_value = value;
+// 		}
+// 		return return_value.trim();
+// 	}
+// }
 
 $(document).ready(function(){
 
@@ -464,4 +464,17 @@ function startTime() {
 			$(".submit").click();
 		}
 	}, 1000);
+}
+
+function unescape_comma(value){
+	if(!value){
+		var return_value = value;
+	}else{
+		if(value.includes("|comma|")&&value!=""){
+			var return_value = value.replace(/\|comma\|/g,",");
+		}else{
+			var return_value = value;
+		}
+		return return_value.trim();
+	}
 }

@@ -748,7 +748,7 @@ class Staff extends Admin_Controller
             }
 
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                $fileInfo = pathinfo($_FILES["file"]["name"]);
@@ -1280,7 +1280,7 @@ class Staff extends Admin_Controller
          }
 
          $this->load->library('s3');
-         $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+         $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
          if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
             $fileInfo = pathinfo($_FILES["file"]["name"]);

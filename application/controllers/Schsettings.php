@@ -16,6 +16,8 @@ class Schsettings extends Admin_Controller
       $this->load->model('setting_model');
       $this->load->model('session_model');
       $this->load->model('language_model');
+
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    public function index_old()
@@ -110,7 +112,7 @@ class Schsettings extends Admin_Controller
             $fileInfo = pathinfo($_FILES["file"]["name"]);
             $img_name = $id . '.' . $fileInfo['extension'];
 
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/logo/" . $img_name;
 
             if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
@@ -148,7 +150,7 @@ class Schsettings extends Admin_Controller
             $img_name = $id . '.' . $fileInfo['extension'];
 
             // $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET);
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/admin_small_logo/" . $img_name;
 
             if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
@@ -201,7 +203,7 @@ class Schsettings extends Admin_Controller
             $fileInfo = pathinfo($_FILES["file"]["name"]);
             $img_name = $id . '.' . $fileInfo['extension'];
 
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/admin_logo/" . $img_name;
 
             if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
@@ -244,7 +246,7 @@ class Schsettings extends Admin_Controller
             $fileInfo = pathinfo($_FILES["file"]["name"]);
             $img_name = $id . '.' . $fileInfo['extension'];
 
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/logo/" . $img_name;
 
             if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
@@ -506,7 +508,7 @@ class Schsettings extends Admin_Controller
             $fileInfo = pathinfo($_FILES["file"]["name"]);
             $img_name = $id . '.' . $fileInfo['extension'];
 
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/app_logo/" . $img_name;
 
             if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {

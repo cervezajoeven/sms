@@ -13,6 +13,8 @@ class Certificate extends Admin_Controller
       $this->load->library('s3');
       $this->load->model('certificate_model');
       $this->load->model('customfield_model');
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    public function index()
@@ -54,7 +56,7 @@ class Certificate extends Admin_Controller
             $picture = $uploadData['file_name'];
 
             //-- Upload to AWS S3 then remove the original file
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/certificate/" . $_FILES['background_image']['name'];
             $s3->putObjectFile('uploads/certificate/' . $_FILES['background_image']['name'], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
             unlink('uploads/certificate/' . $_FILES['background_image']['name']);
@@ -171,7 +173,7 @@ class Certificate extends Admin_Controller
                );
 
                //-- Upload to AWS S3 then remove the original file
-               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
                $dest_file = $_SESSION['School_Code'] . "/uploads/certificate/" . $_FILES['background_image']['name'];
                $s3->putObjectFile('uploads/certificate/' . $_FILES['background_image']['name'], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
                unlink('uploads/certificate/' . $_FILES['background_image']['name']);

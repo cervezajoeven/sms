@@ -768,7 +768,7 @@ class Student extends Admin_Controller
             }
 
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
             if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
                $fileInfo = pathinfo($_FILES["file"]["name"]);
@@ -951,7 +951,7 @@ class Student extends Admin_Controller
 
             // move_uploaded_file($_FILES["first_doc"]["tmp_name"], $img_name);
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $student_id . '/' . $img_name;
             $s3->putObjectFile($_FILES["first_doc"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 
@@ -1767,7 +1767,7 @@ class Student extends Admin_Controller
          // $this->student_model->addStudentSiblings($insert_id, $sibling_name, $sibling_age, $sibling_civil_status, $sibling_glo, $sibling_nsc);
 
          $this->load->library('s3');
-         $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+         $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
          // if (isset($_FILES["file"]) && !empty($_FILES['file']['name'])) {
          if (isset($_FILES["file"])) {
@@ -2473,7 +2473,7 @@ class Student extends Admin_Controller
             $stdidx = 0;
 
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
             foreach ($student_docs as $key0 => $FILES) {
                for ($i = 0; $i < sizeof($FILES); $i++) {
@@ -2679,7 +2679,7 @@ class Student extends Admin_Controller
 
                   // move_uploaded_file($student_docs["tmp_name"][$i], $img_name);
                   $this->load->library('s3');
-                  $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+                  $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
                   $dest_file = $_SESSION['School_Code'] . "/uploads/student_documents/" . $student_id[$i] . '/' . $img_name;
                   $s3->putObjectFile($student_docs["tmp_name"][$i], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 

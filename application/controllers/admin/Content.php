@@ -11,6 +11,8 @@ class Content extends Admin_Controller
       parent::__construct();
       $this->load->model('content_model');
       $this->load->model('class_model');
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    function index()
@@ -98,7 +100,7 @@ class Content extends Admin_Controller
 
             // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/school_content/material/" . $img_name);
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/material/" . $img_name;
             $s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 
@@ -186,7 +188,7 @@ class Content extends Admin_Controller
             // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/school_content/material/" . $img_name);
 
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/school_content/material/" . $data['account_id'] . "/" . $img_name;
 
             if ($s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ)) {
@@ -321,7 +323,7 @@ class Content extends Admin_Controller
             // move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/student_images/" . $img_name);
 
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/student_images/" . $img_name;
             $s3->putObjectFile($_FILES["file"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
 

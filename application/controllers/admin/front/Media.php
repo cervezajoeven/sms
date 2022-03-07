@@ -12,6 +12,8 @@ class Media extends Admin_Controller
       $this->load->library('imageResize');
       $this->load->library('s3');
       $this->load->model('cms_media_model');
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    function index()
@@ -113,7 +115,7 @@ class Media extends Admin_Controller
             // if (is_readable($destination_path) && unlink($destination_path) && is_readable($thumb_path) && unlink($thumb_path)) {
             // }
 
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             if ($s3->deleteObject(S3_BUCKET, $_SESSION['School_Code'] . "/" . $destination_path)) {
                $s3->deleteObject(S3_BUCKET, $_SESSION['School_Code'] . "/" . $thumb_path);
             }
@@ -149,7 +151,7 @@ class Media extends Admin_Controller
             $img_array = array();
             foreach ($responses['images'] as $key => $value) {
 
-               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
                $dest_file = $_SESSION['School_Code'] . "/" . $destination_path . $value['store_name'];
                $thumb_dest_file = $_SESSION['School_Code'] . "/" . $thumb_path . $value['store_name'];
 
@@ -298,7 +300,7 @@ class Media extends Admin_Controller
                );
 
                //-- Added by E./v\.N
-               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
                $thumb_dest_file = $_SESSION['School_Code'] . "/" . $upload_response->thumb_path . $upload_response->store_name;
                $s3->putObjectFile($upload_response->thumb_path . $upload_response->store_name, S3_BUCKET, $thumb_dest_file, S3::ACL_PUBLIC_READ);
 

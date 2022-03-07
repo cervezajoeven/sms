@@ -20,6 +20,8 @@ class Lesson extends General_Controller
       $this->load->model('conference_model');
       $this->load->model('conferencehistory_model');
       $this->load->model('class_model');
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
 
       // $this->load->model(array('conference_model', 'conferencehistory_model', 'class_model'));
       $this->load->library('mailsmsconf');
@@ -1309,7 +1311,7 @@ class Lesson extends General_Controller
                // var_dump($file['tmp_name'][$key], FCPATH . "uploads/lms_my_resources/" . $data['account_id'] . "/" . $filename);
 
                $this->load->library('s3');
-               $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+               $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
                $dest_file = $_SESSION['School_Code'] . "/uploads/lms_my_resources/" . $data['account_id'] . "/" . $filename;
 
                //if (move_uploaded_file($file['tmp_name'][$key], FCPATH . "uploads/lms_my_resources/" . $data['account_id'] . "/" . $filename)) 

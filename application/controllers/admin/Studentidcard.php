@@ -9,6 +9,8 @@ class studentidcard extends Admin_Controller
       $this->load->library('Customlib');
       $this->load->library('s3');
       $this->load->model('student_id_card_model');
+      $this->load->model('setting_model');
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    public function index()
@@ -101,7 +103,7 @@ class studentidcard extends Admin_Controller
          );
          $insert_id = $this->student_id_card_model->addidcard($data);
 
-         $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+         $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
          if (!empty($_FILES['background_image']['name'])) {
             $config['upload_path'] = 'uploads/student_id_card/background/';
@@ -246,7 +248,7 @@ class studentidcard extends Admin_Controller
             $bloodgroup = $this->input->post('is_active_blood_group');
          }
 
-         $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+         $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
 
          if (!empty($_FILES['background_image']['name'])) {
             $config['upload_path'] = 'uploads/student_id_card/background/';

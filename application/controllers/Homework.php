@@ -21,6 +21,8 @@ class Homework extends Admin_Controller
       $this->config->load("app-config");
       $this->load->library('mailsmsconf');
       $this->role;
+
+      $this->sch_setting_detail = $this->setting_model->getSetting();
    }
 
    public function index()
@@ -187,7 +189,7 @@ class Homework extends Admin_Controller
             // move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $document);
 
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/homework/" . $document;
             $s3->putObjectFile($_FILES["userfile"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
          } else {
@@ -326,7 +328,7 @@ class Homework extends Admin_Controller
 
             // move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploaddir . $document);
             $this->load->library('s3');
-            $s3 = new S3(AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY_SECRET, false, S3_URI, AWS_REGION);
+            $s3 = new S3($this->sch_setting_detail->aws_access_key, $this->sch_setting_detail->aws_secret_key, false, S3_URI, AWS_REGION);
             $dest_file = $_SESSION['School_Code'] . "/uploads/homework/" . $document;
             $s3->putObjectFile($_FILES["userfile"]["tmp_name"], S3_BUCKET, $dest_file, S3::ACL_PUBLIC_READ);
          } else {
