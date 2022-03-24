@@ -2312,91 +2312,91 @@ class Student extends Admin_Controller
       echo json_encode($data);
    }
 
-   public function AutoCompleteLRN()
-   {
-      $returnData = array();
-      $results = array('error' => false, 'data' => '');
-      $lrn = $_POST['search'];
-      $lrns = $this->student_model->GetLRNList($lrn);
-      //var_dump($lrns);die;
+   // public function AutoCompleteLRN()
+   // {
+   //    $returnData = array();
+   //    $results = array('error' => false, 'data' => '');
+   //    $lrn = $_POST['search'];
+   //    $lrns = $this->student_model->GetLRNList($lrn);
+   //    //var_dump($lrns);die;
 
-      if (empty($lrns))
-         $results['error'] = true;
-      else {
-         if (!empty($lrns)) {
-            foreach ($lrns as $row) {
-               $returnData[] = array("value" => $row['lrn_no'], "label" => $row['lrn_no']);
-            }
-         }
-      }
+   //    if (empty($lrns))
+   //       $results['error'] = true;
+   //    else {
+   //       if (!empty($lrns)) {
+   //          foreach ($lrns as $row) {
+   //             $returnData[] = array("value" => $row['lrn_no'], "label" => $row['lrn_no']);
+   //          }
+   //       }
+   //    }
 
-      // Return results as json encoded array
-      echo json_encode($returnData);
-      die;
-   }
+   //    // Return results as json encoded array
+   //    echo json_encode($returnData);
+   //    die;
+   // }
 
-   public function AutoCompleteStudentName()
-   {
-      $returnData = array();
-      $results = array('error' => false, 'data' => '');
-      $name = $_POST['search'];
-      $names = $this->student_model->GetNameList($name);
+   // public function AutoCompleteStudentName()
+   // {
+   //    $returnData = array();
+   //    $results = array('error' => false, 'data' => '');
+   //    $name = $_POST['search'];
+   //    $names = $this->student_model->GetNameList($name);
 
-      if (empty($names))
-         $results['error'] = true;
-      else {
-         if (!empty($names)) {
-            foreach ($names as $row)
-               $returnData[] = array("value" => $row['roll_no'], "label" => $row['studentname']);
-         }
-      }
+   //    if (empty($names))
+   //       $results['error'] = true;
+   //    else {
+   //       if (!empty($names)) {
+   //          foreach ($names as $row)
+   //             $returnData[] = array("value" => $row['roll_no'], "label" => $row['studentname']);
+   //       }
+   //    }
 
-      // Return results as json encoded array
-      echo json_encode($returnData);
-      die;
-   }
+   //    // Return results as json encoded array
+   //    echo json_encode($returnData);
+   //    die;
+   // }
 
-   public function AutoCompleteStudentNameEnrolled()
-   {
-      $returnData = array();
-      $results = array('error' => false, 'data' => '');
-      $name = $_POST['search'];
-      $names = $this->student_model->GetNameListEnrolled($name);
+   // public function AutoCompleteStudentNameEnrolled()
+   // {
+   //    $returnData = array();
+   //    $results = array('error' => false, 'data' => '');
+   //    $name = $_POST['search'];
+   //    $names = $this->student_model->GetNameListEnrolled($name);
 
-      if (empty($names))
-         $results['error'] = true;
-      else {
-         if (!empty($names)) {
-            foreach ($names as $row)
-               $returnData[] = array("value" => $row['roll_no'], "label" => $row['studentname']);
-         }
-      }
+   //    if (empty($names))
+   //       $results['error'] = true;
+   //    else {
+   //       if (!empty($names)) {
+   //          foreach ($names as $row)
+   //             $returnData[] = array("value" => $row['roll_no'], "label" => $row['studentname']);
+   //       }
+   //    }
 
-      // Return results as json encoded array
-      echo json_encode($returnData);
-      die;
-   }
+   //    // Return results as json encoded array
+   //    echo json_encode($returnData);
+   //    die;
+   // }
 
-   public function AutoCompleteStudentNameForAdmission()
-   {
-      $returnData = array();
-      $results = array('error' => false, 'data' => '');
-      $name = $_GET['search'];
-      $names = $this->student_model->GetNameListAdmission($name);
+   // public function AutoCompleteStudentNameForAdmission()
+   // {
+   //    $returnData = array();
+   //    $results = array('error' => false, 'data' => '');
+   //    $name = $_GET['search'];
+   //    $names = $this->student_model->GetNameListAdmission($name);
 
-      if (empty($names))
-         $results['error'] = true;
-      else {
-         if (!empty($names)) {
-            foreach ($names as $row)
-               $returnData[] = array("value" => $row['id'], "label" => $row['studentname']);
-         }
-      }
+   //    if (empty($names))
+   //       $results['error'] = true;
+   //    else {
+   //       if (!empty($names)) {
+   //          foreach ($names as $row)
+   //             $returnData[] = array("value" => $row['id'], "label" => $row['studentname']);
+   //       }
+   //    }
 
-      // Return results as json encoded array
-      echo json_encode($returnData);
-      die;
-   }
+   //    // Return results as json encoded array
+   //    echo json_encode($returnData);
+   //    die;
+   // }
 
    public function SendDocs()
    {
