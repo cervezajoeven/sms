@@ -892,26 +892,26 @@ class Welcome extends Front_Controller
       echo json_encode($data);
    }
 
-   public function AutoCompleteStudentNameForAdmission()
-   {
-      $returnData = array();
-      $results = array('error' => false, 'data' => '');
-      $name = $_GET['search'];
-      $names = $this->student_model->GetNameListAdmission($name);
+   // public function AutoCompleteStudentNameForAdmission()
+   // {
+   //    $returnData = array();
+   //    $results = array('error' => false, 'data' => '');
+   //    $name = $_GET['search'];
+   //    $names = $this->student_model->GetNameListAdmission($name);
 
-      if (empty($names))
-         $results['error'] = true;
-      else {
-         if (!empty($names)) {
-            foreach ($names as $row)
-               $returnData[] = array("value" => $row['id'], "label" => $row['studentname']);
-         }
-      }
+   //    if (empty($names))
+   //       $results['error'] = true;
+   //    else {
+   //       if (!empty($names)) {
+   //          foreach ($names as $row)
+   //             $returnData[] = array("value" => $row['id'], "label" => $row['studentname']);
+   //       }
+   //    }
 
-      // Return results as json encoded array
-      echo json_encode($returnData);
-      die;
-   }
+   //    // Return results as json encoded array
+   //    echo json_encode($returnData);
+   //    die;
+   // }
 
    public function GetStudentDetailsByID($idnumber)
    {
