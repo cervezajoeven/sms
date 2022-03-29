@@ -625,8 +625,9 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          <col width=46 span=2 style='mso-width-source:userset;mso-width-alt:1621; width:34pt'>
          <col width=81 style='mso-width-source:userset;mso-width-alt:2872;width:61pt'>
          <col width=20 style='mso-width-source:userset;mso-width-alt:711;width:15pt'>
-         <tr height=19 style='height:14.4pt'>
-            <td colspan=15 height=19 width=705 style='height:14.4pt;width:525pt' align=left valign=top>
+         <tr colspan="15" style="height: 15px;"><td>Form 138</td></tr>
+         <tr>
+            <td colspan=15 align=left valign=top>
                
                <span style='mso-ignore:vglayout; position:absolute;z-index:1;margin-left:36px;margin-top:8px;width:650px; height:508px'>
                   <table cellpadding=0 cellspacing=0>
