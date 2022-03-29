@@ -652,13 +652,13 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
                </span>
             </td>
          </tr>
-         <tr height=19 style='mso-height-source:userset;height:14.4pt'>
-            <td colspan=15 rowspan=2 height=58 class=xl79 style='height:43.8pt'>St. Scholastica’ s Academy</td>
+         <tr>
+            <td colspan=15 class=xl79 style="padding-top:25px">St. Scholastica’ s Academy</td>
+         </tr>
+         <tr>
+            <td colspan=15 height=19 class=xl71>CITY OF SAN FERNANDO, PAMPANGA</td>
          </tr>
          <tr height=39 style='mso-height-source:userset;height:29.4pt'>
-         </tr>
-         <tr height=19 style='height:14.4pt'>
-            <td colspan=15 height=19 class=xl71 style='height:14.4pt'>CITY OF SAN FERNANDO, PAMPANGA</td>
          </tr>
          <tr height=33 style='mso-height-source:userset;height:24.6pt'>
             <td colspan=15 height=33 class=xl78 style='height:24.6pt'>Grade School Department</td>
@@ -671,7 +671,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
             <td colspan=3>LRN</td>
             <td colspan=4 class=xl77><?php echo $student['lrn_no']; ?></td>
             <td colspan=3 class=xl75>School Year</td>
-            <td colspan=4 class=xl78><?php echo $school_year; ?></td>
+            <td class=xl78><?php echo $school_year; ?></td>
          </tr>
          <tr height=19 style='height:14.4pt'>
             <td height=19 style='height:14.4pt'></td>
@@ -844,7 +844,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          <td class=xl1528834></td>
          </tr>
          <tr height=19 style='mso-height-source:userset;height:14.4pt'>
-         <td colspan=2 height=19 class=xl6328834 style='height:14.4pt'>To Grade</td>
+         <td colspan=2 height=19 class=xl6328834 style='height:14.4pt'>to Grade</td>
          <td colspan=2 class=xl7728834>&nbsp;</td>
          <td class=xl1528834></td>
          </tr>
