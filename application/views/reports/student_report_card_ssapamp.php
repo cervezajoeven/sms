@@ -728,7 +728,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          <?php endforeach ?>
          <tr height=21 style='mso-height-source:userset;height:15.6pt'>
             <td height=21 style='height:15.6pt'></td>
-            <td colspan=4 class=xl69 width=216 style='width:161pt; padding-left:5px'>Conduct</td>
+            <td colspan=4 class=xl69 width=216 style='width:161pt; padding-left:5px'>CONDUCT</td>
             <td colspan=3 class=xl70 style='border-left:none'><?php echo $ssap_conduct->a1; ?></td>
             <td colspan=3 class=xl70 style='border-left:none'><?php echo $ssap_conduct->a2; ?></td>
             <td colspan=3 class=xl70 style='border-left:none'><?php echo $ssap_conduct->finalgrade; ?></td>        
