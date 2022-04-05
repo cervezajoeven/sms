@@ -533,6 +533,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          vertical-align: middle;
          border: .5pt solid windowtext;
          white-space: normal;
+         padding-left: 2px;
       }
 
       .xl70 {
@@ -718,7 +719,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
             $final = ($row->Q1 == 0 || $row->Q2 == 0) ? '--' : $row->final_grade; ?>
             <tr height=21 style='mso-height-source:userset;height:15.6pt'>
                <td height=21 style='height:15.6pt'></td>
-               <td colspan=4 class=xl69 width=216 style='width:161pt'>&nbsp;&nbsp;<?php echo $row->Subjects ?></td>
+               <td colspan=4 class=xl69 width=216 style='width:161pt; padding-left:5px'><?php echo $row->Subjects ?></td>
                <td colspan=3 class=xl70 style='border-left:none'><?php echo ($row->Q1 == 0 ? '--' : gradeCode($codes_table, $row->Q1, 1)); ?></td>
                <td colspan=3 class=xl70 style='border-left:none'><?php echo ($row->Q2 == 0 ? '--' : gradeCode($codes_table, $row->Q2, 1)); ?></td>
                <td colspan=3 class=xl70 style='border-left:none'><?php echo $final; ?></td>        
@@ -727,7 +728,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          <?php endforeach ?>
          <tr height=21 style='mso-height-source:userset;height:15.6pt'>
             <td height=21 style='height:15.6pt'></td>
-            <td colspan=4 class=xl69 width=216 style='width:161pt'>&nbsp;&nbsp;Conduct</td>
+            <td colspan=4 class=xl69 width=216 style='width:161pt; padding-left:5px'>Conduct</td>
             <td colspan=3 class=xl70 style='border-left:none'><?php echo $ssap_conduct->a1; ?></td>
             <td colspan=3 class=xl70 style='border-left:none'><?php echo $ssap_conduct->a2; ?></td>
             <td colspan=3 class=xl70 style='border-left:none'><?php echo $ssap_conduct->finalgrade; ?></td>        
@@ -826,7 +827,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          </tr>
          <tr height=19 style='mso-height-source:userset;height:14.4pt'>
          <td colspan=2 height=19 class=xl6328834 style='height:14.4pt'>Promoted to Grade</td>
-         <td colspan=2 class=xl8028834></td>
+         <td colspan=2 class=xl8028834><?php echo ($student['class'] == 'Pre-Kinder' ? 'Kindergarten' : 'One') ?></td>
          <td class=xl1528834></td>
          </tr>
          <tr height=19 style='mso-height-source:userset;height:14.4pt'>
@@ -851,7 +852,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          </tr>
          <tr height=19 style='mso-height-source:userset;height:14.4pt'>
          <td colspan=2 height=19 class=xl6328834 style='height:14.4pt'>Date</td>
-         <td colspan=2 class=xl7828834></td>
+         <td colspan=2 class=xl7828834><?php echo ($student['class'] == 'Pre-Kinder' ? 'May 11, 2022' : 'May 4, 2022') ?></td>
          <td class=xl1528834></td>
          <td colspan=2 rowspan=2 class=xl7428834>St. Scholastica’s Academy</td>
          </tr>
