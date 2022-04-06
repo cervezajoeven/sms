@@ -852,7 +852,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
          </tr>
          <tr height=19 style='mso-height-source:userset;height:14.4pt'>
          <td colspan=2 height=19 class=xl6328834 style='height:14.4pt'>Date</td>
-         <td colspan=2 class=xl7828834><?php echo ($student['class'] == 'Pre-Kinder' ? 'May 11, 2022' : 'May 4, 2022') ?></td>
+         <td colspan=2 class=xl7828834><?php echo ($student['class'] == 'Pre-Kinder' ? 'May 11, 2022' : 'May 11, 2022') ?></td>
          <td class=xl1528834></td>
          <td colspan=2 rowspan=2 class=xl7428834>St. Scholastica’s Academy</td>
          </tr>
