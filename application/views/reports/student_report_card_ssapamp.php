@@ -669,9 +669,12 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
             <td></td>
             <td colspan=3>LRN</td>
             <td colspan=4 class=xl77><?php echo $student['lrn_no']; ?></td>
-            <td colspan=3 class=xl75>School Year: &nbsp;&nbsp;&nbsp;<span class=xl78><?php echo $school_year; ?></span></td>
-            <td class=xl78><?php //echo $school_year; 
-                           ?></td>
+            <td colspan=3 class=xl75>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               School Year: <span class=xl78><?php echo $school_year; ?></span></td>
+            <td class=xl78></td>
          </tr>
          <tr height=19 style='height:14.4pt'>
             <td height=19 style='height:14.4pt'></td>
