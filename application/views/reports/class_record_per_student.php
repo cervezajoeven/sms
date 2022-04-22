@@ -282,7 +282,7 @@ function isTermAllowed($terms_allowed, $term)
 
                                                       foreach ($resultlist as $row) {
                                                          $average = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->average;
-                                                         $final = ($row->Q1 == 0 || $row->Q2 == 0 || $row->Q3 == 0 || $row->Q4 == 0) ? '' : $row->final_grade;
+                                                         $final = ($row->Q1 == 0 || $row->Q2 == 0 || (isset($row->Q3) && $row->Q3 == 0) || (isset($row->Q4) && $row->Q4 == 0)) ? '' : $row->final_grade;
                                                          echo "<tr>\r\n";
                                                          echo "<td class='text-left'>" . $row->Subjects . "</td>\r\n";
                                                          echo "<td class='text-center" . ($row->Q1 < 75 ? " text-danger" : ($row->Q1 >= 90 ? " text-success" : "")) . "'><b>" . ($row->Q1 == 0 ? '' : gradeCode($codes_table, $row->Q1, $show_letter_grade)) . "</b></td>\r\n";
@@ -294,7 +294,8 @@ function isTermAllowed($terms_allowed, $term)
 
                                                          if ($show_average_column)
                                                             echo "<td class='text-center" . ($average < 75 ? " text-danger" : ($average >= 90 ? " text-success" : "")) . "'><b>" . ($average == 0 ? '' : $average) . "</b></td>\r\n";
-                                                         echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : $final) . "</b></td>\r\n";
+
+                                                         echo "<td class='text-center" . ($final < 75 ? " text-danger" : ($final >= 90 ? " text-success" : "")) . "'><b>" . ($final == 0 ? '' : gradeCode($codes_table, $final, $show_letter_grade)) . "</b></td>\r\n";
                                                          echo "</tr>\r\n";
 
                                                          $q1Tot += ($row->Q1 !== null ? $row->Q1 : 0);
