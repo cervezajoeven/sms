@@ -298,10 +298,10 @@ class Grading_studentgrade_ssapamp_model extends CI_Model
       $sql = "select checklistname as Subjects, checklistname, 
       ROUND(Q1) as Q1,
       ROUND(Q2) as Q2,
-      (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q1) between mingrade and maxgrade) as LG1,
-      (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q2) between mingrade and maxgrade) as LG2,
+      (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q1) between mingrade and (maxgrade + 0.99)) as LG1,
+      (select letter_grade from grading_checklist_legend_ssapamp where ROUND(Q2) between mingrade and (maxgrade + 0.99)) as LG2,
       ROUND((Q1 + Q2) /2) as average,
-            (select letter_grade from grading_checklist_legend_ssapamp where ROUND((Q1 + Q2) /2) between mingrade and maxgrade) as final_grade 
+            (select letter_grade from grading_checklist_legend_ssapamp where ROUND((Q1 + Q2) /2) between mingrade and (maxgrade + 0.99)) as final_grade 
             from 
             (
             select checklistname, 
