@@ -285,7 +285,8 @@ function isTermAllowed($terms_allowed, $term)
                                                          // }
 
                                                          if ($ssap_conduct->s1 != null && $ssap_conduct->s2 != null) {
-                                                            echo "<td class='text-center" . (($ssap_conduct->s1 / $ssap_conduct->s2) < 75 ? " text-danger" : (($ssap_conduct->s1 / $ssap_conduct->s2) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct->s1 / $ssap_conduct->s2) == 0 ? '' : gradeCode($codes_table, ($ssap_conduct->s1 / $ssap_conduct->s2), $show_letter_grade)) . "</b></td>\r\n";
+                                                            // echo "<td class='text-center" . (($ssap_conduct->s1 / $ssap_conduct->s2) < 75 ? " text-danger" : (($ssap_conduct->s1 / $ssap_conduct->s2) >= 90 ? " text-success" : "")) . "'><b>" . (($ssap_conduct->s1 / $ssap_conduct->s2) == 0 ? '' : gradeCode($codes_table, ($ssap_conduct->s1 / $ssap_conduct->s2), $show_letter_grade)) . "</b></td>\r\n";
+                                                            echo "<td class='text-center'><b>" . $ssap_conduct->finalgrade . "</b></td>\r\n";
                                                          } else {
                                                             echo "<td class='text-left'>&nbsp</td>\r\n";
                                                          }
