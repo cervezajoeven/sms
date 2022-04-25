@@ -251,7 +251,7 @@ function isTermAllowed($terms_allowed, $term)
 
                                                       foreach ($resultlist as $row) {
                                                          $average = ($row->Q1 == 0 || $row->Q2 == 0) ? '' :  $row->average;
-                                                         $final = ($row->Q1 == 0 || $row->Q2 == 0) ? '' : $row->final_grade;
+                                                         $final = $row->final_grade; //($row->Q1 == 0 || $row->Q2 == 0) ? '' : $row->final_grade;
                                                          $blank = "0";
 
                                                          echo "<tr>\r\n";
