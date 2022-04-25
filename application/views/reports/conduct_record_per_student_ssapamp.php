@@ -134,138 +134,137 @@
                                  </div>
                               </div>
                               <!-- check if what grade starts -->
-                              <?php 
-                                 if ( $class_id==$prekinderid && strtolower($school_code) == 'ssapamp') {
+                              <?php
+                              // if ( $class_id==$prekinderid && strtolower($school_code) == 'ssapamp') {
+                              if (strtolower($school_code) == 'ssapamp') {
                               ?>
-                              <div class="col-md-9">
-                                 <div class="box box-warning">
-                                    <div class="box-header ptbnull">
-                                       <?php $the_session_id = $this->input->post('session_id') ?>
-                                       <?php $the_class_id = $this->input->post('class_id') ?>
-                                       <?php $the_section_id = $this->input->post('section_id') ?>
-                                       <?php $the_student_id = $this->input->post('student_id') ?>
-                                       <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
-                                       <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div>
-                                    </div>
-                                    <div class="box-body">
-                                       <div class="table-responsive">
-                                          <div class="download_label"><?php echo 'Semestral Grades'; ?></div>
-                                          <?php
-                                                // echo "session_id: " . $session_id . "<br>";
-                                                // echo "class_id: " . $class_id . "<br>";
-                                                // echo "section_id: " . $section_id . "<br>";
-                                                // echo "student_id: " . $student_id . "<br>";
-                                                // echo "grade: " . $lettergradearray . "<br>";
-                                                // var_dump($lettergradearray);
-                                                // echo "<br>";
-                                                // var_dump($pergradearray);
-                                                // echo "<br>";
-                                                // var_dump($semave);
-                                                // echo "<br>";
-                                                // foreach($legend_list as $rows) {
-                                                //    $letter=$rows->conduct_grade;
-                                                //    $mingrade=$rows->mingrade;
-                                                //    $maxgrade=$rows->maxgrade;
-                                                //    echo "letter: " . $letter . "<br>";
-                                                //    echo "mingrade: " . $mingrade . "<br>";
-                                                //    echo "maxgrade: " . $maxgrade . "<br>";
-                                                
-                                                // }
-                                                $term=0;
-                                                // foreach($semesters as $srow) {
-                                                //    echo $terms . "<br>";
-                                                //    var_dump($srow);
-                                                //    echo "<br>";
-                                                //    $term++;                                             
-                                                // }
-                                                // echo "<br>";                                          
-                                          ?>
-                                          <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
+                                 <div class="col-md-9">
+                                    <div class="box box-warning">
+                                       <div class="box-header ptbnull">
+                                          <?php $the_session_id = $this->input->post('session_id') ?>
+                                          <?php $the_class_id = $this->input->post('class_id') ?>
+                                          <?php $the_section_id = $this->input->post('section_id') ?>
+                                          <?php $the_student_id = $this->input->post('student_id') ?>
+                                          <h3 class="box-title titlefix"> <?php echo $this->lang->line('grades'); ?></h3>
+                                          <div class="box-tools pull-right"><a href="<?php echo base_url('report/student_report_card') . '?session_id=' . $the_session_id . '&class_id=' . $the_class_id . '&section_id=' . $the_section_id . '&student_id=' . $the_student_id ?>" target="_blank"><button class="btn btn-success">Print Card</button></a></div>
+                                       </div>
+                                       <div class="box-body">
+                                          <div class="table-responsive">
+                                             <div class="download_label"><?php echo 'Semestral Grades'; ?></div>
                                              <?php
-                                             foreach($semesters as $srow) {
-                                                $term++;
-                                             ?>
-                                             <thead>
-                                                <tr>
-                                                   <th colspan="3" class="text-center">SEMESTER <?php echo $term; ?></th>	       
-                                                </tr>
-                                                <tr>
-                                                   <th class="text-center"></th>									
-                                                   <th class="text-center">NUMBER GRADE</th>
-                                                   <th class="text-center">LG</th>                                                   
-                                                </tr>
-                                             </thead>
-                                             <tbody>
-                                                <?php
-                                                
-                                                   $q1Tot=0;
-                                                   $rowCtr=0;
-                                                   foreach($srow as $recrow) {
-                                                      echo "<tr>\r\n";
-                                                      echo "<td class='text-left'>" . $recrow->description . "</td>\r\n";   
-                                                      echo "<td class='text-center'><b>" . ($recrow->grade == 0 ? '' : round($recrow->grade)) . "</b></td>\r\n";
-                                                      echo "<td class='text-center'><b>" . ($recrow->grade == 0 ? '' : $recrow->LG) . "</b></td>\r\n";    
-                                                      echo "</tr>\r\n";
-                                                      $q1Tot += ($recrow->grade !== null ? $recrow->grade : 0);
-                                                      $rowCtr++;
-                                                   }                                            
-                                                   $q1Ave = $q1Tot / $rowCtr;
+                                             // echo "session_id: " . $session_id . "<br>";
+                                             // echo "class_id: " . $class_id . "<br>";
+                                             // echo "section_id: " . $section_id . "<br>";
+                                             // echo "student_id: " . $student_id . "<br>";
+                                             // echo "grade: " . $lettergradearray . "<br>";
+                                             // var_dump($lettergradearray);
+                                             // echo "<br>";
+                                             // var_dump($pergradearray);
+                                             // echo "<br>";
+                                             // var_dump($semave);
+                                             // echo "<br>";
+                                             // foreach($legend_list as $rows) {
+                                             //    $letter=$rows->conduct_grade;
+                                             //    $mingrade=$rows->mingrade;
+                                             //    $maxgrade=$rows->maxgrade;
+                                             //    echo "letter: " . $letter . "<br>";
+                                             //    echo "mingrade: " . $mingrade . "<br>";
+                                             //    echo "maxgrade: " . $maxgrade . "<br>";
 
-                                                ?>
-                                                <tr style="outline: thin solid">
-                                                   <th class="text-right">Average</th>
-                                                   <th class="text-center"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
-                                                   <th class="text-center">
-                                                   <?php
-                                                      foreach($semave as $semrow) {
-                                                         foreach($semrow as $vrow) {
-                                                            if ($vrow->semester==$term) 
-                                                               {
-                                                                  echo $vrow->LG;
-                                                               }
-                                                         }
-                                                      }
-                                                   ?></th>
-                                                </tr>
-                                             </tbody>
-                                             <?php
-                                                echo "<tr>";
-                                                echo "<td>" . "&nbsp&nbsp&nbsp&nbsp&nbsp" . "</td>";
-                                                echo "<td>" . "&nbsp&nbsp&nbsp&nbsp&nbsp" . "</td>";
-                                                echo "<td>" . "&nbsp&nbsp&nbsp&nbsp&nbsp" . "</td>";
-                                                echo "</tr>";
-                                             }
+                                             // }
+                                             $term = 0;
+                                             // foreach($semesters as $srow) {
+                                             //    echo $terms . "<br>";
+                                             //    var_dump($srow);
+                                             //    echo "<br>";
+                                             //    $term++;                                             
+                                             // }
+                                             // echo "<br>";                                          
                                              ?>
-                                             <tfoot>
-                                                <tr>
-                                                   <th class="text-right">General Average</th>
-                                                   <th class="text-center"><?php echo number_format($totalgrade,2); ?></th>  
-                                                   <th class="text-center"><?php echo $finallettergrade; ?></th>                                                   
-                                                </tr>
-                                             </tfoot>
-                                             
-                                          </table>
-                                          <?php //} 
-                                          ?>
+                                             <table id="class_record" class="table table-striped table-bordered table-hover classrecord nowrap">
+                                                <?php
+                                                foreach ($semesters as $srow) {
+                                                   $term++;
+                                                ?>
+                                                   <thead>
+                                                      <tr>
+                                                         <th colspan="3" class="text-center">SEMESTER <?php echo $term; ?></th>
+                                                      </tr>
+                                                      <tr>
+                                                         <th class="text-center"></th>
+                                                         <th class="text-center">NUMBER GRADE</th>
+                                                         <th class="text-center">LG</th>
+                                                      </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                      <?php
+
+                                                      $q1Tot = 0;
+                                                      $rowCtr = 0;
+                                                      foreach ($srow as $recrow) {
+                                                         echo "<tr>\r\n";
+                                                         echo "<td class='text-left'>" . $recrow->description . "</td>\r\n";
+                                                         echo "<td class='text-center'><b>" . ($recrow->grade == 0 ? '' : round($recrow->grade)) . "</b></td>\r\n";
+                                                         echo "<td class='text-center'><b>" . ($recrow->grade == 0 ? '' : $recrow->LG) . "</b></td>\r\n";
+                                                         echo "</tr>\r\n";
+                                                         $q1Tot += ($recrow->grade !== null ? $recrow->grade : 0);
+                                                         $rowCtr++;
+                                                      }
+                                                      $q1Ave = $q1Tot / $rowCtr;
+
+                                                      ?>
+                                                      <tr style="outline: thin solid">
+                                                         <th class="text-right">Average</th>
+                                                         <th class="text-center"><?php echo ($q1Ave == 0 ? "" : number_format($q1Ave, 2)); ?></th>
+                                                         <th class="text-center">
+                                                            <?php
+                                                            foreach ($semave as $semrow) {
+                                                               foreach ($semrow as $vrow) {
+                                                                  if ($vrow->semester == $term) {
+                                                                     echo $vrow->LG;
+                                                                  }
+                                                               }
+                                                            }
+                                                            ?></th>
+                                                      </tr>
+                                                   </tbody>
+                                                <?php
+                                                   echo "<tr>";
+                                                   echo "<td>" . "&nbsp&nbsp&nbsp&nbsp&nbsp" . "</td>";
+                                                   echo "<td>" . "&nbsp&nbsp&nbsp&nbsp&nbsp" . "</td>";
+                                                   echo "<td>" . "&nbsp&nbsp&nbsp&nbsp&nbsp" . "</td>";
+                                                   echo "</tr>";
+                                                }
+                                                ?>
+                                                <tfoot>
+                                                   <tr>
+                                                      <th class="text-right">General Average</th>
+                                                      <th class="text-center"><?php echo number_format($totalgrade, 2); ?></th>
+                                                      <th class="text-center"><?php echo $finallettergrade; ?></th>
+                                                   </tr>
+                                                </tfoot>
+
+                                             </table>
+                                             <?php //} 
+                                             ?>
+                                          </div>
                                        </div>
                                     </div>
                                  </div>
-                              </div>
                               <?php
                               } else {
-                              
                               }
                               ?>
                            </div>
                            <div class="row">
                               <div class="table-responsive">
                                  <!-- <?php if (isset($student_conduct)) { ?> -->
-                                    <!-- <section class="content-header">
+                                 <!-- <section class="content-header">
                                        <h1><i class="fa fa-calendar-times-o"></i> <?php echo $this->lang->line('grades'); ?> </h1>
                                     </section> -->
-                                    <!-- Main content -->
-                                    <!-- <section class="content"> -->
-                                       <!-- <div class="row">
+                                 <!-- Main content -->
+                                 <!-- <section class="content"> -->
+                                 <!-- <div class="row">
                                           <div class="col-md-3">
                                              <div class="box box-primary">
                                                 <div class="box-body box-profile">
@@ -331,12 +330,12 @@
                                              </div>
                                           </div>
                                        </div> -->
-                                       <!-- <div class="form-group">
+                                 <!-- <div class="form-group">
                                                                 <div class="col-sm-12">
                                                                     <button type="submit" name="save_conduct" class="btn btn-primary btn-sm checkbox-toggle pull-right"><i class="fa fa-save"></i> <?php echo $this->lang->line('save'); ?></button>
                                                                 </div>
                                                             </div>    -->
-                                    <!-- </section> -->
+                                 <!-- </section> -->
                                  <!-- <?php } ?> -->
                               </div>
                            </div>
