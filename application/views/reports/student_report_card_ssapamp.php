@@ -640,7 +640,7 @@ $age = date_diff(date_create($student['dob']), date_create($currentDate));
                      </tr>
                      <tr>
                         <td height=5></td>
-                        <td rowspan=3 align=left valign=top><img width=520 height=508 src="https://media.campuscloudph.com/ssapamp/uploads/gallery/media/image004.png" v:shapes="Picture_x0020_9 Picture_x0020_1"></td>
+                        <td rowspan=3 align=left valign=top><img style="z-index: 999;" width=520 height=508 src="https://media.campuscloudph.com/ssapamp/uploads/gallery/media/image004_1.png" v:shapes="Picture_x0020_9 Picture_x0020_1"></td>
                      </tr>
                      <tr>
                         <td height=116></td>
