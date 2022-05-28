@@ -77,7 +77,7 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("beta");
-$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp");
+$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp", "sls");
 //$dotcoms = array("www.stepsmandaluyong.com", "stepsmandaluyong.com", "", "", "", "", "", "", "", "smac-valenzuela.com", "smac-pampanga.com", "mca-mandaluyong.com", "lordsjubileechristianschool.com");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
@@ -229,6 +229,13 @@ if ($HTTP_HOST == "localhost") {
 
    $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
    $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+} else if ($HTTP_HOST == "sanlorenzoschoolph.com") {
+   $username = 'admin';
+   $password = 'J10o15e5V22n!4';
+   $database = 'campus_sls';
+
+   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+   $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
