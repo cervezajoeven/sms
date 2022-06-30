@@ -113,8 +113,7 @@ class Subject_model extends MY_Model
          $action       = "Insert";
          $record_id    = $id;
          $this->log($message, $record_id, $action);
-         echo $this->writedb->last_query();
-         die;
+         //echo $this->writedb->last_query();die;
          //======================Code End==============================
 
          $this->writedb->trans_complete(); # Completing transaction
