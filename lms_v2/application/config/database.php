@@ -76,24 +76,25 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
-$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp");
+$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp", "fiatluxacademe");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
 // $local_db = "campus_ssapamp";
-$local_db = "campus_sls";
+// $local_db = "campus_sls";
 // $local_db = "stepsmandaluyong";
 // $local_db = "campus_lpms";
 // $local_db = "campus_mcam";
 // $local_db = "campus_scholaangelicus";
-// $local_db = "campus_dbti";
+$local_db = "campus_dbti";
 
 if ($HTTP_HOST == "localhost") {
 
-   $username = 'root';
-   $password = '';
-   $database = $local_db;
-   $hostname_read = "localhost";
-   $hostname = "localhost";
+   // $username = 'root';
+   // $password = '';
+   // $database = $local_db;
+   // $hostname_read = "localhost";
+   // $hostname = "localhost";
+
 } else if (strpos($HTTP_HOST, "192.168.") !== false) {
 
    $username = 'root';
@@ -130,8 +131,10 @@ if ($HTTP_HOST == "localhost") {
    $password = 'J10o15e5V22n!4';
    $database = 'campus_' . $database_name;
 
-   $hostname_read = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
-   $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+   $hostname = "rds.campuscloudphlocal.com";
+   $hostname_write = "rds.campuscloudphlocal.com";
+   // $hostname = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
+   // $hostname_write = "campusnovodbcluster.cluster-cuam6akcxov9.us-east-2.rds.amazonaws.com";
 } else if ($HTTP_HOST == "stschopampanga.com") {
    $username = 'admin';
    $password = 'J10o15e5V22n!4';
