@@ -76,7 +76,7 @@ $query_builder = TRUE;
 $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
-$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp", "fiatluxacademe", "sls", "dbab", "dbam", "sjvt");
+$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp", "fiatluxacademe", "sls", "dbab", "dbam", "sjvt", "sali", "uvca");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
 // $local_db = "campus_ssapamp";
@@ -85,7 +85,7 @@ $campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "
 // $local_db = "campus_lpms";
 // $local_db = "campus_mcam";
 // $local_db = "campus_scholaangelicus";
-$local_db = "campus_dbti";
+$local_db = "campus_sjvt";
 
 if ($HTTP_HOST == "localhost") {
 
