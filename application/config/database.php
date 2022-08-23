@@ -77,18 +77,18 @@ $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
 $HTTP_HOST = $_SERVER['HTTP_HOST'];
 $database_name = explode('.', $HTTP_HOST)[0];
 $godaddy = array("beta");
-$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp", "fiatluxacademe", "sls", "dbab", "dbam", "sjvt", "sali", "uvca", "cca", "dbtihs");
+$campuscloudph = array("scholaangelicus", "saintmarysangels", "seai", "sjalp", "sms", "rcamessjbcs", "rcamessics", "rcamesolgms", "rcamesgcs", "lipacitycolleges", "dbti", "c7preschool", "lcc-silvercrest", "htspreschool", "htsmk", "htslipa", "htspg", "htsgrade1", "sim", "ssap", "csa", "ssapamp", "fiatluxacademe", "sls", "dbab", "dbam", "sjvt", "sali", "uvca", "cca", "dbtihs", "shepherdsflock");
 //$dotcoms = array("www.stepsmandaluyong.com", "stepsmandaluyong.com", "", "", "", "", "", "", "", "smac-valenzuela.com", "smac-pampanga.com", "mca-mandaluyong.com", "lordsjubileechristianschool.com");
 // $hts_array = array("htspreschool","htsmk","htslipa","htspg","htsgrade1");
 // $novo_array = array("gifted","tlc-nbs","sophiameycauayan","smecs","smsbs","rainbow","nicosat","cicosat");
 // $local_db = "campus_ssapamp";
 // $local_db = "campus_sls";
-// $local_db = "campus_lpms";
+$local_db = "campus_lpms";
 // $local_db = "campus_mcam";
 // $local_db = "campus_scholaangelicus";
 // $local_db = "stepsmandaluyong";
 // $local_db = "campus_lpms";
-$local_db = "campus_sjvt";
+// $local_db = "campus_sjvt";
 // $lcfirst(str)ocal_db = "optimized_db";
 
 if ($HTTP_HOST == "localhost") {
